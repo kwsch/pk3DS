@@ -201,6 +201,7 @@
             // 
             // L_Lang
             // 
+            this.L_Lang.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Lang.AutoSize = true;
             this.L_Lang.Location = new System.Drawing.Point(152, 43);
             this.L_Lang.Name = "L_Lang";

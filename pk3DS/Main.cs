@@ -55,6 +55,7 @@ namespace pk3DS
                 }
 
                 TB_Path.Text = path; GB_Tools.Enabled = true;
+                backupGARCs(false, "gametext", "storytext", "personal", "trpoke", "trdata");
                 L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY";
                 changeLanguage(null, null); // Trigger Text Loading
             }
@@ -102,14 +103,29 @@ namespace pk3DS
                     Thread.Sleep(100);
                 if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
             }).Start();
-        } volatile bool StoryTextOpen = false;
+        }
         private void B_Wild_Click(object sender, EventArgs e)
         {
             Util.Alert("Not implemented yet.");
         }
         private void B_Personal_Click(object sender, EventArgs e)
         {
-            Util.Alert("Not implemented yet.");
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            new Thread(() =>
+            {
+                string toEdit = "personal";
+                string GARC = getGARCFileName(toEdit);
+                threadGet(TB_Path.Text + GARC, toEdit, true, true);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(100);
+
+                Invoke((Action)(() => { new Personal(oras).ShowDialog(); }));
+                // When closed, create a new thread to set the GARC back.
+                threadSet(TB_Path.Text + GARC, toEdit);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(100);
+                if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
+            }).Start();
         }
         private void B_Evolution_Click(object sender, EventArgs e)
         {
@@ -218,6 +234,17 @@ namespace pk3DS
             }
             return ans;
         }
+        public void backupGARCs(bool overwrite, params string[] g)
+        {
+            if (!Directory.Exists("backup")) Directory.CreateDirectory("backup");
+            foreach (string s in g)
+            {
+                string GARC = getGARCFileName(s);
+                string dest = "backup" + Path.DirectorySeparatorChar + s + String.Format(" (a{0})", GARC.Replace(Path.DirectorySeparatorChar.ToString(), ""));
+                if (overwrite || !File.Exists(dest))
+                    File.Copy(TB_Path.Text + GARC, dest);
+            }
+        }
 
         // Text Requests
         internal static string[] getText(int file)
@@ -249,7 +276,7 @@ namespace pk3DS
             if (!GB_Tools.Enabled) return; // No data/threads need to be addressed if we haven't loaded anything.
             // Set the GameText back as other forms may have edited it.
             threadSet(TB_Path.Text + getGARCFileName("gametext"), "gametext", false);
-            threadSet(TB_Path.Text + getGARCFileName("personal"), "personal", false);
+            if (Directory.Exists("personal")) threadSet(TB_Path.Text + getGARCFileName("personal"), "personal", false);
             int timeout = 0; // Time out after 7 seconds.
             while (threads > 0 && timeout++ < 70)
                 Thread.Sleep(100);
