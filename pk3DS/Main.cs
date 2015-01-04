@@ -24,6 +24,11 @@ namespace pk3DS
             TB_Path.DragEnter += tabMain_DragEnter;
             TB_Path.DragDrop += tabMain_DragDrop;
             CB_Lang.SelectedIndex = 2;
+            if (File.Exists("config.ini"))
+            {
+                string path = File.ReadAllText("config.ini");
+                if (path.Length > 0) openQuick(path);
+            }
         }
         public bool oras = false;
         public volatile int threads = 0;
@@ -273,6 +278,7 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             this.Hide();
+            if (TB_Path.Text.Length > 0) File.WriteAllText("config.ini", TB_Path.Text);
             if (!GB_Tools.Enabled) return; // No data/threads need to be addressed if we haven't loaded anything.
             // Set the GameText back as other forms may have edited it.
             threadSet(TB_Path.Text + getGARCFileName("gametext"), "gametext", false);
