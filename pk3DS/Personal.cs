@@ -372,5 +372,9 @@ namespace pk3DS
             File.WriteAllBytes(paths[paths.Length - 1], data);
         }
 
+        private void formClosing(object sender, FormClosingEventArgs e)
+        {
+            if (entry > -1) saveEntry();
+        }
     }
 }

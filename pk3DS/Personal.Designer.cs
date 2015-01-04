@@ -945,6 +945,7 @@
             this.Controls.Add(this.L_Mode);
             this.Name = "Personal";
             this.Text = "Gen VI Personal.Garc Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             this.TC_Pokemon.ResumeLayout(false);
             this.TP_General.ResumeLayout(false);
             this.TP_General.PerformLayout();
