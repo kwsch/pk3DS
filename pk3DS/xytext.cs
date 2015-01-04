@@ -58,7 +58,12 @@ namespace pk3DS
         private void changeEntry(object sender, EventArgs e)
         {
             // Save All the old text
-            if (entry > -1) File.WriteAllBytes(files[entry], getBytesForFile(getCurrentDGLines()));
+            if (entry > -1)
+            {
+                byte[] bin = getBytesForFile(getCurrentDGLines());
+                if (bin != null)
+                    File.WriteAllBytes(files[entry], bin);
+            }
             
             // Reset
             entry = CB_Entry.SelectedIndex;
@@ -66,10 +71,6 @@ namespace pk3DS
             string[] data = getStringsFromFile(file);
             setStringsDataGridView(data);
         }
-        private void B_SaveText_Click(object sender, EventArgs e)
-        {
-            File.WriteAllBytes(files[CB_Entry.SelectedIndex], getBytesForFile(getCurrentDGLines()));
-        }        
         // Main Handling
         private void setStringsDataGridView(string[] textArray)
         {
@@ -120,7 +121,7 @@ namespace pk3DS
             // Get Line Count
             string[] lines = new string[dgv.RowCount];
             for (int i = 0; i < dgv.RowCount; i++)
-                lines[i] = (string)dgv.Rows[i].Cells[1].Value ?? String.Format("[~ {0}]", i.ToString());
+                lines[i] = (string)dgv.Rows[i].Cells[1].Value;
             return lines;
         }
         // Meta Usage
@@ -128,20 +129,14 @@ namespace pk3DS
         {
             int currentRow = 0;
             try
-            {
-                currentRow = dgv.CurrentRow.Index;
-            }
+            { currentRow = dgv.CurrentRow.Index; }
             catch
-            {
-                dgv.Rows.Add();
-            }
+            { dgv.Rows.Add(); }
             if (dgv.Rows.Count == 1) { }
             else if (currentRow < dgv.Rows.Count - 1 || currentRow == 0)
             {
                 if (ModifierKeys != Keys.Control && currentRow != 0)
-                {
-                    if (Util.Prompt(MessageBoxButtons.YesNo, "Inserting in between rows will shift all subsequent lines.", "Continue?") != DialogResult.Yes) return;
-                }
+                { if (Util.Prompt(MessageBoxButtons.YesNo, "Inserting in between rows will shift all subsequent lines.", "Continue?") != DialogResult.Yes) return; }
                 dgv.Rows.Insert(currentRow + 1);
             }
 
@@ -249,41 +244,46 @@ namespace pk3DS
 
                 for (int i = 0; i < lines.Length; i++)
                 {
-                    ushort key = baseKey;
-                    uint pos = (uint)data.Position;
-                    // Get crypted line data.
+                    try
                     {
+                        ushort key = baseKey;
+                        uint pos = (uint)data.Position;
+                        if (lines[i] == null) lines[i] = String.Format("[~ {0}]", i.ToString());
+                        // Get crypted line data.
                         {
-                            // Write each character to the data stream, with handling for special characters.
-                            for (int j = 0; j < lines[i].Length; j++)
                             {
-                                ushort val = lines[i][j];
+                                // Write each character to the data stream, with handling for special characters.
+                                for (int j = 0; j < lines[i].Length; j++)
+                                {
+                                    ushort val = lines[i][j];
 
-                                // Handle special text characters
-                                // Private Use Area characters
-                                if (val == 0x202F) val = 0xE07F;        // nbsp
-                                else if (val == 0x2026) val = 0xE08D;   // …
-                                else if (val == 0x2642) val = 0xE08E;   // ♂
-                                else if (val == 0x2640) val = 0xE08F;   // ♀
+                                    // Handle special text characters
+                                    // Private Use Area characters
+                                    if (val == 0x202F) val = 0xE07F;        // nbsp
+                                    else if (val == 0x2026) val = 0xE08D;   // …
+                                    else if (val == 0x2642) val = 0xE08E;   // ♂
+                                    else if (val == 0x2640) val = 0xE08F;   // ♀
 
-                                // Variables
-                                else if (val == '[' || val == '\\')          // Variable
-                                    encryptVar(bz, lines[i], ref j, ref key);
+                                    // Variables
+                                    else if (val == '[' || val == '\\')          // Variable
+                                        encryptVar(bz, lines[i], ref j, ref key);
 
-                                // Text
-                                else bz.Write(encryptU16(val, ref key));
+                                    // Text
+                                    else bz.Write(encryptU16(val, ref key));
+                                }
+                                bz.Write(encryptU16(0, ref key)); // Add the null terminator, after encrypting it.
                             }
-                            bz.Write(encryptU16(0, ref key)); // Add the null terminator, after encrypting it.
+
+                            // Write the lineOffset and charCount to the header.
+                            bw.Write((uint)(pos + 0x4 + lines.Length * 8));
+                            bw.Write((uint)(data.Position - pos) / 2);
+                            if (data.Position % 4 > 0) bz.Write((ushort)0);
+
+                            // Increment the line initial key for the next line.
+                            baseKey += 0x2983;
                         }
-
-                        // Write the lineOffset and charCount to the header.
-                        bw.Write((uint)(pos + 0x4 + lines.Length * 8));
-                        bw.Write((uint)(data.Position - pos) / 2);
-                        if (data.Position % 4 > 0) bz.Write((ushort)0);
-
-                        // Increment the line initial key for the next line.
-                        baseKey += 0x2983;
                     }
+                    catch (Exception e) { Util.Error(e.ToString()); return null; }
                 }
 
                 // Copy the data stream to the textFile stream.
@@ -445,6 +445,7 @@ namespace pk3DS
                 catch (Exception e)
                 {
                     Util.Alert("Variable error. Current line text is:", line, e.ToString());
+                    throw new Exception("Cannot save the file.");
                 }
 
                 // Write the Variable prefix.
