@@ -111,7 +111,24 @@ namespace pk3DS
         }
         private void B_Wild_Click(object sender, EventArgs e)
         {
-            Util.Alert("Not implemented yet.");
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (!oras) { Util.Alert("X/Y not supported yet."); return; }
+            new Thread(() =>
+            {
+                string encdata = "encdata";
+                string encdataGARC = getGARCFileName(encdata);
+                threadGet(TB_Path.Text + encdataGARC, encdata, true, false);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(50);
+
+                Invoke((Action)(() => { new RSWE(oras, Directory.GetFiles(encdata)).ShowDialog(); }));
+                // When closed, create a new thread to set the GARC back.
+
+                threadSet(TB_Path.Text + encdataGARC, encdata);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(100);
+                if (Directory.Exists(encdata)) Directory.Delete(encdata, true);
+            }).Start();
         }
         private void B_Personal_Click(object sender, EventArgs e)
         {
@@ -235,6 +252,8 @@ namespace pk3DS
                 case "trdata": ans = (oras) ? getFileName(0, 3, 6) : getFileName(0, 3, 8);
                     break;
                 case "trpoke": ans = (oras) ? getFileName(0, 3, 8) : getFileName(0, 4, 0);
+                    break;
+                case "encdata": ans = (oras) ? getFileName(0, 1, 3) : getFileName(0, 1, 2);
                     break;
             }
             return ans;
