@@ -106,10 +106,12 @@
             this.CLB_OrasTutors = new System.Windows.Forms.CheckedListBox();
             this.CLB_MoveTutors = new System.Windows.Forms.CheckedListBox();
             this.CLB_TMHM = new System.Windows.Forms.CheckedListBox();
+            this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
             this.SuspendLayout();
             // 
             // L_Mode
@@ -153,6 +155,7 @@
             // 
             // TP_General
             // 
+            this.TP_General.Controls.Add(this.PB_MonSprite);
             this.TP_General.Controls.Add(this.TB_RawColor);
             this.TP_General.Controls.Add(this.TB_CatchRate);
             this.TP_General.Controls.Add(this.TB_Stage);
@@ -867,7 +870,7 @@
             this.TP_MoveTutors.Location = new System.Drawing.Point(4, 22);
             this.TP_MoveTutors.Name = "TP_MoveTutors";
             this.TP_MoveTutors.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_MoveTutors.Size = new System.Drawing.Size(760, 196);
+            this.TP_MoveTutors.Size = new System.Drawing.Size(760, 209);
             this.TP_MoveTutors.TabIndex = 1;
             this.TP_MoveTutors.Text = "Move Tutors";
             this.TP_MoveTutors.UseVisualStyleBackColor = true;
@@ -876,7 +879,7 @@
             // 
             this.PB_MonSprite2.Location = new System.Drawing.Point(6, 6);
             this.PB_MonSprite2.Name = "PB_MonSprite2";
-            this.PB_MonSprite2.Size = new System.Drawing.Size(104, 62);
+            this.PB_MonSprite2.Size = new System.Drawing.Size(80, 60);
             this.PB_MonSprite2.TabIndex = 8;
             this.PB_MonSprite2.TabStop = false;
             // 
@@ -934,6 +937,14 @@
             this.CLB_TMHM.Size = new System.Drawing.Size(124, 184);
             this.CLB_TMHM.TabIndex = 2;
             // 
+            // PB_MonSprite
+            // 
+            this.PB_MonSprite.Location = new System.Drawing.Point(6, 6);
+            this.PB_MonSprite.Name = "PB_MonSprite";
+            this.PB_MonSprite.Size = new System.Drawing.Size(80, 60);
+            this.PB_MonSprite.TabIndex = 89;
+            this.PB_MonSprite.TabStop = false;
+            // 
             // Personal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -952,6 +963,7 @@
             this.TP_MoveTutors.ResumeLayout(false);
             this.TP_MoveTutors.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1037,5 +1049,6 @@
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.PictureBox PB_MonSprite2;
+        private System.Windows.Forms.PictureBox PB_MonSprite;
     }
 }

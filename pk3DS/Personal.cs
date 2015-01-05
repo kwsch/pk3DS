@@ -15,6 +15,7 @@ namespace pk3DS
         public Personal(bool rom_oras)
         {
             oras = rom_oras;
+            entrysize = (oras) ? 0x50 : 0x40;
             InitializeComponent();
             helditem_boxes = new ComboBox[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
             ability_boxes = new ComboBox[] { CB_Ability1, CB_Ability2, CB_Ability3 };
@@ -40,6 +41,7 @@ namespace pk3DS
         private string[] moves = { };
         private string[] species = { };
         private string[] abilities = { };
+        private string[] forms = { };
 
         private byte[] data = { };
 
@@ -70,7 +72,82 @@ namespace pk3DS
         public ushort[] tutor3 = { 20, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 314, 264, 351, 352 };
         public ushort[] tutor4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 };
         #endregion
+        private string[][] AltForms;
+        private int entrysize = 0;
+        internal static int[] getSpecies(byte[] data, bool oras, int PersonalEntry)
+        {
+            int entrysize = (oras) ? 0x50 : 0x40;
+            if (PersonalEntry < 722) return new int[] { PersonalEntry, 0 };
 
+            for (int i = 0; i < 722; i++)
+            {
+                int FormCount = data[i * entrysize + 0x20] - 1; // Mons with no alt forms have a FormCount of 1.
+                ushort altformpointer = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
+                if (altformpointer > 0)
+                    for (int j = 0; j < FormCount; j++)
+                        if (altformpointer + j == PersonalEntry)
+                        return new int[] { i, j };
+            }
+
+            return new int[] { -1, -1 };
+        }
+        internal static string[][] getFormList(byte[] data, bool oras, string[] species, string[] forms, string[] types, string[] items)
+        {
+            string[][] FormList = new string[722][];
+            int entrysize = (oras) ? 0x50 : 0x40;
+            int AltFormOfs = 723; //null + 721 species + 1 gap
+            for (int i = 0; i < 722; i++) //Hardcode 721 species + null
+            {
+                int FormCount = data[i * entrysize + 0x20]; // Mons with no alt forms have a FormCount of 1.
+                FormList[i] = new string[FormCount];
+                if (FormCount > 0)
+                {
+                    FormList[i][0] = (forms[i] == "") ? species[i] : forms[i];
+                    for (int j = 1; j < FormCount; j++)
+                        FormList[i][j] = forms[AltFormOfs++];
+                }
+            }
+            // Need to hardcode here: Unown, Arceus, Genesect, any others?
+            // Unown
+            for (int i = 0; i < 26; i++)
+                FormList[201][i] = ((char)(i + 0x41)).ToString();
+            FormList[201][26] = "!";
+            FormList[201][27] = "?";
+            // Arceus
+            for (int i = 0; i < types.Length; i++)
+                FormList[493][i] = types[i];
+            // Genesect
+            for (int i = 0; i < 4; i++)
+                FormList[649][1 + i] = items[i + 116];
+
+            return FormList;
+        }
+        internal static string[] getPersonalEntryList(byte[] data, bool oras, string[][]AltForms, string[] species)
+        {
+            int entrysize = (oras) ? 0x50 : 0x40;
+            string[] result = new string[data.Length / entrysize];
+            for (int i = 0; i < 722; i++)
+            {
+                result[i] = species[i];
+                if (AltForms[i].Length == 0) continue;
+                ushort altformpointer = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
+                if (altformpointer > 0)
+                {
+                    string speciesName = species[i];
+                    for (int j = 1; j < AltForms[i].Length; j++)
+                        result[altformpointer + j - 1] = AltForms[i][j];
+                }
+            }
+            return result;
+        }
+        internal static ushort[] getPersonalIndexList(byte[] data, bool oras)
+        {
+            ushort[] result = new ushort[722];
+            int entrysize = (oras) ? 0x50 : 0x40;
+            for (int i = 0; i < result.Length; i++)
+                result[i] = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
+            return result;
+        }
         private void Setup()
         {
             abilities = Main.getText((oras) ? 37 : 34);
@@ -79,7 +156,11 @@ namespace pk3DS
             species = Main.getText((oras) ? 98 : 80);
             natures = Main.getText((oras) ? 51 : 47);
             types = Main.getText((oras) ? 18 : 17);
-
+            forms = Main.getText((oras) ? 5 : 5);
+            AltForms = Personal.getFormList(data, oras, species, forms, types, items);
+            species = getPersonalEntryList(data, oras, AltForms, species);
+            File.WriteAllText("species", String.Join("\n", species));
+            File.WriteAllText("forms", String.Join("\n", forms));
             for (int i = 1; i <= 100; i++)
                 CLB_TMHM.Items.Add("TM" + i.ToString("00"));
             for (int i = 1; i <= 7; i++)
@@ -89,19 +170,19 @@ namespace pk3DS
 
             if (mode == "XY")
             {
-                string[] temp_abilities = new string[abilities.Length - 3]; //3 abilities added in ORAS
+                string[] temp_abilities = new string[abilities.Length - 3]; // 3 abilities added in ORAS
                 Array.Copy(abilities, temp_abilities, temp_abilities.Length);
                 abilities = temp_abilities;
 
-                string[] temp_items = new string[719]; //719 items in XY
+                string[] temp_items = new string[719]; // 719 items in XY
                 Array.Copy(items, temp_items, temp_items.Length);
                 items = temp_items;
 
-                string[] temp_moves = new string[moves.Length - 4]; //4 new moves added in ORAS
+                string[] temp_moves = new string[moves.Length - 4]; // 4 new moves added in ORAS
                 Array.Copy(moves, temp_moves, temp_moves.Length);
                 moves = temp_moves;
 
-                string[] temp_species = new string[799]; //799 species in XY
+                string[] temp_species = new string[799]; // 799 species in XY
                 Array.Copy(species, temp_species, temp_species.Length);
                 species = temp_species;
             }
@@ -144,8 +225,7 @@ namespace pk3DS
                 CB_Color.Items.Add(co);
 
             foreach (string eg in EXPGroups)
-                CB_EXPGroup.Items.Add(eg);
-            
+                CB_EXPGroup.Items.Add(eg);            
         }
 
         int entry = -1;
@@ -266,6 +346,23 @@ namespace pk3DS
                         ofs += tutor4.Length;
                 }
             }
+            int[] specForm = Personal.getSpecies(data, oras, CB_Species.SelectedIndex);
+            string filename = "_" + specForm[0] + ((CB_Species.SelectedIndex > 721) ? "_" + (specForm[1] + 1) : "");
+            Bitmap rawImg = (Bitmap)Properties.Resources.ResourceManager.GetObject(filename);
+            Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
+            for (int x = 0; x < rawImg.Width; x++)
+            {
+                for (int y = 0; y < rawImg.Height; y++)
+                {
+                    Color c = rawImg.GetPixel(x, y);
+                    bigImg.SetPixel(2 * x, 2 * y, c);
+                    bigImg.SetPixel(2 * x + 1, 2 * y, c);
+                    bigImg.SetPixel(2 * x, 2 * y + 1, c);
+                    bigImg.SetPixel(2 * x + 1, 2 * y + 1, c);
+                }
+            }
+            PB_MonSprite.Image = bigImg;
+            PB_MonSprite2.Image = bigImg;
         }
         private void saveEntry()
         {
