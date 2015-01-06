@@ -168,7 +168,6 @@ namespace pk3DS
         private void B_Trainer_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            if (!oras) { Util.Alert("X/Y not supported yet."); return; }
             new Thread(() =>
             {
                 string trdata = "trdata";
