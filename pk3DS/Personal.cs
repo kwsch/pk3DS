@@ -159,8 +159,6 @@ namespace pk3DS
             forms = Main.getText((oras) ? 5 : 5);
             AltForms = Personal.getFormList(data, oras, species, forms, types, items);
             species = getPersonalEntryList(data, oras, AltForms, species);
-            File.WriteAllText("species", String.Join("\n", species));
-            File.WriteAllText("forms", String.Join("\n", forms));
             for (int i = 1; i <= 100; i++)
                 CLB_TMHM.Items.Add("TM" + i.ToString("00"));
             for (int i = 1; i <= 7; i++)
