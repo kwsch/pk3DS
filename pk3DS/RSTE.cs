@@ -159,35 +159,6 @@ namespace pk3DS
         #endregion
 
         // Form Loading
-        public void setForms(int species, ComboBox cb)
-        {
-            cb.Items.Clear();
-            string[] forms = AltForms[species];
-            if (forms.Length < 2)
-            { 
-                cb.Items.Add(""); 
-                cb.Enabled = false; 
-            }
-            else
-            { 
-                foreach (string s in forms) 
-                    cb.Items.Add(s); 
-                cb.Enabled = true;
-                if (species == 669 || species == 670 || species == 671)
-                {
-                    while (cb.Items.Count < 0x7 - 1)
-                        cb.Items.Add("DON'T SELECT");
-                    cb.Items.Add("Random");
-                }
-                else if (species == 201 || species == 664 || species == 665 || species == 666)
-                {
-                    while (cb.Items.Count < 0x1F - 1)
-                        cb.Items.Add("DON'T SELECT");
-                    cb.Items.Add("Random");
-                }
-            }
-            cb.SelectedIndex = 0;
-        }
         // Ability Loading
         private void refreshFormAbility(object sender, EventArgs e)
         {
@@ -197,7 +168,7 @@ namespace pk3DS
         private void refreshSpeciesAbility(object sender, EventArgs e)
         {
             int i = Array.IndexOf(trpk_pkm, sender as ComboBox);
-            setForms(trpk_pkm[i].SelectedIndex, trpk_form[i]);
+            Personal.setForms(trpk_pkm[i].SelectedIndex, trpk_form[i], AltForms);
             refreshPKMSlotAbility(i);
         }
         private void refreshPKMSlotAbility(int slot)
@@ -381,7 +352,7 @@ namespace pk3DS
                     byte PID = br.ReadByte();
                     trpk_lvl[i].SelectedIndex = br.ReadUInt16();
                     trpk_pkm[i].SelectedIndex = br.ReadUInt16();
-                    setForms(trpk_pkm[i].SelectedIndex, trpk_form[i]);
+                    Personal.setForms(trpk_pkm[i].SelectedIndex, trpk_form[i], AltForms);
                     trpk_form[i].SelectedIndex = br.ReadUInt16() % trpk_form[i].Items.Count; // stupid X/Y bug edge cases (220 / 222)
                     refreshPKMSlotAbility(i); // Repopulate Abilities
 

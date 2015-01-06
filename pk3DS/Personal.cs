@@ -33,8 +33,8 @@ namespace pk3DS
         }
         #region Global Variables
         bool oras = false;
-        private string[] paths = { }; //Files in the Personal GARC folder.
-        private string mode = ""; //Should be "XY" or "ORAS" depending on game being edited
+        private string[] paths = { };
+        private string mode = "";
 
         private string[] natures = { };
         private string[] items = { };
@@ -71,83 +71,11 @@ namespace pk3DS
         public ushort[] tutor2 = { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 };
         public ushort[] tutor3 = { 20, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 314, 264, 351, 352 };
         public ushort[] tutor4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 };
-        #endregion
+
         private string[][] AltForms;
-        private int entrysize = 0;
-        internal static int[] getSpecies(byte[] data, bool oras, int PersonalEntry)
-        {
-            int entrysize = (oras) ? 0x50 : 0x40;
-            if (PersonalEntry < 722) return new int[] { PersonalEntry, 0 };
-
-            for (int i = 0; i < 722; i++)
-            {
-                int FormCount = data[i * entrysize + 0x20] - 1; // Mons with no alt forms have a FormCount of 1.
-                ushort altformpointer = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
-                if (altformpointer > 0)
-                    for (int j = 0; j < FormCount; j++)
-                        if (altformpointer + j == PersonalEntry)
-                        return new int[] { i, j };
-            }
-
-            return new int[] { -1, -1 };
-        }
-        internal static string[][] getFormList(byte[] data, bool oras, string[] species, string[] forms, string[] types, string[] items)
-        {
-            string[][] FormList = new string[722][];
-            int entrysize = (oras) ? 0x50 : 0x40;
-            int AltFormOfs = 723; //null + 721 species + 1 gap
-            for (int i = 0; i < 722; i++) //Hardcode 721 species + null
-            {
-                int FormCount = data[i * entrysize + 0x20]; // Mons with no alt forms have a FormCount of 1.
-                FormList[i] = new string[FormCount];
-                if (FormCount > 0)
-                {
-                    FormList[i][0] = (forms[i] == "") ? species[i] : forms[i];
-                    for (int j = 1; j < FormCount; j++)
-                        FormList[i][j] = forms[AltFormOfs++];
-                }
-            }
-            // Need to hardcode here: Unown, Arceus, Genesect, any others?
-            // Unown
-            for (int i = 0; i < 26; i++)
-                FormList[201][i] = ((char)(i + 0x41)).ToString();
-            FormList[201][26] = "!";
-            FormList[201][27] = "?";
-            // Arceus
-            for (int i = 0; i < types.Length; i++)
-                FormList[493][i] = types[i];
-            // Genesect
-            for (int i = 0; i < 4; i++)
-                FormList[649][1 + i] = items[i + 116];
-
-            return FormList;
-        }
-        internal static string[] getPersonalEntryList(byte[] data, bool oras, string[][]AltForms, string[] species)
-        {
-            int entrysize = (oras) ? 0x50 : 0x40;
-            string[] result = new string[data.Length / entrysize];
-            for (int i = 0; i < 722; i++)
-            {
-                result[i] = species[i];
-                if (AltForms[i].Length == 0) continue;
-                ushort altformpointer = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
-                if (altformpointer > 0)
-                {
-                    string speciesName = species[i];
-                    for (int j = 1; j < AltForms[i].Length; j++)
-                        result[altformpointer + j - 1] = AltForms[i][j];
-                }
-            }
-            return result;
-        }
-        internal static ushort[] getPersonalIndexList(byte[] data, bool oras)
-        {
-            ushort[] result = new ushort[722];
-            int entrysize = (oras) ? 0x50 : 0x40;
-            for (int i = 0; i < result.Length; i++)
-                result[i] = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
-            return result;
-        }
+        int entrysize = 0;
+        int entry = -1;
+        #endregion
         private void Setup()
         {
             abilities = Main.getText((oras) ? 37 : 34);
@@ -226,31 +154,23 @@ namespace pk3DS
                 CB_EXPGroup.Items.Add(eg);            
         }
 
-        int entry = -1;
         private void CB_Species_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (entry > -1) saveEntry();
             entry = CB_Species.SelectedIndex;
             readEntry();
         }
-
         private void ByteLimiter(object sender, EventArgs e)
         {
-            foreach (MaskedTextBox mtb in byte_boxes)
-            {
-                int val;
-                Int32.TryParse(mtb.Text, out val);
-                if (val > 255)
-                    mtb.Text = "255";
-            }
-            foreach (MaskedTextBox mtb in ev_boxes)
-            {
-                int val;
-                Int32.TryParse(mtb.Text, out val);
-                if (val > 3)
-                    mtb.Text = "3";
-            }
+            MaskedTextBox mtb = sender as MaskedTextBox;
+            int val = 0;
+            Int32.TryParse(mtb.Text, out val);
+            if (Array.IndexOf(byte_boxes, mtb) > -1 && val > 255)
+                mtb.Text = "255";
+            else if (val > 3)
+                mtb.Text = "3";
         }
+
         private void readEntry()
         {
             int len = 0;
@@ -360,7 +280,6 @@ namespace pk3DS
                 }
             }
             PB_MonSprite.Image = bigImg;
-            PB_MonSprite2.Image = bigImg;
         }
         private void saveEntry()
         {
@@ -470,6 +389,99 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             if (entry > -1) saveEntry();
+        }
+
+        // Utility (Shared)
+        internal static int[] getSpecies(byte[] data, bool oras, int PersonalEntry)
+        {
+            int entrysize = (oras) ? 0x50 : 0x40;
+            if (PersonalEntry < 722) return new int[] { PersonalEntry, 0 };
+
+            for (int i = 0; i < 722; i++)
+            {
+                int FormCount = data[i * entrysize + 0x20] - 1; // Mons with no alt forms have a FormCount of 1.
+                ushort altformpointer = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
+                if (altformpointer > 0)
+                    for (int j = 0; j < FormCount; j++)
+                        if (altformpointer + j == PersonalEntry)
+                            return new int[] { i, j };
+            }
+
+            return new int[] { -1, -1 };
+        }
+        internal static string[][] getFormList(byte[] data, bool oras, string[] species, string[] forms, string[] types, string[] items)
+        {
+            string[][] FormList = new string[722][];
+            int entrysize = (oras) ? 0x50 : 0x40;
+            int AltFormOfs = 723; //null + 721 species + 1 gap
+            for (int i = 0; i < 722; i++) //Hardcode 721 species + null
+            {
+                int FormCount = data[i * entrysize + 0x20]; // Mons with no alt forms have a FormCount of 1.
+                FormList[i] = new string[FormCount];
+                if (FormCount > 0)
+                {
+                    FormList[i][0] = (forms[i] == "") ? species[i] : forms[i];
+                    for (int j = 1; j < FormCount; j++)
+                        FormList[i][j] = forms[AltFormOfs++];
+                }
+            }
+            // Need to hardcode here: Unown, Arceus, Genesect, any others?
+            // Unown
+            for (int i = 0; i < 26; i++)
+                FormList[201][i] = ((char)(i + 0x41)).ToString();
+            FormList[201][26] = "!";
+            FormList[201][27] = "?";
+            // Arceus
+            for (int i = 0; i < types.Length; i++)
+                FormList[493][i] = types[i];
+            // Genesect
+            for (int i = 0; i < 4; i++)
+                FormList[649][1 + i] = items[i + 116];
+
+            return FormList;
+        }
+        internal static string[] getPersonalEntryList(byte[] data, bool oras, string[][] AltForms, string[] species)
+        {
+            int entrysize = (oras) ? 0x50 : 0x40;
+            string[] result = new string[data.Length / entrysize];
+            for (int i = 0; i < 722; i++)
+            {
+                result[i] = species[i];
+                if (AltForms[i].Length == 0) continue;
+                ushort altformpointer = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
+                if (altformpointer > 0)
+                {
+                    string speciesName = species[i];
+                    for (int j = 1; j < AltForms[i].Length; j++)
+                        result[altformpointer + j - 1] = AltForms[i][j];
+                }
+            }
+            return result;
+        }
+        internal static ushort[] getPersonalIndexList(byte[] data, bool oras)
+        {
+            ushort[] result = new ushort[722];
+            int entrysize = (oras) ? 0x50 : 0x40;
+            for (int i = 0; i < result.Length; i++)
+                result[i] = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
+            return result;
+        }
+        internal static void setForms(int species, ComboBox cb, string[][] AltForms)
+        {
+            cb.Items.Clear();
+            string[] forms = AltForms[species];
+            if (forms.Length < 2)
+            {
+                cb.Items.Add("");
+                cb.Enabled = false;
+            }
+            else
+            {
+                foreach (string s in forms)
+                    cb.Items.Add(s);
+                cb.Enabled = true;
+            }
+            cb.SelectedIndex = 0;
         }
     }
 }
