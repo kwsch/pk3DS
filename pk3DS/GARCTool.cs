@@ -212,7 +212,7 @@ namespace pk3DS
                             compressed = true;
                         else
                         {
-                            ext = Util.GuessExtension(br, "bin", bypassExt);
+                            ext = "bin";
                             br.BaseStream.Seek(0, SeekOrigin.Begin);
                         }
 
@@ -240,7 +240,7 @@ namespace pk3DS
                                 catch (Exception e) { Util.Error("A compressed file could not be deleted.", fileout, e.ToString()); }
 
                                 // Try to detect for extension now
-                                ext = Util.GuessExtension(decout, bypassExt);
+                                ext = "bin";
 
                                 File.Move(decout, Path.Combine(outPath, "dec_" + filename + "." + ext));
                             }
