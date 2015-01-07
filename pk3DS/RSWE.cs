@@ -460,10 +460,8 @@ namespace pk3DS
         private void PreloadTabs()
         {
             for (int i = 0; i < this.TabControl_EncounterData.TabPages.Count; i++)
-            {
-                this.TabControl_EncounterData.TabPages[i].Show();
-            }
-            this.TabControl_EncounterData.TabPages[0].Show();
+                TabControl_EncounterData.TabPages[i].Show();
+            TabControl_EncounterData.TabPages[0].Show();
         }
         private void ClearData()
         {
@@ -490,25 +488,25 @@ namespace pk3DS
         }
         private string GetEncDataString()
         {
-            string toret = "======\r\n";
-            toret += "Map " + CB_LocationID.Text + "\r\n";
-            toret += "======\r\n";
+            string toret = "======" + Environment.NewLine;
+            toret += "Map " + CB_LocationID.Text + "" + Environment.NewLine;
+            toret += "======" + Environment.NewLine;
             if (hasData())
             {
-                toret += "Grass: " + CB_Grass1.Text + "(Level " + NUP_GrassMin1.Text + ")," + CB_Grass2.Text + "(Level " + NUP_GrassMin2.Text + ")," + CB_Grass3.Text + "(Level " + NUP_GrassMin3.Text + ")," + CB_Grass4.Text + "(Level " + NUP_GrassMin4.Text + ")," + CB_Grass5.Text + "(Level " + NUP_GrassMin5.Text + ")," + CB_Grass6.Text + "(Level " + NUP_GrassMin6.Text + ")," + CB_Grass7.Text + "(Level " + NUP_GrassMin7.Text + ")," + CB_Grass8.Text + "(Level " + NUP_GrassMin8.Text + ")," + CB_Grass9.Text + "(Level " + NUP_GrassMin9.Text + ")," + CB_Grass10.Text + "(Level " + NUP_GrassMin10.Text + ")," + CB_Grass11.Text + "(Level " + NUP_GrassMin11.Text + ")," + CB_Grass12.Text + "(Level " + NUP_GrassMin12.Text + ")\r\n";
-                toret += "TallGrass: " + CB_TallGrass1.Text + "(Level " + NUP_TallGrassMin1.Text + ")," + CB_TallGrass2.Text + "(Level " + NUP_TallGrassMin2.Text + ")," + CB_TallGrass3.Text + "(Level " + NUP_TallGrassMin3.Text + ")," + CB_TallGrass4.Text + "(Level " + NUP_TallGrassMin4.Text + ")," + CB_TallGrass5.Text + "(Level " + NUP_TallGrassMin5.Text + ")," + CB_TallGrass6.Text + "(Level " + NUP_TallGrassMin6.Text + ")," + CB_TallGrass7.Text + "(Level " + NUP_TallGrassMin7.Text + ")," + CB_TallGrass8.Text + "(Level " + NUP_TallGrassMin8.Text + ")," + CB_TallGrass9.Text + "(Level " + NUP_TallGrassMin9.Text + ")," + CB_TallGrass10.Text + "(Level " + NUP_TallGrassMin10.Text + ")," + CB_TallGrass11.Text + "(Level " + NUP_TallGrassMin11.Text + ")," + CB_TallGrass12.Text + "(Level " + NUP_TallGrassMin12.Text + ")\r\n";
-                toret += "RockSmash: " + CB_RockSmash1.Text + "(Level " + NUP_RockSmashMin1.Text + ")," + CB_RockSmash2.Text + "(Level " + NUP_RockSmashMin2.Text + ")," + CB_RockSmash3.Text + "(Level " + NUP_RockSmashMin3.Text + ")," + CB_RockSmash4.Text + "(Level " + NUP_RockSmashMin4.Text + ")," + CB_RockSmash5.Text + "(Level " + NUP_RockSmashMin5.Text + ")\r\n";
-                toret += "Swarm: " + CB_Swarm1.Text + "(Level " + NUP_SwarmMin1.Text + ")," + CB_Swarm2.Text + "(Level " + NUP_SwarmMin2.Text + ")," + CB_Swarm3.Text + "(Level " + NUP_SwarmMin3.Text + ")\r\n";
-                toret += "Old: " + CB_Old1.Text + "(Level " + NUP_OldMin1.Text + ")," + CB_Old2.Text + "(Level " + NUP_OldMin2.Text + ")," + CB_Old3.Text + "(Level " + NUP_OldMin3.Text + ")\r\n";
-                toret += "Good: " + CB_Good1.Text + "(Level " + NUP_GoodMin1.Text + ")," + CB_Good2.Text + "(Level " + NUP_GoodMin2.Text + ")," + CB_Good3.Text + "(Level " + NUP_GoodMin3.Text + ")\r\n";
-                toret += "Super: " + CB_Super1.Text + "(Level " + NUP_SuperMin1.Text + ")," + CB_Super2.Text + "(Level " + NUP_SuperMin2.Text + ")," + CB_Super3.Text + "(Level " + NUP_SuperMin3.Text + ")\r\n";
-                toret += "Surf: " + CB_Surf1.Text + "(Level " + NUP_SurfMin1.Text + ")," + CB_Surf2.Text + "(Level " + NUP_SurfMin2.Text + ")," + CB_Surf3.Text + "(Level " + NUP_SurfMin3.Text + ")," + CB_Surf4.Text + "(Level " + NUP_SurfMin4.Text + ")," + CB_Surf5.Text + "(Level " + NUP_SurfMin5.Text + ")\r\n";
-                toret += "HordeA: " + CB_HordeA1.Text + "(Level " + NUP_HordeAMin1.Text + ")," + CB_HordeA2.Text + "(Level " + NUP_HordeAMin2.Text + ")," + CB_HordeA3.Text + "(Level " + NUP_HordeAMin3.Text + ")," + CB_HordeA4.Text + "(Level " + NUP_HordeAMin4.Text + ")," + CB_HordeA5.Text + "(Level " + NUP_HordeAMin5.Text + ")\r\n";
-                toret += "HordeB: " + CB_HordeB1.Text + "(Level " + NUP_HordeBMin1.Text + ")," + CB_HordeB2.Text + "(Level " + NUP_HordeBMin2.Text + ")," + CB_HordeB3.Text + "(Level " + NUP_HordeBMin3.Text + ")," + CB_HordeB4.Text + "(Level " + NUP_HordeBMin4.Text + ")," + CB_HordeB5.Text + "(Level " + NUP_HordeBMin5.Text + ")\r\n";
-                toret += "HordeC: " + CB_HordeC1.Text + "(Level " + NUP_HordeCMin1.Text + ")," + CB_HordeC2.Text + "(Level " + NUP_HordeCMin2.Text + ")," + CB_HordeC3.Text + "(Level " + NUP_HordeCMin3.Text + ")," + CB_HordeC4.Text + "(Level " + NUP_HordeCMin4.Text + ")," + CB_HordeC5.Text + "(Level " + NUP_HordeCMin5.Text + ")\r\n";
+                toret += "Grass: " + CB_Grass1.Text + "(Level " + NUP_GrassMin1.Text + ")," + CB_Grass2.Text + "(Level " + NUP_GrassMin2.Text + ")," + CB_Grass3.Text + "(Level " + NUP_GrassMin3.Text + ")," + CB_Grass4.Text + "(Level " + NUP_GrassMin4.Text + ")," + CB_Grass5.Text + "(Level " + NUP_GrassMin5.Text + ")," + CB_Grass6.Text + "(Level " + NUP_GrassMin6.Text + ")," + CB_Grass7.Text + "(Level " + NUP_GrassMin7.Text + ")," + CB_Grass8.Text + "(Level " + NUP_GrassMin8.Text + ")," + CB_Grass9.Text + "(Level " + NUP_GrassMin9.Text + ")," + CB_Grass10.Text + "(Level " + NUP_GrassMin10.Text + ")," + CB_Grass11.Text + "(Level " + NUP_GrassMin11.Text + ")," + CB_Grass12.Text + "(Level " + NUP_GrassMin12.Text + ")" + Environment.NewLine;
+                toret += "TallGrass: " + CB_TallGrass1.Text + "(Level " + NUP_TallGrassMin1.Text + ")," + CB_TallGrass2.Text + "(Level " + NUP_TallGrassMin2.Text + ")," + CB_TallGrass3.Text + "(Level " + NUP_TallGrassMin3.Text + ")," + CB_TallGrass4.Text + "(Level " + NUP_TallGrassMin4.Text + ")," + CB_TallGrass5.Text + "(Level " + NUP_TallGrassMin5.Text + ")," + CB_TallGrass6.Text + "(Level " + NUP_TallGrassMin6.Text + ")," + CB_TallGrass7.Text + "(Level " + NUP_TallGrassMin7.Text + ")," + CB_TallGrass8.Text + "(Level " + NUP_TallGrassMin8.Text + ")," + CB_TallGrass9.Text + "(Level " + NUP_TallGrassMin9.Text + ")," + CB_TallGrass10.Text + "(Level " + NUP_TallGrassMin10.Text + ")," + CB_TallGrass11.Text + "(Level " + NUP_TallGrassMin11.Text + ")," + CB_TallGrass12.Text + "(Level " + NUP_TallGrassMin12.Text + ")" + Environment.NewLine;
+                toret += "RockSmash: " + CB_RockSmash1.Text + "(Level " + NUP_RockSmashMin1.Text + ")," + CB_RockSmash2.Text + "(Level " + NUP_RockSmashMin2.Text + ")," + CB_RockSmash3.Text + "(Level " + NUP_RockSmashMin3.Text + ")," + CB_RockSmash4.Text + "(Level " + NUP_RockSmashMin4.Text + ")," + CB_RockSmash5.Text + "(Level " + NUP_RockSmashMin5.Text + ")" + Environment.NewLine;
+                toret += "Swarm: " + CB_Swarm1.Text + "(Level " + NUP_SwarmMin1.Text + ")," + CB_Swarm2.Text + "(Level " + NUP_SwarmMin2.Text + ")," + CB_Swarm3.Text + "(Level " + NUP_SwarmMin3.Text + ")" + Environment.NewLine;
+                toret += "Old: " + CB_Old1.Text + "(Level " + NUP_OldMin1.Text + ")," + CB_Old2.Text + "(Level " + NUP_OldMin2.Text + ")," + CB_Old3.Text + "(Level " + NUP_OldMin3.Text + ")" + Environment.NewLine;
+                toret += "Good: " + CB_Good1.Text + "(Level " + NUP_GoodMin1.Text + ")," + CB_Good2.Text + "(Level " + NUP_GoodMin2.Text + ")," + CB_Good3.Text + "(Level " + NUP_GoodMin3.Text + ")" + Environment.NewLine;
+                toret += "Super: " + CB_Super1.Text + "(Level " + NUP_SuperMin1.Text + ")," + CB_Super2.Text + "(Level " + NUP_SuperMin2.Text + ")," + CB_Super3.Text + "(Level " + NUP_SuperMin3.Text + ")" + Environment.NewLine;
+                toret += "Surf: " + CB_Surf1.Text + "(Level " + NUP_SurfMin1.Text + ")," + CB_Surf2.Text + "(Level " + NUP_SurfMin2.Text + ")," + CB_Surf3.Text + "(Level " + NUP_SurfMin3.Text + ")," + CB_Surf4.Text + "(Level " + NUP_SurfMin4.Text + ")," + CB_Surf5.Text + "(Level " + NUP_SurfMin5.Text + ")" + Environment.NewLine;
+                toret += "HordeA: " + CB_HordeA1.Text + "(Level " + NUP_HordeAMin1.Text + ")," + CB_HordeA2.Text + "(Level " + NUP_HordeAMin2.Text + ")," + CB_HordeA3.Text + "(Level " + NUP_HordeAMin3.Text + ")," + CB_HordeA4.Text + "(Level " + NUP_HordeAMin4.Text + ")," + CB_HordeA5.Text + "(Level " + NUP_HordeAMin5.Text + ")" + Environment.NewLine;
+                toret += "HordeB: " + CB_HordeB1.Text + "(Level " + NUP_HordeBMin1.Text + ")," + CB_HordeB2.Text + "(Level " + NUP_HordeBMin2.Text + ")," + CB_HordeB3.Text + "(Level " + NUP_HordeBMin3.Text + ")," + CB_HordeB4.Text + "(Level " + NUP_HordeBMin4.Text + ")," + CB_HordeB5.Text + "(Level " + NUP_HordeBMin5.Text + ")" + Environment.NewLine;
+                toret += "HordeC: " + CB_HordeC1.Text + "(Level " + NUP_HordeCMin1.Text + ")," + CB_HordeC2.Text + "(Level " + NUP_HordeCMin2.Text + ")," + CB_HordeC3.Text + "(Level " + NUP_HordeCMin3.Text + ")," + CB_HordeC4.Text + "(Level " + NUP_HordeCMin4.Text + ")," + CB_HordeC5.Text + "(Level " + NUP_HordeCMin5.Text + ")" + Environment.NewLine;
             }
             else
-                toret += "No encounters found.\r\n\r\n";
+                toret += "No encounters found." + Environment.NewLine + Environment.NewLine;
             return toret;
         }
 
@@ -579,7 +577,7 @@ namespace pk3DS
         }
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Randomize all? Cannot undo.", "Alert", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all?", "Cannot undo.") == DialogResult.Yes)
             {
                 this.Enabled = false;
                 for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
@@ -605,7 +603,7 @@ namespace pk3DS
                     B_Save_Click(sender, e);
                 }
                 this.Enabled = true;
-                MessageBox.Show("Randomized!", "Alert");
+                Util.Alert("Randomized!");
             }
         }
     }
