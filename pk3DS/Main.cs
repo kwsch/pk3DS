@@ -31,6 +31,7 @@ namespace pk3DS
             }
         }
         public bool oras = false;
+        public string ExeFS = null;
         public volatile int threads = 0;
         private void B_Open_Click(object sender, EventArgs e)
         {
@@ -62,6 +63,7 @@ namespace pk3DS
                 TB_Path.Text = path; GB_Tools.Enabled = true;
                 backupGARCs(false, "gametext", "storytext", "personal", "trpoke", "trdata");
                 L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY";
+                string exefs = Util.getExeFSFolder(path);
                 changeLanguage(null, null); // Trigger Text Loading
             }
         }
@@ -213,7 +215,8 @@ namespace pk3DS
         }
         public bool setGARC(string outfile, string infolder, bool PB)
         {
-            string temp = Util.getRandomFileName();
+            if (!Directory.Exists("temp")) Directory.CreateDirectory("temp");
+            string temp = "temp" + Path.DirectorySeparatorChar + Util.getRandomFileName();
             bool success = GARCTool.garcPack(infolder, temp, (PB) ? pBar1 : null, null, true);
             Console.WriteLine("Set Status: " + success.ToString());
             try { File.Delete(outfile); File.Move(temp, outfile); }
@@ -299,14 +302,18 @@ namespace pk3DS
             if (TB_Path.Text.Length > 0) File.WriteAllText("config.ini", TB_Path.Text);
             if (!GB_Tools.Enabled) return; // No data/threads need to be addressed if we haven't loaded anything.
             // Set the GameText back as other forms may have edited it.
-            threadSet(TB_Path.Text + getGARCFileName("gametext"), "gametext", false);
-            if (Directory.Exists("personal")) threadSet(TB_Path.Text + getGARCFileName("personal"), "personal", false);
-            int timeout = 0; // Time out after 7 seconds.
-            while (threads > 0 && timeout++ < 70)
-                Thread.Sleep(100);
-
+            try
+            {
+                threadSet(TB_Path.Text + getGARCFileName("gametext"), "gametext", false);
+                if (Directory.Exists("personal")) threadSet(TB_Path.Text + getGARCFileName("personal"), "personal", false);
+                int timeout = 0; // Time out after 7 seconds.
+                while (threads > 0 && timeout++ < 70)
+                    Thread.Sleep(100);
+            }
+            catch { }
             if (Directory.Exists("gametext")) Directory.Delete("gametext", true);
             if (Directory.Exists("personal")) Directory.Delete("personal", true);
+            if (Directory.Exists("temp")) Directory.Delete("temp", true);
         }
         private void L_About_Click(object sender, EventArgs e)
         {

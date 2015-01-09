@@ -591,5 +591,14 @@ namespace pk3DS
 
             return s;
         }
+
+        internal static string getExeFSFolder(string a)
+        {
+            string check = Path.GetDirectoryName(Path.GetDirectoryName(a));
+            foreach (string s in Directory.GetFiles(check))
+                if (Path.GetFileName(s) == "code.bin")
+                    return check;
+            return null;
+        }
     }
 }
