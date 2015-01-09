@@ -86,7 +86,8 @@ namespace pk3DS
                 }
                 catch (Exception e) { Util.Error("Invalid packing filenames", e.ToString()); return false; }
 
-                string garcName = Util.getRandomFileName();
+                if (!Directory.Exists("temp")) Directory.CreateDirectory("temp");
+                string garcName = "temp" + Path.DirectorySeparatorChar + Util.getRandomFileName();
                 using (var GARCdata = File.Create(garcName))
                     for (int i = 0; i < filepaths.Length; i++)
                     {
