@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Subforms\EggMove.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\EggMove.Designer.cs">
+      <DependentUpon>EggMove.cs</DependentUpon>
+    </Compile>
     <Compile Include="GARCTool.cs" />
     <Compile Include="Legal.cs" />
     <Compile Include="Main.cs">
@@ -56,43 +62,46 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Personal.cs">
+    <Compile Include="Subforms\Personal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Personal.Designer.cs">
+    <Compile Include="Subforms\Personal.Designer.cs">
       <DependentUpon>Personal.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RSWE.cs">
+    <Compile Include="Subforms\RSWE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RSWE.designer.cs">
+    <Compile Include="Subforms\RSWE.designer.cs">
       <DependentUpon>RSWE.cs</DependentUpon>
     </Compile>
-    <Compile Include="TrainerRand.cs">
+    <Compile Include="Subforms\TrainerRand.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TrainerRand.Designer.cs">
+    <Compile Include="Subforms\TrainerRand.Designer.cs">
       <DependentUpon>TrainerRand.cs</DependentUpon>
     </Compile>
-    <Compile Include="RSTE.cs">
+    <Compile Include="Subforms\RSTE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RSTE.Designer.cs">
+    <Compile Include="Subforms\RSTE.Designer.cs">
       <DependentUpon>RSTE.cs</DependentUpon>
     </Compile>
     <Compile Include="Util.cs" />
-    <Compile Include="xytext.cs">
+    <Compile Include="Subforms\xytext.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="xytext.Designer.cs">
+    <Compile Include="Subforms\xytext.Designer.cs">
       <DependentUpon>xytext.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Personal.resx">
+    <EmbeddedResource Include="Subforms\EggMove.resx">
+      <DependentUpon>EggMove.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Personal.resx">
       <DependentUpon>Personal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -105,13 +114,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="RSTE.resx">
+    <EmbeddedResource Include="Subforms\RSTE.resx">
       <DependentUpon>RSTE.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RSWE.resx">
+    <EmbeddedResource Include="Subforms\RSWE.resx">
       <DependentUpon>RSWE.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="xytext.resx">
+    <EmbeddedResource Include="Subforms\xytext.resx">
       <DependentUpon>xytext.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

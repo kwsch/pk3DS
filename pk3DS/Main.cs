@@ -111,26 +111,9 @@ namespace pk3DS
                 if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
             }).Start();
         }
-        private void B_Wild_Click(object sender, EventArgs e)
+        private void B_ExeFS_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            if (!oras) { Util.Alert("X/Y not supported yet."); return; }
-            new Thread(() =>
-            {
-                string encdata = "encdata";
-                string encdataGARC = getGARCFileName(encdata);
-                threadGet(TB_Path.Text + encdataGARC, encdata, true, false);
-                while (threads > 0) // Let threads complete
-                    Thread.Sleep(50);
-
-                Invoke((Action)(() => { new RSWE(oras, Directory.GetFiles(encdata)).ShowDialog(); }));
-                // When closed, create a new thread to set the GARC back.
-
-                threadSet(TB_Path.Text + encdataGARC, encdata);
-                while (threads > 0) // Let threads complete
-                    Thread.Sleep(100);
-                if (Directory.Exists(encdata)) Directory.Delete(encdata, true);
-            }).Start();
+            Util.Alert("Not implemented yet.");
         }
         private void B_Personal_Click(object sender, EventArgs e)
         {
@@ -150,22 +133,6 @@ namespace pk3DS
                     Thread.Sleep(100);
                 if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
             }).Start();
-        }
-        private void B_Evolution_Click(object sender, EventArgs e)
-        {
-            Util.Alert("Not implemented yet.");
-        }
-        private void B_MegaEvo_Click(object sender, EventArgs e)
-        {
-            Util.Alert("Not implemented yet.");
-        }
-        private void B_Move_Click(object sender, EventArgs e)
-        {
-            Util.Alert("Not implemented yet.");
-        }
-        private void B_Item_Click(object sender, EventArgs e)
-        {
-            Util.Alert("Not implemented yet.");
         }
         private void B_Trainer_Click(object sender, EventArgs e)
         {
@@ -202,6 +169,66 @@ namespace pk3DS
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
                 if (Directory.Exists(trpoke)) Directory.Delete(trpoke, true);
+            }).Start();
+        }
+        private void B_Wild_Click(object sender, EventArgs e)
+        {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (!oras) { Util.Alert("X/Y not supported yet."); return; }
+            new Thread(() =>
+            {
+                string encdata = "encdata";
+                string encdataGARC = getGARCFileName(encdata);
+                threadGet(TB_Path.Text + encdataGARC, encdata, true, false);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(50);
+
+                Invoke((Action)(() => { new RSWE(oras, Directory.GetFiles(encdata)).ShowDialog(); }));
+                // When closed, create a new thread to set the GARC back.
+
+                threadSet(TB_Path.Text + encdataGARC, encdata);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(100);
+                if (Directory.Exists(encdata)) Directory.Delete(encdata, true);
+            }).Start();
+        }
+        private void B_Evolution_Click(object sender, EventArgs e)
+        {
+            Util.Alert("Not implemented yet.");
+        }
+        private void B_MegaEvo_Click(object sender, EventArgs e)
+        {
+            Util.Alert("Not implemented yet.");
+        }
+        private void B_Item_Click(object sender, EventArgs e)
+        {
+            Util.Alert("Not implemented yet.");
+        }
+        private void B_Move_Click(object sender, EventArgs e)
+        {
+            Util.Alert("Not implemented yet.");
+        }
+        private void B_LevelUp_Click(object sender, EventArgs e)
+        {
+            Util.Alert("Not implemented yet.");
+        }
+        private void B_EggMove_Click(object sender, EventArgs e)
+        {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            new Thread(() =>
+            {
+                string toEdit = "eggmove";
+                string GARC = getGARCFileName(toEdit);
+                threadGet(TB_Path.Text + GARC, toEdit, true, true);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(100);
+
+                Invoke((Action)(() => { new EggMove(oras).ShowDialog(); }));
+                // When closed, create a new thread to set the GARC back.
+                threadSet(TB_Path.Text + GARC, toEdit);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(100);
+                if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
             }).Start();
         }
 
@@ -245,17 +272,29 @@ namespace pk3DS
             string ans = "";
             switch (request)
             {
+                case "encdata": ans = (oras) ? getFileName(0, 1, 3) : getFileName(0, 1, 2);
+                    break;
                 case "gametext": ans = (oras) ? getFileName(0, 7, 1 + lang) : getFileName(0, 7, 2 + lang);
                     break;
                 case "storytext": ans = (oras) ? getFileName(0, 7 + ((lang + 9) / 10), (10 + (lang + 9)) % 10) : getFileName(0, 8, lang);
-                    break;
-                case "personal": ans = (oras) ? getFileName(1, 9, 5) : getFileName(2, 1, 8);
                     break;
                 case "trdata": ans = (oras) ? getFileName(0, 3, 6) : getFileName(0, 3, 8);
                     break;
                 case "trpoke": ans = (oras) ? getFileName(0, 3, 8) : getFileName(0, 4, 0);
                     break;
-                case "encdata": ans = (oras) ? getFileName(0, 1, 3) : getFileName(0, 1, 2);
+                case "move": ans = (oras) ? getFileName(1, 8, 9) : getFileName(2, 1, 2);
+                    break;
+                case "eggmove": ans = (oras) ? getFileName(1, 9, 0) : getFileName(2, 1, 3);
+                    break;
+                case "levelup": ans = (oras) ? getFileName(1, 9, 1) : getFileName(2, 1, 4);
+                    break;
+                case "evolution": ans = (oras) ? getFileName(1, 9, 2) : getFileName(2, 1, 5);
+                    break;
+                case "megaevo": ans = (oras) ? getFileName(1, 9, 3) : getFileName(2, 1, 6);
+                    break;
+                case "personal": ans = (oras) ? getFileName(1, 9, 5) : getFileName(2, 1, 8);
+                    break;
+                case "item": ans = (oras) ? getFileName(1, 9, 7) : getFileName(2, 2, 0);
                     break;
             }
             return ans;
@@ -328,5 +367,7 @@ namespace pk3DS
                 "Evolutions, Moves, and Items and more have yet to be implemented.",
                 "Big thanks to the ProjectPokemon community!");
         }
+
+        
     }
 }

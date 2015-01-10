@@ -45,6 +45,9 @@
             this.L_Game = new System.Windows.Forms.Label();
             this.pBar1 = new System.Windows.Forms.ProgressBar();
             this.L_About = new System.Windows.Forms.Label();
+            this.B_LevelUp = new System.Windows.Forms.Button();
+            this.B_EggMove = new System.Windows.Forms.Button();
+            this.B_ExeFS = new System.Windows.Forms.Button();
             this.GB_Tools.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,13 +68,16 @@
             this.TB_Path.Location = new System.Drawing.Point(93, 14);
             this.TB_Path.Name = "TB_Path";
             this.TB_Path.ReadOnly = true;
-            this.TB_Path.Size = new System.Drawing.Size(244, 20);
+            this.TB_Path.Size = new System.Drawing.Size(349, 20);
             this.TB_Path.TabIndex = 1;
             // 
             // GB_Tools
             // 
             this.GB_Tools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.GB_Tools.Controls.Add(this.B_ExeFS);
+            this.GB_Tools.Controls.Add(this.B_EggMove);
+            this.GB_Tools.Controls.Add(this.B_LevelUp);
             this.GB_Tools.Controls.Add(this.B_StoryText);
             this.GB_Tools.Controls.Add(this.B_Item);
             this.GB_Tools.Controls.Add(this.B_Move);
@@ -84,7 +90,7 @@
             this.GB_Tools.Enabled = false;
             this.GB_Tools.Location = new System.Drawing.Point(12, 67);
             this.GB_Tools.Name = "GB_Tools";
-            this.GB_Tools.Size = new System.Drawing.Size(325, 110);
+            this.GB_Tools.Size = new System.Drawing.Size(430, 110);
             this.GB_Tools.TabIndex = 2;
             this.GB_Tools.TabStop = false;
             this.GB_Tools.Text = "ROM Editing Tools";
@@ -101,7 +107,7 @@
             // 
             // B_Item
             // 
-            this.B_Item.Location = new System.Drawing.Point(218, 48);
+            this.B_Item.Location = new System.Drawing.Point(218, 77);
             this.B_Item.Name = "B_Item";
             this.B_Item.Size = new System.Drawing.Size(100, 23);
             this.B_Item.TabIndex = 7;
@@ -111,7 +117,7 @@
             // 
             // B_Move
             // 
-            this.B_Move.Location = new System.Drawing.Point(218, 19);
+            this.B_Move.Location = new System.Drawing.Point(324, 19);
             this.B_Move.Name = "B_Move";
             this.B_Move.Size = new System.Drawing.Size(100, 23);
             this.B_Move.TabIndex = 6;
@@ -121,7 +127,7 @@
             // 
             // B_Evolution
             // 
-            this.B_Evolution.Location = new System.Drawing.Point(112, 48);
+            this.B_Evolution.Location = new System.Drawing.Point(218, 19);
             this.B_Evolution.Name = "B_Evolution";
             this.B_Evolution.Size = new System.Drawing.Size(100, 23);
             this.B_Evolution.TabIndex = 5;
@@ -141,7 +147,7 @@
             // 
             // B_MegaEvo
             // 
-            this.B_MegaEvo.Location = new System.Drawing.Point(112, 77);
+            this.B_MegaEvo.Location = new System.Drawing.Point(218, 48);
             this.B_MegaEvo.Name = "B_MegaEvo";
             this.B_MegaEvo.Size = new System.Drawing.Size(100, 23);
             this.B_MegaEvo.TabIndex = 3;
@@ -151,7 +157,7 @@
             // 
             // B_Wild
             // 
-            this.B_Wild.Location = new System.Drawing.Point(6, 77);
+            this.B_Wild.Location = new System.Drawing.Point(112, 77);
             this.B_Wild.Name = "B_Wild";
             this.B_Wild.Size = new System.Drawing.Size(100, 23);
             this.B_Wild.TabIndex = 2;
@@ -161,7 +167,7 @@
             // 
             // B_Trainer
             // 
-            this.B_Trainer.Location = new System.Drawing.Point(218, 77);
+            this.B_Trainer.Location = new System.Drawing.Point(112, 48);
             this.B_Trainer.Name = "B_Trainer";
             this.B_Trainer.Size = new System.Drawing.Size(100, 23);
             this.B_Trainer.TabIndex = 1;
@@ -193,7 +199,7 @@
             "Deutsch",
             "Español",
             "한국"});
-            this.CB_Lang.Location = new System.Drawing.Point(216, 40);
+            this.CB_Lang.Location = new System.Drawing.Point(321, 40);
             this.CB_Lang.Name = "CB_Lang";
             this.CB_Lang.Size = new System.Drawing.Size(121, 21);
             this.CB_Lang.TabIndex = 3;
@@ -203,7 +209,7 @@
             // 
             this.L_Lang.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Lang.AutoSize = true;
-            this.L_Lang.Location = new System.Drawing.Point(152, 43);
+            this.L_Lang.Location = new System.Drawing.Point(257, 43);
             this.L_Lang.Name = "L_Lang";
             this.L_Lang.Size = new System.Drawing.Size(58, 13);
             this.L_Lang.TabIndex = 4;
@@ -225,7 +231,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pBar1.Location = new System.Drawing.Point(12, 182);
             this.pBar1.Name = "pBar1";
-            this.pBar1.Size = new System.Drawing.Size(325, 14);
+            this.pBar1.Size = new System.Drawing.Size(430, 14);
             this.pBar1.TabIndex = 6;
             // 
             // L_About
@@ -238,11 +244,42 @@
             this.L_About.Text = "[A]";
             this.L_About.Click += new System.EventHandler(this.L_About_Click);
             // 
+            // B_LevelUp
+            // 
+            this.B_LevelUp.Location = new System.Drawing.Point(324, 77);
+            this.B_LevelUp.Name = "B_LevelUp";
+            this.B_LevelUp.Size = new System.Drawing.Size(100, 23);
+            this.B_LevelUp.TabIndex = 9;
+            this.B_LevelUp.Text = "Level Up Editor";
+            this.B_LevelUp.UseVisualStyleBackColor = true;
+            this.B_LevelUp.Click += new System.EventHandler(this.B_LevelUp_Click);
+            // 
+            // B_EggMove
+            // 
+            this.B_EggMove.Location = new System.Drawing.Point(324, 48);
+            this.B_EggMove.Name = "B_EggMove";
+            this.B_EggMove.Size = new System.Drawing.Size(100, 23);
+            this.B_EggMove.TabIndex = 10;
+            this.B_EggMove.Text = "EggMove Editor";
+            this.B_EggMove.UseVisualStyleBackColor = true;
+            this.B_EggMove.Click += new System.EventHandler(this.B_EggMove_Click);
+            // 
+            // B_ExeFS
+            // 
+            this.B_ExeFS.Enabled = false;
+            this.B_ExeFS.Location = new System.Drawing.Point(6, 77);
+            this.B_ExeFS.Name = "B_ExeFS";
+            this.B_ExeFS.Size = new System.Drawing.Size(100, 23);
+            this.B_ExeFS.TabIndex = 11;
+            this.B_ExeFS.Text = "ExeFS Code.bin";
+            this.B_ExeFS.UseVisualStyleBackColor = true;
+            this.B_ExeFS.Click += new System.EventHandler(this.B_ExeFS_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(349, 202);
+            this.ClientSize = new System.Drawing.Size(454, 202);
             this.Controls.Add(this.L_About);
             this.Controls.Add(this.pBar1);
             this.Controls.Add(this.L_Game);
@@ -252,7 +289,7 @@
             this.Controls.Add(this.TB_Path);
             this.Controls.Add(this.B_Open);
             this.MaximumSize = new System.Drawing.Size(800, 240);
-            this.MinimumSize = new System.Drawing.Size(365, 240);
+            this.MinimumSize = new System.Drawing.Size(470, 240);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "pk3DS";
@@ -282,6 +319,9 @@
         private System.Windows.Forms.Label L_Game;
         private System.Windows.Forms.ProgressBar pBar1;
         private System.Windows.Forms.Label L_About;
+        private System.Windows.Forms.Button B_ExeFS;
+        private System.Windows.Forms.Button B_EggMove;
+        private System.Windows.Forms.Button B_LevelUp;
     }
 }
 
