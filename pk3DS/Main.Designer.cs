@@ -117,7 +117,7 @@
             // 
             // B_Move
             // 
-            this.B_Move.Location = new System.Drawing.Point(324, 19);
+            this.B_Move.Location = new System.Drawing.Point(324, 77);
             this.B_Move.Name = "B_Move";
             this.B_Move.Size = new System.Drawing.Size(100, 23);
             this.B_Move.TabIndex = 6;
@@ -246,7 +246,7 @@
             // 
             // B_LevelUp
             // 
-            this.B_LevelUp.Location = new System.Drawing.Point(324, 77);
+            this.B_LevelUp.Location = new System.Drawing.Point(324, 19);
             this.B_LevelUp.Name = "B_LevelUp";
             this.B_LevelUp.Size = new System.Drawing.Size(100, 23);
             this.B_LevelUp.TabIndex = 9;

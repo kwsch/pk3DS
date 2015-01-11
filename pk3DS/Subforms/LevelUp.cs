@@ -10,12 +10,12 @@ using System.IO;
 
 namespace pk3DS
 {
-    public partial class EggMove : Form
+    public partial class LevelUp : Form
     {
-        public EggMove(bool oras)
+        public LevelUp(bool oras)
         {
             InitializeComponent();
-            files = Directory.GetFiles("eggmove");
+            files = Directory.GetFiles("levelup");
 
             movelist = Main.getText((oras) ? 14 : 13);
             specieslist = Main.getText((oras) ? 98 : 80);
@@ -42,16 +42,24 @@ namespace pk3DS
         bool dumping = false;
         private void setupDGV()
         {
+            DataGridViewColumn dgvLevel = new DataGridViewTextBoxColumn();
+            {
+                dgvLevel.HeaderText = "Level";
+                dgvLevel.DisplayIndex = 0;
+                dgvLevel.Width = 45;
+                dgvLevel.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
             DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
             {
                 dgvMove.HeaderText = "Move";
-                dgvMove.DisplayIndex = 0;
+                dgvMove.DisplayIndex = 1;
                 for (int i = 0; i < movelist.Length; i++)
                     dgvMove.Items.Add(sortedmoves[i]); // add only the Names
 
                 dgvMove.Width = 135;
                 dgvMove.FlatStyle = FlatStyle.Flat;
             }
+            dgv.Columns.Add(dgvLevel);
             dgv.Columns.Add(dgvMove);
         }
         private void getList()
@@ -59,14 +67,29 @@ namespace pk3DS
             entry = Array.IndexOf(specieslist, CB_Species.Text);
             dgv.Rows.Clear();
             byte[] input = File.ReadAllBytes(files[entry]);
-            if (input.Length == 0) return;
-            int count = BitConverter.ToUInt16(input, 0);
-            if (count < 1) { File.WriteAllBytes(files[entry], new byte[0]); return; }
-            dgv.Rows.Add(count);
+            if (input.Length <= 4) { File.WriteAllBytes(files[entry], BitConverter.GetBytes((int)-1)); return; }
+
+            List<short> moves = new List<short>();
+            List<byte> levels = new List<byte>();
+            for (int i = 0; i < (input.Length / 4) - 1; i++)
+            {
+                short move = BitConverter.ToInt16(input, i * 4);
+                if (move < 0) continue;
+
+                moves.Add(move);
+                levels.Add(input[i * 4 + 2]);
+            }
+            short[] moveList = moves.ToArray();
+            byte[] levelList = levels.ToArray();
+
+            dgv.Rows.Add(moveList.Length);
 
             // Fill Entries
-            for (int i = 0; i < count; i++)
-                dgv.Rows[i].Cells[0].Value = movelist[BitConverter.ToUInt16(input, 2 + i * 2)];
+            for (int i = 0; i < moveList.Length; i++)
+            {
+                dgv.Rows[i].Cells[0].Value = levelList[i];
+                dgv.Rows[i].Cells[1].Value = movelist[moveList[i]];
+            }
 
             dgv.CancelEdit();
         }
@@ -74,18 +97,34 @@ namespace pk3DS
         {
             if (entry < 1 || dumping) return;
             List<ushort> moves = new List<ushort>();
+            List<ushort> levels = new List<ushort>();
             for (int i = 0; i < dgv.Rows.Count - 1; i++)
             {
-                int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[0].Value);
-                if (move > 0) moves.Add((ushort)move);
+                int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[1].Value);
+                if (move < 1) continue;
+                
+                moves.Add((ushort)move);
+                string level = (string)dgv.Rows[i].Cells[0].Value.ToString();
+                ushort lv = 1; 
+                UInt16.TryParse(level, out lv);
+                if (lv > 100) lv = 100;
+                else if (lv == 0) lv = 1;
+                levels.Add(lv);
             }
-            ushort[] movevals = moves.ToArray(); if (movevals.Length == 0) { File.WriteAllBytes(files[entry], new byte[0]); return; }
-            byte[] movedata = new byte[2 + movevals.Length * 2];
-            Array.Copy(BitConverter.GetBytes((ushort)movevals.Length), movedata, 2);
-            for (int i = 0; i < movevals.Length; i++)
-                Array.Copy(BitConverter.GetBytes((ushort)movevals[i]), 0, movedata, 2 + 2 * i, 2);
+            ushort[] movevals = moves.ToArray(); if (movevals.Length == 0) { File.WriteAllBytes(files[entry], BitConverter.GetBytes((int)-1)); return; }
+            ushort[] levelvals = levels.ToArray();
 
-            File.WriteAllBytes(files[entry], movedata);
+            byte[] data = new byte[4 + 4 * movevals.Length];
+            for (int i = 0; i < movevals.Length; i++)
+            {
+                Array.Copy(BitConverter.GetBytes((ushort)movevals[i]), 0, data, 4 * i, 2);
+                Array.Copy(BitConverter.GetBytes((ushort)levelvals[i]), 0, data, 2 + 4 * i, 2);
+            }
+
+            // Cap data
+            Array.Copy(BitConverter.GetBytes((int)-1), 0, data, data.Length - 4, 4);
+
+            File.WriteAllBytes(files[entry], data);
         }
 
         private void changeEntry(object sender, EventArgs e)
@@ -103,7 +142,7 @@ namespace pk3DS
                 getList();
                 int count = dgv.Rows.Count - 1;
                 for (int j = 0; j < count; j++)
-                    dgv.Rows[j].Cells[0].Value = movelist[rnd.Next(1, movelist.Length)];
+                    dgv.Rows[j].Cells[1].Value = movelist[rnd.Next(1, movelist.Length)];
             }
             setList();
             Util.Alert("All Pokemon's Egg Moves have been randomized!");
@@ -120,12 +159,12 @@ namespace pk3DS
                 CB_Species.SelectedIndex = i; // Get new Species
                 result += "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
                 for (int j = 0; j < dgv.Rows.Count - 1; j++)
-                    result += dgv.Rows[j].Cells[0].Value + Environment.NewLine;
+                    result += dgv.Rows[j].Cells[0].Value.ToString() + " - " + dgv.Rows[j].Cells[1].Value.ToString() + Environment.NewLine;
 
                 result += Environment.NewLine;
             }
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = "Egg Moves.txt";
+            sfd.FileName = "Level Up Moves.txt";
             sfd.Filter = "Text File|*.txt";
 
             System.Media.SystemSounds.Asterisk.Play();

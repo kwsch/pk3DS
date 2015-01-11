@@ -204,11 +204,13 @@ namespace pk3DS
                         bool compressed = false;
 
                         br.BaseStream.Position = garc.btaf.entries[i].start_offset + garc.data_offset;
-                        byte lzss;
-                        try
-                        { lzss = (byte)br.PeekChar(); }
-                        catch { lzss = 0; }
-
+                        byte lzss = 0;
+                        if (!skipDecompression)
+                        {
+                            try
+                            { lzss = (byte)br.PeekChar(); }
+                            catch { lzss = 0; }
+                        }
                         if (lzss == 0x11)
                             compressed = true;
                         else

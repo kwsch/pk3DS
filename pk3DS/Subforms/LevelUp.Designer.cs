@@ -1,6 +1,6 @@
 ﻿namespace pk3DS
 {
-    partial class EggMove
+    partial class LevelUp
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,7 @@
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.L_Species = new System.Windows.Forms.Label();
             this.B_RandAll = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.B_Dump = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -77,29 +77,30 @@
             this.B_RandAll.UseVisualStyleBackColor = true;
             this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
             // 
-            // button1
+            // B_Dump
             // 
-            this.button1.Location = new System.Drawing.Point(249, 10);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(46, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Dump";
-            this.button1.UseVisualStyleBackColor = true;
+            this.B_Dump.Location = new System.Drawing.Point(249, 10);
+            this.B_Dump.Name = "B_Dump";
+            this.B_Dump.Size = new System.Drawing.Size(46, 23);
+            this.B_Dump.TabIndex = 5;
+            this.B_Dump.Text = "Dump";
+            this.B_Dump.UseVisualStyleBackColor = true;
+            this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
-            // EggMove
+            // LevelUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(306, 412);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.B_Dump);
             this.Controls.Add(this.B_RandAll);
             this.Controls.Add(this.L_Species);
             this.Controls.Add(this.CB_Species);
             this.Controls.Add(this.dgv);
             this.MinimumSize = new System.Drawing.Size(322, 450);
-            this.Name = "EggMove";
+            this.Name = "LevelUp";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Egg Move Editor";
+            this.Text = "Level Up Move Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
@@ -113,6 +114,6 @@
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Label L_Species;
         private System.Windows.Forms.Button B_RandAll;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button B_Dump;
     }
 }
