@@ -61,7 +61,7 @@ namespace pk3DS
                 }
 
                 TB_Path.Text = path; GB_Tools.Enabled = true;
-                backupGARCs(false, "gametext", "storytext", "personal", "trpoke", "trdata");
+                backupGARCs(false, "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move");
                 L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY";
                 string exefs = Util.getExeFSFolder(path);
                 changeLanguage(null, null); // Trigger Text Loading
@@ -213,7 +213,29 @@ namespace pk3DS
         }
         private void B_MegaEvo_Click(object sender, EventArgs e)
         {
-            Util.Alert("Not implemented yet.");
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            new Thread(() =>
+            {
+                string megaevo = "megaevo";
+                string GARC = getGARCFileName(megaevo);
+                threadGet(TB_Path.Text + GARC, megaevo, true, true);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(50);
+
+                string personal = "personal";
+                string personalGARC = getGARCFileName(personal);
+                threadGet(TB_Path.Text + personalGARC, personal, true, true);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(50);
+
+                Invoke((Action)(() => { new MEE(oras).ShowDialog(); }));
+                // When closed, create a new thread to set the GARC back.
+
+                threadSet(TB_Path.Text + GARC, megaevo);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(50);
+                if (Directory.Exists(megaevo)) Directory.Delete(megaevo, true);
+            }).Start();
         }
         private void B_Item_Click(object sender, EventArgs e)
         {
@@ -283,7 +305,8 @@ namespace pk3DS
         }
         public void threadGet(string infile, string outfolder, bool PB = true, bool bypassExt = false)
         {
-            if (Directory.Exists(outfolder)) Directory.Delete(outfolder, true);
+            if (Directory.Exists(outfolder)) try { Directory.Delete(outfolder, true); }
+                catch { }
             Thread thread = new Thread(() => getGARC(infile, outfolder, PB, bypassExt));
             thread.Start(); threads++;
         }

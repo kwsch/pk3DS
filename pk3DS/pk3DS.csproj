@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MEE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MEE.Designer.cs">
+      <DependentUpon>MEE.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Evolution.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +117,9 @@
     </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MEE.resx">
+      <DependentUpon>MEE.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Evolution.resx">
       <DependentUpon>Evolution.cs</DependentUpon>
@@ -4526,6 +4535,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\img\item\item_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\helditem.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
