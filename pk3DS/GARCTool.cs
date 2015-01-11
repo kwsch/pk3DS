@@ -309,9 +309,8 @@ namespace pk3DS
             {
                 uint val = br.ReadUInt32();
                 if (garc.otaf.padding == 0xffff)
-                {
                     val = Util.Reverse(val);
-                }
+
                 garc.otaf.entries[i].name = val.ToString();
             }
 
