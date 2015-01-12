@@ -600,5 +600,97 @@ namespace pk3DS
                     return check;
             return null;
         }
+
+        internal static void packMini(string path, string ident, string fileName, string outExt = null, string outFolder = null)
+        {
+            if (outFolder == null) outFolder = path;
+            if (outExt == null) outExt = ".bin";
+            // Create new Binary with the relevant header bytes
+            byte[] data = new byte[4];
+            data[0] = (byte)ident[0];
+            data[1] = (byte)ident[1];
+            string[] files = Directory.GetFiles(path);
+            Array.Copy(BitConverter.GetBytes((ushort)files.Length), 0, data, 2, 2);
+
+            int count = files.Length;
+            int dataOffset = 4 + 4 + count * 4;
+
+            // Start the data filling.
+            using (MemoryStream dataout = new MemoryStream())
+            using (MemoryStream offsetMap = new MemoryStream())
+            using (BinaryWriter bd = new BinaryWriter(dataout))
+            using (BinaryWriter bo = new BinaryWriter(offsetMap))
+            {
+                // For each file...
+                for (int i = 0; i < count; i++)
+                {
+                    // Write File Offset
+                    uint fileOffset = (uint)(dataout.Position + dataOffset);
+                    bo.Write((uint)fileOffset);
+
+                    // Write File to Stream
+                    bd.Write(File.ReadAllBytes(files[i]));
+
+                    // Pad the Data MemoryStream with Zeroes until len%4=0;
+                    while (dataout.Length % 4 != 0)
+                        bd.Write((byte)0);
+                    // File Offset will be updated as the offset is based off of the Data length.
+
+                    // Delete the File
+                    File.Delete(files[i]);
+                }
+                // Cap the File
+                bo.Write((uint)(dataout.Position + dataOffset));
+
+                using (var newPack = File.Create(Path.Combine(outFolder, fileName + outExt)))
+                using (var header = new MemoryStream(data))
+                {
+                    header.WriteTo(newPack);
+                    offsetMap.WriteTo(newPack);
+                    dataout.WriteTo(newPack);
+                }
+            }
+        }
+        internal static void unpackMini(string path, string ident, string outFolder = null)
+        {
+            if (outFolder == null) outFolder = Path.GetDirectoryName(path);
+
+            using (var s = new FileStream(path, FileMode.Open))
+            using (var br = new BinaryReader(s))
+            {
+                string fx = new string(br.ReadChars(2));
+
+                if (fx != ident) return;
+
+                ushort count = br.ReadUInt16();
+                string namePad = "D" + Math.Ceiling(Math.Log10(count)); 
+                uint[] offsets = new uint[count + 1];
+                for (int i = 0; i < count; i++)
+                    offsets[i] = br.ReadUInt32();
+
+                uint length = br.ReadUInt32();
+                offsets[offsets.Length - 1] = length;
+
+                for (int i = 0; i < count; i++)
+                {
+                    br.BaseStream.Seek(offsets[i], SeekOrigin.Begin);
+                    using (MemoryStream dataout = new MemoryStream())
+                    {
+                        byte[] data = new byte[0];
+                        s.CopyTo(dataout, (int)offsets[i]);
+                        int len = (int)offsets[i + 1] - (int)offsets[i];
+
+                        if (len != 0)
+                        {
+                            data = dataout.ToArray(); 
+                            Array.Resize(ref data, len);
+                        }
+                        string newFile = Path.Combine(outFolder, i.ToString(namePad) + ".bin");
+                        File.WriteAllBytes(newFile, data);
+                    }
+                }
+            }
+            File.Delete(path); // File is unpacked.
+        }
     }
 }

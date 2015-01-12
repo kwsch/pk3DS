@@ -249,7 +249,23 @@ namespace pk3DS
         }
         private void B_Move_Click(object sender, EventArgs e)
         {
-            Util.Alert("Not implemented yet.");
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            new Thread(() =>
+            {
+                string toEdit = "move";
+                string GARC = getGARCFileName(toEdit);
+                threadGet(TB_Path.Text + GARC, toEdit, true, true);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(100);
+
+                Invoke((Action)(() => { new Moves(oras).ShowDialog(); }));
+
+                //// When closed, create a new thread to set the GARC back.
+                //threadSet(TB_Path.Text + GARC, toEdit);
+                //while (threads > 0) // Let threads complete
+                //    Thread.Sleep(100);
+                //if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
+            }).Start();
         }
         private void B_LevelUp_Click(object sender, EventArgs e)
         {
@@ -425,8 +441,6 @@ namespace pk3DS
                 "Mega Evolution Editor (MEE): Huntereb & SciresM" + Environment.NewLine +
                 "Evolutions, Moves, and Items and more have yet to be implemented.",
                 "Big thanks to the ProjectPokemon community!");
-        }
-
-        
+        }        
     }
 }
