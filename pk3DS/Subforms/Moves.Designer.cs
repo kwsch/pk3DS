@@ -44,9 +44,9 @@
             this.NUD_Priority = new System.Windows.Forms.NumericUpDown();
             this.NUD_PP = new System.Windows.Forms.NumericUpDown();
             this.NUD_Power = new System.Windows.Forms.NumericUpDown();
-            this.NUD_TrapMin = new System.Windows.Forms.NumericUpDown();
+            this.NUD_TurnMin = new System.Windows.Forms.NumericUpDown();
             this.L_TrapMin = new System.Windows.Forms.Label();
-            this.NUD_TrapMax = new System.Windows.Forms.NumericUpDown();
+            this.NUD_TurnMax = new System.Windows.Forms.NumericUpDown();
             this.L_TrapMax = new System.Windows.Forms.Label();
             this.NUD_Recoil = new System.Windows.Forms.NumericUpDown();
             this.L_Recoil = new System.Windows.Forms.Label();
@@ -57,6 +57,9 @@
             this.NUD_Flinch = new System.Windows.Forms.NumericUpDown();
             this.L_Flinch = new System.Windows.Forms.Label();
             this.GB_Stat = new System.Windows.Forms.GroupBox();
+            this.NUD_StatP3 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_StatP2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_StatP1 = new System.Windows.Forms.NumericUpDown();
             this.NUD_Stat2 = new System.Windows.Forms.NumericUpDown();
             this.NUD_Stat3 = new System.Windows.Forms.NumericUpDown();
             this.NUD_Stat1 = new System.Windows.Forms.NumericUpDown();
@@ -79,9 +82,6 @@
             this.L_Accuracy = new System.Windows.Forms.Label();
             this.CB_Quality = new System.Windows.Forms.ComboBox();
             this.L_Quality = new System.Windows.Forms.Label();
-            this.NUD_StatP1 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_StatP2 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_StatP3 = new System.Windows.Forms.NumericUpDown();
             this.L_0xB = new System.Windows.Forms.Label();
             this.NUD_0xB = new System.Windows.Forms.NumericUpDown();
             this.NUD_0x20 = new System.Windows.Forms.NumericUpDown();
@@ -93,22 +93,22 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Priority)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_PP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Power)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_TrapMin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_TrapMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TurnMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TurnMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Recoil)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Heal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CritStage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Flinch)).BeginInit();
             this.GB_Stat.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_StatP3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_StatP2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_StatP1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Inflict)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Effect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Accuracy)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_StatP1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_StatP2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_StatP3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0xB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0x20)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0x21)).BeginInit();
@@ -286,48 +286,48 @@
             this.NUD_Power.Size = new System.Drawing.Size(45, 20);
             this.NUD_Power.TabIndex = 22;
             // 
-            // NUD_TrapMin
+            // NUD_TurnMin
             // 
-            this.NUD_TrapMin.Location = new System.Drawing.Point(290, 172);
-            this.NUD_TrapMin.Maximum = new decimal(new int[] {
+            this.NUD_TurnMin.Location = new System.Drawing.Point(290, 172);
+            this.NUD_TurnMin.Maximum = new decimal(new int[] {
             15,
             0,
             0,
             0});
-            this.NUD_TrapMin.Name = "NUD_TrapMin";
-            this.NUD_TrapMin.Size = new System.Drawing.Size(30, 20);
-            this.NUD_TrapMin.TabIndex = 26;
+            this.NUD_TurnMin.Name = "NUD_TurnMin";
+            this.NUD_TurnMin.Size = new System.Drawing.Size(30, 20);
+            this.NUD_TurnMin.TabIndex = 26;
             // 
             // L_TrapMin
             // 
             this.L_TrapMin.AutoSize = true;
-            this.L_TrapMin.Location = new System.Drawing.Point(232, 174);
+            this.L_TrapMin.Location = new System.Drawing.Point(227, 174);
             this.L_TrapMin.Name = "L_TrapMin";
-            this.L_TrapMin.Size = new System.Drawing.Size(52, 13);
+            this.L_TrapMin.Size = new System.Drawing.Size(57, 13);
             this.L_TrapMin.TabIndex = 23;
-            this.L_TrapMin.Text = "Min Trap:";
+            this.L_TrapMin.Text = "Min Turns:";
             this.L_TrapMin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // NUD_TrapMax
+            // NUD_TurnMax
             // 
-            this.NUD_TrapMax.Location = new System.Drawing.Point(290, 193);
-            this.NUD_TrapMax.Maximum = new decimal(new int[] {
+            this.NUD_TurnMax.Location = new System.Drawing.Point(290, 193);
+            this.NUD_TurnMax.Maximum = new decimal(new int[] {
             15,
             0,
             0,
             0});
-            this.NUD_TrapMax.Name = "NUD_TrapMax";
-            this.NUD_TrapMax.Size = new System.Drawing.Size(30, 20);
-            this.NUD_TrapMax.TabIndex = 25;
+            this.NUD_TurnMax.Name = "NUD_TurnMax";
+            this.NUD_TurnMax.Size = new System.Drawing.Size(30, 20);
+            this.NUD_TurnMax.TabIndex = 25;
             // 
             // L_TrapMax
             // 
             this.L_TrapMax.AutoSize = true;
-            this.L_TrapMax.Location = new System.Drawing.Point(229, 195);
+            this.L_TrapMax.Location = new System.Drawing.Point(224, 195);
             this.L_TrapMax.Name = "L_TrapMax";
-            this.L_TrapMax.Size = new System.Drawing.Size(55, 13);
+            this.L_TrapMax.Size = new System.Drawing.Size(60, 13);
             this.L_TrapMax.TabIndex = 24;
-            this.L_TrapMax.Text = "Max Trap:";
+            this.L_TrapMax.Text = "Max Turns:";
             this.L_TrapMax.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_Recoil
@@ -438,6 +438,42 @@
             this.GB_Stat.TabIndex = 35;
             this.GB_Stat.TabStop = false;
             this.GB_Stat.Text = "Stat Stage Changes";
+            // 
+            // NUD_StatP3
+            // 
+            this.NUD_StatP3.Location = new System.Drawing.Point(165, 68);
+            this.NUD_StatP3.Maximum = new decimal(new int[] {
+            101,
+            0,
+            0,
+            0});
+            this.NUD_StatP3.Name = "NUD_StatP3";
+            this.NUD_StatP3.Size = new System.Drawing.Size(40, 20);
+            this.NUD_StatP3.TabIndex = 44;
+            // 
+            // NUD_StatP2
+            // 
+            this.NUD_StatP2.Location = new System.Drawing.Point(165, 46);
+            this.NUD_StatP2.Maximum = new decimal(new int[] {
+            101,
+            0,
+            0,
+            0});
+            this.NUD_StatP2.Name = "NUD_StatP2";
+            this.NUD_StatP2.Size = new System.Drawing.Size(40, 20);
+            this.NUD_StatP2.TabIndex = 43;
+            // 
+            // NUD_StatP1
+            // 
+            this.NUD_StatP1.Location = new System.Drawing.Point(165, 24);
+            this.NUD_StatP1.Maximum = new decimal(new int[] {
+            101,
+            0,
+            0,
+            0});
+            this.NUD_StatP1.Name = "NUD_StatP1";
+            this.NUD_StatP1.Size = new System.Drawing.Size(40, 20);
+            this.NUD_StatP1.TabIndex = 42;
             // 
             // NUD_Stat2
             // 
@@ -682,42 +718,6 @@
             this.L_Quality.Text = "Qualities:";
             this.L_Quality.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // NUD_StatP1
-            // 
-            this.NUD_StatP1.Location = new System.Drawing.Point(165, 24);
-            this.NUD_StatP1.Maximum = new decimal(new int[] {
-            101,
-            0,
-            0,
-            0});
-            this.NUD_StatP1.Name = "NUD_StatP1";
-            this.NUD_StatP1.Size = new System.Drawing.Size(40, 20);
-            this.NUD_StatP1.TabIndex = 42;
-            // 
-            // NUD_StatP2
-            // 
-            this.NUD_StatP2.Location = new System.Drawing.Point(165, 46);
-            this.NUD_StatP2.Maximum = new decimal(new int[] {
-            101,
-            0,
-            0,
-            0});
-            this.NUD_StatP2.Name = "NUD_StatP2";
-            this.NUD_StatP2.Size = new System.Drawing.Size(40, 20);
-            this.NUD_StatP2.TabIndex = 43;
-            // 
-            // NUD_StatP3
-            // 
-            this.NUD_StatP3.Location = new System.Drawing.Point(165, 68);
-            this.NUD_StatP3.Maximum = new decimal(new int[] {
-            101,
-            0,
-            0,
-            0});
-            this.NUD_StatP3.Name = "NUD_StatP3";
-            this.NUD_StatP3.Size = new System.Drawing.Size(40, 20);
-            this.NUD_StatP3.TabIndex = 44;
-            // 
             // L_0xB
             // 
             this.L_0xB.AutoSize = true;
@@ -817,9 +817,9 @@
             this.Controls.Add(this.L_CritStage);
             this.Controls.Add(this.NUD_Flinch);
             this.Controls.Add(this.L_Flinch);
-            this.Controls.Add(this.NUD_TrapMin);
+            this.Controls.Add(this.NUD_TurnMin);
             this.Controls.Add(this.L_TrapMin);
-            this.Controls.Add(this.NUD_TrapMax);
+            this.Controls.Add(this.NUD_TurnMax);
             this.Controls.Add(this.L_TrapMax);
             this.Controls.Add(this.L_Type);
             this.Controls.Add(this.L_BP);
@@ -849,23 +849,23 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Priority)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_PP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Power)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_TrapMin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_TrapMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TurnMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TurnMax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Recoil)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Heal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CritStage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Flinch)).EndInit();
             this.GB_Stat.ResumeLayout(false);
             this.GB_Stat.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_StatP3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_StatP2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_StatP1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Inflict)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Effect)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Accuracy)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_StatP1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_StatP2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_StatP3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0xB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0x20)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0x21)).EndInit();
@@ -892,9 +892,9 @@
         private System.Windows.Forms.NumericUpDown NUD_Priority;
         private System.Windows.Forms.NumericUpDown NUD_PP;
         private System.Windows.Forms.NumericUpDown NUD_Power;
-        private System.Windows.Forms.NumericUpDown NUD_TrapMin;
+        private System.Windows.Forms.NumericUpDown NUD_TurnMin;
         private System.Windows.Forms.Label L_TrapMin;
-        private System.Windows.Forms.NumericUpDown NUD_TrapMax;
+        private System.Windows.Forms.NumericUpDown NUD_TurnMax;
         private System.Windows.Forms.Label L_TrapMax;
         private System.Windows.Forms.NumericUpDown NUD_Recoil;
         private System.Windows.Forms.Label L_Recoil;

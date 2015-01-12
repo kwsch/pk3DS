@@ -80,7 +80,7 @@ namespace pk3DS
             if (entry < 1) return;
             byte[] data = File.ReadAllBytes(files[entry]);
             {
-                string flavor = moveflavor[entry].Replace("\\n", " ");
+                string flavor = moveflavor[entry].Replace("\\n", Environment.NewLine);
                 RTB.Text = flavor;
 
                 CB_Type.SelectedIndex = data[0x00];
@@ -99,8 +99,8 @@ namespace pk3DS
                     CB_Inflict.SelectedIndex = CB_Inflict.Items.Count - 1;
                 NUD_Inflict.Value = data[0xA];
                 NUD_0xB.Value = data[0xB]; // 0xB ~ Something to deal with skipImmunity
-                NUD_TrapMin.Value = data[0xC];
-                NUD_TrapMax.Value = data[0xD];
+                NUD_TurnMin.Value = data[0xC];
+                NUD_TurnMax.Value = data[0xD];
                 NUD_CritStage.Value = data[0xE];
                 NUD_Flinch.Value = data[0xF];
                 NUD_Effect.Value = BitConverter.ToUInt16(data, 0x10);
@@ -146,8 +146,8 @@ namespace pk3DS
                 Array.Copy(BitConverter.GetBytes((short)inflictval), 0, data, 0x08, 2);
                 data[0x0A] = (byte)NUD_Inflict.Value;
                 data[0x0B] = (byte)NUD_0xB.Value;
-                data[0x0C] = (byte)NUD_TrapMin.Value;
-                data[0x0D] = (byte)NUD_TrapMax.Value;
+                data[0x0C] = (byte)NUD_TurnMin.Value;
+                data[0x0D] = (byte)NUD_TurnMax.Value;
                 data[0x0E] = (byte)NUD_CritStage.Value;
                 data[0x0F] = (byte)NUD_Flinch.Value;
                 Array.Copy(BitConverter.GetBytes((ushort)NUD_Effect.Value), 0, data, 0x10, 2);
