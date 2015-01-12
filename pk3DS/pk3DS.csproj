@@ -108,6 +108,12 @@
     <Compile Include="Subforms\RSTE.Designer.cs">
       <DependentUpon>RSTE.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\XYWE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\XYWE.designer.cs">
+      <DependentUpon>XYWE.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="Subforms\xytext.cs">
       <SubType>Form</SubType>
@@ -151,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\xytext.resx">
       <DependentUpon>xytext.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\XYWE.resx">
+      <DependentUpon>XYWE.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

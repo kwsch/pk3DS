@@ -174,7 +174,6 @@ namespace pk3DS
         private void B_Wild_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            if (!oras) { Util.Alert("X/Y not supported yet."); return; }
             new Thread(() =>
             {
                 string encdata = "encdata";
@@ -183,7 +182,14 @@ namespace pk3DS
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(50);
 
-                Invoke((Action)(() => { new RSWE(oras, Directory.GetFiles(encdata)).ShowDialog(); }));
+                if (oras)
+                {
+                    Invoke((Action)(() => { new RSWE(oras, Directory.GetFiles(encdata)).ShowDialog(); }));
+                }
+                else
+                {
+                    Invoke((Action)(() => { new XYWE(oras, Directory.GetFiles(encdata)).ShowDialog(); }));
+                }
                 // When closed, create a new thread to set the GARC back.
 
                 threadSet(TB_Path.Text + encdataGARC, encdata);
