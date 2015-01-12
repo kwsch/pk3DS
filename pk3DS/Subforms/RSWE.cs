@@ -610,7 +610,7 @@ namespace pk3DS
                                 form[slot].Value = rnd32() % 28;
                             else if (species == 670) // Floette
                                 form[slot].Value = rnd32() % 6;
-                            else if (species == 710 || species == 713) // Pumpkaboo
+                            else if (species == 710 || species == 711) // Pumpkaboo
                                 form[slot].Value = rnd32() % 4;
                             else
                                 form[slot].Value = 0;
