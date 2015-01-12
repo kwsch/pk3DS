@@ -31,6 +31,9 @@
             this.B_Open = new System.Windows.Forms.Button();
             this.TB_Path = new System.Windows.Forms.TextBox();
             this.GB_Tools = new System.Windows.Forms.GroupBox();
+            this.B_Maison = new System.Windows.Forms.Button();
+            this.B_EggMove = new System.Windows.Forms.Button();
+            this.B_LevelUp = new System.Windows.Forms.Button();
             this.B_StoryText = new System.Windows.Forms.Button();
             this.B_Item = new System.Windows.Forms.Button();
             this.B_Move = new System.Windows.Forms.Button();
@@ -45,9 +48,6 @@
             this.L_Game = new System.Windows.Forms.Label();
             this.pBar1 = new System.Windows.Forms.ProgressBar();
             this.L_About = new System.Windows.Forms.Label();
-            this.B_LevelUp = new System.Windows.Forms.Button();
-            this.B_EggMove = new System.Windows.Forms.Button();
-            this.B_ExeFS = new System.Windows.Forms.Button();
             this.GB_Tools.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,7 +75,7 @@
             // 
             this.GB_Tools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.GB_Tools.Controls.Add(this.B_ExeFS);
+            this.GB_Tools.Controls.Add(this.B_Maison);
             this.GB_Tools.Controls.Add(this.B_EggMove);
             this.GB_Tools.Controls.Add(this.B_LevelUp);
             this.GB_Tools.Controls.Add(this.B_StoryText);
@@ -94,6 +94,37 @@
             this.GB_Tools.TabIndex = 2;
             this.GB_Tools.TabStop = false;
             this.GB_Tools.Text = "ROM Editing Tools";
+            // 
+            // B_Maison
+            // 
+            this.B_Maison.Enabled = false;
+            this.B_Maison.Location = new System.Drawing.Point(112, 77);
+            this.B_Maison.Name = "B_Maison";
+            this.B_Maison.Size = new System.Drawing.Size(100, 23);
+            this.B_Maison.TabIndex = 11;
+            this.B_Maison.Text = "Maison Editor";
+            this.B_Maison.UseVisualStyleBackColor = true;
+            this.B_Maison.Click += new System.EventHandler(this.B_ExeFS_Click);
+            // 
+            // B_EggMove
+            // 
+            this.B_EggMove.Location = new System.Drawing.Point(324, 48);
+            this.B_EggMove.Name = "B_EggMove";
+            this.B_EggMove.Size = new System.Drawing.Size(100, 23);
+            this.B_EggMove.TabIndex = 10;
+            this.B_EggMove.Text = "Egg Move Editor";
+            this.B_EggMove.UseVisualStyleBackColor = true;
+            this.B_EggMove.Click += new System.EventHandler(this.B_EggMove_Click);
+            // 
+            // B_LevelUp
+            // 
+            this.B_LevelUp.Location = new System.Drawing.Point(324, 19);
+            this.B_LevelUp.Name = "B_LevelUp";
+            this.B_LevelUp.Size = new System.Drawing.Size(100, 23);
+            this.B_LevelUp.TabIndex = 9;
+            this.B_LevelUp.Text = "Level Up Editor";
+            this.B_LevelUp.UseVisualStyleBackColor = true;
+            this.B_LevelUp.Click += new System.EventHandler(this.B_LevelUp_Click);
             // 
             // B_StoryText
             // 
@@ -157,7 +188,7 @@
             // 
             // B_Wild
             // 
-            this.B_Wild.Location = new System.Drawing.Point(112, 77);
+            this.B_Wild.Location = new System.Drawing.Point(112, 48);
             this.B_Wild.Name = "B_Wild";
             this.B_Wild.Size = new System.Drawing.Size(100, 23);
             this.B_Wild.TabIndex = 2;
@@ -167,7 +198,7 @@
             // 
             // B_Trainer
             // 
-            this.B_Trainer.Location = new System.Drawing.Point(112, 48);
+            this.B_Trainer.Location = new System.Drawing.Point(6, 77);
             this.B_Trainer.Name = "B_Trainer";
             this.B_Trainer.Size = new System.Drawing.Size(100, 23);
             this.B_Trainer.TabIndex = 1;
@@ -244,37 +275,6 @@
             this.L_About.Text = "[A]";
             this.L_About.Click += new System.EventHandler(this.L_About_Click);
             // 
-            // B_LevelUp
-            // 
-            this.B_LevelUp.Location = new System.Drawing.Point(324, 19);
-            this.B_LevelUp.Name = "B_LevelUp";
-            this.B_LevelUp.Size = new System.Drawing.Size(100, 23);
-            this.B_LevelUp.TabIndex = 9;
-            this.B_LevelUp.Text = "Level Up Editor";
-            this.B_LevelUp.UseVisualStyleBackColor = true;
-            this.B_LevelUp.Click += new System.EventHandler(this.B_LevelUp_Click);
-            // 
-            // B_EggMove
-            // 
-            this.B_EggMove.Location = new System.Drawing.Point(324, 48);
-            this.B_EggMove.Name = "B_EggMove";
-            this.B_EggMove.Size = new System.Drawing.Size(100, 23);
-            this.B_EggMove.TabIndex = 10;
-            this.B_EggMove.Text = "EggMove Editor";
-            this.B_EggMove.UseVisualStyleBackColor = true;
-            this.B_EggMove.Click += new System.EventHandler(this.B_EggMove_Click);
-            // 
-            // B_ExeFS
-            // 
-            this.B_ExeFS.Enabled = false;
-            this.B_ExeFS.Location = new System.Drawing.Point(6, 77);
-            this.B_ExeFS.Name = "B_ExeFS";
-            this.B_ExeFS.Size = new System.Drawing.Size(100, 23);
-            this.B_ExeFS.TabIndex = 11;
-            this.B_ExeFS.Text = "ExeFS Code.bin";
-            this.B_ExeFS.UseVisualStyleBackColor = true;
-            this.B_ExeFS.Click += new System.EventHandler(this.B_ExeFS_Click);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -288,7 +288,7 @@
             this.Controls.Add(this.GB_Tools);
             this.Controls.Add(this.TB_Path);
             this.Controls.Add(this.B_Open);
-            this.MaximumSize = new System.Drawing.Size(800, 240);
+            this.MaximumSize = new System.Drawing.Size(470, 240);
             this.MinimumSize = new System.Drawing.Size(470, 240);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -319,7 +319,7 @@
         private System.Windows.Forms.Label L_Game;
         private System.Windows.Forms.ProgressBar pBar1;
         private System.Windows.Forms.Label L_About;
-        private System.Windows.Forms.Button B_ExeFS;
+        private System.Windows.Forms.Button B_Maison;
         private System.Windows.Forms.Button B_EggMove;
         private System.Windows.Forms.Button B_LevelUp;
     }
