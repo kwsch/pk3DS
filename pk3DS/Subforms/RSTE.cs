@@ -12,11 +12,11 @@ namespace pk3DS
 {
     public partial class RSTE : Form
     {
-        public RSTE(bool rom_oras, string[] trdata, string[] trpoke)
+        public RSTE(bool rom_oras)
         {
             oras = rom_oras;
-            trdatapaths = trdata;
-            trpokepaths = trpoke;
+            trdatapaths = Directory.GetFiles("trdata");
+            trpokepaths = Directory.GetFiles("trpoke");
             abilitylist = Main.getText((oras) ? 37 : 34);
             movelist = Main.getText((oras) ? 14 : 13);
             itemlist = Main.getText((oras) ? 114 : 96);

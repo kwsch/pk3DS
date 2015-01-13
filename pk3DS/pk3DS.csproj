@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Maison.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Maison.Designer.cs">
+      <DependentUpon>Maison.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\MEE.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +135,9 @@
     </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Maison.resx">
+      <DependentUpon>Maison.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\MEE.resx">
       <DependentUpon>MEE.cs</DependentUpon>

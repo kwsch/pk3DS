@@ -61,7 +61,8 @@ namespace pk3DS
                 }
 
                 TB_Path.Text = path; GB_Tools.Enabled = true;
-                backupGARCs(false, "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move");
+                backupGARCs(false, "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN");
+                
                 L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY";
                 string exefs = Util.getExeFSFolder(path);
                 changeLanguage(null, null); // Trigger Text Loading
@@ -111,9 +112,38 @@ namespace pk3DS
                 if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
             }).Start();
         }
-        private void B_ExeFS_Click(object sender, EventArgs e)
+        private void B_Maison_Click(object sender, EventArgs e)
         {
-            Util.Alert("Not implemented yet.");
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Edit Super Maison instead of Normal Maison?", "Yes = Super, No = Normal, Cancel = Abort");
+            if (dr == DialogResult.Cancel) return;
+            
+            new Thread(() =>
+                {
+            bool super = (dr == DialogResult.Yes);
+            string mtr = (super) ? "maisontrS" : "maisontrN";
+            string mtrGARC = getGARCFileName(mtr);
+            threadGet(TB_Path.Text + mtrGARC, mtr, true, true);
+            while (threads > 0) // Let threads complete
+                Thread.Sleep(50);
+
+            string mpk = (super) ? "maisonpkS" : "maisontrS";
+            string mpkGARC = getGARCFileName(mpk);
+            threadGet(TB_Path.Text + mpkGARC, mpk, true, true);
+            while (threads > 0) // Let threads complete
+                Thread.Sleep(50);
+
+            //threadSet(TB_Path.Text + mtrGARC, mtr);
+            //while (threads > 0) // Let threads complete
+            //    Thread.Sleep(100);
+            //if (Directory.Exists(mtr)) Directory.Delete(mtr, true);
+
+            //threadSet(TB_Path.Text + mpkGARC, mpk);
+            //while (threads > 0) // Let threads complete
+            //    Thread.Sleep(100);
+            //if (Directory.Exists(mpk)) Directory.Delete(mpk, true);
+
+            }).Start();
         }
         private void B_Personal_Click(object sender, EventArgs e)
         {
@@ -157,7 +187,7 @@ namespace pk3DS
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
 
-                Invoke((Action)(() => { new RSTE(oras, Directory.GetFiles(trdata), Directory.GetFiles(trpoke)).ShowDialog(); }));
+                Invoke((Action)(() => { new RSTE(oras).ShowDialog(); }));
                 // When closed, create a new thread to set the GARC back.
 
                 threadSet(TB_Path.Text + trdataGARC, trdata);
@@ -183,13 +213,9 @@ namespace pk3DS
                     Thread.Sleep(50);
 
                 if (oras)
-                {
-                    Invoke((Action)(() => { new RSWE(oras, Directory.GetFiles(encdata)).ShowDialog(); }));
-                }
+                { Invoke((Action)(() => { new RSWE(oras).ShowDialog(); })); }
                 else
-                {
-                    Invoke((Action)(() => { new XYWE(oras, Directory.GetFiles(encdata)).ShowDialog(); }));
-                }
+                { Invoke((Action)(() => { new XYWE(oras).ShowDialog(); })); }
                 // When closed, create a new thread to set the GARC back.
 
                 threadSet(TB_Path.Text + encdataGARC, encdata);
@@ -347,30 +373,22 @@ namespace pk3DS
             string ans = "";
             switch (request)
             {
-                case "encdata": ans = (oras) ? getFileName(0, 1, 3) : getFileName(0, 1, 2);
-                    break;
-                case "gametext": ans = (oras) ? getFileName(0, 7, 1 + lang) : getFileName(0, 7, 2 + lang);
-                    break;
-                case "storytext": ans = (oras) ? getFileName(0, 7 + ((lang + 9) / 10), (10 + (lang + 9)) % 10) : getFileName(0, 8, lang);
-                    break;
-                case "trdata": ans = (oras) ? getFileName(0, 3, 6) : getFileName(0, 3, 8);
-                    break;
-                case "trpoke": ans = (oras) ? getFileName(0, 3, 8) : getFileName(0, 4, 0);
-                    break;
-                case "move": ans = (oras) ? getFileName(1, 8, 9) : getFileName(2, 1, 2);
-                    break;
-                case "eggmove": ans = (oras) ? getFileName(1, 9, 0) : getFileName(2, 1, 3);
-                    break;
-                case "levelup": ans = (oras) ? getFileName(1, 9, 1) : getFileName(2, 1, 4);
-                    break;
-                case "evolution": ans = (oras) ? getFileName(1, 9, 2) : getFileName(2, 1, 5);
-                    break;
-                case "megaevo": ans = (oras) ? getFileName(1, 9, 3) : getFileName(2, 1, 6);
-                    break;
-                case "personal": ans = (oras) ? getFileName(1, 9, 5) : getFileName(2, 1, 8);
-                    break;
-                case "item": ans = (oras) ? getFileName(1, 9, 7) : getFileName(2, 2, 0);
-                    break;
+                case "encdata": ans = (oras) ? getFileName(0, 1, 3) : getFileName(0, 1, 2); break;
+                case "gametext": ans = (oras) ? getFileName(0, 7, 1 + lang) : getFileName(0, 7, 2 + lang); break;
+                case "storytext": ans = (oras) ? getFileName(0, 7 + ((lang + 9) / 10), (10 + (lang + 9)) % 10) : getFileName(0, 8, lang); break;
+                case "trdata": ans = (oras) ? getFileName(0, 3, 6) : getFileName(0, 3, 8); break;
+                case "trpoke": ans = (oras) ? getFileName(0, 3, 8) : getFileName(0, 4, 0); break;
+                case "move": ans = (oras) ? getFileName(1, 8, 9) : getFileName(2, 1, 2); break;
+                case "eggmove": ans = (oras) ? getFileName(1, 9, 0) : getFileName(2, 1, 3); break;
+                case "levelup": ans = (oras) ? getFileName(1, 9, 1) : getFileName(2, 1, 4); break;
+                case "evolution": ans = (oras) ? getFileName(1, 9, 2) : getFileName(2, 1, 5); break;
+                case "megaevo": ans = (oras) ? getFileName(1, 9, 3) : getFileName(2, 1, 6); break;
+                case "personal": ans = (oras) ? getFileName(1, 9, 5) : getFileName(2, 1, 8); break;
+                case "item": ans = (oras) ? getFileName(1, 9, 7) : getFileName(2, 2, 0); break;
+                case "maisonpkS": ans = (oras) ? getFileName(1, 8, 2) : getFileName(2, 0, 3); break;
+                case "maisontrS": ans = (oras) ? getFileName(1, 8, 3) : getFileName(2, 0, 4); break;
+                case "maisonpkN": ans = (oras) ? getFileName(1, 8, 4) : getFileName(2, 0, 5); break;
+                case "maisontrN": ans = (oras) ? getFileName(1, 8, 5) : getFileName(2, 0, 6); break;
             }
             return ans;
         }

@@ -97,14 +97,13 @@
             // 
             // B_Maison
             // 
-            this.B_Maison.Enabled = false;
             this.B_Maison.Location = new System.Drawing.Point(112, 77);
             this.B_Maison.Name = "B_Maison";
             this.B_Maison.Size = new System.Drawing.Size(100, 23);
             this.B_Maison.TabIndex = 11;
             this.B_Maison.Text = "Maison Editor";
             this.B_Maison.UseVisualStyleBackColor = true;
-            this.B_Maison.Click += new System.EventHandler(this.B_ExeFS_Click);
+            this.B_Maison.Click += new System.EventHandler(this.B_Maison_Click);
             // 
             // B_EggMove
             // 

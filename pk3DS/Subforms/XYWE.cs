@@ -15,10 +15,9 @@ namespace pk3DS
     public partial class XYWE : Form
     {
         private bool oras = false;
-        public XYWE(bool rom_oras, string[] encdata)
+        public XYWE(bool rom_oras)
         {
-            InitializeComponent();
-            Console.WriteLine("Started XYWE");      
+            InitializeComponent();      
             oras = rom_oras;
             spec = new ComboBox[] 
             {
@@ -277,7 +276,7 @@ namespace pk3DS
             "Megas-Mega (Y) - 2",
             };
             Load_XYWE(null, null);
-            openQuick(encdata);
+            openQuick(Directory.GetFiles("encdata"));
         }
         private ComboBox[] spec;
         private NumericUpDown[] min;

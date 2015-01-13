@@ -15,7 +15,7 @@ namespace pk3DS
     public partial class RSWE : Form
     {
         private bool oras;
-        public RSWE(bool rom_oras, string[] encdata)
+        public RSWE(bool rom_oras)
         {
             InitializeComponent();
             Console.WriteLine("Started RSWE");
@@ -271,7 +271,7 @@ namespace pk3DS
             "Megas-Mega (Y) - 2",
             };
             RSWE_Load(null, null);
-            openQuick(encdata);
+            openQuick(Directory.GetFiles("encdata"));
         }
         private ComboBox[] spec;
         private NumericUpDown[] min;
