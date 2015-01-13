@@ -44,6 +44,7 @@ namespace pk3DS
         string[] itemlist;
         int trEntry = -1;
         int pkEntry = -1;
+        bool dumping = false;
         private void Setup()
         {
             foreach (string s in trClass) CB_Class.Items.Add(s);
@@ -87,7 +88,7 @@ namespace pk3DS
         }
         private void setTrainer()
         {
-            if (trEntry < 0 || !GB_Trainer.Enabled) return;
+            if (trEntry < 0 || !GB_Trainer.Enabled || dumping) return;
             // Gather
             int trclass = CB_Class.SelectedIndex;
             int count = LB_Choices.Items.Count;
@@ -108,7 +109,7 @@ namespace pk3DS
         }
         private void getPokemon()
         {
-            if (pkEntry < 0) return;
+            if (pkEntry < 0 || dumping) return;
             byte[] data = File.ReadAllBytes(pkFiles[pkEntry]);
             
             // Get
@@ -131,7 +132,7 @@ namespace pk3DS
         }
         private void setPokemon()
         {
-            if (pkEntry < 0) return;
+            if (pkEntry < 0 || dumping) return;
 
             // Each File is 16 Bytes.
             byte[] data = new byte[0x10];
@@ -168,7 +169,6 @@ namespace pk3DS
             if (LB_Choices.SelectedIndex > -1 && GB_Trainer.Enabled)
                 LB_Choices.Items.RemoveAt(LB_Choices.SelectedIndex);
         }
-
         private void B_Set_Click(object sender, EventArgs e)
         {
 
@@ -195,7 +195,6 @@ namespace pk3DS
                 LB_Choices.SelectedIndex = Array.IndexOf(choiceList, toAdd);
             }
         }
-
         private void B_View_Click(object sender, EventArgs e)
         {
             if (LB_Choices.SelectedIndex > -1 && GB_Trainer.Enabled)
@@ -208,5 +207,79 @@ namespace pk3DS
             setPokemon();
         }
 
+        private void DumpTRs_Click(object sender, EventArgs e)
+        {
+            dumping = true;
+            string result = "";
+            for (int i = 0; i < CB_Trainer.Items.Count; i++)
+            {
+                CB_Trainer.SelectedIndex = i;
+                int count = LB_Choices.Items.Count - 1;
+                if (count > 0)
+                {
+                    result += "======" + Environment.NewLine + i + " - (" + CB_Class.Text + ") " + CB_Trainer.Text + Environment.NewLine + "======" + Environment.NewLine;
+                    result += "Choices: ";
+                    for (int c = 0; c < count; c++)
+                        result += LB_Choices.Items[c].ToString() + ", ";
+
+                    result += Environment.NewLine; result += Environment.NewLine;
+                }
+            }
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "Maison Trainers.txt";
+            sfd.Filter = "Text File|*.txt";
+
+            System.Media.SystemSounds.Asterisk.Play();
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                string path = sfd.FileName;
+                File.WriteAllText(path, result, System.Text.Encoding.Unicode);
+            }
+            dumping = false;
+            CB_Trainer.SelectedIndex = 0;
+        }
+
+        private void B_DumpPKs_Click(object sender, EventArgs e)
+        {
+            dumping = true;
+            string result = "";
+            for (int i = 0; i < CB_Pokemon.Items.Count; i++)
+            {
+                CB_Pokemon.SelectedIndex = i;
+                if (CB_Species.SelectedIndex > 0)
+                {
+                    result += "======" + Environment.NewLine + i + " - " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
+                    result += String.Format("Held Item: {0}" + Environment.NewLine, CB_Item.Text);
+                    result += String.Format("Nature: {0}" + Environment.NewLine, CB_Nature.Text);
+                    result += String.Format("Move 1: {0}" + Environment.NewLine, CB_Move1.Text);
+                    result += String.Format("Move 2: {0}" + Environment.NewLine, CB_Move2.Text);
+                    result += String.Format("Move 3: {0}" + Environment.NewLine, CB_Move3.Text);
+                    result += String.Format("Move 4: {0}" + Environment.NewLine, CB_Move4.Text);
+
+                    result += "EV'd in: ";
+                    result += (CHK_HP.Checked) ? "HP, " : "";
+                    result += (CHK_ATK.Checked) ? "ATK, " : "";
+                    result += (CHK_DEF.Checked) ? "DEF, " : "";
+                    result += (CHK_SpA.Checked) ? "SpA, " : "";
+                    result += (CHK_SpD.Checked) ? "SpD, " : "";
+                    result += (CHK_Spe.Checked) ? "Spe, " : "";
+                    result += Environment.NewLine;
+
+                    result += Environment.NewLine; 
+                }
+            }
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "Maison Pokemon.txt";
+            sfd.Filter = "Text File|*.txt";
+
+            System.Media.SystemSounds.Asterisk.Play();
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                string path = sfd.FileName;
+                File.WriteAllText(path, result, System.Text.Encoding.Unicode);
+            }
+            dumping = false;
+            CB_Trainer.SelectedIndex = 0;
+        }
     }
 }

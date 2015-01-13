@@ -66,6 +66,7 @@
             // 
             // CB_Trainer
             // 
+            this.CB_Trainer.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Trainer.FormattingEnabled = true;
             this.CB_Trainer.Location = new System.Drawing.Point(67, 8);
             this.CB_Trainer.Name = "CB_Trainer";
@@ -75,6 +76,7 @@
             // 
             // CB_Pokemon
             // 
+            this.CB_Pokemon.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon.FormattingEnabled = true;
             this.CB_Pokemon.Location = new System.Drawing.Point(361, 8);
             this.CB_Pokemon.Name = "CB_Pokemon";
@@ -156,6 +158,7 @@
             // 
             // CB_Class
             // 
+            this.CB_Class.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Class.FormattingEnabled = true;
             this.CB_Class.Location = new System.Drawing.Point(55, 20);
             this.CB_Class.Name = "CB_Class";
@@ -295,6 +298,7 @@
             // 
             // CB_Item
             // 
+            this.CB_Item.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Item.FormattingEnabled = true;
             this.CB_Item.Location = new System.Drawing.Point(65, 156);
             this.CB_Item.Name = "CB_Item";
@@ -303,6 +307,7 @@
             // 
             // CB_Nature
             // 
+            this.CB_Nature.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Nature.FormattingEnabled = true;
             this.CB_Nature.Location = new System.Drawing.Point(65, 129);
             this.CB_Nature.Name = "CB_Nature";
@@ -311,6 +316,7 @@
             // 
             // CB_Move4
             // 
+            this.CB_Move4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Move4.FormattingEnabled = true;
             this.CB_Move4.Location = new System.Drawing.Point(140, 91);
             this.CB_Move4.Name = "CB_Move4";
@@ -319,6 +325,7 @@
             // 
             // CB_Move2
             // 
+            this.CB_Move2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Move2.FormattingEnabled = true;
             this.CB_Move2.Location = new System.Drawing.Point(140, 64);
             this.CB_Move2.Name = "CB_Move2";
@@ -327,6 +334,7 @@
             // 
             // CB_Move3
             // 
+            this.CB_Move3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Move3.FormattingEnabled = true;
             this.CB_Move3.Location = new System.Drawing.Point(13, 91);
             this.CB_Move3.Name = "CB_Move3";
@@ -335,6 +343,7 @@
             // 
             // CB_Move1
             // 
+            this.CB_Move1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Move1.FormattingEnabled = true;
             this.CB_Move1.Location = new System.Drawing.Point(13, 64);
             this.CB_Move1.Name = "CB_Move1";
@@ -343,6 +352,7 @@
             // 
             // CB_Species
             // 
+            this.CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Species.FormattingEnabled = true;
             this.CB_Species.Location = new System.Drawing.Point(67, 20);
             this.CB_Species.Name = "CB_Species";
@@ -358,6 +368,7 @@
             this.B_DumpPKs.TabIndex = 6;
             this.B_DumpPKs.Text = "Dump PKs";
             this.B_DumpPKs.UseVisualStyleBackColor = true;
+            this.B_DumpPKs.Click += new System.EventHandler(this.B_DumpPKs_Click);
             // 
             // DumpTRs
             // 
@@ -367,6 +378,7 @@
             this.DumpTRs.TabIndex = 7;
             this.DumpTRs.Text = "Dump TRs";
             this.DumpTRs.UseVisualStyleBackColor = true;
+            this.DumpTRs.Click += new System.EventHandler(this.DumpTRs_Click);
             // 
             // Maison
             // 
