@@ -33,6 +33,11 @@
             this.L_Trainer = new System.Windows.Forms.Label();
             this.L_Pokemon = new System.Windows.Forms.Label();
             this.GB_Trainer = new System.Windows.Forms.GroupBox();
+            this.L_Class = new System.Windows.Forms.Label();
+            this.B_Remove = new System.Windows.Forms.Button();
+            this.B_Set = new System.Windows.Forms.Button();
+            this.LB_Choices = new System.Windows.Forms.ListBox();
+            this.CB_Class = new System.Windows.Forms.ComboBox();
             this.GB_Pokemon = new System.Windows.Forms.GroupBox();
             this.PB_PKM = new System.Windows.Forms.PictureBox();
             this.CHK_Spe = new System.Windows.Forms.CheckBox();
@@ -54,12 +59,6 @@
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.B_DumpPKs = new System.Windows.Forms.Button();
             this.DumpTRs = new System.Windows.Forms.Button();
-            this.CB_Class = new System.Windows.Forms.ComboBox();
-            this.LB_Choices = new System.Windows.Forms.ListBox();
-            this.B_Set = new System.Windows.Forms.Button();
-            this.B_View = new System.Windows.Forms.Button();
-            this.B_Remove = new System.Windows.Forms.Button();
-            this.L_Class = new System.Windows.Forms.Label();
             this.GB_Trainer.SuspendLayout();
             this.GB_Pokemon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_PKM)).BeginInit();
@@ -72,6 +71,7 @@
             this.CB_Trainer.Name = "CB_Trainer";
             this.CB_Trainer.Size = new System.Drawing.Size(121, 21);
             this.CB_Trainer.TabIndex = 0;
+            this.CB_Trainer.SelectedIndexChanged += new System.EventHandler(this.changeTrainer);
             // 
             // CB_Pokemon
             // 
@@ -80,6 +80,7 @@
             this.CB_Pokemon.Name = "CB_Pokemon";
             this.CB_Pokemon.Size = new System.Drawing.Size(106, 21);
             this.CB_Pokemon.TabIndex = 1;
+            this.CB_Pokemon.SelectedIndexChanged += new System.EventHandler(this.changePokemon);
             // 
             // L_Trainer
             // 
@@ -103,7 +104,6 @@
             // 
             this.GB_Trainer.Controls.Add(this.L_Class);
             this.GB_Trainer.Controls.Add(this.B_Remove);
-            this.GB_Trainer.Controls.Add(this.B_View);
             this.GB_Trainer.Controls.Add(this.B_Set);
             this.GB_Trainer.Controls.Add(this.LB_Choices);
             this.GB_Trainer.Controls.Add(this.CB_Class);
@@ -113,6 +113,54 @@
             this.GB_Trainer.TabIndex = 4;
             this.GB_Trainer.TabStop = false;
             this.GB_Trainer.Text = "Trainer Summary";
+            // 
+            // L_Class
+            // 
+            this.L_Class.AutoSize = true;
+            this.L_Class.Location = new System.Drawing.Point(14, 23);
+            this.L_Class.Name = "L_Class";
+            this.L_Class.Size = new System.Drawing.Size(35, 13);
+            this.L_Class.TabIndex = 5;
+            this.L_Class.Text = "Class:";
+            // 
+            // B_Remove
+            // 
+            this.B_Remove.Location = new System.Drawing.Point(182, 158);
+            this.B_Remove.Name = "B_Remove";
+            this.B_Remove.Size = new System.Drawing.Size(62, 23);
+            this.B_Remove.TabIndex = 4;
+            this.B_Remove.Text = "[X] Delete";
+            this.B_Remove.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.B_Remove.UseVisualStyleBackColor = true;
+            this.B_Remove.Click += new System.EventHandler(this.B_Remove_Click);
+            // 
+            // B_Set
+            // 
+            this.B_Set.Location = new System.Drawing.Point(182, 47);
+            this.B_Set.Name = "B_Set";
+            this.B_Set.Size = new System.Drawing.Size(62, 23);
+            this.B_Set.TabIndex = 2;
+            this.B_Set.Text = "[<] Set";
+            this.B_Set.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.B_Set.UseVisualStyleBackColor = true;
+            this.B_Set.Click += new System.EventHandler(this.B_Set_Click);
+            // 
+            // LB_Choices
+            // 
+            this.LB_Choices.FormattingEnabled = true;
+            this.LB_Choices.Location = new System.Drawing.Point(9, 47);
+            this.LB_Choices.Name = "LB_Choices";
+            this.LB_Choices.Size = new System.Drawing.Size(167, 134);
+            this.LB_Choices.TabIndex = 1;
+            this.LB_Choices.SelectedIndexChanged += new System.EventHandler(this.B_View_Click);
+            // 
+            // CB_Class
+            // 
+            this.CB_Class.FormattingEnabled = true;
+            this.CB_Class.Location = new System.Drawing.Point(55, 20);
+            this.CB_Class.Name = "CB_Class";
+            this.CB_Class.Size = new System.Drawing.Size(121, 21);
+            this.CB_Class.TabIndex = 0;
             // 
             // GB_Pokemon
             // 
@@ -300,6 +348,7 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(106, 21);
             this.CB_Species.TabIndex = 8;
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
             // 
             // B_DumpPKs
             // 
@@ -307,7 +356,7 @@
             this.B_DumpPKs.Name = "B_DumpPKs";
             this.B_DumpPKs.Size = new System.Drawing.Size(75, 23);
             this.B_DumpPKs.TabIndex = 6;
-            this.B_DumpPKs.Text = "Dump PK";
+            this.B_DumpPKs.Text = "Dump PKs";
             this.B_DumpPKs.UseVisualStyleBackColor = true;
             // 
             // DumpTRs
@@ -316,63 +365,8 @@
             this.DumpTRs.Name = "DumpTRs";
             this.DumpTRs.Size = new System.Drawing.Size(75, 23);
             this.DumpTRs.TabIndex = 7;
-            this.DumpTRs.Text = "Dump TR";
+            this.DumpTRs.Text = "Dump TRs";
             this.DumpTRs.UseVisualStyleBackColor = true;
-            // 
-            // CB_Class
-            // 
-            this.CB_Class.FormattingEnabled = true;
-            this.CB_Class.Location = new System.Drawing.Point(55, 20);
-            this.CB_Class.Name = "CB_Class";
-            this.CB_Class.Size = new System.Drawing.Size(121, 21);
-            this.CB_Class.TabIndex = 0;
-            // 
-            // LB_Choices
-            // 
-            this.LB_Choices.FormattingEnabled = true;
-            this.LB_Choices.Location = new System.Drawing.Point(9, 47);
-            this.LB_Choices.Name = "LB_Choices";
-            this.LB_Choices.Size = new System.Drawing.Size(167, 134);
-            this.LB_Choices.TabIndex = 1;
-            // 
-            // B_Set
-            // 
-            this.B_Set.Location = new System.Drawing.Point(182, 77);
-            this.B_Set.Name = "B_Set";
-            this.B_Set.Size = new System.Drawing.Size(62, 23);
-            this.B_Set.TabIndex = 2;
-            this.B_Set.Text = "[<] Set";
-            this.B_Set.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.B_Set.UseVisualStyleBackColor = true;
-            // 
-            // B_View
-            // 
-            this.B_View.Location = new System.Drawing.Point(182, 48);
-            this.B_View.Name = "B_View";
-            this.B_View.Size = new System.Drawing.Size(62, 23);
-            this.B_View.TabIndex = 3;
-            this.B_View.Text = "[>] View";
-            this.B_View.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.B_View.UseVisualStyleBackColor = true;
-            // 
-            // B_Remove
-            // 
-            this.B_Remove.Location = new System.Drawing.Point(182, 158);
-            this.B_Remove.Name = "B_Remove";
-            this.B_Remove.Size = new System.Drawing.Size(62, 23);
-            this.B_Remove.TabIndex = 4;
-            this.B_Remove.Text = "[X] Delete";
-            this.B_Remove.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.B_Remove.UseVisualStyleBackColor = true;
-            // 
-            // L_Class
-            // 
-            this.L_Class.AutoSize = true;
-            this.L_Class.Location = new System.Drawing.Point(14, 23);
-            this.L_Class.Name = "L_Class";
-            this.L_Class.Size = new System.Drawing.Size(35, 13);
-            this.L_Class.TabIndex = 5;
-            this.L_Class.Text = "Class:";
             // 
             // Maison
             // 
@@ -392,6 +386,7 @@
             this.MinimumSize = new System.Drawing.Size(595, 265);
             this.Name = "Maison";
             this.Text = "Maison Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             this.GB_Trainer.ResumeLayout(false);
             this.GB_Trainer.PerformLayout();
             this.GB_Pokemon.ResumeLayout(false);
@@ -432,7 +427,6 @@
         private System.Windows.Forms.PictureBox PB_PKM;
         private System.Windows.Forms.Label L_Class;
         private System.Windows.Forms.Button B_Remove;
-        private System.Windows.Forms.Button B_View;
         private System.Windows.Forms.Button B_Set;
         private System.Windows.Forms.ListBox LB_Choices;
         private System.Windows.Forms.ComboBox CB_Class;
