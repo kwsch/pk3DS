@@ -311,12 +311,12 @@ namespace pk3DS
             return val;
         }
         // Variable Handling
-        internal static ushort getVariableBytes(string varType, ref List<ushort> args)
+        internal static ushort getVariableBytes(string varType, ref List<ushort> args, bool noArgs = false)
         {
             // Fetch the variable name...
             int bracket = varType.IndexOf('(');
-            string variable = varType.Substring(0, bracket);
-            string[] arguments = varType.Substring(bracket + 1, varType.Length - bracket - 2).Split(',');
+            string variable = (noArgs) ? varType : varType.Substring(0, bracket);
+            string[] arguments = (noArgs) ? null : varType.Substring(bracket + 1, varType.Length - bracket - 2).Split(',');
 
             ushort varVal = 0;
 
@@ -372,6 +372,7 @@ namespace pk3DS
                 case "NUM9": varVal = 0x0208; break;
                 default: varVal = Convert.ToUInt16(variable, 16); break;
             }
+            if (!noArgs)
             // Set arguments in.
             for (int i = 0; i < arguments.Length; i++)
                 args.Add(Convert.ToUInt16(arguments[i], 16));
@@ -411,8 +412,9 @@ namespace pk3DS
                 string varCMD = line.Substring(i + 1, bracket);
                 i += bracket + 1; // Advance the index to the end of the bracket.
 
-                string varMethod = varCMD.Split(' ')[0];                    // Returns VAR or WAIT or ~
-                string varType = varCMD.Substring(varMethod.Length + 1);    // Returns the remainder of the var command data.
+                string[] split = varCMD.Split(' '); 
+                string varMethod = split[0];                   // Returns VAR or WAIT or ~
+                string varType = (split.Length > 1) ? varCMD.Substring(varMethod.Length + 1) : "";    // Returns the remainder of the var command data.
                 ushort varValue = 0;
 
                 // Set up argument storage (even if it not used)
@@ -436,7 +438,7 @@ namespace pk3DS
                             }
                         case "VAR":     // Text Variable
                             {
-                                varValue = getVariableBytes(varType, ref args);
+                                varValue = getVariableBytes(varType, ref args, (varCMD.IndexOf('(') < 0));
                                 break;
                             }
                         default: throw new Exception("Unknown variable method type!");
