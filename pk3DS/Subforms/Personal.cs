@@ -100,7 +100,7 @@ namespace pk3DS
                 Array.Copy(abilities, temp_abilities, temp_abilities.Length);
                 abilities = temp_abilities;
 
-                string[] temp_items = new string[719]; // 719 items in XY
+                string[] temp_items = new string[718]; // 719 items in XY
                 Array.Copy(items, temp_items, temp_items.Length);
                 items = temp_items;
 
@@ -167,7 +167,7 @@ namespace pk3DS
             Int32.TryParse(mtb.Text, out val);
             if (Array.IndexOf(byte_boxes, mtb) > -1 && val > 255)
                 mtb.Text = "255";
-            else if (val > 3)
+            else if (Array.IndexOf(ev_boxes, mtb) > -1 && val > 3)
                 mtb.Text = "3";
         }
 

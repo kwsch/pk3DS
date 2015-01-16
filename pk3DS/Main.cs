@@ -456,10 +456,11 @@ namespace pk3DS
                 "GARCTool (Backbone): Kaphotics" + Environment.NewLine +
                 "Text Editing (xytext): Kaphotics" + Environment.NewLine +
                 "Wild Editor (**WE): SciresM & Kaphotics" + Environment.NewLine +
-                "Trainer Editor (**TE): SciresM & Kaphotics" + Environment.NewLine +
+                "Trainer Editor (**TE): SciresM, Kaphotics, and KazoWAR" + Environment.NewLine +
                 "Personal Editor: SciresM" + Environment.NewLine +
                 "Mega Evolution Editor (MEE): Huntereb & SciresM" + Environment.NewLine +
-                "Evolutions, Moves, and Items and more have yet to be implemented.",
+                "Evolutions, Moves, and Maison Editor: Kaphotics" + Environment.NewLine +
+                "Item Editor and more have yet to be implemented.",
                 "Big thanks to the ProjectPokemon community!");
         }
     }
