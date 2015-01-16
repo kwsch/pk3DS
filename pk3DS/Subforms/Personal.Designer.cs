@@ -33,7 +33,6 @@
             this.L_Species_Precursor = new System.Windows.Forms.Label();
             this.TC_Pokemon = new System.Windows.Forms.TabControl();
             this.TP_General = new System.Windows.Forms.TabPage();
-            this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.TB_RawColor = new System.Windows.Forms.TextBox();
             this.TB_CatchRate = new System.Windows.Forms.MaskedTextBox();
             this.TB_Stage = new System.Windows.Forms.TextBox();
@@ -105,16 +104,21 @@
             this.CLB_OrasTutors = new System.Windows.Forms.CheckedListBox();
             this.CLB_MoveTutors = new System.Windows.Forms.CheckedListBox();
             this.CLB_TMHM = new System.Windows.Forms.CheckedListBox();
+            this.PB_MonSprite = new System.Windows.Forms.PictureBox();
+            this.B_Randomize = new System.Windows.Forms.Button();
+            this.B_Dump = new System.Windows.Forms.Button();
+            this.B_Difficulty = new System.Windows.Forms.Button();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
             this.TP_MoveTutors.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
             this.SuspendLayout();
             // 
             // L_Mode
             // 
             this.L_Mode.AutoSize = true;
-            this.L_Mode.Location = new System.Drawing.Point(395, 9);
+            this.L_Mode.ForeColor = System.Drawing.Color.Red;
+            this.L_Mode.Location = new System.Drawing.Point(400, 0);
             this.L_Mode.Name = "L_Mode";
             this.L_Mode.Size = new System.Drawing.Size(64, 13);
             this.L_Mode.TabIndex = 1;
@@ -227,14 +231,6 @@
             this.TP_General.TabIndex = 0;
             this.TP_General.Text = "General Info";
             this.TP_General.UseVisualStyleBackColor = true;
-            // 
-            // PB_MonSprite
-            // 
-            this.PB_MonSprite.Location = new System.Drawing.Point(285, 0);
-            this.PB_MonSprite.Name = "PB_MonSprite";
-            this.PB_MonSprite.Size = new System.Drawing.Size(80, 60);
-            this.PB_MonSprite.TabIndex = 89;
-            this.PB_MonSprite.TabStop = false;
             // 
             // TB_RawColor
             // 
@@ -877,7 +873,7 @@
             this.TP_MoveTutors.Location = new System.Drawing.Point(4, 22);
             this.TP_MoveTutors.Name = "TP_MoveTutors";
             this.TP_MoveTutors.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_MoveTutors.Size = new System.Drawing.Size(461, 382);
+            this.TP_MoveTutors.Size = new System.Drawing.Size(437, 339);
             this.TP_MoveTutors.TabIndex = 1;
             this.TP_MoveTutors.Text = "Move Tutors";
             this.TP_MoveTutors.UseVisualStyleBackColor = true;
@@ -942,11 +938,52 @@
             this.CLB_TMHM.Size = new System.Drawing.Size(124, 349);
             this.CLB_TMHM.TabIndex = 2;
             // 
+            // PB_MonSprite
+            // 
+            this.PB_MonSprite.Location = new System.Drawing.Point(285, 0);
+            this.PB_MonSprite.Name = "PB_MonSprite";
+            this.PB_MonSprite.Size = new System.Drawing.Size(80, 60);
+            this.PB_MonSprite.TabIndex = 89;
+            this.PB_MonSprite.TabStop = false;
+            // 
+            // B_Randomize
+            // 
+            this.B_Randomize.Location = new System.Drawing.Point(378, 35);
+            this.B_Randomize.Name = "B_Randomize";
+            this.B_Randomize.Size = new System.Drawing.Size(75, 23);
+            this.B_Randomize.TabIndex = 417;
+            this.B_Randomize.Text = "Randomize";
+            this.B_Randomize.UseVisualStyleBackColor = true;
+            this.B_Randomize.Click += new System.EventHandler(this.B_Randomize_Click);
+            // 
+            // B_Dump
+            // 
+            this.B_Dump.Location = new System.Drawing.Point(192, 35);
+            this.B_Dump.Name = "B_Dump";
+            this.B_Dump.Size = new System.Drawing.Size(75, 23);
+            this.B_Dump.TabIndex = 418;
+            this.B_Dump.Text = "Dump All";
+            this.B_Dump.UseVisualStyleBackColor = true;
+            this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
+            // 
+            // B_Difficulty
+            // 
+            this.B_Difficulty.Location = new System.Drawing.Point(378, 12);
+            this.B_Difficulty.Name = "B_Difficulty";
+            this.B_Difficulty.Size = new System.Drawing.Size(75, 23);
+            this.B_Difficulty.TabIndex = 419;
+            this.B_Difficulty.Text = "Difficulty++";
+            this.B_Difficulty.UseVisualStyleBackColor = true;
+            this.B_Difficulty.Click += new System.EventHandler(this.B_Difficulty_Click);
+            // 
             // Personal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(469, 417);
+            this.Controls.Add(this.B_Difficulty);
+            this.Controls.Add(this.B_Dump);
+            this.Controls.Add(this.B_Randomize);
             this.Controls.Add(this.L_Mode);
             this.Controls.Add(this.PB_MonSprite);
             this.Controls.Add(this.TC_Pokemon);
@@ -956,14 +993,15 @@
             this.MaximumSize = new System.Drawing.Size(485, 800);
             this.MinimumSize = new System.Drawing.Size(485, 455);
             this.Name = "Personal";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Gen VI Personal.Garc Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             this.TC_Pokemon.ResumeLayout(false);
             this.TP_General.ResumeLayout(false);
             this.TP_General.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
             this.TP_MoveTutors.ResumeLayout(false);
             this.TP_MoveTutors.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1048,5 +1086,8 @@
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.PictureBox PB_MonSprite;
+        private System.Windows.Forms.Button B_Randomize;
+        private System.Windows.Forms.Button B_Dump;
+        private System.Windows.Forms.Button B_Difficulty;
     }
 }

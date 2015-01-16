@@ -21,7 +21,7 @@ namespace pk3DS
             ability_boxes = new ComboBox[] { CB_Ability1, CB_Ability2, CB_Ability3 };
             typing_boxes = new ComboBox[] { CB_Type1, CB_Type2 };
             eggGroup_boxes = new ComboBox[] { CB_EggGroup1, CB_EggGroup2 };
-            byte_boxes = new MaskedTextBox[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPE, TB_BaseSPD, TB_BaseSPA, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate }; 
+            byte_boxes = new MaskedTextBox[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate }; 
             ev_boxes = new MaskedTextBox[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
 
             paths = Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly);
@@ -85,6 +85,8 @@ namespace pk3DS
             natures = Main.getText((oras) ? 51 : 47);
             types = Main.getText((oras) ? 18 : 17);
             forms = Main.getText((oras) ? 5 : 5);
+            species[0] = "---";
+            abilities[0] = items[0] = moves[0] = "";
             AltForms = Personal.getFormList(data, oras, species, forms, types, items);
             species = getPersonalEntryList(data, oras, AltForms, species);
             for (int i = 1; i <= 100; i++)
@@ -156,7 +158,7 @@ namespace pk3DS
 
         private void CB_Species_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (entry > -1) saveEntry();
+            if (entry > -1 && !dumping) saveEntry();
             entry = CB_Species.SelectedIndex;
             readEntry();
         }
@@ -170,6 +172,7 @@ namespace pk3DS
             else if (Array.IndexOf(ev_boxes, mtb) > -1 && val > 3)
                 mtb.Text = "3";
         }
+        int bst;
 
         private void readEntry()
         {
@@ -187,6 +190,7 @@ namespace pk3DS
             TB_BaseSPE.Text = file[3].ToString("000");
             TB_BaseSPA.Text = file[4].ToString("000");
             TB_BaseSPD.Text = file[5].ToString("000");
+            bst = file[0] + file[1] + file[2] + file[3] + file[4] + file[5];
 
             int EVs = BitConverter.ToInt16(file, 0xA);
             TB_HPEVs.Text = ((EVs >> 0) & 0x3).ToString("0");
@@ -264,22 +268,25 @@ namespace pk3DS
                         ofs += tutor4.Length;
                 }
             }
-            int[] specForm = Personal.getSpecies(data, oras, CB_Species.SelectedIndex);
-            string filename = "_" + specForm[0] + ((CB_Species.SelectedIndex > 721) ? "_" + (specForm[1] + 1) : "");
-            Bitmap rawImg = (Bitmap)Properties.Resources.ResourceManager.GetObject(filename);
-            Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
-            for (int x = 0; x < rawImg.Width; x++)
+            if (!dumping)
             {
-                for (int y = 0; y < rawImg.Height; y++)
+                int[] specForm = Personal.getSpecies(data, oras, CB_Species.SelectedIndex);
+                string filename = "_" + specForm[0] + ((CB_Species.SelectedIndex > 721) ? "_" + (specForm[1] + 1) : "");
+                Bitmap rawImg = (Bitmap)Properties.Resources.ResourceManager.GetObject(filename);
+                Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
+                for (int x = 0; x < rawImg.Width; x++)
                 {
-                    Color c = rawImg.GetPixel(x, y);
-                    bigImg.SetPixel(2 * x, 2 * y, c);
-                    bigImg.SetPixel(2 * x + 1, 2 * y, c);
-                    bigImg.SetPixel(2 * x, 2 * y + 1, c);
-                    bigImg.SetPixel(2 * x + 1, 2 * y + 1, c);
+                    for (int y = 0; y < rawImg.Height; y++)
+                    {
+                        Color c = rawImg.GetPixel(x, y);
+                        bigImg.SetPixel(2 * x, 2 * y, c);
+                        bigImg.SetPixel(2 * x + 1, 2 * y, c);
+                        bigImg.SetPixel(2 * x, 2 * y + 1, c);
+                        bigImg.SetPixel(2 * x + 1, 2 * y + 1, c);
+                    }
                 }
+                PB_MonSprite.Image = bigImg;
             }
-            PB_MonSprite.Image = bigImg;
         }
         private void saveEntry()
         {
@@ -384,6 +391,106 @@ namespace pk3DS
             File.WriteAllBytes(paths[entry], edits);
             Array.Copy(edits, 0, data, entry * len, len);
             File.WriteAllBytes(paths[paths.Length - 1], data);
+        }
+
+
+        private void B_Difficulty_Click(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+            for (int i = 1; i < CB_Species.Items.Count; i++)
+            {
+                CB_Species.SelectedIndex = i; // Get new Species
+                TB_BaseExp.Text = (Convert.ToUInt16(TB_BaseExp.Text) / 2).ToString("000");
+                for (int z = 0; z < 6; z++)
+                    ev_boxes[z].Text = 0.ToString();
+
+                CB_EXPGroup.SelectedIndex = 5;
+            }
+            saveEntry();
+            Util.Alert("EXP Yield reduced by 50%, Level Growth Type set to Slow, and EV yields set to 0. Good luck!");
+        }
+        private void B_Randomize_Click(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+            ushort[] itemlist = (oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+            ushort[] berrylist = Legal.Pouch_Berry_XY;
+            Array.Resize(ref itemlist, itemlist.Length + berrylist.Length); 
+            Array.Copy(berrylist, 0, itemlist, itemlist.Length - berrylist.Length, berrylist.Length);
+
+            int itemlen = itemlist.Length;
+            int abillen = CB_Ability1.Items.Count;
+            int typelen = CB_Type1.Items.Count;
+
+            for (int i = 1; i < CB_Species.Items.Count; i++)
+            {
+                CB_Species.SelectedIndex = i; // Get new Species
+
+                // Fiddle with Base Stats
+                for (int z = 0; z < 6; z++)
+                    byte_boxes[z].Text = (Math.Min(rnd.Next(1, 2 * Convert.ToByte(byte_boxes[z].Text)),255)).ToString("000");
+
+                // EV yield stays the same...
+
+                // Abilities:
+                CB_Ability1.SelectedIndex = rnd.Next(1, abillen);
+                CB_Ability2.SelectedIndex = rnd.Next(1, abillen);
+                CB_Ability3.SelectedIndex = rnd.Next(1, abillen);
+
+                // Items
+                CB_HeldItem1.SelectedIndex = (CB_HeldItem1.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
+                CB_HeldItem2.SelectedIndex = (CB_HeldItem2.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
+                CB_HeldItem3.SelectedIndex = (CB_HeldItem3.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
+
+                // Type
+                if (CB_Type1.SelectedIndex == CB_Type2.SelectedIndex)
+                    CB_Type1.SelectedIndex = CB_Type2.SelectedIndex = rnd.Next(0, typelen);
+                else
+                {
+                    CB_Type1.SelectedIndex = rnd.Next(0, typelen);
+                    CB_Type2.SelectedIndex = rnd.Next(0, typelen);
+                }
+            }
+            saveEntry();
+            Util.Alert("All relevant Pokemon Personal Entries have been randomized!");
+        }
+        bool dumping = false;
+        private void B_Dump_Click(object sender, EventArgs e)
+        {
+            
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Dump all Personal Entries to Text File?"))
+                return;
+
+            dumping = true;
+            string result = "";
+            for (int i = 0; i < CB_Species.Items.Count; i++)
+            {
+                CB_Species.SelectedIndex = i; // Get new Species
+                result += "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
+
+                result += String.Format("Base Stats: {0}.{1}.{2}.{3}.{4}.{5} (BST: {6})", TB_BaseHP.Text, TB_BaseATK.Text, TB_BaseDEF.Text, TB_BaseSPA.Text, TB_BaseSPD.Text, TB_BaseSPE.Text, bst) + Environment.NewLine;
+                result += String.Format("EV Yield: {0}.{1}.{2}.{3}.{4}.{5}", TB_HPEVs.Text, TB_ATKEVs.Text, TB_DEFEVs.Text, TB_SPAEVs.Text, TB_SPDEVs.Text, TB_SPEEVs.Text) + Environment.NewLine;
+                result += String.Format("Abilities: {0} (1) | {1} (2) | {2} (H)", CB_Ability1.Text, CB_Ability2.Text, CB_Ability3.Text) + Environment.NewLine;
+                
+                result += String.Format(((CB_Type1.SelectedIndex != CB_Type2.SelectedIndex) ? "Type: {0} / {1}" : "Type: {0}"), CB_Type1.Text, CB_Type2.Text);
+
+                result += String.Format("Item 1 (50%): {0}", CB_HeldItem1.Text) + Environment.NewLine;
+                result += String.Format("Item 2 (5%): {0}", CB_HeldItem2.Text) + Environment.NewLine;
+                result += String.Format("Item 3 (1%): {0}", CB_HeldItem3.Text) + Environment.NewLine;
+                // I don't want to add anything else. Should be pretty easy for anyone else to expand.
+
+                result += Environment.NewLine;
+            }
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "Personal Entries.txt";
+            sfd.Filter = "Text File|*.txt";
+
+            System.Media.SystemSounds.Asterisk.Play();
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                string path = sfd.FileName;
+                File.WriteAllText(path, result, System.Text.Encoding.Unicode);
+            }
+            dumping = false;  
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)
