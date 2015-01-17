@@ -32,7 +32,7 @@ namespace pk3DS
                     "Level Up",
                     "Trade",
                     "Trade with Held Item",
-                    String.Format("Trade for opposite {0}/{1}", specieslist[588], specieslist[612]), // Shelmet&Karrablast
+                    String.Format("Trade for opposite {0}/{1}", specieslist[588], specieslist[616]), // Shelmet&Karrablast
                     "Used Item",
                     "Level Up (Attack > Defense)",
                     "Level Up (Attack = Defense)",
