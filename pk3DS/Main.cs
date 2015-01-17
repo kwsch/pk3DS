@@ -16,6 +16,8 @@ namespace pk3DS
         public Main()
         {
             InitializeComponent();
+            CB_Lang.SelectedIndex = 2;
+            // restoreGARCs(true, "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN");
             this.AllowDrop = GB_Tools.AllowDrop = TB_Path.AllowDrop = true;
             this.DragEnter += tabMain_DragEnter;
             this.DragDrop += tabMain_DragDrop;
@@ -23,11 +25,11 @@ namespace pk3DS
             GB_Tools.DragDrop += tabMain_DragDrop;
             TB_Path.DragEnter += tabMain_DragEnter;
             TB_Path.DragDrop += tabMain_DragDrop;
-            CB_Lang.SelectedIndex = 2;
             if (File.Exists("config.ini"))
             {
                 string path = File.ReadAllText("config.ini");
                 if (path.Length > 0) openQuick(path);
+                
             }
         }
         public bool oras = false;
@@ -337,21 +339,25 @@ namespace pk3DS
         // GARC Requests
         public bool getGARC(string infile, string outfolder, bool PB, bool bypassExt = false)
         {
-            bool success = GARCTool.garcUnpack(infile, outfolder, bypassExt, (PB) ? pBar1 : null, null, true, bypassExt);
-            Console.WriteLine("Get Status: " + success.ToString());
-            threads--;
-            return success;
+            try
+            {
+                bool success = GARCTool.garcUnpack(infile, outfolder, bypassExt, (PB) ? pBar1 : null, null, true, bypassExt);
+                Console.WriteLine("Get Status: " + success.ToString());
+                threads--;
+                return success;
+            }
+            catch (Exception e) { Util.Error("Could not get the GARC:", e.ToString()); threads--; return false; }
         }
         public bool setGARC(string outfile, string infolder, bool PB)
         {
-            if (!Directory.Exists("temp")) Directory.CreateDirectory("temp");
-            string temp = "temp" + Path.DirectorySeparatorChar + Util.getRandomFileName();
-            bool success = GARCTool.garcPack(infolder, temp, (PB) ? pBar1 : null, null, true);
-            Console.WriteLine("Set Status: " + success.ToString());
-            try { File.Delete(outfile); File.Move(temp, outfile); }
-            catch (Exception e) { Util.Error("Could not set the GARC back:", e.ToString()); }
-            threads--;
-            return success;
+            try
+            {
+                bool success = GARCTool.garcPackMS(infolder, outfile, (PB) ? pBar1 : null, null, true);
+                Console.WriteLine("Set Status: " + success.ToString());
+                threads--;
+                return success;
+            }
+            catch (Exception e) { Util.Error("Could not set the GARC back:", e.ToString()); threads--; return false; }
         }
         public void threadGet(string infile, string outfolder, bool PB = true, bool bypassExt = false)
         {
@@ -404,6 +410,17 @@ namespace pk3DS
                 if (overwrite || !File.Exists(dest))
                     File.Copy(TB_Path.Text + GARC, dest);
             }
+        }
+        public void restoreGARCs(bool ggg, params string[] g)
+        {
+            oras = ggg;
+            GB_Tools.Enabled = false;
+                foreach (string s in g)
+                {
+                    string dest = File.ReadAllText("config.ini") + getGARCFileName(s);
+                    string src = "backup" + Path.DirectorySeparatorChar + s + String.Format(" (a{0})", getGARCFileName(s).Replace(Path.DirectorySeparatorChar.ToString(), ""));
+                    File.Copy(src, dest, true);
+                }
         }
 
         // Text Requests

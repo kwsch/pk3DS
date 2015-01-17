@@ -8,7 +8,8 @@ namespace pk3DS
 {
     public class GARCTool
     {
-        public static bool garcPack(string folderPath, string garcPath, ProgressBar pBar1 = null, Label label = null, bool supress = false)
+        // Note: This has been customized from the original GARCTool source to not use temporary files (instead uses MemoryStream).
+        public static bool garcPackMS(string folderPath, string garcPath, ProgressBar pBar1 = null, Label label = null, bool supress = false)
         {
             // Check to see if our input folder exists.
             if (!new DirectoryInfo(folderPath).Exists) { Util.Error("Folder does not exist."); return false; }
@@ -32,13 +33,11 @@ namespace pk3DS
 
 
             // Scan through to see if we have to compress anything.
-            try
-            {
-                File.Delete(garcPath);  // Delete the old garc if it exists, then write our new one
-            }
-            catch { }
+            // Delete the old garc if it exists, then write our new one 
+            try { File.Delete(garcPath); } catch { }
 
-            using (var newGARC = File.Create(garcPath))
+            // Set up the Header Info
+            using (var newGARC = new MemoryStream())
             using (BinaryWriter gw = new BinaryWriter(newGARC))
             {
 
@@ -86,9 +85,9 @@ namespace pk3DS
                 }
                 catch (Exception e) { Util.Error("Invalid packing filenames", e.ToString()); return false; }
 
-                if (!Directory.Exists("temp")) Directory.CreateDirectory("temp");
-                string garcName = "temp" + Path.DirectorySeparatorChar + Util.getRandomFileName();
-                using (var GARCdata = File.Create(garcName))
+                // Assemble the GARCData.
+                using (var GARCdata = new MemoryStream())
+                {
                     for (int i = 0; i < filepaths.Length; i++)
                     {
                         string name = filepaths[fp[i]];
@@ -137,26 +136,25 @@ namespace pk3DS
                         else { pBar1.PerformStep(); }
                     }
 
-                gw.Write((uint)0x46494D42);
-                gw.Write((uint)0x0000000C);
-                gw.Write((uint)offset);
+                    gw.Write((uint)0x46494D42);
+                    gw.Write((uint)0x0000000C);
+                    gw.Write((uint)offset);
 
-                using (var GARCdatainfo = new FileStream(garcName, FileMode.Open))
-                {
                     gw.Seek(0x10, SeekOrigin.Begin);                        // Goto the start of the un-set 0 data we set earlier and set it.
                     gw.Write((uint)newGARC.Length);                         // Write Data Offset
-                    gw.Write((uint)(newGARC.Length + GARCdatainfo.Length)); // Write total GARC Length
+                    gw.Write((uint)(newGARC.Length + GARCdata.Length));     // Write total GARC Length
                     gw.Write((uint)largest);                                // Write Largest File stat (?)
 
                     newGARC.Seek(0, SeekOrigin.End);    // Goto the end so we can copy the filedata after the GARC headers.
 
                     // Write in the data
-                    GARCdatainfo.CopyTo(newGARC);       // Copy the data.
+                    GARCdata.Position = 0;
+                    GARCdata.CopyTo(newGARC);       // Copy the data.
                 }
                 // New File is ready to be saved (memstream newGARC)
                 try
                 {
-                    File.Delete(garcName);
+                    File.WriteAllBytes(garcPath, newGARC.ToArray());
                     if (label.InvokeRequired)
                         label.Invoke((MethodInvoker)delegate { label.Visible = false; });
                     else { label.Visible = false; }

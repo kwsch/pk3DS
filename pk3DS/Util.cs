@@ -580,17 +580,6 @@ namespace pk3DS
             return charArray;
         }
 
-        // Text File Utility
-        internal static string getRandomFileName()
-        {
-            Random random = new Random((int)DateTime.Now.Ticks);//thanks to McAden
-            int size = 8;
-            string s = "";
-            for (int i = 0; i < size; i++)
-                s += Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
-
-            return s;
-        }
 
         internal static string getExeFSFolder(string a)
         {
