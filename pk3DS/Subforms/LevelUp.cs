@@ -12,13 +12,13 @@ namespace pk3DS
 {
     public partial class LevelUp : Form
     {
-        public LevelUp(bool oras)
+        public LevelUp()
         {
             InitializeComponent();
             files = Directory.GetFiles("levelup");
 
-            movelist = Main.getText((oras) ? 14 : 13);
-            specieslist = Main.getText((oras) ? 98 : 80);
+            movelist = Main.getText((Main.oras) ? 14 : 13);
+            specieslist = Main.getText((Main.oras) ? 98 : 80);
             specieslist[0] = movelist[0] = "";
             Array.Resize(ref specieslist, 722);
 

@@ -12,20 +12,19 @@ namespace pk3DS
 {
     public partial class RSTE : Form
     {
-        public RSTE(bool rom_oras)
+        public RSTE()
         {
-            oras = rom_oras;
             trdatapaths = Directory.GetFiles("trdata");
             trpokepaths = Directory.GetFiles("trpoke");
-            abilitylist = Main.getText((oras) ? 37 : 34);
-            movelist = Main.getText((oras) ? 14 : 13);
-            itemlist = Main.getText((oras) ? 114 : 96);
-            specieslist = Main.getText((oras) ? 98 : 80);
+            abilitylist = Main.getText((Main.oras) ? 37 : 34);
+            movelist = Main.getText((Main.oras) ? 14 : 13);
+            itemlist = Main.getText((Main.oras) ? 114 : 96);
+            specieslist = Main.getText((Main.oras) ? 98 : 80);
             Array.Resize(ref specieslist, 722);
-            types = Main.getText((oras) ? 18 : 17);
-            forms = Main.getText((oras) ? 5 : 5);
-            trName = Main.getText((oras) ? 22 : 21);
-            trClass = Main.getText((oras) ? 21 : 20);
+            types = Main.getText((Main.oras) ? 18 : 17);
+            forms = Main.getText((Main.oras) ? 5 : 5);
+            trName = Main.getText((Main.oras) ? 22 : 21);
+            trClass = Main.getText((Main.oras) ? 21 : 20);
             InitializeComponent();
             // String Fetching
             #region Combo Box Arrays
@@ -137,7 +136,6 @@ namespace pk3DS
         {
             return (uint)(rand.Next(1 << 30)) << 2 | (uint)(rand.Next(1 << 2));
         }
-        bool oras = false;
         bool start = true;
         bool loading = true;
         byte[][] personal;
@@ -180,7 +178,7 @@ namespace pk3DS
             species = (indexList[species] > 0) ? indexList[species] + formnum - 1 : species;
 
             byte[] abilities = new byte[3];
-            Array.Copy(personalData, ((oras) ? 0x50 : 0x40) * species + 0x18, abilities, 0, 3);
+            Array.Copy(personalData, ((Main.oras) ? 0x50 : 0x40) * species + 0x18, abilities, 0, 3);
             trpk_abil[slot].Items.Clear();
             trpk_abil[slot].Items.Add("Any (1 or 2)");
             trpk_abil[slot].Items.Add(abilitylist[abilities[0]] + " (1)");
@@ -318,9 +316,9 @@ namespace pk3DS
                 // load trainer data
                 tabControl1.Enabled = true;
                 {
-                    format = (oras) ? br.ReadUInt16() : br.ReadByte();
-                    CB_Trainer_Class.SelectedIndex = (oras) ? br.ReadUInt16() : br.ReadByte();
-                    if (oras) br.ReadUInt16();
+                    format = (Main.oras) ? br.ReadUInt16() : br.ReadByte();
+                    CB_Trainer_Class.SelectedIndex = (Main.oras) ? br.ReadUInt16() : br.ReadByte();
+                    if (Main.oras) br.ReadUInt16();
 
                     checkBox_Item.Checked = ((format >> 1) & 1) == 1;
                     checkBox_Moves.Checked = ((format) & 1) == 1;
@@ -384,7 +382,7 @@ namespace pk3DS
             using (MemoryStream ms = new MemoryStream())
             using (BinaryWriter bw = new BinaryWriter(ms))
             {
-                if (oras)
+                if (Main.oras)
                 { bw.Write((ushort)format); bw.Write((ushort)CB_Trainer_Class.SelectedIndex); bw.Write((ushort)0); }
                 else
                 { bw.Write((byte)format); bw.Write((byte)CB_Trainer_Class.SelectedIndex); }
@@ -441,11 +439,11 @@ namespace pk3DS
             start = true;
             string[] personalList = Directory.GetFiles("personal");
             personalData = File.ReadAllBytes(personalList[personalList.Length - 1]);
-            indexList = Personal.getPersonalIndexList(personalData, oras);
+            indexList = Personal.getPersonalIndexList(personalData, Main.oras);
             personal = new byte[personalList.Length][];
             for (int i = 0; i < personalList.Length; i++)
                 personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
-            AltForms = Personal.getFormList(personalData, oras, specieslist, forms, types, itemlist);
+            AltForms = Personal.getFormList(personalData, Main.oras, specieslist, forms, types, itemlist);
 
             Array.Resize(ref trName, trdatapaths.Length);
             CB_TrainerID.Items.Clear();
@@ -561,9 +559,9 @@ namespace pk3DS
                     ushort[] items;
                     uint rand = rnd32() % 10;
                     if (rand < 2) // held item
-                        items = (oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+                        items = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
                     else if (rand < 5) // medicine
-                        items = (oras) ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
+                        items = (Main.oras) ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
                     else // berry
                         items = Legal.Pouch_Berry_XY;
                     CB_Prize.SelectedIndex = items[(rnd32() % items.Length)];
@@ -572,7 +570,7 @@ namespace pk3DS
                 else if (rGift)
                     CB_Prize.SelectedIndex = 0;
 
-                ushort[] itemlist = (oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+                ushort[] itemlist = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
                 itemlist = itemlist.Concat(Legal.Pouch_Berry_XY).ToArray();
                 int moves = trpk_m1[0].Items.Count;
                 int itemC = itemlist.Length;

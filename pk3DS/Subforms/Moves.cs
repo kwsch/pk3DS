@@ -12,23 +12,21 @@ namespace pk3DS
 {
     public partial class Moves : Form
     {
-        public Moves(bool rom_oras)
+        public Moves()
         {
-            oras = rom_oras;
             Util.unpackMini(Directory.GetFiles("move")[0], "WD");
             files = Directory.GetFiles("move");
 
-            movelist = Main.getText((oras) ? 14 : 13);
-            moveflavor = Main.getText((oras) ? 16 : 15);
+            movelist = Main.getText((Main.oras) ? 14 : 13);
+            moveflavor = Main.getText((Main.oras) ? 16 : 15);
             movelist[0] = "";
-            types = Main.getText((oras) ? 18 : 17);
+            types = Main.getText((Main.oras) ? 18 : 17);
             sortedmoves = (string[])movelist.Clone();
             Array.Sort(sortedmoves);
 
             InitializeComponent();
             Setup();
         }
-        bool oras;
         string[] types;
         string[] moveflavor;
         string[] movelist;

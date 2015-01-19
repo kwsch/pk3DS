@@ -14,12 +14,10 @@ namespace pk3DS
 {
     public partial class RSWE : Form
     {
-        private bool oras;
-        public RSWE(bool rom_oras)
+        public RSWE()
         {
             InitializeComponent();
             Console.WriteLine("Started RSWE");
-            oras = rom_oras;
             spec = new ComboBox[] 
             {
                 CB_Grass1, CB_Grass2, CB_Grass3, CB_Grass4, CB_Grass5, CB_Grass6, CB_Grass7, CB_Grass8, CB_Grass9, CB_Grass10, CB_Grass11, CB_Grass12,
@@ -288,7 +286,7 @@ namespace pk3DS
 
         private void RSWE_Load(object sender, EventArgs e)
         {
-            specieslist = Main.getText((oras) ? 98 : 80);
+            specieslist = Main.getText((Main.oras) ? 98 : 80);
             specieslist[0] = "---";
 
             foreach (string s in formlist)
@@ -318,7 +316,7 @@ namespace pk3DS
             Array.Sort(encdatapaths);
             this.filepaths = new string[this.encdatapaths.Length - 2];
             Array.Copy(this.encdatapaths, 2, this.filepaths, 0, this.filepaths.Length);
-            metRS_00000 = Main.getText((oras) ? 90 : 72);
+            metRS_00000 = Main.getText((Main.oras) ? 90 : 72);
             zonedata = File.ReadAllBytes(encdatapaths[0]);
             decStorage = File.ReadAllBytes(encdatapaths[1]);
             LocationNames = new string[this.filepaths.Length];

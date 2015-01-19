@@ -12,13 +12,13 @@ namespace pk3DS
 {
     public partial class EggMove : Form
     {
-        public EggMove(bool oras)
+        public EggMove()
         {
             InitializeComponent();
             files = Directory.GetFiles("eggmove");
 
-            movelist = Main.getText((oras) ? 14 : 13);
-            specieslist = Main.getText((oras) ? 98 : 80);
+            movelist = Main.getText((Main.oras) ? 14 : 13);
+            specieslist = Main.getText((Main.oras) ? 98 : 80);
             specieslist[0] = movelist[0] = "";
             Array.Resize(ref specieslist, 722);
 

@@ -18,23 +18,25 @@ namespace pk3DS
             InitializeComponent();
             CB_Lang.SelectedIndex = 2;
             // restoreGARCs(true, "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN");
-            this.AllowDrop = GB_Tools.AllowDrop = TB_Path.AllowDrop = true;
+            this.AllowDrop = GB_RomFS.AllowDrop = TB_Path.AllowDrop = true;
             this.DragEnter += tabMain_DragEnter;
             this.DragDrop += tabMain_DragDrop;
-            GB_Tools.DragEnter += tabMain_DragEnter;
-            GB_Tools.DragDrop += tabMain_DragDrop;
+            GB_RomFS.DragEnter += tabMain_DragEnter;
+            GB_RomFS.DragDrop += tabMain_DragDrop;
             TB_Path.DragEnter += tabMain_DragEnter;
             TB_Path.DragDrop += tabMain_DragDrop;
             if (File.Exists("config.ini"))
             {
                 string path = File.ReadAllText("config.ini");
-                if (path.Length > 0) openQuick(path);
-                
+                if (path.Length > 0) openQuick(path);                
             }
         }
-        public bool oras = false;
-        public string ExeFS = null;
+        public static bool oras = false;
+        public static string RomFS = null;
+        public static string ExeFS = null;
         public volatile int threads = 0;
+        private static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN" };
+
         private void B_Open_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -43,12 +45,54 @@ namespace pk3DS
         }
         private void openQuick(string path)
         {
-            // Check to see if the folder is romfs
             FileInfo fi = new FileInfo(path);
-            if (fi.Name.Contains("a"))
+            if (!Directory.Exists(path)) return;
+
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (fi.Name.Contains("code.bin"))
+            {
+                if (fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed code.bin.", "Compress? File will be replaced.") == DialogResult.Yes))
+                    new Thread(() => { threads++; new blz.BLZCoder(new string[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
+                else if (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes)
+                    new Thread(() => { threads++; new blz.BLZCoder(new string[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+                return;
+            }
+            else
+            {
+                // Check for ROMFS/EXEFS
+                string[] files = Directory.GetDirectories(path);
+                int count = files.Length;
+                if (count > 2 && count > 0) return; // Only want exefs & romfs
+                {
+                    // first file should be 'exe'
+                    if (new FileInfo(files[0]).Name.Contains("exe") && Directory.Exists(files[0]))
+                        checkIfExeFS(files[0]);
+                    if (new FileInfo(files[count - 1]).Name.Contains("rom") && Directory.Exists(files[count - 1]))
+                        checkIfRomFS(files[count - 1]);
+
+                    GB_RomFS.Enabled = (RomFS != null);
+                    GB_ExeFS.Enabled = (ExeFS != null);
+                    B_MoveTutor.Enabled = oras; // default false unless loaded
+                    if (RomFS != null)
+                    { L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY"; TB_Path.Text = path; }
+                    else if (ExeFS != null)
+                    { L_Game.Text = "ExeFS loaded - no RomFS"; TB_Path.Text = path; }
+                    else
+                    { L_Game.Text = "No Game Loaded"; TB_Path.Text = ""; }
+
+                    changeLanguage(null, null); // Trigger Text Loading
+                    System.Media.SystemSounds.Asterisk.Play();
+                }
+            }
+        }
+        private bool checkIfRomFS(string path)
+        {
+            string[] top = Directory.GetDirectories(path);
+            FileInfo fi = new FileInfo(top[(top.Length > 1) ? 1 : 0]);
+            // Check to see if the folder is romfs
+            if (fi.Name == "a")
             {
                 string[] files = Directory.GetFiles(path, "*", SearchOption.AllDirectories);
-                System.Media.SystemSounds.Asterisk.Play();
                 if (files.Length == 299) // ORAS
                     oras = true;
                 else if (files.Length == 301) // ORAS demo
@@ -57,18 +101,34 @@ namespace pk3DS
                     oras = false;
                 else
                 {
-                    TB_Path.Text = ""; GB_Tools.Enabled = false;
-                    L_Game.Text = "No Game Loaded";
-                    return;
+                    RomFS = null; 
+                    oras = false;
+                    return false;
                 }
 
-                TB_Path.Text = path; GB_Tools.Enabled = true;
-                backupGARCs(false, "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN");
-
-                L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY";
-                string exefs = Util.getExeFSFolder(path);
-                changeLanguage(null, null); // Trigger Text Loading
+                RomFS = path;
+                backupGARCs(false, allGARCs);
+                return true;
             }
+            RomFS = null;
+            oras = false;
+            return false;
+        }
+        private bool checkIfExeFS(string path)
+        {
+            string[] files = Directory.GetFiles(path);
+            if (files.Length != 3) return false;
+
+            FileInfo fi = new FileInfo(files[0]);
+            if (fi.Name.Contains("code.bin"))
+            {
+                if (fi.Length % 0x200 != 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes))
+                    new Thread(() => { threads++; new blz.BLZCoder(new string[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+
+                ExeFS = path;
+                return true;
+            }
+            return false;
         }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -81,18 +141,18 @@ namespace pk3DS
             openQuick(path);
         }
 
-        // Subform Items
+        // RomFS Subform Items
         private void B_GameText_Click(object sender, EventArgs e)
         {
             new Thread(() =>
             {
                 string toEdit = "gametext";
                 string GARC = getGARCFileName(toEdit);
-                // threadGet(TB_Path.Text + getGARCFileName(toEdit), toEdit); // We don't need this because loading and changing language does it for us.
+                // threadGet(RomFS + getGARCFileName(toEdit), toEdit); // We don't need this because loading and changing language does it for us.
 
                 Invoke((Action)(() => { new xytext(Directory.GetFiles(toEdit)).ShowDialog(); }));
                 // When closed, create a new thread to set the GARC back.
-                threadSet(TB_Path.Text + GARC, toEdit);
+                threadSet(RomFS + GARC, toEdit);
             }).Start();
         }
         private void B_StoryText_Click(object sender, EventArgs e)
@@ -102,13 +162,13 @@ namespace pk3DS
             {
                 string toEdit = "storytext";
                 string GARC = getGARCFileName(toEdit);
-                threadGet(TB_Path.Text + GARC, toEdit, true, true);
+                threadGet(RomFS + GARC, toEdit, true, true);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
 
                 Invoke((Action)(() => { new xytext(Directory.GetFiles(toEdit)).ShowDialog(); }));
                 // When closed, create a new thread to set the GARC back.
-                threadSet(TB_Path.Text + GARC, toEdit);
+                threadSet(RomFS + GARC, toEdit);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
                 if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
@@ -125,24 +185,24 @@ namespace pk3DS
                     bool super = (dr == DialogResult.Yes);
                     string mtr = (super) ? "maisontrS" : "maisontrN";
                     string mtrGARC = getGARCFileName(mtr);
-                    threadGet(TB_Path.Text + mtrGARC, mtr, true, true);
+                    threadGet(RomFS + mtrGARC, mtr, true, true);
                     while (threads > 0) // Let threads complete
                         Thread.Sleep(50);
 
                     string mpk = (super) ? "maisonpkS" : "maisonpkN";
                     string mpkGARC = getGARCFileName(mpk);
-                    threadGet(TB_Path.Text + mpkGARC, mpk, true, true);
+                    threadGet(RomFS + mpkGARC, mpk, true, true);
                     while (threads > 0) // Let threads complete
                         Thread.Sleep(50);
 
-                    Invoke((Action)(() => { new Maison(oras, super).ShowDialog(); }));
+                    Invoke((Action)(() => { new Maison(super).ShowDialog(); }));
 
-                    threadSet(TB_Path.Text + mtrGARC, mtr);
+                    threadSet(RomFS + mtrGARC, mtr);
                     while (threads > 0) // Let threads complete
                         Thread.Sleep(100);
                     if (Directory.Exists(mtr)) Directory.Delete(mtr, true);
 
-                    threadSet(TB_Path.Text + mpkGARC, mpk);
+                    threadSet(RomFS + mpkGARC, mpk);
                     while (threads > 0) // Let threads complete
                         Thread.Sleep(100);
                     if (Directory.Exists(mpk)) Directory.Delete(mpk, true);
@@ -156,13 +216,13 @@ namespace pk3DS
             {
                 string toEdit = "personal";
                 string GARC = getGARCFileName(toEdit);
-                threadGet(TB_Path.Text + GARC, toEdit, true, true);
+                threadGet(RomFS + GARC, toEdit, true, true);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
 
-                Invoke((Action)(() => { new Personal(oras).ShowDialog(); }));
+                Invoke((Action)(() => { new Personal().ShowDialog(); }));
                 // When closed, create a new thread to set the GARC back.
-                threadSet(TB_Path.Text + GARC, toEdit);
+                threadSet(RomFS + GARC, toEdit);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
                 if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
@@ -175,31 +235,31 @@ namespace pk3DS
             {
                 string trdata = "trdata";
                 string trdataGARC = getGARCFileName(trdata);
-                threadGet(TB_Path.Text + trdataGARC, trdata, true, true);
+                threadGet(RomFS + trdataGARC, trdata, true, true);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(50);
 
                 string trpoke = "trpoke";
                 string trpokeGARC = getGARCFileName(trpoke);
-                threadGet(TB_Path.Text + trpokeGARC, trpoke, true, true);
+                threadGet(RomFS + trpokeGARC, trpoke, true, true);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(50);
 
                 string personal = "personal";
                 string personalGARC = getGARCFileName(personal);
-                threadGet(TB_Path.Text + personalGARC, personal, true, true);
+                threadGet(RomFS + personalGARC, personal, true, true);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
 
-                Invoke((Action)(() => { new RSTE(oras).ShowDialog(); }));
+                Invoke((Action)(() => { new RSTE().ShowDialog(); }));
                 // When closed, create a new thread to set the GARC back.
 
-                threadSet(TB_Path.Text + trdataGARC, trdata);
+                threadSet(RomFS + trdataGARC, trdata);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
                 if (Directory.Exists(trdata)) Directory.Delete(trdata, true);
 
-                threadSet(TB_Path.Text + trpokeGARC, trpoke);
+                threadSet(RomFS + trpokeGARC, trpoke);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
                 if (Directory.Exists(trpoke)) Directory.Delete(trpoke, true);
@@ -212,17 +272,17 @@ namespace pk3DS
             {
                 string encdata = "encdata";
                 string encdataGARC = getGARCFileName(encdata);
-                threadGet(TB_Path.Text + encdataGARC, encdata, true, false);
+                threadGet(RomFS + encdataGARC, encdata, true, false);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(50);
 
                 if (oras)
-                { Invoke((Action)(() => { new RSWE(oras).ShowDialog(); })); }
+                { Invoke((Action)(() => { new RSWE().ShowDialog(); })); }
                 else
-                { Invoke((Action)(() => { new XYWE(oras).ShowDialog(); })); }
+                { Invoke((Action)(() => { new XYWE().ShowDialog(); })); }
                 // When closed, create a new thread to set the GARC back.
 
-                threadSet(TB_Path.Text + encdataGARC, encdata);
+                threadSet(RomFS + encdataGARC, encdata);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
                 if (Directory.Exists(encdata)) Directory.Delete(encdata, true);
@@ -235,13 +295,13 @@ namespace pk3DS
             {
                 string toEdit = "evolution";
                 string GARC = getGARCFileName(toEdit);
-                threadGet(TB_Path.Text + GARC, toEdit, true, true);
+                threadGet(RomFS + GARC, toEdit, true, true);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
 
-                Invoke((Action)(() => { new Evolution(oras).ShowDialog(); }));
+                Invoke((Action)(() => { new Evolution().ShowDialog(); }));
                 // When closed, create a new thread to set the GARC back.
-                threadSet(TB_Path.Text + GARC, toEdit);
+                threadSet(RomFS + GARC, toEdit);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
                 if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
@@ -254,20 +314,20 @@ namespace pk3DS
             {
                 string megaevo = "megaevo";
                 string GARC = getGARCFileName(megaevo);
-                threadGet(TB_Path.Text + GARC, megaevo, true, true);
+                threadGet(RomFS + GARC, megaevo, true, true);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(50);
 
                 string personal = "personal";
                 string personalGARC = getGARCFileName(personal);
-                threadGet(TB_Path.Text + personalGARC, personal, true, true);
+                threadGet(RomFS + personalGARC, personal, true, true);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(50);
 
-                Invoke((Action)(() => { new MEE(oras).ShowDialog(); }));
+                Invoke((Action)(() => { new MEE().ShowDialog(); }));
                 // When closed, create a new thread to set the GARC back.
 
-                threadSet(TB_Path.Text + GARC, megaevo);
+                threadSet(RomFS + GARC, megaevo);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(50);
                 if (Directory.Exists(megaevo)) Directory.Delete(megaevo, true);
@@ -284,14 +344,14 @@ namespace pk3DS
             {
                 string toEdit = "move";
                 string GARC = getGARCFileName(toEdit);
-                threadGet(TB_Path.Text + GARC, toEdit, true, true);
+                threadGet(RomFS + GARC, toEdit, true, true);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
 
-                Invoke((Action)(() => { new Moves(oras).ShowDialog(); }));
+                Invoke((Action)(() => { new Moves().ShowDialog(); }));
 
                 // When closed, create a new thread to set the GARC back.
-                threadSet(TB_Path.Text + GARC, toEdit);
+                threadSet(RomFS + GARC, toEdit);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
                 if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
@@ -304,13 +364,13 @@ namespace pk3DS
             {
                 string toEdit = "levelup";
                 string GARC = getGARCFileName(toEdit);
-                threadGet(TB_Path.Text + GARC, toEdit, true, true);
+                threadGet(RomFS + GARC, toEdit, true, true);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
 
-                Invoke((Action)(() => { new LevelUp(oras).ShowDialog(); }));
+                Invoke((Action)(() => { new LevelUp().ShowDialog(); }));
                 // When closed, create a new thread to set the GARC back.
-                threadSet(TB_Path.Text + GARC, toEdit);
+                threadSet(RomFS + GARC, toEdit);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
                 if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
@@ -323,17 +383,35 @@ namespace pk3DS
             {
                 string toEdit = "eggmove";
                 string GARC = getGARCFileName(toEdit);
-                threadGet(TB_Path.Text + GARC, toEdit, true, true);
+                threadGet(RomFS + GARC, toEdit, true, true);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
 
-                Invoke((Action)(() => { new EggMove(oras).ShowDialog(); }));
+                Invoke((Action)(() => { new EggMove().ShowDialog(); }));
                 // When closed, create a new thread to set the GARC back.
-                threadSet(TB_Path.Text + GARC, toEdit);
+                threadSet(RomFS + GARC, toEdit);
                 while (threads > 0) // Let threads complete
                     Thread.Sleep(100);
                 if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
             }).Start();
+        }
+
+        // ExeFS Subform Items
+        private void B_Pickup_Click(object sender, EventArgs e)
+        {
+            Util.Alert("Not implemented yet.");
+        }
+        private void B_TMHM_Click(object sender, EventArgs e)
+        {
+            Util.Alert("Not implemented yet.");
+        }
+        private void B_Mart_Click(object sender, EventArgs e)
+        {
+            Util.Alert("Not implemented yet.");
+        }
+        private void B_MoveTutor_Click(object sender, EventArgs e)
+        {
+            Util.Alert("Not implemented yet.");
         }
 
         // GARC Requests
@@ -371,7 +449,7 @@ namespace pk3DS
             Thread thread = new Thread(() => setGARC(outfile, infolder, PB));
             thread.Start(); threads++;
         }
-        public string getGARCFileName(string request)
+        public string getGARCFileName(string requestedGARC)
         {
             int lang = 0;
             if (CB_Lang.InvokeRequired)
@@ -379,7 +457,7 @@ namespace pk3DS
             else lang = CB_Lang.SelectedIndex;
 
             string ans = "";
-            switch (request)
+            switch (requestedGARC)
             {
                 case "encdata": ans = (oras) ? getFileName(0, 1, 3) : getFileName(0, 1, 2); break;
                 case "gametext": ans = (oras) ? getFileName(0, 7, 1 + lang) : getFileName(0, 7, 2 + lang); break;
@@ -406,15 +484,15 @@ namespace pk3DS
             foreach (string s in g)
             {
                 string GARC = getGARCFileName(s);
-                string dest = "backup" + Path.DirectorySeparatorChar + s + String.Format(" (a{0})", GARC.Replace(Path.DirectorySeparatorChar.ToString(), ""));
+                string dest = "backup" + Path.DirectorySeparatorChar + s + String.Format(" ({0})", GARC.Replace(Path.DirectorySeparatorChar.ToString(), ""));
                 if (overwrite || !File.Exists(dest))
-                    File.Copy(TB_Path.Text + GARC, dest);
+                    File.Copy(RomFS + GARC, dest);
             }
         }
-        public void restoreGARCs(bool ggg, params string[] g)
+        public void restoreGARCs(bool oras_define, params string[] g)
         {
-            oras = ggg;
-            GB_Tools.Enabled = false;
+            oras = oras_define;
+            GB_RomFS.Enabled = false;
                 foreach (string s in g)
                 {
                     string dest = File.ReadAllText("config.ini") + getGARCFileName(s);
@@ -438,25 +516,25 @@ namespace pk3DS
 
         private void changeLanguage(object sender, EventArgs e)
         {
-            if (!GB_Tools.Enabled) return;
+            if (!GB_RomFS.Enabled) return;
             // Gather the Text Language Strings
-            threadGet(TB_Path.Text + getGARCFileName("gametext"), "gametext", true, true);
+            threadGet(RomFS + getGARCFileName("gametext"), "gametext", true, true);
         }
         private string getFileName(int A, int B, int C)
         {
-            return Path.DirectorySeparatorChar + A.ToString() + Path.DirectorySeparatorChar + B.ToString() + Path.DirectorySeparatorChar + C.ToString();
+            return Path.DirectorySeparatorChar + "a" + Path.DirectorySeparatorChar + A.ToString() + Path.DirectorySeparatorChar + B.ToString() + Path.DirectorySeparatorChar + C.ToString();
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             this.Hide();
             if (TB_Path.Text.Length > 0) File.WriteAllText("config.ini", TB_Path.Text);
-            if (!GB_Tools.Enabled) return; // No data/threads need to be addressed if we haven't loaded anything.
+            if (!GB_RomFS.Enabled) return; // No data/threads need to be addressed if we haven't loaded anything.
             // Set the GameText back as other forms may have edited it.
             try
             {
-                threadSet(TB_Path.Text + getGARCFileName("gametext"), "gametext", false);
-                if (Directory.Exists("personal")) threadSet(TB_Path.Text + getGARCFileName("personal"), "personal", false);
+                threadSet(RomFS + getGARCFileName("gametext"), "gametext", false);
+                if (Directory.Exists("personal")) threadSet(RomFS + getGARCFileName("personal"), "personal", false);
                 int timeout = 0; // Time out after 7 seconds.
                 while (threads > 0 && timeout++ < 70)
                     Thread.Sleep(100);

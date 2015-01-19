@@ -14,11 +14,9 @@ namespace pk3DS
 {
     public partial class XYWE : Form
     {
-        private bool oras = false;
-        public XYWE(bool rom_oras)
+        public XYWE()
         {
-            InitializeComponent();      
-            oras = rom_oras;
+            InitializeComponent();
             spec = new ComboBox[] 
             {
                 CB_Grass1, CB_Grass2, CB_Grass3, CB_Grass4, CB_Grass5, CB_Grass6, CB_Grass7, CB_Grass8, CB_Grass9, CB_Grass10, CB_Grass11, CB_Grass12,
@@ -292,7 +290,7 @@ namespace pk3DS
 
         private void Load_XYWE(object sender, EventArgs e)
         {
-            specieslist = Main.getText((oras) ? 98 : 80);
+            specieslist = Main.getText((Main.oras) ? 98 : 80);
             specieslist[0] = "---";
 
             CB_FormeList.Items.AddRange(formlist);
@@ -313,7 +311,7 @@ namespace pk3DS
             Array.Sort(encdatapaths);
             this.filepaths = new string[this.encdatapaths.Length - 1];
             Array.Copy(this.encdatapaths, 1, this.filepaths, 0, this.filepaths.Length);
-            metXY_00000 = Main.getText((oras) ? 90 : 72);
+            metXY_00000 = Main.getText((Main.oras) ? 90 : 72);
             zonedata = File.ReadAllBytes(encdatapaths[0]);
             LocationNames = new string[this.filepaths.Length];
             for (int f = 0; f < filepaths.Length; f++)

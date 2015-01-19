@@ -18,7 +18,6 @@ namespace pk3DS
         private string[] types;
         string[] specieslist;
         string[] itemlist;
-        bool oras = false;
         byte[] personalData;
         private GroupBox[] groupbox_spec = { };
         private ComboBox[] forme_spec = { };
@@ -31,24 +30,23 @@ namespace pk3DS
         private string[][] AltForms;
         int entry = -1;
 
-        public MEE(bool rom_oras)            //All the initial settings
+        public MEE()            //All the initial settings
         {
-            oras = rom_oras;
             InitializeComponent();
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
             #region Intializations
 
-            forms = Main.getText((oras) ? 5 : 5);
-            itemlist = Main.getText((oras) ? 114 : 96);
-            specieslist = Main.getText((oras) ? 98 : 80);
+            forms = Main.getText((Main.oras) ? 5 : 5);
+            itemlist = Main.getText((Main.oras) ? 114 : 96);
+            specieslist = Main.getText((Main.oras) ? 98 : 80);
             Array.Resize(ref specieslist, 722); specieslist[0] = itemlist[0] = "";
             specieslist[32] += "♂"; specieslist[29] += "♀";
-            types = Main.getText((oras) ? 18 : 17);
+            types = Main.getText((Main.oras) ? 18 : 17);
             files = Directory.GetFiles("megaevo");
             string[] personalList = Directory.GetFiles("personal");
             personalData = File.ReadAllBytes(personalList[personalList.Length - 1]);
-            AltForms = Personal.getFormList(personalData, oras, specieslist, forms, types, itemlist);
+            AltForms = Personal.getFormList(personalData, Main.oras, specieslist, forms, types, itemlist);
 
             groupbox_spec = new GroupBox[] {GB_MEvo1,GB_MEvo2,GB_MEvo3};
             item_spec = new ComboBox[] { CB_Item1, CB_Item2, CB_Item3 };
@@ -124,7 +122,7 @@ namespace pk3DS
         {
             if (loaded)
             {
-                if (oras && entry == 384 && !dumping) // Current Mon is Rayquaza
+                if (Main.oras && entry == 384 && !dumping) // Current Mon is Rayquaza
                     Util.Alert("Rayquaza is special and uses a different activator for its evolution. If it knows Dragon Ascent, it can Mega Evolve", "Don't edit its evolution table if you want to keep this functionality.");
                 
                 byte[] data = File.ReadAllBytes(files[entry]);

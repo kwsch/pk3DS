@@ -30,7 +30,7 @@
         {
             this.B_Open = new System.Windows.Forms.Button();
             this.TB_Path = new System.Windows.Forms.TextBox();
-            this.GB_Tools = new System.Windows.Forms.GroupBox();
+            this.GB_RomFS = new System.Windows.Forms.GroupBox();
             this.B_Maison = new System.Windows.Forms.Button();
             this.B_EggMove = new System.Windows.Forms.Button();
             this.B_LevelUp = new System.Windows.Forms.Button();
@@ -48,7 +48,13 @@
             this.L_Game = new System.Windows.Forms.Label();
             this.pBar1 = new System.Windows.Forms.ProgressBar();
             this.L_About = new System.Windows.Forms.Label();
-            this.GB_Tools.SuspendLayout();
+            this.GB_ExeFS = new System.Windows.Forms.GroupBox();
+            this.B_Pickup = new System.Windows.Forms.Button();
+            this.B_Mart = new System.Windows.Forms.Button();
+            this.B_MoveTutor = new System.Windows.Forms.Button();
+            this.B_TMHM = new System.Windows.Forms.Button();
+            this.GB_RomFS.SuspendLayout();
+            this.GB_ExeFS.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Open
@@ -57,7 +63,7 @@
             this.B_Open.Name = "B_Open";
             this.B_Open.Size = new System.Drawing.Size(75, 23);
             this.B_Open.TabIndex = 0;
-            this.B_Open.Text = "Open \'a\'";
+            this.B_Open.Text = "Open Dir";
             this.B_Open.UseVisualStyleBackColor = true;
             this.B_Open.Click += new System.EventHandler(this.B_Open_Click);
             // 
@@ -71,29 +77,29 @@
             this.TB_Path.Size = new System.Drawing.Size(349, 20);
             this.TB_Path.TabIndex = 1;
             // 
-            // GB_Tools
+            // GB_RomFS
             // 
-            this.GB_Tools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.GB_RomFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.GB_Tools.Controls.Add(this.B_Maison);
-            this.GB_Tools.Controls.Add(this.B_EggMove);
-            this.GB_Tools.Controls.Add(this.B_LevelUp);
-            this.GB_Tools.Controls.Add(this.B_StoryText);
-            this.GB_Tools.Controls.Add(this.B_Item);
-            this.GB_Tools.Controls.Add(this.B_Move);
-            this.GB_Tools.Controls.Add(this.B_Evolution);
-            this.GB_Tools.Controls.Add(this.B_Personal);
-            this.GB_Tools.Controls.Add(this.B_MegaEvo);
-            this.GB_Tools.Controls.Add(this.B_Wild);
-            this.GB_Tools.Controls.Add(this.B_Trainer);
-            this.GB_Tools.Controls.Add(this.B_GameText);
-            this.GB_Tools.Enabled = false;
-            this.GB_Tools.Location = new System.Drawing.Point(12, 67);
-            this.GB_Tools.Name = "GB_Tools";
-            this.GB_Tools.Size = new System.Drawing.Size(430, 110);
-            this.GB_Tools.TabIndex = 2;
-            this.GB_Tools.TabStop = false;
-            this.GB_Tools.Text = "ROM Editing Tools";
+            this.GB_RomFS.Controls.Add(this.B_Maison);
+            this.GB_RomFS.Controls.Add(this.B_EggMove);
+            this.GB_RomFS.Controls.Add(this.B_LevelUp);
+            this.GB_RomFS.Controls.Add(this.B_StoryText);
+            this.GB_RomFS.Controls.Add(this.B_Item);
+            this.GB_RomFS.Controls.Add(this.B_Move);
+            this.GB_RomFS.Controls.Add(this.B_Evolution);
+            this.GB_RomFS.Controls.Add(this.B_Personal);
+            this.GB_RomFS.Controls.Add(this.B_MegaEvo);
+            this.GB_RomFS.Controls.Add(this.B_Wild);
+            this.GB_RomFS.Controls.Add(this.B_Trainer);
+            this.GB_RomFS.Controls.Add(this.B_GameText);
+            this.GB_RomFS.Enabled = false;
+            this.GB_RomFS.Location = new System.Drawing.Point(12, 67);
+            this.GB_RomFS.Name = "GB_RomFS";
+            this.GB_RomFS.Size = new System.Drawing.Size(430, 110);
+            this.GB_RomFS.TabIndex = 2;
+            this.GB_RomFS.TabStop = false;
+            this.GB_RomFS.Text = "RomFS Editing Tools";
             // 
             // B_Maison
             // 
@@ -259,7 +265,7 @@
             // 
             this.pBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pBar1.Location = new System.Drawing.Point(12, 182);
+            this.pBar1.Location = new System.Drawing.Point(12, 241);
             this.pBar1.Name = "pBar1";
             this.pBar1.Size = new System.Drawing.Size(430, 14);
             this.pBar1.TabIndex = 6;
@@ -274,26 +280,82 @@
             this.L_About.Text = "[A]";
             this.L_About.Click += new System.EventHandler(this.L_About_Click);
             // 
+            // GB_ExeFS
+            // 
+            this.GB_ExeFS.Controls.Add(this.B_Pickup);
+            this.GB_ExeFS.Controls.Add(this.B_Mart);
+            this.GB_ExeFS.Controls.Add(this.B_MoveTutor);
+            this.GB_ExeFS.Controls.Add(this.B_TMHM);
+            this.GB_ExeFS.Enabled = false;
+            this.GB_ExeFS.Location = new System.Drawing.Point(12, 184);
+            this.GB_ExeFS.Name = "GB_ExeFS";
+            this.GB_ExeFS.Size = new System.Drawing.Size(430, 50);
+            this.GB_ExeFS.TabIndex = 8;
+            this.GB_ExeFS.TabStop = false;
+            this.GB_ExeFS.Text = "ExeFS Editing Tools";
+            // 
+            // B_Pickup
+            // 
+            this.B_Pickup.Location = new System.Drawing.Point(6, 19);
+            this.B_Pickup.Name = "B_Pickup";
+            this.B_Pickup.Size = new System.Drawing.Size(100, 23);
+            this.B_Pickup.TabIndex = 3;
+            this.B_Pickup.Text = "Pickup Editor";
+            this.B_Pickup.UseVisualStyleBackColor = true;
+            this.B_Pickup.Click += new System.EventHandler(this.B_Pickup_Click);
+            // 
+            // B_Mart
+            // 
+            this.B_Mart.Location = new System.Drawing.Point(218, 19);
+            this.B_Mart.Name = "B_Mart";
+            this.B_Mart.Size = new System.Drawing.Size(100, 23);
+            this.B_Mart.TabIndex = 2;
+            this.B_Mart.Text = "Mart Editor";
+            this.B_Mart.UseVisualStyleBackColor = true;
+            this.B_Mart.Click += new System.EventHandler(this.B_Mart_Click);
+            // 
+            // B_MoveTutor
+            // 
+            this.B_MoveTutor.Location = new System.Drawing.Point(324, 19);
+            this.B_MoveTutor.Name = "B_MoveTutor";
+            this.B_MoveTutor.Size = new System.Drawing.Size(100, 23);
+            this.B_MoveTutor.TabIndex = 1;
+            this.B_MoveTutor.Text = "Move Tutor Editor";
+            this.B_MoveTutor.UseVisualStyleBackColor = true;
+            this.B_MoveTutor.Click += new System.EventHandler(this.B_MoveTutor_Click);
+            // 
+            // B_TMHM
+            // 
+            this.B_TMHM.Location = new System.Drawing.Point(112, 19);
+            this.B_TMHM.Name = "B_TMHM";
+            this.B_TMHM.Size = new System.Drawing.Size(100, 23);
+            this.B_TMHM.TabIndex = 0;
+            this.B_TMHM.Text = "TM/HM Editor";
+            this.B_TMHM.UseVisualStyleBackColor = true;
+            this.B_TMHM.Click += new System.EventHandler(this.B_TMHM_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(454, 202);
+            this.ClientSize = new System.Drawing.Size(454, 262);
+            this.Controls.Add(this.GB_ExeFS);
             this.Controls.Add(this.L_About);
             this.Controls.Add(this.pBar1);
             this.Controls.Add(this.L_Game);
             this.Controls.Add(this.L_Lang);
             this.Controls.Add(this.CB_Lang);
-            this.Controls.Add(this.GB_Tools);
+            this.Controls.Add(this.GB_RomFS);
             this.Controls.Add(this.TB_Path);
             this.Controls.Add(this.B_Open);
-            this.MaximumSize = new System.Drawing.Size(470, 240);
-            this.MinimumSize = new System.Drawing.Size(470, 240);
+            this.MaximumSize = new System.Drawing.Size(470, 300);
+            this.MinimumSize = new System.Drawing.Size(470, 300);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "pk3DS";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
-            this.GB_Tools.ResumeLayout(false);
+            this.GB_RomFS.ResumeLayout(false);
+            this.GB_ExeFS.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -303,7 +365,7 @@
 
         private System.Windows.Forms.Button B_Open;
         private System.Windows.Forms.TextBox TB_Path;
-        private System.Windows.Forms.GroupBox GB_Tools;
+        private System.Windows.Forms.GroupBox GB_RomFS;
         private System.Windows.Forms.Button B_Trainer;
         private System.Windows.Forms.Button B_GameText;
         private System.Windows.Forms.Button B_Wild;
@@ -321,6 +383,11 @@
         private System.Windows.Forms.Button B_Maison;
         private System.Windows.Forms.Button B_EggMove;
         private System.Windows.Forms.Button B_LevelUp;
+        private System.Windows.Forms.GroupBox GB_ExeFS;
+        private System.Windows.Forms.Button B_Pickup;
+        private System.Windows.Forms.Button B_Mart;
+        private System.Windows.Forms.Button B_MoveTutor;
+        private System.Windows.Forms.Button B_TMHM;
     }
 }
 

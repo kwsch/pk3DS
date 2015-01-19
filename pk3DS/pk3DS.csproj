@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLZ.cs" />
     <Compile Include="Subforms\Maison.cs">
       <SubType>Form</SubType>
     </Compile>

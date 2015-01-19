@@ -12,10 +12,9 @@ namespace pk3DS
 {
     public partial class Personal : Form
     {
-        public Personal(bool rom_oras)
+        public Personal()
         {
-            oras = rom_oras;
-            entrysize = (oras) ? 0x50 : 0x40;
+            entrysize = (Main.oras) ? 0x50 : 0x40;
             InitializeComponent();
             helditem_boxes = new ComboBox[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
             ability_boxes = new ComboBox[] { CB_Ability1, CB_Ability2, CB_Ability3 };
@@ -25,14 +24,13 @@ namespace pk3DS
             ev_boxes = new MaskedTextBox[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
 
             paths = Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly);
-            mode = (oras) ? "ORAS" : "XY";
+            mode = (Main.oras) ? "ORAS" : "XY";
             data = File.ReadAllBytes(paths[paths.Length - 1]); // Load last to data.
             L_Mode.Text = "Mode: " + mode;
             Setup(); //Turn string resources into arrays
             CB_Species.SelectedIndex = 1;
         }
         #region Global Variables
-        bool oras = false;
         private string[] paths = { };
         private string mode = "";
 
@@ -78,17 +76,17 @@ namespace pk3DS
         #endregion
         private void Setup()
         {
-            abilities = Main.getText((oras) ? 37 : 34);
-            moves = Main.getText((oras) ? 14 : 13);
-            items = Main.getText((oras) ? 114 : 96);
-            species = Main.getText((oras) ? 98 : 80);
-            natures = Main.getText((oras) ? 51 : 47);
-            types = Main.getText((oras) ? 18 : 17);
-            forms = Main.getText((oras) ? 5 : 5);
+            abilities = Main.getText((Main.oras) ? 37 : 34);
+            moves = Main.getText((Main.oras) ? 14 : 13);
+            items = Main.getText((Main.oras) ? 114 : 96);
+            species = Main.getText((Main.oras) ? 98 : 80);
+            natures = Main.getText((Main.oras) ? 51 : 47);
+            types = Main.getText((Main.oras) ? 18 : 17);
+            forms = Main.getText((Main.oras) ? 5 : 5);
             species[0] = "---";
             abilities[0] = items[0] = moves[0] = "";
-            AltForms = Personal.getFormList(data, oras, species, forms, types, items);
-            species = getPersonalEntryList(data, oras, AltForms, species);
+            AltForms = Personal.getFormList(data, Main.oras, species, forms, types, items);
+            species = getPersonalEntryList(data, Main.oras, AltForms, species);
             for (int i = 1; i <= 100; i++)
                 CLB_TMHM.Items.Add("TM" + i.ToString("00"));
             for (int i = 1; i <= 7; i++)
@@ -270,7 +268,7 @@ namespace pk3DS
             }
             if (!dumping)
             {
-                int[] specForm = Personal.getSpecies(data, oras, CB_Species.SelectedIndex);
+                int[] specForm = Personal.getSpecies(data, Main.oras, CB_Species.SelectedIndex);
                 string filename = "_" + specForm[0] + ((CB_Species.SelectedIndex > 721) ? "_" + (specForm[1] + 1) : "");
                 Bitmap rawImg = (Bitmap)Properties.Resources.ResourceManager.GetObject(filename);
                 Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
@@ -412,7 +410,7 @@ namespace pk3DS
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             Random rnd = new Random();
-            ushort[] itemlist = (oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+            ushort[] itemlist = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
             ushort[] berrylist = Legal.Pouch_Berry_XY;
             Array.Resize(ref itemlist, itemlist.Length + berrylist.Length); 
             Array.Copy(berrylist, 0, itemlist, itemlist.Length - berrylist.Length, berrylist.Length);

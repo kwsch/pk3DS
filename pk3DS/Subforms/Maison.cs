@@ -12,22 +12,20 @@ namespace pk3DS
 {
     public partial class Maison : Form
     {
-        public Maison(bool rom_oras, bool super)
+        public Maison(bool super)
         {
-            oras = rom_oras;
-
-            movelist = Main.getText((oras) ? 14 : 13);
-            itemlist = Main.getText((oras) ? 114 : 96);
-            specieslist = Main.getText((oras) ? 98 : 80); Array.Resize(ref specieslist, 722);
+            movelist = Main.getText((Main.oras) ? 14 : 13);
+            itemlist = Main.getText((Main.oras) ? 114 : 96);
+            specieslist = Main.getText((Main.oras) ? 98 : 80); Array.Resize(ref specieslist, 722);
             movelist[0] = specieslist[0] = itemlist[0] = "";
 
-            trClass = Main.getText((oras) ? 21 : 20);
-            natures = Main.getText((oras) ? 51 : 47);
+            trClass = Main.getText((Main.oras) ? 21 : 20);
+            natures = Main.getText((Main.oras) ? 51 : 47);
 
             trFiles = Directory.GetFiles((super) ? "maisontrS" : "maisontrN");
             pkFiles = Directory.GetFiles((super) ? "maisonpkS" : "maisonpkN");
 
-            int trTXTFile = (oras) ? 153 : 130;
+            int trTXTFile = (Main.oras) ? 153 : 130;
             trNames = Main.getText((super) ? trTXTFile : trTXTFile + 1); Array.Resize(ref trNames, trFiles.Length);
 
             InitializeComponent();
@@ -36,7 +34,6 @@ namespace pk3DS
         string[] trFiles;
         string[] trNames;
         string[] pkFiles;
-        bool oras = false;
         string[] natures;
         string[] movelist;
         string[] specieslist;
