@@ -81,6 +81,7 @@
             this.MaximumSize = new System.Drawing.Size(340, 400);
             this.MinimumSize = new System.Drawing.Size(340, 400);
             this.Name = "Mart";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Mart Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();

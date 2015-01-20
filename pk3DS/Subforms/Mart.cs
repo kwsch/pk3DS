@@ -47,7 +47,6 @@ namespace pk3DS
         }
         private void setupDGV()
         {
-
             DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
             {
                 dgvIndex.HeaderText = "Index";
