@@ -400,18 +400,22 @@ namespace pk3DS
         // ExeFS Subform Items
         private void B_Pickup_Click(object sender, EventArgs e)
         {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             Util.Alert("Not implemented yet.");
         }
         private void B_TMHM_Click(object sender, EventArgs e)
         {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             Util.Alert("Not implemented yet.");
         }
         private void B_Mart_Click(object sender, EventArgs e)
         {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             if (ExeFS != null) new Mart().Show();
         }
         private void B_MoveTutor_Click(object sender, EventArgs e)
         {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             Util.Alert("Not implemented yet.");
         }
 
