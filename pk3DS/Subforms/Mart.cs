@@ -20,11 +20,13 @@ namespace pk3DS
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); this.Close(); }
             data = File.ReadAllBytes(files[0]);
             if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); this.Close(); }
+            codebin = files[0];
             itemlist[0] = "";
             setupDGV();
             foreach (string s in locations) CB_Location.Items.Add(s);
             CB_Location.SelectedIndex = 0;
         }
+        string codebin = null;
         string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
         byte[] data;
         byte[] entries = { 7, 6, 4, 3, 8, 
@@ -72,7 +74,7 @@ namespace pk3DS
         {
             if (entry > -1) setList();
             entry = CB_Location.SelectedIndex;
-            getList();            
+            getList();
         }
         private void getList()
         {
@@ -97,6 +99,7 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             if (entry > -1) setList();
+            File.WriteAllBytes(codebin, data);
         }
     }
 }

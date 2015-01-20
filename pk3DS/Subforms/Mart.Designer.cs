@@ -42,7 +42,7 @@
             this.CB_Location.FormattingEnabled = true;
             this.CB_Location.Location = new System.Drawing.Point(69, 6);
             this.CB_Location.Name = "CB_Location";
-            this.CB_Location.Size = new System.Drawing.Size(236, 21);
+            this.CB_Location.Size = new System.Drawing.Size(243, 21);
             this.CB_Location.TabIndex = 0;
             this.CB_Location.SelectedIndexChanged += new System.EventHandler(this.changeIndex);
             // 
@@ -58,7 +58,7 @@
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Location = new System.Drawing.Point(12, 33);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(293, 317);
+            this.dgv.Size = new System.Drawing.Size(300, 317);
             this.dgv.TabIndex = 1;
             // 
             // L_Mart
@@ -74,10 +74,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(317, 362);
+            this.ClientSize = new System.Drawing.Size(324, 362);
             this.Controls.Add(this.L_Mart);
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.CB_Location);
+            this.MaximumSize = new System.Drawing.Size(340, 400);
+            this.MinimumSize = new System.Drawing.Size(340, 400);
             this.Name = "Mart";
             this.Text = "Mart Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
