@@ -416,7 +416,8 @@ namespace pk3DS
         private void B_MoveTutor_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            Util.Alert("Not implemented yet.");
+            if (!oras) { Util.Alert("No Tutors for X/Y."); return; } // Already disabled button...
+            if (ExeFS != null) new Tutors().Show();
         }
 
         // GARC Requests
