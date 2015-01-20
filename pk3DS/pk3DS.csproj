@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLZ.cs" />
+    <Compile Include="ExeFS.cs" />
     <Compile Include="Subforms\Mart.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -25,6 +25,7 @@ namespace pk3DS
             GB_RomFS.DragDrop += tabMain_DragDrop;
             TB_Path.DragEnter += tabMain_DragEnter;
             TB_Path.DragDrop += tabMain_DragDrop;
+            GB_ExeFS.Click += rebuildExeFS;
             if (File.Exists("config.ini"))
             {
                 string path = File.ReadAllText("config.ini");
@@ -120,10 +121,10 @@ namespace pk3DS
             if (files.Length != 3) return false;
 
             FileInfo fi = new FileInfo(files[0]);
-            if (fi.Name.Contains("code.bin"))
+            if (fi.Name.Contains("code"))
             {
                 if (fi.Length % 0x200 != 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes))
-                    new Thread(() => { threads++; new blz.BLZCoder(new string[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+                    new Thread(() => { threads++; new blz.BLZCoder(new string[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
 
                 ExeFS = path;
                 return true;
@@ -557,6 +558,29 @@ namespace pk3DS
                 "Evolutions, Moves, and Maison Editor: Kaphotics" + Environment.NewLine +
                 "Item Editor and more have yet to be implemented.",
                 "Big thanks to the ProjectPokemon community!");
+        }
+
+        private void rebuildExeFS(object sender, EventArgs e)
+        {
+            if (ExeFS != null)
+                if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild ExeFS?") == DialogResult.Yes)
+                {
+                    string[] files = Directory.GetFiles(ExeFS);
+                    int file = 0; if (files[1].Contains("code")) file = 1;
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.FileName = "exefs.bin";
+                    sfd.Filter = "Binary File|*.*";
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        new Thread(() => {
+                            threads++; 
+                            new blz.BLZCoder(new string[] { "-en", files[file] }, pBar1); 
+                            Util.Alert("Compressed!");
+                            ExeFSTool.set(Directory.GetFiles(ExeFS), sfd.FileName);
+                            threads--; 
+                        }).Start();
+                    }
+                }
         }
     }
 }
