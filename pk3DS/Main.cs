@@ -407,7 +407,7 @@ namespace pk3DS
         }
         private void B_Mart_Click(object sender, EventArgs e)
         {
-            Util.Alert("Not implemented yet.");
+            if (ExeFS != null) new Mart().Show();
         }
         private void B_MoveTutor_Click(object sender, EventArgs e)
         {
