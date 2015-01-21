@@ -72,7 +72,7 @@ namespace pk3DS
                         checkIfRomFS(files[count - 1]);
 
                     GB_RomFS.Enabled = (RomFS != null);
-                    GB_ExeFS.Enabled = (ExeFS != null);
+                    GB_ExeFS.Enabled = (RomFS != null && ExeFS != null);
                     B_MoveTutor.Enabled = oras; // default false unless loaded
                     if (RomFS != null)
                     { L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY"; TB_Path.Text = path; }
@@ -406,7 +406,7 @@ namespace pk3DS
         private void B_TMHM_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            Util.Alert("Not implemented yet.");
+            if (ExeFS != null) new TMHM().Show();
         }
         private void B_Mart_Click(object sender, EventArgs e)
         {
