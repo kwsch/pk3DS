@@ -30,10 +30,6 @@ namespace pk3DS
         string[] movelist = Main.getText((Main.oras) ? 14 : 13);
         int offset = (Main.oras) ? 0x004A67EE : 0x00464796;
         byte[] data;
-        byte[] entries = { 7, 6, 4, 3, 8, 
-                             8, 3, 3, 4, 
-                             3, 6, 6, 
-                             7, 4 };
         int dataoffset = 0;
         private void getDataOffset()
         {
@@ -47,6 +43,7 @@ namespace pk3DS
                 dgvIndex.HeaderText = "Index";
                 dgvIndex.DisplayIndex = 0;
                 dgvIndex.Width = 45;
+                dgvIndex.ReadOnly = true;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
             DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
@@ -65,7 +62,6 @@ namespace pk3DS
             dgvHM.Columns.Add((DataGridViewColumn)dgvMove.Clone());
         }
 
-        int entry = -1;
         List<ushort> tms = new List<ushort>();
         List<ushort> hms = new List<ushort>();
         
