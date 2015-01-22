@@ -25,6 +25,7 @@ namespace pk3DS
             setupDGV();
             foreach (string s in locations) CB_Location.Items.Add(s);
             CB_Location.SelectedIndex = 0;
+            Util.Alert("Changes made do not reflect ingame.", "Still needs more research.");
         }
         string codebin = null;
         string[] movelist = Main.getText((Main.oras) ? 14 : 13);

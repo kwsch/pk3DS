@@ -580,16 +580,23 @@ namespace pk3DS
             return charArray;
         }
 
-
-        internal static string getExeFSFolder(string a)
+        // Find Code off of Reference
+        internal static int IndexOfBytes(byte[] array, byte[] pattern, int startIndex, int count)
         {
-            string check = Path.GetDirectoryName(Path.GetDirectoryName(a));
-            foreach (string s in Directory.GetFiles(check))
-                if (Path.GetFileName(s) == "code.bin")
-                    return check;
-            return null;
+            int i = startIndex;
+            int endIndex = count > 0 ? startIndex + count : array.Length;
+            int fidx = 0;
+
+            while (i++ < endIndex)
+            {
+                fidx = (array[i] == pattern[fidx]) ? ++fidx : 0;
+                if (fidx == pattern.Length)
+                    return i - fidx + 1;
+            }
+            return -1;
         }
 
+        // Mini Packing Util
         internal static void packMini(string path, string ident, string fileName, string outExt = null, string outFolder = null)
         {
             if (outFolder == null) outFolder = path;

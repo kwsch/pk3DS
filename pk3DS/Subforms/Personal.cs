@@ -14,7 +14,6 @@ namespace pk3DS
     {
         public Personal()
         {
-            entrysize = (Main.oras) ? 0x50 : 0x40;
             InitializeComponent();
             helditem_boxes = new ComboBox[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
             ability_boxes = new ComboBox[] { CB_Ability1, CB_Ability2, CB_Ability3 };
@@ -23,16 +22,14 @@ namespace pk3DS
             byte_boxes = new MaskedTextBox[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate }; 
             ev_boxes = new MaskedTextBox[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
 
-            paths = Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly);
-            mode = (Main.oras) ? "ORAS" : "XY";
             data = File.ReadAllBytes(paths[paths.Length - 1]); // Load last to data.
             L_Mode.Text = "Mode: " + mode;
             Setup(); //Turn string resources into arrays
             CB_Species.SelectedIndex = 1;
         }
         #region Global Variables
-        private string[] paths = { };
-        private string mode = "";
+        private string[] paths = Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly);
+        private string mode = (Main.oras) ? "ORAS" : "XY";
 
         private string[] natures = { };
         private string[] items = { };
@@ -71,7 +68,7 @@ namespace pk3DS
         public ushort[] tutor4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 };
 
         private string[][] AltForms;
-        int entrysize = 0;
+        int entrysize = (Main.oras) ? 0x50 : 0x40;
         int entry = -1;
         #endregion
         private void Setup()

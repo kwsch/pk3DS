@@ -15,23 +15,19 @@ namespace pk3DS
         public Moves()
         {
             Util.unpackMini(Directory.GetFiles("move")[0], "WD");
-            files = Directory.GetFiles("move");
 
-            movelist = Main.getText((Main.oras) ? 14 : 13);
-            moveflavor = Main.getText((Main.oras) ? 16 : 15);
             movelist[0] = "";
-            types = Main.getText((Main.oras) ? 18 : 17);
             sortedmoves = (string[])movelist.Clone();
             Array.Sort(sortedmoves);
 
             InitializeComponent();
             Setup();
         }
-        string[] types;
-        string[] moveflavor;
-        string[] movelist;
+        string[] files = Directory.GetFiles("move");
+        string[] types = Main.getText((Main.oras) ? 18 : 17);
+        string[] moveflavor = Main.getText((Main.oras) ? 16 : 15);
+        string[] movelist = Main.getText((Main.oras) ? 14 : 13);
         string[] sortedmoves;
-        string[] files;
         string[] MoveCategories = new string[] { "Status", "Physical", "Special", };
         string[] StatCategories = new string[] { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
         string[] TargetingTypes = new string[] { "Single Adjacent Ally/Foe", 

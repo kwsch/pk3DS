@@ -15,12 +15,7 @@ namespace pk3DS
         public Evolution()
         {
             InitializeComponent();
-            files = Directory.GetFiles("evolution");
 
-            specieslist = Main.getText((Main.oras) ? 98 : 80);
-            movelist = Main.getText((Main.oras) ? 14 : 13);
-            itemlist = Main.getText((Main.oras) ? 114 : 96);
-            typelist = Main.getText((Main.oras) ? 18 : 17);
             specieslist[0] = movelist[0] = itemlist[0] = "";
             Array.Resize(ref specieslist, 722);
 
@@ -79,17 +74,15 @@ namespace pk3DS
 
             CB_Species.SelectedIndex = 0;
         }
-        private string[] files;
-        private ComboBox[] pb;
-        private ComboBox[] rb;
-        private ComboBox[] mb;
+        private string[] files = Directory.GetFiles("evolution");
+        private ComboBox[] pb, rb, mb;
         private PictureBox[] pic;
         private int entry = -1;
-        private string[] specieslist;
         private string[] sortedspecies;
-        private string[] movelist;
-        private string[] itemlist;
-        private string[] typelist;
+        private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
+        private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
+        private string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
+        private string[] typelist = Main.getText((Main.oras) ? 18 : 17);
         private string[] EvolutionMethods;
         bool dumping = false;
         private void getList()

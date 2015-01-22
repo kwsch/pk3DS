@@ -14,17 +14,8 @@ namespace pk3DS
     {
         public RSTE()
         {
-            trdatapaths = Directory.GetFiles("trdata");
-            trpokepaths = Directory.GetFiles("trpoke");
-            abilitylist = Main.getText((Main.oras) ? 37 : 34);
-            movelist = Main.getText((Main.oras) ? 14 : 13);
-            itemlist = Main.getText((Main.oras) ? 114 : 96);
-            specieslist = Main.getText((Main.oras) ? 98 : 80);
             Array.Resize(ref specieslist, 722);
-            types = Main.getText((Main.oras) ? 18 : 17);
-            forms = Main.getText((Main.oras) ? 5 : 5);
-            trName = Main.getText((Main.oras) ? 22 : 21);
-            trClass = Main.getText((Main.oras) ? 21 : 20);
+            
             InitializeComponent();
             // String Fetching
             #region Combo Box Arrays
@@ -141,22 +132,22 @@ namespace pk3DS
         byte[][] personal;
         int index = -1;
         #region Global Variables
-        private ComboBox[] trpk_pkm;
-        private ComboBox[] trpk_lvl;
-        private ComboBox[] trpk_item;
-        private ComboBox[] trpk_abil;
-        private ComboBox[] trpk_m1;
-        private ComboBox[] trpk_m2;
-        private ComboBox[] trpk_m3;
-        private ComboBox[] trpk_m4;
-        private ComboBox[] trpk_IV;
-        private ComboBox[] trpk_form;
-        private ComboBox[] trpk_gender;
-        private string[] abilitylist, movelist, itemlist, specieslist, types, forms;
-        private string[] trName, trClass;
+        private ComboBox[] trpk_pkm, trpk_lvl, trpk_item, trpk_abil,
+            trpk_m1, trpk_m2, trpk_m3, trpk_m4, trpk_IV, trpk_form, trpk_gender;
+
+        // Top Level Functions
+        private string[] trdatapaths = Directory.GetFiles("trdata");
+        private string[] trpokepaths = Directory.GetFiles("trpoke");
+        private string[] abilitylist = Main.getText((Main.oras) ? 37 : 34);
+        private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
+        private string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
+        private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
+        private string[] types = Main.getText((Main.oras) ? 18 : 17);
+        private string[] forms = Main.getText((Main.oras) ? 5 : 5);
+        private string[] trName = Main.getText((Main.oras) ? 22 : 21);
+        private string[] trClass = Main.getText((Main.oras) ? 21 : 20);
         #endregion
 
-        // Form Loading
         // Ability Loading
         private void refreshFormAbility(object sender, EventArgs e)
         {
@@ -292,9 +283,6 @@ namespace pk3DS
             dumping = false;
         }
 
-        // Top Level Functions
-        private string[] trdatapaths;
-        private string[] trpokepaths;
         // Change Read
         private void changeTrainerIndex(object sender, EventArgs e)
         {

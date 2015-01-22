@@ -15,10 +15,7 @@ namespace pk3DS
         public EggMove()
         {
             InitializeComponent();
-            files = Directory.GetFiles("eggmove");
-
-            movelist = Main.getText((Main.oras) ? 14 : 13);
-            specieslist = Main.getText((Main.oras) ? 98 : 80);
+            
             specieslist[0] = movelist[0] = "";
             Array.Resize(ref specieslist, 722);
 
@@ -33,12 +30,12 @@ namespace pk3DS
             setupDGV();
             CB_Species.SelectedIndex = 0;
         }
-        private string[] files;
+        private string[] files = Directory.GetFiles("eggmove");
         private int entry = -1;
-        private string[] movelist;
+        private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
+        private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
         private string[] sortedmoves;
         private string[] sortedspecies;
-        private string[] specieslist;
         bool dumping = false;
         private void setupDGV()
         {

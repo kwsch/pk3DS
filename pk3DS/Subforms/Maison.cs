@@ -14,13 +14,8 @@ namespace pk3DS
     {
         public Maison(bool super)
         {
-            movelist = Main.getText((Main.oras) ? 14 : 13);
-            itemlist = Main.getText((Main.oras) ? 114 : 96);
-            specieslist = Main.getText((Main.oras) ? 98 : 80); Array.Resize(ref specieslist, 722);
+            Array.Resize(ref specieslist, 722);
             movelist[0] = specieslist[0] = itemlist[0] = "";
-
-            trClass = Main.getText((Main.oras) ? 21 : 20);
-            natures = Main.getText((Main.oras) ? 51 : 47);
 
             trFiles = Directory.GetFiles((super) ? "maisontrS" : "maisontrN");
             pkFiles = Directory.GetFiles((super) ? "maisonpkS" : "maisonpkN");
@@ -34,11 +29,11 @@ namespace pk3DS
         string[] trFiles;
         string[] trNames;
         string[] pkFiles;
-        string[] natures;
-        string[] movelist;
-        string[] specieslist;
-        string[] trClass;
-        string[] itemlist;
+        string[] natures = Main.getText((Main.oras) ? 51 : 47);
+        string[] movelist = Main.getText((Main.oras) ? 14 : 13);
+        string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
+        string[] trClass = Main.getText((Main.oras) ? 21 : 20);
+        string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
         int trEntry = -1;
         int pkEntry = -1;
         bool dumping = false;

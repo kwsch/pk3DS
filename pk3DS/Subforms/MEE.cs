@@ -13,18 +13,17 @@ namespace pk3DS
 {
     public partial class MEE : Form
     {
-        private string[] files;
-        private string[] forms;
-        private string[] types;
-        string[] specieslist;
-        string[] itemlist;
-        byte[] personalData;
-        private GroupBox[] groupbox_spec = { };
-        private ComboBox[] forme_spec = { };
-        private ComboBox[] item_spec = { };
-        private CheckBox[] checkbox_spec = { };
-        private Control[][] all_spec = { };
-        private PictureBox[][] picturebox_spec = { };
+        private string[] files = Directory.GetFiles("megaevo");
+        private string[] forms = Main.getText((Main.oras) ? 5 : 5);
+        private string[] types = Main.getText((Main.oras) ? 18 : 17);
+        private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
+        private string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
+        private byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
+        private GroupBox[] groupbox_spec;
+        private ComboBox[] forme_spec, item_spec;
+        private CheckBox[] checkbox_spec;
+        private Control[][] all_spec;
+        private PictureBox[][] picturebox_spec;
         private List<cbItem> monNames;
         private bool loaded = false;
         private string[][] AltForms;
@@ -37,15 +36,8 @@ namespace pk3DS
             CB_Species.ValueMember = "Value";
             #region Intializations
 
-            forms = Main.getText((Main.oras) ? 5 : 5);
-            itemlist = Main.getText((Main.oras) ? 114 : 96);
-            specieslist = Main.getText((Main.oras) ? 98 : 80);
             Array.Resize(ref specieslist, 722); specieslist[0] = itemlist[0] = "";
             specieslist[32] += "♂"; specieslist[29] += "♀";
-            types = Main.getText((Main.oras) ? 18 : 17);
-            files = Directory.GetFiles("megaevo");
-            string[] personalList = Directory.GetFiles("personal");
-            personalData = File.ReadAllBytes(personalList[personalList.Length - 1]);
             AltForms = Personal.getFormList(personalData, Main.oras, specieslist, forms, types, itemlist);
 
             groupbox_spec = new GroupBox[] {GB_MEvo1,GB_MEvo2,GB_MEvo3};
