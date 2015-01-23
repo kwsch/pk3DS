@@ -52,6 +52,13 @@
   <ItemGroup>
     <Compile Include="BLZ.cs" />
     <Compile Include="ExeFS.cs" />
+    <Compile Include="RomFS.cs" />
+    <Compile Include="Subforms\Pickup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Pickup.Designer.cs">
+      <DependentUpon>Pickup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\TMHM.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +162,9 @@
     </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Pickup.resx">
+      <DependentUpon>Pickup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\TMHM.resx">
       <DependentUpon>TMHM.cs</DependentUpon>
