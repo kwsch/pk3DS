@@ -92,7 +92,7 @@ namespace pk3DS
                 common.Add((ushort)Array.IndexOf(itemlist, dgvCommon.Rows[i].Cells[1].Value));
 
             for (int i = 0x12; i < 0x12 + 0xB; i++) // 0xB Rare
-                rare.Add((ushort)Array.IndexOf(itemlist, dgvRare.Rows[i].Cells[1].Value));
+                rare.Add((ushort)Array.IndexOf(itemlist, dgvRare.Rows[i - 0x12].Cells[1].Value));
 
             ushort[] clist = common.ToArray();
             ushort[] rlist = rare.ToArray();
