@@ -62,7 +62,7 @@ namespace pk3DS
 
         private void changePrice(object sender, EventArgs e)
         {
-            MT_Sell.Text = ((Math.Min(Util.ToUInt32(MT_Price), 0x7FFF) / 10) * 10 / 2).ToString();
+            MT_Sell.Text = ((Math.Min(Util.ToUInt32(MT_Price) / 10, 0x7FFF)) * 10 / 2).ToString();
         }
     }
 }
