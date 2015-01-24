@@ -587,5 +587,19 @@ namespace pk3DS
                     }
                 }
         }
+        private void rebuildRomFS(object sender, EventArgs e)
+        {
+            if (RomFS != null)
+            {
+                if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild RomFS?") == DialogResult.Yes)
+                {
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.FileName = "romfs.bin";
+                    sfd.Filter = "Binary File|*.*";
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    { new Thread(() => { threads++; RomFSTool.BuildRomFS(RomFS, null, pBar1); threads--; }).Start(); }
+                }
+            }
+        }
     }
 }

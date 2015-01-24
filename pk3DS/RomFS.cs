@@ -9,16 +9,16 @@ using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace MetaDataBuilder
+namespace pk3DS
 {
-    class MetaDataBuilder
+    public partial class RomFSTool
     {
-        private const int PADDING_ALIGN = 16;
-        private string ROOT_DIR;
-        private string TempFile;
-        private const uint ROMFS_UNUSED_ENTRY = 0xFFFFFFFF;
+        internal static const int PADDING_ALIGN = 16;
+        internal static string ROOT_DIR;
+        internal static string TempFile;
+        internal static const uint ROMFS_UNUSED_ENTRY = 0xFFFFFFFF;
 
-        private void BuildRomFS(string path, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
+        internal static void BuildRomFS(string path, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
             ROOT_DIR = path;
             FileNameTable FNT = new FileNameTable(ROOT_DIR);
@@ -43,13 +43,12 @@ namespace MetaDataBuilder
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 TB_Progress.Invoke((Action)(() => UpdateTB_Progress("Creating RomFS MetaData...")));
-                MetaDataBuilder mdb = new MetaDataBuilder();
-                mdb.BuildRomFSHeader(memoryStream, RomFiles, ROOT_DIR);
+                BuildRomFSHeader(memoryStream, RomFiles, ROOT_DIR);
                 MakeRomFSData(RomFiles, memoryStream);
             }
         }
 
-        public static ulong Align(ulong input, ulong alignsize)
+        internal static ulong Align(ulong input, ulong alignsize)
         {
             ulong output = input;
             if (output % alignsize != 0)
@@ -58,8 +57,7 @@ namespace MetaDataBuilder
             }
             return output;
         }
-
-        private void MakeRomFSData(RomfsFile[] RomFiles, MemoryStream metadata, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
+        internal static void MakeRomFSData(RomfsFile[] RomFiles, MemoryStream metadata, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
             TempFile = Path.GetRandomFileName();
             TB_Progress.Invoke((Action)(() => UpdateTB_Progress("Computing IVFC Header Data...")));
@@ -203,8 +201,7 @@ namespace MetaDataBuilder
                 }
             }));
         }
-
-        public void WriteBinary(string tempFile, string outFile, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
+        internal static void WriteBinary(string tempFile, string outFile, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
             using (FileStream fs = new FileStream(outFile, FileMode.Create))
             {
@@ -242,8 +239,7 @@ namespace MetaDataBuilder
                 MessageBox.Show("Wrote RomFS to " + outFile + ".");
             }));
         }
-
-        public static string ByteArrayToString(byte[] input)
+        internal static string ByteArrayToString(byte[] input)
         {
             StringBuilder sb = new StringBuilder();
             foreach (byte b in input)
@@ -253,11 +249,11 @@ namespace MetaDataBuilder
             return sb.ToString();
         }
 
-        public void UpdateTB_Progress(string text, RichTextBox TB_Progress = null)
+        internal static void UpdateTB_Progress(string text, RichTextBox TB_Progress = null)
         {
             TB_Progress.Text += text + Environment.NewLine;
         }
-        public void BuildRomFSHeader(MemoryStream romfs_stream, RomfsFile[] Entries, string DIR)
+        internal static void BuildRomFSHeader(MemoryStream romfs_stream, RomfsFile[] Entries, string DIR)
         {
             ROOT_DIR = DIR;
 
@@ -271,7 +267,7 @@ namespace MetaDataBuilder
 
             WriteMetaDataToStream(MetaData, romfs_stream);
         }
-        private void InitializeMetaData(Romfs_MetaData MetaData)
+        internal static void InitializeMetaData(Romfs_MetaData MetaData)
         {
             MetaData.InfoHeader = new Romfs_InfoHeader();
             MetaData.DirTable = new Romfs_DirTable();
@@ -286,7 +282,7 @@ namespace MetaDataBuilder
             MetaData.DirUTable = new List<uint>();
             MetaData.FileUTable = new List<uint>();
         }
-        private void CalcRomfsSize(Romfs_MetaData MetaData)
+        internal static void CalcRomfsSize(Romfs_MetaData MetaData)
         {
             MetaData.DirNum = 1;
             DirectoryInfo Root_DI = new DirectoryInfo(ROOT_DIR);
@@ -339,7 +335,7 @@ namespace MetaDataBuilder
             }
             MetaData.InfoHeader.DataOffset = MetaDataSize;
         }
-        private void CalcDirSize(Romfs_MetaData MetaData, DirectoryInfo dir)
+        internal static void CalcDirSize(Romfs_MetaData MetaData, DirectoryInfo dir)
         {
             if (MetaData.M_DirTableLen == 0)
             {
@@ -365,7 +361,7 @@ namespace MetaDataBuilder
             MetaData.FileNum += (uint)files.Length;
             MetaData.DirNum += (uint)SubDirectories.Length;
         }
-        private void PopulateRomfs(Romfs_MetaData MetaData, RomfsFile[] Entries)
+        internal static void PopulateRomfs(Romfs_MetaData MetaData, RomfsFile[] Entries)
         {
             //Recursively Add All Directories to DirectoryTable
             AddDir(MetaData, new DirectoryInfo(ROOT_DIR), 0, ROMFS_UNUSED_ENTRY);
@@ -378,7 +374,7 @@ namespace MetaDataBuilder
 
             //Thats it.
         }
-        private void CalculateWeirdOffsets(Romfs_MetaData MetaData)
+        internal static void CalculateWeirdOffsets(Romfs_MetaData MetaData)
         {
             for (int i = 0; i < MetaData.DirTable.DirectoryTable.Count; i++)
             {
@@ -390,7 +386,7 @@ namespace MetaDataBuilder
             }
         }
 
-        private void AddDirHashKey(Romfs_MetaData MetaData, int index)
+        internal static void AddDirHashKey(Romfs_MetaData MetaData, int index)
         {
             uint parent = MetaData.DirTable.DirectoryTable[index].ParentOffset;
             string Name = MetaData.DirTable.DirectoryTable[index].Name;
@@ -418,7 +414,7 @@ namespace MetaDataBuilder
                 }
             }
         }
-        private void AddFileHashKey(Romfs_MetaData MetaData, int index)
+        internal static void AddFileHashKey(Romfs_MetaData MetaData, int index)
         {
             uint parent = MetaData.FileTable.FileTable[index].ParentDirOffset;
             string Name = MetaData.FileTable.FileTable[index].Name;
@@ -447,7 +443,7 @@ namespace MetaDataBuilder
             }
         }
 
-        private uint CalcPathHash(uint ParentOffset, byte[] NameArray, int start, int len)
+        internal static uint CalcPathHash(uint ParentOffset, byte[] NameArray, int start, int len)
         {
             uint hash = ParentOffset ^ 123456789;
             for (int i = 0; i < NameArray.Length; i += 2)
@@ -458,7 +454,7 @@ namespace MetaDataBuilder
             return hash;
         }
 
-        private void AddDir(Romfs_MetaData MetaData, DirectoryInfo Dir, uint parent, uint sibling)
+        internal static void AddDir(Romfs_MetaData MetaData, DirectoryInfo Dir, uint parent, uint sibling)
         {
             uint CurrentDir = MetaData.DirTableLen;
             Romfs_DirEntry Entry = new Romfs_DirEntry();
@@ -490,7 +486,7 @@ namespace MetaDataBuilder
                 }
             }
         }
-        private void AddFiles(Romfs_MetaData MetaData, RomfsFile[] Entries)
+        internal static void AddFiles(Romfs_MetaData MetaData, RomfsFile[] Entries)
         {
             string PrevDirPath = "";
             for (int i = 0; i < Entries.Length; i++)
@@ -522,7 +518,7 @@ namespace MetaDataBuilder
             }
         }
 
-        private void WriteMetaDataToStream(Romfs_MetaData MetaData, MemoryStream stream)
+        internal static void WriteMetaDataToStream(Romfs_MetaData MetaData, MemoryStream stream)
         {
             //First, InfoHeader.
             stream.Write(BitConverter.GetBytes(MetaData.InfoHeader.HeaderLength), 0, 4);
@@ -579,7 +575,7 @@ namespace MetaDataBuilder
 
         //GetRomfs[...]Entry Functions are all O(n)
 
-        private int GetRomfsDirEntry(Romfs_MetaData MetaData, string FullName)
+        internal static int GetRomfsDirEntry(Romfs_MetaData MetaData, string FullName)
         {
             for (int i = 0; i < MetaData.DirTable.DirectoryTable.Count; i++)
             {
@@ -590,7 +586,7 @@ namespace MetaDataBuilder
             }
             return -1;
         }
-        private int GetRomfsDirEntry(Romfs_MetaData MetaData, uint Offset)
+        internal static int GetRomfsDirEntry(Romfs_MetaData MetaData, uint Offset)
         {
             for (int i = 0; i < MetaData.DirTable.DirectoryTable.Count; i++)
             {
@@ -601,7 +597,7 @@ namespace MetaDataBuilder
             }
             return -1;
         }
-        private int GetRomfsFileEntry(Romfs_MetaData MetaData, uint Offset)
+        internal static int GetRomfsFileEntry(Romfs_MetaData MetaData, uint Offset)
         {
             for (int i = 0; i < MetaData.FileTable.FileTable.Count; i++)
             {
@@ -613,6 +609,7 @@ namespace MetaDataBuilder
             return -1;
         }
 
+        #region Support Class/Struct
         public class Romfs_MetaData
         {
             public Romfs_InfoHeader InfoHeader;
@@ -765,5 +762,6 @@ namespace MetaDataBuilder
                 public ulong Size;
             }
         }
+        #endregion
     }
 }
