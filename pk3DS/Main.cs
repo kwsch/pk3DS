@@ -98,22 +98,20 @@ namespace pk3DS
                     oras = true;
                 else if (files.Length == 301) // ORAS demo
                     oras = true;
-                else if (files.Length == 271)
+                else if (files.Length == 271) // XY
                     oras = false;
-                else
+                else // Allow Override
                 {
-                    RomFS = null; 
-                    oras = false;
-                    return false;
+                    DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Loading Override Options:", "Yes - OR/AS" + Environment.NewLine + "No - X/Y" + Environment.NewLine + "Cancel - Abort");
+                    if (dr == DialogResult.Yes) { oras = true; }
+                    else if (dr == DialogResult.No) { oras = false; }
+                    else { RomFS = null; oras = false; return false; }
                 }
-
                 RomFS = path;
                 backupGARCs(false, allGARCs);
                 return true;
             }
-            RomFS = null;
-            oras = false;
-            return false;
+            else { RomFS = null; oras = false; return false; }
         }
         private bool checkIfExeFS(string path)
         {
