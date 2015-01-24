@@ -21,12 +21,11 @@ namespace pk3DS
             data = File.ReadAllBytes(files[0]);
             if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); this.Close(); }
             codebin = files[0];
-            itemlist[0] = movelist[0] = "";
+            movelist[0] = "";
             setupDGV();
             getList();
         }
         string codebin = null;
-        string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
         string[] movelist = Main.getText((Main.oras) ? 14 : 13);
         int offset = (Main.oras) ? 0x004A67EE : 0x00464796;
         byte[] data;

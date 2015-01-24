@@ -61,15 +61,15 @@ namespace pk3DS
             else
             {
                 // Check for ROMFS/EXEFS
-                string[] files = Directory.GetDirectories(path);
-                int count = files.Length;
-                if (count > 2 && count > 0) return; // Only want exefs & romfs
+                string[] folders = Directory.GetDirectories(path);
+                int count = folders.Length;
+                if (count != 2 && count != 0) return; // Only want exefs & romfs (can have exefs there too, it's not a folder)
                 {
                     // first file should be 'exe'
-                    if (new FileInfo(files[0]).Name.Contains("exe") && Directory.Exists(files[0]))
-                        checkIfExeFS(files[0]);
-                    if (new FileInfo(files[count - 1]).Name.Contains("rom") && Directory.Exists(files[count - 1]))
-                        checkIfRomFS(files[count - 1]);
+                    if (new FileInfo(folders[0]).Name.ToUpper().Contains("exe") && Directory.Exists(folders[0]))
+                        checkIfExeFS(folders[0]);
+                    if (new FileInfo(folders[count - 1]).Name.ToUpper().Contains("rom") && Directory.Exists(folders[count - 1]))
+                        checkIfRomFS(folders[count - 1]);
 
                     GB_RomFS.Enabled = (RomFS != null);
                     GB_ExeFS.Enabled = (RomFS != null && ExeFS != null);

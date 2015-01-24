@@ -22,7 +22,6 @@ namespace pk3DS
         private GroupBox[] groupbox_spec;
         private ComboBox[] forme_spec, item_spec;
         private CheckBox[] checkbox_spec;
-        private Control[][] all_spec;
         private PictureBox[][] picturebox_spec;
         private List<cbItem> monNames;
         private bool loaded = false;
