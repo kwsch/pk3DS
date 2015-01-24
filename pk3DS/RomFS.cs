@@ -13,10 +13,10 @@ namespace pk3DS
 {
     public partial class RomFSTool
     {
-        internal static const int PADDING_ALIGN = 16;
+        internal const int PADDING_ALIGN = 16;
         internal static string ROOT_DIR;
         internal static string TempFile;
-        internal static const uint ROMFS_UNUSED_ENTRY = 0xFFFFFFFF;
+        internal const uint ROMFS_UNUSED_ENTRY = 0xFFFFFFFF;
 
         internal static void BuildRomFS(string path, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
