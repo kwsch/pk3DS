@@ -171,7 +171,7 @@
             this.label1.TabIndex = 11;
             this.label1.Text = "%";
             // 
-            // Randomizer
+            // TrainerRand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -189,7 +189,8 @@
             this.Controls.Add(this.CHK_RandomItems);
             this.Controls.Add(this.CHK_RandomPKM);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "Randomizer";
+            this.Name = "TrainerRand";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Randomizer";
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).EndInit();
             this.ResumeLayout(false);

@@ -60,6 +60,7 @@ namespace pk3DS
             CB_Inflict.Items.Add("Special");
 
             CB_Move.Items.RemoveAt(0);
+            files = Directory.GetFiles("move");
             CB_Move.SelectedIndex = 0;
         }
         int entry = -1;

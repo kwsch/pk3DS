@@ -476,9 +476,9 @@ namespace pk3DS
                     trpk_IV[i].Items.Add(z.ToString());
 
                 trpk_gender[i].Items.Clear();
+                trpk_gender[i].Items.Add("- / G/Random");
                 trpk_gender[i].Items.Add("♂ / M");
                 trpk_gender[i].Items.Add("♀ / F");
-                trpk_gender[i].Items.Add("- / G");
 
                 trpk_form[i].Items.Add("");
 
@@ -570,21 +570,8 @@ namespace pk3DS
                         // randomize pokemon
                         int species = (int)(rnd32() % 722);
                         trpk_pkm[p].SelectedIndex = species;
-                        // Set Gender
-                        {
-                            int gv = personal[species][0x12];
-                            int g = (int)(rnd32() % 0x100);
-                            if (gv == 0xFF) // genderless
-                                g = 2;
-                            else if (gv == 0xFE) // female only
-                                g = 1;
-                            else if (gv == 0) // male only
-                                g = 0;
-                            else
-                                g = Convert.ToInt16(g < gv); // if greater than, is female
-
-                            trpk_gender[p].SelectedIndex = g;
-                        }
+                        // Set Gender to Random
+                        trpk_gender[p].SelectedIndex = 0;
 
                         // randomize form
                         trpk_form[p].SelectedIndex = (int)(rnd32() % trpk_form[p].Items.Count);
