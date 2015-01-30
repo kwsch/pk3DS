@@ -63,7 +63,7 @@ namespace pk3DS
                 // Check for ROMFS/EXEFS
                 string[] folders = Directory.GetDirectories(path);
                 int count = folders.Length;
-                if (count != 2 && count != 0) return; // Only want exefs & romfs (can have exefs there too, it's not a folder)
+                if (count != 2 && count != 1) return; // Only want exefs & romfs (can have exheader there too, it's not a folder)
                 {
                     // first file should be 'exe'
                     if (new FileInfo(folders[0]).Name.ToLower().Contains("exe") && Directory.Exists(folders[0]))
