@@ -126,6 +126,8 @@
             // 
             // CB_Move
             // 
+            this.CB_Move.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Move.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Move.DropDownWidth = 120;
             this.CB_Move.FormattingEnabled = true;
             this.CB_Move.Location = new System.Drawing.Point(71, 10);

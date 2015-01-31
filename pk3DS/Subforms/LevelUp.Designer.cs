@@ -51,6 +51,8 @@
             // 
             // CB_Species
             // 
+            this.CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Species.FormattingEnabled = true;
             this.CB_Species.Location = new System.Drawing.Point(66, 12);
             this.CB_Species.Name = "CB_Species";

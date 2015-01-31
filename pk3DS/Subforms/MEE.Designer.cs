@@ -136,6 +136,8 @@
             // 
             // CB_Forme1
             // 
+            this.CB_Forme1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Forme1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Forme1.FormattingEnabled = true;
             this.CB_Forme1.Location = new System.Drawing.Point(5, 82);
             this.CB_Forme1.Name = "CB_Forme1";
@@ -145,6 +147,8 @@
             // 
             // CB_Item1
             // 
+            this.CB_Item1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Item1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Item1.FormattingEnabled = true;
             this.CB_Item1.Location = new System.Drawing.Point(2, 35);
             this.CB_Item1.Name = "CB_Item1";
@@ -190,6 +194,8 @@
             // 
             // CB_Forme2
             // 
+            this.CB_Forme2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Forme2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Forme2.FormattingEnabled = true;
             this.CB_Forme2.Location = new System.Drawing.Point(2, 82);
             this.CB_Forme2.Name = "CB_Forme2";
@@ -209,6 +215,8 @@
             // 
             // CB_Item2
             // 
+            this.CB_Item2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Item2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Item2.FormattingEnabled = true;
             this.CB_Item2.Location = new System.Drawing.Point(2, 36);
             this.CB_Item2.Name = "CB_Item2";
@@ -258,6 +266,8 @@
             // 
             // CB_Species
             // 
+            this.CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Species.FormattingEnabled = true;
             this.CB_Species.Location = new System.Drawing.Point(12, 12);
             this.CB_Species.Name = "CB_Species";
@@ -303,6 +313,8 @@
             // 
             // CB_Forme3
             // 
+            this.CB_Forme3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Forme3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Forme3.FormattingEnabled = true;
             this.CB_Forme3.Location = new System.Drawing.Point(3, 82);
             this.CB_Forme3.Name = "CB_Forme3";
@@ -322,6 +334,8 @@
             // 
             // CB_Item3
             // 
+            this.CB_Item3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Item3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Item3.FormattingEnabled = true;
             this.CB_Item3.Location = new System.Drawing.Point(3, 36);
             this.CB_Item3.Name = "CB_Item3";
@@ -383,7 +397,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(414, 238);
+            this.ClientSize = new System.Drawing.Size(414, 212);
             this.Controls.Add(this.B_Dump);
             this.Controls.Add(this.CHK_MEvo3);
             this.Controls.Add(this.GB_MEvo3);
@@ -392,6 +406,8 @@
             this.Controls.Add(this.CHK_MEvo1);
             this.Controls.Add(this.GB_MEvo2);
             this.Controls.Add(this.GB_MEvo1);
+            this.MaximumSize = new System.Drawing.Size(430, 250);
+            this.MinimumSize = new System.Drawing.Size(430, 250);
             this.Name = "MEE";
             this.Text = "Mega Evo Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);

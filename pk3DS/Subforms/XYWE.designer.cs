@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.TabControl_EncounterData = new System.Windows.Forms.TabControl();
             this.TabPage_Land = new System.Windows.Forms.TabPage();
             this.label107 = new System.Windows.Forms.Label();
@@ -544,7 +543,6 @@
             this.CB_LocationID = new System.Windows.Forms.ComboBox();
             this.B_Save = new System.Windows.Forms.Button();
             this.label134 = new System.Windows.Forms.Label();
-            this.label135 = new System.Windows.Forms.Label();
             this.label136 = new System.Windows.Forms.Label();
             this.CB_FormeList = new System.Windows.Forms.ComboBox();
             this.B_Randomize = new System.Windows.Forms.Button();
@@ -838,22 +836,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUP_YellowMax10)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(813, 36);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "XY Garc is a/0/1/2";
-            // 
             // TabControl_EncounterData
             // 
             this.TabControl_EncounterData.Controls.Add(this.TabPage_Land);
             this.TabControl_EncounterData.Controls.Add(this.TabPage_Water);
             this.TabControl_EncounterData.Controls.Add(this.TabPage_Horde);
             this.TabControl_EncounterData.Controls.Add(this.tabPage1);
-            this.TabControl_EncounterData.Location = new System.Drawing.Point(19, 50);
+            this.TabControl_EncounterData.Location = new System.Drawing.Point(12, 12);
             this.TabControl_EncounterData.Name = "TabControl_EncounterData";
             this.TabControl_EncounterData.SelectedIndex = 0;
             this.TabControl_EncounterData.Size = new System.Drawing.Size(926, 395);
@@ -4582,7 +4571,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(384, 20);
+            this.label9.Location = new System.Drawing.Point(343, 20);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(75, 13);
             this.label9.TabIndex = 374;
@@ -5074,7 +5063,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(89, 20);
+            this.label2.Location = new System.Drawing.Point(44, 20);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 13);
             this.label2.TabIndex = 310;
@@ -15535,7 +15524,7 @@
             // 
             // NUP_HordeCMax5
             // 
-            this.NUP_HordeCMax5.Location = new System.Drawing.Point(828, 137);
+            this.NUP_HordeCMax5.Location = new System.Drawing.Point(828, 138);
             this.NUP_HordeCMax5.Name = "NUP_HordeCMax5";
             this.NUP_HordeCMax5.Size = new System.Drawing.Size(41, 20);
             this.NUP_HordeCMax5.TabIndex = 316;
@@ -19008,7 +18997,7 @@
             // 
             // NUP_HordeBMax5
             // 
-            this.NUP_HordeBMax5.Location = new System.Drawing.Point(533, 137);
+            this.NUP_HordeBMax5.Location = new System.Drawing.Point(533, 138);
             this.NUP_HordeBMax5.Name = "NUP_HordeBMax5";
             this.NUP_HordeBMax5.Size = new System.Drawing.Size(41, 20);
             this.NUP_HordeBMax5.TabIndex = 292;
@@ -20381,7 +20370,7 @@
             // 
             // NUP_HordeAMax5
             // 
-            this.NUP_HordeAMax5.Location = new System.Drawing.Point(237, 137);
+            this.NUP_HordeAMax5.Location = new System.Drawing.Point(237, 138);
             this.NUP_HordeAMax5.Name = "NUP_HordeAMax5";
             this.NUP_HordeAMax5.Size = new System.Drawing.Size(41, 20);
             this.NUP_HordeAMax5.TabIndex = 292;
@@ -26228,7 +26217,7 @@
             // label85
             // 
             this.label85.AutoSize = true;
-            this.label85.Location = new System.Drawing.Point(673, 18);
+            this.label85.Location = new System.Drawing.Point(646, 18);
             this.label85.Name = "label85";
             this.label85.Size = new System.Drawing.Size(66, 13);
             this.label85.TabIndex = 630;
@@ -26678,7 +26667,7 @@
             // label69
             // 
             this.label69.AutoSize = true;
-            this.label69.Location = new System.Drawing.Point(370, 18);
+            this.label69.Location = new System.Drawing.Point(344, 18);
             this.label69.Name = "label69";
             this.label69.Size = new System.Drawing.Size(76, 13);
             this.label69.TabIndex = 566;
@@ -27128,7 +27117,7 @@
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(65, 17);
+            this.label53.Location = new System.Drawing.Point(42, 17);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(77, 13);
             this.label53.TabIndex = 502;
@@ -27517,7 +27506,7 @@
             // 
             this.CB_LocationID.Enabled = false;
             this.CB_LocationID.FormattingEnabled = true;
-            this.CB_LocationID.Location = new System.Drawing.Point(106, 19);
+            this.CB_LocationID.Location = new System.Drawing.Point(233, 8);
             this.CB_LocationID.Name = "CB_LocationID";
             this.CB_LocationID.Size = new System.Drawing.Size(164, 21);
             this.CB_LocationID.TabIndex = 407;
@@ -27526,36 +27515,27 @@
             // B_Save
             // 
             this.B_Save.Enabled = false;
-            this.B_Save.Location = new System.Drawing.Point(511, 15);
+            this.B_Save.Location = new System.Drawing.Point(403, 7);
             this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(135, 21);
+            this.B_Save.Size = new System.Drawing.Size(135, 23);
             this.B_Save.TabIndex = 410;
-            this.B_Save.Text = "Save Open Encounters";
+            this.B_Save.Text = "Save Current Encounters";
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
             // label134
             // 
             this.label134.AutoSize = true;
-            this.label134.Location = new System.Drawing.Point(20, 23);
+            this.label134.Location = new System.Drawing.Point(201, 12);
             this.label134.Name = "label134";
-            this.label134.Size = new System.Drawing.Size(80, 13);
+            this.label134.Size = new System.Drawing.Size(28, 13);
             this.label134.TabIndex = 411;
-            this.label134.Text = "Location ID #s:";
-            // 
-            // label135
-            // 
-            this.label135.AutoSize = true;
-            this.label135.Location = new System.Drawing.Point(508, 39);
-            this.label135.Name = "label135";
-            this.label135.Size = new System.Drawing.Size(145, 13);
-            this.label135.TabIndex = 412;
-            this.label135.Text = "(Only saves currently viewed)";
+            this.label134.Text = "Loc:";
             // 
             // label136
             // 
             this.label136.AutoSize = true;
-            this.label136.Location = new System.Drawing.Point(666, 12);
+            this.label136.Location = new System.Drawing.Point(752, 12);
             this.label136.Name = "label136";
             this.label136.Size = new System.Drawing.Size(58, 13);
             this.label136.TabIndex = 414;
@@ -27565,6 +27545,7 @@
             // 
             this.CB_FormeList.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_FormeList.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_FormeList.DropDownWidth = 150;
             this.CB_FormeList.FormattingEnabled = true;
             this.CB_FormeList.Items.AddRange(new object[] {
             "Unown-A - 0",
@@ -27694,15 +27675,15 @@
             "Genesect-Electric - 2",
             "Genesect-Fire - 3",
             "Genesect-Ice - 4"});
-            this.CB_FormeList.Location = new System.Drawing.Point(730, 9);
+            this.CB_FormeList.Location = new System.Drawing.Point(816, 8);
             this.CB_FormeList.Name = "CB_FormeList";
-            this.CB_FormeList.Size = new System.Drawing.Size(201, 21);
+            this.CB_FormeList.Size = new System.Drawing.Size(108, 21);
             this.CB_FormeList.TabIndex = 413;
             // 
             // B_Randomize
             // 
             this.B_Randomize.Enabled = false;
-            this.B_Randomize.Location = new System.Drawing.Point(288, 17);
+            this.B_Randomize.Location = new System.Drawing.Point(544, 7);
             this.B_Randomize.Name = "B_Randomize";
             this.B_Randomize.Size = new System.Drawing.Size(95, 23);
             this.B_Randomize.TabIndex = 417;
@@ -27713,7 +27694,7 @@
             // B_Dump
             // 
             this.B_Dump.Enabled = false;
-            this.B_Dump.Location = new System.Drawing.Point(392, 17);
+            this.B_Dump.Location = new System.Drawing.Point(645, 7);
             this.B_Dump.Name = "B_Dump";
             this.B_Dump.Size = new System.Drawing.Size(95, 23);
             this.B_Dump.TabIndex = 418;
@@ -27725,19 +27706,19 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(954, 458);
+            this.ClientSize = new System.Drawing.Size(948, 416);
             this.Controls.Add(this.B_Dump);
             this.Controls.Add(this.B_Randomize);
             this.Controls.Add(this.label136);
             this.Controls.Add(this.CB_FormeList);
-            this.Controls.Add(this.label135);
             this.Controls.Add(this.label134);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.CB_LocationID);
             this.Controls.Add(this.TabControl_EncounterData);
-            this.Controls.Add(this.label1);
+            this.MaximumSize = new System.Drawing.Size(964, 454);
+            this.MinimumSize = new System.Drawing.Size(964, 454);
             this.Name = "XYWE";
-            this.Text = "XYWE V0.1";
+            this.Text = "XY Wild Editor";
             this.Load += new System.EventHandler(this.PreloadTabs);
             this.TabControl_EncounterData.ResumeLayout(false);
             this.TabPage_Land.ResumeLayout(false);
@@ -28037,7 +28018,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabControl TabControl_EncounterData;
         private System.Windows.Forms.TabPage TabPage_Land;
         private System.Windows.Forms.NumericUpDown NUP_RTForme1;
@@ -28553,7 +28533,6 @@
         private System.Windows.Forms.ComboBox CB_LocationID;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Label label134;
-        private System.Windows.Forms.Label label135;
         private System.Windows.Forms.Label label136;
         private System.Windows.Forms.ComboBox CB_FormeList;
         private System.Windows.Forms.Button B_Randomize;

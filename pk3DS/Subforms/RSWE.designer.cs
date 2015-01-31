@@ -564,9 +564,11 @@
             // 
             // CB_LocationID
             // 
+            this.CB_LocationID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_LocationID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_LocationID.Enabled = false;
             this.CB_LocationID.FormattingEnabled = true;
-            this.CB_LocationID.Location = new System.Drawing.Point(240, 19);
+            this.CB_LocationID.Location = new System.Drawing.Point(233, 8);
             this.CB_LocationID.Name = "CB_LocationID";
             this.CB_LocationID.Size = new System.Drawing.Size(164, 21);
             this.CB_LocationID.TabIndex = 407;
@@ -575,7 +577,7 @@
             // B_Save
             // 
             this.B_Save.Enabled = false;
-            this.B_Save.Location = new System.Drawing.Point(410, 18);
+            this.B_Save.Location = new System.Drawing.Point(403, 7);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(135, 23);
             this.B_Save.TabIndex = 410;
@@ -586,16 +588,16 @@
             // label134
             // 
             this.label134.AutoSize = true;
-            this.label134.Location = new System.Drawing.Point(154, 23);
+            this.label134.Location = new System.Drawing.Point(201, 12);
             this.label134.Name = "label134";
-            this.label134.Size = new System.Drawing.Size(80, 13);
+            this.label134.Size = new System.Drawing.Size(28, 13);
             this.label134.TabIndex = 411;
-            this.label134.Text = "Location ID #s:";
+            this.label134.Text = "Loc:";
             // 
             // label136
             // 
             this.label136.AutoSize = true;
-            this.label136.Location = new System.Drawing.Point(759, 23);
+            this.label136.Location = new System.Drawing.Point(752, 12);
             this.label136.Name = "label136";
             this.label136.Size = new System.Drawing.Size(58, 13);
             this.label136.TabIndex = 414;
@@ -735,7 +737,7 @@
             "Genesect-Electric - 2",
             "Genesect-Fire - 3",
             "Genesect-Ice - 4"});
-            this.CB_FormeList.Location = new System.Drawing.Point(823, 19);
+            this.CB_FormeList.Location = new System.Drawing.Point(816, 8);
             this.CB_FormeList.Name = "CB_FormeList";
             this.CB_FormeList.Size = new System.Drawing.Size(108, 21);
             this.CB_FormeList.TabIndex = 413;
@@ -860,7 +862,7 @@
             // 
             // NUP_HordeCMax5
             // 
-            this.NUP_HordeCMax5.Location = new System.Drawing.Point(828, 137);
+            this.NUP_HordeCMax5.Location = new System.Drawing.Point(828, 138);
             this.NUP_HordeCMax5.Name = "NUP_HordeCMax5";
             this.NUP_HordeCMax5.Size = new System.Drawing.Size(41, 20);
             this.NUP_HordeCMax5.TabIndex = 316;
@@ -4333,7 +4335,7 @@
             // 
             // NUP_HordeBMax5
             // 
-            this.NUP_HordeBMax5.Location = new System.Drawing.Point(533, 137);
+            this.NUP_HordeBMax5.Location = new System.Drawing.Point(533, 138);
             this.NUP_HordeBMax5.Name = "NUP_HordeBMax5";
             this.NUP_HordeBMax5.Size = new System.Drawing.Size(41, 20);
             this.NUP_HordeBMax5.TabIndex = 292;
@@ -5706,7 +5708,7 @@
             // 
             // NUP_HordeAMax5
             // 
-            this.NUP_HordeAMax5.Location = new System.Drawing.Point(237, 137);
+            this.NUP_HordeAMax5.Location = new System.Drawing.Point(237, 138);
             this.NUP_HordeAMax5.Name = "NUP_HordeAMax5";
             this.NUP_HordeAMax5.Size = new System.Drawing.Size(41, 20);
             this.NUP_HordeAMax5.TabIndex = 292;
@@ -21262,6 +21264,8 @@
             // 
             // CB_Swarm3
             // 
+            this.CB_Swarm3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Swarm3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Swarm3.FormattingEnabled = true;
             this.CB_Swarm3.Location = new System.Drawing.Point(644, 247);
             this.CB_Swarm3.Name = "CB_Swarm3";
@@ -21270,6 +21274,8 @@
             // 
             // CB_Swarm2
             // 
+            this.CB_Swarm2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Swarm2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Swarm2.FormattingEnabled = true;
             this.CB_Swarm2.Location = new System.Drawing.Point(644, 220);
             this.CB_Swarm2.Name = "CB_Swarm2";
@@ -21278,6 +21284,8 @@
             // 
             // CB_Swarm1
             // 
+            this.CB_Swarm1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Swarm1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Swarm1.FormattingEnabled = true;
             this.CB_Swarm1.Location = new System.Drawing.Point(644, 194);
             this.CB_Swarm1.Name = "CB_Swarm1";
@@ -21496,6 +21504,8 @@
             // 
             // CB_TallGrass12
             // 
+            this.CB_TallGrass12.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_TallGrass12.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TallGrass12.FormattingEnabled = true;
             this.CB_TallGrass12.Location = new System.Drawing.Point(343, 327);
             this.CB_TallGrass12.Name = "CB_TallGrass12";
@@ -21511,6 +21521,8 @@
             // 
             // CB_TallGrass11
             // 
+            this.CB_TallGrass11.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_TallGrass11.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TallGrass11.FormattingEnabled = true;
             this.CB_TallGrass11.Location = new System.Drawing.Point(343, 301);
             this.CB_TallGrass11.Name = "CB_TallGrass11";
@@ -21526,6 +21538,8 @@
             // 
             // CB_TallGrass10
             // 
+            this.CB_TallGrass10.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_TallGrass10.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TallGrass10.FormattingEnabled = true;
             this.CB_TallGrass10.Location = new System.Drawing.Point(343, 274);
             this.CB_TallGrass10.Name = "CB_TallGrass10";
@@ -21541,6 +21555,8 @@
             // 
             // CB_TallGrass9
             // 
+            this.CB_TallGrass9.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_TallGrass9.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TallGrass9.FormattingEnabled = true;
             this.CB_TallGrass9.Location = new System.Drawing.Point(343, 248);
             this.CB_TallGrass9.Name = "CB_TallGrass9";
@@ -21556,6 +21572,8 @@
             // 
             // CB_TallGrass8
             // 
+            this.CB_TallGrass8.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_TallGrass8.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TallGrass8.FormattingEnabled = true;
             this.CB_TallGrass8.Location = new System.Drawing.Point(343, 221);
             this.CB_TallGrass8.Name = "CB_TallGrass8";
@@ -21571,6 +21589,8 @@
             // 
             // CB_TallGrass7
             // 
+            this.CB_TallGrass7.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_TallGrass7.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TallGrass7.FormattingEnabled = true;
             this.CB_TallGrass7.Location = new System.Drawing.Point(343, 195);
             this.CB_TallGrass7.Name = "CB_TallGrass7";
@@ -21586,6 +21606,8 @@
             // 
             // CB_TallGrass6
             // 
+            this.CB_TallGrass6.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_TallGrass6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TallGrass6.FormattingEnabled = true;
             this.CB_TallGrass6.Location = new System.Drawing.Point(343, 168);
             this.CB_TallGrass6.Name = "CB_TallGrass6";
@@ -21601,6 +21623,8 @@
             // 
             // CB_TallGrass5
             // 
+            this.CB_TallGrass5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_TallGrass5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TallGrass5.FormattingEnabled = true;
             this.CB_TallGrass5.Location = new System.Drawing.Point(343, 142);
             this.CB_TallGrass5.Name = "CB_TallGrass5";
@@ -21616,6 +21640,8 @@
             // 
             // CB_TallGrass4
             // 
+            this.CB_TallGrass4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_TallGrass4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TallGrass4.FormattingEnabled = true;
             this.CB_TallGrass4.Location = new System.Drawing.Point(343, 115);
             this.CB_TallGrass4.Name = "CB_TallGrass4";
@@ -21631,6 +21657,8 @@
             // 
             // CB_TallGrass3
             // 
+            this.CB_TallGrass3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_TallGrass3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TallGrass3.FormattingEnabled = true;
             this.CB_TallGrass3.Location = new System.Drawing.Point(343, 89);
             this.CB_TallGrass3.Name = "CB_TallGrass3";
@@ -21646,6 +21674,8 @@
             // 
             // CB_TallGrass2
             // 
+            this.CB_TallGrass2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_TallGrass2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TallGrass2.FormattingEnabled = true;
             this.CB_TallGrass2.Location = new System.Drawing.Point(343, 62);
             this.CB_TallGrass2.Name = "CB_TallGrass2";
@@ -21661,6 +21691,8 @@
             // 
             // CB_TallGrass1
             // 
+            this.CB_TallGrass1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_TallGrass1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TallGrass1.FormattingEnabled = true;
             this.CB_TallGrass1.Location = new System.Drawing.Point(343, 36);
             this.CB_TallGrass1.Name = "CB_TallGrass1";
@@ -25279,7 +25311,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(384, 20);
+            this.label9.Location = new System.Drawing.Point(343, 20);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(54, 13);
             this.label9.TabIndex = 374;
@@ -25458,7 +25490,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(89, 20);
+            this.label2.Location = new System.Drawing.Point(44, 20);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 13);
             this.label2.TabIndex = 310;
@@ -25473,6 +25505,8 @@
             // 
             // CB_Grass12
             // 
+            this.CB_Grass12.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Grass12.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Grass12.FormattingEnabled = true;
             this.CB_Grass12.Location = new System.Drawing.Point(44, 327);
             this.CB_Grass12.Name = "CB_Grass12";
@@ -25488,6 +25522,8 @@
             // 
             // CB_Grass11
             // 
+            this.CB_Grass11.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Grass11.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Grass11.FormattingEnabled = true;
             this.CB_Grass11.Location = new System.Drawing.Point(44, 301);
             this.CB_Grass11.Name = "CB_Grass11";
@@ -25503,6 +25539,8 @@
             // 
             // CB_Grass10
             // 
+            this.CB_Grass10.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Grass10.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Grass10.FormattingEnabled = true;
             this.CB_Grass10.Location = new System.Drawing.Point(44, 274);
             this.CB_Grass10.Name = "CB_Grass10";
@@ -25518,6 +25556,8 @@
             // 
             // CB_Grass9
             // 
+            this.CB_Grass9.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Grass9.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Grass9.FormattingEnabled = true;
             this.CB_Grass9.Location = new System.Drawing.Point(44, 248);
             this.CB_Grass9.Name = "CB_Grass9";
@@ -25533,6 +25573,8 @@
             // 
             // CB_Grass8
             // 
+            this.CB_Grass8.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Grass8.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Grass8.FormattingEnabled = true;
             this.CB_Grass8.Location = new System.Drawing.Point(44, 221);
             this.CB_Grass8.Name = "CB_Grass8";
@@ -25548,6 +25590,8 @@
             // 
             // CB_Grass7
             // 
+            this.CB_Grass7.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Grass7.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Grass7.FormattingEnabled = true;
             this.CB_Grass7.Location = new System.Drawing.Point(44, 195);
             this.CB_Grass7.Name = "CB_Grass7";
@@ -25563,6 +25607,8 @@
             // 
             // CB_Grass6
             // 
+            this.CB_Grass6.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Grass6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Grass6.FormattingEnabled = true;
             this.CB_Grass6.Location = new System.Drawing.Point(44, 168);
             this.CB_Grass6.Name = "CB_Grass6";
@@ -25578,6 +25624,8 @@
             // 
             // CB_Grass5
             // 
+            this.CB_Grass5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Grass5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Grass5.FormattingEnabled = true;
             this.CB_Grass5.Location = new System.Drawing.Point(44, 142);
             this.CB_Grass5.Name = "CB_Grass5";
@@ -25593,6 +25641,8 @@
             // 
             // CB_Grass4
             // 
+            this.CB_Grass4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Grass4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Grass4.FormattingEnabled = true;
             this.CB_Grass4.Location = new System.Drawing.Point(44, 115);
             this.CB_Grass4.Name = "CB_Grass4";
@@ -25608,6 +25658,8 @@
             // 
             // CB_Grass3
             // 
+            this.CB_Grass3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Grass3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Grass3.FormattingEnabled = true;
             this.CB_Grass3.Location = new System.Drawing.Point(44, 89);
             this.CB_Grass3.Name = "CB_Grass3";
@@ -25623,6 +25675,8 @@
             // 
             // CB_Grass2
             // 
+            this.CB_Grass2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Grass2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Grass2.FormattingEnabled = true;
             this.CB_Grass2.Location = new System.Drawing.Point(44, 62);
             this.CB_Grass2.Name = "CB_Grass2";
@@ -25638,6 +25692,8 @@
             // 
             // CB_Grass1
             // 
+            this.CB_Grass1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Grass1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Grass1.FormattingEnabled = true;
             this.CB_Grass1.Location = new System.Drawing.Point(44, 36);
             this.CB_Grass1.Name = "CB_Grass1";
@@ -25890,7 +25946,7 @@
             this.TabControl_EncounterData.Controls.Add(this.TabPage_Land);
             this.TabControl_EncounterData.Controls.Add(this.TabPage_Water);
             this.TabControl_EncounterData.Controls.Add(this.TabPage_Horde);
-            this.TabControl_EncounterData.Location = new System.Drawing.Point(19, 50);
+            this.TabControl_EncounterData.Location = new System.Drawing.Point(12, 12);
             this.TabControl_EncounterData.Name = "TabControl_EncounterData";
             this.TabControl_EncounterData.SelectedIndex = 0;
             this.TabControl_EncounterData.Size = new System.Drawing.Size(926, 395);
@@ -25899,7 +25955,7 @@
             // B_Dump
             // 
             this.B_Dump.Enabled = false;
-            this.B_Dump.Location = new System.Drawing.Point(652, 18);
+            this.B_Dump.Location = new System.Drawing.Point(645, 7);
             this.B_Dump.Name = "B_Dump";
             this.B_Dump.Size = new System.Drawing.Size(95, 23);
             this.B_Dump.TabIndex = 415;
@@ -25910,7 +25966,7 @@
             // B_Randomize
             // 
             this.B_Randomize.Enabled = false;
-            this.B_Randomize.Location = new System.Drawing.Point(551, 18);
+            this.B_Randomize.Location = new System.Drawing.Point(544, 7);
             this.B_Randomize.Name = "B_Randomize";
             this.B_Randomize.Size = new System.Drawing.Size(95, 23);
             this.B_Randomize.TabIndex = 416;
@@ -25922,7 +25978,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(954, 458);
+            this.ClientSize = new System.Drawing.Size(948, 416);
             this.Controls.Add(this.B_Randomize);
             this.Controls.Add(this.B_Dump);
             this.Controls.Add(this.label136);
@@ -25931,8 +25987,11 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.CB_LocationID);
             this.Controls.Add(this.TabControl_EncounterData);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(964, 454);
+            this.MinimumSize = new System.Drawing.Size(964, 454);
             this.Name = "RSWE";
-            this.Text = "RSWE V0.1";
+            this.Text = "ORAS Wild Editor";
             this.TabPage_Horde.ResumeLayout(false);
             this.TabPage_Horde.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_HordeCMax5)).EndInit();

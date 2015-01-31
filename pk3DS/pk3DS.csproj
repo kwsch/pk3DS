@@ -178,6 +178,9 @@
     <EmbeddedResource Include="Subforms\TMHM.resx">
       <DependentUpon>TMHM.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\TrainerRand.resx">
+      <DependentUpon>TrainerRand.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Tutors.resx">
       <DependentUpon>Tutors.cs</DependentUpon>
     </EmbeddedResource>

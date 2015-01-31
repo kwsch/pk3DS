@@ -98,10 +98,10 @@ namespace pk3DS
             {
                 int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[1].Value);
                 if (move < 1) continue;
-                
+
                 moves.Add((ushort)move);
                 string level = (string)dgv.Rows[i].Cells[0].Value.ToString();
-                ushort lv = 1; 
+                ushort lv = 1;
                 UInt16.TryParse(level, out lv);
                 if (lv > 100) lv = 100;
                 else if (lv == 0) lv = 1;
@@ -132,16 +132,21 @@ namespace pk3DS
         private void B_RandAll_Click(object sender, EventArgs e)
         {
             Random rnd = new Random();
+
+            int[] firstMoves = new int[] { 1, 40, 52, 55, 64, 71, 84, 98, 122, 141 };
+            // Pound, Poison Sting, Ember, Water Gun, Peck, Absorb, Thunder Shock, Quick Attack, Lick, Leech Life
+            
             for (int i = 0; i < CB_Species.Items.Count; i++)
             {
                 CB_Species.SelectedIndex = i; // Get new Species
                 getList();
                 int count = dgv.Rows.Count - 1;
-                for (int j = 0; j < count; j++)
+                dgv.Rows[0].Cells[1].Value = movelist[firstMoves[rnd.Next(0, firstMoves.Length)]];
+                for (int j = 1; j < count; j++)
                     dgv.Rows[j].Cells[1].Value = movelist[rnd.Next(1, movelist.Length)];
             }
             setList();
-            Util.Alert("All Pokemon's Egg Moves have been randomized!");
+            Util.Alert("All Pokemon's Level Up Moves have been randomized!");
         }
         private void B_Dump_Click(object sender, EventArgs e)
         {
@@ -169,7 +174,7 @@ namespace pk3DS
                 string path = sfd.FileName;
                 File.WriteAllText(path, result, System.Text.Encoding.Unicode);
             }
-            dumping = false;            
+            dumping = false;
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)
