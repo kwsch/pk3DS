@@ -569,10 +569,6 @@ namespace pk3DS
                 File.WriteAllBytes(this.encdatapaths[1], decStorage);
             }
         }
-        private void getRandomList() // Prevent DexNav Crashing
-        {
-            
-        }
         private int getRandomSlot(int[] arr)
         {
             return arr[rnd32() % 18]; // Get a Random of the list of 18.
@@ -600,7 +596,7 @@ namespace pk3DS
                     {
                         if (spec[slot].SelectedIndex != 0)
                         {
-                            int species = getRandomSlot(RandomList);
+                            int species = RandomList[rnd32() % 18];
                             spec[slot].SelectedIndex = species;
 
                             if (species == 666 || species == 665 || species == 664) // Vivillon
