@@ -260,6 +260,7 @@
             this.L_Game.Size = new System.Drawing.Size(91, 13);
             this.L_Game.TabIndex = 5;
             this.L_Game.Text = "No Game Loaded";
+            this.L_Game.Click += new System.EventHandler(this.L_Game_Click);
             // 
             // pBar1
             // 

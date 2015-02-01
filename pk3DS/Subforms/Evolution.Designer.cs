@@ -71,6 +71,7 @@
             this.PB_5 = new System.Windows.Forms.PictureBox();
             this.PB_8 = new System.Windows.Forms.PictureBox();
             this.PB_7 = new System.Windows.Forms.PictureBox();
+            this.B_RandAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PB_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_4)).BeginInit();
@@ -511,11 +512,22 @@
             this.PB_7.TabIndex = 60;
             this.PB_7.TabStop = false;
             // 
+            // B_RandAll
+            // 
+            this.B_RandAll.Location = new System.Drawing.Point(258, 11);
+            this.B_RandAll.Name = "B_RandAll";
+            this.B_RandAll.Size = new System.Drawing.Size(100, 23);
+            this.B_RandAll.TabIndex = 62;
+            this.B_RandAll.Text = "Randomize All";
+            this.B_RandAll.UseVisualStyleBackColor = true;
+            this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
+            // 
             // Evolution
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 477);
+            this.Controls.Add(this.B_RandAll);
             this.Controls.Add(this.PB_8);
             this.Controls.Add(this.PB_7);
             this.Controls.Add(this.PB_6);
@@ -624,5 +636,6 @@
         private System.Windows.Forms.PictureBox PB_5;
         private System.Windows.Forms.PictureBox PB_8;
         private System.Windows.Forms.PictureBox PB_7;
+        private System.Windows.Forms.Button B_RandAll;
     }
 }

@@ -88,7 +88,7 @@ namespace pk3DS
                 NUD_HitMin.Value = data[0x7] & 0xF;
                 NUD_HitMax.Value = data[0x7] >> 4;
                 short inflictVal = BitConverter.ToInt16(data, 0x08);
-                if (inflictVal < 0)
+                if (inflictVal > -1)
                     CB_Inflict.SelectedIndex = inflictVal;
                 else 
                     CB_Inflict.SelectedIndex = CB_Inflict.Items.Count - 1;
@@ -169,6 +169,25 @@ namespace pk3DS
         {
             setEntry();
             Util.packMini("move", "WD", "0", ".bin", "move");
+        }
+
+        private void B_RandAll_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Randomize all Move Types and Categories?", "Everything else will stay the same.")) return;
+            Random rnd = new Random();
+            for (int i = 0; i < CB_Move.Items.Count; i++)
+            {
+                CB_Move.SelectedIndex = i; // Get new Move
+                if (i == 165 || i == 174) continue; // Don't change Struggle or Curse
+
+                // Change Damage Category if Not Status
+                if (CB_Category.SelectedIndex > 0) // Not Status
+                    CB_Category.SelectedIndex = rnd.Next(1, 3); 
+
+                // Change Move Type
+                CB_Type.SelectedIndex = rnd.Next(0, 18);
+            }
+            Util.Alert("Moves have been randomized!");
         }
     }
 }

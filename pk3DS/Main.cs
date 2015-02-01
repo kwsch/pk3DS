@@ -512,13 +512,13 @@ namespace pk3DS
         public void restoreGARCs(bool oras_define, params string[] g)
         {
             oras = oras_define;
-            GB_RomFS.Enabled = false;
-                foreach (string s in g)
-                {
-                    string dest = File.ReadAllText("config.ini") + getGARCFileName(s);
-                    string src = "backup" + Path.DirectorySeparatorChar + s + String.Format(" (a{0})", getGARCFileName(s).Replace(Path.DirectorySeparatorChar.ToString(), ""));
-                    File.Copy(src, dest, true);
-                }
+            foreach (string s in g)
+            {
+                string dest = RomFS + getGARCFileName(s);
+                string src = "backup" + Path.DirectorySeparatorChar + s + String.Format(" ({0})", getGARCFileName(s).Replace(Path.DirectorySeparatorChar.ToString(), ""));
+                File.Copy(src, dest, true);
+            }
+            Util.Alert(g.Length + " files restored.");
         }
 
         // Text Requests
@@ -614,6 +614,13 @@ namespace pk3DS
                     { new Thread(() => { threads++; RomFSTool.BuildRomFS(RomFS, null, pBar1); threads--; }).Start(); }
                 }
             }
+        }
+
+        private void L_Game_Click(object sender, EventArgs e)
+        {
+            if (GB_RomFS.Enabled && RomFS != null && ModifierKeys == Keys.Control)
+                if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Restore Original Files?"))
+                    restoreGARCs(oras, allGARCs);
         }
     }
 }

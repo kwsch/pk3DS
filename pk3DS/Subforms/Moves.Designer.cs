@@ -88,6 +88,7 @@
             this.NUD_0x21 = new System.Windows.Forms.NumericUpDown();
             this.L_0x20 = new System.Windows.Forms.Label();
             this.L_0x21 = new System.Windows.Forms.Label();
+            this.B_RandAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_HitMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_HitMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Priority)).BeginInit();
@@ -132,7 +133,7 @@
             this.CB_Move.FormattingEnabled = true;
             this.CB_Move.Location = new System.Drawing.Point(71, 10);
             this.CB_Move.Name = "CB_Move";
-            this.CB_Move.Size = new System.Drawing.Size(129, 21);
+            this.CB_Move.Size = new System.Drawing.Size(130, 21);
             this.CB_Move.TabIndex = 1;
             this.CB_Move.SelectedIndexChanged += new System.EventHandler(this.changeEntry);
             // 
@@ -786,11 +787,22 @@
             this.L_0x21.Text = "Flags 2:";
             this.L_0x21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // B_RandAll
+            // 
+            this.B_RandAll.Location = new System.Drawing.Point(208, 9);
+            this.B_RandAll.Name = "B_RandAll";
+            this.B_RandAll.Size = new System.Drawing.Size(120, 23);
+            this.B_RandAll.TabIndex = 63;
+            this.B_RandAll.Text = "Rand Type/Category";
+            this.B_RandAll.UseVisualStyleBackColor = true;
+            this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
+            // 
             // Moves
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(339, 382);
+            this.Controls.Add(this.B_RandAll);
             this.Controls.Add(this.L_0x21);
             this.Controls.Add(this.L_0x20);
             this.Controls.Add(this.NUD_0x21);
@@ -938,5 +950,6 @@
         private System.Windows.Forms.NumericUpDown NUD_0x21;
         private System.Windows.Forms.Label L_0x20;
         private System.Windows.Forms.Label L_0x21;
+        private System.Windows.Forms.Button B_RandAll;
     }
 }

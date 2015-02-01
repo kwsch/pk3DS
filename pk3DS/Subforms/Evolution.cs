@@ -141,12 +141,13 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Randomize all resulting species?", "Evolution methods and parameters will stay the same.")) return;
             Random rnd = new Random();
             for (int i = 0; i < CB_Species.Items.Count; i++)
             {
                 CB_Species.SelectedIndex = i; // Get new Species
-                getList();
-                // Set Data
+                for (int j = 0; j < mb.Length; j++)
+                    if (mb[j].SelectedIndex > 0) rb[i].SelectedIndex = rnd.Next(1, 722);
             }
             setList();
             Util.Alert("All Pokemon's Evolutions have been randomized!");
