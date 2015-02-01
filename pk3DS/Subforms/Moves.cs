@@ -88,10 +88,7 @@ namespace pk3DS
                 NUD_HitMin.Value = data[0x7] & 0xF;
                 NUD_HitMax.Value = data[0x7] >> 4;
                 short inflictVal = BitConverter.ToInt16(data, 0x08);
-                if (inflictVal > -1)
-                    CB_Inflict.SelectedIndex = inflictVal;
-                else 
-                    CB_Inflict.SelectedIndex = CB_Inflict.Items.Count - 1;
+                CB_Inflict.SelectedIndex = (inflictVal < 0) ? CB_Inflict.Items.Count - 1 : inflictVal;
                 NUD_Inflict.Value = data[0xA];
                 NUD_0xB.Value = data[0xB]; // 0xB ~ Something to deal with skipImmunity
                 NUD_TurnMin.Value = data[0xC];
