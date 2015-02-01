@@ -29,7 +29,7 @@ namespace pk3DS
             if (File.Exists("config.ini"))
             {
                 string path = File.ReadAllText("config.ini");
-                if (path.Length > 0) openQuick(path);                
+                if (path.Length > 0) openQuick(path);
             }
         }
         public static bool oras = false;
@@ -102,7 +102,7 @@ namespace pk3DS
                     oras = false;
                 else // Allow Override
                 {
-                    DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Loading Override Options:", "Yes - OR/AS" + Environment.NewLine + "No - X/Y" + Environment.NewLine + "Cancel - Abort");
+                    DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Loading Override Options:", "Yes - OR/AS" + Environment.NewLine + "No - X/Y" + Environment.NewLine + "Cancel - Abort", "Path:" + Environment.NewLine + path);
                     if (dr == DialogResult.Yes) { oras = true; }
                     else if (dr == DialogResult.No) { oras = false; }
                     else { RomFS = null; oras = false; return false; }
@@ -591,12 +591,13 @@ namespace pk3DS
                     sfd.Filter = "Binary File|*.*";
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
-                        new Thread(() => {
-                            threads++; 
-                            new blz.BLZCoder(new string[] { "-en", files[file] }, pBar1); 
+                        new Thread(() =>
+                        {
+                            threads++;
+                            new blz.BLZCoder(new string[] { "-en", files[file] }, pBar1);
                             Util.Alert("Compressed!");
                             ExeFSTool.set(Directory.GetFiles(ExeFS), sfd.FileName);
-                            threads--; 
+                            threads--;
                         }).Start();
                     }
                 }
