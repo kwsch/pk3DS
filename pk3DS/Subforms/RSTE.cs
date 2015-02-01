@@ -537,7 +537,12 @@ namespace pk3DS
 
                 // Randomize Trainer Stats
                 if (rDiffAI)
-                    CB_AI.SelectedIndex = CB_AI.Items.Count - 1; // max
+                {
+                    if (CB_Battle_Type.SelectedIndex == 0)
+                        CB_AI.SelectedIndex = 7; // Max Single
+                    else if (CB_Battle_Type.SelectedIndex == 1)
+                        CB_AI.SelectedIndex = 135; // Max Double
+                }
                 if (rClass)
                     CB_Trainer_Class.SelectedIndex = (int)(rnd32() % (CB_Trainer_Class.Items.Count));
 
