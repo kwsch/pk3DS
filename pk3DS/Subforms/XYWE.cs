@@ -328,49 +328,7 @@ namespace pk3DS
             CB_LocationID.Enabled = true;
             CB_LocationID_SelectedIndexChanged(null, null);
         }
-
-        /*private void B_Open_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-            if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
-                return;
-            this.encdatapaths = Directory.GetFiles(folderBrowserDialog.SelectedPath, "*.*", SearchOption.TopDirectoryOnly);
-            Array.Sort(encdatapaths);
-            this.filepaths = new string[this.encdatapaths.Length-1];
-            Array.Copy(this.encdatapaths, 1, this.filepaths, 0, this.filepaths.Length);
-            #region Data Verification
-            //Verify that data is legitimate
-            if (!this.encdatapaths[0].Contains("360.bin")) // first file is zonedata data
-            {
-                return;
-            }
-            foreach (string s in filepaths)
-            {
-                if (!s.Contains("dec_")) { return; } //Check that all files are of form dec_*.bin
-            }
-            if (this.encdatapaths.Length != 361) //Check that there are exactly 361 files
-            {
-                return;
-            }
-            #endregion
-            metXY_00000 = getStringList("xy_00000", "en");
-            zonedata = File.ReadAllBytes(encdatapaths[0]);
-            LocationNames = new string[this.filepaths.Length];
-            for (int f = 0; f < filepaths.Length; f++)
-            {
-                string name = Path.GetFileNameWithoutExtension(filepaths[f]);
-                ;
-                int LocationNum = Convert.ToInt16(name.Substring(4, name.Length - 4));
-                string LocationName = metXY_00000[zonedata[LocationNum * 56 + 0x1C]];
-                LocationNames[f] = (LocationNum.ToString("000") + " - " + LocationName);
-            }
-            CB_LocationID.DataSource = LocationNames;
-            B_Open.Enabled = false;
-            B_Save.Enabled = true;
-            CB_LocationID.Enabled = true;
-            CB_LocationID_SelectedIndexChanged(null, null);
-        }*/
-
+        
         private bool hasData()
         {
             for (int i = 0; i < max.Length; i++)
@@ -382,7 +340,6 @@ namespace pk3DS
             }
             return false;
         }
-
         private void parse(byte[] ed)
         {
             // 12,12,12,12,12
@@ -407,7 +364,6 @@ namespace pk3DS
                 max[i].Value = data[3];
             }
         }
-
         private int[] pslot(byte[] slot)
         {
             int index = BitConverter.ToUInt16(slot, 0) & 0x7FF;
@@ -421,7 +377,6 @@ namespace pk3DS
             data[3] = max;
             return data;
         }
-
         private string parseslot(byte[] slot)
         {
             int index = BitConverter.ToUInt16(slot, 0) & 0x7FF;
@@ -457,7 +412,6 @@ namespace pk3DS
             Array.Copy(filedata, offset, encounterdata, 0, 0x178);
             parse(encounterdata);
         }
-
         private void ClearData()
         {
             for (int i = 0; i < max.Length; i++)
@@ -469,7 +423,6 @@ namespace pk3DS
                 max[i].Value = 0;
             }
         }
-
         private byte[] MakeSlotData(int species, int form, int min, int max)
         {
             byte[] data = new byte[4];
@@ -478,7 +431,6 @@ namespace pk3DS
             data[3] = (byte)max;
             return data;
         }
-
         private byte[] MakeEncounterData()
         {
             byte[] ed = new byte[0x178];
@@ -491,7 +443,6 @@ namespace pk3DS
             }
             return ed;
         }
-
         private byte[] ConcatArrays(byte[] b1, byte[] b2)
         {
             byte[] concat = new byte[b1.Length + b2.Length];
@@ -545,15 +496,16 @@ namespace pk3DS
             return (uint)(rand.Next(1 << 30)) << 2 | (uint)(rand.Next(1 << 2));
         }
 
-        private int getRandomSlot(int level)
-        {
-            return (int)(rnd32() % 721 + 1);
-        }
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all?", "Cannot undo.") == DialogResult.Yes)
             {
                 this.Enabled = false;
+
+                // Nonrepeating List Start
+                int[] sL = Randomizer.RandomSpeciesList;
+                int ctr = 0;
+                
                 for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
                 {
                     CB_LocationID.SelectedIndex = i;
@@ -563,7 +515,7 @@ namespace pk3DS
                     {
                         if (spec[slot].SelectedIndex != 0)
                         {
-                            int species = getRandomSlot((int)max[slot].Value);
+                            int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
                             spec[slot].SelectedIndex = species;
 
                             if (species == 666 || species == 665 || species == 664) // Vivillon

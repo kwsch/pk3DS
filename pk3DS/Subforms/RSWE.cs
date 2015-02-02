@@ -569,34 +569,33 @@ namespace pk3DS
                 File.WriteAllBytes(this.encdatapaths[1], decStorage);
             }
         }
-        private int getRandomSlot(int[] arr)
-        {
-            return arr[rnd32() % 18]; // Get a Random of the list of 18.
-        }
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all?", "Cannot undo.") == DialogResult.Yes)
             {
                 this.Enabled = false;
+
+                // Nonrepeating List Start
+                int[] sL = Randomizer.RandomSpeciesList;
+                int ctr = 0;
+
                 for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
                 {
                     CB_LocationID.SelectedIndex = i;
                     if (!hasData()) continue; // Don't randomize if doesn't have data.
 
                     // Get a new list of Pokemon so that DexNav does not crash.
-                    int[] RandomList = new int[18]; int ctr = 0;
-                    while (ctr < 18)
-                    {
-                        int rand = (int)(rnd32() % 721 + 1);
-                        if (Array.IndexOf(RandomList, rand) < 0)
-                            RandomList[ctr++] = rand;
-                    }
+                    int[] RandomList = new int[18];
+                    // Fill Location List
+                    for (int z = 0; z < 18; z++)
+                        RandomList[z] = Randomizer.getRandomSpecies(ref sL, ref ctr);
 
+                    int ctrSingle = 0;
                     for (int slot = 0; slot < max.Length; slot++)
                     {
-                        if (spec[slot].SelectedIndex != 0)
+                        if (spec[slot].SelectedIndex != 0) // If the slot is in use
                         {
-                            int species = RandomList[rnd32() % 18];
+                            int species = Randomizer.getRandomSpecies(ref RandomList, ref ctrSingle);
                             spec[slot].SelectedIndex = species;
 
                             if (species == 666 || species == 665 || species == 664) // Vivillon

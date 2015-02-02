@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BLZ.cs" />
     <Compile Include="ExeFS.cs" />
+    <Compile Include="Randomizer.cs" />
     <Compile Include="RomFS.cs" />
     <Compile Include="Subforms\Item.cs">
       <SubType>Form</SubType>
