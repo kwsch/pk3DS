@@ -533,7 +533,7 @@ namespace pk3DS
                             else if (species == 585 || species == 586) // Sawsbuck
                                 form[slot].Value = rnd32() % 28;
                             else if (species == 669 || species == 671) // Flabebe/Florges
-                                form[slot].Value = rnd32() % 28;
+                                form[slot].Value = rnd32() % 5;
                             else if (species == 670) // Floette
                                 form[slot].Value = rnd32() % 6;
                             else if (species == 710 || species == 711) // Pumpkaboo
