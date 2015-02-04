@@ -26,6 +26,7 @@ namespace pk3DS
             L_Mode.Text = "Mode: " + mode;
             Setup(); //Turn string resources into arrays
             CB_Species.SelectedIndex = 1;
+            // debugScan();
         }
         #region Global Variables
         private string[] paths = Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly);
@@ -149,6 +150,20 @@ namespace pk3DS
 
             foreach (string eg in EXPGroups)
                 CB_EXPGroup.Items.Add(eg);            
+        }
+        private void debugScan()
+        {
+            // Scan for TM usage
+            int TMs = 0;
+            int Species = 721;
+            for (int i = 1; i < 722; i++)
+            {
+                // Check Each for TMs
+                CB_Species.SelectedIndex = i;
+                for (int t = 0; t < CLB_TMHM.Items.Count; t++)
+                    TMs += (CLB_TMHM.GetItemChecked(t)) ? 1 : 0;
+            }
+            float avg = (float)TMs / (float)Species;
         }
 
         private void CB_Species_SelectedIndexChanged(object sender, EventArgs e)
@@ -407,6 +422,7 @@ namespace pk3DS
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             Random rnd = new Random();
+            int TMPercent = 35; // Average Learnable TMs is 35.260.
             ushort[] itemlist = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
             ushort[] berrylist = Legal.Pouch_Berry_XY;
             Array.Resize(ref itemlist, itemlist.Length + berrylist.Length); 
@@ -419,6 +435,10 @@ namespace pk3DS
             for (int i = 1; i < CB_Species.Items.Count; i++)
             {
                 CB_Species.SelectedIndex = i; // Get new Species
+
+                // Fiddle with TM Learnsets
+                for (int t = 0; t < CLB_TMHM.Items.Count; t++)
+                    CLB_TMHM.SetItemChecked(i, rnd.Next(0, 100) < TMPercent);
 
                 // Fiddle with Base Stats
                 for (int z = 0; z < 6; z++)
