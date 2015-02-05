@@ -438,7 +438,7 @@ namespace pk3DS
 
                 // Fiddle with TM Learnsets
                 for (int t = 0; t < CLB_TMHM.Items.Count; t++)
-                    CLB_TMHM.SetItemChecked(i, rnd.Next(0, 100) < TMPercent);
+                    CLB_TMHM.SetItemChecked(t, rnd.Next(0, 100) < TMPercent);
 
                 // Fiddle with Base Stats
                 for (int z = 0; z < 6; z++)
