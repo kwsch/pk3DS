@@ -23,6 +23,7 @@ namespace pk3DS
         private void B_Save_Click(object sender, EventArgs e)
         {
             RSTE.rPKM = CHK_RandomPKM.Checked;
+            RSTE.rSmart = CHK_Smart.Checked;
             RSTE.rMove = CHK_RandomMoves.Checked;
             RSTE.rAbility = CHK_RandomAbilities.Checked;
 
@@ -47,6 +48,11 @@ namespace pk3DS
         private void changePercent(object sender, EventArgs e)
         {
             CHK_RandomGift.Checked = (NUD_GiftPercent.Value != 0);
+        }
+
+        private void CHK_RandomPKM_CheckedChanged(object sender, EventArgs e)
+        {
+            CHK_Smart.Enabled = CHK_Smart.Checked = CHK_RandomPKM.Checked;
         }
     }
 }

@@ -270,6 +270,13 @@ namespace pk3DS
             };
             RSWE_Load(null, null);
             openQuick(Directory.GetFiles("encdata"));
+
+            string[] personalList = Directory.GetFiles("personal");
+            personalData = File.ReadAllBytes(personalList[personalList.Length - 1]);
+            indexList = Personal.getPersonalIndexList(personalData, Main.oras);
+            personal = new byte[personalList.Length][];
+            for (int i = 0; i < personalList.Length; i++)
+                personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
         }
         private ComboBox[] spec;
         private NumericUpDown[] min;
@@ -283,6 +290,10 @@ namespace pk3DS
         string[] LocationNames = { };
         private string[] encdatapaths;
         private string[] filepaths;
+
+        byte[] personalData;
+        ushort[] indexList;
+        byte[][] personal;
 
         private void RSWE_Load(object sender, EventArgs e)
         {
@@ -573,6 +584,7 @@ namespace pk3DS
         {
             if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all?", "Cannot undo.") == DialogResult.Yes)
             {
+                bool smart = Util.Prompt(MessageBoxButtons.YesNo, "Smart Randomize by Base Stat Total?", "Pokemon strength variance will attempt to match ingame.") == DialogResult.Yes;
                 this.Enabled = false;
 
                 // Nonrepeating List Start
@@ -587,8 +599,25 @@ namespace pk3DS
                     // Get a new list of Pokemon so that DexNav does not crash.
                     int[] RandomList = new int[18];
                     // Fill Location List
-                    for (int z = 0; z < 18; z++)
-                        RandomList[z] = Randomizer.getRandomSpecies(ref sL, ref ctr);
+                    if (!smart)
+                        for (int z = 0; z < 18; z++)
+                            RandomList[z] = Randomizer.getRandomSpecies(ref sL, ref ctr);
+                    else
+                    {
+                        int oldBST = 0;
+                        for (int s = 0; s < max.Length; s++)
+                            if (spec[s].SelectedIndex > 0)
+                            { oldBST = personal[spec[s + 2].SelectedIndex].Take(6).Sum(b => (ushort)b); break; }
+
+                        for (int z = 0; z < 18; z++)
+                        {
+                            int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
+                            int newBST = personal[species].Take(6).Sum(b => (ushort)b);
+                            while (!(newBST * 4 / 5 < oldBST && newBST * 6 / 5 > oldBST))
+                            { species = rand.Next(1, 722); newBST = personal[species].Take(6).Sum(b => (ushort)b); }
+                            RandomList[z] = species;
+                        }
+                    }
 
                     int ctrSingle = 0;
                     for (int slot = 0; slot < max.Length; slot++)
@@ -611,7 +640,7 @@ namespace pk3DS
                             else if (species == 422 || species == 423) // Gastrodon
                                 form[slot].Value = rnd32() % 2;
                             else if (species == 585 || species == 586) // Sawsbuck
-                                form[slot].Value = rnd32() % 28;
+                                form[slot].Value = rnd32() % 4;
                             else if (species == 669 || species == 671) // Flabebe/Florges
                                 form[slot].Value = rnd32() % 5;
                             else if (species == 670) // Floette

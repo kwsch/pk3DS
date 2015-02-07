@@ -515,7 +515,7 @@ namespace pk3DS
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        public static bool rPKM, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand;
+        public static bool rPKM, rSmart, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand;
         public static decimal rGiftPercent;
         private void B_Randomize_Click(object sender, EventArgs e)
         {
@@ -573,12 +573,19 @@ namespace pk3DS
                     if (rPKM)
                     {
                         // randomize pokemon
-                        int species = (int)(rnd32() % 722);
+                        int species = (int)(rand.Next(1, 722));
+                        if (rSmart) // Get a new Pokemon with a close BST
+                        {
+                            int oldBST = personal[trpk_pkm[p].SelectedIndex].Take(6).Sum(b => (ushort)b);
+                            int newBST = personal[species].Take(6).Sum(b => (ushort)b);
+                            while (!(newBST * 5 / 6 < oldBST && newBST * 6 / 5 > oldBST))
+                            { species = rand.Next(1, 722); newBST = personal[species].Take(6).Sum(b => (ushort)b); }
+                        }
                         trpk_pkm[p].SelectedIndex = species;
                         // Set Gender to Random
                         trpk_gender[p].SelectedIndex = 0;
 
-                        // randomize form
+                        // Randomize form
                         trpk_form[p].SelectedIndex = (int)(rnd32() % trpk_form[p].Items.Count);
                     }
                     if (rAbility)

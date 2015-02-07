@@ -40,6 +40,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.NUD_GiftPercent = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
+            this.CHK_Smart = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,10 +55,13 @@
             this.CHK_RandomPKM.TabIndex = 0;
             this.CHK_RandomPKM.Text = "Random Pokemon";
             this.CHK_RandomPKM.UseVisualStyleBackColor = true;
+            this.CHK_RandomPKM.CheckedChanged += new System.EventHandler(this.CHK_RandomPKM_CheckedChanged);
             // 
             // CHK_RandomItems
             // 
             this.CHK_RandomItems.AutoSize = true;
+            this.CHK_RandomItems.Checked = true;
+            this.CHK_RandomItems.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_RandomItems.Location = new System.Drawing.Point(12, 193);
             this.CHK_RandomItems.Name = "CHK_RandomItems";
             this.CHK_RandomItems.Size = new System.Drawing.Size(119, 17);
@@ -70,7 +74,7 @@
             this.CHK_RandomMoves.AutoSize = true;
             this.CHK_RandomMoves.Checked = true;
             this.CHK_RandomMoves.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomMoves.Location = new System.Drawing.Point(12, 35);
+            this.CHK_RandomMoves.Location = new System.Drawing.Point(12, 55);
             this.CHK_RandomMoves.Name = "CHK_RandomMoves";
             this.CHK_RandomMoves.Size = new System.Drawing.Size(101, 17);
             this.CHK_RandomMoves.TabIndex = 2;
@@ -82,7 +86,7 @@
             this.CHK_RandomAbilities.AutoSize = true;
             this.CHK_RandomAbilities.Checked = true;
             this.CHK_RandomAbilities.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomAbilities.Location = new System.Drawing.Point(12, 58);
+            this.CHK_RandomAbilities.Location = new System.Drawing.Point(12, 78);
             this.CHK_RandomAbilities.Name = "CHK_RandomAbilities";
             this.CHK_RandomAbilities.Size = new System.Drawing.Size(193, 17);
             this.CHK_RandomAbilities.TabIndex = 3;
@@ -92,6 +96,8 @@
             // CHK_RandomGift
             // 
             this.CHK_RandomGift.AutoSize = true;
+            this.CHK_RandomGift.Checked = true;
+            this.CHK_RandomGift.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_RandomGift.Location = new System.Drawing.Point(12, 170);
             this.CHK_RandomGift.Name = "CHK_RandomGift";
             this.CHK_RandomGift.Size = new System.Drawing.Size(145, 17);
@@ -103,6 +109,8 @@
             // CHK_RandomClass
             // 
             this.CHK_RandomClass.AutoSize = true;
+            this.CHK_RandomClass.Checked = true;
+            this.CHK_RandomClass.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_RandomClass.Location = new System.Drawing.Point(12, 147);
             this.CHK_RandomClass.Name = "CHK_RandomClass";
             this.CHK_RandomClass.Size = new System.Drawing.Size(141, 17);
@@ -113,20 +121,21 @@
             // CHK_MaxDiffAI
             // 
             this.CHK_MaxDiffAI.AutoSize = true;
-            this.CHK_MaxDiffAI.Location = new System.Drawing.Point(12, 104);
+            this.CHK_MaxDiffAI.Checked = true;
+            this.CHK_MaxDiffAI.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_MaxDiffAI.Location = new System.Drawing.Point(12, 124);
             this.CHK_MaxDiffAI.Name = "CHK_MaxDiffAI";
-            this.CHK_MaxDiffAI.Size = new System.Drawing.Size(219, 17);
+            this.CHK_MaxDiffAI.Size = new System.Drawing.Size(226, 17);
             this.CHK_MaxDiffAI.TabIndex = 6;
-            this.CHK_MaxDiffAI.Text = "[NOT VISIBLE] Max Difficulty (Trainer AI)";
+            this.CHK_MaxDiffAI.Text = "Max Difficulty (Trainer AI) [Single/Doubles]";
             this.CHK_MaxDiffAI.UseVisualStyleBackColor = true;
-            this.CHK_MaxDiffAI.Visible = false;
             // 
             // CHK_MaxDiffPKM
             // 
             this.CHK_MaxDiffPKM.AutoSize = true;
             this.CHK_MaxDiffPKM.Checked = true;
             this.CHK_MaxDiffPKM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(12, 81);
+            this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(12, 101);
             this.CHK_MaxDiffPKM.Name = "CHK_MaxDiffPKM";
             this.CHK_MaxDiffPKM.Size = new System.Drawing.Size(161, 17);
             this.CHK_MaxDiffPKM.TabIndex = 7;
@@ -155,11 +164,15 @@
             // 
             // NUD_GiftPercent
             // 
-            this.NUD_GiftPercent.Enabled = false;
             this.NUD_GiftPercent.Location = new System.Drawing.Point(163, 167);
             this.NUD_GiftPercent.Name = "NUD_GiftPercent";
             this.NUD_GiftPercent.Size = new System.Drawing.Size(43, 20);
             this.NUD_GiftPercent.TabIndex = 10;
+            this.NUD_GiftPercent.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
             this.NUD_GiftPercent.ValueChanged += new System.EventHandler(this.changePercent);
             // 
             // label1
@@ -171,11 +184,24 @@
             this.label1.TabIndex = 11;
             this.label1.Text = "%";
             // 
+            // CHK_Smart
+            // 
+            this.CHK_Smart.AutoSize = true;
+            this.CHK_Smart.Checked = true;
+            this.CHK_Smart.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Smart.Location = new System.Drawing.Point(132, 12);
+            this.CHK_Smart.Name = "CHK_Smart";
+            this.CHK_Smart.Size = new System.Drawing.Size(112, 17);
+            this.CHK_Smart.TabIndex = 12;
+            this.CHK_Smart.Text = "Smart Rand (BST)";
+            this.CHK_Smart.UseVisualStyleBackColor = true;
+            // 
             // TrainerRand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 222);
+            this.Controls.Add(this.CHK_Smart);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.NUD_GiftPercent);
             this.Controls.Add(this.button2);
@@ -212,5 +238,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.NumericUpDown NUD_GiftPercent;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox CHK_Smart;
     }
 }

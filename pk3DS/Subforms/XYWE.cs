@@ -275,6 +275,13 @@ namespace pk3DS
             };
             Load_XYWE(null, null);
             openQuick(Directory.GetFiles("encdata"));
+
+            string[] personalList = Directory.GetFiles("personal");
+            personalData = File.ReadAllBytes(personalList[personalList.Length - 1]);
+            indexList = Personal.getPersonalIndexList(personalData, Main.oras);
+            personal = new byte[personalList.Length][];
+            for (int i = 0; i < personalList.Length; i++)
+                personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
         }
         private ComboBox[] spec;
         private NumericUpDown[] min;
@@ -287,6 +294,10 @@ namespace pk3DS
         string[] LocationNames = { };
         private string[] encdatapaths;
         private string[] filepaths;
+
+        byte[] personalData;
+        ushort[] indexList;
+        byte[][] personal;
 
         private void Load_XYWE(object sender, EventArgs e)
         {
@@ -500,6 +511,7 @@ namespace pk3DS
         {
             if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all?", "Cannot undo.") == DialogResult.Yes)
             {
+                bool smart = Util.Prompt(MessageBoxButtons.YesNo, "Smart Randomize by Base Stat Total?", "Pokemon strength variance will attempt to match ingame.") == DialogResult.Yes;
                 this.Enabled = false;
 
                 // Nonrepeating List Start
@@ -516,6 +528,15 @@ namespace pk3DS
                         if (spec[slot].SelectedIndex != 0)
                         {
                             int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
+
+                            if (smart)
+                            {
+                                int oldBST = personal[spec[slot].SelectedIndex].Take(6).Sum(b => (ushort)b);
+                                int newBST = personal[species].Take(6).Sum(b => (ushort)b);
+                                while (!(newBST * 4 / 5 < oldBST && newBST * 6 / 5 > oldBST))
+                                { species = rand.Next(1, 722); newBST = personal[species].Take(6).Sum(b => (ushort)b); }
+                            }
+
                             spec[slot].SelectedIndex = species;
 
                             if (species == 666 || species == 665 || species == 664) // Vivillon
@@ -531,7 +552,7 @@ namespace pk3DS
                             else if (species == 422 || species == 423) // Gastrodon
                                 form[slot].Value = rnd32() % 2;
                             else if (species == 585 || species == 586) // Sawsbuck
-                                form[slot].Value = rnd32() % 28;
+                                form[slot].Value = rnd32() % 4;
                             else if (species == 669 || species == 671) // Flabebe/Florges
                                 form[slot].Value = rnd32() % 5;
                             else if (species == 670) // Floette

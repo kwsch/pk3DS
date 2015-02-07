@@ -269,6 +269,12 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
+                string personal = "personal";
+                string personalGARC = getGARCFileName(personal);
+                threadGet(RomFS + personalGARC, personal, true, true);
+                while (threads > 0) // Let threads complete
+                    Thread.Sleep(50);
+
                 string encdata = "encdata";
                 string encdataGARC = getGARCFileName(encdata);
                 threadGet(RomFS + encdataGARC, encdata, true, false);
@@ -566,6 +572,15 @@ namespace pk3DS
         }
         private void L_About_Click(object sender, EventArgs e)
         {
+            if (ModifierKeys == Keys.Control && RomFS != null)
+            {
+                string s = "Game Type: " + ((oras) ? "ORAS" : "XY") + Environment.NewLine ;
+                for (int i = 0; i < allGARCs.Length; i++)
+                    s += String.Format(Environment.NewLine + "{0} - {1}", allGARCs[i], getGARCFileName(allGARCs[i]));
+                if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, s, "Copy to Clipboard?"))
+                    try { Clipboard.SetText(s); } catch { Util.Alert("Unable to copy to Clipboard."); }
+            }
+            else
             Util.Alert(
                 "pk3DS: A package of Pokémon X/Y/OR/AS tools by various contributors.",
                 "GARCTool (Backbone): Kaphotics" + Environment.NewLine +
@@ -574,8 +589,7 @@ namespace pk3DS
                 "Trainer Editor (**TE): SciresM, Kaphotics, and KazoWAR" + Environment.NewLine +
                 "Personal Editor: SciresM" + Environment.NewLine +
                 "Mega Evolution Editor (MEE): Huntereb & SciresM" + Environment.NewLine +
-                "Evolutions, Moves, and Maison Editor: Kaphotics" + Environment.NewLine +
-                "Item Editor and more have yet to be implemented.",
+                "Evolutions, Moves, Items, ExeFS, and Maison Editor: Kaphotics" + Environment.NewLine +
                 "Big thanks to the ProjectPokemon community!");
         }
 

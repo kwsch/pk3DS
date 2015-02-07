@@ -26,7 +26,6 @@ namespace pk3DS
             L_Mode.Text = "Mode: " + mode;
             Setup(); //Turn string resources into arrays
             CB_Species.SelectedIndex = 1;
-            // debugScan();
         }
         #region Global Variables
         private string[] paths = Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly);
@@ -150,20 +149,6 @@ namespace pk3DS
 
             foreach (string eg in EXPGroups)
                 CB_EXPGroup.Items.Add(eg);            
-        }
-        private void debugScan()
-        {
-            // Scan for TM usage
-            int TMs = 0;
-            int Species = 721;
-            for (int i = 1; i < 722; i++)
-            {
-                // Check Each for TMs
-                CB_Species.SelectedIndex = i;
-                for (int t = 0; t < CLB_TMHM.Items.Count; t++)
-                    TMs += (CLB_TMHM.GetItemChecked(t)) ? 1 : 0;
-            }
-            float avg = (float)TMs / (float)Species;
         }
 
         private void CB_Species_SelectedIndexChanged(object sender, EventArgs e)
@@ -440,16 +425,32 @@ namespace pk3DS
                 for (int t = 0; t < CLB_TMHM.Items.Count; t++)
                     CLB_TMHM.SetItemChecked(t, rnd.Next(0, 100) < TMPercent);
 
-                // Fiddle with Base Stats
-                for (int z = 0; z < 6; z++)
-                    byte_boxes[z].Text = (Math.Min(rnd.Next(1, 2 * Convert.ToByte(byte_boxes[z].Text)),255)).ToString("000");
-
-                // EV yield stays the same...
 
                 // Abilities:
+                int[] abils = new int[3];
+                for (int a = 0; a < 3; a++) // Get 3 New Abilities, none being Wonder Guard (25)
+                { int newabil = rnd.Next(1, abillen); while (newabil == 25) newabil = rnd.Next(1, abillen); abils[a] = newabil; }
                 CB_Ability1.SelectedIndex = rnd.Next(1, abillen);
                 CB_Ability2.SelectedIndex = rnd.Next(1, abillen);
                 CB_Ability3.SelectedIndex = rnd.Next(1, abillen);
+
+
+                // Fiddle with Base Stats, don't muck with Shedinja.
+                if (Convert.ToByte(byte_boxes[0].Text) == 1)
+                    CB_Ability1.SelectedIndex = CB_Ability2.SelectedIndex = CB_Ability3.SelectedIndex = 25;
+                else
+                for (int z = 0; z < 6; z++)
+                    byte_boxes[z].Text = 
+                        Math.Max(
+                            5, 
+                            rnd.Next
+                            (
+                                Convert.ToByte(byte_boxes[z].Text) * 3 / 4, 
+                                (byte)Convert.ToByte(byte_boxes[z].Text) * 5 / 4)
+                            )
+                        .ToString("000");
+
+                // EV yield stays the same...
 
                 // Items
                 CB_HeldItem1.SelectedIndex = (CB_HeldItem1.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
@@ -457,7 +458,7 @@ namespace pk3DS
                 CB_HeldItem3.SelectedIndex = (CB_HeldItem3.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
 
                 // Type
-                if (CB_Type1.SelectedIndex == CB_Type2.SelectedIndex)
+                if (rnd.Next(0,100) < 50) // 50% chance to have either Single or Dual Typing
                     CB_Type1.SelectedIndex = CB_Type2.SelectedIndex = rnd.Next(0, typelen);
                 else
                 {
