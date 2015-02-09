@@ -515,8 +515,8 @@ namespace pk3DS
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        public static bool rPKM, rSmart, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand;
-        public static decimal rGiftPercent;
+        public static bool rPKM, rSmart, rLevel, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand;
+        public static decimal rGiftPercent, rLevelPercent;
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             rPKM = rMove = rAbility = rDiffAI = rDiffIV = rClass = rGift = rItem = rDoRand = false; // init to false
@@ -588,6 +588,8 @@ namespace pk3DS
                         // Randomize form
                         trpk_form[p].SelectedIndex = (int)(rnd32() % trpk_form[p].Items.Count);
                     }
+                    if (rLevel)
+                        trpk_lvl[p].SelectedIndex = Math.Min((int)((decimal)trpk_lvl[p].SelectedIndex * (1 + rLevelPercent)), 100);
                     if (rAbility)
                         trpk_abil[p].SelectedIndex = (int)(1 + rnd32() % 3);
                     if (rDiffIV)
