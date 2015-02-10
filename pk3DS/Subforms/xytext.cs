@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace pk3DS
 {
@@ -44,8 +43,8 @@ namespace pk3DS
                                 if (data != null)
                                     foreach (string line in data)
                                     {
-                                        if (newline) 
-                                            tw.WriteLine(line.Replace("\\n\\n"," ").Replace("\\n", " ").Replace("\\c", "").Replace("\\r", "")); // Strip out formatting
+                                        if (newline)
+                                            tw.WriteLine(line.Replace("\\n\\n", " ").Replace("\\n", " ").Replace("\\c", "").Replace("\\r", "")); // Strip out formatting
                                         else
                                             tw.WriteLine(line);
                                     }
@@ -64,7 +63,7 @@ namespace pk3DS
                 if (bin != null)
                     File.WriteAllBytes(files[entry], bin);
             }
-            
+
             // Reset
             entry = CB_Entry.SelectedIndex;
             string file = files[entry];
@@ -148,7 +147,7 @@ namespace pk3DS
             int currentRow = dgv.CurrentRow.Index;
             if (currentRow < dgv.Rows.Count - 1)
             {
-                if ((ModifierKeys != Keys.Control) && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Deleting a row above other lines will shift all subsequent lines.", "Continue?")) 
+                if ((ModifierKeys != Keys.Control) && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Deleting a row above other lines will shift all subsequent lines.", "Continue?"))
                     return;
             }
 
@@ -373,9 +372,9 @@ namespace pk3DS
                 default: varVal = Convert.ToUInt16(variable, 16); break;
             }
             if (!noArgs)
-            // Set arguments in.
-            for (int i = 0; i < arguments.Length; i++)
-                args.Add(Convert.ToUInt16(arguments[i], 16));
+                // Set arguments in.
+                for (int i = 0; i < arguments.Length; i++)
+                    args.Add(Convert.ToUInt16(arguments[i], 16));
 
             // All done.
             return varVal;
@@ -412,7 +411,7 @@ namespace pk3DS
                 string varCMD = line.Substring(i + 1, bracket);
                 i += bracket + 1; // Advance the index to the end of the bracket.
 
-                string[] split = varCMD.Split(' '); 
+                string[] split = varCMD.Split(' ');
                 string varMethod = split[0];                   // Returns VAR or WAIT or ~
                 string varType = (split.Length > 1) ? varCMD.Substring(varMethod.Length + 1) : "";    // Returns the remainder of the var command data.
                 ushort varValue = 0;

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using System.Threading;
-using System.Collections.Generic;
 
 namespace pk3DS
 {

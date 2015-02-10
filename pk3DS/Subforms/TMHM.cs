@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace pk3DS
 {
@@ -36,7 +31,7 @@ namespace pk3DS
         }
         private void setupDGV()
         {
-            dgvTM.Columns.Clear(); dgvHM.Columns.Clear(); 
+            dgvTM.Columns.Clear(); dgvHM.Columns.Clear();
             DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
             {
                 dgvIndex.HeaderText = "Index";
@@ -63,7 +58,7 @@ namespace pk3DS
 
         List<ushort> tms = new List<ushort>();
         List<ushort> hms = new List<ushort>();
-        
+
         private void getList()
         {
             tms = new List<ushort>();
@@ -91,9 +86,9 @@ namespace pk3DS
             ushort[] tmlist = tms.ToArray();
             ushort[] hmlist = hms.ToArray();
             for (int i = 0; i < tmlist.Length; i++)
-            { dgvTM.Rows.Add(); dgvTM.Rows[i].Cells[0].Value = (i+1).ToString(); dgvTM.Rows[i].Cells[1].Value = movelist[tmlist[i]]; }
+            { dgvTM.Rows.Add(); dgvTM.Rows[i].Cells[0].Value = (i + 1).ToString(); dgvTM.Rows[i].Cells[1].Value = movelist[tmlist[i]]; }
             for (int i = 0; i < hmlist.Length; i++)
-            { dgvHM.Rows.Add(); dgvHM.Rows[i].Cells[0].Value = (i+1).ToString(); dgvHM.Rows[i].Cells[1].Value = movelist[hmlist[i]]; }
+            { dgvHM.Rows.Add(); dgvHM.Rows[i].Cells[0].Value = (i + 1).ToString(); dgvHM.Rows[i].Cells[1].Value = movelist[hmlist[i]]; }
         }
         private void setList()
         {
@@ -123,7 +118,7 @@ namespace pk3DS
             {
                 for (int i = 97; i < 105; i++)
                     Array.Copy(BitConverter.GetBytes(tmlist[i - 5]), 0, data, offset + 2 * i, 2);
-            }            
+            }
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)

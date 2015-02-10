@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace pk3DS
 {
@@ -98,7 +92,7 @@ namespace pk3DS
                 NUD_Effect.Value = BitConverter.ToUInt16(data, 0x10);
                 NUD_Recoil.Value = (sbyte)data[0x12];
                 NUD_Heal.Value = data[0x13];
-                
+
                 CB_Targeting.SelectedIndex = data[0x14];
                 CB_Stat1.SelectedIndex = data[0x15];
                 CB_Stat2.SelectedIndex = data[0x16];
@@ -106,9 +100,9 @@ namespace pk3DS
                 NUD_Stat1.Value = (sbyte)data[0x18];
                 NUD_Stat2.Value = (sbyte)data[0x19];
                 NUD_Stat3.Value = (sbyte)data[0x1A];
-                NUD_StatP1.Value = data[0x1B]; 
-                NUD_StatP2.Value = data[0x1C]; 
-                NUD_StatP3.Value = data[0x1D]; 
+                NUD_StatP1.Value = data[0x1B];
+                NUD_StatP2.Value = data[0x1C];
+                NUD_StatP3.Value = data[0x1D];
 
                 // Unknown (Bitflag Related for stuff like Contact and Extra Move Effects)
                 NUD_0x20.Value = data[0x20]; // 0x20
@@ -179,7 +173,7 @@ namespace pk3DS
 
                 // Change Damage Category if Not Status
                 if (CB_Category.SelectedIndex > 0) // Not Status
-                    CB_Category.SelectedIndex = rnd.Next(1, 3); 
+                    CB_Category.SelectedIndex = rnd.Next(1, 3);
 
                 // Change Move Type
                 CB_Type.SelectedIndex = rnd.Next(0, 18);

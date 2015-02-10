@@ -78,6 +78,7 @@
             this.Controls.Add(this.L_Mart);
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.CB_Location);
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(340, 600);
             this.MinimumSize = new System.Drawing.Size(340, 400);
             this.Name = "Tutors";

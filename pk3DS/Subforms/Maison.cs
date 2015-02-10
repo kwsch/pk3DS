@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace pk3DS
 {
@@ -63,7 +59,7 @@ namespace pk3DS
         private void changePokemon(object sender, EventArgs e)
         {
             setPokemon();
-            pkEntry = CB_Pokemon.SelectedIndex; 
+            pkEntry = CB_Pokemon.SelectedIndex;
             getPokemon();
         }
         private void getTrainer()
@@ -103,7 +99,7 @@ namespace pk3DS
         {
             if (pkEntry < 0 || dumping) return;
             byte[] data = File.ReadAllBytes(pkFiles[pkEntry]);
-            
+
             // Get
             CB_Species.SelectedIndex = BitConverter.ToUInt16(data, 0);
             CB_Move1.SelectedIndex = BitConverter.ToUInt16(data, 2);
@@ -136,7 +132,7 @@ namespace pk3DS
             Array.Copy(BitConverter.GetBytes((ushort)((int)CB_Move3.SelectedIndex)), 0, data, 6, 2);
             Array.Copy(BitConverter.GetBytes((ushort)((int)CB_Move4.SelectedIndex)), 0, data, 8, 2);
             int EVs = 0;
-            EVs |= (CHK_HP.Checked)  ? 1 << 0 : 0;
+            EVs |= (CHK_HP.Checked) ? 1 << 0 : 0;
             EVs |= (CHK_ATK.Checked) ? 1 << 1 : 0;
             EVs |= (CHK_DEF.Checked) ? 1 << 2 : 0;
             EVs |= (CHK_Spe.Checked) ? 1 << 3 : 0;
@@ -257,7 +253,7 @@ namespace pk3DS
                     result += (CHK_Spe.Checked) ? "Spe, " : "";
                     result += Environment.NewLine;
 
-                    result += Environment.NewLine; 
+                    result += Environment.NewLine;
                 }
             }
             SaveFileDialog sfd = new SaveFileDialog();

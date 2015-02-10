@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace pk3DS
 {
@@ -15,7 +10,7 @@ namespace pk3DS
         public RSTE()
         {
             Array.Resize(ref specieslist, 722);
-            
+
             InitializeComponent();
             // String Fetching
             #region Combo Box Arrays
@@ -273,7 +268,7 @@ namespace pk3DS
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.FileName = "Battles.txt";
             sfd.Filter = "Text File|*.txt";
-            
+
             System.Media.SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
             {
@@ -299,7 +294,7 @@ namespace pk3DS
             if (index == 0) return;
 
             // Load Trainer Data
-            using (BinaryReader br = new BinaryReader((Stream) File.OpenRead(trdatapaths[index])))
+            using (BinaryReader br = new BinaryReader((Stream)File.OpenRead(trdatapaths[index])))
             {
                 // load trainer data
                 tabControl1.Enabled = true;
@@ -416,7 +411,7 @@ namespace pk3DS
                         bw.Write((ushort)trpk_m4[i].SelectedIndex);
                     }
                 }
-                File.WriteAllBytes(trpokepaths[index],ms.ToArray());
+                File.WriteAllBytes(trpokepaths[index], ms.ToArray());
             }
         }
 

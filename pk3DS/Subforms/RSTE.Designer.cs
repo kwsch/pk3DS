@@ -2064,6 +2064,7 @@
             this.Controls.Add(this.CB_TrainerID);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "RSTE";
             this.Text = "Trainer Editor";
             this.tabControl1.ResumeLayout(false);

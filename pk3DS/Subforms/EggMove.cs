@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace pk3DS
 {
@@ -15,7 +10,7 @@ namespace pk3DS
         public EggMove()
         {
             InitializeComponent();
-            
+
             specieslist[0] = movelist[0] = "";
             Array.Resize(ref specieslist, 722);
 
@@ -131,7 +126,7 @@ namespace pk3DS
                 string path = sfd.FileName;
                 File.WriteAllText(path, result, System.Text.Encoding.Unicode);
             }
-            dumping = false;            
+            dumping = false;
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)

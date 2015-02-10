@@ -98,6 +98,7 @@
             this.Controls.Add(this.L_Species);
             this.Controls.Add(this.CB_Species);
             this.Controls.Add(this.dgv);
+            this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(322, 450);
             this.Name = "EggMove";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

@@ -113,6 +113,7 @@
             this.Controls.Add(this.dgvRare);
             this.Controls.Add(this.L_TM);
             this.Controls.Add(this.dgvCommon);
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(520, 670);
             this.MinimumSize = new System.Drawing.Size(520, 370);
             this.Name = "Pickup";

@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace pk3DS
 {
@@ -23,7 +19,7 @@ namespace pk3DS
         private ComboBox[] forme_spec, item_spec;
         private CheckBox[] checkbox_spec;
         private PictureBox[][] picturebox_spec;
-        private List<cbItem> monNames;
+        private List<Util.cbItem> monNames;
         private bool loaded = false;
         private string[][] AltForms;
         int entry = -1;
@@ -39,7 +35,7 @@ namespace pk3DS
             specieslist[32] += "♂"; specieslist[29] += "♀";
             AltForms = Personal.getFormList(personalData, Main.oras, specieslist, forms, types, itemlist);
 
-            groupbox_spec = new GroupBox[] {GB_MEvo1,GB_MEvo2,GB_MEvo3};
+            groupbox_spec = new GroupBox[] { GB_MEvo1, GB_MEvo2, GB_MEvo3 };
             item_spec = new ComboBox[] { CB_Item1, CB_Item2, CB_Item3 };
             forme_spec = new ComboBox[] { CB_Forme1, CB_Forme2, CB_Forme3 };
             checkbox_spec = new CheckBox[] { CHK_MEvo1, CHK_MEvo2, CHK_MEvo3 };
@@ -50,12 +46,12 @@ namespace pk3DS
         }
         private void Setup()
         {
-            monNames = new List<cbItem>(); 
+            monNames = new List<Util.cbItem>();
             List<string> temp_list = new List<string>(specieslist);
             temp_list.Sort();
             foreach (string mon in temp_list)
             {
-                cbItem ncbi = new cbItem();
+                Util.cbItem ncbi = new Util.cbItem();
                 ncbi.Text = mon;
                 ncbi.Value = Array.IndexOf(specieslist, mon);
                 monNames.Add(ncbi);
@@ -65,29 +61,29 @@ namespace pk3DS
 
             List<string> items = new List<string>(itemlist);
             List<string> sorted_items = new List<string>(itemlist);
-            List<cbItem>[] item_lists = new List<cbItem>[item_spec.Length];
+            List<Util.cbItem>[] item_lists = new List<Util.cbItem>[item_spec.Length];
             for (int i = 0; i < item_lists.Length; i++)
-                item_lists[i] = new List<cbItem>();
+                item_lists[i] = new List<Util.cbItem>();
 
             sorted_items.Sort();
             for (int i = 0; i < items.Count; i++)
             {
                 int index = items.IndexOf(sorted_items[i]);
                 {
-                    cbItem ncbi = new cbItem();
+                    Util.cbItem ncbi = new Util.cbItem();
                     if (sorted_items[i] == "???") continue; // Don't allow stubbed items.
                     ncbi.Text = sorted_items[i] + " - " + index.ToString("000");
                     ncbi.Value = index;
-                    foreach (List<cbItem> l in item_lists)
+                    foreach (List<Util.cbItem> l in item_lists)
                         l.Add(ncbi);
                 }
                 items[index] = "";
             }
             for (int i = 0; i < item_spec.Length; i++)
             {
-                item_spec[i].DataSource = item_lists[i];
                 item_spec[i].ValueMember = "Value";
                 item_spec[i].DisplayMember = "Text";
+                item_spec[i].DataSource = item_lists[i];
                 item_spec[i].SelectedValue = 0;
             }
 
@@ -95,9 +91,9 @@ namespace pk3DS
         }
         private void CHK_Changed(object sender, EventArgs e)
         {
-            for (int i = 0; i < groupbox_spec.Length;i++ )
+            for (int i = 0; i < groupbox_spec.Length; i++)
             {
-                groupbox_spec[i].Enabled = ((CheckBox)(checkbox_spec[i])).Checked;
+                groupbox_spec[i].Enabled = checkbox_spec[i].Checked;
                 Update_PBs(i);
             }
         }
@@ -115,7 +111,7 @@ namespace pk3DS
             {
                 if (Main.oras && entry == 384 && !dumping) // Current Mon is Rayquaza
                     Util.Alert("Rayquaza is special and uses a different activator for its evolution. If it knows Dragon Ascent, it can Mega Evolve", "Don't edit its evolution table if you want to keep this functionality.");
-                
+
                 byte[] data = File.ReadAllBytes(files[entry]);
 
                 foreach (ComboBox CB in forme_spec)
@@ -139,12 +135,12 @@ namespace pk3DS
             byte[] data = File.ReadAllBytes(path);
             for (int i = 0; i < 3; i++)
             {
-                bool isChecked = ((CheckBox)checkbox_spec[i]).Checked;
+                bool isChecked = checkbox_spec[i].Checked;
                 Array.Copy(BitConverter.GetBytes(isChecked ? (ushort)1 : (ushort)0), 0, data, 2 + i * 8, 2);
                 if (isChecked)
                 {
                     int item = (int)(item_spec[i].SelectedValue);
-                    int form = (ushort)forme_spec[i].SelectedIndex;
+                    int form = forme_spec[i].SelectedIndex;
                     Array.Copy(BitConverter.GetBytes((ushort)item), 0, data, 4 + i * 8, 2);
                     Array.Copy(BitConverter.GetBytes((ushort)form), 0, data, i * 8, 2);
                 }
@@ -166,13 +162,13 @@ namespace pk3DS
                     CheckBox CB = (CheckBox)checkbox_spec[i];
                     if (CB.Checked)
                     {
-                        UpdateImage(picturebox_spec[0][i], entry, 0, (int)((ComboBox)item_spec[i]).SelectedValue, 0, false);
-                        UpdateImage(picturebox_spec[1][i], entry, (int)((ComboBox)forme_spec[i]).SelectedIndex, (int)((ComboBox)item_spec[i]).SelectedValue, 0, false);
+                        UpdateImage(picturebox_spec[0][i], entry, 0, (int)(item_spec[i]).SelectedValue, 0, false);
+                        UpdateImage(picturebox_spec[1][i], entry, (int)(forme_spec[i]).SelectedIndex, (int)(item_spec[i]).SelectedValue, 0, false);
                     }
                     else
                     {
-                        UpdateImage(picturebox_spec[0][i], 0, 0, (int)((ComboBox)item_spec[i]).SelectedValue, 0, false);
-                        UpdateImage(picturebox_spec[1][i], 0, 0, (int)((ComboBox)item_spec[i]).SelectedValue, 0, false);
+                        UpdateImage(picturebox_spec[0][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0, false);
+                        UpdateImage(picturebox_spec[1][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0, false);
                     }
                 }
             }
@@ -181,31 +177,20 @@ namespace pk3DS
         {
             if (loaded)
             {
-                 CheckBox CB = (CheckBox)checkbox_spec[i];
-                 if (CB.Checked)
-                 {
-                     UpdateImage(picturebox_spec[0][i], entry, 0, (int)((ComboBox)item_spec[i]).SelectedValue, 0, false);
-                     UpdateImage(picturebox_spec[1][i], entry, (int)((ComboBox)forme_spec[i]).SelectedIndex, (int)((ComboBox)item_spec[i]).SelectedValue, 0, false);
-                 }
-                 else
-                 {
-                     UpdateImage(picturebox_spec[0][i], 0, 0, (int)((ComboBox)item_spec[i]).SelectedValue, 0, false);
-                     UpdateImage(picturebox_spec[1][i], 0, 0, (int)((ComboBox)item_spec[i]).SelectedValue, 0, false);
-                 }
+                CheckBox CB = (CheckBox)checkbox_spec[i];
+                if (CB.Checked)
+                {
+                    UpdateImage(picturebox_spec[0][i], entry, 0, (int)(item_spec[i]).SelectedValue, 0, false);
+                    UpdateImage(picturebox_spec[1][i], entry, (int)(forme_spec[i]).SelectedIndex, (int)(item_spec[i]).SelectedValue, 0, false);
+                }
+                else
+                {
+                    UpdateImage(picturebox_spec[0][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0, false);
+                    UpdateImage(picturebox_spec[1][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0, false);
+                }
             }
         }
-
-        public class cbItem
-        {
-            public string Text { get; set; }
-            public int Value { get; set; }
-
-            public override string ToString()
-            {
-                return Text;
-            }
-        }
-
+        
         private void UpdateImage(PictureBox bpkx, int species, int form, int item, int gender, bool shiny)
         {
             string file = "";
@@ -271,11 +256,9 @@ namespace pk3DS
 
             System.Media.SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                string path = sfd.FileName;
-                File.WriteAllText(path, result, System.Text.Encoding.Unicode);
-            }
-            dumping = false; 
+                File.WriteAllText(sfd.FileName, result, System.Text.Encoding.Unicode);
+
+            dumping = false;
         }
     }
 }

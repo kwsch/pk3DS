@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace pk3DS
 {
@@ -36,7 +31,7 @@ namespace pk3DS
         }
         private void setupDGV()
         {
-            dgvCommon.Columns.Clear(); dgvRare.Columns.Clear(); 
+            dgvCommon.Columns.Clear(); dgvRare.Columns.Clear();
             DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
             {
                 dgvIndex.HeaderText = "Index";
@@ -63,7 +58,7 @@ namespace pk3DS
 
         List<ushort> common = new List<ushort>();
         List<ushort> rare = new List<ushort>();
-        
+
         private void getList()
         {
             common = new List<ushort>();
@@ -75,14 +70,14 @@ namespace pk3DS
                 common.Add(BitConverter.ToUInt16(data, dataoffset + 2 * i));
             for (int i = 0x12; i < 0x12 + 0xB; i++) // 0xB Rare
                 rare.Add(BitConverter.ToUInt16(data, dataoffset + 2 * i));
-            
+
             ushort[] clist = common.ToArray();
             ushort[] rlist = rare.ToArray();
             for (int i = 0; i < clist.Length; i++)
             { dgvCommon.Rows.Add(); dgvCommon.Rows[i].Cells[0].Value = i.ToString(); dgvCommon.Rows[i].Cells[1].Value = itemlist[clist[i]]; }
             for (int i = 0; i < rlist.Length; i++)
             { dgvRare.Rows.Add(); dgvRare.Rows[i].Cells[0].Value = i.ToString(); dgvRare.Rows[i].Cells[1].Value = itemlist[rlist[i]]; }
-        
+
         }
         private void setList()
         {
@@ -100,7 +95,7 @@ namespace pk3DS
             for (int i = 0; i < 0x12; i++)
                 Array.Copy(BitConverter.GetBytes(clist[i]), 0, data, offset + 2 * i, 2);
             for (int i = 0x12; i < 0x12 + 0xB; i++)
-                Array.Copy(BitConverter.GetBytes(rlist[i - 0x12]), 0, data, offset + 2 * i, 2);       
+                Array.Copy(BitConverter.GetBytes(rlist[i - 0x12]), 0, data, offset + 2 * i, 2);
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)

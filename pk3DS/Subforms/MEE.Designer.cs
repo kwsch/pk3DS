@@ -406,6 +406,7 @@
             this.Controls.Add(this.CHK_MEvo1);
             this.Controls.Add(this.GB_MEvo2);
             this.Controls.Add(this.GB_MEvo1);
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(430, 250);
             this.MinimumSize = new System.Drawing.Size(430, 250);
             this.Name = "MEE";

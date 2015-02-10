@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace pk3DS
 {
@@ -22,7 +16,7 @@ namespace pk3DS
         string[] files = Directory.GetFiles("item");
         string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
         string[] itemflavor = Main.getText((Main.oras) ? 117 : 99);
-        
+
         private void Setup()
         {
             foreach (string s in itemlist) CB_Item.Items.Add(s);

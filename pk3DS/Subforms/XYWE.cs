@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.Threading;
 using System.IO;
-using System.Globalization;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace pk3DS
 {
@@ -339,7 +332,7 @@ namespace pk3DS
             CB_LocationID.Enabled = true;
             CB_LocationID_SelectedIndexChanged(null, null);
         }
-        
+
         private bool hasData()
         {
             for (int i = 0; i < max.Length; i++)
@@ -396,11 +389,9 @@ namespace pk3DS
             int min = slot[2];
             int max = slot[3];
             string species = specieslist[index];
-            if (form > 0) species += "-"+form.ToString();
+            if (form > 0) species += "-" + form.ToString();
             return species + ',' + min + ',' + max + ',';
         }
-
-
 
         private void CB_LocationID_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -497,7 +488,7 @@ namespace pk3DS
             for (int i = 0; i < this.TabControl_EncounterData.TabPages.Count; i++)
             {
                 this.TabControl_EncounterData.TabPages[i].Show();
-                Console.WriteLine("Loading Tab "+(i+1).ToString("0")+".");
+                Console.WriteLine("Loading Tab " + (i + 1).ToString("0") + ".");
             }
             this.TabControl_EncounterData.TabPages[0].Show();
         }
@@ -517,7 +508,7 @@ namespace pk3DS
                 // Nonrepeating List Start
                 int[] sL = Randomizer.RandomSpeciesList;
                 int ctr = 0;
-                
+
                 for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
                 {
                     CB_LocationID.SelectedIndex = i;
@@ -615,7 +606,5 @@ namespace pk3DS
                 toret += "No encounters found." + Environment.NewLine + Environment.NewLine;
             return toret;
         }
-        
-
     }
 }

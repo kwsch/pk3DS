@@ -27715,6 +27715,7 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.CB_LocationID);
             this.Controls.Add(this.TabControl_EncounterData);
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(964, 454);
             this.MinimumSize = new System.Drawing.Size(964, 454);
             this.Name = "XYWE";

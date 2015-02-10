@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace pk3DS
 {
@@ -19,7 +14,7 @@ namespace pk3DS
             ability_boxes = new ComboBox[] { CB_Ability1, CB_Ability2, CB_Ability3 };
             typing_boxes = new ComboBox[] { CB_Type1, CB_Type2 };
             eggGroup_boxes = new ComboBox[] { CB_EggGroup1, CB_EggGroup2 };
-            byte_boxes = new MaskedTextBox[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate }; 
+            byte_boxes = new MaskedTextBox[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate };
             ev_boxes = new MaskedTextBox[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
 
             data = File.ReadAllBytes(paths[paths.Length - 1]); // Load last to data.
@@ -148,7 +143,7 @@ namespace pk3DS
                 CB_Color.Items.Add(co);
 
             foreach (string eg in EXPGroups)
-                CB_EXPGroup.Items.Add(eg);            
+                CB_EXPGroup.Items.Add(eg);
         }
 
         private void CB_Species_SelectedIndexChanged(object sender, EventArgs e)
@@ -315,9 +310,9 @@ namespace pk3DS
             edits[8] = Convert.ToByte(TB_CatchRate.Text);
             edits[9] = Convert.ToByte(TB_Stage.Text);
 
-            Array.Copy(BitConverter.GetBytes((ushort)CB_HeldItem1.SelectedIndex),0, edits, 0xC,2);
-            Array.Copy(BitConverter.GetBytes((ushort)CB_HeldItem2.SelectedIndex),0, edits, 0xE,2);
-            Array.Copy(BitConverter.GetBytes((ushort)CB_HeldItem3.SelectedIndex),0, edits, 0x10,2);
+            Array.Copy(BitConverter.GetBytes((ushort)CB_HeldItem1.SelectedIndex), 0, edits, 0xC, 2);
+            Array.Copy(BitConverter.GetBytes((ushort)CB_HeldItem2.SelectedIndex), 0, edits, 0xE, 2);
+            Array.Copy(BitConverter.GetBytes((ushort)CB_HeldItem3.SelectedIndex), 0, edits, 0x10, 2);
 
             edits[0x12] = Convert.ToByte(TB_Gender.Text);
             edits[0x13] = Convert.ToByte(TB_HatchCycles.Text);
@@ -350,22 +345,22 @@ namespace pk3DS
                 for (int j = 0; j < 8; j++)
                     if (i * 8 + j < CLB_TMHM.Items.Count)
                         if (CLB_TMHM.GetItemChecked(i * 8 + j))
-                            edits[0x28+i] |= (byte)(1<<j);
+                            edits[0x28 + i] |= (byte)(1 << j);
 
             uint tutors = 0;
             for (int t = 0; t < 8; t++)
                 if (t < CLB_MoveTutors.Items.Count && CLB_MoveTutors.GetItemChecked(t))
-                    tutors |= (uint)(1<<t);
+                    tutors |= (uint)(1 << t);
 
             Array.Copy(BitConverter.GetBytes(tutors), 0, edits, 0x38, 4);
 
             if (mode == "ORAS")
             {
                 uint[] tutorm = new uint[4];
-                int ofs=0;
+                int ofs = 0;
                 for (int j = 0; j < tutor1.Length; j++)
                     if (CLB_OrasTutors.GetItemChecked(ofs++))
-                        tutorm[0] |= (uint)(1<<j);
+                        tutorm[0] |= (uint)(1 << j);
 
                 for (int j = 0; j < tutor2.Length; j++)
                     if (CLB_OrasTutors.GetItemChecked(ofs++))
@@ -410,7 +405,7 @@ namespace pk3DS
             int TMPercent = 35; // Average Learnable TMs is 35.260.
             ushort[] itemlist = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
             ushort[] berrylist = Legal.Pouch_Berry_XY;
-            Array.Resize(ref itemlist, itemlist.Length + berrylist.Length); 
+            Array.Resize(ref itemlist, itemlist.Length + berrylist.Length);
             Array.Copy(berrylist, 0, itemlist, itemlist.Length - berrylist.Length, berrylist.Length);
 
             int itemlen = itemlist.Length;
@@ -439,16 +434,16 @@ namespace pk3DS
                 if (Convert.ToByte(byte_boxes[0].Text) == 1)
                     CB_Ability1.SelectedIndex = CB_Ability2.SelectedIndex = CB_Ability3.SelectedIndex = 25;
                 else
-                for (int z = 0; z < 6; z++)
-                    byte_boxes[z].Text = 
-                        Math.Max(
-                            5, 
-                            rnd.Next
-                            (
-                                Convert.ToByte(byte_boxes[z].Text) * 3 / 4, 
-                                (byte)Convert.ToByte(byte_boxes[z].Text) * 5 / 4)
-                            )
-                        .ToString("000");
+                    for (int z = 0; z < 6; z++)
+                        byte_boxes[z].Text =
+                            Math.Max(
+                                5,
+                                rnd.Next
+                                (
+                                    Convert.ToByte(byte_boxes[z].Text) * 3 / 4,
+                                    (byte)Convert.ToByte(byte_boxes[z].Text) * 5 / 4)
+                                )
+                            .ToString("000");
 
                 // EV yield stays the same...
 
@@ -458,7 +453,7 @@ namespace pk3DS
                 CB_HeldItem3.SelectedIndex = (CB_HeldItem3.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
 
                 // Type
-                if (rnd.Next(0,100) < 50) // 50% chance to have either Single or Dual Typing
+                if (rnd.Next(0, 100) < 50) // 50% chance to have either Single or Dual Typing
                     CB_Type1.SelectedIndex = CB_Type2.SelectedIndex = rnd.Next(0, typelen);
                 else
                 {
@@ -472,7 +467,7 @@ namespace pk3DS
         bool dumping = false;
         private void B_Dump_Click(object sender, EventArgs e)
         {
-            
+
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Dump all Personal Entries to Text File?"))
                 return;
 
@@ -486,7 +481,7 @@ namespace pk3DS
                 result += String.Format("Base Stats: {0}.{1}.{2}.{3}.{4}.{5} (BST: {6})", TB_BaseHP.Text, TB_BaseATK.Text, TB_BaseDEF.Text, TB_BaseSPA.Text, TB_BaseSPD.Text, TB_BaseSPE.Text, bst) + Environment.NewLine;
                 result += String.Format("EV Yield: {0}.{1}.{2}.{3}.{4}.{5}", TB_HPEVs.Text, TB_ATKEVs.Text, TB_DEFEVs.Text, TB_SPAEVs.Text, TB_SPDEVs.Text, TB_SPEEVs.Text) + Environment.NewLine;
                 result += String.Format("Abilities: {0} (1) | {1} (2) | {2} (H)", CB_Ability1.Text, CB_Ability2.Text, CB_Ability3.Text) + Environment.NewLine;
-                
+
                 result += String.Format(((CB_Type1.SelectedIndex != CB_Type2.SelectedIndex) ? "Type: {0} / {1}" : "Type: {0}"), CB_Type1.Text, CB_Type2.Text);
 
                 result += String.Format("Item 1 (50%): {0}", CB_HeldItem1.Text) + Environment.NewLine;
@@ -506,7 +501,7 @@ namespace pk3DS
                 string path = sfd.FileName;
                 File.WriteAllText(path, result, System.Text.Encoding.Unicode);
             }
-            dumping = false;  
+            dumping = false;
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)
