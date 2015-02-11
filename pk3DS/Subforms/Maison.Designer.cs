@@ -407,6 +407,7 @@
             this.MaximumSize = new System.Drawing.Size(595, 265);
             this.MinimumSize = new System.Drawing.Size(595, 265);
             this.Name = "Maison";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Maison Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             this.GB_Trainer.ResumeLayout(false);
