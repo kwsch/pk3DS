@@ -12,16 +12,40 @@ namespace pk3DS
     {
         internal const int PADDING_ALIGN = 16;
         internal static string ROOT_DIR;
-        internal static string TempFile;
+        internal static string TempFile = "tempRomFS.bin";
+        internal static string OutFile;
         internal const uint ROMFS_UNUSED_ENTRY = 0xFFFFFFFF;
 
-        internal static void BuildRomFS(string path, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
+        internal static void updateTB(RichTextBox RTB, string progress)
         {
-            ROOT_DIR = path;
+            try
+            {
+                if (RTB.InvokeRequired)
+                    RTB.Invoke((MethodInvoker)delegate
+                    {
+                        RTB.AppendText(Environment.NewLine + progress);
+                        RTB.SelectionStart = RTB.Text.Length;
+                        RTB.ScrollToCaret();
+                    });
+                else
+                {
+                    RTB.SelectionStart = RTB.Text.Length;
+                    RTB.ScrollToCaret();
+                    RTB.AppendText(progress + Environment.NewLine);
+                }
+            }
+            catch { }
+        }
+        internal static void BuildRomFS(string outfile, string infile, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
+        {
+            OutFile = outfile;
+            ROOT_DIR = infile;
+            if (File.Exists(TempFile)) File.Delete(TempFile);
+
             FileNameTable FNT = new FileNameTable(ROOT_DIR);
             RomfsFile[] RomFiles = new RomfsFile[FNT.NumFiles];
             LayoutManager.Input[] In = new LayoutManager.Input[FNT.NumFiles];
-            TB_Progress.Invoke((Action)(() => UpdateTB_Progress("Creating Layout...")));
+            updateTB(TB_Progress, "Creating Layout...");
             for (int i = 0; i < FNT.NumFiles; i++)
             {
                 In[i] = new LayoutManager.Input();
@@ -39,9 +63,9 @@ namespace pk3DS
             }
             using (MemoryStream memoryStream = new MemoryStream())
             {
-                TB_Progress.Invoke((Action)(() => UpdateTB_Progress("Creating RomFS MetaData...")));
+                updateTB(TB_Progress, "Creating RomFS MetaData...");
                 BuildRomFSHeader(memoryStream, RomFiles, ROOT_DIR);
-                MakeRomFSData(RomFiles, memoryStream);
+                MakeRomFSData(RomFiles, memoryStream, TB_Progress, PB_Show);
             }
         }
 
@@ -56,8 +80,7 @@ namespace pk3DS
         }
         internal static void MakeRomFSData(RomfsFile[] RomFiles, MemoryStream metadata, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
-            TempFile = Path.GetRandomFileName();
-            TB_Progress.Invoke((Action)(() => UpdateTB_Progress("Computing IVFC Header Data...")));
+            updateTB(TB_Progress, "Computing IVFC Header Data...");
             IVFCInfo ivfc = new IVFCInfo();
             ivfc.Levels = new IVFCLevel[3];
             for (int i = 0; i < ivfc.Levels.Length; i++)
@@ -100,14 +123,11 @@ namespace pk3DS
                 byte[] metadataArray = metadata.ToArray();
                 OutFileStream.Write(metadataArray, 0, metadataArray.Length);
                 long baseOfs = OutFileStream.Position;
-                TB_Progress.Invoke((Action)(() => UpdateTB_Progress("Writing Level 2 Data...")));
-                PB_Show.Invoke((Action)(() =>
-                {
-                    PB_Show.Minimum = 0;
-                    PB_Show.Maximum = RomFiles.Length;
-                    PB_Show.Value = 0;
-                    PB_Show.Step = 1;
-                }));
+                updateTB(TB_Progress, "Writing Level 2 Data...");
+                if (PB_Show.InvokeRequired)
+                    PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = RomFiles.Length; });
+                else { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = RomFiles.Length; }
+                    
                 for (int i = 0; i < RomFiles.Length; i++)
                 {
                     OutFileStream.Seek((long)(baseOfs + (long)RomFiles[i].Offset), SeekOrigin.Begin);
@@ -120,7 +140,9 @@ namespace pk3DS
                             OutFileStream.Write(buffer, 0, buffer.Length);
                         }
                     }
-                    PB_Show.Invoke((Action)(() => PB_Show.PerformStep()));
+                        if (PB_Show.InvokeRequired)
+                            PB_Show.Invoke((MethodInvoker)delegate { PB_Show.PerformStep(); });
+                        else { PB_Show.PerformStep(); }
                 }
                 long hashBaseOfs = (long)Align((ulong)OutFileStream.Position, ivfc.Levels[2].BlockSize);
                 long hOfs = (long)Align(MasterHashLen, ivfc.Levels[0].BlockSize);
@@ -128,15 +150,13 @@ namespace pk3DS
                 SHA256Managed sha = new SHA256Managed();
                 for (int i = ivfc.Levels.Length - 1; i >= 0; i--)
                 {
-                    TB_Progress.Invoke((Action)(() => UpdateTB_Progress("Computing Level " + i + " Hashes...")));
+                    updateTB(TB_Progress, "Computing Level " + i + " Hashes...");
                     byte[] buffer = new byte[(int)ivfc.Levels[i].BlockSize];
-                    PB_Show.Invoke((Action)(() =>
-                    {
-                        PB_Show.Minimum = 0;
-                        PB_Show.Maximum = (int)(ivfc.Levels[i].DataLength / ivfc.Levels[i].BlockSize);
-                        PB_Show.Value = 0;
-                        PB_Show.Step = 1;
-                    }));
+
+                    if (PB_Show.InvokeRequired)
+                    PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = (int)(ivfc.Levels[i].DataLength / ivfc.Levels[i].BlockSize); });
+                    else { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = (int)(ivfc.Levels[i].DataLength / ivfc.Levels[i].BlockSize); }
+                    
                     for (long ofs = 0; ofs < (long)ivfc.Levels[i].DataLength; ofs += ivfc.Levels[i].BlockSize)
                     {
                         OutFileStream.Seek(hOfs, SeekOrigin.Begin);
@@ -146,7 +166,9 @@ namespace pk3DS
                         OutFileStream.Seek(cOfs, SeekOrigin.Begin);
                         OutFileStream.Write(hash, 0, hash.Length);
                         cOfs = OutFileStream.Position;
-                        PB_Show.Invoke((Action)(() => PB_Show.PerformStep()));
+                        if (PB_Show.InvokeRequired)
+                            PB_Show.Invoke((MethodInvoker)delegate { PB_Show.PerformStep(); });
+                        else { PB_Show.PerformStep(); }
                     }
                     if (i == 2)
                     {
@@ -182,21 +204,11 @@ namespace pk3DS
                 if (OutFileStream != null)
                     OutFileStream.Dispose();
             }
-            TB_Progress.Invoke((Action)(() => UpdateTB_Progress("RomFS Super Block Hash: " + ByteArrayToString(SuperBlockHash))));
-            TB_Progress.Invoke((Action)(() => UpdateTB_Progress("Prompting to Save...")));
-            SaveFileDialog sfd = new SaveFileDialog();
-            TB_Progress.Invoke((Action)(() =>
-            {
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-
-                    TB_Progress.Invoke((Action)(() => UpdateTB_Progress("Writing Binary to " + sfd.FileName + "...")));
-                    Thread thread = new Thread(() => WriteBinary(TempFile, sfd.FileName));
-                    thread.IsBackground = true;
-                    thread.Start();
-
-                }
-            }));
+            updateTB(TB_Progress, "RomFS Super Block Hash: " + ByteArrayToString(SuperBlockHash));
+            updateTB(TB_Progress, "Saving to destination...");
+            
+            if (File.Exists(OutFile)) File.Delete(OutFile);
+            File.Move(TempFile, OutFile);
         }
         internal static void WriteBinary(string tempFile, string outFile, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
@@ -207,13 +219,11 @@ namespace pk3DS
                     using (FileStream fileStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read))
                     {
                         uint BUFFER_SIZE = 0x100000;
-                        PB_Show.Invoke((Action)(() =>
-                        {
-                            PB_Show.Minimum = 0;
-                            PB_Show.Maximum = (int)(fileStream.Length / BUFFER_SIZE);
-                            PB_Show.Value = 0;
-                            PB_Show.Step = 1;
-                        }));
+
+                        if (PB_Show.InvokeRequired)
+                            PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = (int)(fileStream.Length / BUFFER_SIZE); });
+                        else { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = (int)(fileStream.Length / BUFFER_SIZE); }
+
                         byte[] buffer = new byte[BUFFER_SIZE];
                         while (true)
                         {
@@ -221,7 +231,9 @@ namespace pk3DS
                             if (count != 0)
                             {
                                 writer.Write(buffer, 0, count);
-                                PB_Show.Invoke((Action)(() => PB_Show.PerformStep()));
+                                if (PB_Show.InvokeRequired)
+                                    PB_Show.Invoke((MethodInvoker)delegate { PB_Show.PerformStep(); });
+                                else { PB_Show.PerformStep(); }
                             }
                             else
                                 break;
@@ -231,10 +243,7 @@ namespace pk3DS
                 }
             }
             File.Delete(TempFile);
-            TB_Progress.Invoke((Action)(() =>
-            {
-                MessageBox.Show("Wrote RomFS to " + outFile + ".");
-            }));
+            Util.Alert("Wrote RomFS to path:", outFile);
         }
         internal static string ByteArrayToString(byte[] input)
         {

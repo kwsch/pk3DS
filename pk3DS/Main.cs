@@ -1,4 +1,19 @@
-﻿using System;
+﻿/*----------------------------------------------------------------------------*/
+/*--  This program is free software: you can redistribute it and/or modify  --*/
+/*--  it under the terms of the GNU General Public License as published by  --*/
+/*--  the Free Software Foundation, either version 3 of the License, or     --*/
+/*--  (at your option) any later version.                                   --*/
+/*--                                                                        --*/
+/*--  This program is distributed in the hope that it will be useful,       --*/
+/*--  but WITHOUT ANY WARRANTY; without even the implied warranty of        --*/
+/*--  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the          --*/
+/*--  GNU General Public License for more details.                          --*/
+/*--                                                                        --*/
+/*--  You should have received a copy of the GNU General Public License     --*/
+/*--  along with this program. If not, see <http://www.gnu.org/licenses/>.  --*/
+/*----------------------------------------------------------------------------*/
+
+using System;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -25,7 +40,7 @@ namespace pk3DS
             TB_Path.DragDrop += tabMain_DragDrop;
 
             // Rebuilding Functionality
-            // GB_RomFS.Click += rebuildRomFS; // Not tested, need some verification first.
+            GB_RomFS.Click += rebuildRomFS; // Not tested, need some verification first.
             GB_ExeFS.Click += rebuildExeFS;
 
             // Reload Previous Editing Files if the file exists
@@ -227,6 +242,7 @@ namespace pk3DS
         // RomFS Subform Items
         private void rebuildRomFS(object sender, EventArgs e)
         {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             if (RomFS != null)
             {
                 if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild RomFS?") == DialogResult.Yes)
@@ -235,7 +251,19 @@ namespace pk3DS
                     sfd.FileName = "romfs.bin";
                     sfd.Filter = "Binary File|*.*";
                     if (sfd.ShowDialog() == DialogResult.OK)
-                    { new Thread(() => { threads++; RomFSTool.BuildRomFS(RomFS, null, pBar1); threads--; }).Start(); }
+                    {
+                        new Thread(() =>
+                        {
+                            updateStatus(Environment.NewLine + "Building RomFS binary. Please wait until the program finishes.");
+
+                            threads++;
+                            RomFSTool.BuildRomFS(sfd.FileName, RomFS, RTB_Status, pBar1);
+                            threads--;
+
+                            updateStatus("RomFS binary saved." + Environment.NewLine);
+                            Util.Alert("Wrote RomFS binary:", sfd.FileName);
+                        }).Start();
+                    }
                 }
             }
         }
@@ -552,8 +580,18 @@ namespace pk3DS
             try
             {
                 if (RTB_Status.InvokeRequired)
-                    RTB_Status.Invoke((MethodInvoker)delegate { RTB_Status.AppendText(((preBreak) ? Environment.NewLine : "") + status); });
-                else RTB_Status.AppendText(status + Environment.NewLine);
+                    RTB_Status.Invoke((MethodInvoker)delegate
+                    {
+                        RTB_Status.AppendText(((preBreak) ? Environment.NewLine : "") + status);
+                        RTB_Status.SelectionStart = RTB_Status.Text.Length;
+                        RTB_Status.ScrollToCaret();
+                    });
+                else
+                {
+                    RTB_Status.AppendText(status + Environment.NewLine);
+                    RTB_Status.SelectionStart = RTB_Status.Text.Length;
+                    RTB_Status.ScrollToCaret();
+                }
             }
             catch { }
         }

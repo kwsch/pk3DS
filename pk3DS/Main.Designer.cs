@@ -70,7 +70,7 @@
             // 
             // TB_Path
             // 
-            this.TB_Path.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TB_Path.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_Path.Location = new System.Drawing.Point(93, 14);
             this.TB_Path.Name = "TB_Path";
@@ -80,7 +80,7 @@
             // 
             // GB_RomFS
             // 
-            this.GB_RomFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.GB_RomFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_RomFS.Controls.Add(this.B_Maison);
             this.GB_RomFS.Controls.Add(this.B_EggMove);
@@ -265,7 +265,7 @@
             // 
             // pBar1
             // 
-            this.pBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.pBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pBar1.Location = new System.Drawing.Point(12, 241);
             this.pBar1.Name = "pBar1";
@@ -284,7 +284,7 @@
             // 
             // GB_ExeFS
             // 
-            this.GB_ExeFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.GB_ExeFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_ExeFS.Controls.Add(this.B_Pickup);
             this.GB_ExeFS.Controls.Add(this.B_Mart);
@@ -340,8 +340,8 @@
             // 
             // RTB_Status
             // 
-            this.RTB_Status.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.RTB_Status.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RTB_Status.Location = new System.Drawing.Point(12, 263);
             this.RTB_Status.Name = "RTB_Status";
@@ -409,4 +409,3 @@
         public System.Windows.Forms.RichTextBox RTB_Status;
     }
 }
-
