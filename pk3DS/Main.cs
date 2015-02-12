@@ -116,7 +116,7 @@ namespace pk3DS
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            while (threads > 0) { Util.Alert("Please wait for all operations to finish first."); }
 
             updateStatus(Environment.NewLine + Environment.NewLine + "Saving data and closing the program...");
             try
@@ -273,6 +273,7 @@ namespace pk3DS
         }
         private void B_GameText_Click(object sender, EventArgs e)
         {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
                 string[] files = { "gametext" };
