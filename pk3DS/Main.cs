@@ -116,12 +116,15 @@ namespace pk3DS
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {
-            updateStatus("Saving data and closing the program...");
-            if (TB_Path.Text.Length > 0) File.WriteAllText("config.ini", TB_Path.Text);
-            if (!GB_RomFS.Enabled) return; // No data/threads need to be addressed if we haven't loaded anything.
-            // Set the GameText back as other forms may have edited it.
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+
+            updateStatus(Environment.NewLine + Environment.NewLine + "Saving data and closing the program...");
             try
             {
+                if (TB_Path.Text.Length > 0) File.WriteAllText("config.ini", TB_Path.Text);
+                if (!GB_RomFS.Enabled) return; // No data/threads need to be addressed if we haven't loaded anything.
+
+                // Set the GameText back as other forms may have edited it.
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", "gametext", getGARCFileName("gametext")));
                 threadSet(RomFS + getGARCFileName("gametext"), "gametext", false);
                 while (threads > 0) Thread.Sleep(100);
@@ -131,10 +134,11 @@ namespace pk3DS
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", "personal", getGARCFileName("personal")));
                 threadSet(RomFS + getGARCFileName("personal"), "personal", false);
                 while (threads > 0) Thread.Sleep(100);
+
+                if (Directory.Exists("gametext")) Directory.Delete("gametext", true);
+                if (Directory.Exists("personal")) Directory.Delete("personal", true);
             }
             catch { }
-            if (Directory.Exists("gametext")) Directory.Delete("gametext", true);
-            if (Directory.Exists("personal")) Directory.Delete("personal", true);
         }
         private void openQuick(string path)
         {
@@ -271,13 +275,10 @@ namespace pk3DS
         {
             new Thread(() =>
             {
-                string toEdit = "gametext";
-                string GARC = getGARCFileName(toEdit);
-                // Persistent data; file already fetched.
-                Invoke((Action)(() => { new xytext(Directory.GetFiles(toEdit)).ShowDialog(); }));
-                // Persistent data; folder not deleted.
-                updateStatus(String.Format("GARC Set: {0} @ {1}... ", toEdit, GARC));
-                threadSet(RomFS + GARC, toEdit);
+                string[] files = { "gametext" };
+                fileGet(files, false, true);
+                Invoke((Action)(() => { new xytext(Directory.GetFiles("gametext")).ShowDialog(); }));
+                fileSet(files, true);
             }).Start();
         }
         private void B_StoryText_Click(object sender, EventArgs e)
@@ -285,9 +286,10 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                fileGet("storytext");
+                string[] files = { "storytext" };
+                fileGet(files);
                 Invoke((Action)(() => { new xytext(Directory.GetFiles("storytext")).ShowDialog(); }));
-                fileSet("storytext");
+                fileSet(files);
             }).Start();
         }
         private void B_Maison_Click(object sender, EventArgs e)
@@ -299,9 +301,10 @@ namespace pk3DS
             new Thread(() =>
             {
                 bool super = (dr == DialogResult.Yes);
-                fileGet((super) ? "maisontrS" : "maisontrN", (super) ? "maisonpkS" : "maisonpkN");
+                string[] files = { (super) ? "maisontrS" : "maisontrN", (super) ? "maisonpkS" : "maisonpkN" };
+                fileGet(files);
                 Invoke((Action)(() => { new Maison(super).ShowDialog(); }));
-                fileGet((super) ? "maisontrS" : "maisontrN", (super) ? "maisonpkS" : "maisonpkN");
+                fileSet(files);
             }).Start();
         }
         private void B_Personal_Click(object sender, EventArgs e)
@@ -309,13 +312,10 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                string toEdit = "personal";
-                string GARC = getGARCFileName(toEdit);
-                // Persistent data; file already fetched.
+                string[] files = { "personal" };
+                fileGet(files, false, true);
                 Invoke((Action)(() => { new Personal().ShowDialog(); }));
-                // Persistent data; folder not deleted.
-                updateStatus(String.Format("GARC Set: {0} @ {1}... ", toEdit, GARC));
-                threadSet(RomFS + GARC, toEdit);
+                fileSet(files, true);
             }).Start();
         }
         private void B_Trainer_Click(object sender, EventArgs e)
@@ -323,9 +323,10 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                fileGet("trdata", "trpoke");
+                string[] files = { "trdata", "trpoke" };
+                fileGet(files);
                 Invoke((Action)(() => { new RSTE().ShowDialog(); }));
-                fileSet("trdata", "trpoke");
+                fileSet(files);
             }).Start();
         }
         private void B_Wild_Click(object sender, EventArgs e)
@@ -333,10 +334,11 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                fileGet("encdata");
+                string[] files = { "encdata" };
+                fileGet(files, false);
                 if (oras) { Invoke((Action)(() => { new RSWE().ShowDialog(); })); }
                 else { Invoke((Action)(() => { new XYWE().ShowDialog(); })); }
-                fileSet("encdata");
+                fileSet(files);
             }).Start();
         }
         private void B_Evolution_Click(object sender, EventArgs e)
@@ -344,9 +346,10 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                fileGet("evolution");
+                string[] files = { "evolution" };
+                fileGet(new string[] { "evolution" });
                 Invoke((Action)(() => { new Evolution().ShowDialog(); }));
-                fileSet("evolution");
+                fileSet(files);
             }).Start();
         }
         private void B_MegaEvo_Click(object sender, EventArgs e)
@@ -354,9 +357,10 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                fileGet("megaevo");
+                string[] files = { "megaevo" };
+                fileGet(new string[] { "megaevo" });
                 Invoke((Action)(() => { new MEE().ShowDialog(); }));
-                fileSet("megaevo");
+                fileSet(files);
             }).Start();
         }
         private void B_Item_Click(object sender, EventArgs e)
@@ -364,9 +368,10 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                fileGet("item");
+                string[] files = { "item" };
+                fileGet(files);
                 Invoke((Action)(() => { new Item().ShowDialog(); }));
-                fileSet("item");
+                fileSet(files);
             }).Start();
         }
         private void B_Move_Click(object sender, EventArgs e)
@@ -374,9 +379,10 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                fileGet("move");
+                string[] files = { "move" };
+                fileGet(files);
                 Invoke((Action)(() => { new Moves().ShowDialog(); }));
-                fileSet("move");
+                fileSet(files);
             }).Start();
         }
         private void B_LevelUp_Click(object sender, EventArgs e)
@@ -384,9 +390,10 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                fileGet("levelup");
+                string[] files = { "levelup" };
+                fileGet(files);
                 Invoke((Action)(() => { new LevelUp().ShowDialog(); }));
-                fileSet("levelup");
+                fileSet(files);
             }).Start();
         }
         private void B_EggMove_Click(object sender, EventArgs e)
@@ -394,23 +401,25 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                fileGet("eggmove");
+                string[] files = { "eggmove" };
+                fileGet(files);
                 Invoke((Action)(() => { new EggMove().ShowDialog(); }));
-                fileSet("eggmove");
+                fileSet(files);
             }).Start();
         }
         // RomFS File Requesting Method Wrapper
-        private void fileGet(params string[] files)
+        private void fileGet(string[] files, bool skipDecompression = true, bool skipGet = false)
         {
+            if (skipGet) return;
             foreach (string toEdit in files)
             {
                 string GARC = getGARCFileName(toEdit);
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", toEdit, GARC));
-                threadGet(RomFS + GARC, toEdit, true, true);
+                threadGet(RomFS + GARC, toEdit, true, skipDecompression);
                 while (threads > 0) Thread.Sleep(50);
             }
         }
-        private void fileSet(params string[] files)
+        private void fileSet(string[] files, bool keep = false)
         {
             foreach (string toEdit in files)
             {
@@ -418,7 +427,7 @@ namespace pk3DS
                 updateStatus(String.Format("GARC Set: {0} @ {1}... ", toEdit, GARC));
                 threadSet(RomFS + GARC, toEdit);
                 while (threads > 0) Thread.Sleep(50);
-                if (Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
+                if (!keep && Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
             }
         }
 
