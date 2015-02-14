@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -575,6 +576,7 @@ namespace pk3DS
         }
         private void B_Randomize_Click(object sender, EventArgs e)
         {
+            Util.Alert("Randomization currently disabled"); return;
             if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all?", "Cannot undo.") == DialogResult.Yes)
             {
                 bool smart = Util.Prompt(MessageBoxButtons.YesNo, "Smart Randomize by Base Stat Total?", "Pokemon strength variance will attempt to match ingame.") == DialogResult.Yes;
@@ -583,6 +585,7 @@ namespace pk3DS
                 // Nonrepeating List Start
                 int[] sL = Randomizer.RandomSpeciesList;
                 int ctr = 0;
+                int[] slotArray = Enumerable.Range(0, max.Length).Select(a => (int)a).ToArray();
 
                 for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
                 {
@@ -590,10 +593,21 @@ namespace pk3DS
                     if (!hasData()) continue; // Don't randomize if doesn't have data.
 
                     // Get a new list of Pokemon so that DexNav does not crash.
-                    int[] RandomList = new int[18];
+                    int[] list = new int[max.Length];
+                    int used = 19;
+
+                    // Count up how many slots are active.
+                    for (int s = 0; s < max.Length; s++) 
+                        if (spec[s].SelectedIndex > 0)
+                            list[s] = spec[s].SelectedIndex;
+
+                    // At most 18, but don't chew if there's only a few slots.
+                    int cons = list.Count(a => a != 0);
+                    int[] RandomList = new int[(cons > 18) ? (18 - (cons / 8)) : cons]; 
+
                     // Fill Location List
                     if (!smart)
-                        for (int z = 0; z < 18; z++)
+                        for (int z = 0; z < RandomList.Length; z++)
                             RandomList[z] = Randomizer.getRandomSpecies(ref sL, ref ctr);
                     else
                     {
@@ -601,8 +615,8 @@ namespace pk3DS
                         for (int s = 0; s < max.Length; s++)
                             if (spec[s].SelectedIndex > 0)
                             { oldBST = personal[spec[s + 2].SelectedIndex].Take(6).Sum(b => (ushort)b); break; }
-
-                        for (int z = 0; z < 18; z++)
+                        
+                        for (int z = 0; z < RandomList.Length; z++)
                         {
                             int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
                             int newBST = personal[species].Take(6).Sum(b => (ushort)b);
@@ -611,44 +625,83 @@ namespace pk3DS
                             RandomList[z] = species;
                         }
                     }
-
-                    int ctrSingle = 0;
-                    for (int slot = 0; slot < max.Length; slot++)
+                    
+                    // Assign Slots
+                    while (used < RandomList.Length || used > 18) // Can just arbitrarily assign slots.
                     {
-                        if (spec[slot].SelectedIndex != 0) // If the slot is in use
+                        int ctrSingle = 0;
+                        Util.Shuffle(slotArray);
+                        for (int s = 0; s < max.Length; s++)
                         {
-                            int species = Randomizer.getRandomSpecies(ref RandomList, ref ctrSingle);
-                            spec[slot].SelectedIndex = species;
-
-                            if (species == 666 || species == 665 || species == 664) // Vivillon
-                                form[slot].Value = rnd32() % 20;
-                            else if (species == 386) // Deoxys
-                                form[slot].Value = rnd32() % 4;
-                            else if (species == 201) // Unown
-                                form[slot].Value = rnd32() % 28;
-                            else if (species == 550) // Basculin
-                                form[slot].Value = rnd32() % 2;
-                            else if (species == 412 || species == 413) // Wormadam
-                                form[slot].Value = rnd32() % 3;
-                            else if (species == 422 || species == 423) // Gastrodon
-                                form[slot].Value = rnd32() % 2;
-                            else if (species == 585 || species == 586) // Sawsbuck
-                                form[slot].Value = rnd32() % 4;
-                            else if (species == 669 || species == 671) // Flabebe/Florges
-                                form[slot].Value = rnd32() % 5;
-                            else if (species == 670) // Floette
-                                form[slot].Value = rnd32() % 6;
-                            else if (species == 710 || species == 711) // Pumpkaboo
-                                form[slot].Value = rnd32() % 4;
-                            else
-                                form[slot].Value = 0;
+                            int slot = slotArray[s];
+                            if (spec[slot].SelectedIndex != 0) // If the slot is in use
+                                list[slot] = Randomizer.getRandomSpecies(ref RandomList, ref ctrSingle);
                         }
+                        ShuffleSlots(ref list, RandomList.Length);
+                        used = countUnique(list);
                     }
+
+                    // Fill Slots
+                    for (int slot = 0; slot < max.Length; slot++)
+                        if (spec[slot].SelectedIndex != 0)
+                        {
+                            spec[slot].SelectedIndex = list[slot];
+                            setRandomForm(slot, spec[slot].SelectedIndex);
+                        }
+
                     B_Save_Click(sender, e);
                 }
                 this.Enabled = true;
                 Util.Alert("Randomized!");
             }
+        }
+        private int countUnique(int[] list)
+        {
+            int used = 0;
+            used += list.Skip(0).Take(12).Distinct().Count(a => a != 0);
+            used += list.Skip(12).Take(12).Distinct().Count(a => a != 0);
+            used += list.Skip(24).Take(3).Distinct().Count(a => a != 0);
+            used += list.Skip(27).Take(5).Distinct().Count(a => a != 0);
+            used += list.Skip(32).Take(5).Distinct().Count(a => a != 0);
+            used += list.Skip(37).Take(3).Distinct().Count(a => a != 0);
+            used += list.Skip(40).Take(3).Distinct().Count(a => a != 0);
+            used += list.Skip(43).Take(3).Distinct().Count(a => a != 0);
+            used += list.Skip(46).Take(15).Distinct().Count(a => a != 0);
+            return used;
+        }
+        private void setRandomForm(int slot, int species)
+        {
+            if (species == 666 || species == 665 || species == 664) // Vivillon
+                form[slot].Value = rnd32() % 20;
+            else if (species == 386) // Deoxys
+                form[slot].Value = rnd32() % 4;
+            else if (species == 201) // Unown
+                form[slot].Value = rnd32() % 28;
+            else if (species == 550) // Basculin
+                form[slot].Value = rnd32() % 2;
+            else if (species == 412 || species == 413) // Wormadam
+                form[slot].Value = rnd32() % 3;
+            else if (species == 422 || species == 423) // Gastrodon
+                form[slot].Value = rnd32() % 2;
+            else if (species == 585 || species == 586) // Sawsbuck
+                form[slot].Value = rnd32() % 4;
+            else if (species == 669 || species == 671) // Flabebe/Florges
+                form[slot].Value = rnd32() % 5;
+            else if (species == 670) // Floette
+                form[slot].Value = rnd32() % 6;
+            else if (species == 710 || species == 711) // Pumpkaboo
+                form[slot].Value = rnd32() % 4;
+            else
+                form[slot].Value = 0;
+        }
+        private void ShuffleSlots(ref int[] list, int slC)
+        {
+            // Initialize
+            int[] slotset = new int[] { 0, 12, 24, 27, 32, 37, 40, 43, 46 };
+            int[] slotlen = new int[] { 12, 12, 3, 5, 5, 3, 3, 3, 5 + 5 + 5 };
+            int[][] slotdata = new int[slotset.Length][];
+            for (int i = 0; i < slotset.Length; i++)
+                slotdata[i] = list.Skip(slotset[i]).Take(slotlen[i]).ToArray();
         }
     }
 }
