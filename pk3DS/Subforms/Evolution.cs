@@ -143,7 +143,8 @@ namespace pk3DS
             {
                 CB_Species.SelectedIndex = i; // Get new Species
                 for (int j = 0; j < mb.Length; j++)
-                    if (mb[j].SelectedIndex > 0) rb[i].SelectedIndex = rnd.Next(1, 722);
+                    if (mb[j].SelectedIndex > 0)
+                        rb[j].SelectedIndex = rnd.Next(1, 722);
             }
             setList();
             Util.Alert("All Pokemon's Evolutions have been randomized!");
