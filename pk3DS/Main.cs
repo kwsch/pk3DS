@@ -525,6 +525,9 @@ namespace pk3DS
         }
         public bool setGARC(string outfile, string infolder, bool PB)
         {
+            if (ModifierKeys == Keys.Control && Util.Prompt(MessageBoxButtons.YesNo, "Cancel writing data back to GARC?") == DialogResult.Yes)
+            { updateStatus(String.Format("Aborted!"), false); threads--; return false; }
+
             try
             {
                 bool success = GARCTool.garcPackMS(infolder, outfile, (PB) ? pBar1 : null, null, true);
