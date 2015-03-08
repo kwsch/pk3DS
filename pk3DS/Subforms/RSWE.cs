@@ -578,7 +578,11 @@ namespace pk3DS
         {
             if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all?", "Cannot undo.") == DialogResult.Yes)
             {
-                bool smart = Util.Prompt(MessageBoxButtons.YesNo, "Smart Randomize by Base Stat Total?", "Pokemon strength variance will attempt to match ingame.") == DialogResult.Yes;
+                bool smart = Util.Prompt(MessageBoxButtons.YesNo, 
+                    "Smart Randomize by Base Stat Total?" + Environment.NewLine + 
+                    "Pokemon strength variance will attempt to match ingame.",
+                    
+                    "If no, the randomizer will \"721\" the entire dex.") == DialogResult.Yes;
                 this.Enabled = false;
 
                 // Nonrepeating List Start
