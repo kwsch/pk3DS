@@ -623,7 +623,7 @@ namespace pk3DS
 
                 // Amp Levels
                 for (int l = 0; l < max.Length; l++)
-                    min[l].Value = max[l].Value = (int)(leveldiff * max[l].Value);
+                    min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Min(100, (int)(leveldiff * max[l].Value));
 
                 // Save Changes
                 B_Save_Click(sender, e);
