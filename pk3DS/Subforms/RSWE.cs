@@ -576,7 +576,6 @@ namespace pk3DS
         }
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            Util.Alert("Randomization currently disabled"); return;
             if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all?", "Cannot undo.") == DialogResult.Yes)
             {
                 bool smart = Util.Prompt(MessageBoxButtons.YesNo, "Smart Randomize by Base Stat Total?", "Pokemon strength variance will attempt to match ingame.") == DialogResult.Yes;
@@ -627,7 +626,7 @@ namespace pk3DS
                     }
                     
                     // Assign Slots
-                    while (used < RandomList.Length || used > 18) // Can just arbitrarily assign slots.
+                    while (used < RandomList.Distinct().Count() || used > 18) // Can just arbitrarily assign slots.
                     {
                         int ctrSingle = 0;
                         Util.Shuffle(slotArray);
@@ -637,7 +636,9 @@ namespace pk3DS
                             if (spec[slot].SelectedIndex != 0) // If the slot is in use
                                 list[slot] = Randomizer.getRandomSpecies(ref RandomList, ref ctrSingle);
                         }
-                        ShuffleSlots(ref list, RandomList.Length);
+                        used = countUnique(list);
+                        if (used != RandomList.Length)
+                            ShuffleSlots(ref list, RandomList.Length);
                         used = countUnique(list);
                     }
 
@@ -696,12 +697,57 @@ namespace pk3DS
         }
         private void ShuffleSlots(ref int[] list, int slC)
         {
+            int[] input = (int[])list.Clone();
+            int rawct = input.Distinct().Count(a => a != 0);
             // Initialize
             int[] slotset = new int[] { 0, 12, 24, 27, 32, 37, 40, 43, 46 };
             int[] slotlen = new int[] { 12, 12, 3, 5, 5, 3, 3, 3, 5 + 5 + 5 };
             int[][] slotdata = new int[slotset.Length][];
             for (int i = 0; i < slotset.Length; i++)
                 slotdata[i] = list.Skip(slotset[i]).Take(slotlen[i]).ToArray();
+
+            int used = countUnique(list);
+            // Iterate
+            while (used > 18)
+            {
+                for (int n = 0; n <= 20; n++)
+                {
+                    if (n == 20) 
+                    { list = (int[])input.Clone(); continue; } // Reset and try again (shuffle failed)
+                    for (int i = 0; i < slotdata.Length; i++)
+                    {
+                        for (int j = 0; j < slotdata[i].Length; j++)
+                        {
+                            int data = slotdata[i][j];
+                            if (data == 0) continue;
+                            for (int s = 0; s < slotdata.Length; s++)
+                            {
+                                if (s == i) continue;
+                                if (slotdata[s].Contains(data))
+                                {
+                                    int z = Array.LastIndexOf(slotdata[s], data);
+                                    int next = (z + 1 + Util.rand.Next(slotdata[s].Length - 1)) % slotdata[s].Length;
+                                    int donor = slotdata[s][next];
+                                    if (donor == 0) continue;
+                                    if (donor != data)
+                                        swap(ref slotdata[s][next], ref slotdata[i][j]);
+                                }
+                            }
+                        }
+                    }
+                    int[] temp = slotdata[0];
+                    for (int i = 1; i < slotdata.Length; i++)
+                        temp = temp.Concat(slotdata[i]).ToArray();
+                    list = temp.ToArray();
+                    used = countUnique(list);
+                    if (used < 18) break;
+                }
+            }
+        }
+        private void swap(ref int a1, ref int a2)
+        {
+            var s1 = a1; var s2 = a2;
+            a2 = s1; a1 = s2;
         }
     }
 }
