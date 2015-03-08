@@ -30,14 +30,19 @@
         {
             this.CB_LocationID = new System.Windows.Forms.ComboBox();
             this.B_Save = new System.Windows.Forms.Button();
-            this.label134 = new System.Windows.Forms.Label();
-            this.label136 = new System.Windows.Forms.Label();
+            this.L_Location = new System.Windows.Forms.Label();
+            this.L_FormList = new System.Windows.Forms.Label();
             this.CB_FormeList = new System.Windows.Forms.ComboBox();
             this.TabPage_Horde = new System.Windows.Forms.TabPage();
-            this.label129 = new System.Windows.Forms.Label();
-            this.label130 = new System.Windows.Forms.Label();
-            this.label131 = new System.Windows.Forms.Label();
-            this.label132 = new System.Windows.Forms.Label();
+            this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.B_LevelMinus = new System.Windows.Forms.Button();
+            this.B_LevelPlus = new System.Windows.Forms.Button();
+            this.NUD_LevelAmp = new System.Windows.Forms.NumericUpDown();
+            this.L_Levels = new System.Windows.Forms.Label();
+            this.L_HordeC_Max = new System.Windows.Forms.Label();
+            this.L_HordeC_Min = new System.Windows.Forms.Label();
+            this.L_HordeC_F = new System.Windows.Forms.Label();
+            this.L_HordeC = new System.Windows.Forms.Label();
             this.NUP_HordeCMax5 = new System.Windows.Forms.NumericUpDown();
             this.NUP_HordeCMin5 = new System.Windows.Forms.NumericUpDown();
             this.NUP_HordeCForme5 = new System.Windows.Forms.NumericUpDown();
@@ -58,17 +63,17 @@
             this.NUP_HordeCMin1 = new System.Windows.Forms.NumericUpDown();
             this.NUP_HordeCForme1 = new System.Windows.Forms.NumericUpDown();
             this.CB_HordeC1 = new System.Windows.Forms.ComboBox();
-            this.label125 = new System.Windows.Forms.Label();
-            this.label121 = new System.Windows.Forms.Label();
-            this.label126 = new System.Windows.Forms.Label();
-            this.label124 = new System.Windows.Forms.Label();
-            this.label127 = new System.Windows.Forms.Label();
-            this.label122 = new System.Windows.Forms.Label();
-            this.label128 = new System.Windows.Forms.Label();
+            this.L_HordeB_Max = new System.Windows.Forms.Label();
+            this.L_HordeA_Max = new System.Windows.Forms.Label();
+            this.L_HordeB_Min = new System.Windows.Forms.Label();
+            this.L_HordeA = new System.Windows.Forms.Label();
+            this.L_HordeB_F = new System.Windows.Forms.Label();
+            this.L_HordeA_Min = new System.Windows.Forms.Label();
+            this.L_HordeB = new System.Windows.Forms.Label();
             this.NUP_HordeBMax5 = new System.Windows.Forms.NumericUpDown();
             this.CB_HordeA1 = new System.Windows.Forms.ComboBox();
             this.NUP_HordeBMin5 = new System.Windows.Forms.NumericUpDown();
-            this.label123 = new System.Windows.Forms.Label();
+            this.L_HordeA_F = new System.Windows.Forms.Label();
             this.NUP_HordeBForme5 = new System.Windows.Forms.NumericUpDown();
             this.NUP_HordeAForme1 = new System.Windows.Forms.NumericUpDown();
             this.CB_HordeB5 = new System.Windows.Forms.ComboBox();
@@ -113,12 +118,12 @@
             this.label119 = new System.Windows.Forms.Label();
             this.label120 = new System.Windows.Forms.Label();
             this.label103 = new System.Windows.Forms.Label();
-            this.label48 = new System.Windows.Forms.Label();
+            this.L_Super = new System.Windows.Forms.Label();
             this.label104 = new System.Windows.Forms.Label();
             this.CB_Super1 = new System.Windows.Forms.ComboBox();
             this.label105 = new System.Windows.Forms.Label();
             this.NUP_SuperForme1 = new System.Windows.Forms.NumericUpDown();
-            this.label106 = new System.Windows.Forms.Label();
+            this.L_Surf = new System.Windows.Forms.Label();
             this.CB_Surf1 = new System.Windows.Forms.ComboBox();
             this.NUP_SuperMin1 = new System.Windows.Forms.NumericUpDown();
             this.NUP_SurfForme1 = new System.Windows.Forms.NumericUpDown();
@@ -152,7 +157,7 @@
             this.NUP_SurfMax4 = new System.Windows.Forms.NumericUpDown();
             this.label102 = new System.Windows.Forms.Label();
             this.NUP_SurfMax3 = new System.Windows.Forms.NumericUpDown();
-            this.label26 = new System.Windows.Forms.Label();
+            this.L_Good = new System.Windows.Forms.Label();
             this.NUP_SurfMin4 = new System.Windows.Forms.NumericUpDown();
             this.CB_Good1 = new System.Windows.Forms.ComboBox();
             this.CB_Surf4 = new System.Windows.Forms.ComboBox();
@@ -174,7 +179,7 @@
             this.label30 = new System.Windows.Forms.Label();
             this.label46 = new System.Windows.Forms.Label();
             this.label47 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
+            this.L_Old = new System.Windows.Forms.Label();
             this.CB_Old1 = new System.Windows.Forms.ComboBox();
             this.NUP_OldForme1 = new System.Windows.Forms.NumericUpDown();
             this.NUP_OldMin1 = new System.Windows.Forms.NumericUpDown();
@@ -205,7 +210,7 @@
             this.NUP_SwarmForme2 = new System.Windows.Forms.NumericUpDown();
             this.label68 = new System.Windows.Forms.Label();
             this.NUP_SwarmMin2 = new System.Windows.Forms.NumericUpDown();
-            this.label69 = new System.Windows.Forms.Label();
+            this.L_DexNav = new System.Windows.Forms.Label();
             this.NUP_SwarmMax2 = new System.Windows.Forms.NumericUpDown();
             this.NUP_SwarmForme3 = new System.Windows.Forms.NumericUpDown();
             this.NUP_SwarmMin3 = new System.Windows.Forms.NumericUpDown();
@@ -262,7 +267,7 @@
             this.NUP_TallGrassMin10 = new System.Windows.Forms.NumericUpDown();
             this.NUP_TallGrassMax10 = new System.Windows.Forms.NumericUpDown();
             this.label107 = new System.Windows.Forms.Label();
-            this.label115 = new System.Windows.Forms.Label();
+            this.L_RockSmash = new System.Windows.Forms.Label();
             this.label108 = new System.Windows.Forms.Label();
             this.NUP_RockSmashMax5 = new System.Windows.Forms.NumericUpDown();
             this.label109 = new System.Windows.Forms.Label();
@@ -293,7 +298,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.L_TallGrass = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -314,7 +319,7 @@
             this.NUP_GrassForme2 = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.NUP_GrassMin2 = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
+            this.L_Grass = new System.Windows.Forms.Label();
             this.NUP_GrassMax2 = new System.Windows.Forms.NumericUpDown();
             this.CB_Grass12 = new System.Windows.Forms.ComboBox();
             this.NUP_GrassForme3 = new System.Windows.Forms.NumericUpDown();
@@ -374,6 +379,8 @@
             this.B_Dump = new System.Windows.Forms.Button();
             this.B_Randomize = new System.Windows.Forms.Button();
             this.TabPage_Horde.SuspendLayout();
+            this.GB_Tweak.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelAmp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_HordeCMax5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_HordeCMin5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_HordeCForme5)).BeginInit();
@@ -585,23 +592,23 @@
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
-            // label134
+            // L_Location
             // 
-            this.label134.AutoSize = true;
-            this.label134.Location = new System.Drawing.Point(201, 12);
-            this.label134.Name = "label134";
-            this.label134.Size = new System.Drawing.Size(28, 13);
-            this.label134.TabIndex = 411;
-            this.label134.Text = "Loc:";
+            this.L_Location.AutoSize = true;
+            this.L_Location.Location = new System.Drawing.Point(201, 12);
+            this.L_Location.Name = "L_Location";
+            this.L_Location.Size = new System.Drawing.Size(28, 13);
+            this.L_Location.TabIndex = 411;
+            this.L_Location.Text = "Loc:";
             // 
-            // label136
+            // L_FormList
             // 
-            this.label136.AutoSize = true;
-            this.label136.Location = new System.Drawing.Point(752, 12);
-            this.label136.Name = "label136";
-            this.label136.Size = new System.Drawing.Size(58, 13);
-            this.label136.TabIndex = 414;
-            this.label136.Text = "Forme List:";
+            this.L_FormList.AutoSize = true;
+            this.L_FormList.Location = new System.Drawing.Point(752, 12);
+            this.L_FormList.Name = "L_FormList";
+            this.L_FormList.Size = new System.Drawing.Size(58, 13);
+            this.L_FormList.TabIndex = 414;
+            this.L_FormList.Text = "Forme List:";
             // 
             // CB_FormeList
             // 
@@ -744,10 +751,11 @@
             // 
             // TabPage_Horde
             // 
-            this.TabPage_Horde.Controls.Add(this.label129);
-            this.TabPage_Horde.Controls.Add(this.label130);
-            this.TabPage_Horde.Controls.Add(this.label131);
-            this.TabPage_Horde.Controls.Add(this.label132);
+            this.TabPage_Horde.Controls.Add(this.GB_Tweak);
+            this.TabPage_Horde.Controls.Add(this.L_HordeC_Max);
+            this.TabPage_Horde.Controls.Add(this.L_HordeC_Min);
+            this.TabPage_Horde.Controls.Add(this.L_HordeC_F);
+            this.TabPage_Horde.Controls.Add(this.L_HordeC);
             this.TabPage_Horde.Controls.Add(this.NUP_HordeCMax5);
             this.TabPage_Horde.Controls.Add(this.NUP_HordeCMin5);
             this.TabPage_Horde.Controls.Add(this.NUP_HordeCForme5);
@@ -768,17 +776,17 @@
             this.TabPage_Horde.Controls.Add(this.NUP_HordeCMin1);
             this.TabPage_Horde.Controls.Add(this.NUP_HordeCForme1);
             this.TabPage_Horde.Controls.Add(this.CB_HordeC1);
-            this.TabPage_Horde.Controls.Add(this.label125);
-            this.TabPage_Horde.Controls.Add(this.label121);
-            this.TabPage_Horde.Controls.Add(this.label126);
-            this.TabPage_Horde.Controls.Add(this.label124);
-            this.TabPage_Horde.Controls.Add(this.label127);
-            this.TabPage_Horde.Controls.Add(this.label122);
-            this.TabPage_Horde.Controls.Add(this.label128);
+            this.TabPage_Horde.Controls.Add(this.L_HordeB_Max);
+            this.TabPage_Horde.Controls.Add(this.L_HordeA_Max);
+            this.TabPage_Horde.Controls.Add(this.L_HordeB_Min);
+            this.TabPage_Horde.Controls.Add(this.L_HordeA);
+            this.TabPage_Horde.Controls.Add(this.L_HordeB_F);
+            this.TabPage_Horde.Controls.Add(this.L_HordeA_Min);
+            this.TabPage_Horde.Controls.Add(this.L_HordeB);
             this.TabPage_Horde.Controls.Add(this.NUP_HordeBMax5);
             this.TabPage_Horde.Controls.Add(this.CB_HordeA1);
             this.TabPage_Horde.Controls.Add(this.NUP_HordeBMin5);
-            this.TabPage_Horde.Controls.Add(this.label123);
+            this.TabPage_Horde.Controls.Add(this.L_HordeA_F);
             this.TabPage_Horde.Controls.Add(this.NUP_HordeBForme5);
             this.TabPage_Horde.Controls.Add(this.NUP_HordeAForme1);
             this.TabPage_Horde.Controls.Add(this.CB_HordeB5);
@@ -824,41 +832,100 @@
             this.TabPage_Horde.Text = "Horde";
             this.TabPage_Horde.UseVisualStyleBackColor = true;
             // 
-            // label129
+            // GB_Tweak
             // 
-            this.label129.AutoSize = true;
-            this.label129.Location = new System.Drawing.Point(825, 13);
-            this.label129.Name = "label129";
-            this.label129.Size = new System.Drawing.Size(27, 13);
-            this.label129.TabIndex = 320;
-            this.label129.Text = "Max";
+            this.GB_Tweak.Controls.Add(this.B_LevelMinus);
+            this.GB_Tweak.Controls.Add(this.B_LevelPlus);
+            this.GB_Tweak.Controls.Add(this.NUD_LevelAmp);
+            this.GB_Tweak.Controls.Add(this.L_Levels);
+            this.GB_Tweak.Location = new System.Drawing.Point(341, 258);
+            this.GB_Tweak.Name = "GB_Tweak";
+            this.GB_Tweak.Size = new System.Drawing.Size(236, 63);
+            this.GB_Tweak.TabIndex = 322;
+            this.GB_Tweak.TabStop = false;
+            this.GB_Tweak.Text = "Extra Tweaks";
             // 
-            // label130
+            // B_LevelMinus
             // 
-            this.label130.AutoSize = true;
-            this.label130.Location = new System.Drawing.Point(778, 13);
-            this.label130.Name = "label130";
-            this.label130.Size = new System.Drawing.Size(24, 13);
-            this.label130.TabIndex = 319;
-            this.label130.Text = "Min";
+            this.B_LevelMinus.Location = new System.Drawing.Point(197, 23);
+            this.B_LevelMinus.Name = "B_LevelMinus";
+            this.B_LevelMinus.Size = new System.Drawing.Size(21, 23);
+            this.B_LevelMinus.TabIndex = 278;
+            this.B_LevelMinus.Text = "-";
+            this.B_LevelMinus.UseVisualStyleBackColor = true;
+            this.B_LevelMinus.Click += new System.EventHandler(this.modifyLevels);
             // 
-            // label131
+            // B_LevelPlus
             // 
-            this.label131.AutoSize = true;
-            this.label131.Location = new System.Drawing.Point(731, 13);
-            this.label131.Name = "label131";
-            this.label131.Size = new System.Drawing.Size(36, 13);
-            this.label131.TabIndex = 318;
-            this.label131.Text = "Forme";
+            this.B_LevelPlus.Location = new System.Drawing.Point(174, 23);
+            this.B_LevelPlus.Name = "B_LevelPlus";
+            this.B_LevelPlus.Size = new System.Drawing.Size(21, 23);
+            this.B_LevelPlus.TabIndex = 277;
+            this.B_LevelPlus.Text = "+";
+            this.B_LevelPlus.UseVisualStyleBackColor = true;
+            this.B_LevelPlus.Click += new System.EventHandler(this.modifyLevels);
             // 
-            // label132
+            // NUD_LevelAmp
             // 
-            this.label132.AutoSize = true;
-            this.label132.Location = new System.Drawing.Point(607, 13);
-            this.label132.Name = "label132";
-            this.label132.Size = new System.Drawing.Size(69, 13);
-            this.label132.TabIndex = 317;
-            this.label132.Text = "Horde C (5%)";
+            this.NUD_LevelAmp.Location = new System.Drawing.Point(127, 26);
+            this.NUD_LevelAmp.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.NUD_LevelAmp.Name = "NUD_LevelAmp";
+            this.NUD_LevelAmp.Size = new System.Drawing.Size(41, 20);
+            this.NUD_LevelAmp.TabIndex = 276;
+            this.NUD_LevelAmp.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // L_Levels
+            // 
+            this.L_Levels.AutoSize = true;
+            this.L_Levels.Location = new System.Drawing.Point(19, 28);
+            this.L_Levels.Name = "L_Levels";
+            this.L_Levels.Size = new System.Drawing.Size(103, 13);
+            this.L_Levels.TabIndex = 0;
+            this.L_Levels.Text = "Modify All Levels (%)";
+            // 
+            // L_HordeC_Max
+            // 
+            this.L_HordeC_Max.AutoSize = true;
+            this.L_HordeC_Max.Location = new System.Drawing.Point(825, 13);
+            this.L_HordeC_Max.Name = "L_HordeC_Max";
+            this.L_HordeC_Max.Size = new System.Drawing.Size(27, 13);
+            this.L_HordeC_Max.TabIndex = 320;
+            this.L_HordeC_Max.Text = "Max";
+            // 
+            // L_HordeC_Min
+            // 
+            this.L_HordeC_Min.AutoSize = true;
+            this.L_HordeC_Min.Location = new System.Drawing.Point(778, 13);
+            this.L_HordeC_Min.Name = "L_HordeC_Min";
+            this.L_HordeC_Min.Size = new System.Drawing.Size(24, 13);
+            this.L_HordeC_Min.TabIndex = 319;
+            this.L_HordeC_Min.Text = "Min";
+            // 
+            // L_HordeC_F
+            // 
+            this.L_HordeC_F.AutoSize = true;
+            this.L_HordeC_F.Location = new System.Drawing.Point(731, 13);
+            this.L_HordeC_F.Name = "L_HordeC_F";
+            this.L_HordeC_F.Size = new System.Drawing.Size(36, 13);
+            this.L_HordeC_F.TabIndex = 318;
+            this.L_HordeC_F.Text = "Forme";
+            // 
+            // L_HordeC
+            // 
+            this.L_HordeC.AutoSize = true;
+            this.L_HordeC.Location = new System.Drawing.Point(607, 13);
+            this.L_HordeC.Name = "L_HordeC";
+            this.L_HordeC.Size = new System.Drawing.Size(69, 13);
+            this.L_HordeC.TabIndex = 317;
+            this.L_HordeC.Text = "Horde C (5%)";
             // 
             // NUP_HordeCMax5
             // 
@@ -4270,68 +4337,68 @@
             this.CB_HordeC1.Size = new System.Drawing.Size(121, 21);
             this.CB_HordeC1.TabIndex = 297;
             // 
-            // label125
+            // L_HordeB_Max
             // 
-            this.label125.AutoSize = true;
-            this.label125.Location = new System.Drawing.Point(530, 13);
-            this.label125.Name = "label125";
-            this.label125.Size = new System.Drawing.Size(27, 13);
-            this.label125.TabIndex = 296;
-            this.label125.Text = "Max";
+            this.L_HordeB_Max.AutoSize = true;
+            this.L_HordeB_Max.Location = new System.Drawing.Point(530, 13);
+            this.L_HordeB_Max.Name = "L_HordeB_Max";
+            this.L_HordeB_Max.Size = new System.Drawing.Size(27, 13);
+            this.L_HordeB_Max.TabIndex = 296;
+            this.L_HordeB_Max.Text = "Max";
             // 
-            // label121
+            // L_HordeA_Max
             // 
-            this.label121.AutoSize = true;
-            this.label121.Location = new System.Drawing.Point(234, 13);
-            this.label121.Name = "label121";
-            this.label121.Size = new System.Drawing.Size(27, 13);
-            this.label121.TabIndex = 296;
-            this.label121.Text = "Max";
+            this.L_HordeA_Max.AutoSize = true;
+            this.L_HordeA_Max.Location = new System.Drawing.Point(234, 13);
+            this.L_HordeA_Max.Name = "L_HordeA_Max";
+            this.L_HordeA_Max.Size = new System.Drawing.Size(27, 13);
+            this.L_HordeA_Max.TabIndex = 296;
+            this.L_HordeA_Max.Text = "Max";
             // 
-            // label126
+            // L_HordeB_Min
             // 
-            this.label126.AutoSize = true;
-            this.label126.Location = new System.Drawing.Point(483, 13);
-            this.label126.Name = "label126";
-            this.label126.Size = new System.Drawing.Size(24, 13);
-            this.label126.TabIndex = 295;
-            this.label126.Text = "Min";
+            this.L_HordeB_Min.AutoSize = true;
+            this.L_HordeB_Min.Location = new System.Drawing.Point(483, 13);
+            this.L_HordeB_Min.Name = "L_HordeB_Min";
+            this.L_HordeB_Min.Size = new System.Drawing.Size(24, 13);
+            this.L_HordeB_Min.TabIndex = 295;
+            this.L_HordeB_Min.Text = "Min";
             // 
-            // label124
+            // L_HordeA
             // 
-            this.label124.AutoSize = true;
-            this.label124.Location = new System.Drawing.Point(16, 13);
-            this.label124.Name = "label124";
-            this.label124.Size = new System.Drawing.Size(75, 13);
-            this.label124.TabIndex = 293;
-            this.label124.Text = "Horde A (60%)";
+            this.L_HordeA.AutoSize = true;
+            this.L_HordeA.Location = new System.Drawing.Point(16, 13);
+            this.L_HordeA.Name = "L_HordeA";
+            this.L_HordeA.Size = new System.Drawing.Size(75, 13);
+            this.L_HordeA.TabIndex = 293;
+            this.L_HordeA.Text = "Horde A (60%)";
             // 
-            // label127
+            // L_HordeB_F
             // 
-            this.label127.AutoSize = true;
-            this.label127.Location = new System.Drawing.Point(436, 13);
-            this.label127.Name = "label127";
-            this.label127.Size = new System.Drawing.Size(36, 13);
-            this.label127.TabIndex = 294;
-            this.label127.Text = "Forme";
+            this.L_HordeB_F.AutoSize = true;
+            this.L_HordeB_F.Location = new System.Drawing.Point(436, 13);
+            this.L_HordeB_F.Name = "L_HordeB_F";
+            this.L_HordeB_F.Size = new System.Drawing.Size(36, 13);
+            this.L_HordeB_F.TabIndex = 294;
+            this.L_HordeB_F.Text = "Forme";
             // 
-            // label122
+            // L_HordeA_Min
             // 
-            this.label122.AutoSize = true;
-            this.label122.Location = new System.Drawing.Point(187, 13);
-            this.label122.Name = "label122";
-            this.label122.Size = new System.Drawing.Size(24, 13);
-            this.label122.TabIndex = 295;
-            this.label122.Text = "Min";
+            this.L_HordeA_Min.AutoSize = true;
+            this.L_HordeA_Min.Location = new System.Drawing.Point(187, 13);
+            this.L_HordeA_Min.Name = "L_HordeA_Min";
+            this.L_HordeA_Min.Size = new System.Drawing.Size(24, 13);
+            this.L_HordeA_Min.TabIndex = 295;
+            this.L_HordeA_Min.Text = "Min";
             // 
-            // label128
+            // L_HordeB
             // 
-            this.label128.AutoSize = true;
-            this.label128.Location = new System.Drawing.Point(312, 13);
-            this.label128.Name = "label128";
-            this.label128.Size = new System.Drawing.Size(75, 13);
-            this.label128.TabIndex = 293;
-            this.label128.Text = "Horde B (35%)";
+            this.L_HordeB.AutoSize = true;
+            this.L_HordeB.Location = new System.Drawing.Point(312, 13);
+            this.L_HordeB.Name = "L_HordeB";
+            this.L_HordeB.Size = new System.Drawing.Size(75, 13);
+            this.L_HordeB.TabIndex = 293;
+            this.L_HordeB.Text = "Horde B (35%)";
             // 
             // NUP_HordeBMax5
             // 
@@ -5008,14 +5075,14 @@
             this.NUP_HordeBMin5.Size = new System.Drawing.Size(41, 20);
             this.NUP_HordeBMin5.TabIndex = 291;
             // 
-            // label123
+            // L_HordeA_F
             // 
-            this.label123.AutoSize = true;
-            this.label123.Location = new System.Drawing.Point(140, 13);
-            this.label123.Name = "label123";
-            this.label123.Size = new System.Drawing.Size(36, 13);
-            this.label123.TabIndex = 294;
-            this.label123.Text = "Forme";
+            this.L_HordeA_F.AutoSize = true;
+            this.L_HordeA_F.Location = new System.Drawing.Point(140, 13);
+            this.L_HordeA_F.Name = "L_HordeA_F";
+            this.L_HordeA_F.Size = new System.Drawing.Size(36, 13);
+            this.L_HordeA_F.TabIndex = 294;
+            this.L_HordeA_F.Text = "Forme";
             // 
             // NUP_HordeBForme5
             // 
@@ -11170,12 +11237,12 @@
             this.TabPage_Water.Controls.Add(this.label119);
             this.TabPage_Water.Controls.Add(this.label120);
             this.TabPage_Water.Controls.Add(this.label103);
-            this.TabPage_Water.Controls.Add(this.label48);
+            this.TabPage_Water.Controls.Add(this.L_Super);
             this.TabPage_Water.Controls.Add(this.label104);
             this.TabPage_Water.Controls.Add(this.CB_Super1);
             this.TabPage_Water.Controls.Add(this.label105);
             this.TabPage_Water.Controls.Add(this.NUP_SuperForme1);
-            this.TabPage_Water.Controls.Add(this.label106);
+            this.TabPage_Water.Controls.Add(this.L_Surf);
             this.TabPage_Water.Controls.Add(this.CB_Surf1);
             this.TabPage_Water.Controls.Add(this.NUP_SuperMin1);
             this.TabPage_Water.Controls.Add(this.NUP_SurfForme1);
@@ -11209,7 +11276,7 @@
             this.TabPage_Water.Controls.Add(this.NUP_SurfMax4);
             this.TabPage_Water.Controls.Add(this.label102);
             this.TabPage_Water.Controls.Add(this.NUP_SurfMax3);
-            this.TabPage_Water.Controls.Add(this.label26);
+            this.TabPage_Water.Controls.Add(this.L_Good);
             this.TabPage_Water.Controls.Add(this.NUP_SurfMin4);
             this.TabPage_Water.Controls.Add(this.CB_Good1);
             this.TabPage_Water.Controls.Add(this.CB_Surf4);
@@ -11231,7 +11298,7 @@
             this.TabPage_Water.Controls.Add(this.label30);
             this.TabPage_Water.Controls.Add(this.label46);
             this.TabPage_Water.Controls.Add(this.label47);
-            this.TabPage_Water.Controls.Add(this.label22);
+            this.TabPage_Water.Controls.Add(this.L_Old);
             this.TabPage_Water.Controls.Add(this.CB_Old1);
             this.TabPage_Water.Controls.Add(this.NUP_OldForme1);
             this.TabPage_Water.Controls.Add(this.NUP_OldMin1);
@@ -11312,14 +11379,14 @@
             this.label103.TabIndex = 288;
             this.label103.Text = "Max";
             // 
-            // label48
+            // L_Super
             // 
-            this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(639, 13);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(58, 13);
-            this.label48.TabIndex = 340;
-            this.label48.Text = "Super Rod";
+            this.L_Super.AutoSize = true;
+            this.L_Super.Location = new System.Drawing.Point(639, 13);
+            this.L_Super.Name = "L_Super";
+            this.L_Super.Size = new System.Drawing.Size(58, 13);
+            this.L_Super.TabIndex = 340;
+            this.L_Super.Text = "Super Rod";
             // 
             // label104
             // 
@@ -12007,14 +12074,14 @@
             this.NUP_SuperForme1.Size = new System.Drawing.Size(41, 20);
             this.NUP_SuperForme1.TabIndex = 329;
             // 
-            // label106
+            // L_Surf
             // 
-            this.label106.AutoSize = true;
-            this.label106.Location = new System.Drawing.Point(340, 159);
-            this.label106.Name = "label106";
-            this.label106.Size = new System.Drawing.Size(40, 13);
-            this.label106.TabIndex = 285;
-            this.label106.Text = "Surfing";
+            this.L_Surf.AutoSize = true;
+            this.L_Surf.Location = new System.Drawing.Point(340, 159);
+            this.L_Surf.Name = "L_Surf";
+            this.L_Surf.Size = new System.Drawing.Size(40, 13);
+            this.L_Surf.TabIndex = 285;
+            this.L_Surf.Text = "Surfing";
             // 
             // CB_Surf1
             // 
@@ -16183,14 +16250,14 @@
             this.NUP_SurfMax3.Size = new System.Drawing.Size(41, 20);
             this.NUP_SurfMax3.TabIndex = 276;
             // 
-            // label26
+            // L_Good
             // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(340, 13);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(56, 13);
-            this.label26.TabIndex = 321;
-            this.label26.Text = "Good Rod";
+            this.L_Good.AutoSize = true;
+            this.L_Good.Location = new System.Drawing.Point(340, 13);
+            this.L_Good.Name = "L_Good";
+            this.L_Good.Size = new System.Drawing.Size(56, 13);
+            this.L_Good.TabIndex = 321;
+            this.L_Good.Text = "Good Rod";
             // 
             // NUP_SurfMin4
             // 
@@ -18967,14 +19034,14 @@
             this.label47.TabIndex = 324;
             this.label47.Text = "Max";
             // 
-            // label22
+            // L_Old
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(39, 13);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(46, 13);
-            this.label22.TabIndex = 302;
-            this.label22.Text = "Old Rod";
+            this.L_Old.AutoSize = true;
+            this.L_Old.Location = new System.Drawing.Point(39, 13);
+            this.L_Old.Name = "L_Old";
+            this.L_Old.Size = new System.Drawing.Size(46, 13);
+            this.L_Old.TabIndex = 302;
+            this.L_Old.Text = "Old Rod";
             // 
             // CB_Old1
             // 
@@ -21089,7 +21156,7 @@
             this.TabPage_Land.Controls.Add(this.NUP_SwarmForme2);
             this.TabPage_Land.Controls.Add(this.label68);
             this.TabPage_Land.Controls.Add(this.NUP_SwarmMin2);
-            this.TabPage_Land.Controls.Add(this.label69);
+            this.TabPage_Land.Controls.Add(this.L_DexNav);
             this.TabPage_Land.Controls.Add(this.NUP_SwarmMax2);
             this.TabPage_Land.Controls.Add(this.NUP_SwarmForme3);
             this.TabPage_Land.Controls.Add(this.NUP_SwarmMin3);
@@ -21146,7 +21213,7 @@
             this.TabPage_Land.Controls.Add(this.NUP_TallGrassMin10);
             this.TabPage_Land.Controls.Add(this.NUP_TallGrassMax10);
             this.TabPage_Land.Controls.Add(this.label107);
-            this.TabPage_Land.Controls.Add(this.label115);
+            this.TabPage_Land.Controls.Add(this.L_RockSmash);
             this.TabPage_Land.Controls.Add(this.label108);
             this.TabPage_Land.Controls.Add(this.NUP_RockSmashMax5);
             this.TabPage_Land.Controls.Add(this.label109);
@@ -21177,7 +21244,7 @@
             this.TabPage_Land.Controls.Add(this.label6);
             this.TabPage_Land.Controls.Add(this.label7);
             this.TabPage_Land.Controls.Add(this.label8);
-            this.TabPage_Land.Controls.Add(this.label9);
+            this.TabPage_Land.Controls.Add(this.L_TallGrass);
             this.TabPage_Land.Controls.Add(this.label10);
             this.TabPage_Land.Controls.Add(this.label11);
             this.TabPage_Land.Controls.Add(this.label12);
@@ -21198,7 +21265,7 @@
             this.TabPage_Land.Controls.Add(this.NUP_GrassForme2);
             this.TabPage_Land.Controls.Add(this.label5);
             this.TabPage_Land.Controls.Add(this.NUP_GrassMin2);
-            this.TabPage_Land.Controls.Add(this.label2);
+            this.TabPage_Land.Controls.Add(this.L_Grass);
             this.TabPage_Land.Controls.Add(this.NUP_GrassMax2);
             this.TabPage_Land.Controls.Add(this.CB_Grass12);
             this.TabPage_Land.Controls.Add(this.NUP_GrassForme3);
@@ -21354,14 +21421,14 @@
             this.NUP_SwarmMin2.Size = new System.Drawing.Size(41, 20);
             this.NUP_SwarmMin2.TabIndex = 692;
             // 
-            // label69
+            // L_DexNav
             // 
-            this.label69.AutoSize = true;
-            this.label69.Location = new System.Drawing.Point(643, 177);
-            this.label69.Name = "label69";
-            this.label69.Size = new System.Drawing.Size(89, 13);
-            this.label69.TabIndex = 700;
-            this.label69.Text = "DexNav Foreigns";
+            this.L_DexNav.AutoSize = true;
+            this.L_DexNav.Location = new System.Drawing.Point(643, 177);
+            this.L_DexNav.Name = "L_DexNav";
+            this.L_DexNav.Size = new System.Drawing.Size(89, 13);
+            this.L_DexNav.TabIndex = 700;
+            this.L_DexNav.Text = "DexNav Foreigns";
             // 
             // NUP_SwarmMax2
             // 
@@ -21799,14 +21866,14 @@
             this.label107.TabIndex = 406;
             this.label107.Text = "1%";
             // 
-            // label115
+            // L_RockSmash
             // 
-            this.label115.AutoSize = true;
-            this.label115.Location = new System.Drawing.Point(643, 20);
-            this.label115.Name = "label115";
-            this.label115.Size = new System.Drawing.Size(68, 13);
-            this.label115.TabIndex = 398;
-            this.label115.Text = "Rock Smash";
+            this.L_RockSmash.AutoSize = true;
+            this.L_RockSmash.Location = new System.Drawing.Point(643, 20);
+            this.L_RockSmash.Name = "L_RockSmash";
+            this.L_RockSmash.Size = new System.Drawing.Size(68, 13);
+            this.L_RockSmash.TabIndex = 398;
+            this.L_RockSmash.Text = "Rock Smash";
             // 
             // label108
             // 
@@ -25308,14 +25375,14 @@
             this.label8.TabIndex = 377;
             this.label8.Text = "Max";
             // 
-            // label9
+            // L_TallGrass
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(343, 20);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(54, 13);
-            this.label9.TabIndex = 374;
-            this.label9.Text = "Tall Grass";
+            this.L_TallGrass.AutoSize = true;
+            this.L_TallGrass.Location = new System.Drawing.Point(343, 20);
+            this.L_TallGrass.Name = "L_TallGrass";
+            this.L_TallGrass.Size = new System.Drawing.Size(54, 13);
+            this.L_TallGrass.TabIndex = 374;
+            this.L_TallGrass.Text = "Tall Grass";
             // 
             // label10
             // 
@@ -25487,14 +25554,14 @@
             this.NUP_GrassMin2.Size = new System.Drawing.Size(41, 20);
             this.NUP_GrassMin2.TabIndex = 52;
             // 
-            // label2
+            // L_Grass
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(44, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
-            this.label2.TabIndex = 310;
-            this.label2.Text = "Grass";
+            this.L_Grass.AutoSize = true;
+            this.L_Grass.Location = new System.Drawing.Point(44, 20);
+            this.L_Grass.Name = "L_Grass";
+            this.L_Grass.Size = new System.Drawing.Size(34, 13);
+            this.L_Grass.TabIndex = 310;
+            this.L_Grass.Text = "Grass";
             // 
             // NUP_GrassMax2
             // 
@@ -25981,9 +26048,9 @@
             this.ClientSize = new System.Drawing.Size(948, 416);
             this.Controls.Add(this.B_Randomize);
             this.Controls.Add(this.B_Dump);
-            this.Controls.Add(this.label136);
+            this.Controls.Add(this.L_FormList);
             this.Controls.Add(this.CB_FormeList);
-            this.Controls.Add(this.label134);
+            this.Controls.Add(this.L_Location);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.CB_LocationID);
             this.Controls.Add(this.TabControl_EncounterData);
@@ -25994,6 +26061,9 @@
             this.Text = "ORAS Wild Editor";
             this.TabPage_Horde.ResumeLayout(false);
             this.TabPage_Horde.PerformLayout();
+            this.GB_Tweak.ResumeLayout(false);
+            this.GB_Tweak.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelAmp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_HordeCMax5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_HordeCMin5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_HordeCForme5)).EndInit();
@@ -26191,14 +26261,14 @@
 
         private System.Windows.Forms.ComboBox CB_LocationID;
         private System.Windows.Forms.Button B_Save;
-        private System.Windows.Forms.Label label134;
-        private System.Windows.Forms.Label label136;
+        private System.Windows.Forms.Label L_Location;
+        private System.Windows.Forms.Label L_FormList;
         private System.Windows.Forms.ComboBox CB_FormeList;
         private System.Windows.Forms.TabPage TabPage_Horde;
-        private System.Windows.Forms.Label label129;
-        private System.Windows.Forms.Label label130;
-        private System.Windows.Forms.Label label131;
-        private System.Windows.Forms.Label label132;
+        private System.Windows.Forms.Label L_HordeC_Max;
+        private System.Windows.Forms.Label L_HordeC_Min;
+        private System.Windows.Forms.Label L_HordeC_F;
+        private System.Windows.Forms.Label L_HordeC;
         private System.Windows.Forms.NumericUpDown NUP_HordeCMax5;
         private System.Windows.Forms.NumericUpDown NUP_HordeCMin5;
         private System.Windows.Forms.NumericUpDown NUP_HordeCForme5;
@@ -26219,17 +26289,17 @@
         private System.Windows.Forms.NumericUpDown NUP_HordeCMin1;
         private System.Windows.Forms.NumericUpDown NUP_HordeCForme1;
         private System.Windows.Forms.ComboBox CB_HordeC1;
-        private System.Windows.Forms.Label label125;
-        private System.Windows.Forms.Label label121;
-        private System.Windows.Forms.Label label126;
-        private System.Windows.Forms.Label label124;
-        private System.Windows.Forms.Label label127;
-        private System.Windows.Forms.Label label122;
-        private System.Windows.Forms.Label label128;
+        private System.Windows.Forms.Label L_HordeB_Max;
+        private System.Windows.Forms.Label L_HordeA_Max;
+        private System.Windows.Forms.Label L_HordeB_Min;
+        private System.Windows.Forms.Label L_HordeA;
+        private System.Windows.Forms.Label L_HordeB_F;
+        private System.Windows.Forms.Label L_HordeA_Min;
+        private System.Windows.Forms.Label L_HordeB;
         private System.Windows.Forms.NumericUpDown NUP_HordeBMax5;
         private System.Windows.Forms.ComboBox CB_HordeA1;
         private System.Windows.Forms.NumericUpDown NUP_HordeBMin5;
-        private System.Windows.Forms.Label label123;
+        private System.Windows.Forms.Label L_HordeA_F;
         private System.Windows.Forms.NumericUpDown NUP_HordeBForme5;
         private System.Windows.Forms.NumericUpDown NUP_HordeAForme1;
         private System.Windows.Forms.ComboBox CB_HordeB5;
@@ -26274,12 +26344,12 @@
         private System.Windows.Forms.Label label119;
         private System.Windows.Forms.Label label120;
         private System.Windows.Forms.Label label103;
-        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label L_Super;
         private System.Windows.Forms.Label label104;
         private System.Windows.Forms.ComboBox CB_Super1;
         private System.Windows.Forms.Label label105;
         private System.Windows.Forms.NumericUpDown NUP_SuperForme1;
-        private System.Windows.Forms.Label label106;
+        private System.Windows.Forms.Label L_Surf;
         private System.Windows.Forms.ComboBox CB_Surf1;
         private System.Windows.Forms.NumericUpDown NUP_SuperMin1;
         private System.Windows.Forms.NumericUpDown NUP_SurfForme1;
@@ -26313,7 +26383,7 @@
         private System.Windows.Forms.NumericUpDown NUP_SurfMax4;
         private System.Windows.Forms.Label label102;
         private System.Windows.Forms.NumericUpDown NUP_SurfMax3;
-        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label L_Good;
         private System.Windows.Forms.NumericUpDown NUP_SurfMin4;
         private System.Windows.Forms.ComboBox CB_Good1;
         private System.Windows.Forms.ComboBox CB_Surf4;
@@ -26335,7 +26405,7 @@
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Label label47;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label L_Old;
         private System.Windows.Forms.ComboBox CB_Old1;
         private System.Windows.Forms.NumericUpDown NUP_OldForme1;
         private System.Windows.Forms.NumericUpDown NUP_OldMin1;
@@ -26366,7 +26436,7 @@
         private System.Windows.Forms.NumericUpDown NUP_SwarmForme2;
         private System.Windows.Forms.Label label68;
         private System.Windows.Forms.NumericUpDown NUP_SwarmMin2;
-        private System.Windows.Forms.Label label69;
+        private System.Windows.Forms.Label L_DexNav;
         private System.Windows.Forms.NumericUpDown NUP_SwarmMax2;
         private System.Windows.Forms.NumericUpDown NUP_SwarmForme3;
         private System.Windows.Forms.NumericUpDown NUP_SwarmMin3;
@@ -26423,7 +26493,7 @@
         private System.Windows.Forms.NumericUpDown NUP_TallGrassMin10;
         private System.Windows.Forms.NumericUpDown NUP_TallGrassMax10;
         private System.Windows.Forms.Label label107;
-        private System.Windows.Forms.Label label115;
+        private System.Windows.Forms.Label L_RockSmash;
         private System.Windows.Forms.Label label108;
         private System.Windows.Forms.NumericUpDown NUP_RockSmashMax5;
         private System.Windows.Forms.Label label109;
@@ -26454,7 +26524,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label L_TallGrass;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
@@ -26475,7 +26545,7 @@
         private System.Windows.Forms.NumericUpDown NUP_GrassForme2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown NUP_GrassMin2;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label L_Grass;
         private System.Windows.Forms.NumericUpDown NUP_GrassMax2;
         private System.Windows.Forms.ComboBox CB_Grass12;
         private System.Windows.Forms.NumericUpDown NUP_GrassForme3;
@@ -26534,6 +26604,11 @@
         private System.Windows.Forms.TabControl TabControl_EncounterData;
         private System.Windows.Forms.Button B_Dump;
         private System.Windows.Forms.Button B_Randomize;
+        private System.Windows.Forms.GroupBox GB_Tweak;
+        private System.Windows.Forms.Label L_Levels;
+        private System.Windows.Forms.Button B_LevelMinus;
+        private System.Windows.Forms.Button B_LevelPlus;
+        private System.Windows.Forms.NumericUpDown NUD_LevelAmp;
     }
 }
 

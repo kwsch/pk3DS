@@ -606,5 +606,30 @@ namespace pk3DS
                 toret += "No encounters found." + Environment.NewLine + Environment.NewLine;
             return toret;
         }
+
+        private void modifyLevels(object sender, EventArgs e)
+        {
+            // Disable Interface while modifying
+            this.Enabled = false;
+
+            // Calculate % diff we will apply to each level
+            decimal leveldiff = (100 + (((sender as Button).Name == B_LevelPlus.Name) ? NUD_LevelAmp.Value : (-1 * NUD_LevelAmp.Value))) / 100;
+
+            // Cycle through each location to modify levels
+            for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
+            {
+                // Load location
+                CB_LocationID.SelectedIndex = i;
+
+                // Amp Levels
+                for (int l = 0; l < max.Length; l++)
+                    min[l].Value = max[l].Value = (int)(leveldiff * max[l].Value);
+
+                // Save Changes
+                B_Save_Click(sender, e);
+            }
+            // Enable Interface... modification complete.
+            this.Enabled = true;
+        }
     }
 }

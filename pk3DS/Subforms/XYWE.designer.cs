@@ -547,6 +547,11 @@
             this.CB_FormeList = new System.Windows.Forms.ComboBox();
             this.B_Randomize = new System.Windows.Forms.Button();
             this.B_Dump = new System.Windows.Forms.Button();
+            this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.B_LevelMinus = new System.Windows.Forms.Button();
+            this.B_LevelPlus = new System.Windows.Forms.Button();
+            this.NUD_LevelAmp = new System.Windows.Forms.NumericUpDown();
+            this.L_Levels = new System.Windows.Forms.Label();
             this.TabControl_EncounterData.SuspendLayout();
             this.TabPage_Land.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_RockSmashMax5)).BeginInit();
@@ -834,6 +839,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUP_YellowForme10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_YellowMin10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_YellowMax10)).BeginInit();
+            this.GB_Tweak.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelAmp)).BeginInit();
             this.SuspendLayout();
             // 
             // TabControl_EncounterData
@@ -15406,6 +15413,7 @@
             // 
             // TabPage_Horde
             // 
+            this.TabPage_Horde.Controls.Add(this.GB_Tweak);
             this.TabPage_Horde.Controls.Add(this.label129);
             this.TabPage_Horde.Controls.Add(this.label130);
             this.TabPage_Horde.Controls.Add(this.label131);
@@ -27702,6 +27710,63 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
+            // GB_Tweak
+            // 
+            this.GB_Tweak.Controls.Add(this.B_LevelMinus);
+            this.GB_Tweak.Controls.Add(this.B_LevelPlus);
+            this.GB_Tweak.Controls.Add(this.NUD_LevelAmp);
+            this.GB_Tweak.Controls.Add(this.L_Levels);
+            this.GB_Tweak.Location = new System.Drawing.Point(341, 258);
+            this.GB_Tweak.Name = "GB_Tweak";
+            this.GB_Tweak.Size = new System.Drawing.Size(236, 63);
+            this.GB_Tweak.TabIndex = 323;
+            this.GB_Tweak.TabStop = false;
+            this.GB_Tweak.Text = "Extra Tweaks";
+            // 
+            // B_LevelMinus
+            // 
+            this.B_LevelMinus.Location = new System.Drawing.Point(197, 23);
+            this.B_LevelMinus.Name = "B_LevelMinus";
+            this.B_LevelMinus.Size = new System.Drawing.Size(21, 23);
+            this.B_LevelMinus.TabIndex = 278;
+            this.B_LevelMinus.Text = "-";
+            this.B_LevelMinus.UseVisualStyleBackColor = true;
+            // 
+            // B_LevelPlus
+            // 
+            this.B_LevelPlus.Location = new System.Drawing.Point(174, 23);
+            this.B_LevelPlus.Name = "B_LevelPlus";
+            this.B_LevelPlus.Size = new System.Drawing.Size(21, 23);
+            this.B_LevelPlus.TabIndex = 277;
+            this.B_LevelPlus.Text = "+";
+            this.B_LevelPlus.UseVisualStyleBackColor = true;
+            // 
+            // NUD_LevelAmp
+            // 
+            this.NUD_LevelAmp.Location = new System.Drawing.Point(127, 26);
+            this.NUD_LevelAmp.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.NUD_LevelAmp.Name = "NUD_LevelAmp";
+            this.NUD_LevelAmp.Size = new System.Drawing.Size(41, 20);
+            this.NUD_LevelAmp.TabIndex = 276;
+            this.NUD_LevelAmp.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // L_Levels
+            // 
+            this.L_Levels.AutoSize = true;
+            this.L_Levels.Location = new System.Drawing.Point(19, 28);
+            this.L_Levels.Name = "L_Levels";
+            this.L_Levels.Size = new System.Drawing.Size(103, 13);
+            this.L_Levels.TabIndex = 0;
+            this.L_Levels.Text = "Modify All Levels (%)";
+            // 
             // XYWE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -28012,6 +28077,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUP_YellowForme10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_YellowMin10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_YellowMax10)).EndInit();
+            this.GB_Tweak.ResumeLayout(false);
+            this.GB_Tweak.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelAmp)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -28538,6 +28606,11 @@
         private System.Windows.Forms.ComboBox CB_FormeList;
         private System.Windows.Forms.Button B_Randomize;
         private System.Windows.Forms.Button B_Dump;
+        private System.Windows.Forms.GroupBox GB_Tweak;
+        private System.Windows.Forms.Button B_LevelMinus;
+        private System.Windows.Forms.Button B_LevelPlus;
+        private System.Windows.Forms.NumericUpDown NUD_LevelAmp;
+        private System.Windows.Forms.Label L_Levels;
     }
 }
 

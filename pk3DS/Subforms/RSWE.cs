@@ -442,6 +442,7 @@ namespace pk3DS
             parse(encounterdata);
         }
 
+        // Utility
         private bool needsInsertion(int mapID)
         {
             if (mapID != 535) // Hardcoded, bad, I know.
@@ -513,6 +514,7 @@ namespace pk3DS
             return toret;
         }
 
+        // Operation
         private void B_Dump_Click(object sender, EventArgs e)
         {
             string toret = "";
@@ -574,14 +576,16 @@ namespace pk3DS
                 File.WriteAllBytes(this.encdatapaths[1], decStorage);
             }
         }
+
+        // Randomization
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all?", "Cannot undo.") == DialogResult.Yes)
             {
-                bool smart = Util.Prompt(MessageBoxButtons.YesNo, 
-                    "Smart Randomize by Base Stat Total?" + Environment.NewLine + 
+                bool smart = Util.Prompt(MessageBoxButtons.YesNo,
+                    "Smart Randomize by Base Stat Total?" + Environment.NewLine +
                     "Pokemon strength variance will attempt to match ingame.",
-                    
+
                     "If no, the randomizer will \"721\" the entire dex.") == DialogResult.Yes;
                 this.Enabled = false;
 
@@ -600,13 +604,13 @@ namespace pk3DS
                     int used = 19;
 
                     // Count up how many slots are active.
-                    for (int s = 0; s < max.Length; s++) 
+                    for (int s = 0; s < max.Length; s++)
                         if (spec[s].SelectedIndex > 0)
                             list[s] = spec[s].SelectedIndex;
 
                     // At most 18, but don't chew if there's only a few slots.
                     int cons = list.Count(a => a != 0);
-                    int[] RandomList = new int[(cons > 18) ? (18 - (cons / 8)) : cons]; 
+                    int[] RandomList = new int[(cons > 18) ? (18 - (cons / 8)) : cons];
 
                     // Fill Location List
                     if (!smart)
@@ -618,7 +622,7 @@ namespace pk3DS
                         for (int s = 0; s < max.Length; s++)
                             if (spec[s].SelectedIndex > 0)
                             { oldBST = personal[spec[s + 2].SelectedIndex].Take(6).Sum(b => (ushort)b); break; }
-                        
+
                         for (int z = 0; z < RandomList.Length; z++)
                         {
                             int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
@@ -628,7 +632,7 @@ namespace pk3DS
                             RandomList[z] = species;
                         }
                     }
-                    
+
                     // Assign Slots
                     while (used < RandomList.Distinct().Count() || used > 18) // Can just arbitrarily assign slots.
                     {
@@ -716,7 +720,7 @@ namespace pk3DS
             {
                 for (int n = 0; n <= 20; n++)
                 {
-                    if (n == 20) 
+                    if (n == 20)
                     { list = (int[])input.Clone(); continue; } // Reset and try again (shuffle failed)
                     for (int i = 0; i < slotdata.Length; i++)
                     {
@@ -752,6 +756,31 @@ namespace pk3DS
         {
             var s1 = a1; var s2 = a2;
             a2 = s1; a1 = s2;
+        }
+
+        private void modifyLevels(object sender, EventArgs e)
+        {
+            // Disable Interface while modifying
+            this.Enabled = false;
+
+            // Calculate % diff we will apply to each level
+            decimal leveldiff = (100 + (((sender as Button).Name == B_LevelPlus.Name) ? NUD_LevelAmp.Value : (-1 * NUD_LevelAmp.Value))) / 100;
+
+            // Cycle through each location to modify levels
+            for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
+            {
+                // Load location
+                CB_LocationID.SelectedIndex = i;
+
+                // Amp Levels
+                for (int l = 0; l < max.Length; l++)
+                    min[l].Value = max[l].Value = (int)(leveldiff * max[l].Value);
+
+                // Save Changes
+                B_Save_Click(sender, e);
+            }
+            // Enable Interface... modification complete.
+            this.Enabled = true;
         }
     }
 }
