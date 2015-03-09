@@ -32,6 +32,7 @@
             this.L_TM = new System.Windows.Forms.Label();
             this.dgvHM = new System.Windows.Forms.DataGridView();
             this.L_HM = new System.Windows.Forms.Label();
+            this.B_RTM = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHM)).BeginInit();
             this.SuspendLayout();
@@ -82,11 +83,22 @@
             this.L_HM.TabIndex = 4;
             this.L_HM.Text = "HM:";
             // 
+            // B_RTM
+            // 
+            this.B_RTM.Location = new System.Drawing.Point(41, 1);
+            this.B_RTM.Name = "B_RTM";
+            this.B_RTM.Size = new System.Drawing.Size(75, 23);
+            this.B_RTM.TabIndex = 5;
+            this.B_RTM.Text = "Randomize";
+            this.B_RTM.UseVisualStyleBackColor = true;
+            this.B_RTM.Click += new System.EventHandler(this.B_RandomTM_Click);
+            // 
             // TMHM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 332);
+            this.Controls.Add(this.B_RTM);
             this.Controls.Add(this.L_HM);
             this.Controls.Add(this.dgvHM);
             this.Controls.Add(this.L_TM);
@@ -111,5 +123,6 @@
         private System.Windows.Forms.Label L_TM;
         private System.Windows.Forms.DataGridView dgvHM;
         private System.Windows.Forms.Label L_HM;
+        private System.Windows.Forms.Button B_RTM;
     }
 }

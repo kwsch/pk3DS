@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace pk3DS
 {
@@ -39,6 +40,7 @@ namespace pk3DS
                 dgvIndex.Width = 45;
                 dgvIndex.ReadOnly = true;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvIndex.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
             DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
             {
@@ -49,6 +51,7 @@ namespace pk3DS
 
                 dgvMove.Width = 133;
                 dgvMove.FlatStyle = FlatStyle.Flat;
+                dgvIndex.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
             dgvTM.Columns.Add(dgvIndex);
             dgvTM.Columns.Add(dgvMove);
@@ -125,6 +128,24 @@ namespace pk3DS
         {
             setList();
             File.WriteAllBytes(codebin, data);
+        }
+
+        private void B_RandomTM_Click(object sender, EventArgs e)
+        {
+            int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => (int)i).ToArray();
+            Util.Shuffle(randomMoves);
+
+            int[] banned = { 15, 19, 57, 70, 127, 249, 291, 148 };
+            int ctr = 0;
+
+            for (int i = 0; i < dgvTM.Rows.Count; i++)
+            {
+                int val = Array.IndexOf(movelist, dgvTM.Rows[i].Cells[1].Value);
+                if (banned.Contains(val)) continue;
+                while (banned.Contains(randomMoves[ctr])) ctr++;
+
+                dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
+            }
         }
     }
 }
