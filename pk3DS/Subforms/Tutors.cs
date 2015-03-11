@@ -9,11 +9,11 @@ namespace pk3DS
         public Tutors()
         {
             InitializeComponent();
-            if (Main.ExeFS == null) { Util.Alert("No exeFS code to load."); this.Close(); }
+            if (Main.ExeFS == null) { Util.Alert("No exeFS code to load."); Close(); }
             string[] files = Directory.GetFiles(Main.ExeFS);
-            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); this.Close(); }
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
-            if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); this.Close(); }
+            if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
             codebin = files[0];
             movelist[0] = "";
             setupDGV();
@@ -21,12 +21,12 @@ namespace pk3DS
             CB_Location.SelectedIndex = 0;
             Util.Alert("Changes made do not reflect ingame.", "Still needs more research.");
         }
-        string codebin = null;
+        string codebin;
         string[] movelist = Main.getText((Main.oras) ? 14 : 13);
         byte[] data;
         byte[] entries = { 0xF, 0x11, 0x10, 0xF }; // Entries per Tutor
-        int offset = 0x004960F8;
-        int dataoffset = 0;
+        private const int offset = 0x004960F8;
+        int dataoffset;
         string[] locations = { "1", "2", "3", "4" };
         private void getDataOffset(int index)
         {
@@ -47,8 +47,8 @@ namespace pk3DS
             {
                 dgvMove.HeaderText = "Move";
                 dgvMove.DisplayIndex = 1;
-                for (int i = 0; i < movelist.Length; i++)
-                    dgvMove.Items.Add(movelist[i]); // add only the Names
+                foreach (string t in movelist)
+                    dgvMove.Items.Add(t); // add only the Names
 
                 dgvMove.Width = 135;
                 dgvMove.FlatStyle = FlatStyle.Flat;
@@ -69,7 +69,6 @@ namespace pk3DS
             dgv.Rows.Clear();
             int count = entries[entry];
             dgv.Rows.Add(count);
-            ushort[] items = new ushort[count];
             getDataOffset(entry);
             for (int i = 0; i < count; i++)
             {

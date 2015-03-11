@@ -10,21 +10,21 @@ namespace pk3DS
         public Pickup()
         {
             InitializeComponent();
-            if (Main.ExeFS == null) { Util.Alert("No exeFS code to load."); this.Close(); }
+            if (Main.ExeFS == null) { Util.Alert("No exeFS code to load."); Close(); }
             string[] files = Directory.GetFiles(Main.ExeFS);
-            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); this.Close(); }
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
-            if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); this.Close(); }
+            if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
             codebin = files[0];
             itemlist[0] = "";
             setupDGV();
             getList();
         }
-        string codebin = null;
+        string codebin;
         string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
         int offset = (Main.oras) ? 0x004872FC : 0x004455A8;
         byte[] data;
-        int dataoffset = 0;
+        int dataoffset;
         private void getDataOffset()
         {
             dataoffset = offset; // reset
@@ -44,8 +44,8 @@ namespace pk3DS
             {
                 dgvMove.HeaderText = "Item";
                 dgvMove.DisplayIndex = 1;
-                for (int i = 0; i < itemlist.Length; i++)
-                    dgvMove.Items.Add(itemlist[i]); // add only the Names
+                foreach (string t in itemlist)
+                    dgvMove.Items.Add(t); // add only the Names
 
                 dgvMove.Width = 133;
                 dgvMove.FlatStyle = FlatStyle.Flat;

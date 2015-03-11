@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Media;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -74,7 +75,7 @@ namespace pk3DS
                     for (int i = 0; i < fp.Length; i++)
                     {
                         string fn = Path.GetFileNameWithoutExtension(filepaths[i]);
-                        int compressed = fn.IndexOf("dec_");
+                        int compressed = fn.IndexOf("dec_", StringComparison.Ordinal);
                         if (compressed < 0)
                             fp[Int32.Parse(fn)] = i;
                         else
@@ -96,7 +97,7 @@ namespace pk3DS
                             else { label.Text = String.Format("{0:P2} - {1}/{2} - {3}", ((float)i) / ((float)filepaths.Length), i, filepaths.Length, Path.GetFileName(name)); }
                         }
                         catch { }
-                        int compressed = Path.GetFileName(name).IndexOf("dec_");
+                        int compressed = Path.GetFileName(name).IndexOf("dec_", StringComparison.Ordinal);
                         if (compressed > -1)
                         {
                             // File needs to be compressed and replaced.
@@ -158,7 +159,7 @@ namespace pk3DS
                     else { label.Visible = false; }
 
                     // We're done.
-                    System.Media.SystemSounds.Exclamation.Play();
+                    SystemSounds.Exclamation.Play();
                     if (!supress) Util.Alert("Pack Successful!", filepaths.Length + " files packed to the GARC!");
                     return true;
                 }
@@ -185,7 +186,7 @@ namespace pk3DS
                 label.Invoke((MethodInvoker)delegate { label.Visible = true; });
             else { label.Visible = true; }
 
-            using (BinaryReader br = new BinaryReader(System.IO.File.OpenRead(garcPath)))
+            using (BinaryReader br = new BinaryReader(File.OpenRead(garcPath)))
             {
                 // Create Extraction folder if it does not exist.
                 if (!Directory.Exists(outPath))
@@ -255,8 +256,8 @@ namespace pk3DS
                         else
                             pBar1.PerformStep();
                         if (label.InvokeRequired)
-                            label.Invoke((MethodInvoker)delegate { label.Text = String.Format("{0:P2} - {1}/{2}", ((float)i) / ((float)garc.otaf.nFiles), i, garc.otaf.nFiles); });
-                        else { label.Text = String.Format("{0:P2} - {1}/{2}", ((float)i) / ((float)garc.otaf.nFiles), i, garc.otaf.nFiles); }
+                            label.Invoke((MethodInvoker)delegate { label.Text = String.Format("{0:P2} - {1}/{2}", ((float)i) / garc.otaf.nFiles, i, garc.otaf.nFiles); });
+                        else { label.Text = String.Format("{0:P2} - {1}/{2}", ((float)i) / garc.otaf.nFiles, i, garc.otaf.nFiles); }
                         #endregion
                     }
                     if (garc.otaf.nFiles == garc.btaf.nFiles) break;
@@ -265,7 +266,7 @@ namespace pk3DS
             if (label.InvokeRequired)
                 label.Invoke((MethodInvoker)delegate { label.Visible = false; });
             else { label.Visible = false; }
-            System.Media.SystemSounds.Exclamation.Play();
+            SystemSounds.Exclamation.Play();
             if (!supress) Util.Alert("Unpack Successful!", garc.otaf.nFiles + " files unpacked from the GARC!");
             return true;
         }
@@ -278,7 +279,7 @@ namespace pk3DS
         public static GARC unpackGARC(string path)
         {
             GARC garc = new GARC();
-            BinaryReader br = new BinaryReader(System.IO.File.OpenRead(path));
+            BinaryReader br = new BinaryReader(File.OpenRead(path));
 
             // GARC Header
             garc.id = br.ReadChars(4);
@@ -476,7 +477,7 @@ namespace pk3DS
             }
 
             // the maximum 'DISP-1' is still 0xFFF.
-            int bufferLength = 0x1000;
+            const int bufferLength = 0x1000;
             byte[] buffer = new byte[bufferLength];
             int bufferOffset = 0;
 
@@ -637,7 +638,7 @@ namespace pk3DS
             using (FileStream inStream = File.Open(infile, FileMode.Open),
                              outStream = File.Create(outfile))
             {
-                return dsdecmp.Compress(inStream, inStream.Length, outStream, true);
+                return Compress(inStream, inStream.Length, outStream, true);
             }
         }
         #region Original compression method
@@ -968,11 +969,11 @@ namespace pk3DS
         /// <summary>
         /// Gets the actual number of written bytes.
         /// </summary>
-        public long WrittenLength { get { return this.currentOutSize; } }
+        public long WrittenLength { get { return currentOutSize; } }
         /// <summary>
         /// Gets the number of bytes that was supposed to be written.
         /// </summary>
-        public long DesiredLength { get { return this.totalOutSize; } }
+        public long DesiredLength { get { return totalOutSize; } }
 
         /// <summary>
         /// Creates a new NotEnoughDataException.
@@ -1024,7 +1025,7 @@ namespace pk3DS
             : base("The input contains more data than necessary. Only used 0x"
             + readBytes.ToString("X") + " of 0x" + totLength.ToString("X") + " bytes")
         {
-            this.ReadBytes = readBytes;
+            ReadBytes = readBytes;
         }
     }
     #endregion
@@ -1111,10 +1112,10 @@ namespace pk3DS
         /// <returns>The indicated 4 bytes converted to int</returns>
         public static int ToNDSs32(byte[] buffer, int offset)
         {
-            return (int)(buffer[offset]
-                        | (buffer[offset + 1] << 8)
-                        | (buffer[offset + 2] << 16)
-                        | (buffer[offset + 3] << 24));
+            return buffer[offset]
+                   | (buffer[offset + 1] << 8)
+                   | (buffer[offset + 2] << 16)
+                   | (buffer[offset + 3] << 24);
         }
 
         /// <summary>
@@ -1123,7 +1124,7 @@ namespace pk3DS
         /// </summary>
         public static byte[] FromNDSu32(uint value)
         {
-            return new byte[] {
+            return new[] {
                 (byte)(value & 0xFF),
                 (byte)((value >> 8) & 0xFF),
                 (byte)((value >> 16) & 0xFF),
@@ -1140,9 +1141,9 @@ namespace pk3DS
         /// <returns>The indicated 3 bytes converted to an integer.</returns>
         public static int ToNDSu24(byte[] buffer, int offset)
         {
-            return (int)(buffer[offset]
-                        | (buffer[offset + 1] << 8)
-                        | (buffer[offset + 2] << 16));
+            return buffer[offset]
+                   | (buffer[offset + 1] << 8)
+                   | (buffer[offset + 2] << 16);
         }
         #endregion
     }

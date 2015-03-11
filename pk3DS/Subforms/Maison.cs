@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Media;
+using System.Text;
 using System.Windows.Forms;
+using pk3DS.Properties;
 
 namespace pk3DS
 {
@@ -32,7 +35,7 @@ namespace pk3DS
         string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
         int trEntry = -1;
         int pkEntry = -1;
-        bool dumping = false;
+        bool dumping;
         private void Setup()
         {
             foreach (string s in trClass) CB_Class.Items.Add(s);
@@ -91,7 +94,7 @@ namespace pk3DS
             ushort[] choiceList = choices.ToArray(); Array.Sort(choiceList);
 
             for (int i = 0; i < count; i++)
-                Array.Copy(BitConverter.GetBytes((ushort)choiceList[i]), 0, data, 4 + 2 * i, 2);
+                Array.Copy(BitConverter.GetBytes(choiceList[i]), 0, data, 4 + 2 * i, 2);
 
             File.WriteAllBytes(trFiles[trEntry], data);
         }
@@ -126,11 +129,11 @@ namespace pk3DS
             byte[] data = new byte[0x10];
 
             // Set
-            Array.Copy(BitConverter.GetBytes((ushort)((int)CB_Species.SelectedIndex)), 0, data, 0, 2);
-            Array.Copy(BitConverter.GetBytes((ushort)((int)CB_Move1.SelectedIndex)), 0, data, 2, 2);
-            Array.Copy(BitConverter.GetBytes((ushort)((int)CB_Move2.SelectedIndex)), 0, data, 4, 2);
-            Array.Copy(BitConverter.GetBytes((ushort)((int)CB_Move3.SelectedIndex)), 0, data, 6, 2);
-            Array.Copy(BitConverter.GetBytes((ushort)((int)CB_Move4.SelectedIndex)), 0, data, 8, 2);
+            Array.Copy(BitConverter.GetBytes((ushort)CB_Species.SelectedIndex), 0, data, 0, 2);
+            Array.Copy(BitConverter.GetBytes((ushort)CB_Move1.SelectedIndex), 0, data, 2, 2);
+            Array.Copy(BitConverter.GetBytes((ushort)CB_Move2.SelectedIndex), 0, data, 4, 2);
+            Array.Copy(BitConverter.GetBytes((ushort)CB_Move3.SelectedIndex), 0, data, 6, 2);
+            Array.Copy(BitConverter.GetBytes((ushort)CB_Move4.SelectedIndex), 0, data, 8, 2);
             int EVs = 0;
             EVs |= (CHK_HP.Checked) ? 1 << 0 : 0;
             EVs |= (CHK_ATK.Checked) ? 1 << 1 : 0;
@@ -139,8 +142,8 @@ namespace pk3DS
             EVs |= (CHK_SpA.Checked) ? 1 << 4 : 0;
             EVs |= (CHK_SpD.Checked) ? 1 << 5 : 0;
             data[0xA] = (byte)EVs;
-            data[0xB] = (byte)((int)CB_Nature.SelectedIndex);
-            Array.Copy(BitConverter.GetBytes((ushort)((int)CB_Item.SelectedIndex)), 0, data, 0xC, 2);
+            data[0xB] = (byte)CB_Nature.SelectedIndex;
+            Array.Copy(BitConverter.GetBytes((ushort)CB_Item.SelectedIndex), 0, data, 0xC, 2);
 
             // Last 2 Bytes are unused.
             File.WriteAllBytes(pkFiles[pkEntry], data);
@@ -149,7 +152,7 @@ namespace pk3DS
         private void changeSpecies(object sender, EventArgs e)
         {
             string filename = "_" + CB_Species.SelectedIndex;
-            PB_PKM.Image = (Bitmap)Properties.Resources.ResourceManager.GetObject(filename);
+            PB_PKM.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
         }
 
         private void B_Remove_Click(object sender, EventArgs e)
@@ -169,15 +172,15 @@ namespace pk3DS
                     choices.Add(Convert.ToUInt16(LB_Choices.Items[i].ToString()));
 
                 if (Array.IndexOf(choices.ToArray(), toAdd) > 0) return; // Abort if already in the list
-                else choices.Add((ushort)toAdd); // Add it to the list.
+                choices.Add((ushort)toAdd); // Add it to the list.
 
                 // Get new list, and sort it.
                 ushort[] choiceList = choices.ToArray(); Array.Sort(choiceList);
 
                 // Set new list.
                 LB_Choices.Items.Clear();
-                for (int i = 0; i < choiceList.Length; i++)
-                    LB_Choices.Items.Add(choiceList[i].ToString());
+                foreach (ushort t in choiceList)
+                    LB_Choices.Items.Add(t.ToString());
 
                 // Set current index to the one just added.
                 LB_Choices.SelectedIndex = Array.IndexOf(choiceList, toAdd);
@@ -208,20 +211,18 @@ namespace pk3DS
                     result += "======" + Environment.NewLine + i + " - (" + CB_Class.Text + ") " + CB_Trainer.Text + Environment.NewLine + "======" + Environment.NewLine;
                     result += "Choices: ";
                     for (int c = 0; c < count; c++)
-                        result += LB_Choices.Items[c].ToString() + ", ";
+                        result += LB_Choices.Items[c] + ", ";
 
                     result += Environment.NewLine; result += Environment.NewLine;
                 }
             }
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = "Maison Trainers.txt";
-            sfd.Filter = "Text File|*.txt";
+            SaveFileDialog sfd = new SaveFileDialog {FileName = "Maison Trainers.txt", Filter = "Text File|*.txt"};
 
-            System.Media.SystemSounds.Asterisk.Play();
+            SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string path = sfd.FileName;
-                File.WriteAllText(path, result, System.Text.Encoding.Unicode);
+                File.WriteAllText(path, result, Encoding.Unicode);
             }
             dumping = false;
             CB_Trainer.SelectedIndex = 0;
@@ -256,15 +257,13 @@ namespace pk3DS
                     result += Environment.NewLine;
                 }
             }
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = "Maison Pokemon.txt";
-            sfd.Filter = "Text File|*.txt";
+            SaveFileDialog sfd = new SaveFileDialog {FileName = "Maison Pokemon.txt", Filter = "Text File|*.txt"};
 
-            System.Media.SystemSounds.Asterisk.Play();
+            SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string path = sfd.FileName;
-                File.WriteAllText(path, result, System.Text.Encoding.Unicode);
+                File.WriteAllText(path, result, Encoding.Unicode);
             }
             dumping = false;
             CB_Trainer.SelectedIndex = 0;

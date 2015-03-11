@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Media;
+using System.Text;
 using System.Windows.Forms;
+using pk3DS.Properties;
 
 namespace pk3DS
 {
@@ -15,50 +18,51 @@ namespace pk3DS
             specieslist[0] = movelist[0] = itemlist[0] = "";
             Array.Resize(ref specieslist, 722);
 
-            EvolutionMethods = new string[] { 
-                    "",
-                    "Level Up with Friendship",
-                    "Level Up at Morning",
-                    "Level Up at Night",
-                    "Level Up",
-                    "Trade",
-                    "Trade with Held Item",
-                    String.Format("Trade for opposite {0}/{1}", specieslist[588], specieslist[616]), // Shelmet&Karrablast
-                    "Used Item",
-                    "Level Up (Attack > Defense)",
-                    "Level Up (Attack = Defense)",
-                    "Level Up (Attack < Defense)",
-                    "Level Up (Random < 5)",
-                    "Level Up (Random > 5)",
-                    String.Format("Level Up ({0})", specieslist[291]), // Ninjask
-                    String.Format("Level Up ({0})", specieslist[292]), // Shedinja
-                    "Level Up (Beauty)",
-                    "Level Up with Held Item (Male)",
-                    "Level Up with Held Item (Female)",
-                    "Level Up with Held Item (Day)",
-                    "Level Up with Held Item (Night)",
-                    "Level Up with Move",
-                    "Level up with Party",
-                    "Level Up Male",
-                    "Level Up Female",
-                    "Level Up at Electric",
-                    "Level Up at Forest",
-                    "Level Up at Cold",
-                    "Level Up with 3DS Upside Down",
-                    "Level Up with 50 Affection + MoveType",
-                    String.Format("{0} Type in Party", typelist[16]),
-                    "Overworld Rain",
-                    "Level Up (@) at Night",
-                    "Level Up (@) at Night",
-                    "Level Up Female (SetForm 1)",
+            string[] evolutionMethods =
+            { 
+                "",
+                "Level Up with Friendship",
+                "Level Up at Morning",
+                "Level Up at Night",
+                "Level Up",
+                "Trade",
+                "Trade with Held Item",
+                String.Format("Trade for opposite {0}/{1}", specieslist[588], specieslist[616]), // Shelmet&Karrablast
+                "Used Item",
+                "Level Up (Attack > Defense)",
+                "Level Up (Attack = Defense)",
+                "Level Up (Attack < Defense)",
+                "Level Up (Random < 5)",
+                "Level Up (Random > 5)",
+                String.Format("Level Up ({0})", specieslist[291]), // Ninjask
+                String.Format("Level Up ({0})", specieslist[292]), // Shedinja
+                "Level Up (Beauty)",
+                "Level Up with Held Item (Male)",
+                "Level Up with Held Item (Female)",
+                "Level Up with Held Item (Day)",
+                "Level Up with Held Item (Night)",
+                "Level Up with Move",
+                "Level up with Party",
+                "Level Up Male",
+                "Level Up Female",
+                "Level Up at Electric",
+                "Level Up at Forest",
+                "Level Up at Cold",
+                "Level Up with 3DS Upside Down",
+                "Level Up with 50 Affection + MoveType",
+                String.Format("{0} Type in Party", typelist[16]),
+                "Overworld Rain",
+                "Level Up (@) at Night",
+                "Level Up (@) at Night",
+                "Level Up Female (SetForm 1)",
             };
 
-            mb = new ComboBox[] { CB_M1, CB_M2, CB_M3, CB_M4, CB_M5, CB_M6, CB_M7, CB_M8 };
-            pb = new ComboBox[] { CB_P1, CB_P2, CB_P3, CB_P4, CB_P5, CB_P6, CB_P7, CB_P8 };
-            rb = new ComboBox[] { CB_I1, CB_I2, CB_I3, CB_I4, CB_I5, CB_I6, CB_I7, CB_I8 };
-            pic = new PictureBox[] { PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7, PB_8 };
+            mb = new[] { CB_M1, CB_M2, CB_M3, CB_M4, CB_M5, CB_M6, CB_M7, CB_M8 };
+            pb = new[] { CB_P1, CB_P2, CB_P3, CB_P4, CB_P5, CB_P6, CB_P7, CB_P8 };
+            rb = new[] { CB_I1, CB_I2, CB_I3, CB_I4, CB_I5, CB_I6, CB_I7, CB_I8 };
+            pic = new[] { PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7, PB_8 };
 
-            foreach (ComboBox cb in mb) { foreach (string s in EvolutionMethods) cb.Items.Add(s); }
+            foreach (ComboBox cb in mb) { foreach (string s in evolutionMethods) cb.Items.Add(s); }
             foreach (ComboBox cb in rb) { foreach (string s in specieslist) cb.Items.Add(s); }
 
             sortedspecies = (string[])specieslist.Clone();
@@ -79,8 +83,7 @@ namespace pk3DS
         private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
         private string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
         private string[] typelist = Main.getText((Main.oras) ? 18 : 17);
-        private string[] EvolutionMethods;
-        bool dumping = false;
+        bool dumping;
         private void getList()
         {
             entry = Array.IndexOf(specieslist, CB_Species.Text);
@@ -163,7 +166,7 @@ namespace pk3DS
                 for (int j = 0; j < 8; j++)
                 {
                     int methodval = mb[j].SelectedIndex;
-                    int param = pb[j].SelectedIndex;
+                    // int param = pb[j].SelectedIndex;
                     int poke = rb[j].SelectedIndex;
                     if (poke > 0 && methodval > 0)
                         result += mb[j].Text + ((pb[j].Visible) ? " [" + pb[j].Text + "]" : "") + " into " + rb[j].Text + Environment.NewLine;
@@ -171,15 +174,13 @@ namespace pk3DS
 
                 result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = "Evolutions.txt";
-            sfd.Filter = "Text File|*.txt";
+            SaveFileDialog sfd = new SaveFileDialog {FileName = "Evolutions.txt", Filter = "Text File|*.txt"};
 
-            System.Media.SystemSounds.Asterisk.Play();
+            SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string path = sfd.FileName;
-                File.WriteAllText(path, result, System.Text.Encoding.Unicode);
+                File.WriteAllText(path, result, Encoding.Unicode);
             }
             dumping = false;
         }
@@ -192,7 +193,8 @@ namespace pk3DS
         private void changeMethod(object sender, EventArgs e)
         {
             int op = Array.IndexOf(mb, sender as ComboBox);
-            ushort[] methodCase = new ushort[] { 
+            ushort[] methodCase =
+            { 
                 0,0,0,0,1,0,2,0,2,1,1,1,1,1,1,1,5,2,2,2,2,3,4,1,1,0,0,0, // 27, Past Methods
                 // New Methods
                 1, // 28 - Dark Type Party
@@ -215,21 +217,21 @@ namespace pk3DS
                 case 1: // Level
                     { for (int i = 0; i <= 100; i++) pb[op].Items.Add(i.ToString()); break; }
                 case 2: // Items
-                    { for (int i = 0; i < itemlist.Length; i++) pb[op].Items.Add(itemlist[i]); break; }
+                    {  foreach (string t in itemlist) pb[op].Items.Add(t); break; }
                 case 3: // Moves
-                    { for (int i = 0; i < movelist.Length; i++) pb[op].Items.Add(movelist[i]); break; }
+                    { foreach (string t in movelist) pb[op].Items.Add(t); break; }
                 case 4: // Species
                     { for (int i = 0; i < sortedspecies.Length; i++) pb[op].Items.Add(specieslist[i]); break; }
                 case 5: // 0-255 (Beauty)
                     { for (int i = 0; i <= 255; i++) pb[op].Items.Add(i.ToString()); break; }
                 case 6:
-                    { for (int i = 0; i < typelist.Length; i++) pb[op].Items.Add(typelist[i]); break; }
+                    { foreach (string t in typelist) pb[op].Items.Add(t); break; }
             }
             pb[op].SelectedIndex = 0;
         }
         private void changeInto(object sender, EventArgs e)
         {
-            pic[Array.IndexOf(rb, sender as ComboBox)].Image = (Bitmap)Properties.Resources.ResourceManager.GetObject("_" + Array.IndexOf(specieslist, (sender as ComboBox).Text));
+            pic[Array.IndexOf(rb, sender as ComboBox)].Image = (Bitmap)Resources.ResourceManager.GetObject("_" + Array.IndexOf(specieslist, (sender as ComboBox).Text));
         }
     }
 }

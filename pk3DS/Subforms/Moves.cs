@@ -22,24 +22,27 @@ namespace pk3DS
         string[] moveflavor = Main.getText((Main.oras) ? 16 : 15);
         string[] movelist = Main.getText((Main.oras) ? 14 : 13);
         string[] sortedmoves;
-        string[] MoveCategories = new string[] { "Status", "Physical", "Special", };
-        string[] StatCategories = new string[] { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
-        string[] TargetingTypes = new string[] { "Single Adjacent Ally/Foe", 
-                                                 "Any Ally", "Any Adjacent Ally", "Single Adjacent Foe", "Everyone but User", "All Foes", 
-                                                 "All Allies", "Self", "All Pokemon on Field", "Single Adjacent Foe (2)", "Entire Field", 
-                                                 "Opponent's Field", "User's Field", "Self", 
-                                               };
-        string[] InflictionTypes = new string[] { "None", 
-                                                  "Paralyze", "Sleep", "Freeze", "Burn", "Poison", 
-                                                  "Confusion", "Attract", "Capture", "Nightmare", "Curse", 
-                                                  "Taunt", "Torment", "Disable", "Yawn", "Heal Block", 
-                                                  "?", "Detect", "Leech Seed", "Embargo", "Perish Song", 
-                                                  "Ingrain", 
-                                                };
-        string[] MoveQualities = new string[] { "Only DMG", 
-                                              "No DMG -> Inflict Status", "No DMG -> -Target/+User Stat", "No DMG | Heal User", "DMG | Inflict Status", "No DMG | STATUS | +Target Stat", 
-                                              "DMG | -Target Stat", "DMG | +User Stat", "DMG | Absorbs DMG", "One-Hit KO", "Affects Whole Field", 
-                                              "Affect One Side of the Field", "Forces Target to Switch", "Unique Effect",  };
+        string[] MoveCategories = { "Status", "Physical", "Special", };
+        string[] StatCategories = { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
+        string[] TargetingTypes =
+        { "Single Adjacent Ally/Foe", 
+            "Any Ally", "Any Adjacent Ally", "Single Adjacent Foe", "Everyone but User", "All Foes", 
+            "All Allies", "Self", "All Pokemon on Field", "Single Adjacent Foe (2)", "Entire Field", 
+            "Opponent's Field", "User's Field", "Self", 
+        };
+        string[] InflictionTypes =
+        { "None", 
+            "Paralyze", "Sleep", "Freeze", "Burn", "Poison", 
+            "Confusion", "Attract", "Capture", "Nightmare", "Curse", 
+            "Taunt", "Torment", "Disable", "Yawn", "Heal Block", 
+            "?", "Detect", "Leech Seed", "Embargo", "Perish Song", 
+            "Ingrain", 
+        };
+        string[] MoveQualities =
+        { "Only DMG", 
+            "No DMG -> Inflict Status", "No DMG -> -Target/+User Stat", "No DMG | Heal User", "DMG | Inflict Status", "No DMG | STATUS | +Target Stat", 
+            "DMG | -Target Stat", "DMG | +User Stat", "DMG | Absorbs DMG", "One-Hit KO", "Affects Whole Field", 
+            "Affect One Side of the Field", "Forces Target to Switch", "Unique Effect",  };
         private void Setup()
         {
             foreach (string s in sortedmoves) CB_Move.Items.Add(s);

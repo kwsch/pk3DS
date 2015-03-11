@@ -14,13 +14,17 @@
 /*----------------------------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Media;
 using System.Threading;
 using System.Windows.Forms;
+using blz;
 
 namespace pk3DS
 {
-    public partial class Main : Form
+    public sealed partial class Main : Form
     {
         public Main()
         {
@@ -31,9 +35,9 @@ namespace pk3DS
             CB_Lang.SelectedIndex = 2;
 
             // Prepare DragDrop Functionality
-            this.AllowDrop = GB_RomFS.AllowDrop = TB_Path.AllowDrop = true;
-            this.DragEnter += tabMain_DragEnter;
-            this.DragDrop += tabMain_DragDrop;
+            AllowDrop = GB_RomFS.AllowDrop = TB_Path.AllowDrop = true;
+            DragEnter += tabMain_DragEnter;
+            DragDrop += tabMain_DragDrop;
             GB_RomFS.DragEnter += tabMain_DragEnter;
             GB_RomFS.DragDrop += tabMain_DragDrop;
             TB_Path.DragEnter += tabMain_DragEnter;
@@ -50,10 +54,10 @@ namespace pk3DS
                 if (path.Length > 0) openQuick(path);
             }
         }
-        public static bool oras = false;
-        public static string RomFS = null;
-        public static string ExeFS = null;
-        public volatile int threads = 0;
+        public static bool oras;
+        public static string RomFS;
+        public static string ExeFS;
+        public volatile int threads;
         private static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN" };
 
         // Main Form Methods
@@ -62,11 +66,12 @@ namespace pk3DS
             if (ModifierKeys == Keys.Control && RomFS != null)
             {
                 string s = "Game Type: " + ((oras) ? "ORAS" : "XY") + Environment.NewLine;
-                for (int i = 0; i < allGARCs.Length; i++)
-                    s += String.Format(Environment.NewLine + "{0} - {1}", allGARCs[i], getGARCFileName(allGARCs[i]));
-                if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, s, "Copy to Clipboard?"))
-                    try { Clipboard.SetText(s); }
-                    catch { Util.Alert("Unable to copy to Clipboard."); }
+                s = allGARCs.Aggregate(s, (current, t) => current + String.Format(Environment.NewLine + "{0} - {1}", t, getGARCFileName(t)));
+
+                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, s, "Copy to Clipboard?")) return;
+
+                try { Clipboard.SetText(s); }
+                catch { Util.Alert("Unable to copy to Clipboard."); }
             }
             else
                 Util.Alert
@@ -149,10 +154,9 @@ namespace pk3DS
             if (fi.Name.Contains("code.bin"))
             {
                 if (fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed code.bin.", "Compress? File will be replaced.") == DialogResult.Yes))
-                    new Thread(() => { threads++; new blz.BLZCoder(new string[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
+                    new Thread(() => { threads++; new BLZCoder(new[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
                 else if (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes)
-                    new Thread(() => { threads++; new blz.BLZCoder(new string[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
-                return;
+                    new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
             }
             else
             {
@@ -185,7 +189,7 @@ namespace pk3DS
                     }
 
                     // Method finished.
-                    System.Media.SystemSounds.Asterisk.Play();
+                    SystemSounds.Asterisk.Play();
                 }
             }
         }
@@ -214,7 +218,9 @@ namespace pk3DS
                 backupGARCs(false, allGARCs);
                 return true;
             }
-            else { RomFS = null; oras = false; return false; }
+            RomFS = null; 
+            oras = false; 
+            return false;
         }
         private bool checkIfExeFS(string path)
         {
@@ -225,7 +231,7 @@ namespace pk3DS
             if (fi.Name.Contains("code"))
             {
                 if (fi.Length % 0x200 != 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes))
-                    new Thread(() => { threads++; new blz.BLZCoder(new string[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+                    new Thread(() => { threads++; new BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
 
                 ExeFS = path;
                 return true;
@@ -247,28 +253,23 @@ namespace pk3DS
         private void rebuildRomFS(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            if (RomFS != null)
+            if (RomFS == null) return;
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild RomFS?") != DialogResult.Yes) return;
+
+            SaveFileDialog sfd = new SaveFileDialog {FileName = "romfs.bin", Filter = "Binary File|*.*"};
+            if (sfd.ShowDialog() == DialogResult.OK)
             {
-                if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild RomFS?") == DialogResult.Yes)
+                new Thread(() =>
                 {
-                    SaveFileDialog sfd = new SaveFileDialog();
-                    sfd.FileName = "romfs.bin";
-                    sfd.Filter = "Binary File|*.*";
-                    if (sfd.ShowDialog() == DialogResult.OK)
-                    {
-                        new Thread(() =>
-                        {
-                            updateStatus(Environment.NewLine + "Building RomFS binary. Please wait until the program finishes.");
+                    updateStatus(Environment.NewLine + "Building RomFS binary. Please wait until the program finishes.");
 
-                            threads++;
-                            RomFSTool.BuildRomFS(sfd.FileName, RomFS, RTB_Status, pBar1);
-                            threads--;
+                    threads++;
+                    RomFSTool.BuildRomFS(sfd.FileName, RomFS, RTB_Status, pBar1);
+                    threads--;
 
-                            updateStatus("RomFS binary saved." + Environment.NewLine);
-                            Util.Alert("Wrote RomFS binary:", sfd.FileName);
-                        }).Start();
-                    }
-                }
+                    updateStatus("RomFS binary saved." + Environment.NewLine);
+                    Util.Alert("Wrote RomFS binary:", sfd.FileName);
+                }).Start();
             }
         }
         private void B_GameText_Click(object sender, EventArgs e)
@@ -278,7 +279,7 @@ namespace pk3DS
             {
                 string[] files = { "gametext" };
                 fileGet(files, false, true);
-                Invoke((Action)(() => { new xytext(Directory.GetFiles("gametext")).ShowDialog(); }));
+                Invoke((Action)(() => new xytext(Directory.GetFiles("gametext")).ShowDialog()));
                 fileSet(files, true);
             }).Start();
         }
@@ -289,7 +290,7 @@ namespace pk3DS
             {
                 string[] files = { "storytext" };
                 fileGet(files);
-                Invoke((Action)(() => { new xytext(Directory.GetFiles("storytext")).ShowDialog(); }));
+                Invoke((Action)(() => new xytext(Directory.GetFiles("storytext")).ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -304,7 +305,7 @@ namespace pk3DS
                 bool super = (dr == DialogResult.Yes);
                 string[] files = { (super) ? "maisontrS" : "maisontrN", (super) ? "maisonpkS" : "maisonpkN" };
                 fileGet(files);
-                Invoke((Action)(() => { new Maison(super).ShowDialog(); }));
+                Invoke((Action)(() => new Maison(super).ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -315,7 +316,7 @@ namespace pk3DS
             {
                 string[] files = { "personal" };
                 fileGet(files, false, true);
-                Invoke((Action)(() => { new Personal().ShowDialog(); }));
+                Invoke((Action)(() => new Personal().ShowDialog()));
                 fileSet(files, true);
             }).Start();
         }
@@ -326,7 +327,7 @@ namespace pk3DS
             {
                 string[] files = { "trdata", "trpoke" };
                 fileGet(files);
-                Invoke((Action)(() => { new RSTE().ShowDialog(); }));
+                Invoke((Action)(() => new RSTE().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -337,8 +338,8 @@ namespace pk3DS
             {
                 string[] files = { "encdata" };
                 fileGet(files, false);
-                if (oras) { Invoke((Action)(() => { new RSWE().ShowDialog(); })); }
-                else { Invoke((Action)(() => { new XYWE().ShowDialog(); })); }
+                if (oras) { Invoke((Action)(() => new RSWE().ShowDialog())); }
+                else { Invoke((Action)(() => new XYWE().ShowDialog())); }
                 fileSet(files);
             }).Start();
         }
@@ -348,8 +349,8 @@ namespace pk3DS
             new Thread(() =>
             {
                 string[] files = { "evolution" };
-                fileGet(new string[] { "evolution" });
-                Invoke((Action)(() => { new Evolution().ShowDialog(); }));
+                fileGet(files);
+                Invoke((Action)(() => new Evolution().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -359,8 +360,8 @@ namespace pk3DS
             new Thread(() =>
             {
                 string[] files = { "megaevo" };
-                fileGet(new string[] { "megaevo" });
-                Invoke((Action)(() => { new MEE().ShowDialog(); }));
+                fileGet(files);
+                Invoke((Action)(() => new MEE().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -371,7 +372,7 @@ namespace pk3DS
             {
                 string[] files = { "item" };
                 fileGet(files);
-                Invoke((Action)(() => { new Item().ShowDialog(); }));
+                Invoke((Action)(() => new Item().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -382,7 +383,7 @@ namespace pk3DS
             {
                 string[] files = { "move" };
                 fileGet(files);
-                Invoke((Action)(() => { new Moves().ShowDialog(); }));
+                Invoke((Action)(() => new Moves().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -393,7 +394,7 @@ namespace pk3DS
             {
                 string[] files = { "levelup" };
                 fileGet(files);
-                Invoke((Action)(() => { new LevelUp().ShowDialog(); }));
+                Invoke((Action)(() => new LevelUp().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -404,12 +405,12 @@ namespace pk3DS
             {
                 string[] files = { "eggmove" };
                 fileGet(files);
-                Invoke((Action)(() => { new EggMove().ShowDialog(); }));
+                Invoke((Action)(() => new EggMove().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
         // RomFS File Requesting Method Wrapper
-        private void fileGet(string[] files, bool skipDecompression = true, bool skipGet = false)
+        private void fileGet(IEnumerable<string> files, bool skipDecompression = true, bool skipGet = false)
         {
             if (skipGet) return;
             foreach (string toEdit in files)
@@ -420,7 +421,7 @@ namespace pk3DS
                 while (threads > 0) Thread.Sleep(50);
             }
         }
-        private void fileSet(string[] files, bool keep = false)
+        private void fileSet(IEnumerable<string> files, bool keep = false)
         {
             foreach (string toEdit in files)
             {
@@ -435,26 +436,23 @@ namespace pk3DS
         // ExeFS Subform Items
         private void rebuildExeFS(object sender, EventArgs e)
         {
-            if (ExeFS != null)
-                if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild ExeFS?") == DialogResult.Yes)
+            if (ExeFS == null) return;
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild ExeFS?") != DialogResult.Yes) return;
+
+            string[] files = Directory.GetFiles(ExeFS);
+            int file = 0; if (files[1].Contains("code")) file = 1;
+            SaveFileDialog sfd = new SaveFileDialog {FileName = "exefs.bin", Filter = "Binary File|*.*"};
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                new Thread(() =>
                 {
-                    string[] files = Directory.GetFiles(ExeFS);
-                    int file = 0; if (files[1].Contains("code")) file = 1;
-                    SaveFileDialog sfd = new SaveFileDialog();
-                    sfd.FileName = "exefs.bin";
-                    sfd.Filter = "Binary File|*.*";
-                    if (sfd.ShowDialog() == DialogResult.OK)
-                    {
-                        new Thread(() =>
-                        {
-                            threads++;
-                            new blz.BLZCoder(new string[] { "-en", files[file] }, pBar1);
-                            Util.Alert("Compressed!");
-                            ExeFSTool.set(Directory.GetFiles(ExeFS), sfd.FileName);
-                            threads--;
-                        }).Start();
-                    }
-                }
+                    threads++;
+                    new BLZCoder(new[] { "-en", files[file] }, pBar1);
+                    Util.Alert("Compressed!");
+                    ExeFSTool.set(Directory.GetFiles(ExeFS), sfd.FileName);
+                    threads--;
+                }).Start();
+            }
         }
         private void B_Pickup_Click(object sender, EventArgs e)
         {
@@ -510,7 +508,7 @@ namespace pk3DS
         }
         public string getGARCPath(int A, int B, int C)
         {
-            return Path.DirectorySeparatorChar + "a" + Path.DirectorySeparatorChar + A.ToString() + Path.DirectorySeparatorChar + B.ToString() + Path.DirectorySeparatorChar + C.ToString();
+            return String.Format("{0}a{0}{1}{0}{2}{0}{3}", Path.DirectorySeparatorChar, A, B, C);
         }
         public bool getGARC(string infile, string outfolder, bool PB, bool bypassExt = false)
         {

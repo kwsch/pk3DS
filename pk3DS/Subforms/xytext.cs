@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -20,38 +21,33 @@ namespace pk3DS
         // IO
         private void dumpTXT_Click(object sender, EventArgs e)
         {
-            if (files.Length > 0)
+            if (files.Length <= 0) return;
+            SaveFileDialog saveDump = new SaveFileDialog {Filter = "Text File|*.txt"};
+            DialogResult sdr = saveDump.ShowDialog();
+            if (sdr != DialogResult.OK) return;
+            bool newline = Util.Prompt(MessageBoxButtons.YesNo, "Remove newline formatting?") == DialogResult.Yes;
+            string path = saveDump.FileName;
+            using (MemoryStream ms = new MemoryStream())
             {
-                SaveFileDialog saveDump = new SaveFileDialog();
-                saveDump.Filter = "Text File|*.txt";
-                DialogResult sdr = saveDump.ShowDialog();
-                if (sdr == DialogResult.OK)
-                {
-                    bool newline = false;
-                    if (Util.Prompt(MessageBoxButtons.YesNo, "Remove newline formatting?") == DialogResult.Yes)
-                        newline = true;
-                    string path = saveDump.FileName;
-                    using (MemoryStream ms = new MemoryStream())
+                using (TextWriter tw = new StreamWriter(ms))
+                    for (int i = 0; i < files.Length; i++)
                     {
-                        using (TextWriter tw = new StreamWriter(ms))
-                            for (int i = 0; i < files.Length; i++)
+                        string[] data = getStringsFromFile(files[i]);
+                        tw.WriteLine("~~~~~~~~~~~~~~~");
+                        tw.WriteLine("Text File : " + i);
+                        tw.WriteLine("~~~~~~~~~~~~~~~");
+                        if (data != null)
+                            foreach (string line in data)
                             {
-                                string[] data = getStringsFromFile(files[i]);
-                                tw.WriteLine("~~~~~~~~~~~~~~~");
-                                tw.WriteLine("Text File : " + i.ToString());
-                                tw.WriteLine("~~~~~~~~~~~~~~~");
-                                if (data != null)
-                                    foreach (string line in data)
-                                    {
-                                        if (newline)
-                                            tw.WriteLine(line.Replace("\\n\\n", " ").Replace("\\n", " ").Replace("\\c", "").Replace("\\r", "")); // Strip out formatting
-                                        else
-                                            tw.WriteLine(line);
-                                    }
+                                tw.WriteLine(newline
+                                    ? line.Replace("\\n\\n", " ")
+                                        .Replace("\\n", " ")
+                                        .Replace("\\c", "")
+                                        .Replace("\\r", "")
+                                    : line);
                             }
-                        File.WriteAllBytes(path, ms.ToArray());
                     }
-                }
+                File.WriteAllBytes(path, ms.ToArray());
             }
         }
         private void changeEntry(object sender, EventArgs e)
@@ -176,7 +172,7 @@ namespace pk3DS
                 uint sectionLength = BitConverter.ToUInt32(data, sectionData);
                 if (sectionLength != totalLength) throw new Exception("Section size and overall size do not match.");
             }
-            catch { return null; };
+            catch { return null; }
 
             // Prep result storage.
             ushort key = 0x7C89;
@@ -197,22 +193,22 @@ namespace pk3DS
                     decryptU16(data, ref offset, ref c, ref k);
                     if (c == 0)             // Terminated Line
                         break;
-                    else if (c == '\n') s += "\\n";
-                    else if (c == 0x10)     // Variable
-                        decryptVar(data, ref offset, ref s, ref c, ref k);
-                    else                    // Regular Character
+                    switch (c)
                     {
-                        // Check special characters...
-                        if (c == 0xE07F)
-                            s += (char)0x202F; // nbsp
-                        else if (c == 0xE08D)
-                            s += (char)0x2026; // …
-                        else if (c == 0xE08E)
-                            s += (char)0x2642; // ♂
-                        else if (c == 0xE08F)
-                            s += (char)0x2640; // ♀
-                        // Else append character without modification.
-                        else s += (char)c;
+                        case '\n': s += "\\n";
+                            break;
+                        case 0x10: decryptVar(data, ref offset, ref s, ref c, ref k);
+                            break;
+                        case 0xE07F: s += (char)0x202F; // nbsp
+                            break;
+                        case 0xE08D: s += (char)0x2026; // …
+                            break;
+                        case 0xE08E: s += (char)0x2642; // ♂
+                            break;
+                        case 0xE08F: s += (char)0x2640; // ♀
+                            break;
+                        default: s += (char)c; 
+                            break;
                     }
                 }
                 // store string and set key for next line (if needed)
@@ -247,7 +243,7 @@ namespace pk3DS
                     {
                         ushort key = baseKey;
                         uint pos = (uint)data.Position;
-                        if (lines[i] == null) lines[i] = String.Format("[~ {0}]", i.ToString());
+                        if (lines[i] == null) lines[i] = String.Format("[~ {0}]", i);
                         // Get crypted line data.
                         {
                             {
@@ -373,8 +369,7 @@ namespace pk3DS
             }
             if (!noArgs)
                 // Set arguments in.
-                for (int i = 0; i < arguments.Length; i++)
-                    args.Add(Convert.ToUInt16(arguments[i], 16));
+                args.AddRange(arguments.Select(t => Convert.ToUInt16(t, 16)));
 
             // All done.
             return varVal;
@@ -456,8 +451,8 @@ namespace pk3DS
                 // Write the Variable type.
                 bw.Write(encryptU16(varValue, ref key));
 
-                for (int j = 0; j < args.Count; j++)
-                    bw.Write(encryptU16((ushort)args[j], ref key));
+                foreach (ushort t in args)
+                    bw.Write(encryptU16(t, ref key));
 
                 // Done.
             }
@@ -474,9 +469,9 @@ namespace pk3DS
                 case 0xBE01: // "Waitbutton then clear text;; \c"
                     { s += "\\c"; return; }
                 case 0xBE02: // Dramatic pause for a text line. New!
-                    { s += "[WAIT " + decryptU16(d, ref o, ref v, ref k).ToString() + "]"; return; }
+                    { s += "[WAIT " + decryptU16(d, ref o, ref v, ref k) + "]"; return; }
                 case 0xBDFF: // Empty Text line? Includes linenum so maybe for betatest finding used-unused lines?
-                    { s += "[~ " + decryptU16(d, ref o, ref v, ref k).ToString() + "]"; return; }
+                    { s += "[~ " + decryptU16(d, ref o, ref v, ref k) + "]"; return; }
 
                 // Else a text variable, so let's loop through all the variable types. If we cannot find it, we just write the u16 val.
                 default:

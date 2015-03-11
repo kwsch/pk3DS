@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Media;
+using System.Text;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -14,7 +16,7 @@ namespace pk3DS
             InitializeComponent();
             // String Fetching
             #region Combo Box Arrays
-            trpk_pkm = new ComboBox[] 
+            trpk_pkm = new[] 
             {
                 CB_Pokemon_1_Pokemon,
                 CB_Pokemon_2_Pokemon,
@@ -23,7 +25,7 @@ namespace pk3DS
                 CB_Pokemon_5_Pokemon,
                 CB_Pokemon_6_Pokemon,
             };
-            trpk_lvl = new ComboBox[] 
+            trpk_lvl = new[] 
             { 
                 CB_Pokemon_1_Level,
                 CB_Pokemon_2_Level,
@@ -32,7 +34,7 @@ namespace pk3DS
                 CB_Pokemon_5_Level,
                 CB_Pokemon_6_Level,
             };
-            trpk_item = new ComboBox[] 
+            trpk_item = new[] 
             { 
                 CB_Pokemon_1_Item,
                 CB_Pokemon_2_Item,
@@ -41,7 +43,7 @@ namespace pk3DS
                 CB_Pokemon_5_Item,
                 CB_Pokemon_6_Item,
             };
-            trpk_abil = new ComboBox[] 
+            trpk_abil = new[] 
             { 
                 CB_Pokemon_1_Ability,
                 CB_Pokemon_2_Ability,
@@ -50,7 +52,7 @@ namespace pk3DS
                 CB_Pokemon_5_Ability,
                 CB_Pokemon_6_Ability,
             };
-            trpk_m1 = new ComboBox[]
+            trpk_m1 = new[]
             {
                 CB_Pokemon_1_Move_1,
                 CB_Pokemon_2_Move_1,
@@ -59,7 +61,7 @@ namespace pk3DS
                 CB_Pokemon_5_Move_1,
                 CB_Pokemon_6_Move_1,
             };
-            trpk_m2 = new ComboBox[]
+            trpk_m2 = new[]
             {
                 CB_Pokemon_1_Move_2,
                 CB_Pokemon_2_Move_2,
@@ -68,7 +70,7 @@ namespace pk3DS
                 CB_Pokemon_5_Move_2,
                 CB_Pokemon_6_Move_2,
             };
-            trpk_m3 = new ComboBox[]
+            trpk_m3 = new[]
             {
                 CB_Pokemon_1_Move_3,
                 CB_Pokemon_2_Move_3,
@@ -77,7 +79,7 @@ namespace pk3DS
                 CB_Pokemon_5_Move_3,
                 CB_Pokemon_6_Move_3,
             };
-            trpk_m4 = new ComboBox[]
+            trpk_m4 = new[]
             {
                 CB_Pokemon_1_Move_4,
                 CB_Pokemon_2_Move_4,
@@ -86,7 +88,7 @@ namespace pk3DS
                 CB_Pokemon_5_Move_4,
                 CB_Pokemon_6_Move_4,
             };
-            trpk_IV = new ComboBox[]
+            trpk_IV = new[]
             {
                 CB_Pokemon_1_IVs,
                 CB_Pokemon_2_IVs,
@@ -95,7 +97,7 @@ namespace pk3DS
                 CB_Pokemon_5_IVs,
                 CB_Pokemon_6_IVs,
             };
-            trpk_form = new ComboBox[]
+            trpk_form = new[]
             {
                 CB_Pokemon_1_Form,
                 CB_Pokemon_2_Form,
@@ -104,7 +106,7 @@ namespace pk3DS
                 CB_Pokemon_5_Form,
                 CB_Pokemon_6_Form,
             };
-            trpk_gender = new ComboBox[]
+            trpk_gender = new[]
             {
                 CB_Pokemon_1_Gender,
                 CB_Pokemon_2_Gender,
@@ -255,7 +257,7 @@ namespace pk3DS
             toret += Environment.NewLine;
             return toret;
         }
-        bool dumping = false;
+        bool dumping;
         private void B_Dump_Click(object sender, EventArgs e)
         {
             string toret = ""; dumping = true;
@@ -265,15 +267,13 @@ namespace pk3DS
                 string tdata = getTRSummary();
                 toret += tdata;
             }
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = "Battles.txt";
-            sfd.Filter = "Text File|*.txt";
+            SaveFileDialog sfd = new SaveFileDialog {FileName = "Battles.txt", Filter = "Text File|*.txt"};
 
-            System.Media.SystemSounds.Asterisk.Play();
+            SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string path = sfd.FileName;
-                File.WriteAllText(path, toret, System.Text.Encoding.Unicode);
+                File.WriteAllText(path, toret, Encoding.Unicode);
             }
             dumping = false;
         }
@@ -294,7 +294,7 @@ namespace pk3DS
             if (index == 0) return;
 
             // Load Trainer Data
-            using (BinaryReader br = new BinaryReader((Stream)File.OpenRead(trdatapaths[index])))
+            using (BinaryReader br = new BinaryReader(File.OpenRead(trdatapaths[index])))
             {
                 // load trainer data
                 tabControl1.Enabled = true;
@@ -325,7 +325,7 @@ namespace pk3DS
                 }
             }
             // Load Pokemon Data
-            using (BinaryReader br = new BinaryReader((Stream)File.OpenRead(trpokepaths[index])))
+            using (BinaryReader br = new BinaryReader(File.OpenRead(trpokepaths[index])))
             {
                 for (int i = 0; i < CB_numPokemon.SelectedIndex; i++)
                 {
@@ -359,7 +359,7 @@ namespace pk3DS
         {
             // fetch trainer format we're saving as
             // index = index;
-            ushort format = (ushort)(Convert.ToByte(checkBox_Moves.Checked) + (Convert.ToByte(checkBox_Item.Checked) << 1));
+            int format = Convert.ToByte(checkBox_Moves.Checked) + (Convert.ToByte(checkBox_Item.Checked) << 1);
 
             // Write Trainer Data
             using (MemoryStream ms = new MemoryStream())
@@ -381,7 +381,7 @@ namespace pk3DS
                 bw.Write((byte)0);
                 bw.Write((byte)0);
                 bw.Write((byte)0);
-                bw.Write((byte)Convert.ToByte(checkBox_Healer.Checked));
+                bw.Write((byte)Convert.ToInt32(checkBox_Healer.Checked));
                 bw.Write((byte)CB_Money.SelectedIndex);
                 bw.Write((ushort)CB_Prize.SelectedIndex);
 
@@ -394,7 +394,7 @@ namespace pk3DS
                 for (int i = 0; i < CB_numPokemon.SelectedIndex; i++)
                 {
                     bw.Write((byte)trpk_IV[i].SelectedIndex);
-                    byte PID = (byte)((trpk_abil[i].SelectedIndex << 4) + trpk_gender[i].SelectedIndex);
+                    int PID = (byte)((trpk_abil[i].SelectedIndex << 4) + trpk_gender[i].SelectedIndex);
                     bw.Write((byte)PID);
                     bw.Write((ushort)trpk_lvl[i].SelectedIndex);
 
@@ -507,7 +507,7 @@ namespace pk3DS
             CB_TrainerID.SelectedIndex = 1;
             start = false;
             readFile();
-            System.Media.SystemSounds.Asterisk.Play();
+            SystemSounds.Asterisk.Play();
         }
 
         public static bool rPKM, rSmart, rLevel, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand;
@@ -545,10 +545,10 @@ namespace pk3DS
                 #region Random Prize Logic
                 {
                     ushort[] items;
-                    uint rand = rnd32() % 10;
-                    if (rand < 2) // held item
+                    uint rnd = rnd32() % 10;
+                    if (rnd < 2) // held item
                         items = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
-                    else if (rand < 5) // medicine
+                    else if (rnd < 5) // medicine
                         items = (Main.oras) ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
                     else // berry
                         items = Legal.Pouch_Berry_XY;
@@ -558,17 +558,17 @@ namespace pk3DS
                 else if (rGift)
                     CB_Prize.SelectedIndex = 0;
 
-                ushort[] itemlist = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
-                itemlist = itemlist.Concat(Legal.Pouch_Berry_XY).ToArray();
+                ushort[] itemvals = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+                itemvals = itemvals.Concat(Legal.Pouch_Berry_XY).ToArray();
                 int moves = trpk_m1[0].Items.Count;
-                int itemC = itemlist.Length;
+                int itemC = itemvals.Length;
                 // Randomize Pokemon
                 for (int p = 0; p < CB_numPokemon.SelectedIndex; p++)
                 {
                     if (rPKM)
                     {
                         // randomize pokemon
-                        int species = (int)(rand.Next(1, 722));
+                        int species = rand.Next(1, 722);
                         if (rSmart) // Get a new Pokemon with a close BST
                         {
                             int oldBST = personal[trpk_pkm[p].SelectedIndex].Take(6).Sum(b => (ushort)b);
@@ -584,14 +584,14 @@ namespace pk3DS
                         trpk_form[p].SelectedIndex = (int)(rnd32() % trpk_form[p].Items.Count);
                     }
                     if (rLevel)
-                        trpk_lvl[p].SelectedIndex = Math.Min((int)(trpk_lvl[p].SelectedIndex * ((decimal)(100 + rLevelPercent) / 100)), 100);
+                        trpk_lvl[p].SelectedIndex = Math.Min((int)(trpk_lvl[p].SelectedIndex * ((100 + rLevelPercent) / 100)), 100);
                     if (rAbility)
                         trpk_abil[p].SelectedIndex = (int)(1 + rnd32() % 3);
                     if (rDiffIV)
                         trpk_IV[p].SelectedIndex = 255;
                     if (rItem)
                         #region RandomItem
-                        trpk_item[p].SelectedIndex = itemlist[(rnd32() % itemC)];
+                        trpk_item[p].SelectedIndex = itemvals[(rnd32() % itemC)];
                         #endregion
                     if (rMove)
                     {

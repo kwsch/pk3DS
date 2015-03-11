@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
+using System.Text;
 using System.Windows.Forms;
+using pk3DS.Properties;
 
 namespace pk3DS
 {
@@ -20,7 +23,7 @@ namespace pk3DS
         private CheckBox[] checkbox_spec;
         private PictureBox[][] picturebox_spec;
         private List<Util.cbItem> monNames;
-        private bool loaded = false;
+        private bool loaded;
         private string[][] AltForms;
         int entry = -1;
 
@@ -35,11 +38,11 @@ namespace pk3DS
             specieslist[32] += "♂"; specieslist[29] += "♀";
             AltForms = Personal.getFormList(personalData, Main.oras, specieslist, forms, types, itemlist);
 
-            groupbox_spec = new GroupBox[] { GB_MEvo1, GB_MEvo2, GB_MEvo3 };
-            item_spec = new ComboBox[] { CB_Item1, CB_Item2, CB_Item3 };
-            forme_spec = new ComboBox[] { CB_Forme1, CB_Forme2, CB_Forme3 };
-            checkbox_spec = new CheckBox[] { CHK_MEvo1, CHK_MEvo2, CHK_MEvo3 };
-            picturebox_spec = new PictureBox[][] { new PictureBox[] { PB_S1, PB_S2, PB_S3 }, new PictureBox[] { PB_M1, PB_M2, PB_M3 } };
+            groupbox_spec = new[] { GB_MEvo1, GB_MEvo2, GB_MEvo3 };
+            item_spec = new[] { CB_Item1, CB_Item2, CB_Item3 };
+            forme_spec = new[] { CB_Forme1, CB_Forme2, CB_Forme3 };
+            checkbox_spec = new[] { CHK_MEvo1, CHK_MEvo2, CHK_MEvo3 };
+            picturebox_spec = new[] { new[] { PB_S1, PB_S2, PB_S3 }, new[] { PB_M1, PB_M2, PB_M3 } };
             #endregion
             Setup();
             CB_Species.SelectedIndex = 0;
@@ -51,9 +54,7 @@ namespace pk3DS
             temp_list.Sort();
             foreach (string mon in temp_list)
             {
-                Util.cbItem ncbi = new Util.cbItem();
-                ncbi.Text = mon;
-                ncbi.Value = Array.IndexOf(specieslist, mon);
+                Util.cbItem ncbi = new Util.cbItem {Text = mon, Value = Array.IndexOf(specieslist, mon)};
                 monNames.Add(ncbi);
             }
 
@@ -104,7 +105,7 @@ namespace pk3DS
             entry = (int)CB_Species.SelectedValue;
             getEntry();
         }
-        bool dumping = false;
+        bool dumping;
         private void getEntry()
         {
             if (loaded)
@@ -121,10 +122,10 @@ namespace pk3DS
                 {
                     ushort method = BitConverter.ToUInt16(data, 2 + (i * 8));
                     ushort form = BitConverter.ToUInt16(data, i * 8);
-                    int item = (int)(BitConverter.ToUInt16(data, 4 + i * 8));
+                    int item = BitConverter.ToUInt16(data, 4 + i * 8);
                     checkbox_spec[i].Checked = (method == 1);
                     forme_spec[i].SelectedIndex = form;
-                    item_spec[i].SelectedValue = (int)item;
+                    item_spec[i].SelectedValue = item;
                 }
             }
         }
@@ -159,16 +160,16 @@ namespace pk3DS
             {
                 for (int i = 0; i < checkbox_spec.Length; i++)
                 {
-                    CheckBox CB = (CheckBox)checkbox_spec[i];
+                    CheckBox CB = checkbox_spec[i];
                     if (CB.Checked)
                     {
-                        UpdateImage(picturebox_spec[0][i], entry, 0, (int)(item_spec[i]).SelectedValue, 0, false);
-                        UpdateImage(picturebox_spec[1][i], entry, (int)(forme_spec[i]).SelectedIndex, (int)(item_spec[i]).SelectedValue, 0, false);
+                        UpdateImage(picturebox_spec[0][i], entry, 0, (int)(item_spec[i]).SelectedValue, 0);
+                        UpdateImage(picturebox_spec[1][i], entry, (forme_spec[i]).SelectedIndex, (int)(item_spec[i]).SelectedValue, 0);
                     }
                     else
                     {
-                        UpdateImage(picturebox_spec[0][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0, false);
-                        UpdateImage(picturebox_spec[1][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0, false);
+                        UpdateImage(picturebox_spec[0][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
+                        UpdateImage(picturebox_spec[1][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
                     }
                 }
             }
@@ -177,47 +178,44 @@ namespace pk3DS
         {
             if (loaded)
             {
-                CheckBox CB = (CheckBox)checkbox_spec[i];
+                CheckBox CB = checkbox_spec[i];
                 if (CB.Checked)
                 {
-                    UpdateImage(picturebox_spec[0][i], entry, 0, (int)(item_spec[i]).SelectedValue, 0, false);
-                    UpdateImage(picturebox_spec[1][i], entry, (int)(forme_spec[i]).SelectedIndex, (int)(item_spec[i]).SelectedValue, 0, false);
+                    UpdateImage(picturebox_spec[0][i], entry, 0, (int)(item_spec[i]).SelectedValue, 0);
+                    UpdateImage(picturebox_spec[1][i], entry, (forme_spec[i]).SelectedIndex, (int)(item_spec[i]).SelectedValue, 0);
                 }
                 else
                 {
-                    UpdateImage(picturebox_spec[0][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0, false);
-                    UpdateImage(picturebox_spec[1][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0, false);
+                    UpdateImage(picturebox_spec[0][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
+                    UpdateImage(picturebox_spec[1][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
                 }
             }
         }
         
-        private void UpdateImage(PictureBox bpkx, int species, int form, int item, int gender, bool shiny)
+        private void UpdateImage(PictureBox bpkx, int species, int form, int item, int gender)
         {
-            string file = "";
-
             Image baseImage;
             if (!bpkx.Enabled)
             {
-                bpkx.Image = (Image)null;
+                bpkx.Image = null;
                 return;
             }
 
             if (species == 0)
-            { baseImage = (Image)Properties.Resources.ResourceManager.GetObject("_0"); }
+            { baseImage = (Image)Resources.ResourceManager.GetObject("_0"); }
             else
             {
-                file = "_" + species.ToString();
+                string file = "_" + species;
                 if (form > 0) // Alt Form Handling
-                    file = file + "_" + form.ToString();
+                    file = file + "_" + form;
                 else if ((gender == 1) && (species == 521 || species == 668))   // Unfezant & Pyroar
-                    file = file = "_" + species.ToString() + "f";
-                { baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file); }
+                    file = "_" + species + "f";
+                { baseImage = (Image)Resources.ResourceManager.GetObject(file); }
             }
             if (item > 0)
             {
                 // Has Item
-                Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item.ToString());
-                if (itemimg == null) itemimg = Properties.Resources.helditem;
+                Image itemimg = (Image)Resources.ResourceManager.GetObject("item_" + item) ?? Resources.helditem;
                 // Redraw
                 baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
             }
@@ -243,20 +241,18 @@ namespace pk3DS
                 for (int j = 0; j < 3; j++)
                 {
                     if (!checkbox_spec[j].Checked) continue;
-                    else if (!headered) { result += header; headered = true; }
+                    if (!headered) { result += header; headered = true; }
                     result += String.Format("Can Mega Evolve into {1} if its held item is {0}." + Environment.NewLine, itemlist[(int)item_spec[j].SelectedValue], forme_spec[j].Text);
                 }
 
                 if (headered)
                     result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = "Mega Evolutions.txt";
-            sfd.Filter = "Text File|*.txt";
+            SaveFileDialog sfd = new SaveFileDialog {FileName = "Mega Evolutions.txt", Filter = "Text File|*.txt"};
 
-            System.Media.SystemSounds.Asterisk.Play();
+            SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
-                File.WriteAllText(sfd.FileName, result, System.Text.Encoding.Unicode);
+                File.WriteAllText(sfd.FileName, result, Encoding.Unicode);
 
             dumping = false;
         }

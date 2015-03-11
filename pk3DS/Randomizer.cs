@@ -2,7 +2,7 @@
 
 namespace pk3DS
 {
-    class Randomizer
+    public class Randomizer
     {
         internal static int getRandomSpecies(ref int[] list, ref int ctr)
         {
@@ -10,6 +10,6 @@ namespace pk3DS
             int species = list[ctr++]; ctr %= list.Length;
             return species;
         }
-        internal static readonly int[] RandomSpeciesList = Enumerable.Range(1, 721).Select(i => (int)i).ToArray();
+        internal static readonly int[] RandomSpeciesList = Enumerable.Range(1, 721).Select(i => i).ToArray();
     }
 }

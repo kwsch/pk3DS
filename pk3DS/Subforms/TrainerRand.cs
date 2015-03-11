@@ -12,7 +12,7 @@ namespace pk3DS
 
         private void B_Close_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -32,7 +32,7 @@ namespace pk3DS
             RSTE.rDiffAI = CHK_MaxDiffAI.Checked;
 
             RSTE.rDoRand = true;
-            this.Close();
+            Close();
         }
 
         private void CHK_RandomPKM_CheckedChanged(object sender, EventArgs e)

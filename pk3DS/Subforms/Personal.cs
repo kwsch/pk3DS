@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Media;
+using System.Text;
 using System.Windows.Forms;
+using pk3DS.Properties;
 
 namespace pk3DS
 {
@@ -10,12 +13,12 @@ namespace pk3DS
         public Personal()
         {
             InitializeComponent();
-            helditem_boxes = new ComboBox[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
-            ability_boxes = new ComboBox[] { CB_Ability1, CB_Ability2, CB_Ability3 };
-            typing_boxes = new ComboBox[] { CB_Type1, CB_Type2 };
-            eggGroup_boxes = new ComboBox[] { CB_EggGroup1, CB_EggGroup2 };
-            byte_boxes = new MaskedTextBox[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate };
-            ev_boxes = new MaskedTextBox[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
+            helditem_boxes = new[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
+            ability_boxes = new[] { CB_Ability1, CB_Ability2, CB_Ability3 };
+            typing_boxes = new[] { CB_Type1, CB_Type2 };
+            eggGroup_boxes = new[] { CB_EggGroup1, CB_EggGroup2 };
+            byte_boxes = new[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate };
+            ev_boxes = new[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
 
             data = File.ReadAllBytes(paths[paths.Length - 1]); // Load last to data.
             L_Mode.Text = "Mode: " + mode;
@@ -26,7 +29,6 @@ namespace pk3DS
         private string[] paths = Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly);
         private string mode = (Main.oras) ? "ORAS" : "XY";
 
-        private string[] natures = { };
         private string[] items = { };
         private string[] moves = { };
         private string[] species = { };
@@ -72,12 +74,11 @@ namespace pk3DS
             moves = Main.getText((Main.oras) ? 14 : 13);
             items = Main.getText((Main.oras) ? 114 : 96);
             species = Main.getText((Main.oras) ? 98 : 80);
-            natures = Main.getText((Main.oras) ? 51 : 47);
             types = Main.getText((Main.oras) ? 18 : 17);
             forms = Main.getText((Main.oras) ? 5 : 5);
             species[0] = "---";
             abilities[0] = items[0] = moves[0] = "";
-            AltForms = Personal.getFormList(data, Main.oras, species, forms, types, items);
+            AltForms = getFormList(data, Main.oras, species, forms, types, items);
             species = getPersonalEntryList(data, Main.oras, AltForms, species);
             for (int i = 1; i <= 100; i++)
                 CLB_TMHM.Items.Add("TM" + i.ToString("00"));
@@ -260,9 +261,9 @@ namespace pk3DS
             }
             if (!dumping)
             {
-                int[] specForm = Personal.getSpecies(data, Main.oras, CB_Species.SelectedIndex);
+                int[] specForm = getSpecies(data, Main.oras, CB_Species.SelectedIndex);
                 string filename = "_" + specForm[0] + ((CB_Species.SelectedIndex > 721) ? "_" + (specForm[1] + 1) : "");
-                Bitmap rawImg = (Bitmap)Properties.Resources.ResourceManager.GetObject(filename);
+                Bitmap rawImg = (Bitmap)Resources.ResourceManager.GetObject(filename);
                 Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
                 for (int x = 0; x < rawImg.Width; x++)
                 {
@@ -330,7 +331,7 @@ namespace pk3DS
             //edits[0x20] = Convert.ToByte(TB_FormeCount.Text);
             //Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(TB_FormeSprite.Text)),0, edits, 0x1E,2);
             byte color = Convert.ToByte(CB_Color.SelectedIndex);
-            color |= (byte)(Convert.ToByte(TB_RawColor.Text) & (byte)0xF0);
+            color |= (byte)(Convert.ToByte(TB_RawColor.Text) & 0xF0);
             edits[0x21] = color;
 
             Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(TB_BaseExp.Text)), 0, edits, 0x22, 2);
@@ -386,7 +387,6 @@ namespace pk3DS
 
         private void B_Difficulty_Click(object sender, EventArgs e)
         {
-            Random rnd = new Random();
             for (int i = 1; i < CB_Species.Items.Count; i++)
             {
                 CB_Species.SelectedIndex = i; // Get new Species
@@ -402,7 +402,7 @@ namespace pk3DS
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             Random rnd = new Random();
-            int TMPercent = 35; // Average Learnable TMs is 35.260.
+            const int TMPercent = 35; // Average Learnable TMs is 35.260.
             ushort[] itemlist = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
             ushort[] berrylist = Legal.Pouch_Berry_XY;
             Array.Resize(ref itemlist, itemlist.Length + berrylist.Length);
@@ -441,7 +441,7 @@ namespace pk3DS
                                 rnd.Next
                                 (
                                     Convert.ToByte(byte_boxes[z].Text) * 3 / 4,
-                                    (byte)Convert.ToByte(byte_boxes[z].Text) * 5 / 4)
+                                    Convert.ToByte(byte_boxes[z].Text) * 5 / 4)
                                 )
                             .ToString("000");
 
@@ -464,7 +464,7 @@ namespace pk3DS
             saveEntry();
             Util.Alert("All relevant Pokemon Personal Entries have been randomized!");
         }
-        bool dumping = false;
+        bool dumping;
         private void B_Dump_Click(object sender, EventArgs e)
         {
 
@@ -491,15 +491,13 @@ namespace pk3DS
 
                 result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = "Personal Entries.txt";
-            sfd.Filter = "Text File|*.txt";
+            SaveFileDialog sfd = new SaveFileDialog {FileName = "Personal Entries.txt", Filter = "Text File|*.txt"};
 
-            System.Media.SystemSounds.Asterisk.Play();
+            SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string path = sfd.FileName;
-                File.WriteAllText(path, result, System.Text.Encoding.Unicode);
+                File.WriteAllText(path, result, Encoding.Unicode);
             }
             dumping = false;
         }
@@ -513,7 +511,7 @@ namespace pk3DS
         internal static int[] getSpecies(byte[] data, bool oras, int PersonalEntry)
         {
             int entrysize = (oras) ? 0x50 : 0x40;
-            if (PersonalEntry < 722) return new int[] { PersonalEntry, 0 };
+            if (PersonalEntry < 722) return new[] { PersonalEntry, 0 };
 
             for (int i = 0; i < 722; i++)
             {
@@ -522,10 +520,10 @@ namespace pk3DS
                 if (altformpointer > 0)
                     for (int j = 0; j < FormCount; j++)
                         if (altformpointer + j == PersonalEntry)
-                            return new int[] { i, j };
+                            return new[] { i, j };
             }
 
-            return new int[] { -1, -1 };
+            return new[] { -1, -1 };
         }
         internal static string[][] getFormList(byte[] data, bool oras, string[] species, string[] forms, string[] types, string[] items)
         {
@@ -567,12 +565,9 @@ namespace pk3DS
                 result[i] = species[i];
                 if (AltForms[i].Length == 0) continue;
                 ushort altformpointer = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
-                if (altformpointer > 0)
-                {
-                    string speciesName = species[i];
-                    for (int j = 1; j < AltForms[i].Length; j++)
-                        result[altformpointer + j - 1] = AltForms[i][j];
-                }
+                if (altformpointer <= 0) continue;
+                for (int j = 1; j < AltForms[i].Length; j++)
+                    result[altformpointer + j - 1] = AltForms[i][j];
             }
             return result;
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Media;
+using System.Text;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -15,7 +17,7 @@ namespace pk3DS
 
             sortedmoves = (string[])movelist.Clone();
             Array.Sort(sortedmoves);
-            sortedspecies = (string[])specieslist.Clone();
+            string[] sortedspecies = (string[])specieslist.Clone();
             Array.Sort(sortedspecies);
 
             foreach (string s in sortedspecies) CB_Species.Items.Add(s);
@@ -28,9 +30,8 @@ namespace pk3DS
         private int entry = -1;
         private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
         private string[] sortedmoves;
-        private string[] sortedspecies;
         private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
-        bool dumping = false;
+        bool dumping;
         private void setupDGV()
         {
             DataGridViewColumn dgvLevel = new DataGridViewTextBoxColumn();
@@ -58,7 +59,7 @@ namespace pk3DS
             entry = Array.IndexOf(specieslist, CB_Species.Text);
             dgv.Rows.Clear();
             byte[] input = File.ReadAllBytes(files[entry]);
-            if (input.Length <= 4) { File.WriteAllBytes(files[entry], BitConverter.GetBytes((int)-1)); return; }
+            if (input.Length <= 4) { File.WriteAllBytes(files[entry], BitConverter.GetBytes(-1)); return; }
 
             List<short> moves = new List<short>();
             List<byte> levels = new List<byte>();
@@ -95,25 +96,25 @@ namespace pk3DS
                 if (move < 1) continue;
 
                 moves.Add((ushort)move);
-                string level = (string)dgv.Rows[i].Cells[0].Value.ToString();
-                ushort lv = 1;
+                string level = dgv.Rows[i].Cells[0].Value.ToString();
+                ushort lv;
                 UInt16.TryParse(level, out lv);
                 if (lv > 100) lv = 100;
                 else if (lv == 0) lv = 1;
                 levels.Add(lv);
             }
-            ushort[] movevals = moves.ToArray(); if (movevals.Length == 0) { File.WriteAllBytes(files[entry], BitConverter.GetBytes((int)-1)); return; }
+            ushort[] movevals = moves.ToArray(); if (movevals.Length == 0) { File.WriteAllBytes(files[entry], BitConverter.GetBytes(-1)); return; }
             ushort[] levelvals = levels.ToArray();
 
             byte[] data = new byte[4 + 4 * movevals.Length];
             for (int i = 0; i < movevals.Length; i++)
             {
-                Array.Copy(BitConverter.GetBytes((ushort)movevals[i]), 0, data, 4 * i, 2);
-                Array.Copy(BitConverter.GetBytes((ushort)levelvals[i]), 0, data, 2 + 4 * i, 2);
+                Array.Copy(BitConverter.GetBytes(movevals[i]), 0, data, 4 * i, 2);
+                Array.Copy(BitConverter.GetBytes(levelvals[i]), 0, data, 2 + 4 * i, 2);
             }
 
             // Cap data
-            Array.Copy(BitConverter.GetBytes((int)-1), 0, data, data.Length - 4, 4);
+            Array.Copy(BitConverter.GetBytes(-1), 0, data, data.Length - 4, 4);
 
             File.WriteAllBytes(files[entry], data);
         }
@@ -128,7 +129,7 @@ namespace pk3DS
         {
             Random rnd = new Random();
 
-            int[] firstMoves = new int[] { 1, 40, 52, 55, 64, 71, 84, 98, 122, 141 };
+            int[] firstMoves = { 1, 40, 52, 55, 64, 71, 84, 98, 122, 141 };
             // Pound, Poison Sting, Ember, Water Gun, Peck, Absorb, Thunder Shock, Quick Attack, Lick, Leech Life
 
             for (int i = 0; i < CB_Species.Items.Count; i++)
@@ -155,19 +156,17 @@ namespace pk3DS
                 CB_Species.SelectedIndex = i; // Get new Species
                 result += "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
                 for (int j = 0; j < dgv.Rows.Count - 1; j++)
-                    result += dgv.Rows[j].Cells[0].Value.ToString() + " - " + dgv.Rows[j].Cells[1].Value.ToString() + Environment.NewLine;
+                    result += dgv.Rows[j].Cells[0].Value + " - " + dgv.Rows[j].Cells[1].Value + Environment.NewLine;
 
                 result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = "Level Up Moves.txt";
-            sfd.Filter = "Text File|*.txt";
+            SaveFileDialog sfd = new SaveFileDialog {FileName = "Level Up Moves.txt", Filter = "Text File|*.txt"};
 
-            System.Media.SystemSounds.Asterisk.Play();
+            SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string path = sfd.FileName;
-                File.WriteAllText(path, result, System.Text.Encoding.Unicode);
+                File.WriteAllText(path, result, Encoding.Unicode);
             }
             dumping = false;
         }

@@ -1,6 +1,6 @@
 ﻿namespace pk3DS
 {
-    partial class Main
+    sealed partial class Main
     {
         /// <summary>
         /// Required designer variable.

@@ -19,31 +19,33 @@
 /*----------------------------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
 namespace blz
 {
-    public partial class BLZCoder
+    public class BLZCoder
     {
         public static void main(String[] args)
         {
             new BLZCoder(args);
         }
 
-        private static readonly int CMD_DECODE = 0;
-        private static readonly int CMD_ENCODE = 1;
+        private const int CMD_DECODE = 0;
+        private const int CMD_ENCODE = 1;
 
-        static readonly int BLZ_NORMAL = 0;
-        static readonly int BLZ_BEST = 1;
-        static readonly int BLZ_SHIFT = 1;
-        static readonly int BLZ_MASK = 0x80;
-        static readonly int BLZ_THRESHOLD = 2;
-        static readonly int BLZ_N = 0x1002;
-        static readonly int BLZ_F = 0x12;
+        private const int BLZ_NORMAL = 0;
+        private const int BLZ_BEST = 1;
+        private const int BLZ_SHIFT = 1;
+        private const int BLZ_MASK = 0x80;
+        private const int BLZ_THRESHOLD = 2;
+        private const int BLZ_N = 0x1002;
+        private const int BLZ_F = 0x12;
 
-        static readonly int BLZ_MAXIM = 0x01400000;
-        static readonly int RAW_MAXIM = 0x00FFFFFF;
+        private const int BLZ_MAXIM = 0x01400000;
+        private const int RAW_MAXIM = 0x00FFFFFF;
         bool arm9;
         int new_len;
         static void EXIT(string text)
@@ -65,7 +67,7 @@ namespace blz
         }
         public BLZCoder(string[] args, ProgressBar pBar = null)
         {
-            int cmd, mode = 0, arg;
+            int cmd, mode = 0;
             if (pBar == null) pBar1 = new ProgressBar();
             pBar1 = pBar;
 
@@ -93,6 +95,7 @@ namespace blz
                 Console.Write("Filename not specified" + Environment.NewLine);
             else
             {
+                int arg;
                 switch (cmd)
                 {
                     case 0:
@@ -116,7 +119,7 @@ namespace blz
             { File.WriteAllBytes(filename, buffer); }
             catch (IOException e)
             {
-                Console.Write(Environment.NewLine + "File write error" + Environment.NewLine + e.ToString() + Environment.NewLine);
+                Console.Write(Environment.NewLine + "File write error" + Environment.NewLine + e + Environment.NewLine);
                 File.WriteAllBytes("blz.bin", buffer);
                 Console.Write(Environment.NewLine + "Wrote to 'blz.bin' instead." + Environment.NewLine);
             }
@@ -126,7 +129,7 @@ namespace blz
             try
             {
                 Console.Write("- decoding '%s'", filename);
-                long startTime = System.DateTime.Now.Millisecond;
+                long startTime = DateTime.Now.Millisecond;
                 byte[] buf = File.ReadAllBytes(filename);
                 BLZResult result = BLZ_Decode(buf);
                 if (result != null)
@@ -136,19 +139,18 @@ namespace blz
                 Console.Write(Environment.NewLine + "");
             }
             catch (IOException e)
-            { Console.Write(Environment.NewLine + "File read error" + Environment.NewLine + e.ToString()); }
+            { Console.Write(Environment.NewLine + "File read error" + Environment.NewLine + e); }
         }
         private BLZResult BLZ_Decode(byte[] data)
         {
-            byte[] pak_buffer, raw_buffer;
-            int pak, raw, pak_end, raw_end;
-            int pak_len, raw_len, len, pos, inc_len, hdr_len, enc_len, dec_len;
-            int flags = 0, mask;
+            int raw_len, len;
+            int enc_len, dec_len;
+            int flags = 0;
 
-            pak_buffer = prepareData(data);
-            pak_len = pak_buffer.Length - 3;
+            byte[] pak_buffer = prepareData(data);
+            int pak_len = pak_buffer.Length - 3;
 
-            inc_len = BitConverter.ToInt32(pak_buffer, pak_len - 4);
+            int inc_len = BitConverter.ToInt32(pak_buffer, pak_len - 4);
             if (inc_len < 1)
             {
                 Console.Write(", WARNING: not coded file!");
@@ -164,7 +166,7 @@ namespace blz
                     Console.Write(Environment.NewLine + "File has a bad header" + Environment.NewLine);
                     return null;
                 }
-                hdr_len = pak_buffer[pak_len - 5];
+                int hdr_len = pak_buffer[pak_len - 5];
                 if (hdr_len < 8 || hdr_len > 0xB)
                 {
                     Console.Write(Environment.NewLine + "Bad header length" + Environment.NewLine);
@@ -186,19 +188,19 @@ namespace blz
                 }
             }
 
-            raw_buffer = new byte[raw_len];
+            byte[] raw_buffer = new byte[raw_len];
 
-            pak = 0;
-            raw = 0;
-            pak_end = dec_len + pak_len;
-            raw_end = raw_len;
+            int pak = 0;
+            int raw = 0;
+            int pak_end = dec_len + pak_len;
+            int raw_end = raw_len;
 
             for (len = 0; len < dec_len; len++)
                 raw_buffer[raw++] = pak_buffer[pak++];
 
             BLZ_Invert(pak_buffer, dec_len, pak_len);
 
-            mask = 0;
+            int mask = 0;
 
             while (raw < raw_end)
             {
@@ -223,7 +225,7 @@ namespace blz
                     if ((pak + 1) >= pak_end)
                         break;
 
-                    pos = pak_buffer[pak++] << 8;
+                    int pos = pak_buffer[pak++] << 8;
                     pos |= pak_buffer[pak++];
                     len = (int)((uint)pos >> 12) + BLZ_THRESHOLD + 1;
                     if (raw + len > raw_end)
@@ -251,18 +253,15 @@ namespace blz
         }
         private BLZResult BLZ_Encode(byte[] data, int mode)
         {
-            byte[] raw_buffer, pak_buffer, new_buffer;
-            int raw_len, pak_len;
-
             new_len = 0;
 
-            raw_buffer = prepareData(data);
-            raw_len = raw_buffer.Length - 3;
+            byte[] raw_buffer = prepareData(data);
+            int raw_len = raw_buffer.Length - 3;
 
-            pak_buffer = null;
-            pak_len = BLZ_MAXIM + 1;
+            byte[] pak_buffer = null;
+            int pak_len = BLZ_MAXIM + 1;
 
-            new_buffer = BLZ_Code(raw_buffer, raw_len, mode);
+            byte[] new_buffer = BLZ_Code(raw_buffer, raw_len, mode);
 
             if (new_len < pak_len)
             {
@@ -291,8 +290,8 @@ namespace blz
         {
             try
             {
-                Console.Write(String.Format("Now encoding {0}", filename));
-                var stopwatch = new System.Diagnostics.Stopwatch();
+                Console.Write("Now encoding {0}", filename);
+                var stopwatch = new Stopwatch();
                 stopwatch.Start();
 
                 byte[] buf = File.ReadAllBytes(filename);
@@ -304,24 +303,22 @@ namespace blz
                 Console.Write(Environment.NewLine + "Done, time elapsed = " + (stopwatch.ElapsedMilliseconds) + "ms" + Environment.NewLine);
             }
             catch (IOException e)
-            { Console.Write(Environment.NewLine + "File read error" + Environment.NewLine + e.ToString() + Environment.NewLine); }
+            { Console.Write(Environment.NewLine + "File read error" + Environment.NewLine + e + Environment.NewLine); }
         }
         private byte[] BLZ_Code(byte[] raw_buffer, int raw_len, int best)
         {
-            byte[] pak_buffer, tmp;
-            int pak, raw, raw_end, flg = 0;
-            int pak_len, inc_len, hdr_len, enc_len, len;
-            int len_best, pos_best = 0, len_next, pos_next = 0, len_post, pos_post = 0;
-            int pak_tmp, raw_tmp, raw_new;
-            int mask;
+            int flg = 0;
+            int pos_best = 0;
+            int pos_next = 0;
+            int pos_post = 0;
 
-            pak_tmp = 0;
-            raw_tmp = raw_len;
+            int pak_tmp = 0;
+            int raw_tmp = raw_len;
 
-            pak_len = raw_len + ((raw_len + 7) / 8) + 11;
-            pak_buffer = new byte[pak_len];
+            int pak_len = raw_len + ((raw_len + 7) / 8) + 11;
+            byte[] pak_buffer = new byte[pak_len];
 
-            raw_new = raw_len;
+            int raw_new = raw_len;
 
             // We don't do any of the checks here
             // Presume that we actually are using an arm9
@@ -330,11 +327,11 @@ namespace blz
 
             BLZ_Invert(raw_buffer, 0, raw_len);
 
-            pak = 0;
-            raw = 0;
-            raw_end = raw_new;
+            int pak = 0;
+            int raw = 0;
+            int raw_end = raw_new;
 
-            mask = 0;
+            int mask = 0;
             initpBar(raw_end);
             while (raw < raw_end)
             {
@@ -346,7 +343,7 @@ namespace blz
                 }
 
                 SearchPair sl1 = SEARCH(pos_best, raw_buffer, raw, raw_end);
-                len_best = sl1.l;
+                int len_best = sl1.l;
                 pos_best = sl1.p;
 
                 // LZ-CUE optimization start
@@ -359,12 +356,12 @@ namespace blz
                             raw += len_best;
                             SearchPair sl2 = SEARCH(pos_next, raw_buffer, raw,
                                     raw_end);
-                            len_next = sl2.l;
+                            int len_next = sl2.l;
                             pos_next = sl2.p;
                             raw -= (len_best - 1);
                             SearchPair sl3 = SEARCH(pos_post, raw_buffer, raw,
                                     raw_end);
-                            len_post = sl3.l;
+                            int len_post = sl3.l;
                             pos_post = sl3.p;
                             raw--;
 
@@ -426,8 +423,9 @@ namespace blz
             }
             else
             {
-                tmp = new byte[raw_tmp + pak_tmp + 11];
+                byte[] tmp = new byte[raw_tmp + pak_tmp + 11];
 
+                int len;
                 for (len = 0; len < raw_tmp; len++)
                     tmp[len] = raw_buffer[len];
 
@@ -439,9 +437,9 @@ namespace blz
 
                 pak = raw_tmp + pak_tmp;
 
-                enc_len = pak_tmp;
-                hdr_len = 8;
-                inc_len = raw_len - pak_tmp - raw_tmp;
+                int enc_len = pak_tmp;
+                int hdr_len = 8;
+                int inc_len = raw_len - pak_tmp - raw_tmp;
 
                 while ((pak & 3) > 0)
                 {
@@ -470,7 +468,7 @@ namespace blz
                 this.p = p;
             }
         }
-        private SearchPair SEARCH(int p, byte[] raw_buffer, int raw, int raw_end)
+        private SearchPair SEARCH(int p, IList<byte> raw_buffer, int raw, int raw_end)
         {
             int l = BLZ_THRESHOLD;
             int max = (raw >= BLZ_N) ? BLZ_N : raw;
@@ -489,12 +487,10 @@ namespace blz
                         break;
                 }
 
-                if (len > l)
-                {
-                    p = pos;
-                    if ((l = len) == BLZ_F)
-                        break;
-                }
+                if (len <= l) continue;
+                p = pos;
+                if ((l = len) == BLZ_F)
+                    break;
             }
             return new SearchPair(l, p);
         }
@@ -503,8 +499,8 @@ namespace blz
         {
             public BLZResult(byte[] raw_buffer, int raw_len)
             {
-                this.buffer = raw_buffer;
-                this.length = raw_len;
+                buffer = raw_buffer;
+                length = raw_len;
             }
 
             public byte[] buffer;
@@ -512,13 +508,11 @@ namespace blz
         }
         private void BLZ_Invert(byte[] buffer, int offset, int length)
         {
-            int bottom, ch;
-
-            bottom = offset + length - 1;
+            int bottom = offset + length - 1;
 
             while (offset < bottom)
             {
-                ch = buffer[offset];
+                int ch = buffer[offset];
                 buffer[offset++] = buffer[bottom];
                 buffer[bottom--] = (byte)ch;
             }

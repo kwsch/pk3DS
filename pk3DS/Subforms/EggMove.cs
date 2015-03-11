@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Media;
+using System.Text;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -16,7 +18,7 @@ namespace pk3DS
 
             sortedmoves = (string[])movelist.Clone();
             Array.Sort(sortedmoves);
-            sortedspecies = (string[])specieslist.Clone();
+            string[] sortedspecies = (string[])specieslist.Clone();
             Array.Sort(sortedspecies);
 
             foreach (string s in sortedspecies) CB_Species.Items.Add(s);
@@ -30,8 +32,7 @@ namespace pk3DS
         private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
         private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
         private string[] sortedmoves;
-        private string[] sortedspecies;
-        bool dumping = false;
+        bool dumping;
         private void setupDGV()
         {
             DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
@@ -75,7 +76,7 @@ namespace pk3DS
             byte[] movedata = new byte[2 + movevals.Length * 2];
             Array.Copy(BitConverter.GetBytes((ushort)movevals.Length), movedata, 2);
             for (int i = 0; i < movevals.Length; i++)
-                Array.Copy(BitConverter.GetBytes((ushort)movevals[i]), 0, movedata, 2 + 2 * i, 2);
+                Array.Copy(BitConverter.GetBytes(movevals[i]), 0, movedata, 2 + 2 * i, 2);
 
             File.WriteAllBytes(files[entry], movedata);
         }
@@ -116,15 +117,13 @@ namespace pk3DS
 
                 result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = "Egg Moves.txt";
-            sfd.Filter = "Text File|*.txt";
+            SaveFileDialog sfd = new SaveFileDialog {FileName = "Egg Moves.txt", Filter = "Text File|*.txt"};
 
-            System.Media.SystemSounds.Asterisk.Play();
+            SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string path = sfd.FileName;
-                File.WriteAllText(path, result, System.Text.Encoding.Unicode);
+                File.WriteAllText(path, result, Encoding.Unicode);
             }
             dumping = false;
         }

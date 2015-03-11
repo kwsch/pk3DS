@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -12,7 +11,7 @@ namespace pk3DS
         {
             InitializeComponent();
             Console.WriteLine("Started RSWE");
-            spec = new ComboBox[] 
+            spec = new[] 
             {
                 CB_Grass1, CB_Grass2, CB_Grass3, CB_Grass4, CB_Grass5, CB_Grass6, CB_Grass7, CB_Grass8, CB_Grass9, CB_Grass10, CB_Grass11, CB_Grass12,
                 CB_TallGrass1, CB_TallGrass2, CB_TallGrass3, CB_TallGrass4, CB_TallGrass5, CB_TallGrass6, CB_TallGrass7, CB_TallGrass8, CB_TallGrass9, CB_TallGrass10, CB_TallGrass11, CB_TallGrass12,
@@ -26,7 +25,7 @@ namespace pk3DS
                 CB_HordeB1, CB_HordeB2, CB_HordeB3, CB_HordeB4, CB_HordeB5,
                 CB_HordeC1, CB_HordeC2, CB_HordeC3, CB_HordeC4, CB_HordeC5,
             };
-            min = new NumericUpDown[]
+            min = new[]
             {
                 NUP_GrassMin1, NUP_GrassMin2, NUP_GrassMin3, NUP_GrassMin4, NUP_GrassMin5, NUP_GrassMin6, NUP_GrassMin7, NUP_GrassMin8, NUP_GrassMin9, NUP_GrassMin10, NUP_GrassMin11, NUP_GrassMin12,
                 NUP_TallGrassMin1, NUP_TallGrassMin2, NUP_TallGrassMin3, NUP_TallGrassMin4, NUP_TallGrassMin5, NUP_TallGrassMin6, NUP_TallGrassMin7, NUP_TallGrassMin8, NUP_TallGrassMin9, NUP_TallGrassMin10, NUP_TallGrassMin11, NUP_TallGrassMin12,
@@ -40,7 +39,7 @@ namespace pk3DS
                 NUP_HordeBMin1, NUP_HordeBMin2, NUP_HordeBMin3, NUP_HordeBMin4, NUP_HordeBMin5,
                 NUP_HordeCMin1, NUP_HordeCMin2, NUP_HordeCMin3, NUP_HordeCMin4, NUP_HordeCMin5,
             };
-            max = new NumericUpDown[]
+            max = new[]
             {
                 NUP_GrassMax1, NUP_GrassMax2, NUP_GrassMax3, NUP_GrassMax4, NUP_GrassMax5, NUP_GrassMax6, NUP_GrassMax7, NUP_GrassMax8, NUP_GrassMax9, NUP_GrassMax10, NUP_GrassMax11, NUP_GrassMax12,
                 NUP_TallGrassMax1, NUP_TallGrassMax2, NUP_TallGrassMax3, NUP_TallGrassMax4, NUP_TallGrassMax5, NUP_TallGrassMax6, NUP_TallGrassMax7, NUP_TallGrassMax8, NUP_TallGrassMax9, NUP_TallGrassMax10, NUP_TallGrassMax11, NUP_TallGrassMax12,
@@ -54,7 +53,7 @@ namespace pk3DS
                 NUP_HordeBMax1, NUP_HordeBMax2, NUP_HordeBMax3, NUP_HordeBMax4, NUP_HordeBMax5,
                 NUP_HordeCMax1, NUP_HordeCMax2, NUP_HordeCMax3, NUP_HordeCMax4, NUP_HordeCMax5,
             };
-            form = new NumericUpDown[]
+            form = new[]
             {
                 NUP_GrassForme1, NUP_GrassForme2, NUP_GrassForme3, NUP_GrassForme4, NUP_GrassForme5, NUP_GrassForme6, NUP_GrassForme7, NUP_GrassForme8, NUP_GrassForme9, NUP_GrassForme10, NUP_GrassForme11, NUP_GrassForme12,
                 NUP_TallGrassForme1, NUP_TallGrassForme2, NUP_TallGrassForme3, NUP_TallGrassForme4, NUP_TallGrassForme5, NUP_TallGrassForme6, NUP_TallGrassForme7, NUP_TallGrassForme8, NUP_TallGrassForme9, NUP_TallGrassForme10, NUP_TallGrassForme11, NUP_TallGrassForme12,
@@ -68,7 +67,7 @@ namespace pk3DS
                 NUP_HordeBForme1, NUP_HordeBForme2, NUP_HordeBForme3, NUP_HordeBForme4, NUP_HordeBForme5,
                 NUP_HordeCForme1, NUP_HordeCForme2, NUP_HordeCForme3, NUP_HordeCForme4, NUP_HordeCForme5,
             };
-            formlist = new string[] { "Unown-A - 0",
+            formlist = new[] { "Unown-A - 0",
             "Unown-B - 1",
             "Unown-C - 2",
             "Unown-D - 3",
@@ -262,7 +261,7 @@ namespace pk3DS
             "Megas-Mega (X) - 1",
             "Megas-Mega (Y) - 2",
             };
-            RSWE_Load(null, null);
+            RSWE_Load();
             openQuick(Directory.GetFiles("encdata"));
 
             string[] personalList = Directory.GetFiles("personal");
@@ -289,7 +288,7 @@ namespace pk3DS
         ushort[] indexList;
         byte[][] personal;
 
-        private void RSWE_Load(object sender, EventArgs e)
+        private void RSWE_Load()
         {
             specieslist = Main.getText((Main.oras) ? 98 : 80);
             specieslist[0] = "---";
@@ -317,14 +316,14 @@ namespace pk3DS
 
         private void openQuick(string[] encdata)
         {
-            this.encdatapaths = encdata;
+            encdatapaths = encdata;
             Array.Sort(encdatapaths);
-            this.filepaths = new string[this.encdatapaths.Length - 2];
-            Array.Copy(this.encdatapaths, 2, this.filepaths, 0, this.filepaths.Length);
+            filepaths = new string[encdatapaths.Length - 2];
+            Array.Copy(encdatapaths, 2, filepaths, 0, filepaths.Length);
             metRS_00000 = Main.getText((Main.oras) ? 90 : 72);
             zonedata = File.ReadAllBytes(encdatapaths[0]);
             decStorage = File.ReadAllBytes(encdatapaths[1]);
-            LocationNames = new string[this.filepaths.Length];
+            LocationNames = new string[filepaths.Length];
             for (int f = 0; f < filepaths.Length; f++)
             {
                 string name = Path.GetFileNameWithoutExtension(filepaths[f]);
@@ -361,15 +360,14 @@ namespace pk3DS
             //5 horde 35
             //5 horde 5
             byte[] slot = new Byte[4];
-            int[] data = new int[4];
-            int offset = 0x0;
+            const int offset = 0x0;
 
             // read data into form
             for (int i = 0; i < max.Length; i++)
             {
                 // Fetch Data
                 Array.Copy(ed, offset + i * 4, slot, 0, 4);
-                data = pslot(slot);
+                int[] data = pslot(slot);
 
                 // Load Data
                 spec[i].SelectedIndex = data[0];
@@ -399,7 +397,7 @@ namespace pk3DS
             int min = slot[2];
             int max = slot[3];
             string species = specieslist[index];
-            if (form > 0) species += "-" + form.ToString();
+            if (form > 0) species += "-" + form;
             return species + ',' + min + ',' + max + ',';
         }
         private byte[] MakeSlotData(int species, int form, int min, int max)
@@ -426,7 +424,7 @@ namespace pk3DS
             br.BaseStream.Seek(0x10, SeekOrigin.Begin);
             int offset = br.ReadInt32() + 0xE;
             int ofs2 = br.ReadInt32();
-            int length = (int)ofs2 - offset;
+            int length = ofs2 - offset;
             if (length < 0xF6) //no encounters in this map
             {
                 ClearData();
@@ -447,23 +445,23 @@ namespace pk3DS
         {
             if (mapID != 535) // Hardcoded, bad, I know.
                 return (BitConverter.ToUInt32(decStorage, (mapID + 2) * 4) - BitConverter.ToUInt32(decStorage, (mapID + 1) * 4) == 0);
-            else
-                return (BitConverter.ToUInt32(decStorage, (mapID + 1) * 4) == decStorage.Length);
+            return (BitConverter.ToUInt32(decStorage, (mapID + 1) * 4) == decStorage.Length);
         }
+
         private bool hasData()
         {
             for (int i = 0; i < max.Length; i++)
             {
                 if (spec[i].SelectedIndex > 0) { return true; }
-                else if (form[i].Value > 0) { return true; }
-                else if (min[i].Value > 0) { return true; }
-                else if (max[i].Value > 0) { return true; }
+                if (form[i].Value > 0) { return true; }
+                if (min[i].Value > 0) { return true; }
+                if (max[i].Value > 0) { return true; }
             }
             return false;
         }
         private void PreloadTabs()
         {
-            for (int i = 0; i < this.TabControl_EncounterData.TabPages.Count; i++)
+            for (int i = 0; i < TabControl_EncounterData.TabPages.Count; i++)
                 TabControl_EncounterData.TabPages[i].Show();
             TabControl_EncounterData.TabPages[0].Show();
         }
@@ -481,11 +479,10 @@ namespace pk3DS
         private byte[] MakeEncounterData()
         {
             byte[] ed = new byte[0x102];
-            byte[] data;
-            int offset = 0x0;
+            const int offset = 0x0;
             for (int i = 0; i < max.Length; i++)
             {
-                data = MakeSlotData(spec[i].SelectedIndex, (int)form[i].Value, (int)min[i].Value, (int)max[i].Value);
+                byte[] data = MakeSlotData(spec[i].SelectedIndex, (int)form[i].Value, (int)min[i].Value, (int)max[i].Value);
                 Array.Copy(data, 0, ed, offset + i * 4, 4);
             }
             return ed;
@@ -524,9 +521,7 @@ namespace pk3DS
                 string tdata = GetEncDataString();
                 toret += tdata;
             }
-            SaveFileDialog savetxt = new SaveFileDialog();
-            savetxt.FileName = "Encounter Slots";
-            savetxt.Filter = "Text File|*.txt";
+            SaveFileDialog savetxt = new SaveFileDialog {FileName = "Encounter Slots", Filter = "Text File|*.txt"};
             if (savetxt.ShowDialog() == DialogResult.OK)
             {
                 string path = savetxt.FileName;
@@ -549,10 +544,10 @@ namespace pk3DS
                 BinaryReader br = new BinaryReader(InStream);
                 br.BaseStream.Seek(0x10, SeekOrigin.Begin);
                 int offset = br.ReadInt32() + 0xe;
-                int length = (int)br.BaseStream.Length - offset;
+                // int length = (int)br.BaseStream.Length - offset;
                 br.Close();
                 byte[] filedata = File.ReadAllBytes(filepaths[f]);
-                byte[] preoffset = new byte[] { };
+                byte[] preoffset;
                 if (offset < filedata.Length)
                 {
                     preoffset = new byte[offset];
@@ -565,7 +560,7 @@ namespace pk3DS
                     //overwrite offset so the game actually looks at the data
                     Array.Copy(BitConverter.GetBytes(Convert.ToUInt32(filedata.Length)), 0, preoffset, 0x10, 4);
                 }
-                byte[] encdata = new byte[] { };
+                byte[] encdata = { };
                 if (hasData()) { encdata = MakeEncounterData(); }
                 byte[] newdata = ConcatArrays(preoffset, encdata);
                 File.WriteAllBytes(filepath, newdata);
@@ -573,7 +568,7 @@ namespace pk3DS
                 int ENOfs = BitConverter.ToInt32(decStorage, (f + 1) * 4) + 0xE;
                 encdata = MakeEncounterData();
                 Array.Copy(encdata, 0x0, decStorage, ENOfs, 0xF4); //copy encounter tables to EN 2pack storage
-                File.WriteAllBytes(this.encdatapaths[1], decStorage);
+                File.WriteAllBytes(encdatapaths[1], decStorage);
             }
         }
 
@@ -587,12 +582,12 @@ namespace pk3DS
                     "Pokemon strength variance will attempt to match ingame.",
 
                     "If no, the randomizer will \"721\" the entire dex.") == DialogResult.Yes;
-                this.Enabled = false;
+                Enabled = false;
 
                 // Nonrepeating List Start
                 int[] sL = Randomizer.RandomSpeciesList;
                 int ctr = 0;
-                int[] slotArray = Enumerable.Range(0, max.Length).Select(a => (int)a).ToArray();
+                int[] slotArray = Enumerable.Range(0, max.Length).Select(a => a).ToArray();
 
                 for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
                 {
@@ -660,7 +655,7 @@ namespace pk3DS
 
                     B_Save_Click(sender, e);
                 }
-                this.Enabled = true;
+                Enabled = true;
                 Util.Alert("Randomized!");
             }
         }
@@ -706,10 +701,10 @@ namespace pk3DS
         private void ShuffleSlots(ref int[] list, int slC)
         {
             int[] input = (int[])list.Clone();
-            int rawct = input.Distinct().Count(a => a != 0);
+            // int rawct = input.Distinct().Count(a => a != 0);
             // Initialize
-            int[] slotset = new int[] { 0, 12, 24, 27, 32, 37, 40, 43, 46 };
-            int[] slotlen = new int[] { 12, 12, 3, 5, 5, 3, 3, 3, 5 + 5 + 5 };
+            int[] slotset = { 0, 12, 24, 27, 32, 37, 40, 43, 46 };
+            int[] slotlen = { 12, 12, 3, 5, 5, 3, 3, 3, 5 + 5 + 5 };
             int[][] slotdata = new int[slotset.Length][];
             for (int i = 0; i < slotset.Length; i++)
                 slotdata[i] = list.Skip(slotset[i]).Take(slotlen[i]).ToArray();
@@ -761,7 +756,7 @@ namespace pk3DS
         private void modifyLevels(object sender, EventArgs e)
         {
             // Disable Interface while modifying
-            this.Enabled = false;
+            Enabled = false;
 
             // Calculate % diff we will apply to each level
             decimal leveldiff = (100 + (((sender as Button).Name == B_LevelPlus.Name) ? NUD_LevelAmp.Value : (-1 * NUD_LevelAmp.Value))) / 100;
@@ -780,7 +775,7 @@ namespace pk3DS
                 B_Save_Click(sender, e);
             }
             // Enable Interface... modification complete.
-            this.Enabled = true;
+            Enabled = true;
         }
     }
 }
