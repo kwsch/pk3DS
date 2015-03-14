@@ -613,7 +613,7 @@ namespace pk3DS
             Enabled = false;
 
             // Calculate % diff we will apply to each level
-            decimal leveldiff = (100 + (((sender as Button).Name == B_LevelPlus.Name) ? NUD_LevelAmp.Value : (-1 * NUD_LevelAmp.Value))) / 100;
+            decimal leveldiff = (100 + NUD_LevelAmp.Value) / 100;
 
             // Cycle through each location to modify levels
             for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location

@@ -558,7 +558,6 @@
             this.CHK_G3 = new System.Windows.Forms.CheckBox();
             this.CHK_G2 = new System.Windows.Forms.CheckBox();
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
-            this.B_LevelMinus = new System.Windows.Forms.Button();
             this.B_LevelPlus = new System.Windows.Forms.Button();
             this.NUD_LevelAmp = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
@@ -27732,7 +27731,6 @@
             this.GB_Tweak.Controls.Add(this.CHK_G3);
             this.GB_Tweak.Controls.Add(this.CHK_G2);
             this.GB_Tweak.Controls.Add(this.CHK_G1);
-            this.GB_Tweak.Controls.Add(this.B_LevelMinus);
             this.GB_Tweak.Controls.Add(this.B_LevelPlus);
             this.GB_Tweak.Controls.Add(this.NUD_LevelAmp);
             this.GB_Tweak.Controls.Add(this.CHK_Level);
@@ -27858,23 +27856,13 @@
             this.CHK_G1.Text = "Gen 1";
             this.CHK_G1.UseVisualStyleBackColor = true;
             // 
-            // B_LevelMinus
-            // 
-            this.B_LevelMinus.Location = new System.Drawing.Point(222, 13);
-            this.B_LevelMinus.Name = "B_LevelMinus";
-            this.B_LevelMinus.Size = new System.Drawing.Size(21, 23);
-            this.B_LevelMinus.TabIndex = 278;
-            this.B_LevelMinus.Text = "-";
-            this.B_LevelMinus.UseVisualStyleBackColor = true;
-            this.B_LevelMinus.Click += new System.EventHandler(this.modifyLevels);
-            // 
             // B_LevelPlus
             // 
-            this.B_LevelPlus.Location = new System.Drawing.Point(199, 13);
+            this.B_LevelPlus.Location = new System.Drawing.Point(199, 14);
             this.B_LevelPlus.Name = "B_LevelPlus";
-            this.B_LevelPlus.Size = new System.Drawing.Size(21, 23);
+            this.B_LevelPlus.Size = new System.Drawing.Size(70, 23);
             this.B_LevelPlus.TabIndex = 277;
-            this.B_LevelPlus.Text = "+";
+            this.B_LevelPlus.Text = "+/- Current";
             this.B_LevelPlus.UseVisualStyleBackColor = true;
             this.B_LevelPlus.Click += new System.EventHandler(this.modifyLevels);
             // 
@@ -27882,10 +27870,10 @@
             // 
             this.NUD_LevelAmp.Location = new System.Drawing.Point(152, 16);
             this.NUD_LevelAmp.Minimum = new decimal(new int[] {
-            5,
+            75,
             0,
             0,
-            0});
+            -2147483648});
             this.NUD_LevelAmp.Name = "NUD_LevelAmp";
             this.NUD_LevelAmp.Size = new System.Drawing.Size(41, 20);
             this.NUD_LevelAmp.TabIndex = 276;
@@ -28755,7 +28743,6 @@
         private System.Windows.Forms.CheckBox CHK_G3;
         private System.Windows.Forms.CheckBox CHK_G2;
         private System.Windows.Forms.CheckBox CHK_G1;
-        private System.Windows.Forms.Button B_LevelMinus;
         private System.Windows.Forms.Button B_LevelPlus;
         private System.Windows.Forms.NumericUpDown NUD_LevelAmp;
         private System.Windows.Forms.CheckBox CHK_Level;
