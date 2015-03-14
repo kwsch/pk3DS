@@ -524,7 +524,7 @@ namespace pk3DS
         public bool setGARC(string outfile, string infolder, bool PB)
         {
             if (ModifierKeys == Keys.Control && Util.Prompt(MessageBoxButtons.YesNo, "Cancel writing data back to GARC?") == DialogResult.Yes)
-            { updateStatus(String.Format("Aborted!"), false); threads--; return false; }
+            { threads--; updateStatus(String.Format("Aborted!"), false); return false; }
 
             try
             {
