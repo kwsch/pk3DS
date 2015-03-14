@@ -379,14 +379,14 @@ namespace pk3DS
         private int[] pslot(byte[] slot) // Parse Slot to Bytes
         {
             int index = BitConverter.ToUInt16(slot, 0) & 0x7FF;
-            int form = BitConverter.ToUInt16(slot, 0) >> 11;
-            int min = slot[2];
-            int max = slot[3];
+            int f = BitConverter.ToUInt16(slot, 0) >> 11;
+            int lo = slot[2];
+            int hi = slot[3];
             int[] data = new int[4];
             data[0] = index;
-            data[1] = form;
-            data[2] = min;
-            data[3] = max;
+            data[1] = f;
+            data[2] = lo;
+            data[3] = hi;
             return data;
         }
         private string parseslot(byte[] slot)
@@ -400,12 +400,12 @@ namespace pk3DS
             if (form > 0) species += "-" + form;
             return species + ',' + min + ',' + max + ',';
         }
-        private byte[] MakeSlotData(int species, int form, int min, int max)
+        private byte[] MakeSlotData(int species, int f, int lo, int hi)
         {
             byte[] data = new byte[4];
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16((Convert.ToUInt16(form) << 11) + Convert.ToUInt16(species))), 0, data, 0, 2);
-            data[2] = (byte)min;
-            data[3] = (byte)max;
+            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16((Convert.ToUInt16(f) << 11) + Convert.ToUInt16(species))), 0, data, 0, 2);
+            data[2] = (byte)lo;
+            data[3] = (byte)hi;
             return data;
         }
         private byte[] ConcatArrays(byte[] b1, byte[] b2)
@@ -522,11 +522,10 @@ namespace pk3DS
                 toret += tdata;
             }
             SaveFileDialog savetxt = new SaveFileDialog {FileName = "Encounter Slots", Filter = "Text File|*.txt"};
-            if (savetxt.ShowDialog() == DialogResult.OK)
-            {
-                string path = savetxt.FileName;
-                File.WriteAllText(path, toret);
-            }
+            if (savetxt.ShowDialog() != DialogResult.OK) return;
+
+            string path = savetxt.FileName;
+            File.WriteAllText(path, toret);
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -575,89 +574,89 @@ namespace pk3DS
         // Randomization
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all?", "Cannot undo.") == DialogResult.Yes)
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings @ Horde Tab.") != DialogResult.Yes) return;
+            Enabled = false;
+
+            // Nonrepeating List Start
+            int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked,
+                CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, CHK_L.Checked, CHK_E.Checked);
+
+            int ctr = 0;
+            int[] slotArray = Enumerable.Range(0, max.Length).Select(a => a).ToArray();
+
+            for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
             {
-                bool smart = Util.Prompt(MessageBoxButtons.YesNo,
-                    "Smart Randomize by Base Stat Total?" + Environment.NewLine +
-                    "Pokemon strength variance will attempt to match ingame.",
+                CB_LocationID.SelectedIndex = i;
+                if (!hasData()) continue; // Don't randomize if doesn't have data.
+                
+                // Assign Levels
+                if (CHK_Level.Checked)
+                for (int l = 0; l < max.Length; l++)
+                    min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Min(100, (int)(((100 + NUD_LevelAmp.Value) / 100) * max[l].Value));
 
-                    "If no, the randomizer will \"721\" the entire dex.") == DialogResult.Yes;
-                Enabled = false;
+                // Get a new list of Pokemon so that DexNav does not crash.
+                int[] list = new int[max.Length];
+                int used = 19;
 
-                // Nonrepeating List Start
-                int[] sL = Randomizer.RandomSpeciesList;
-                int ctr = 0;
-                int[] slotArray = Enumerable.Range(0, max.Length).Select(a => a).ToArray();
+                // Count up how many slots are active.
+                for (int s = 0; s < max.Length; s++)
+                    if (spec[s].SelectedIndex > 0)
+                        list[s] = spec[s].SelectedIndex;
 
-                for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
+                // At most 18, but don't chew if there's only a few slots.
+                int cons = list.Count(a => a != 0);
+                int[] RandomList = new int[(cons > 18) ? (18 - (cons / 8)) : cons];
+
+                // Fill Location List
+                if (!CHK_BST.Checked)
+                    for (int z = 0; z < RandomList.Length; z++)
+                        RandomList[z] = Randomizer.getRandomSpecies(ref sL, ref ctr);
+                else
                 {
-                    CB_LocationID.SelectedIndex = i;
-                    if (!hasData()) continue; // Don't randomize if doesn't have data.
-
-                    // Get a new list of Pokemon so that DexNav does not crash.
-                    int[] list = new int[max.Length];
-                    int used = 19;
-
-                    // Count up how many slots are active.
+                    int oldBST = 0;
                     for (int s = 0; s < max.Length; s++)
                         if (spec[s].SelectedIndex > 0)
-                            list[s] = spec[s].SelectedIndex;
+                        { oldBST = personal[spec[s + 2].SelectedIndex].Take(6).Sum(b => (ushort)b); break; }
 
-                    // At most 18, but don't chew if there's only a few slots.
-                    int cons = list.Count(a => a != 0);
-                    int[] RandomList = new int[(cons > 18) ? (18 - (cons / 8)) : cons];
-
-                    // Fill Location List
-                    if (!smart)
-                        for (int z = 0; z < RandomList.Length; z++)
-                            RandomList[z] = Randomizer.getRandomSpecies(ref sL, ref ctr);
-                    else
+                    for (int z = 0; z < RandomList.Length; z++)
                     {
-                        int oldBST = 0;
-                        for (int s = 0; s < max.Length; s++)
-                            if (spec[s].SelectedIndex > 0)
-                            { oldBST = personal[spec[s + 2].SelectedIndex].Take(6).Sum(b => (ushort)b); break; }
-
-                        for (int z = 0; z < RandomList.Length; z++)
-                        {
-                            int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
-                            int newBST = personal[species].Take(6).Sum(b => (ushort)b);
-                            while (!(newBST * 4 / 5 < oldBST && newBST * 6 / 5 > oldBST))
-                            { species = rand.Next(1, 722); newBST = personal[species].Take(6).Sum(b => (ushort)b); }
-                            RandomList[z] = species;
-                        }
+                        int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
+                        int newBST = personal[species].Take(6).Sum(b => (ushort)b);
+                        while (!(newBST * 4 / 5 < oldBST && newBST * 6 / 5 > oldBST))
+                        { species = sL[rand.Next(1, sL.Length)]; newBST = personal[species].Take(6).Sum(b => (ushort)b); }
+                        RandomList[z] = species;
                     }
-
-                    // Assign Slots
-                    while (used < RandomList.Distinct().Count() || used > 18) // Can just arbitrarily assign slots.
-                    {
-                        int ctrSingle = 0;
-                        Util.Shuffle(slotArray);
-                        for (int s = 0; s < max.Length; s++)
-                        {
-                            int slot = slotArray[s];
-                            if (spec[slot].SelectedIndex != 0) // If the slot is in use
-                                list[slot] = Randomizer.getRandomSpecies(ref RandomList, ref ctrSingle);
-                        }
-                        used = countUnique(list);
-                        if (used != RandomList.Length)
-                            ShuffleSlots(ref list, RandomList.Length);
-                        used = countUnique(list);
-                    }
-
-                    // Fill Slots
-                    for (int slot = 0; slot < max.Length; slot++)
-                        if (spec[slot].SelectedIndex != 0)
-                        {
-                            spec[slot].SelectedIndex = list[slot];
-                            setRandomForm(slot, spec[slot].SelectedIndex);
-                        }
-
-                    B_Save_Click(sender, e);
                 }
-                Enabled = true;
-                Util.Alert("Randomized!");
+
+                // Assign Slots
+                while (used < RandomList.Distinct().Count() || used > 18) // Can just arbitrarily assign slots.
+                {
+                    int ctrSingle = 0;
+                    Util.Shuffle(slotArray);
+                    for (int s = 0; s < max.Length; s++)
+                    {
+                        int slot = slotArray[s];
+                        if (spec[slot].SelectedIndex != 0) // If the slot is in use
+                            list[slot] = Randomizer.getRandomSpecies(ref RandomList, ref ctrSingle);
+                    }
+                    used = countUnique(list);
+                    if (used != RandomList.Length)
+                        ShuffleSlots(ref list, RandomList.Length);
+                    used = countUnique(list);
+                }
+
+                // Fill Slots
+                for (int slot = 0; slot < max.Length; slot++)
+                    if (spec[slot].SelectedIndex != 0)
+                    {
+                        spec[slot].SelectedIndex = list[slot];
+                        setRandomForm(slot, spec[slot].SelectedIndex);
+                    }
+
+                B_Save_Click(sender, e);
             }
+            Enabled = true;
+            Util.Alert("Randomized!");
         }
         private int countUnique(int[] list)
         {
@@ -726,15 +725,14 @@ namespace pk3DS
                             for (int s = 0; s < slotdata.Length; s++)
                             {
                                 if (s == i) continue;
-                                if (slotdata[s].Contains(data))
-                                {
-                                    int z = Array.LastIndexOf(slotdata[s], data);
-                                    int next = (z + 1 + Util.rand.Next(slotdata[s].Length - 1)) % slotdata[s].Length;
-                                    int donor = slotdata[s][next];
-                                    if (donor == 0) continue;
-                                    if (donor != data)
-                                        swap(ref slotdata[s][next], ref slotdata[i][j]);
-                                }
+                                if (!slotdata[s].Contains(data)) continue;
+
+                                int z = Array.LastIndexOf(slotdata[s], data);
+                                int next = (z + 1 + Util.rand.Next(slotdata[s].Length - 1)) % slotdata[s].Length;
+                                int donor = slotdata[s][next];
+                                if (donor == 0) continue;
+                                if (donor != data)
+                                    swap(ref slotdata[s][next], ref slotdata[i][j]);
                             }
                         }
                     }

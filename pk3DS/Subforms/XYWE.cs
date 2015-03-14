@@ -424,12 +424,12 @@ namespace pk3DS
                 max[i].Value = 0;
             }
         }
-        private byte[] MakeSlotData(int species, int form, int min, int max)
+        private byte[] MakeSlotData(int species, int f, int lo, int hi)
         {
             byte[] data = new byte[4];
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16((Convert.ToUInt16(form) << 11) + Convert.ToUInt16(species))), 0, data, 0, 2);
-            data[2] = (byte)min;
-            data[3] = (byte)max;
+            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16((Convert.ToUInt16(f) << 11) + Convert.ToUInt16(species))), 0, data, 0, 2);
+            data[2] = (byte)lo;
+            data[3] = (byte)hi;
             return data;
         }
         private byte[] MakeEncounterData()
@@ -498,65 +498,69 @@ namespace pk3DS
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all?", "Cannot undo.") == DialogResult.Yes)
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all?", "Cannot undo.") != DialogResult.Yes) return;
+
+            Enabled = false;
+
+            // Nonrepeating List Start
+            int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked,
+                CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, CHK_L.Checked, CHK_E.Checked);
+
+            int ctr = 0;
+
+            for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
             {
-                bool smart = Util.Prompt(MessageBoxButtons.YesNo, "Smart Randomize by Base Stat Total?", "Pokemon strength variance will attempt to match ingame.") == DialogResult.Yes;
-                Enabled = false;
+                CB_LocationID.SelectedIndex = i;
+                if (!hasData()) continue; // Don't randomize if doesn't have data.
 
-                // Nonrepeating List Start
-                int[] sL = Randomizer.RandomSpeciesList;
-                int ctr = 0;
+                // Assign Levels
+                if (CHK_Level.Checked)
+                    for (int l = 0; l < max.Length; l++)
+                        min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Min(100, (int)(((100 + NUD_LevelAmp.Value) / 100) * max[l].Value));
 
-                for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
+                for (int slot = 0; slot < max.Length; slot++)
                 {
-                    CB_LocationID.SelectedIndex = i;
-                    if (!hasData()) continue; // Don't randomize if doesn't have data.
+                    if (spec[slot].SelectedIndex == 0) continue;
 
-                    for (int slot = 0; slot < max.Length; slot++)
+                    int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
+
+                    if (CHK_BST.Checked)
                     {
-                        if (spec[slot].SelectedIndex != 0)
-                        {
-                            int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
-
-                            if (smart)
-                            {
-                                int oldBST = personal[spec[slot].SelectedIndex].Take(6).Sum(b => (ushort)b);
-                                int newBST = personal[species].Take(6).Sum(b => (ushort)b);
-                                while (!(newBST * 4 / 5 < oldBST && newBST * 6 / 5 > oldBST))
-                                { species = rand.Next(1, 722); newBST = personal[species].Take(6).Sum(b => (ushort)b); }
-                            }
-
-                            spec[slot].SelectedIndex = species;
-
-                            if (species == 666 || species == 665 || species == 664) // Vivillon
-                                form[slot].Value = rnd32() % 20;
-                            else if (species == 386) // Deoxys
-                                form[slot].Value = rnd32() % 4;
-                            else if (species == 201) // Unown
-                                form[slot].Value = rnd32() % 28;
-                            else if (species == 550) // Basculin
-                                form[slot].Value = rnd32() % 2;
-                            else if (species == 412 || species == 413) // Wormadam
-                                form[slot].Value = rnd32() % 3;
-                            else if (species == 422 || species == 423) // Gastrodon
-                                form[slot].Value = rnd32() % 2;
-                            else if (species == 585 || species == 586) // Sawsbuck
-                                form[slot].Value = rnd32() % 4;
-                            else if (species == 669 || species == 671) // Flabebe/Florges
-                                form[slot].Value = rnd32() % 5;
-                            else if (species == 670) // Floette
-                                form[slot].Value = rnd32() % 6;
-                            else if (species == 710 || species == 711) // Pumpkaboo
-                                form[slot].Value = rnd32() % 4;
-                            else
-                                form[slot].Value = 0;
-                        }
+                        int oldBST = personal[spec[slot].SelectedIndex].Take(6).Sum(b => (ushort)b);
+                        int newBST = personal[species].Take(6).Sum(b => (ushort)b);
+                        while (!(newBST * 4 / 5 < oldBST && newBST * 6 / 5 > oldBST))
+                        { species = sL[rand.Next(1, sL.Length)]; newBST = personal[species].Take(6).Sum(b => (ushort)b); }
                     }
-                    B_Save_Click(sender, e);
+
+                    spec[slot].SelectedIndex = species;
+
+                    if (species == 666 || species == 665 || species == 664) // Vivillon
+                        form[slot].Value = rnd32() % 20;
+                    else if (species == 386) // Deoxys
+                        form[slot].Value = rnd32() % 4;
+                    else if (species == 201) // Unown
+                        form[slot].Value = rnd32() % 28;
+                    else if (species == 550) // Basculin
+                        form[slot].Value = rnd32() % 2;
+                    else if (species == 412 || species == 413) // Wormadam
+                        form[slot].Value = rnd32() % 3;
+                    else if (species == 422 || species == 423) // Gastrodon
+                        form[slot].Value = rnd32() % 2;
+                    else if (species == 585 || species == 586) // Sawsbuck
+                        form[slot].Value = rnd32() % 4;
+                    else if (species == 669 || species == 671) // Flabebe/Florges
+                        form[slot].Value = rnd32() % 5;
+                    else if (species == 670) // Floette
+                        form[slot].Value = rnd32() % 6;
+                    else if (species == 710 || species == 711) // Pumpkaboo
+                        form[slot].Value = rnd32() % 4;
+                    else
+                        form[slot].Value = 0;
                 }
-                Enabled = true;
-                Util.Alert("Randomized!");
+                B_Save_Click(sender, e);
             }
+            Enabled = true;
+            Util.Alert("Randomized!");
         }
 
         private void B_Dump_Click(object sender, EventArgs e)
