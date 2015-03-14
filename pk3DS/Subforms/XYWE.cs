@@ -388,7 +388,7 @@ namespace pk3DS
             int min = slot[2];
             int max = slot[3];
             string species = specieslist[index];
-            if (form > 0) species += "-" + form.ToString();
+            if (form > 0) species += "-" + form;
             return species + ',' + min + ',' + max + ',';
         }
 
@@ -459,7 +459,6 @@ namespace pk3DS
             BinaryReader br = new BinaryReader(InStream);
             br.BaseStream.Seek(0x10, SeekOrigin.Begin);
             int offset = br.ReadInt32() + 0x10;
-            int length = (int)br.BaseStream.Length - offset;
             br.Close();
             byte[] filedata = File.ReadAllBytes(filepaths[f]);
             byte[] preoffset = { };
@@ -502,6 +501,9 @@ namespace pk3DS
 
             Enabled = false;
 
+            // Calculate % diff we will apply to each level
+            decimal leveldiff = (100 + NUD_LevelAmp.Value) / 100;
+
             // Nonrepeating List Start
             int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked,
                 CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, CHK_L.Checked, CHK_E.Checked);
@@ -516,7 +518,7 @@ namespace pk3DS
                 // Assign Levels
                 if (CHK_Level.Checked)
                     for (int l = 0; l < max.Length; l++)
-                        min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Min(100, (int)(((100 + NUD_LevelAmp.Value) / 100) * max[l].Value));
+                        min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Max(1, Math.Min(100, (int)((leveldiff) * max[l].Value)));
 
                 for (int slot = 0; slot < max.Length; slot++)
                 {
@@ -573,11 +575,10 @@ namespace pk3DS
                 toret += tdata;
             }
             SaveFileDialog savetxt = new SaveFileDialog {FileName = "Encounter Slots", Filter = "Text File|*.txt"};
-            if (savetxt.ShowDialog() == DialogResult.OK)
-            {
-                string path = savetxt.FileName;
-                File.WriteAllText(path, toret);
-            }
+            if (savetxt.ShowDialog() != DialogResult.OK) return;
+
+            string path = savetxt.FileName;
+            File.WriteAllText(path, toret);
         }
 
         private string GetEncDataString()
@@ -623,7 +624,7 @@ namespace pk3DS
 
                 // Amp Levels
                 for (int l = 0; l < max.Length; l++)
-                    min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Min(100, (int)(leveldiff * max[l].Value));
+                    min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * max[l].Value)));
 
                 // Save Changes
                 B_Save_Click(sender, e);

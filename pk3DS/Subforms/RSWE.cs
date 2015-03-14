@@ -575,7 +575,11 @@ namespace pk3DS
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings @ Horde Tab.") != DialogResult.Yes) return;
+            
             Enabled = false;
+
+            // Calculate % diff we will apply to each level
+            decimal leveldiff = (100 + NUD_LevelAmp.Value) / 100;
 
             // Nonrepeating List Start
             int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked,
@@ -591,8 +595,8 @@ namespace pk3DS
                 
                 // Assign Levels
                 if (CHK_Level.Checked)
-                for (int l = 0; l < max.Length; l++)
-                    min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Min(100, (int)(((100 + NUD_LevelAmp.Value) / 100) * max[l].Value));
+                    for (int l = 0; l < max.Length; l++)
+                        min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Max(1, Math.Min(100, (int)((leveldiff) * max[l].Value)));
 
                 // Get a new list of Pokemon so that DexNav does not crash.
                 int[] list = new int[max.Length];
@@ -767,7 +771,7 @@ namespace pk3DS
 
                 // Amp Levels
                 for (int l = 0; l < max.Length; l++)
-                    min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Min(100, (int)(leveldiff * max[l].Value));
+                    min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * max[l].Value)));
 
                 // Save Changes
                 B_Save_Click(sender, e);
