@@ -41,7 +41,7 @@ namespace pk3DS
             if (G6 && L) sL = sL.Concat(Enumerable.Range(716, 3)).ToArray(); // 
             if (G6 && E) sL = sL.Concat(Enumerable.Range(719, 3)).ToArray(); // 
 
-            return sL;
+            return sL.Length == 0 ? RandomSpeciesList : sL;
         }
     }
 }
