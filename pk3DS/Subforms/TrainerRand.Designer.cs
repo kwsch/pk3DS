@@ -258,6 +258,8 @@
             this.Controls.Add(this.CHK_RandomClass);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(300, 240);
+            this.MinimumSize = new System.Drawing.Size(300, 240);
             this.Name = "TrainerRand";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Trainer Battle Randomizer";
