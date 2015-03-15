@@ -17,7 +17,8 @@ namespace pk3DS
         private void B_Save_Click(object sender, EventArgs e)
         {
             RSTE.rPKM = CHK_RandomPKM.Checked;
-            RSTE.rSmart = CHK_Smart.Checked;
+            RSTE.sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, CHK_L.Checked, CHK_E.Checked);
+            RSTE.rSmart = CHK_BST.Checked;
             RSTE.rLevel = CHK_Level.Checked;
             RSTE.rLevelPercent = NUD_Level.Value;
 
@@ -37,13 +38,18 @@ namespace pk3DS
 
         private void CHK_RandomPKM_CheckedChanged(object sender, EventArgs e)
         {
-            CHK_Smart.Enabled = CHK_Smart.Checked = CHK_RandomPKM.Checked;
+            GB_Tweak.Enabled = 
+                CHK_G1.Checked = CHK_G2.Checked = CHK_G3.Checked = 
+                CHK_G4.Checked = CHK_G5.Checked = CHK_G6.Checked = 
+                CHK_L.Checked = CHK_E.Checked = 
+                CHK_RandomPKM.Checked;
+            CHK_BST.Checked = false; // Off by default
         }
 
         private void CHK_Level_CheckedChanged(object sender, EventArgs e)
         {
             NUD_Level.Enabled = CHK_Level.Checked;
-            NUD_Level.Value = Convert.ToDecimal(CHK_RandomGift.Checked) * 50;
+            NUD_Level.Value = Convert.ToDecimal(CHK_Level.Checked) * 50;
         }
         private void changeLevelPercent(object sender, EventArgs e)
         {

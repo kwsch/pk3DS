@@ -163,7 +163,11 @@ namespace pk3DS
 
             int species = trpk_pkm[slot].SelectedIndex;
             int formnum = trpk_form[slot].SelectedIndex;
-            species = (indexList[species] > 0) ? indexList[species] + formnum - 1 : species;
+            species = (formnum > 0) 
+                ? ((indexList[species] > 0) 
+                    ? indexList[species] + formnum - 1 
+                    : species) 
+                : species;
 
             byte[] abilities = new byte[3];
             Array.Copy(personalData, ((Main.oras) ? 0x50 : 0x40) * species + 0x18, abilities, 0, 3);
@@ -511,6 +515,7 @@ namespace pk3DS
         }
 
         public static bool rPKM, rSmart, rLevel, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand;
+        public static int[] sL; // Random Species List
         public static decimal rGiftPercent, rLevelPercent;
         private void B_Randomize_Click(object sender, EventArgs e)
         {
@@ -562,19 +567,21 @@ namespace pk3DS
                 itemvals = itemvals.Concat(Legal.Pouch_Berry_XY).ToArray();
                 int moves = trpk_m1[0].Items.Count;
                 int itemC = itemvals.Length;
+                int ctr = 0;
+
                 // Randomize Pokemon
                 for (int p = 0; p < CB_numPokemon.SelectedIndex; p++)
                 {
                     if (rPKM)
                     {
                         // randomize pokemon
-                        int species = rand.Next(1, 722);
+                        int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
                         if (rSmart) // Get a new Pokemon with a close BST
                         {
                             int oldBST = personal[trpk_pkm[p].SelectedIndex].Take(6).Sum(b => (ushort)b);
                             int newBST = personal[species].Take(6).Sum(b => (ushort)b);
                             while (!(newBST * 5 / 6 < oldBST && newBST * 6 / 5 > oldBST))
-                            { species = rand.Next(1, 722); newBST = personal[species].Take(6).Sum(b => (ushort)b); }
+                            { species = sL[rand.Next(1, sL.Length)]; newBST = personal[species].Take(6).Sum(b => (ushort)b); }
                         }
                         trpk_pkm[p].SelectedIndex = species;
                         // Set Gender to Random
@@ -584,7 +591,7 @@ namespace pk3DS
                         trpk_form[p].SelectedIndex = (int)(rnd32() % trpk_form[p].Items.Count);
                     }
                     if (rLevel)
-                        trpk_lvl[p].SelectedIndex = Math.Min((int)(trpk_lvl[p].SelectedIndex * ((100 + rLevelPercent) / 100)), 100);
+                        trpk_lvl[p].SelectedIndex = Math.Max(1, Math.Min((int)(trpk_lvl[p].SelectedIndex * ((100 + rLevelPercent) / 100)), 100));
                     if (rAbility)
                         trpk_abil[p].SelectedIndex = (int)(1 + rnd32() % 3);
                     if (rDiffIV)
