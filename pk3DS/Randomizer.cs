@@ -25,7 +25,7 @@ namespace pk3DS
             if (G2 && L) sL = sL.Concat(Enumerable.Range(243, 3)).Concat(Enumerable.Range(249, 2)).ToArray(); // Dogs, Lugia & Ho-Oh
             if (G2 && E) sL = sL.Concat(Enumerable.Range(251, 1)).ToArray(); // Celebi
             // Gen 3
-            if (G3) sL = sL.Concat(Enumerable.Range(252, 40)).Concat(Enumerable.Range(293, 44)).ToArray();
+            if (G3) sL = sL.Concat(Enumerable.Range(252, 40)).Concat(Enumerable.Range(293, 84)).ToArray();
             if (G3 && Shedinja) sL = sL.Concat(Enumerable.Range(292, 1)).ToArray(); // Shedinja
             if (G3 && L) sL = sL.Concat(Enumerable.Range(377, 8)).ToArray(); // Regi, Lati, Mascot
             if (G3 && E) sL = sL.Concat(Enumerable.Range(385, 2)).ToArray(); // Jirachi/Deoxys
