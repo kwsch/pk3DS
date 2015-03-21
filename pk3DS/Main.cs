@@ -175,7 +175,11 @@ namespace pk3DS
                     GB_ExeFS.Enabled = (RomFS != null && ExeFS != null);
                     B_MoveTutor.Enabled = oras; // Default false unless loaded
                     if (RomFS != null)
-                    { L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY"; TB_Path.Text = path; }
+                    {
+                        if (L_Game.Text == "Game Loaded: ORAS" || L_Game.Text == "Game Loaded: XY")
+                        { Directory.Delete("personal", true); } // Force reloading of personal data if the game is switched.
+                        L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY"; TB_Path.Text = path; 
+                    }
                     else if (ExeFS != null)
                     { L_Game.Text = "ExeFS loaded - no RomFS"; TB_Path.Text = path; }
                     else
@@ -184,6 +188,7 @@ namespace pk3DS
                     if (RomFS != null)
                     {
                         // Trigger Data Loading
+                        if (RTB_Status.Text.Length > 0) RTB_Status.Clear();
                         updateStatus("Data found! Loading persistent data for subforms...", false);
                         changeLanguage(null, null);
                     }
