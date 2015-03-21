@@ -527,34 +527,38 @@ namespace pk3DS
         }
         internal static string[][] getFormList(byte[] data, bool oras, string[] species, string[] forms, string[] types, string[] items)
         {
-            string[][] FormList = new string[722][];
-            int entrysize = (oras) ? 0x50 : 0x40;
-            int AltFormOfs = 723; //null + 721 species + 1 gap
-            for (int i = 0; i < 722; i++) //Hardcode 721 species + null
+            try
             {
-                int FormCount = data[i * entrysize + 0x20]; // Mons with no alt forms have a FormCount of 1.
-                FormList[i] = new string[FormCount];
-                if (FormCount > 0)
+                string[][] FormList = new string[722][];
+                int entrysize = (oras) ? 0x50 : 0x40;
+                int AltFormOfs = 723; //null + 721 species + 1 gap
+                for (int i = 0; i < 722; i++) //Hardcode 721 species + null
                 {
-                    FormList[i][0] = (forms[i] == "") ? species[i] : forms[i];
-                    for (int j = 1; j < FormCount; j++)
-                        FormList[i][j] = forms[AltFormOfs++];
+                    int FormCount = data[i * entrysize + 0x20]; // Mons with no alt forms have a FormCount of 1.
+                    FormList[i] = new string[FormCount];
+                    if (FormCount > 0)
+                    {
+                        FormList[i][0] = (forms[i] == "") ? species[i] : forms[i];
+                        for (int j = 1; j < FormCount; j++)
+                            FormList[i][j] = forms[AltFormOfs++];
+                    }
                 }
-            }
-            // Need to hardcode here: Unown, Arceus, Genesect, any others?
-            // Unown
-            for (int i = 0; i < 26; i++)
-                FormList[201][i] = ((char)(i + 0x41)).ToString();
-            FormList[201][26] = "!";
-            FormList[201][27] = "?";
-            // Arceus
-            for (int i = 0; i < types.Length; i++)
-                FormList[493][i] = types[i];
-            // Genesect
-            for (int i = 0; i < 4; i++)
-                FormList[649][1 + i] = items[i + 116];
+                // Need to hardcode here: Unown, Arceus, Genesect, any others?
+                // Unown
+                for (int i = 0; i < 26; i++)
+                    FormList[201][i] = ((char)(i + 0x41)).ToString();
+                FormList[201][26] = "!";
+                FormList[201][27] = "?";
+                // Arceus
+                for (int i = 0; i < types.Length; i++)
+                    FormList[493][i] = types[i];
+                // Genesect
+                for (int i = 0; i < 4; i++)
+                    FormList[649][1 + i] = items[i + 116];
 
-            return FormList;
+                return FormList;
+            }
+            catch (Exception e) { Util.Error("Error while creating the Alternate Formes Listing.", "Please make sure that the Personal.dat & Forms text are as intended", "Error:" + Environment.NewLine + e.ToString()); return null; }
         }
         internal static string[] getPersonalEntryList(byte[] data, bool oras, string[][] AltForms, string[] species)
         {
