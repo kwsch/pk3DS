@@ -51,6 +51,7 @@ namespace pk3DS
             if (File.Exists("config.ini"))
             {
                 string path = File.ReadAllText("config.ini");
+                if (Directory.Exists("personal")) { Directory.Delete("personal", true); } // Clear data on form load.
                 if (path.Length > 0) openQuick(path);
             }
         }
@@ -161,6 +162,7 @@ namespace pk3DS
             else
             {
                 // Check for ROMFS/EXEFS
+                RomFS = ExeFS = null; // Reset
                 string[] folders = Directory.GetDirectories(path);
                 int count = folders.Length;
                 if (count != 2 && count != 1) return; // Only want exefs & romfs (can have exheader there too, it's not a folder)

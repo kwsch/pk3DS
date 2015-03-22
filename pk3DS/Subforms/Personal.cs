@@ -85,19 +85,20 @@ namespace pk3DS
             ushort[] HMs = new ushort[0];
             TMHM.getTMHMList(Main.oras, ref TMs, ref HMs);
             CLB_TMHM.Items.Clear();
+            int hmcount = (Main.oras) ? 7 : 5;
 
             if (TMs.Length == 0) // No ExeFS to grab TMs from.
             {
                 for (int i = 1; i <= 100; i++)
                     CLB_TMHM.Items.Add("TM" + i.ToString("00"));
-                for (int i = 1; i <= 7; i++)
+                for (int i = 1; i <= hmcount; i++)
                     CLB_TMHM.Items.Add("HM" + i.ToString("00"));
             }
             else // Use TMHM moves.
             {
                 for (int i = 1; i <= 100; i++)
                     CLB_TMHM.Items.Add(String.Format("TM{0} {1}", i.ToString("00"), moves[TMs[i - 1]]));
-                for (int i = 1; i <= 7; i++)
+                for (int i = 1; i <= hmcount; i++)
                     CLB_TMHM.Items.Add(String.Format("HM{0} {1}", i.ToString("00"), moves[HMs[i - 1]]));
             }
             for (int i = 0; i < tutormoves.Length - 1; i++)
@@ -105,10 +106,6 @@ namespace pk3DS
 
             if (mode == "XY")
             {
-                string[] temp_abilities = new string[abilities.Length - 3]; // 3 abilities added in ORAS
-                Array.Copy(abilities, temp_abilities, temp_abilities.Length);
-                abilities = temp_abilities;
-
                 string[] temp_items = new string[718]; // 719 items in XY
                 Array.Copy(items, temp_items, temp_items.Length);
                 items = temp_items;
@@ -120,6 +117,10 @@ namespace pk3DS
                 string[] temp_species = new string[799]; // 799 species in XY
                 Array.Copy(species, temp_species, temp_species.Length);
                 species = temp_species;
+
+                CLB_OrasTutors.Visible = 
+                CLB_OrasTutors.Enabled =
+                Lbl_OrasTutors.Visible = false;
             }
             else if (mode == "ORAS")
             {
@@ -133,8 +134,8 @@ namespace pk3DS
                 foreach (ushort tm in tutor4)
                     CLB_OrasTutors.Items.Add(moves[tm]);
 
-                CLB_OrasTutors.Visible = true;
-                CLB_OrasTutors.Enabled = true;
+                CLB_OrasTutors.Visible = 
+                CLB_OrasTutors.Enabled = 
                 Lbl_OrasTutors.Visible = true;
             }
             for (int i = 0; i < species.Length; i++)
@@ -275,25 +276,23 @@ namespace pk3DS
                         ofs += tutor4.Length;
                 }
             }
-            if (!dumping)
+            if (dumping) return;
+            int[] specForm = getSpecies(data, Main.oras, CB_Species.SelectedIndex);
+            string filename = "_" + specForm[0] + ((CB_Species.SelectedIndex > 721) ? "_" + (specForm[1] + 1) : "");
+            Bitmap rawImg = (Bitmap)Resources.ResourceManager.GetObject(filename);
+            Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
+            for (int x = 0; x < rawImg.Width; x++)
             {
-                int[] specForm = getSpecies(data, Main.oras, CB_Species.SelectedIndex);
-                string filename = "_" + specForm[0] + ((CB_Species.SelectedIndex > 721) ? "_" + (specForm[1] + 1) : "");
-                Bitmap rawImg = (Bitmap)Resources.ResourceManager.GetObject(filename);
-                Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
-                for (int x = 0; x < rawImg.Width; x++)
+                for (int y = 0; y < rawImg.Height; y++)
                 {
-                    for (int y = 0; y < rawImg.Height; y++)
-                    {
-                        Color c = rawImg.GetPixel(x, y);
-                        bigImg.SetPixel(2 * x, 2 * y, c);
-                        bigImg.SetPixel(2 * x + 1, 2 * y, c);
-                        bigImg.SetPixel(2 * x, 2 * y + 1, c);
-                        bigImg.SetPixel(2 * x + 1, 2 * y + 1, c);
-                    }
+                    Color c = rawImg.GetPixel(x, y);
+                    bigImg.SetPixel(2 * x, 2 * y, c);
+                    bigImg.SetPixel(2 * x + 1, 2 * y, c);
+                    bigImg.SetPixel(2 * x, 2 * y + 1, c);
+                    bigImg.SetPixel(2 * x + 1, 2 * y + 1, c);
                 }
-                PB_MonSprite.Image = bigImg;
             }
+            PB_MonSprite.Image = bigImg;
         }
         private void saveEntry()
         {
@@ -433,48 +432,55 @@ namespace pk3DS
                 CB_Species.SelectedIndex = i; // Get new Species
 
                 // Fiddle with TM Learnsets
-                for (int t = 0; t < CLB_TMHM.Items.Count; t++)
-                    CLB_TMHM.SetItemChecked(t, rnd.Next(0, 100) < TMPercent);
+                if (CHK_TMHM.Checked)
+                    for (int t = 0; t < CLB_TMHM.Items.Count; t++)
+                        CLB_TMHM.SetItemCheckState(t, rnd.Next(0, 100) < TMPercent ? CheckState.Checked : CheckState.Unchecked);
 
 
                 // Abilities:
-                int[] abils = new int[3];
-                for (int a = 0; a < 3; a++) // Get 3 New Abilities, none being Wonder Guard (25)
-                { int newabil = rnd.Next(1, abillen); while (newabil == 25) newabil = rnd.Next(1, abillen); abils[a] = newabil; }
-                CB_Ability1.SelectedIndex = rnd.Next(1, abillen);
-                CB_Ability2.SelectedIndex = rnd.Next(1, abillen);
-                CB_Ability3.SelectedIndex = rnd.Next(1, abillen);
-
+                if (CHK_Ability.Checked)
+                {
+                    ComboBox[] abils = {CB_Ability1, CB_Ability2, CB_Ability3};
+                    for (int a = 0; a < 3; a++) // Set 3 New Abilities, none being Wonder Guard (25)
+                    {
+                        int newabil = rnd.Next(1, abillen);
+                        while (newabil == 25)
+                            newabil = rnd.Next(1, abillen);
+                        if (abils[a].SelectedIndex != 25) abils[a].SelectedIndex = newabil;
+                    }
+                }
 
                 // Fiddle with Base Stats, don't muck with Shedinja.
-                if (Convert.ToByte(byte_boxes[0].Text) == 1)
-                    CB_Ability1.SelectedIndex = CB_Ability2.SelectedIndex = CB_Ability3.SelectedIndex = 25;
-                else
-                    for (int z = 0; z < 6; z++)
-                        byte_boxes[z].Text =
-                            Math.Max(
-                                5,
-                                rnd.Next
-                                (
-                                    Convert.ToByte(byte_boxes[z].Text) * 3 / 4,
-                                    Convert.ToByte(byte_boxes[z].Text) * 5 / 4)
-                                )
-                            .ToString("000");
-
+                if (CHK_Stats.Checked)
+                {
+                    if (Convert.ToByte(byte_boxes[0].Text) != 1)
+                        for (int z = 0; z < 6; z++)
+                            byte_boxes[z].Text =
+                                Math.Max(5,rnd.Next(
+                                        Math.Min(255, (int) (Convert.ToByte(byte_boxes[z].Text)*(1 - NUD_StatDev.Value/100))),
+                                        Math.Min(255, (int) (Convert.ToByte(byte_boxes[z].Text)*(1 + NUD_StatDev.Value/100)))
+                                        )).ToString("000");
+                }
                 // EV yield stays the same...
 
                 // Items
-                CB_HeldItem1.SelectedIndex = (CB_HeldItem1.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
-                CB_HeldItem2.SelectedIndex = (CB_HeldItem2.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
-                CB_HeldItem3.SelectedIndex = (CB_HeldItem3.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
+                if (CHK_Item.Checked)
+                {
+                    CB_HeldItem1.SelectedIndex = (CB_HeldItem1.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
+                    CB_HeldItem2.SelectedIndex = (CB_HeldItem2.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
+                    CB_HeldItem3.SelectedIndex = (CB_HeldItem3.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
+                }
 
                 // Type
-                if (rnd.Next(0, 100) < 50) // 50% chance to have either Single or Dual Typing
-                    CB_Type1.SelectedIndex = CB_Type2.SelectedIndex = rnd.Next(0, typelen);
-                else
+                if (CHK_Type.Checked)
                 {
-                    CB_Type1.SelectedIndex = rnd.Next(0, typelen);
-                    CB_Type2.SelectedIndex = rnd.Next(0, typelen);
+                    if (rnd.Next(0, 100) < 50) // 50% chance to have either Single or Dual Typing
+                        CB_Type1.SelectedIndex = CB_Type2.SelectedIndex = rnd.Next(0, typelen);
+                    else
+                    {
+                        CB_Type1.SelectedIndex = rnd.Next(0, typelen);
+                        CB_Type2.SelectedIndex = rnd.Next(0, typelen);
+                    }
                 }
             }
             saveEntry();
@@ -533,10 +539,10 @@ namespace pk3DS
             {
                 int FormCount = data[i * entrysize + 0x20] - 1; // Mons with no alt forms have a FormCount of 1.
                 ushort altformpointer = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
-                if (altformpointer > 0)
-                    for (int j = 0; j < FormCount; j++)
-                        if (altformpointer + j == PersonalEntry)
-                            return new[] { i, j };
+                if (altformpointer <= 0) continue;
+                for (int j = 0; j < FormCount; j++)
+                    if (altformpointer + j == PersonalEntry)
+                        return new[] { i, j };
             }
 
             return new[] { -1, -1 };
@@ -552,12 +558,10 @@ namespace pk3DS
                 {
                     int FormCount = data[i * entrysize + 0x20]; // Mons with no alt forms have a FormCount of 1.
                     FormList[i] = new string[FormCount];
-                    if (FormCount > 0)
-                    {
-                        FormList[i][0] = (forms[i] == "") ? species[i] : forms[i];
-                        for (int j = 1; j < FormCount; j++)
-                            FormList[i][j] = forms[AltFormOfs++];
-                    }
+                    if (FormCount <= 0) continue;
+                    FormList[i][0] = (forms[i] == "") ? species[i] : forms[i];
+                    for (int j = 1; j < FormCount; j++)
+                        FormList[i][j] = forms[AltFormOfs++];
                 }
                 // Need to hardcode here: Unown, Arceus, Genesect, any others?
                 // Unown
@@ -574,7 +578,7 @@ namespace pk3DS
 
                 return FormList;
             }
-            catch (Exception e) { Util.Error("Error while creating the Alternate Formes Listing.", "Please make sure that the Personal.dat & Forms text are as intended", "Error:" + Environment.NewLine + e.ToString()); return null; }
+            catch (Exception e) { Util.Error("Error while creating the Alternate Formes Listing.", "Please make sure that the Personal.dat & Forms text are as intended", "Error:" + Environment.NewLine + e); return null; }
         }
         internal static string[] getPersonalEntryList(byte[] data, bool oras, string[][] AltForms, string[] species)
         {
@@ -615,6 +619,11 @@ namespace pk3DS
                 cb.Enabled = true;
             }
             cb.SelectedIndex = 0;
+        }
+
+        private void CHK_Stats_CheckedChanged(object sender, EventArgs e)
+        {
+            L_StatDev.Visible = NUD_StatDev.Visible = CHK_Stats.Checked;
         }
     }
 }
