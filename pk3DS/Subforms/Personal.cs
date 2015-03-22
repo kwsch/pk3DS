@@ -80,10 +80,26 @@ namespace pk3DS
             abilities[0] = items[0] = moves[0] = "";
             AltForms = getFormList(data, Main.oras, species, forms, types, items);
             species = getPersonalEntryList(data, Main.oras, AltForms, species);
-            for (int i = 1; i <= 100; i++)
-                CLB_TMHM.Items.Add("TM" + i.ToString("00"));
-            for (int i = 1; i <= 7; i++)
-                CLB_TMHM.Items.Add("HM" + i.ToString("00"));
+
+            ushort[] TMs = new ushort[0];
+            ushort[] HMs = new ushort[0];
+            TMHM.getTMHMList(Main.oras, ref TMs, ref HMs);
+            CLB_TMHM.Items.Clear();
+
+            if (TMs.Length == 0) // No ExeFS to grab TMs from.
+            {
+                for (int i = 1; i <= 100; i++)
+                    CLB_TMHM.Items.Add("TM" + i.ToString("00"));
+                for (int i = 1; i <= 7; i++)
+                    CLB_TMHM.Items.Add("HM" + i.ToString("00"));
+            }
+            else // Use TMHM moves.
+            {
+                for (int i = 1; i <= 100; i++)
+                    CLB_TMHM.Items.Add(String.Format("TM{0} {1}", i.ToString("00"), moves[TMs[i - 1]]));
+                for (int i = 1; i <= 7; i++)
+                    CLB_TMHM.Items.Add(String.Format("HM{0} {1}", i.ToString("00"), moves[HMs[i - 1]]));
+            }
             for (int i = 0; i < tutormoves.Length - 1; i++)
                 CLB_MoveTutors.Items.Add(moves[tutormoves[i]]);
 

@@ -16,6 +16,7 @@ namespace pk3DS
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
             if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
+            offset = Util.IndexOfBytes(data, new byte[] { 0xD4, 0x00, 0xAE, 0x02, 0xAF, 0x02, 0xB0, 0x02 }, 0x400000, 0) + 8;
             codebin = files[0];
             movelist[0] = "";
             setupDGV();
@@ -23,7 +24,7 @@ namespace pk3DS
         }
         string codebin;
         string[] movelist = Main.getText((Main.oras) ? 14 : 13);
-        int offset = (Main.oras) ? 0x004A67EE : 0x00464796;
+        int offset = (Main.oras) ? 0x004A67EE : 0x00464796; // Default
         byte[] data;
         int dataoffset;
         private void getDataOffset()
@@ -146,6 +147,39 @@ namespace pk3DS
 
                 dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
             }
+        }
+
+        internal static void getTMHMList(bool oras, ref ushort[] TMs, ref ushort[] HMs)
+        {
+            if (Main.ExeFS == null) return;
+            string[] files = Directory.GetFiles(Main.ExeFS);
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) return;
+            byte[] data = File.ReadAllBytes(files[0]);
+            int dataoffset = Util.IndexOfBytes(data, new byte[] { 0xD4, 0x00, 0xAE, 0x02, 0xAF, 0x02, 0xB0, 0x02 }, 0x400000, 0) + 8;
+            if (data.Length % 0x200 != 0) return;
+
+            List<ushort> tms = new List<ushort>();
+            List<ushort> hms = new List<ushort>();
+
+            for (int i = 0; i < 92; i++) // 1-92 TMs stored sequentially
+                tms.Add(BitConverter.ToUInt16(data, dataoffset + 2 * i));
+            for (int i = 92; i < 92 + 5; i++)
+                hms.Add(BitConverter.ToUInt16(data, dataoffset + 2 * i));
+            if (Main.oras)
+            {
+                hms.Add(BitConverter.ToUInt16(data, dataoffset + 2 * 97));
+                for (int i = 98; i < 106; i++)
+                    tms.Add(BitConverter.ToUInt16(data, dataoffset + 2 * i));
+                hms.Add(BitConverter.ToUInt16(data, dataoffset + 2 * 106));
+            }
+            else
+            {
+                for (int i = 97; i < 105; i++)
+                    tms.Add(BitConverter.ToUInt16(data, dataoffset + 2 * i));
+            }
+
+            TMs = tms.ToArray();
+            HMs = hms.ToArray();
         }
     }
 }

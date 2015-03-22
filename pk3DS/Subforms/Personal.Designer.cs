@@ -881,7 +881,7 @@
             // Lbl_OrasTutors
             // 
             this.Lbl_OrasTutors.AutoSize = true;
-            this.Lbl_OrasTutors.Location = new System.Drawing.Point(278, 3);
+            this.Lbl_OrasTutors.Location = new System.Drawing.Point(298, 3);
             this.Lbl_OrasTutors.Name = "Lbl_OrasTutors";
             this.Lbl_OrasTutors.Size = new System.Drawing.Size(65, 13);
             this.Lbl_OrasTutors.TabIndex = 7;
@@ -891,7 +891,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(139, 3);
+            this.label27.Location = new System.Drawing.Point(159, 3);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(78, 13);
             this.label27.TabIndex = 6;
@@ -912,9 +912,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.CLB_OrasTutors.Enabled = false;
             this.CLB_OrasTutors.FormattingEnabled = true;
-            this.CLB_OrasTutors.Location = new System.Drawing.Point(281, 19);
+            this.CLB_OrasTutors.Location = new System.Drawing.Point(301, 19);
             this.CLB_OrasTutors.Name = "CLB_OrasTutors";
-            this.CLB_OrasTutors.Size = new System.Drawing.Size(133, 349);
+            this.CLB_OrasTutors.Size = new System.Drawing.Size(133, 319);
             this.CLB_OrasTutors.TabIndex = 4;
             this.CLB_OrasTutors.Visible = false;
             // 
@@ -923,9 +923,9 @@
             this.CLB_MoveTutors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.CLB_MoveTutors.FormattingEnabled = true;
-            this.CLB_MoveTutors.Location = new System.Drawing.Point(142, 19);
+            this.CLB_MoveTutors.Location = new System.Drawing.Point(162, 19);
             this.CLB_MoveTutors.Name = "CLB_MoveTutors";
-            this.CLB_MoveTutors.Size = new System.Drawing.Size(133, 349);
+            this.CLB_MoveTutors.Size = new System.Drawing.Size(133, 319);
             this.CLB_MoveTutors.TabIndex = 3;
             // 
             // CLB_TMHM
@@ -935,7 +935,7 @@
             this.CLB_TMHM.FormattingEnabled = true;
             this.CLB_TMHM.Location = new System.Drawing.Point(9, 19);
             this.CLB_TMHM.Name = "CLB_TMHM";
-            this.CLB_TMHM.Size = new System.Drawing.Size(124, 349);
+            this.CLB_TMHM.Size = new System.Drawing.Size(147, 319);
             this.CLB_TMHM.TabIndex = 2;
             // 
             // PB_MonSprite

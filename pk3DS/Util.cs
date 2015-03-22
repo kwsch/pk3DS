@@ -587,8 +587,9 @@ namespace pk3DS
             int endIndex = count > 0 ? startIndex + count : array.Length;
             int fidx = 0;
 
-            while (i++ < endIndex)
+            while (i++ != endIndex - 1)
             {
+                if (array[i] != pattern[fidx]) i -= fidx;
                 fidx = (array[i] == pattern[fidx]) ? ++fidx : 0;
                 if (fidx == pattern.Length)
                     return i - fidx + 1;
