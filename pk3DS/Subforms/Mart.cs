@@ -38,8 +38,8 @@ namespace pk3DS
             : new byte[] // XY
             {
                 3, 10, 14, 17, 18, 19, 19, 19, 19, // General
-                3, // Unused
-                2, 10, 3, 9, 1, 1, // Misc
+                1, // Unused
+                4, 10, 3, 9, 1, 1, // Misc
                 3, 3, // Balls
                 5, 5, // TMs
                 6, // Vitamins
