@@ -544,7 +544,7 @@ namespace pk3DS
                         CB_AI.SelectedIndex = 135; // Max Double
                 }
                 if (rClass)
-                    CB_Trainer_Class.SelectedIndex = (int)(rnd32() % (CB_Trainer_Class.Items.Count));
+                    CB_Trainer_Class.SelectedIndex = CB_Battle_Type.SelectedIndex > 0 ? (int)(rnd32() % (CB_Trainer_Class.Items.Count)) : 0; // Change only Single Battles
 
                 if (rGift && rnd32() % 100 < rGiftPercent)
                 #region Random Prize Logic
