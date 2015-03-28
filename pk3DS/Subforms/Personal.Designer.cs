@@ -109,13 +109,25 @@
             this.B_Dump = new System.Windows.Forms.Button();
             this.B_Difficulty = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.CHK_TMHM = new System.Windows.Forms.CheckBox();
-            this.CHK_Ability = new System.Windows.Forms.CheckBox();
-            this.CHK_Stats = new System.Windows.Forms.CheckBox();
-            this.NUD_StatDev = new System.Windows.Forms.NumericUpDown();
-            this.L_StatDev = new System.Windows.Forms.Label();
-            this.CHK_Item = new System.Windows.Forms.CheckBox();
+            this.CHK_rSPE = new System.Windows.Forms.CheckBox();
+            this.CHK_rSPD = new System.Windows.Forms.CheckBox();
+            this.CHK_rSPA = new System.Windows.Forms.CheckBox();
+            this.CHK_rDEF = new System.Windows.Forms.CheckBox();
+            this.CHK_rATK = new System.Windows.Forms.CheckBox();
+            this.CHK_rHP = new System.Windows.Forms.CheckBox();
+            this.CHK_EggGroup = new System.Windows.Forms.CheckBox();
+            this.CHK_CatchRate = new System.Windows.Forms.CheckBox();
+            this.CHK_WGuard = new System.Windows.Forms.CheckBox();
+            this.CHK_ORASTutors = new System.Windows.Forms.CheckBox();
+            this.CHK_Tutors = new System.Windows.Forms.CheckBox();
+            this.CHK_HM = new System.Windows.Forms.CheckBox();
             this.CHK_Type = new System.Windows.Forms.CheckBox();
+            this.CHK_Item = new System.Windows.Forms.CheckBox();
+            this.L_StatDev = new System.Windows.Forms.Label();
+            this.NUD_StatDev = new System.Windows.Forms.NumericUpDown();
+            this.CHK_Stats = new System.Windows.Forms.CheckBox();
+            this.CHK_Ability = new System.Windows.Forms.CheckBox();
+            this.CHK_TM = new System.Windows.Forms.CheckBox();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -157,8 +169,8 @@
             // 
             // TC_Pokemon
             // 
-            this.TC_Pokemon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.TC_Pokemon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.TC_Pokemon.Controls.Add(this.TP_General);
             this.TC_Pokemon.Controls.Add(this.TP_MoveTutors);
             this.TC_Pokemon.Location = new System.Drawing.Point(12, 40);
@@ -917,8 +929,8 @@
             // 
             // CLB_OrasTutors
             // 
-            this.CLB_OrasTutors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.CLB_OrasTutors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.CLB_OrasTutors.Enabled = false;
             this.CLB_OrasTutors.FormattingEnabled = true;
             this.CLB_OrasTutors.Location = new System.Drawing.Point(301, 19);
@@ -929,8 +941,8 @@
             // 
             // CLB_MoveTutors
             // 
-            this.CLB_MoveTutors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.CLB_MoveTutors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.CLB_MoveTutors.FormattingEnabled = true;
             this.CLB_MoveTutors.Location = new System.Drawing.Point(162, 19);
             this.CLB_MoveTutors.Name = "CLB_MoveTutors";
@@ -939,8 +951,8 @@
             // 
             // CLB_TMHM
             // 
-            this.CLB_TMHM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.CLB_TMHM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.CLB_TMHM.FormattingEnabled = true;
             this.CLB_TMHM.Location = new System.Drawing.Point(9, 19);
             this.CLB_TMHM.Name = "CLB_TMHM";
@@ -957,9 +969,9 @@
             // 
             // B_Randomize
             // 
-            this.B_Randomize.Location = new System.Drawing.Point(463, 86);
+            this.B_Randomize.Location = new System.Drawing.Point(459, 86);
             this.B_Randomize.Name = "B_Randomize";
-            this.B_Randomize.Size = new System.Drawing.Size(75, 23);
+            this.B_Randomize.Size = new System.Drawing.Size(89, 23);
             this.B_Randomize.TabIndex = 417;
             this.B_Randomize.Text = "Randomize";
             this.B_Randomize.UseVisualStyleBackColor = true;
@@ -977,9 +989,9 @@
             // 
             // B_Difficulty
             // 
-            this.B_Difficulty.Location = new System.Drawing.Point(463, 62);
+            this.B_Difficulty.Location = new System.Drawing.Point(459, 62);
             this.B_Difficulty.Name = "B_Difficulty";
-            this.B_Difficulty.Size = new System.Drawing.Size(75, 23);
+            this.B_Difficulty.Size = new System.Drawing.Size(89, 23);
             this.B_Difficulty.TabIndex = 419;
             this.B_Difficulty.Text = "Difficulty++";
             this.B_Difficulty.UseVisualStyleBackColor = true;
@@ -987,60 +999,210 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.CHK_rSPE);
+            this.groupBox1.Controls.Add(this.CHK_rSPD);
+            this.groupBox1.Controls.Add(this.CHK_rSPA);
+            this.groupBox1.Controls.Add(this.CHK_rDEF);
+            this.groupBox1.Controls.Add(this.CHK_rATK);
+            this.groupBox1.Controls.Add(this.CHK_rHP);
+            this.groupBox1.Controls.Add(this.CHK_EggGroup);
+            this.groupBox1.Controls.Add(this.CHK_CatchRate);
+            this.groupBox1.Controls.Add(this.CHK_WGuard);
+            this.groupBox1.Controls.Add(this.CHK_ORASTutors);
+            this.groupBox1.Controls.Add(this.CHK_Tutors);
+            this.groupBox1.Controls.Add(this.CHK_HM);
             this.groupBox1.Controls.Add(this.CHK_Type);
             this.groupBox1.Controls.Add(this.CHK_Item);
             this.groupBox1.Controls.Add(this.L_StatDev);
             this.groupBox1.Controls.Add(this.NUD_StatDev);
             this.groupBox1.Controls.Add(this.CHK_Stats);
             this.groupBox1.Controls.Add(this.CHK_Ability);
-            this.groupBox1.Controls.Add(this.CHK_TMHM);
-            this.groupBox1.Location = new System.Drawing.Point(463, 111);
+            this.groupBox1.Controls.Add(this.CHK_TM);
+            this.groupBox1.Location = new System.Drawing.Point(459, 111);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(77, 290);
+            this.groupBox1.Size = new System.Drawing.Size(89, 290);
             this.groupBox1.TabIndex = 420;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
             // 
-            // CHK_TMHM
+            // CHK_rSPE
             // 
-            this.CHK_TMHM.AutoSize = true;
-            this.CHK_TMHM.Checked = true;
-            this.CHK_TMHM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_TMHM.Location = new System.Drawing.Point(6, 19);
-            this.CHK_TMHM.Name = "CHK_TMHM";
-            this.CHK_TMHM.Size = new System.Drawing.Size(64, 17);
-            this.CHK_TMHM.TabIndex = 0;
-            this.CHK_TMHM.Text = "TM/HM";
-            this.CHK_TMHM.UseVisualStyleBackColor = true;
+            this.CHK_rSPE.AutoSize = true;
+            this.CHK_rSPE.Checked = true;
+            this.CHK_rSPE.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_rSPE.Location = new System.Drawing.Point(43, 225);
+            this.CHK_rSPE.Name = "CHK_rSPE";
+            this.CHK_rSPE.Size = new System.Drawing.Size(45, 17);
+            this.CHK_rSPE.TabIndex = 19;
+            this.CHK_rSPE.Text = "Spe";
+            this.CHK_rSPE.UseVisualStyleBackColor = true;
             // 
-            // CHK_Ability
+            // CHK_rSPD
             // 
-            this.CHK_Ability.AutoSize = true;
-            this.CHK_Ability.Checked = true;
-            this.CHK_Ability.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Ability.Location = new System.Drawing.Point(6, 34);
-            this.CHK_Ability.Name = "CHK_Ability";
-            this.CHK_Ability.Size = new System.Drawing.Size(61, 17);
-            this.CHK_Ability.TabIndex = 1;
-            this.CHK_Ability.Text = "Abilities";
-            this.CHK_Ability.UseVisualStyleBackColor = true;
+            this.CHK_rSPD.AutoSize = true;
+            this.CHK_rSPD.Checked = true;
+            this.CHK_rSPD.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_rSPD.Location = new System.Drawing.Point(4, 225);
+            this.CHK_rSPD.Name = "CHK_rSPD";
+            this.CHK_rSPD.Size = new System.Drawing.Size(45, 17);
+            this.CHK_rSPD.TabIndex = 18;
+            this.CHK_rSPD.Text = "Spd";
+            this.CHK_rSPD.UseVisualStyleBackColor = true;
             // 
-            // CHK_Stats
+            // CHK_rSPA
             // 
-            this.CHK_Stats.AutoSize = true;
-            this.CHK_Stats.Checked = true;
-            this.CHK_Stats.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Stats.Location = new System.Drawing.Point(6, 97);
-            this.CHK_Stats.Name = "CHK_Stats";
-            this.CHK_Stats.Size = new System.Drawing.Size(50, 17);
-            this.CHK_Stats.TabIndex = 2;
-            this.CHK_Stats.Text = "Stats";
-            this.CHK_Stats.UseVisualStyleBackColor = true;
-            this.CHK_Stats.CheckedChanged += new System.EventHandler(this.CHK_Stats_CheckedChanged);
+            this.CHK_rSPA.AutoSize = true;
+            this.CHK_rSPA.Checked = true;
+            this.CHK_rSPA.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_rSPA.Location = new System.Drawing.Point(43, 209);
+            this.CHK_rSPA.Name = "CHK_rSPA";
+            this.CHK_rSPA.Size = new System.Drawing.Size(45, 17);
+            this.CHK_rSPA.TabIndex = 17;
+            this.CHK_rSPA.Text = "Spa";
+            this.CHK_rSPA.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rDEF
+            // 
+            this.CHK_rDEF.AutoSize = true;
+            this.CHK_rDEF.Checked = true;
+            this.CHK_rDEF.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_rDEF.Location = new System.Drawing.Point(4, 209);
+            this.CHK_rDEF.Name = "CHK_rDEF";
+            this.CHK_rDEF.Size = new System.Drawing.Size(43, 17);
+            this.CHK_rDEF.TabIndex = 16;
+            this.CHK_rDEF.Text = "Def";
+            this.CHK_rDEF.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rATK
+            // 
+            this.CHK_rATK.AutoSize = true;
+            this.CHK_rATK.Checked = true;
+            this.CHK_rATK.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_rATK.Location = new System.Drawing.Point(43, 194);
+            this.CHK_rATK.Name = "CHK_rATK";
+            this.CHK_rATK.Size = new System.Drawing.Size(42, 17);
+            this.CHK_rATK.TabIndex = 15;
+            this.CHK_rATK.Text = "Atk";
+            this.CHK_rATK.UseVisualStyleBackColor = true;
+            // 
+            // CHK_rHP
+            // 
+            this.CHK_rHP.AutoSize = true;
+            this.CHK_rHP.Checked = true;
+            this.CHK_rHP.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_rHP.Location = new System.Drawing.Point(4, 194);
+            this.CHK_rHP.Name = "CHK_rHP";
+            this.CHK_rHP.Size = new System.Drawing.Size(41, 17);
+            this.CHK_rHP.TabIndex = 14;
+            this.CHK_rHP.Text = "HP";
+            this.CHK_rHP.UseVisualStyleBackColor = true;
+            // 
+            // CHK_EggGroup
+            // 
+            this.CHK_EggGroup.AutoSize = true;
+            this.CHK_EggGroup.Checked = true;
+            this.CHK_EggGroup.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_EggGroup.Location = new System.Drawing.Point(4, 142);
+            this.CHK_EggGroup.Name = "CHK_EggGroup";
+            this.CHK_EggGroup.Size = new System.Drawing.Size(77, 17);
+            this.CHK_EggGroup.TabIndex = 13;
+            this.CHK_EggGroup.Text = "Egg Group";
+            this.CHK_EggGroup.UseVisualStyleBackColor = true;
+            // 
+            // CHK_CatchRate
+            // 
+            this.CHK_CatchRate.AutoSize = true;
+            this.CHK_CatchRate.Checked = true;
+            this.CHK_CatchRate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_CatchRate.Location = new System.Drawing.Point(4, 126);
+            this.CHK_CatchRate.Name = "CHK_CatchRate";
+            this.CHK_CatchRate.Size = new System.Drawing.Size(75, 17);
+            this.CHK_CatchRate.TabIndex = 11;
+            this.CHK_CatchRate.Text = "Catch rate";
+            this.CHK_CatchRate.UseVisualStyleBackColor = true;
+            // 
+            // CHK_WGuard
+            // 
+            this.CHK_WGuard.AutoSize = true;
+            this.CHK_WGuard.Location = new System.Drawing.Point(4, 80);
+            this.CHK_WGuard.Name = "CHK_WGuard";
+            this.CHK_WGuard.Size = new System.Drawing.Size(72, 17);
+            this.CHK_WGuard.TabIndex = 10;
+            this.CHK_WGuard.Text = "W. Guard";
+            this.CHK_WGuard.UseVisualStyleBackColor = true;
+            // 
+            // CHK_ORASTutors
+            // 
+            this.CHK_ORASTutors.AutoSize = true;
+            this.CHK_ORASTutors.Checked = true;
+            this.CHK_ORASTutors.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_ORASTutors.Location = new System.Drawing.Point(4, 49);
+            this.CHK_ORASTutors.Name = "CHK_ORASTutors";
+            this.CHK_ORASTutors.Size = new System.Drawing.Size(75, 17);
+            this.CHK_ORASTutors.TabIndex = 9;
+            this.CHK_ORASTutors.Text = "OR Tutors";
+            this.CHK_ORASTutors.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Tutors
+            // 
+            this.CHK_Tutors.AutoSize = true;
+            this.CHK_Tutors.Checked = true;
+            this.CHK_Tutors.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Tutors.Location = new System.Drawing.Point(4, 34);
+            this.CHK_Tutors.Name = "CHK_Tutors";
+            this.CHK_Tutors.Size = new System.Drawing.Size(69, 17);
+            this.CHK_Tutors.TabIndex = 8;
+            this.CHK_Tutors.Text = "S. Tutors";
+            this.CHK_Tutors.UseVisualStyleBackColor = true;
+            // 
+            // CHK_HM
+            // 
+            this.CHK_HM.AutoSize = true;
+            this.CHK_HM.Checked = true;
+            this.CHK_HM.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_HM.Location = new System.Drawing.Point(42, 19);
+            this.CHK_HM.Name = "CHK_HM";
+            this.CHK_HM.Size = new System.Drawing.Size(43, 17);
+            this.CHK_HM.TabIndex = 7;
+            this.CHK_HM.Text = "HM";
+            this.CHK_HM.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Type
+            // 
+            this.CHK_Type.AutoSize = true;
+            this.CHK_Type.Checked = true;
+            this.CHK_Type.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Type.Location = new System.Drawing.Point(4, 111);
+            this.CHK_Type.Name = "CHK_Type";
+            this.CHK_Type.Size = new System.Drawing.Size(55, 17);
+            this.CHK_Type.TabIndex = 6;
+            this.CHK_Type.Text = "Types";
+            this.CHK_Type.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Item
+            // 
+            this.CHK_Item.AutoSize = true;
+            this.CHK_Item.Checked = true;
+            this.CHK_Item.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Item.Location = new System.Drawing.Point(4, 96);
+            this.CHK_Item.Name = "CHK_Item";
+            this.CHK_Item.Size = new System.Drawing.Size(51, 17);
+            this.CHK_Item.TabIndex = 5;
+            this.CHK_Item.Text = "Items";
+            this.CHK_Item.UseVisualStyleBackColor = true;
+            // 
+            // L_StatDev
+            // 
+            this.L_StatDev.AutoSize = true;
+            this.L_StatDev.Location = new System.Drawing.Point(6, 247);
+            this.L_StatDev.Name = "L_StatDev";
+            this.L_StatDev.Size = new System.Drawing.Size(67, 13);
+            this.L_StatDev.TabIndex = 4;
+            this.L_StatDev.Text = "Deviance(%)";
             // 
             // NUD_StatDev
             // 
-            this.NUD_StatDev.Location = new System.Drawing.Point(25, 133);
+            this.NUD_StatDev.Location = new System.Drawing.Point(25, 263);
             this.NUD_StatDev.Name = "NUD_StatDev";
             this.NUD_StatDev.Size = new System.Drawing.Size(46, 20);
             this.NUD_StatDev.TabIndex = 3;
@@ -1050,44 +1212,49 @@
             0,
             0});
             // 
-            // L_StatDev
+            // CHK_Stats
             // 
-            this.L_StatDev.AutoSize = true;
-            this.L_StatDev.Location = new System.Drawing.Point(6, 117);
-            this.L_StatDev.Name = "L_StatDev";
-            this.L_StatDev.Size = new System.Drawing.Size(67, 13);
-            this.L_StatDev.TabIndex = 4;
-            this.L_StatDev.Text = "Deviance(%)";
+            this.CHK_Stats.AutoSize = true;
+            this.CHK_Stats.Checked = true;
+            this.CHK_Stats.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Stats.Location = new System.Drawing.Point(4, 179);
+            this.CHK_Stats.Name = "CHK_Stats";
+            this.CHK_Stats.Size = new System.Drawing.Size(50, 17);
+            this.CHK_Stats.TabIndex = 2;
+            this.CHK_Stats.Text = "Stats";
+            this.CHK_Stats.UseVisualStyleBackColor = true;
+            this.CHK_Stats.CheckedChanged += new System.EventHandler(this.CHK_Stats_CheckedChanged);
             // 
-            // CHK_Item
+            // CHK_Ability
             // 
-            this.CHK_Item.AutoSize = true;
-            this.CHK_Item.Checked = true;
-            this.CHK_Item.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Item.Location = new System.Drawing.Point(6, 49);
-            this.CHK_Item.Name = "CHK_Item";
-            this.CHK_Item.Size = new System.Drawing.Size(51, 17);
-            this.CHK_Item.TabIndex = 5;
-            this.CHK_Item.Text = "Items";
-            this.CHK_Item.UseVisualStyleBackColor = true;
+            this.CHK_Ability.AutoSize = true;
+            this.CHK_Ability.Checked = true;
+            this.CHK_Ability.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Ability.Location = new System.Drawing.Point(4, 65);
+            this.CHK_Ability.Name = "CHK_Ability";
+            this.CHK_Ability.Size = new System.Drawing.Size(61, 17);
+            this.CHK_Ability.TabIndex = 1;
+            this.CHK_Ability.Text = "Abilities";
+            this.CHK_Ability.UseVisualStyleBackColor = true;
+            this.CHK_Ability.CheckedChanged += new System.EventHandler(this.CHK_Ability_CheckedChanged);
             // 
-            // CHK_Type
+            // CHK_TM
             // 
-            this.CHK_Type.AutoSize = true;
-            this.CHK_Type.Checked = true;
-            this.CHK_Type.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Type.Location = new System.Drawing.Point(6, 64);
-            this.CHK_Type.Name = "CHK_Type";
-            this.CHK_Type.Size = new System.Drawing.Size(55, 17);
-            this.CHK_Type.TabIndex = 6;
-            this.CHK_Type.Text = "Types";
-            this.CHK_Type.UseVisualStyleBackColor = true;
+            this.CHK_TM.AutoSize = true;
+            this.CHK_TM.Checked = true;
+            this.CHK_TM.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_TM.Location = new System.Drawing.Point(4, 19);
+            this.CHK_TM.Name = "CHK_TM";
+            this.CHK_TM.Size = new System.Drawing.Size(42, 17);
+            this.CHK_TM.TabIndex = 0;
+            this.CHK_TM.Text = "TM";
+            this.CHK_TM.UseVisualStyleBackColor = true;
             // 
             // Personal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(552, 417);
+            this.ClientSize = new System.Drawing.Size(552, 416);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.B_Difficulty);
             this.Controls.Add(this.B_Dump);
@@ -1201,12 +1368,24 @@
         private System.Windows.Forms.Button B_Dump;
         private System.Windows.Forms.Button B_Difficulty;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox CHK_TMHM;
+        private System.Windows.Forms.CheckBox CHK_TM;
         private System.Windows.Forms.CheckBox CHK_Ability;
         private System.Windows.Forms.CheckBox CHK_Stats;
         private System.Windows.Forms.NumericUpDown NUD_StatDev;
         private System.Windows.Forms.Label L_StatDev;
         private System.Windows.Forms.CheckBox CHK_Item;
         private System.Windows.Forms.CheckBox CHK_Type;
+        private System.Windows.Forms.CheckBox CHK_HM;
+        private System.Windows.Forms.CheckBox CHK_ORASTutors;
+        private System.Windows.Forms.CheckBox CHK_Tutors;
+        private System.Windows.Forms.CheckBox CHK_WGuard;
+        private System.Windows.Forms.CheckBox CHK_CatchRate;
+        private System.Windows.Forms.CheckBox CHK_rSPE;
+        private System.Windows.Forms.CheckBox CHK_rSPD;
+        private System.Windows.Forms.CheckBox CHK_rSPA;
+        private System.Windows.Forms.CheckBox CHK_rDEF;
+        private System.Windows.Forms.CheckBox CHK_rATK;
+        private System.Windows.Forms.CheckBox CHK_rHP;
+        private System.Windows.Forms.CheckBox CHK_EggGroup;
     }
 }
