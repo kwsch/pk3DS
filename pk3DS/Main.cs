@@ -419,6 +419,7 @@ namespace pk3DS
         // RomFS File Requesting Method Wrapper
         private void fileGet(IEnumerable<string> files, bool skipDecompression = true, bool skipGet = false)
         {
+            if (ModifierKeys == (Keys.Control | Keys.Shift)) restoreGARCs(oras, files.ToArray());
             if (skipGet) return;
             foreach (string toEdit in files)
             {
