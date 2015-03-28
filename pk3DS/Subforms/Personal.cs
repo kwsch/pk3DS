@@ -19,6 +19,7 @@ namespace pk3DS
             eggGroup_boxes = new[] { CB_EggGroup1, CB_EggGroup2 };
             byte_boxes = new[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate };
             ev_boxes = new[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
+            rstat_boxes = new[] { CHK_rHP, CHK_rATK, CHK_rDEF, CHK_rSPA, CHK_rSPD, CHK_rSPE };
 
             data = File.ReadAllBytes(paths[paths.Length - 1]); // Load last to data.
             L_Mode.Text = "Mode: " + mode;
@@ -44,6 +45,7 @@ namespace pk3DS
 
         private MaskedTextBox[] byte_boxes;
         private MaskedTextBox[] ev_boxes;
+        private CheckBox[] rstat_boxes;
 
         public string[] types = { };
 
@@ -418,6 +420,8 @@ namespace pk3DS
         {
             Random rnd = new Random();
             const int TMPercent = 35; // Average Learnable TMs is 35.260.
+            const int TutorPercent = 2; //136 special tutor moves learnable by species in Untouched ORAS.
+            const int OrasTutorPercent = 30; //10001 tutor moves learnable by 826 species in Untouched ORAS.
             ushort[] itemlist = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
             ushort[] berrylist = Legal.Pouch_Berry_XY;
             Array.Resize(ref itemlist, itemlist.Length + berrylist.Length);
@@ -432,21 +436,33 @@ namespace pk3DS
                 CB_Species.SelectedIndex = i; // Get new Species
 
                 // Fiddle with TM Learnsets
-                if (CHK_TMHM.Checked)
-                    for (int t = 0; t < CLB_TMHM.Items.Count; t++)
+                if (CHK_TM.Checked)
+                    for (int t = 0; t < 100; t++)
                         CLB_TMHM.SetItemCheckState(t, rnd.Next(0, 100) < TMPercent ? CheckState.Checked : CheckState.Unchecked);
-
+                if (CHK_HM.Checked)
+                    for (int t = 100; t < CLB_TMHM.Items.Count;t++)
+                        CLB_TMHM.SetItemCheckState(t, rnd.Next(0, 100) < TMPercent ? CheckState.Checked : CheckState.Unchecked);
+                if (CHK_Tutors.Checked)
+                {
+                    for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
+                        CLB_MoveTutors.SetItemCheckState(t, rnd.Next(0, 100) < TutorPercent ? CheckState.Checked : CheckState.Unchecked);
+                    if ((Main.oras) && (CB_Species.SelectedIndex == 384 || CB_Species.SelectedIndex == 814)) //Make sure Rayquaza can learn Dragon Ascent.
+                        CLB_MoveTutors.SetItemCheckState(CLB_MoveTutors.Items.Count-1, CheckState.Checked); 
+                }
+                if (CHK_ORASTutors.Checked)
+                    for (int t = 0; t < CLB_OrasTutors.Items.Count; t++)
+                        CLB_OrasTutors.SetItemCheckState(t, rnd.Next(0, 100) < OrasTutorPercent ? CheckState.Checked : CheckState.Unchecked);
 
                 // Abilities:
                 if (CHK_Ability.Checked)
                 {
                     ComboBox[] abils = {CB_Ability1, CB_Ability2, CB_Ability3};
-                    for (int a = 0; a < 3; a++) // Set 3 New Abilities, none being Wonder Guard (25)
+                    for (int a = 0; a < 3; a++) // Set 3 New Abilities, none being Wonder Guard (25) unless CHK_WGuard is checked.
                     {
                         int newabil = rnd.Next(1, abillen);
-                        while (newabil == 25)
+                        while (newabil == 25 && !CHK_WGuard.Checked)
                             newabil = rnd.Next(1, abillen);
-                        if (abils[a].SelectedIndex != 25) abils[a].SelectedIndex = newabil;
+                        if (abils[a].SelectedIndex != 25 || CHK_WGuard.Checked) abils[a].SelectedIndex = newabil;
                     }
                 }
 
@@ -455,13 +471,27 @@ namespace pk3DS
                 {
                     if (Convert.ToByte(byte_boxes[0].Text) != 1)
                         for (int z = 0; z < 6; z++)
-                            byte_boxes[z].Text =
-                                Math.Max(5,rnd.Next(
-                                        Math.Min(255, (int) (Convert.ToByte(byte_boxes[z].Text)*(1 - NUD_StatDev.Value/100))),
-                                        Math.Min(255, (int) (Convert.ToByte(byte_boxes[z].Text)*(1 + NUD_StatDev.Value/100)))
-                                        )).ToString("000");
+                            if (rstat_boxes[z].Checked)
+                                byte_boxes[z].Text =
+                                    Math.Max(5,rnd.Next(
+                                            Math.Min(255, (int) (Convert.ToByte(byte_boxes[z].Text)*(1 - NUD_StatDev.Value/100))),
+                                            Math.Min(255, (int) (Convert.ToByte(byte_boxes[z].Text)*(1 + NUD_StatDev.Value/100)))
+                                            )).ToString("000");
                 }
                 // EV yield stays the same...
+
+                if (CHK_CatchRate.Checked)
+                    TB_CatchRate.Text = rnd.Next(3, 251).ToString("000"); //Random Catch Rate between 3 and 250. Should I make this normally distributed?
+                if (CHK_EggGroup.Checked)
+                {
+                    if (rnd.Next(0, 100) < 50) // 50% chance to have either One or Two Egg Groups
+                        CB_EggGroup1.SelectedIndex = CB_EggGroup2.SelectedIndex = rnd.Next(1, CB_EggGroup1.Items.Count);
+                    else
+                    {
+                        CB_EggGroup1.SelectedIndex = rnd.Next(1, CB_EggGroup1.Items.Count);
+                        CB_EggGroup2.SelectedIndex = rnd.Next(1, CB_EggGroup1.Items.Count);
+                    }
+                }
 
                 // Items
                 if (CHK_Item.Checked)
@@ -513,6 +543,7 @@ namespace pk3DS
 
                 result += Environment.NewLine;
             }
+
             SaveFileDialog sfd = new SaveFileDialog {FileName = "Personal Entries.txt", Filter = "Text File|*.txt"};
 
             SystemSounds.Asterisk.Play();
@@ -624,6 +655,13 @@ namespace pk3DS
         private void CHK_Stats_CheckedChanged(object sender, EventArgs e)
         {
             L_StatDev.Visible = NUD_StatDev.Visible = CHK_Stats.Checked;
+        }
+
+        private void CHK_Ability_CheckedChanged(object sender, EventArgs e)
+        {
+            CHK_WGuard.Enabled = CHK_Ability.Checked;
+            if (!CHK_WGuard.Enabled)
+                CHK_WGuard.Checked = false;
         }
     }
 }
