@@ -588,7 +588,7 @@ namespace pk3DS
         internal static bool setText(int file, string[] strings)
         {
             byte[] data = xytext.getBytesForFile(strings);
-            string path = "text" + Path.DirectorySeparatorChar + file.ToString("000") + ".bin";
+            string path = "gametext" + Path.DirectorySeparatorChar + file.ToString("000") + ".bin";
             File.WriteAllBytes(path, data);
             return true;
         }

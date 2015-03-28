@@ -27,6 +27,7 @@ namespace pk3DS
         {
             setEntry();
             entry = CB_Item.SelectedIndex;
+            L_Index.Text = "Index: " + entry.ToString("000");
             getEntry();
         }
         private void getEntry()

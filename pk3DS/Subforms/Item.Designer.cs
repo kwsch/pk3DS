@@ -34,10 +34,11 @@
             this.MT_Price = new System.Windows.Forms.MaskedTextBox();
             this.NUD_UseEffect = new System.Windows.Forms.NumericUpDown();
             this.L_UseEffect = new System.Windows.Forms.Label();
-            this.L_Price = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.L_Buy = new System.Windows.Forms.Label();
+            this.L_Feedback = new System.Windows.Forms.Label();
+            this.L_Sell = new System.Windows.Forms.Label();
             this.MT_Sell = new System.Windows.Forms.MaskedTextBox();
+            this.L_Index = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_UseEffect)).BeginInit();
             this.SuspendLayout();
             // 
@@ -103,34 +104,34 @@
             this.L_UseEffect.TabIndex = 41;
             this.L_UseEffect.Text = "Use Effect:";
             // 
-            // L_Price
+            // L_Buy
             // 
-            this.L_Price.AutoSize = true;
-            this.L_Price.Location = new System.Drawing.Point(75, 40);
-            this.L_Price.Name = "L_Price";
-            this.L_Price.Size = new System.Drawing.Size(82, 13);
-            this.L_Price.TabIndex = 42;
-            this.L_Price.Text = "Purchase Price:";
+            this.L_Buy.AutoSize = true;
+            this.L_Buy.Location = new System.Drawing.Point(75, 40);
+            this.L_Buy.Name = "L_Buy";
+            this.L_Buy.Size = new System.Drawing.Size(82, 13);
+            this.L_Buy.TabIndex = 42;
+            this.L_Buy.Text = "Purchase Price:";
             // 
-            // label1
+            // L_Feedback
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.L_Feedback.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(32, 108);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(274, 13);
-            this.label1.TabIndex = 43;
-            this.label1.Text = "Please give feedback on what is actually needed to edit.";
+            this.L_Feedback.AutoSize = true;
+            this.L_Feedback.Location = new System.Drawing.Point(32, 108);
+            this.L_Feedback.Name = "L_Feedback";
+            this.L_Feedback.Size = new System.Drawing.Size(274, 13);
+            this.L_Feedback.TabIndex = 43;
+            this.L_Feedback.Text = "Please give feedback on what is actually needed to edit.";
             // 
-            // label2
+            // L_Sell
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(103, 59);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(54, 13);
-            this.label2.TabIndex = 44;
-            this.label2.Text = "Sell Price:";
+            this.L_Sell.AutoSize = true;
+            this.L_Sell.Location = new System.Drawing.Point(103, 59);
+            this.L_Sell.Name = "L_Sell";
+            this.L_Sell.Size = new System.Drawing.Size(54, 13);
+            this.L_Sell.TabIndex = 44;
+            this.L_Sell.Text = "Sell Price:";
             // 
             // MT_Sell
             // 
@@ -142,15 +143,25 @@
             this.MT_Sell.TabIndex = 45;
             this.MT_Sell.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // L_Index
+            // 
+            this.L_Index.AutoSize = true;
+            this.L_Index.Location = new System.Drawing.Point(206, 13);
+            this.L_Index.Name = "L_Index";
+            this.L_Index.Size = new System.Drawing.Size(39, 13);
+            this.L_Index.TabIndex = 46;
+            this.L_Index.Text = "Index: ";
+            // 
             // Item
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(339, 182);
+            this.Controls.Add(this.L_Index);
             this.Controls.Add(this.MT_Sell);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.L_Price);
+            this.Controls.Add(this.L_Sell);
+            this.Controls.Add(this.L_Feedback);
+            this.Controls.Add(this.L_Buy);
             this.Controls.Add(this.L_UseEffect);
             this.Controls.Add(this.NUD_UseEffect);
             this.Controls.Add(this.MT_Price);
@@ -178,9 +189,10 @@
         private System.Windows.Forms.MaskedTextBox MT_Price;
         private System.Windows.Forms.NumericUpDown NUD_UseEffect;
         private System.Windows.Forms.Label L_UseEffect;
-        private System.Windows.Forms.Label L_Price;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label L_Buy;
+        private System.Windows.Forms.Label L_Feedback;
+        private System.Windows.Forms.Label L_Sell;
         private System.Windows.Forms.MaskedTextBox MT_Sell;
+        private System.Windows.Forms.Label L_Index;
     }
 }

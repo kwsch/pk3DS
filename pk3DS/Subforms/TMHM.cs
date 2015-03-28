@@ -96,6 +96,7 @@ namespace pk3DS
         }
         private void setList()
         {
+            // Gather TM/HM list.
             tms = new List<ushort>();
             hms = new List<ushort>();
             for (int i = 0; i < dgvTM.Rows.Count; i++)
@@ -107,6 +108,7 @@ namespace pk3DS
             ushort[] tmlist = tms.ToArray();
             ushort[] hmlist = hms.ToArray();
 
+            // Set TM/HM list in
             for (int i = 0; i < 92; i++)
                 Array.Copy(BitConverter.GetBytes(tmlist[i]), 0, data, offset + 2 * i, 2);
             for (int i = 92; i < 92 + 5; i++)
@@ -123,6 +125,25 @@ namespace pk3DS
                 for (int i = 97; i < 105; i++)
                     Array.Copy(BitConverter.GetBytes(tmlist[i - 5]), 0, data, offset + 2 * i, 2);
             }
+
+            // Set Move Text Descriptions back into Item Text File
+            int itemFile = (Main.oras) ? 117 : 99;
+            string[] itemDescriptions = Main.getText(itemFile);
+            string[] moveDescriptions = Main.getText(Main.oras ? 16 : 15);
+            for (int i = 1 - 1; i <= 92 - 1; i++) // TM01 - TM92
+                itemDescriptions[328 + i] = moveDescriptions[tmlist[i]];
+            for (int i = 93 - 1; i <= 95 - 1; i++) // TM92 - TM95
+                itemDescriptions[618 + i - 92] = moveDescriptions[tmlist[i]];
+            for (int i = 96 - 1; i <= 100 - 1; i++) // TM96 - TM100
+                itemDescriptions[690 + i - 95] = moveDescriptions[tmlist[i]];
+            for (int i = 1 - 1; i <= 5 - 1; i++) // HM01 - HM05
+                itemDescriptions[420 + i] = moveDescriptions[hmlist[i]];
+            if (Main.oras)
+            {
+                itemDescriptions[425] = moveDescriptions[hmlist[5]]; // HM06
+                itemDescriptions[737] = moveDescriptions[hmlist[6]]; // HM07
+            }
+            Main.setText(itemFile, itemDescriptions);
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)
