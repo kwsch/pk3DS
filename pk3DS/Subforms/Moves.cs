@@ -167,6 +167,7 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
+            if (!CHK_Category.Checked && !CHK_Type.Checked) return;
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Randomize all Move Types and Categories?", "Everything else will stay the same.")) return;
             Random rnd = new Random();
             for (int i = 0; i < CB_Move.Items.Count; i++)
@@ -175,11 +176,12 @@ namespace pk3DS
                 if (i == 165 || i == 174) continue; // Don't change Struggle or Curse
 
                 // Change Damage Category if Not Status
-                if (CB_Category.SelectedIndex > 0) // Not Status
+                if (CB_Category.SelectedIndex > 0 && CHK_Category.Checked) // Not Status
                     CB_Category.SelectedIndex = rnd.Next(1, 3);
 
                 // Change Move Type
-                CB_Type.SelectedIndex = rnd.Next(0, 18);
+                if (CHK_Type.Checked)
+                    CB_Type.SelectedIndex = rnd.Next(0, 18);
             }
             Util.Alert("Moves have been randomized!");
         }

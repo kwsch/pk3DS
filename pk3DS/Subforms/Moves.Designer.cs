@@ -89,6 +89,9 @@
             this.L_0x20 = new System.Windows.Forms.Label();
             this.L_0x21 = new System.Windows.Forms.Label();
             this.B_RandAll = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CHK_Type = new System.Windows.Forms.CheckBox();
+            this.CHK_Category = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_HitMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_HitMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Priority)).BeginInit();
@@ -113,6 +116,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0xB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0x20)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0x21)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // L_Type
@@ -605,9 +609,8 @@
             // 
             // RTB
             // 
-            this.RTB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.RTB.Location = new System.Drawing.Point(12, 324);
             this.RTB.Name = "RTB";
             this.RTB.ReadOnly = true;
@@ -789,19 +792,51 @@
             // 
             // B_RandAll
             // 
-            this.B_RandAll.Location = new System.Drawing.Point(208, 9);
+            this.B_RandAll.Location = new System.Drawing.Point(333, 10);
             this.B_RandAll.Name = "B_RandAll";
-            this.B_RandAll.Size = new System.Drawing.Size(120, 23);
+            this.B_RandAll.Size = new System.Drawing.Size(98, 23);
             this.B_RandAll.TabIndex = 63;
-            this.B_RandAll.Text = "Rand Type/Category";
+            this.B_RandAll.Text = "Randomize!";
             this.B_RandAll.UseVisualStyleBackColor = true;
             this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.CHK_Category);
+            this.groupBox1.Controls.Add(this.CHK_Type);
+            this.groupBox1.Location = new System.Drawing.Point(333, 33);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(98, 342);
+            this.groupBox1.TabIndex = 64;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Options";
+            // 
+            // CHK_Type
+            // 
+            this.CHK_Type.AutoSize = true;
+            this.CHK_Type.Location = new System.Drawing.Point(6, 19);
+            this.CHK_Type.Name = "CHK_Type";
+            this.CHK_Type.Size = new System.Drawing.Size(50, 17);
+            this.CHK_Type.TabIndex = 0;
+            this.CHK_Type.Text = "Type";
+            this.CHK_Type.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Category
+            // 
+            this.CHK_Category.AutoSize = true;
+            this.CHK_Category.Location = new System.Drawing.Point(6, 34);
+            this.CHK_Category.Name = "CHK_Category";
+            this.CHK_Category.Size = new System.Drawing.Size(68, 17);
+            this.CHK_Category.TabIndex = 1;
+            this.CHK_Category.Text = "Category";
+            this.CHK_Category.UseVisualStyleBackColor = true;
             // 
             // Moves
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(339, 382);
+            this.ClientSize = new System.Drawing.Size(439, 382);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.B_RandAll);
             this.Controls.Add(this.L_0x21);
             this.Controls.Add(this.L_0x20);
@@ -852,7 +887,7 @@
             this.Controls.Add(this.L_Move);
             this.Controls.Add(this.CB_Move);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(355, 420);
+            this.MaximumSize = new System.Drawing.Size(455, 420);
             this.MinimumSize = new System.Drawing.Size(355, 420);
             this.Name = "Moves";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -883,6 +918,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0xB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0x20)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0x21)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -951,5 +988,8 @@
         private System.Windows.Forms.Label L_0x20;
         private System.Windows.Forms.Label L_0x21;
         private System.Windows.Forms.Button B_RandAll;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox CHK_Category;
+        private System.Windows.Forms.CheckBox CHK_Type;
     }
 }
