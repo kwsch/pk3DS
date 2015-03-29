@@ -48,7 +48,7 @@ namespace pk3DS
 
             if (CHK_StoryMEvos.Checked)
             {
-                RSTE.rEnsureMEvo = Main.oras ? (new int[] { 557, 913, 942, 178, 235, 583, 713, 687, 698, 909, 910, 911, 912, 913 }) : (new int[] { });
+                RSTE.rEnsureMEvo = Main.oras ? (new int[] { 178, 235, 557, 583, 687, 698, 699, 700, 701, 713, 906, 907, 908, 909, 910, 911, 912, 913, 942, 944, 946 }) : (new int[] { 188, 263, 276, 277, 519, 520, 521, 526, 599, 600, 601 });
             }
             else
             {
