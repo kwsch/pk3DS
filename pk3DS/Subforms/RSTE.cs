@@ -803,7 +803,7 @@ namespace pk3DS
             TagTrainer(tags, "ELITE2", 271, 275);       // Siebold
             TagTrainer(tags, "ELITE3", 187, 272);       // Wikstrom
             TagTrainer(tags, "ELITE4", 270, 274);       // Drasna
-            TagTrainer(tags, "CHAMPION", 266, 267);     // Champion Diantha
+            TagTrainer(tags, "CHAMPION", 276, 277);     // Champion Diantha
 
             //"Friends"
             TagTrainer(tags, "SHAUNA", 137, 138, 139, 321, 322, 323);
