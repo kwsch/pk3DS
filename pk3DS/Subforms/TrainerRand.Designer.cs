@@ -53,6 +53,9 @@
             this.CHK_G3 = new System.Windows.Forms.CheckBox();
             this.CHK_G2 = new System.Windows.Forms.CheckBox();
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
+            this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
+            this.CHK_StoryMEvos = new System.Windows.Forms.CheckBox();
+            this.CHK_GymTrainers = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             this.GB_Tweak.SuspendLayout();
@@ -77,7 +80,7 @@
             this.CHK_RandomItems.AutoSize = true;
             this.CHK_RandomItems.Checked = true;
             this.CHK_RandomItems.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomItems.Location = new System.Drawing.Point(12, 156);
+            this.CHK_RandomItems.Location = new System.Drawing.Point(12, 265);
             this.CHK_RandomItems.Name = "CHK_RandomItems";
             this.CHK_RandomItems.Size = new System.Drawing.Size(119, 17);
             this.CHK_RandomItems.TabIndex = 6;
@@ -90,7 +93,7 @@
             this.CHK_RandomMoves.AutoSize = true;
             this.CHK_RandomMoves.Checked = true;
             this.CHK_RandomMoves.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomMoves.Location = new System.Drawing.Point(12, 141);
+            this.CHK_RandomMoves.Location = new System.Drawing.Point(12, 250);
             this.CHK_RandomMoves.Name = "CHK_RandomMoves";
             this.CHK_RandomMoves.Size = new System.Drawing.Size(101, 17);
             this.CHK_RandomMoves.TabIndex = 5;
@@ -103,7 +106,7 @@
             this.CHK_RandomAbilities.AutoSize = true;
             this.CHK_RandomAbilities.Checked = true;
             this.CHK_RandomAbilities.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomAbilities.Location = new System.Drawing.Point(12, 171);
+            this.CHK_RandomAbilities.Location = new System.Drawing.Point(12, 280);
             this.CHK_RandomAbilities.Name = "CHK_RandomAbilities";
             this.CHK_RandomAbilities.Size = new System.Drawing.Size(193, 17);
             this.CHK_RandomAbilities.TabIndex = 7;
@@ -116,7 +119,7 @@
             this.CHK_RandomGift.AutoSize = true;
             this.CHK_RandomGift.Checked = true;
             this.CHK_RandomGift.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomGift.Location = new System.Drawing.Point(12, 235);
+            this.CHK_RandomGift.Location = new System.Drawing.Point(12, 330);
             this.CHK_RandomGift.Name = "CHK_RandomGift";
             this.CHK_RandomGift.Size = new System.Drawing.Size(145, 17);
             this.CHK_RandomGift.TabIndex = 10;
@@ -130,7 +133,7 @@
             this.CHK_RandomClass.AutoSize = true;
             this.CHK_RandomClass.Checked = true;
             this.CHK_RandomClass.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomClass.Location = new System.Drawing.Point(12, 220);
+            this.CHK_RandomClass.Location = new System.Drawing.Point(12, 315);
             this.CHK_RandomClass.Name = "CHK_RandomClass";
             this.CHK_RandomClass.Size = new System.Drawing.Size(141, 17);
             this.CHK_RandomClass.TabIndex = 9;
@@ -143,7 +146,7 @@
             this.CHK_MaxDiffAI.AutoSize = true;
             this.CHK_MaxDiffAI.Checked = true;
             this.CHK_MaxDiffAI.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_MaxDiffAI.Location = new System.Drawing.Point(12, 250);
+            this.CHK_MaxDiffAI.Location = new System.Drawing.Point(12, 345);
             this.CHK_MaxDiffAI.Name = "CHK_MaxDiffAI";
             this.CHK_MaxDiffAI.Size = new System.Drawing.Size(144, 17);
             this.CHK_MaxDiffAI.TabIndex = 13;
@@ -156,7 +159,7 @@
             this.CHK_MaxDiffPKM.AutoSize = true;
             this.CHK_MaxDiffPKM.Checked = true;
             this.CHK_MaxDiffPKM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(12, 186);
+            this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(12, 295);
             this.CHK_MaxDiffPKM.Name = "CHK_MaxDiffPKM";
             this.CHK_MaxDiffPKM.Size = new System.Drawing.Size(161, 17);
             this.CHK_MaxDiffPKM.TabIndex = 8;
@@ -166,7 +169,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(222, 225);
+            this.button1.Location = new System.Drawing.Point(222, 320);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(50, 23);
             this.button1.TabIndex = 14;
@@ -177,7 +180,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(222, 247);
+            this.button2.Location = new System.Drawing.Point(222, 342);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(50, 23);
             this.button2.TabIndex = 15;
@@ -188,7 +191,7 @@
             // NUD_GiftPercent
             // 
             this.NUD_GiftPercent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.NUD_GiftPercent.Location = new System.Drawing.Point(155, 232);
+            this.NUD_GiftPercent.Location = new System.Drawing.Point(155, 327);
             this.NUD_GiftPercent.Name = "NUD_GiftPercent";
             this.NUD_GiftPercent.Size = new System.Drawing.Size(43, 20);
             this.NUD_GiftPercent.TabIndex = 11;
@@ -203,7 +206,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(200, 234);
+            this.label1.Location = new System.Drawing.Point(200, 329);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(15, 13);
             this.label1.TabIndex = 12;
@@ -251,6 +254,9 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.CHK_GymTrainers);
+            this.GB_Tweak.Controls.Add(this.CHK_StoryMEvos);
+            this.GB_Tweak.Controls.Add(this.CHK_TypeTheme);
             this.GB_Tweak.Controls.Add(this.CHK_BST);
             this.GB_Tweak.Controls.Add(this.CHK_E);
             this.GB_Tweak.Controls.Add(this.CHK_L);
@@ -262,7 +268,7 @@
             this.GB_Tweak.Controls.Add(this.CHK_G1);
             this.GB_Tweak.Location = new System.Drawing.Point(12, 54);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(256, 78);
+            this.GB_Tweak.Size = new System.Drawing.Size(270, 120);
             this.GB_Tweak.TabIndex = 323;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Options";
@@ -270,7 +276,7 @@
             // CHK_BST
             // 
             this.CHK_BST.AutoSize = true;
-            this.CHK_BST.Location = new System.Drawing.Point(136, 51);
+            this.CHK_BST.Location = new System.Drawing.Point(141, 51);
             this.CHK_BST.Name = "CHK_BST";
             this.CHK_BST.Size = new System.Drawing.Size(117, 17);
             this.CHK_BST.TabIndex = 288;
@@ -282,7 +288,7 @@
             this.CHK_E.AutoSize = true;
             this.CHK_E.Checked = true;
             this.CHK_E.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_E.Location = new System.Drawing.Point(136, 36);
+            this.CHK_E.Location = new System.Drawing.Point(141, 36);
             this.CHK_E.Name = "CHK_E";
             this.CHK_E.Size = new System.Drawing.Size(98, 17);
             this.CHK_E.TabIndex = 287;
@@ -294,7 +300,7 @@
             this.CHK_L.AutoSize = true;
             this.CHK_L.Checked = true;
             this.CHK_L.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_L.Location = new System.Drawing.Point(136, 21);
+            this.CHK_L.Location = new System.Drawing.Point(141, 21);
             this.CHK_L.Name = "CHK_L";
             this.CHK_L.Size = new System.Drawing.Size(98, 17);
             this.CHK_L.TabIndex = 286;
@@ -342,7 +348,7 @@
             this.CHK_G3.AutoSize = true;
             this.CHK_G3.Checked = true;
             this.CHK_G3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G3.Location = new System.Drawing.Point(17, 51);
+            this.CHK_G3.Location = new System.Drawing.Point(9, 51);
             this.CHK_G3.Name = "CHK_G3";
             this.CHK_G3.Size = new System.Drawing.Size(55, 17);
             this.CHK_G3.TabIndex = 282;
@@ -354,7 +360,7 @@
             this.CHK_G2.AutoSize = true;
             this.CHK_G2.Checked = true;
             this.CHK_G2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G2.Location = new System.Drawing.Point(17, 36);
+            this.CHK_G2.Location = new System.Drawing.Point(9, 36);
             this.CHK_G2.Name = "CHK_G2";
             this.CHK_G2.Size = new System.Drawing.Size(55, 17);
             this.CHK_G2.TabIndex = 281;
@@ -366,18 +372,52 @@
             this.CHK_G1.AutoSize = true;
             this.CHK_G1.Checked = true;
             this.CHK_G1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G1.Location = new System.Drawing.Point(17, 21);
+            this.CHK_G1.Location = new System.Drawing.Point(9, 21);
             this.CHK_G1.Name = "CHK_G1";
             this.CHK_G1.Size = new System.Drawing.Size(55, 17);
             this.CHK_G1.TabIndex = 280;
             this.CHK_G1.Text = "Gen 1";
             this.CHK_G1.UseVisualStyleBackColor = true;
             // 
+            // CHK_TypeTheme
+            // 
+            this.CHK_TypeTheme.AutoSize = true;
+            this.CHK_TypeTheme.Location = new System.Drawing.Point(8, 74);
+            this.CHK_TypeTheme.Name = "CHK_TypeTheme";
+            this.CHK_TypeTheme.Size = new System.Drawing.Size(130, 17);
+            this.CHK_TypeTheme.TabIndex = 289;
+            this.CHK_TypeTheme.Text = "Type Theme Trainers:";
+            this.CHK_TypeTheme.UseVisualStyleBackColor = true;
+            this.CHK_TypeTheme.CheckedChanged += new System.EventHandler(this.CHK_TypeTheme_CheckedChanged);
+            // 
+            // CHK_StoryMEvos
+            // 
+            this.CHK_StoryMEvos.AutoSize = true;
+            this.CHK_StoryMEvos.Checked = true;
+            this.CHK_StoryMEvos.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_StoryMEvos.Location = new System.Drawing.Point(141, 73);
+            this.CHK_StoryMEvos.Name = "CHK_StoryMEvos";
+            this.CHK_StoryMEvos.Size = new System.Drawing.Size(122, 17);
+            this.CHK_StoryMEvos.TabIndex = 291;
+            this.CHK_StoryMEvos.Text = "Ensure Story MEvos";
+            this.CHK_StoryMEvos.UseVisualStyleBackColor = true;
+            // 
+            // CHK_GymTrainers
+            // 
+            this.CHK_GymTrainers.AutoSize = true;
+            this.CHK_GymTrainers.Enabled = false;
+            this.CHK_GymTrainers.Location = new System.Drawing.Point(8, 92);
+            this.CHK_GymTrainers.Name = "CHK_GymTrainers";
+            this.CHK_GymTrainers.Size = new System.Drawing.Size(124, 17);
+            this.CHK_GymTrainers.TabIndex = 292;
+            this.CHK_GymTrainers.Text = "Theme Gym Trainers";
+            this.CHK_GymTrainers.UseVisualStyleBackColor = true;
+            // 
             // TrainerRand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 282);
+            this.ClientSize = new System.Drawing.Size(294, 377);
             this.Controls.Add(this.GB_Tweak);
             this.Controls.Add(this.NUD_GiftPercent);
             this.Controls.Add(this.CHK_MaxDiffAI);
@@ -437,5 +477,8 @@
         private System.Windows.Forms.CheckBox CHK_G3;
         private System.Windows.Forms.CheckBox CHK_G2;
         private System.Windows.Forms.CheckBox CHK_G1;
+        private System.Windows.Forms.CheckBox CHK_TypeTheme;
+        private System.Windows.Forms.CheckBox CHK_StoryMEvos;
+        private System.Windows.Forms.CheckBox CHK_GymTrainers;
     }
 }
