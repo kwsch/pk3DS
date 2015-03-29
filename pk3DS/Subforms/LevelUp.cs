@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
@@ -96,7 +98,7 @@ namespace pk3DS
                 if (move < 1) continue;
 
                 moves.Add((ushort)move);
-                string level = dgv.Rows[i].Cells[0].Value.ToString();
+                string level = (dgv.Rows[i].Cells[0].Value ?? 0).ToString();
                 ushort lv;
                 UInt16.TryParse(level, out lv);
                 if (lv > 100) lv = 100;
@@ -127,21 +129,79 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
+            // ORAS: 10682 moves learned on levelup/birth. 
+            // 5593 are STAB. 52.3% are STAB. 
+            // Steelix learns the most @ 25 (so many level 1)!
             Random rnd = new Random();
 
             int[] firstMoves = { 1, 40, 52, 55, 64, 71, 84, 98, 122, 141 };
             // Pound, Poison Sting, Ember, Water Gun, Peck, Absorb, Thunder Shock, Quick Attack, Lick, Leech Life
 
+            ushort[] HMs = { 15, 19, 57, 70, 127, 249, 291 };
+            ushort[] TMs = {};
+            if (CHK_HMs.Checked && Main.ExeFS != null)
+                TMHM.getTMHMList(Main.oras, ref TMs, ref HMs);
+
+            int[] banned = new int[HMs.Length];
+            for (int i = 0; i < banned.Length; i++) 
+                banned[i] = HMs[i];
+
+            // Move Stats
+            int[] moveTypes = Moves.getTypes();
+
+            // Personal Stats
+            byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
+
+            // Set up Randomized Moves
+            int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
+            Util.Shuffle(randomMoves);
+            int ctr = 0;
+
             for (int i = 0; i < CB_Species.Items.Count; i++)
             {
                 CB_Species.SelectedIndex = i; // Get new Species
-                getList();
                 int count = dgv.Rows.Count - 1;
+
+                if (CHK_Expand.Checked && (int)NUD_Moves.Value > count)
+                    dgv.Rows.AddCopies(count, (int)NUD_Moves.Value - count);
+
+                // Default First Move
+                dgv.Rows[0].Cells[0].Value = 1;
                 dgv.Rows[0].Cells[1].Value = movelist[firstMoves[rnd.Next(0, firstMoves.Length)]];
-                for (int j = 1; j < count; j++)
-                    dgv.Rows[j].Cells[1].Value = movelist[rnd.Next(1, movelist.Length)];
+                for (int j = 1; j < dgv.Rows.Count - 1; j++)
+                {
+                    // Assign New Moves
+                    bool forceSTAB = (CHK_STAB.Checked && rnd.Next(0, 99) < NUD_STAB.Value);
+                    int move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
+                    while ( // Move is invalid
+                        (!CHK_HMs.Checked && banned.Contains(move)) // HM Moves Not Allowed
+                        || (forceSTAB && // STAB is required
+                            !(
+                            moveTypes[move] == personalData[6 + (Main.oras ? 0x50 : 0x40) * i] // Type 1
+                            ||
+                            moveTypes[move] == personalData[7 + (Main.oras ? 0x50 : 0x40) * i] // Type 2
+                            )
+                            )
+                            )
+                            { move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr); }
+
+                    // Assign Move
+                    dgv.Rows[j].Cells[1].Value = movelist[move];
+                    // Assign Level
+                    if (j >= count)
+                    {
+                        string level = (dgv.Rows[count - 1].Cells[0].Value ?? 0).ToString();
+                        ushort lv;
+                        UInt16.TryParse(level, out lv);
+                        if (lv > 100) lv = 100;
+                        else if (lv == 0) lv = 1;
+                        dgv.Rows[j].Cells[0].Value = lv + (j - count) + 1;
+                    }
+                    if (CHK_Spread.Checked)
+                        dgv.Rows[j].Cells[0].Value = (j * (NUD_Level.Value / (dgv.Rows.Count - 1))).ToString();
+                }
             }
-            setList();
+            CB_Species.SelectedIndex = 0;
             Util.Alert("All Pokemon's Level Up Moves have been randomized!");
         }
         private void B_Dump_Click(object sender, EventArgs e)
@@ -174,6 +234,49 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setList();
+        }
+
+        private void CHK_TypeBias_CheckedChanged(object sender, EventArgs e)
+        {
+            NUD_STAB.Enabled = CHK_STAB.Checked;
+            NUD_STAB.Value = Convert.ToDecimal(CHK_STAB.Checked) * 20;
+        }
+
+        public void calcStats() // Debug Function
+        {
+            int[] moveTypes = Moves.getTypes();
+
+            byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
+
+            int movectr = 0;
+            int max = 0;
+            int spec = 0;
+            int stab = 0;
+            for (int i = 0; i < 722; i++)
+            {
+                byte[] movedata = File.ReadAllBytes(files[i]);
+                int movecount = (movedata.Length - 4) / 4;
+                if (movecount == 65535)
+                    continue;
+                movectr += movecount; // Average Moves
+                if (max < movecount) { max = movecount; spec = i; } // Max Moves (and species)
+                for (int m = 0; m < movedata.Length / 4; m++)
+                {
+                    int move = BitConverter.ToUInt16(movedata, m*4);
+                    if (move == 65535)
+                    {
+                        movectr--;
+                        continue;
+                    }
+                    int movetype = moveTypes[move];
+                    if (movetype == personalData[6 + (Main.oras ? 0x50 : 0x40)*i] ||
+                        movetype == personalData[7 + (Main.oras ? 0x50 : 0x40)*i])
+                        stab++;
+                }
+            }
+            Util.Alert(String.Format("Moves Learned: {0}\r\nMost Learned: {1} @ {2}\r\nStab Count: {3}", 
+                movectr, max,
+                spec, stab));
         }
     }
 }

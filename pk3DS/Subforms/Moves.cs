@@ -185,5 +185,15 @@ namespace pk3DS
             }
             Util.Alert("Moves have been randomized!");
         }
+        internal static int[] getTypes()
+        {
+            Util.unpackMini(Directory.GetFiles("move")[0], "WD");
+            string[] f2 = Directory.GetFiles("move");
+            int[] moveTypes = new int[f2.Length];
+            for (int i = 0; i < f2.Length; i++)
+                moveTypes[i] = File.ReadAllBytes(f2[i])[0];
+            Util.packMini("move", "WD", "0", ".bin", "move");
+            return moveTypes;
+        }
     }
 }

@@ -399,7 +399,7 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                string[] files = { "levelup" };
+                string[] files = { "levelup", "move" };
                 fileGet(files);
                 Invoke((Action)(() => new LevelUp().ShowDialog()));
                 fileSet(files);
@@ -410,7 +410,7 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                string[] files = { "eggmove" };
+                string[] files = { "eggmove", "move" };
                 fileGet(files);
                 Invoke((Action)(() => new EggMove().ShowDialog()));
                 fileSet(files);
@@ -576,6 +576,9 @@ namespace pk3DS
                 string dest = RomFS + getGARCFileName(s);
                 string src = "backup" + Path.DirectorySeparatorChar + s + String.Format(" ({0})", getGARCFileName(s).Replace(Path.DirectorySeparatorChar.ToString(), ""));
                 File.Copy(src, dest, true);
+                if (s == "personal" || s == "gametext")
+                    Util.Alert("In order to restore " + s + ", restart the program. While exiting, hold the Control Key to prevent writebacks.");
+                        // Reload the persistent data.
             }
             Util.Alert(g.Length + " files restored.");
         }
