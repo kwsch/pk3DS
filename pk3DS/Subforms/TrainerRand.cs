@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -8,7 +9,18 @@ namespace pk3DS
         public TrainerRand()
         {
             InitializeComponent();
+            trClassnorep = new List<string>();
+            foreach (string tclass in trClass)
+            {
+                if (!trClassnorep.Contains(tclass) && !tclass.StartsWith("[~"))
+                    trClassnorep.Add(tclass);
+            }
+            trClassnorep.Sort();
         }
+
+        private string[] trName = Main.getText((Main.oras) ? 22 : 21);
+        private string[] trClass = Main.getText((Main.oras) ? 21 : 20);
+        private List<string> trClassnorep;
 
         private void B_Close_Click(object sender, EventArgs e)
         {
@@ -31,6 +43,19 @@ namespace pk3DS
             RSTE.rGift = CHK_RandomGift.Checked;
             RSTE.rGiftPercent = NUD_GiftPercent.Value;
             RSTE.rDiffAI = CHK_MaxDiffAI.Checked;
+            RSTE.rTypeTheme = CHK_TypeTheme.Checked;
+            RSTE.rTypeGymTrainers = CHK_GymTrainers.Checked;
+
+            if (CHK_StoryMEvos.Checked)
+            {
+                RSTE.rEnsureMEvo = Main.oras ? (new int[] { 557, 913, 942, 178, 235, 583, 713, 687, 698, 909, 910, 911, 912, 913 }) : (new int[] { });
+            }
+            else
+            {
+                RSTE.rEnsureMEvo = new int[] { };
+            }
+            
+            RSTE.rThemedClasses = new bool[trClass.Length];
 
             RSTE.rDoRand = true;
             Close();
@@ -63,6 +88,14 @@ namespace pk3DS
         private void changeGiftPercent(object sender, EventArgs e)
         {
             CHK_RandomGift.Checked = (NUD_GiftPercent.Value != 0);
+        }
+
+        private void CHK_TypeTheme_CheckedChanged(object sender, EventArgs e)
+        {
+            CHK_BST.Enabled = !CHK_TypeTheme.Checked;
+            CHK_GymTrainers.Enabled = CHK_GymTrainers.Checked = CHK_TypeTheme.Checked;
+            if (CHK_TypeTheme.Checked)
+                CHK_BST.Checked = false;
         }
     }
 }

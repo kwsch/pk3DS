@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -508,13 +509,22 @@ namespace pk3DS
             CB_Battle_Type.Items.Add("Rotation");
             CB_Battle_Type.Items.Add("Horde");
 
+            megaEvos = (Main.oras) ? new int[] { 15, 18, 80, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 380, 381, 428, 475, 531, 719, 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 } : new int[] { 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 };
+            
             CB_TrainerID.SelectedIndex = 1;
             start = false;
             readFile();
             SystemSounds.Asterisk.Play();
         }
 
-        public static bool rPKM, rSmart, rLevel, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand;
+        public static bool rPKM, rSmart, rLevel, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand, rTypeTheme, rTypeGymTrainers;
+        public static bool[] rThemedClasses = new bool[] {};
+        public static string[] rTags;
+        public static int[] megaEvos;
+        public static int[] rEnsureMEvo;
+        private int[] mEvoTypes;
+        private List<string> Tags = new List<string>();
+        private Dictionary<string, int> TagTypes = new Dictionary<string, int>();
         public static int[] sL; // Random Species List
         public static decimal rGiftPercent, rLevelPercent;
         private void B_Randomize_Click(object sender, EventArgs e)
@@ -527,6 +537,60 @@ namespace pk3DS
         }
         private void Randomize()
         {
+            rTags = (Main.oras) ? GetTagsORAS() : GetTagsXY();
+            mEvoTypes = GetMegaEvolvableTypes();
+            List<int> GymE4Types = new List<int>();
+            if (rEnsureMEvo.Length > 0)
+            {
+                if (mEvoTypes.Length < 13 && rTypeTheme)
+                {
+                    Util.Alert("There are insufficient types with at least one mega evolution to Guarantee story Mega Evos while keeping Type theming.", "Re-Randomize Personal or don't choose both options.");
+                    return;
+                }
+                GymE4Types.AddRange(mEvoTypes);
+            }
+            else
+            {
+                GymE4Types.AddRange(Enumerable.Range(0, types.Length).ToArray());
+            }
+            for (int i = 0; i < rEnsureMEvo.Length; i++) // Ensure Story MEvo Trainers have MEvoable Mons
+            {
+                if (rTags[rEnsureMEvo[i]] != "" && !TagTypes.Keys.Contains(rTags[rEnsureMEvo[i]]))
+                {
+                    int t;
+                    if (rTags[rEnsureMEvo[i]].Contains("GYM") || rTags[rEnsureMEvo[i]].Contains("ELITE") || rTags[rEnsureMEvo[i]].Contains("CHAMPION"))
+                    {
+                        int roll = (int)(rnd32() % GymE4Types.Count);
+                        t = GymE4Types[roll];
+                        GymE4Types.Remove(t);
+                    }
+                    else
+                    {
+                        t = mEvoTypes[rnd32() % mEvoTypes.Length];
+                    }
+                    TagTypes[rTags[rEnsureMEvo[i]]] = t;
+                    
+                }
+            }
+            for (int i = 0; i < Tags.Count; i++)
+            {
+                if (!TagTypes.Keys.Contains(Tags[i]) && Tags[i] != "")
+                {
+                    int t;
+                    if (Tags[i].Contains("GYM") || Tags[i].Contains("ELITE") || Tags[i].Contains("CHAMPION"))
+                    {
+                        int roll = (int)(rnd32() % GymE4Types.Count);
+                        t = GymE4Types[roll];
+                        GymE4Types.Remove(t);
+                    }
+                    else
+                    {
+                        t = (int)(rnd32() % types.Length);
+                    }
+                    TagTypes[Tags[i]] = t;
+                }
+                Console.WriteLine(Tags[i] + ": "+types[TagTypes[Tags[i]]]);
+            }
             for (int i = 1; i < CB_TrainerID.Items.Count; i++)
             {
                 CB_TrainerID.SelectedIndex = i; // data is loaded
@@ -569,6 +633,9 @@ namespace pk3DS
                 int itemC = itemvals.Length;
                 int ctr = 0;
 
+                int type = GetRandomType(i);
+                bool mevo = rEnsureMEvo.Contains(i);
+
                 // Randomize Pokemon
                 for (int p = 0; p < CB_numPokemon.SelectedIndex; p++)
                 {
@@ -576,19 +643,48 @@ namespace pk3DS
                     {
                         // randomize pokemon
                         int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
-                        if (rSmart) // Get a new Pokemon with a close BST
+                        if (rTypeTheme)
+                        {
+                            while (personal[species][6] != type && personal[species][7] != type || (mevo && p == CB_numPokemon.SelectedIndex-1 && !megaEvos.Contains(species)))
+                            {
+                                if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
+                                {
+                                    species = GetRandomMegaEvolvablePokemon(type);
+                                }
+                                else if (rSmart) // Get a new Pokemon with a close BST
+                                {
+                                    int oldBST = personal[trpk_pkm[p].SelectedIndex].Take(6).Sum(b => (ushort)b);
+                                    int newBST = personal[species].Take(6).Sum(b => (ushort)b);
+                                    while (!(newBST * 5 / 6 < oldBST && newBST * 6 / 5 > oldBST))
+                                    { species = sL[rand.Next(1, sL.Length)]; newBST = personal[species].Take(6).Sum(b => (ushort)b); }
+                                }
+                                else
+                                {
+                                    species = Randomizer.getRandomSpecies(ref sL, ref ctr);
+                                }
+                            }
+                        }
+                        else if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
+                        {
+                            species = megaEvos[rnd32() % megaEvos.Length];
+                        }
+                        else if (rSmart) // Get a new Pokemon with a close BST
                         {
                             int oldBST = personal[trpk_pkm[p].SelectedIndex].Take(6).Sum(b => (ushort)b);
                             int newBST = personal[species].Take(6).Sum(b => (ushort)b);
                             while (!(newBST * 5 / 6 < oldBST && newBST * 6 / 5 > oldBST))
                             { species = sL[rand.Next(1, sL.Length)]; newBST = personal[species].Take(6).Sum(b => (ushort)b); }
                         }
+
                         trpk_pkm[p].SelectedIndex = species;
                         // Set Gender to Random
                         trpk_gender[p].SelectedIndex = 0;
 
+                        if (trpk_form[p].Items.Count > 0)
+                            trpk_form[p].SelectedIndex = 0;
                         // Randomize form
-                        trpk_form[p].SelectedIndex = (int)(rnd32() % trpk_form[p].Items.Count);
+                        if (trpk_form[p].Items.Count > 0 && !megaEvos.Contains(species))
+                            trpk_form[p].SelectedIndex = (int)(rnd32() % trpk_form[p].Items.Count);
                     }
                     if (rLevel)
                         trpk_lvl[p].SelectedIndex = Math.Max(1, Math.Min((int)(trpk_lvl[p].SelectedIndex * ((100 + rLevelPercent) / 100)), 100));
@@ -596,10 +692,16 @@ namespace pk3DS
                         trpk_abil[p].SelectedIndex = (int)(1 + rnd32() % 3);
                     if (rDiffIV)
                         trpk_IV[p].SelectedIndex = 255;
-                    if (rItem)
+                    if (mevo && p == CB_numPokemon.SelectedIndex - 1)
+                    {
+                        int[] megastones = GetMegaStones(trpk_pkm[p].SelectedIndex);
+                        trpk_item[p].SelectedIndex = megastones[rnd32() % megastones.Length];
+                    }
+                    else if (rItem)
                         #region RandomItem
                         trpk_item[p].SelectedIndex = itemvals[(rnd32() % itemC)];
                         #endregion
+                    
                     if (rMove)
                     {
                         trpk_m1[p].SelectedIndex = (int)(rnd32() % (moves));
@@ -611,6 +713,223 @@ namespace pk3DS
             }
             CB_TrainerID.SelectedIndex = 1;
             Util.Alert("Randomized all trainers according to specification!", "Press the Dump to TXT to view the new trainer information!");
+        }
+
+        private string[] GetTagsORAS()
+        {
+            string[] tags = Enumerable.Repeat("", trdatapaths.Length).ToArray();
+            
+            //Rival Battles
+            TagTrainer(tags, "RIVAL1", 1, 4, 289, 292, 295, 298, 527, 530, 674, 677, 699, 906); // Rival w/ Grass Starter
+            TagTrainer(tags, "RIVAL2", 2, 5, 290, 293, 296, 299, 528, 531, 675, 678, 700, 907); // Rival w/ Fire Starter
+            TagTrainer(tags, "RIVAL3", 3, 6, 291, 294, 297, 300, 529, 532, 676, 679, 701, 908); // Rival w/ Water Starter
+
+            //Aqua Admins
+            TagTrainer(tags, "AQUA1", 178, 231, 266);              // Archie
+            TagTrainer(tags, "AQUA2", 683, 684, 685, 686, 687);    // Matt
+            TagTrainer(tags, "AQUA3", 688, 689, 690);              // Shelly
+
+            //Magma Admins
+            TagTrainer(tags, "MAGMA1", 235, 236, 271);             // Maxie
+            TagTrainer(tags, "MAGMA2", 694, 695, 696, 697, 698);   // Courney
+            TagTrainer(tags, "MAGMA3", 691, 692, 693);             // Tabitha
+
+            //Gym Leaders
+            TagTrainer(tags, "GYM1", 561);         // Roxanne
+            TagTrainer(tags, "GYM2", 563);         // Brawly
+            TagTrainer(tags, "GYM3", 567);         // Wattson
+            TagTrainer(tags, "GYM4", 569);         // Flannery
+            TagTrainer(tags, "GYM5", 570);         // Norman
+            TagTrainer(tags, "GYM6", 571);         // Winona
+            TagTrainer(tags, "GYM7", 552);         // Liza & Tate
+            TagTrainer(tags, "GYM8", 572, 943);    // Wallace
+
+            //Elite 4
+            TagTrainer(tags, "ELITE1", 553, 909);  // Sidney
+            TagTrainer(tags, "ELITE2", 554, 910);  // Phoebe
+            TagTrainer(tags, "ELITE3", 555, 911);  // Glacia
+            TagTrainer(tags, "ELITE4", 556, 912);  // Drake
+            TagTrainer(tags, "CHAMPION", 557, 680, 913, 942); // Champion Steven
+
+            //Wally
+            TagTrainer(tags, "WALLY", 518, 583, 944, 945, 946, 947);
+
+            //Zinnia
+            TagTrainer(tags, "LOREKEEPER", 713, 898);
+
+            //Gym Trainers (Tagged in order of appearance on Bulbapedia's lists)
+            if (rTypeGymTrainers)
+            {
+                TagTrainer(tags, "GYM1", 562, 22, 667);
+                TagTrainer(tags, "GYM2", 60, 56, 59);
+                TagTrainer(tags, "GYM3", 34, 568, 614, 35);
+                TagTrainer(tags, "GYM4", 81, 824, 83, 615, 823, 613, 85);
+                TagTrainer(tags, "GYM5", 63, 67, 64, 68, 65, 69, 66);
+                TagTrainer(tags, "GYM6", 115, 517, 516, 118, 730);
+                TagTrainer(tags, "GYM7", 157, 226, 320, 159, 225, 158);
+                TagTrainer(tags, "GYM8", 647, 342, 594, 646, 338, 339, 340, 341);
+            }
+            return tags;
+        }
+        private string[] GetTagsXY()
+        {
+            string[] tags = new string[CB_TrainerID.Items.Count];
+
+            return tags;
+        }
+
+        private void TagTrainer(string[] rTags, string tag, params int[] ids)
+        {
+            foreach (int id in ids)
+            {
+                if (id < rTags.Length)
+                    rTags[id] = tag;
+            }
+            if (!Tags.Contains(tag))
+                Tags.Add(tag);
+        }
+
+        private int[] GetMegaStones(int species) // This is horrible.
+        {
+            switch (species)
+            {
+                case 3:
+                    return new int[] { 659 };
+                case 6:
+                    return new int[] { 660, 678 };
+                case 9:
+                    return new int[] { 661 };
+                case 15:
+                    return new int[] { 770 };
+                case 18:
+                    return new int[] { 762 };
+                case 65:
+                    return new int[] { 679 };
+                case 80:
+                    return new int[] { 760 };
+                case 94:
+                    return new int[] { 656 };
+                case 115:
+                    return new int[] { 675 };
+                case 127:
+                    return new int[] { 671 };
+                case 130:
+                    return new int[] { 676 };
+                case 142:
+                    return new int[] { 672 };
+                case 150:
+                    return new int[] { 662, 663 };
+                case 181:
+                    return new int[] { 658 };
+                case 208:
+                    return new int[] { 761 };
+                case 212:
+                    return new int[] { 670 };
+                case 214:
+                    return new int[] { 680 };
+                case 229:
+                    return new int[] { 666 };
+                case 248:
+                    return new int[] { 669 };
+                case 254:
+                    return new int[] { 753 };
+                case 257:
+                    return new int[] { 664 };
+                case 260:
+                    return new int[] { 752 };
+                case 282:
+                    return new int[] { 657 };
+                case 302:
+                    return new int[] { 754 };
+                case 303:
+                    return new int[] { 681 };
+                case 306:
+                    return new int[] { 667 };
+                case 308:
+                    return new int[] { 665 };
+                case 310:
+                    return new int[] { 682 };
+                case 319:
+                    return new int[] { 759 };
+                case 323:
+                    return new int[] { 767 };
+                case 334:
+                    return new int[] { 755 };
+                case 354:
+                    return new int[] { 668 };
+                case 359:
+                    return new int[] { 677 };
+                case 362:
+                    return new int[] { 763 };
+                case 373:
+                    return new int[] { 769 };
+                case 376:
+                    return new int[] { 758 };
+                case 380:
+                    return new int[] { 684 };
+                case 381:
+                    return new int[] { 685 };
+                case 428:
+                    return new int[] { 768 };
+                case 445:
+                    return new int[] { 683 };
+                case 448:
+                    return new int[] { 673 };
+                case 460:
+                    return new int[] { 674 };
+                case 475:
+                    return new int[] { 756 };
+                case 531:
+                    return new int[] { 757 };
+                case 719:
+                    return new int[] { 764 };
+                default:
+                    return new int[] { };
+            }
+        }
+
+        private int GetRandomType(int trainer)
+        {
+            if (rTags[trainer] == "")
+            {
+                if (rEnsureMEvo.Contains(trainer))
+                {
+                    int t = mEvoTypes[rnd32() % mEvoTypes.Length];
+                    return t;
+                }
+                else
+                    return (int)(rnd32() % types.Length);
+            }
+            else
+            {
+                return TagTypes[rTags[trainer]];
+            }
+        }
+
+        private int[] GetMegaEvolvableTypes()
+        {
+            List<int> MEvoTypes = new List<int>();
+            foreach (int spec in megaEvos)
+            {
+                if (!MEvoTypes.Contains((int)personal[spec][6]))
+                    MEvoTypes.Add((int)personal[spec][6]);
+                if (!MEvoTypes.Contains((int)personal[spec][7]))
+                    MEvoTypes.Add((int)personal[spec][7]);
+            }
+            MEvoTypes.Sort();
+            Console.WriteLine("There are " + MEvoTypes.Count + " types capable of mega evolution.");
+            return MEvoTypes.ToArray();
+        }
+
+        private int GetRandomMegaEvolvablePokemon(int type)
+        {
+            List<int> valids = new List<int>();
+            foreach (int spec in megaEvos)
+            {
+                if ((int)personal[spec][6] == type || (int)personal[spec][7] == type)
+                    valids.Add(spec);
+            }
+            return valids[(int)(rnd32() % valids.Count)];
         }
     }
 }
