@@ -14,14 +14,21 @@ namespace pk3DS
         public LevelUp()
         {
             InitializeComponent();
+
+            specieslist = Personal.getSpeciesIndexStrings(Main.oras);
+
             specieslist[0] = movelist[0] = "";
-            Array.Resize(ref specieslist, 722);
 
             sortedmoves = (string[])movelist.Clone();
             Array.Sort(sortedmoves);
-            string[] sortedspecies = (string[])specieslist.Clone();
-            Array.Sort(sortedspecies);
 
+            // Sort Species list but only for the regular dex entries.
+            string[] sortedspecies = (string[])specieslist.Clone();
+            Array.Resize(ref sortedspecies, 722);
+            Array.Sort(sortedspecies);
+            Array.Resize(ref sortedspecies, specieslist.Length);
+            Array.Copy(specieslist, 722, sortedspecies, 722, specieslist.Length - 722);
+            
             foreach (string s in sortedspecies) CB_Species.Items.Add(s);
             CB_Species.Items.RemoveAt(0);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
@@ -650,6 +651,20 @@ namespace pk3DS
                 cb.Enabled = true;
             }
             cb.SelectedIndex = 0;
+        }
+
+        internal static string[] getSpeciesIndexStrings(bool oras)
+        {
+            string[] items = Main.getText((Main.oras) ? 114 : 96);
+            string[] species = Main.getText((Main.oras) ? 98 : 80);
+            string[] types = Main.getText((Main.oras) ? 18 : 17);
+            string[] forms = Main.getText((Main.oras) ? 5 : 5);
+            species[0] = "---";
+            byte[] data = File.ReadAllBytes(Directory.GetFiles("personal").Last());
+            string[][] AltForms = getFormList(data, Main.oras, species, forms, types, items);
+            species = getPersonalEntryList(data, Main.oras, AltForms, species);
+            Array.Resize(ref species, oras ? species.Length : 799);
+            return species;
         }
 
         private void CHK_Stats_CheckedChanged(object sender, EventArgs e)
