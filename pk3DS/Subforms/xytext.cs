@@ -36,16 +36,16 @@ namespace pk3DS
                         tw.WriteLine("~~~~~~~~~~~~~~~");
                         tw.WriteLine("Text File : " + i);
                         tw.WriteLine("~~~~~~~~~~~~~~~");
-                        if (data != null)
-                            foreach (string line in data)
-                            {
-                                tw.WriteLine(newline
-                                    ? line.Replace("\\n\\n", " ")
-                                        .Replace("\\n", " ")
-                                        .Replace("\\c", "")
-                                        .Replace("\\r", "")
-                                    : line);
-                            }
+                        if (data == null) continue;
+                        foreach (string line in data)
+                        {
+                            tw.WriteLine(newline
+                                ? line.Replace("\\n\\n", " ")
+                                    .Replace("\\n", " ")
+                                    .Replace("\\c", "")
+                                    .Replace("\\r", "")
+                                : line);
+                        }
                     }
                 File.WriteAllBytes(path, ms.ToArray());
             }
@@ -260,7 +260,7 @@ namespace pk3DS
                                     else if (val == 0x2640) val = 0xE08F;   // ♀
 
                                     // Variables
-                                    else if (val == '[' || val == '\\')          // Variable
+                                    if (val == '[' || val == '\\')          // Variable
                                         encryptVar(bz, lines[i], ref j, ref key);
 
                                     // Text

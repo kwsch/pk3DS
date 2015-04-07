@@ -108,25 +108,23 @@ namespace pk3DS
         bool dumping;
         private void getEntry()
         {
-            if (loaded)
+            if (!loaded) return;
+            if (Main.oras && entry == 384 && !dumping) // Current Mon is Rayquaza
+                Util.Alert("Rayquaza is special and uses a different activator for its evolution. If it knows Dragon Ascent, it can Mega Evolve", "Don't edit its evolution table if you want to keep this functionality.");
+
+            byte[] data = File.ReadAllBytes(files[entry]);
+
+            foreach (ComboBox CB in forme_spec)
+                Personal.setForms(entry, CB, AltForms);
+
+            for (int i = 0; i < 3; i++)
             {
-                if (Main.oras && entry == 384 && !dumping) // Current Mon is Rayquaza
-                    Util.Alert("Rayquaza is special and uses a different activator for its evolution. If it knows Dragon Ascent, it can Mega Evolve", "Don't edit its evolution table if you want to keep this functionality.");
-
-                byte[] data = File.ReadAllBytes(files[entry]);
-
-                foreach (ComboBox CB in forme_spec)
-                    Personal.setForms(entry, CB, AltForms);
-
-                for (int i = 0; i < 3; i++)
-                {
-                    ushort method = BitConverter.ToUInt16(data, 2 + (i * 8));
-                    ushort form = BitConverter.ToUInt16(data, i * 8);
-                    int item = BitConverter.ToUInt16(data, 4 + i * 8);
-                    checkbox_spec[i].Checked = (method == 1);
-                    forme_spec[i].SelectedIndex = form;
-                    item_spec[i].SelectedValue = item;
-                }
+                ushort method = BitConverter.ToUInt16(data, 2 + (i * 8));
+                ushort form = BitConverter.ToUInt16(data, i * 8);
+                int item = BitConverter.ToUInt16(data, 4 + i * 8);
+                checkbox_spec[i].Checked = (method == 1);
+                forme_spec[i].SelectedIndex = form;
+                item_spec[i].SelectedValue = item;
             }
         }
         private void setEntry()
@@ -156,27 +154,8 @@ namespace pk3DS
 
         private void Update_PBs(object sender, EventArgs e)
         {
-            if (loaded)
-            {
-                for (int i = 0; i < checkbox_spec.Length; i++)
-                {
-                    CheckBox CB = checkbox_spec[i];
-                    if (CB.Checked)
-                    {
-                        UpdateImage(picturebox_spec[0][i], entry, 0, (int)(item_spec[i]).SelectedValue, 0);
-                        UpdateImage(picturebox_spec[1][i], entry, (forme_spec[i]).SelectedIndex, (int)(item_spec[i]).SelectedValue, 0);
-                    }
-                    else
-                    {
-                        UpdateImage(picturebox_spec[0][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
-                        UpdateImage(picturebox_spec[1][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
-                    }
-                }
-            }
-        }
-        private void Update_PBs(int i)
-        {
-            if (loaded)
+            if (!loaded) return;
+            for (int i = 0; i < checkbox_spec.Length; i++)
             {
                 CheckBox CB = checkbox_spec[i];
                 if (CB.Checked)
@@ -189,6 +168,22 @@ namespace pk3DS
                     UpdateImage(picturebox_spec[0][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
                     UpdateImage(picturebox_spec[1][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
                 }
+            }
+        }
+
+        private void Update_PBs(int i)
+        {
+            if (!loaded) return;
+            CheckBox CB = checkbox_spec[i];
+            if (CB.Checked)
+            {
+                UpdateImage(picturebox_spec[0][i], entry, 0, (int)(item_spec[i]).SelectedValue, 0);
+                UpdateImage(picturebox_spec[1][i], entry, (forme_spec[i]).SelectedIndex, (int)(item_spec[i]).SelectedValue, 0);
+            }
+            else
+            {
+                UpdateImage(picturebox_spec[0][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
+                UpdateImage(picturebox_spec[1][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
             }
         }
         
