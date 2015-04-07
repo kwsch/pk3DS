@@ -339,7 +339,7 @@ namespace pk3DS
                     trpk_lvl[i].SelectedIndex = br.ReadUInt16();
                     trpk_pkm[i].SelectedIndex = br.ReadUInt16();
                     Personal.setForms(trpk_pkm[i].SelectedIndex, trpk_form[i], AltForms);
-                    trpk_form[i].SelectedIndex = br.ReadUInt16() % trpk_form[i].Items.Count; // stupid X/Y bug edge cases (220 / 222)
+                    trpk_form[i].SelectedIndex = br.ReadUInt16() % trpk_form[i].Items.Count; // stupid X/Y buggy edge cases (220 / 222)
                     refreshPKMSlotAbility(i); // Repopulate Abilities
 
                     trpk_abil[i].SelectedIndex = PID >> 4;
@@ -509,7 +509,7 @@ namespace pk3DS
             CB_Battle_Type.Items.Add("Rotation");
             CB_Battle_Type.Items.Add("Horde");
 
-            megaEvos = (Main.oras) ? new int[] { 15, 18, 80, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 380, 381, 428, 475, 531, 719, 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 } : new int[] { 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 };
+            megaEvos = (Main.oras) ? new[] { 15, 18, 80, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 380, 381, 428, 475, 531, 719, 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 } : new[] { 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 };
             
             CB_TrainerID.SelectedIndex = 1;
             start = false;
@@ -518,7 +518,7 @@ namespace pk3DS
         }
 
         public static bool rPKM, rSmart, rLevel, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand, rTypeTheme, rTypeGymTrainers;
-        public static bool[] rThemedClasses = new bool[] {};
+        public static bool[] rThemedClasses = { };
         public static string[] rTags;
         public static int[] megaEvos;
         public static int[] rEnsureMEvo;
@@ -543,61 +543,48 @@ namespace pk3DS
             if (rEnsureMEvo.Length > 0)
             {
                 if (mEvoTypes.Length < 13 && rTypeTheme)
-                {
-                    Util.Alert("There are insufficient types with at least one mega evolution to Guarantee story Mega Evos while keeping Type theming.", "Re-Randomize Personal or don't choose both options.");
-                    return;
-                }
+                { Util.Alert("There are insufficient types with at least one mega evolution to Guarantee story Mega Evos while keeping Type theming.", 
+                    "Re-Randomize Personal or don't choose both options."); return; }
                 GymE4Types.AddRange(mEvoTypes);
             }
             else
-            {
                 GymE4Types.AddRange(Enumerable.Range(0, types.Length).ToArray());
-            }
-            for (int i = 0; i < rEnsureMEvo.Length; i++) // Ensure Story MEvo Trainers have MEvoable Mons
+            foreach (int t1 in rEnsureMEvo.Where(t1 => rTags[t1] != "" && !TagTypes.Keys.Contains(rTags[t1])))
             {
-                if (rTags[rEnsureMEvo[i]] != "" && !TagTypes.Keys.Contains(rTags[rEnsureMEvo[i]]))
+                int t;
+                if (rTags[t1].Contains("GYM") || rTags[t1].Contains("ELITE") || rTags[t1].Contains("CHAMPION"))
                 {
-                    int t;
-                    if (rTags[rEnsureMEvo[i]].Contains("GYM") || rTags[rEnsureMEvo[i]].Contains("ELITE") || rTags[rEnsureMEvo[i]].Contains("CHAMPION"))
-                    {
-                        int roll = (int)(rnd32() % GymE4Types.Count);
-                        t = GymE4Types[roll];
-                        GymE4Types.Remove(t);
-                    }
-                    else
-                    {
-                        t = mEvoTypes[rnd32() % mEvoTypes.Length];
-                    }
-                    TagTypes[rTags[rEnsureMEvo[i]]] = t;
-                    
+                    t = GymE4Types[(int)(rnd32() % GymE4Types.Count)];
+                    GymE4Types.Remove(t);
                 }
+                else
+                    t = mEvoTypes[rnd32() % mEvoTypes.Length];
+                TagTypes[rTags[t1]] = t;
             }
-            for (int i = 0; i < Tags.Count; i++)
+            foreach (string t1 in Tags)
             {
-                if (!TagTypes.Keys.Contains(Tags[i]) && Tags[i] != "")
+                if (!TagTypes.Keys.Contains(t1) && t1 != "")
                 {
                     int t;
-                    if (Tags[i].Contains("GYM") || Tags[i].Contains("ELITE") || Tags[i].Contains("CHAMPION"))
+                    if (t1.Contains("GYM") || t1.Contains("ELITE") || t1.Contains("CHAMPION"))
                     {
-                        int roll = (int)(rnd32() % GymE4Types.Count);
-                        t = GymE4Types[roll];
+                        t = GymE4Types[(int)(rnd32() % GymE4Types.Count)];
                         GymE4Types.Remove(t);
                     }
                     else
-                    {
                         t = (int)(rnd32() % types.Length);
-                    }
-                    TagTypes[Tags[i]] = t;
+
+                    TagTypes[t1] = t;
                 }
-                Console.WriteLine(Tags[i] + ": "+types[TagTypes[Tags[i]]]);
+                Console.WriteLine(t1 + ": " + types[TagTypes[t1]]);
             }
             for (int i = 1; i < CB_TrainerID.Items.Count; i++)
             {
                 CB_TrainerID.SelectedIndex = i; // data is loaded
 
                 // Setup
-                checkBox_Moves.Checked = rMove;
-                checkBox_Item.Checked = rItem;
+                checkBox_Moves.Checked = rMove || checkBox_Moves.Checked;
+                checkBox_Item.Checked = rItem || checkBox_Item.Checked;
 
                 // Randomize Trainer Stats
                 if (rDiffAI)
@@ -831,13 +818,11 @@ namespace pk3DS
             return tags;
         }
 
-        private void TagTrainer(string[] rTags, string tag, params int[] ids)
+        private void TagTrainer(string[] trTags, string tag, params int[] ids)
         {
-            foreach (int id in ids)
-            {
-                if (id < rTags.Length)
-                    rTags[id] = tag;
-            }
+            foreach (int id in ids.Where(id => id < trTags.Length))
+                trTags[id] = tag;
+
             if (!Tags.Contains(tag))
                 Tags.Add(tag);
         }
@@ -847,95 +832,95 @@ namespace pk3DS
             switch (species)
             {
                 case 3:
-                    return new int[] { 659 };
+                    return new [] { 659 };
                 case 6:
-                    return new int[] { 660, 678 };
+                    return new [] { 660, 678 };
                 case 9:
-                    return new int[] { 661 };
+                    return new [] { 661 };
                 case 15:
-                    return new int[] { 770 };
+                    return new [] { 770 };
                 case 18:
-                    return new int[] { 762 };
+                    return new [] { 762 };
                 case 65:
-                    return new int[] { 679 };
+                    return new [] { 679 };
                 case 80:
-                    return new int[] { 760 };
+                    return new [] { 760 };
                 case 94:
-                    return new int[] { 656 };
+                    return new [] { 656 };
                 case 115:
-                    return new int[] { 675 };
+                    return new [] { 675 };
                 case 127:
-                    return new int[] { 671 };
+                    return new [] { 671 };
                 case 130:
-                    return new int[] { 676 };
+                    return new [] { 676 };
                 case 142:
-                    return new int[] { 672 };
+                    return new [] { 672 };
                 case 150:
-                    return new int[] { 662, 663 };
+                    return new [] { 662, 663 };
                 case 181:
-                    return new int[] { 658 };
+                    return new [] { 658 };
                 case 208:
-                    return new int[] { 761 };
+                    return new [] { 761 };
                 case 212:
-                    return new int[] { 670 };
+                    return new [] { 670 };
                 case 214:
-                    return new int[] { 680 };
+                    return new [] { 680 };
                 case 229:
-                    return new int[] { 666 };
+                    return new [] { 666 };
                 case 248:
-                    return new int[] { 669 };
+                    return new [] { 669 };
                 case 254:
-                    return new int[] { 753 };
+                    return new [] { 753 };
                 case 257:
-                    return new int[] { 664 };
+                    return new [] { 664 };
                 case 260:
-                    return new int[] { 752 };
+                    return new [] { 752 };
                 case 282:
-                    return new int[] { 657 };
+                    return new [] { 657 };
                 case 302:
-                    return new int[] { 754 };
+                    return new [] { 754 };
                 case 303:
-                    return new int[] { 681 };
+                    return new [] { 681 };
                 case 306:
-                    return new int[] { 667 };
+                    return new [] { 667 };
                 case 308:
-                    return new int[] { 665 };
+                    return new [] { 665 };
                 case 310:
-                    return new int[] { 682 };
+                    return new [] { 682 };
                 case 319:
-                    return new int[] { 759 };
+                    return new [] { 759 };
                 case 323:
-                    return new int[] { 767 };
+                    return new [] { 767 };
                 case 334:
-                    return new int[] { 755 };
+                    return new [] { 755 };
                 case 354:
-                    return new int[] { 668 };
+                    return new [] { 668 };
                 case 359:
-                    return new int[] { 677 };
+                    return new [] { 677 };
                 case 362:
-                    return new int[] { 763 };
+                    return new [] { 763 };
                 case 373:
-                    return new int[] { 769 };
+                    return new [] { 769 };
                 case 376:
-                    return new int[] { 758 };
+                    return new [] { 758 };
                 case 380:
-                    return new int[] { 684 };
+                    return new [] { 684 };
                 case 381:
-                    return new int[] { 685 };
+                    return new [] { 685 };
                 case 428:
-                    return new int[] { 768 };
+                    return new [] { 768 };
                 case 445:
-                    return new int[] { 683 };
+                    return new [] { 683 };
                 case 448:
-                    return new int[] { 673 };
+                    return new [] { 673 };
                 case 460:
-                    return new int[] { 674 };
+                    return new [] { 674 };
                 case 475:
-                    return new int[] { 756 };
+                    return new [] { 756 };
                 case 531:
-                    return new int[] { 757 };
+                    return new [] { 757 };
                 case 719:
-                    return new int[] { 764 };
+                    return new [] { 764 };
                 default:
                     return new int[] { };
             }
@@ -943,20 +928,11 @@ namespace pk3DS
 
         private int GetRandomType(int trainer)
         {
-            if (rTags[trainer] == "")
-            {
-                if (rEnsureMEvo.Contains(trainer))
-                {
-                    int t = mEvoTypes[rnd32() % mEvoTypes.Length];
-                    return t;
-                }
-                else
-                    return (int)(rnd32() % types.Length);
-            }
-            else
-            {
+            if (rTags[trainer] != "") 
                 return TagTypes[rTags[trainer]];
-            }
+            if (!rEnsureMEvo.Contains(trainer)) 
+                return (int)(rnd32()%types.Length);
+            return mEvoTypes[rnd32() % mEvoTypes.Length];
         }
 
         private int[] GetMegaEvolvableTypes()
@@ -964,10 +940,10 @@ namespace pk3DS
             List<int> MEvoTypes = new List<int>();
             foreach (int spec in megaEvos)
             {
-                if (!MEvoTypes.Contains((int)personal[spec][6]))
-                    MEvoTypes.Add((int)personal[spec][6]);
-                if (!MEvoTypes.Contains((int)personal[spec][7]))
-                    MEvoTypes.Add((int)personal[spec][7]);
+                if (!MEvoTypes.Contains(personal[spec][6]))
+                    MEvoTypes.Add(personal[spec][6]);
+                if (!MEvoTypes.Contains(personal[spec][7]))
+                    MEvoTypes.Add(personal[spec][7]);
             }
             MEvoTypes.Sort();
             Console.WriteLine("There are " + MEvoTypes.Count + " types capable of mega evolution.");
@@ -976,12 +952,7 @@ namespace pk3DS
 
         private int GetRandomMegaEvolvablePokemon(int type)
         {
-            List<int> valids = new List<int>();
-            foreach (int spec in megaEvos)
-            {
-                if ((int)personal[spec][6] == type || (int)personal[spec][7] == type)
-                    valids.Add(spec);
-            }
+            List<int> valids = megaEvos.Where(spec => (int)personal[spec][6] == type || (int)personal[spec][7] == type).ToList();
             return valids[(int)(rnd32() % valids.Count)];
         }
     }
