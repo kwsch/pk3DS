@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -19,23 +20,46 @@ namespace pk3DS
         private string[] files;
         private int entry = -1;
         // IO
-        private void dumpTXT_Click(object sender, EventArgs e)
+        private void B_Export_Click(object sender, EventArgs e)
         {
             if (files.Length <= 0) return;
-            SaveFileDialog saveDump = new SaveFileDialog {Filter = "Text File|*.txt"};
-            DialogResult sdr = saveDump.ShowDialog();
+            SaveFileDialog Dump = new SaveFileDialog {Filter = "Text File|*.txt"};
+            DialogResult sdr = Dump.ShowDialog();
             if (sdr != DialogResult.OK) return;
-            bool newline = Util.Prompt(MessageBoxButtons.YesNo, "Remove newline formatting?") == DialogResult.Yes;
-            string path = saveDump.FileName;
+            bool newline = Util.Prompt(MessageBoxButtons.YesNo, "Remove newline formatting codes? (\\n,\\r,\\c)", "Removing newline formatting will make it more readable but will prevent any importing of that dump.") == DialogResult.Yes;
+            string path = Dump.FileName;
+            exportTextFile(path, newline);
+        }
+        private void B_Import_Click(object sender, EventArgs e)
+        {
+            if (files.Length <= 0) return;
+            OpenFileDialog Dump = new OpenFileDialog { Filter = "Text File|*.txt" };
+            DialogResult odr = Dump.ShowDialog();
+            if (odr != DialogResult.OK) return;
+            string path = Dump.FileName;
+            
+            if (!importTextFile(path)) return;
+
+            // Reload the form with the new data.
+            changeEntry(null, null);
+            Util.Alert("Imported Text from Input Path:", path);
+        }
+        private void exportTextFile(string fileName, bool newline)
+        {
             using (MemoryStream ms = new MemoryStream())
             {
-                using (TextWriter tw = new StreamWriter(ms))
+                ms.Write(new byte[] {0xFF, 0xFE}, 0, 2); // Write Unicode BOM
+                using (TextWriter tw = new StreamWriter(ms, new UnicodeEncoding()))
+                {
                     for (int i = 0; i < files.Length; i++)
                     {
+                        // Get Strings for the File
                         string[] data = getStringsFromFile(files[i]);
+                        // Append the File Header
                         tw.WriteLine("~~~~~~~~~~~~~~~");
                         tw.WriteLine("Text File : " + i);
                         tw.WriteLine("~~~~~~~~~~~~~~~");
+                        // Write the String to the File
                         if (data == null) continue;
                         foreach (string line in data)
                         {
@@ -47,13 +71,58 @@ namespace pk3DS
                                 : line);
                         }
                     }
-                File.WriteAllBytes(path, ms.ToArray());
+                }
+                File.WriteAllBytes(fileName, ms.ToArray());
             }
+        }
+        private bool importTextFile(string fileName)
+        {
+            string[] fileText = File.ReadAllLines(fileName, Encoding.Unicode);
+            string[][] textLines = new string[files.Length][];
+            int ctr = 0;
+            bool newlineFormatting = false;
+            // Loop through all files
+            for (int i = 0; i < fileText.Length; i++)
+            {
+                string line = fileText[i];
+                    if (line != "~~~~~~~~~~~~~~~") 
+                        continue;
+                string[] brokenLine = fileText[i++ + 1].Split(new[] {" : "}, StringSplitOptions.None);
+                    if (brokenLine.Length != 2)
+                    { Util.Error(String.Format("Invalid Line @ {0}, expected Text File : {1}", i, ctr)); return false; }
+                int file = Util.ToInt32(brokenLine[1]);
+                    if (file != ctr) 
+                    { Util.Error(String.Format("Invalid Line @ {0}, expected Text File : {1}", i, ctr)); return false; }
+                i+=2; // Skip over the other header line
+                List<string> Lines = new List<string>();
+                while (i < fileText.Length && fileText[i] != "~~~~~~~~~~~~~~~")
+                {
+                    Lines.Add(fileText[i]);
+                    newlineFormatting |= fileText[i].Contains("\\n"); // Check if any line wasn't stripped of ingame formatting codes for human readability.
+                    i++;
+                }
+                i--;
+                textLines[ctr++] = Lines.ToArray();
+            }
+
+            // Error Check
+            if (ctr != files.Length)
+            { Util.Error("The amount of Text Files in the input file does not match the required for the text file.",
+                    String.Format("Received: {0}, Expected: {1}", ctr, files.Length)); return false; }
+            if (!newlineFormatting)
+            { Util.Error("The input Text Files do not have the ingame newline formatting codes (\\n,\\r,\\c).",
+                      "When exporting text, do not remove newline formatting."); return false; }
+
+            // All Text Lines received. Store all back.
+            for (int i = 0; i < files.Length; i++)
+                File.WriteAllBytes(files[i], getBytesForFile(textLines[i]));
+            
+            return true;
         }
         private void changeEntry(object sender, EventArgs e)
         {
             // Save All the old text
-            if (entry > -1)
+            if (entry > -1 && sender != null)
             {
                 byte[] bin = getBytesForFile(getCurrentDGLines());
                 if (bin != null)
@@ -123,15 +192,18 @@ namespace pk3DS
         private void B_AddLine_Click(object sender, EventArgs e)
         {
             int currentRow = 0;
-            try
-            { currentRow = dgv.CurrentRow.Index; }
-            catch
-            { dgv.Rows.Add(); }
+            try { currentRow = dgv.CurrentRow.Index; }
+            catch { dgv.Rows.Add(); }
             if (dgv.Rows.Count == 1) { }
             else if (currentRow < dgv.Rows.Count - 1 || currentRow == 0)
             {
                 if (ModifierKeys != Keys.Control && currentRow != 0)
-                { if (Util.Prompt(MessageBoxButtons.YesNo, "Inserting in between rows will shift all subsequent lines.", "Continue?") != DialogResult.Yes) return; }
+                { 
+                    if (Util.Prompt(MessageBoxButtons.YesNo,
+                    "Inserting in between rows will shift all subsequent lines.", "Continue?") != DialogResult.Yes) 
+                    return; 
+                }
+                // Insert new Row after current row.
                 dgv.Rows.Insert(currentRow + 1);
             }
 
@@ -143,12 +215,13 @@ namespace pk3DS
             int currentRow = dgv.CurrentRow.Index;
             if (currentRow < dgv.Rows.Count - 1)
             {
-                if ((ModifierKeys != Keys.Control) && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Deleting a row above other lines will shift all subsequent lines.", "Continue?"))
+                if ((ModifierKeys != Keys.Control) && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, 
+                    "Deleting a row above other lines will shift all subsequent lines.", "Continue?"))
                     return;
             }
-
             dgv.Rows.RemoveAt(currentRow);
 
+            // Resequence the Index Value column
             for (int i = 0; i < dgv.Rows.Count; i++)
                 dgv.Rows[i].Cells[0].Value = i.ToString();
         }

@@ -32,8 +32,9 @@
             this.dgv = new System.Windows.Forms.DataGridView();
             this.B_AddLine = new System.Windows.Forms.Button();
             this.B_RemoveLine = new System.Windows.Forms.Button();
-            this.B_Dump = new System.Windows.Forms.Button();
+            this.B_Export = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.B_Import = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,7 +43,7 @@
             this.CB_Entry.FormattingEnabled = true;
             this.CB_Entry.Location = new System.Drawing.Point(68, 7);
             this.CB_Entry.Name = "CB_Entry";
-            this.CB_Entry.Size = new System.Drawing.Size(79, 21);
+            this.CB_Entry.Size = new System.Drawing.Size(80, 21);
             this.CB_Entry.TabIndex = 5;
             this.CB_Entry.SelectedIndexChanged += new System.EventHandler(this.changeEntry);
             // 
@@ -68,34 +69,34 @@
             // B_AddLine
             // 
             this.B_AddLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_AddLine.Location = new System.Drawing.Point(356, 5);
+            this.B_AddLine.Location = new System.Drawing.Point(437, 6);
             this.B_AddLine.Name = "B_AddLine";
-            this.B_AddLine.Size = new System.Drawing.Size(130, 23);
+            this.B_AddLine.Size = new System.Drawing.Size(90, 23);
             this.B_AddLine.TabIndex = 6;
-            this.B_AddLine.Text = "Add Line After Line";
+            this.B_AddLine.Text = "Add Line After";
             this.B_AddLine.UseVisualStyleBackColor = true;
             this.B_AddLine.Click += new System.EventHandler(this.B_AddLine_Click);
             // 
             // B_RemoveLine
             // 
             this.B_RemoveLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_RemoveLine.Location = new System.Drawing.Point(493, 5);
+            this.B_RemoveLine.Location = new System.Drawing.Point(533, 6);
             this.B_RemoveLine.Name = "B_RemoveLine";
-            this.B_RemoveLine.Size = new System.Drawing.Size(130, 23);
+            this.B_RemoveLine.Size = new System.Drawing.Size(90, 23);
             this.B_RemoveLine.TabIndex = 7;
-            this.B_RemoveLine.Text = "Remove Selected Line";
+            this.B_RemoveLine.Text = "Remove Line";
             this.B_RemoveLine.UseVisualStyleBackColor = true;
             this.B_RemoveLine.Click += new System.EventHandler(this.B_RemoveLine_Click);
             // 
-            // B_Dump
+            // B_Export
             // 
-            this.B_Dump.Location = new System.Drawing.Point(153, 6);
-            this.B_Dump.Name = "B_Dump";
-            this.B_Dump.Size = new System.Drawing.Size(88, 23);
-            this.B_Dump.TabIndex = 8;
-            this.B_Dump.Text = "Dump to .txt";
-            this.B_Dump.UseVisualStyleBackColor = true;
-            this.B_Dump.Click += new System.EventHandler(this.dumpTXT_Click);
+            this.B_Export.Location = new System.Drawing.Point(154, 6);
+            this.B_Export.Name = "B_Export";
+            this.B_Export.Size = new System.Drawing.Size(90, 23);
+            this.B_Export.TabIndex = 8;
+            this.B_Export.Text = "Export All (.txt)";
+            this.B_Export.UseVisualStyleBackColor = true;
+            this.B_Export.Click += new System.EventHandler(this.B_Export_Click);
             // 
             // label1
             // 
@@ -106,13 +107,24 @@
             this.label1.TabIndex = 9;
             this.label1.Text = "Text File:";
             // 
+            // B_Import
+            // 
+            this.B_Import.Location = new System.Drawing.Point(250, 6);
+            this.B_Import.Name = "B_Import";
+            this.B_Import.Size = new System.Drawing.Size(90, 23);
+            this.B_Import.TabIndex = 10;
+            this.B_Import.Text = "Import All (.txt)";
+            this.B_Import.UseVisualStyleBackColor = true;
+            this.B_Import.Click += new System.EventHandler(this.B_Import_Click);
+            // 
             // xytext
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(634, 362);
+            this.Controls.Add(this.B_Import);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.B_Dump);
+            this.Controls.Add(this.B_Export);
             this.Controls.Add(this.B_RemoveLine);
             this.Controls.Add(this.B_AddLine);
             this.Controls.Add(this.dgv);
@@ -134,8 +146,9 @@
         private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.Button B_AddLine;
         private System.Windows.Forms.Button B_RemoveLine;
-        private System.Windows.Forms.Button B_Dump;
+        private System.Windows.Forms.Button B_Export;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button B_Import;
 
     }
 }
