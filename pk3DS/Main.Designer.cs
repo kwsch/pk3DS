@@ -54,6 +54,7 @@
             this.B_MoveTutor = new System.Windows.Forms.Button();
             this.B_TMHM = new System.Windows.Forms.Button();
             this.RTB_Status = new System.Windows.Forms.RichTextBox();
+            this.B_OPower = new System.Windows.Forms.Button();
             this.GB_RomFS.SuspendLayout();
             this.GB_ExeFS.SuspendLayout();
             this.SuspendLayout();
@@ -70,7 +71,7 @@
             // 
             // TB_Path
             // 
-            this.TB_Path.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.TB_Path.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_Path.Location = new System.Drawing.Point(93, 14);
             this.TB_Path.Name = "TB_Path";
@@ -80,7 +81,7 @@
             // 
             // GB_RomFS
             // 
-            this.GB_RomFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.GB_RomFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_RomFS.Controls.Add(this.B_Maison);
             this.GB_RomFS.Controls.Add(this.B_EggMove);
@@ -265,7 +266,7 @@
             // 
             // pBar1
             // 
-            this.pBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.pBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pBar1.Location = new System.Drawing.Point(12, 241);
             this.pBar1.Name = "pBar1";
@@ -284,8 +285,9 @@
             // 
             // GB_ExeFS
             // 
-            this.GB_ExeFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.GB_ExeFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.GB_ExeFS.Controls.Add(this.B_OPower);
             this.GB_ExeFS.Controls.Add(this.B_Pickup);
             this.GB_ExeFS.Controls.Add(this.B_Mart);
             this.GB_ExeFS.Controls.Add(this.B_MoveTutor);
@@ -302,46 +304,46 @@
             // 
             this.B_Pickup.Location = new System.Drawing.Point(6, 19);
             this.B_Pickup.Name = "B_Pickup";
-            this.B_Pickup.Size = new System.Drawing.Size(100, 23);
+            this.B_Pickup.Size = new System.Drawing.Size(80, 23);
             this.B_Pickup.TabIndex = 0;
-            this.B_Pickup.Text = "Pickup Editor";
+            this.B_Pickup.Text = "Pickup";
             this.B_Pickup.UseVisualStyleBackColor = true;
             this.B_Pickup.Click += new System.EventHandler(this.B_Pickup_Click);
             // 
             // B_Mart
             // 
-            this.B_Mart.Location = new System.Drawing.Point(218, 19);
+            this.B_Mart.Location = new System.Drawing.Point(178, 19);
             this.B_Mart.Name = "B_Mart";
-            this.B_Mart.Size = new System.Drawing.Size(100, 23);
+            this.B_Mart.Size = new System.Drawing.Size(80, 23);
             this.B_Mart.TabIndex = 2;
-            this.B_Mart.Text = "Mart Editor";
+            this.B_Mart.Text = "Mart";
             this.B_Mart.UseVisualStyleBackColor = true;
             this.B_Mart.Click += new System.EventHandler(this.B_Mart_Click);
             // 
             // B_MoveTutor
             // 
-            this.B_MoveTutor.Location = new System.Drawing.Point(324, 19);
+            this.B_MoveTutor.Location = new System.Drawing.Point(264, 19);
             this.B_MoveTutor.Name = "B_MoveTutor";
-            this.B_MoveTutor.Size = new System.Drawing.Size(100, 23);
+            this.B_MoveTutor.Size = new System.Drawing.Size(80, 23);
             this.B_MoveTutor.TabIndex = 3;
-            this.B_MoveTutor.Text = "Move Tutor Editor";
+            this.B_MoveTutor.Text = "Move Tutor";
             this.B_MoveTutor.UseVisualStyleBackColor = true;
             this.B_MoveTutor.Click += new System.EventHandler(this.B_MoveTutor_Click);
             // 
             // B_TMHM
             // 
-            this.B_TMHM.Location = new System.Drawing.Point(112, 19);
+            this.B_TMHM.Location = new System.Drawing.Point(92, 19);
             this.B_TMHM.Name = "B_TMHM";
-            this.B_TMHM.Size = new System.Drawing.Size(100, 23);
+            this.B_TMHM.Size = new System.Drawing.Size(80, 23);
             this.B_TMHM.TabIndex = 1;
-            this.B_TMHM.Text = "TM/HM Editor";
+            this.B_TMHM.Text = "TM/HM";
             this.B_TMHM.UseVisualStyleBackColor = true;
             this.B_TMHM.Click += new System.EventHandler(this.B_TMHM_Click);
             // 
             // RTB_Status
             // 
-            this.RTB_Status.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.RTB_Status.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RTB_Status.Location = new System.Drawing.Point(12, 263);
             this.RTB_Status.Name = "RTB_Status";
@@ -349,6 +351,16 @@
             this.RTB_Status.Size = new System.Drawing.Size(430, 150);
             this.RTB_Status.TabIndex = 7;
             this.RTB_Status.Text = "";
+            // 
+            // B_OPower
+            // 
+            this.B_OPower.Location = new System.Drawing.Point(350, 19);
+            this.B_OPower.Name = "B_OPower";
+            this.B_OPower.Size = new System.Drawing.Size(74, 23);
+            this.B_OPower.TabIndex = 4;
+            this.B_OPower.Text = "O-Power";
+            this.B_OPower.UseVisualStyleBackColor = true;
+            this.B_OPower.Click += new System.EventHandler(this.B_OPower_Click);
             // 
             // Main
             // 
@@ -407,5 +419,6 @@
         private System.Windows.Forms.Button B_MoveTutor;
         private System.Windows.Forms.Button B_TMHM;
         public System.Windows.Forms.RichTextBox RTB_Status;
+        private System.Windows.Forms.Button B_OPower;
     }
 }

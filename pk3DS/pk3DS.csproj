@@ -54,6 +54,12 @@
     <Compile Include="ExeFS.cs" />
     <Compile Include="Randomizer.cs" />
     <Compile Include="RomFS.cs" />
+    <Compile Include="Subforms\OPower.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\OPower.Designer.cs">
+      <DependentUpon>OPower.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Item.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +175,9 @@
     </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\OPower.resx">
+      <DependentUpon>OPower.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Item.resx">
       <DependentUpon>Item.cs</DependentUpon>
