@@ -483,6 +483,11 @@ namespace pk3DS
             if (!oras) { Util.Alert("No Tutors for X/Y."); return; } // Already disabled button...
             if (ExeFS != null) new Tutors().Show();
         }
+        private void B_OPower_Click(object sender, EventArgs e)
+        {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (ExeFS != null) new OPower().Show();
+        }
 
         // GARC Requests
         public string getGARCFileName(string requestedGARC)
