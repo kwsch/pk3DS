@@ -45,14 +45,13 @@
             this.L_Duration = new System.Windows.Forms.Label();
             this.L_Efficacy = new System.Windows.Forms.Label();
             this.TB_Mini = new System.Windows.Forms.TextBox();
-            this.L_Temp = new System.Windows.Forms.Label();
             this.TB_Quality = new System.Windows.Forms.TextBox();
             this.NUD_2 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_1 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_0 = new System.Windows.Forms.NumericUpDown();
-            this.L_0 = new System.Windows.Forms.Label();
-            this.L_1 = new System.Windows.Forms.Label();
+            this.NUD_Usability = new System.Windows.Forms.NumericUpDown();
             this.L_2 = new System.Windows.Forms.Label();
+            this.CB_SortOrder = new System.Windows.Forms.ComboBox();
+            this.L_UsabilityText = new System.Windows.Forms.Label();
+            this.L_Usability = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_PlayerCost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_OtherCost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stage)).BeginInit();
@@ -60,8 +59,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Duration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Efficacy)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Usability)).BeginInit();
             this.SuspendLayout();
             // 
             // RTB
@@ -102,7 +100,6 @@
             0,
             0});
             this.NUD_PlayerCost.Name = "NUD_PlayerCost";
-            this.NUD_PlayerCost.ReadOnly = true;
             this.NUD_PlayerCost.Size = new System.Drawing.Size(45, 20);
             this.NUD_PlayerCost.TabIndex = 42;
             // 
@@ -116,7 +113,6 @@
             0,
             0});
             this.NUD_OtherCost.Name = "NUD_OtherCost";
-            this.NUD_OtherCost.ReadOnly = true;
             this.NUD_OtherCost.Size = new System.Drawing.Size(45, 20);
             this.NUD_OtherCost.TabIndex = 43;
             // 
@@ -130,7 +126,6 @@
             0,
             0});
             this.NUD_Stage.Name = "NUD_Stage";
-            this.NUD_Stage.ReadOnly = true;
             this.NUD_Stage.Size = new System.Drawing.Size(45, 20);
             this.NUD_Stage.TabIndex = 44;
             // 
@@ -144,7 +139,6 @@
             0,
             0});
             this.NUD_LevelUp.Name = "NUD_LevelUp";
-            this.NUD_LevelUp.ReadOnly = true;
             this.NUD_LevelUp.Size = new System.Drawing.Size(45, 20);
             this.NUD_LevelUp.TabIndex = 45;
             // 
@@ -167,7 +161,6 @@
             0,
             0});
             this.NUD_Duration.Name = "NUD_Duration";
-            this.NUD_Duration.ReadOnly = true;
             this.NUD_Duration.Size = new System.Drawing.Size(45, 20);
             this.NUD_Duration.TabIndex = 47;
             // 
@@ -181,7 +174,6 @@
             0,
             0});
             this.NUD_Efficacy.Name = "NUD_Efficacy";
-            this.NUD_Efficacy.ReadOnly = true;
             this.NUD_Efficacy.Size = new System.Drawing.Size(45, 20);
             this.NUD_Efficacy.TabIndex = 48;
             // 
@@ -253,15 +245,6 @@
             this.TB_Mini.Size = new System.Drawing.Size(45, 20);
             this.TB_Mini.TabIndex = 55;
             // 
-            // L_Temp
-            // 
-            this.L_Temp.AutoSize = true;
-            this.L_Temp.Location = new System.Drawing.Point(150, 62);
-            this.L_Temp.Name = "L_Temp";
-            this.L_Temp.Size = new System.Drawing.Size(50, 13);
-            this.L_Temp.TabIndex = 56;
-            this.L_Temp.Text = "No Edits.";
-            // 
             // TB_Quality
             // 
             this.TB_Quality.Location = new System.Drawing.Point(12, 59);
@@ -272,7 +255,7 @@
             // 
             // NUD_2
             // 
-            this.NUD_2.Location = new System.Drawing.Point(153, 142);
+            this.NUD_2.Location = new System.Drawing.Point(203, 137);
             this.NUD_2.Maximum = new decimal(new int[] {
             999,
             0,
@@ -283,73 +266,67 @@
             this.NUD_2.Size = new System.Drawing.Size(45, 20);
             this.NUD_2.TabIndex = 58;
             // 
-            // NUD_1
+            // NUD_Usability
             // 
-            this.NUD_1.Location = new System.Drawing.Point(89, 142);
-            this.NUD_1.Maximum = new decimal(new int[] {
+            this.NUD_Usability.Location = new System.Drawing.Point(89, 137);
+            this.NUD_Usability.Maximum = new decimal(new int[] {
             999,
             0,
             0,
             0});
-            this.NUD_1.Name = "NUD_1";
-            this.NUD_1.ReadOnly = true;
-            this.NUD_1.Size = new System.Drawing.Size(45, 20);
-            this.NUD_1.TabIndex = 59;
-            // 
-            // NUD_0
-            // 
-            this.NUD_0.Location = new System.Drawing.Point(25, 142);
-            this.NUD_0.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUD_0.Name = "NUD_0";
-            this.NUD_0.ReadOnly = true;
-            this.NUD_0.Size = new System.Drawing.Size(45, 20);
-            this.NUD_0.TabIndex = 60;
-            // 
-            // L_0
-            // 
-            this.L_0.AutoSize = true;
-            this.L_0.Location = new System.Drawing.Point(12, 144);
-            this.L_0.Name = "L_0";
-            this.L_0.Size = new System.Drawing.Size(13, 13);
-            this.L_0.TabIndex = 61;
-            this.L_0.Text = "0";
-            // 
-            // L_1
-            // 
-            this.L_1.AutoSize = true;
-            this.L_1.Location = new System.Drawing.Point(76, 144);
-            this.L_1.Name = "L_1";
-            this.L_1.Size = new System.Drawing.Size(13, 13);
-            this.L_1.TabIndex = 62;
-            this.L_1.Text = "1";
+            this.NUD_Usability.Name = "NUD_Usability";
+            this.NUD_Usability.Size = new System.Drawing.Size(45, 20);
+            this.NUD_Usability.TabIndex = 59;
             // 
             // L_2
             // 
             this.L_2.AutoSize = true;
-            this.L_2.Location = new System.Drawing.Point(140, 144);
+            this.L_2.Location = new System.Drawing.Point(190, 139);
             this.L_2.Name = "L_2";
             this.L_2.Size = new System.Drawing.Size(13, 13);
             this.L_2.TabIndex = 63;
             this.L_2.Text = "2";
+            // 
+            // CB_SortOrder
+            // 
+            this.CB_SortOrder.Enabled = false;
+            this.CB_SortOrder.FormattingEnabled = true;
+            this.CB_SortOrder.Location = new System.Drawing.Point(153, 59);
+            this.CB_SortOrder.Name = "CB_SortOrder";
+            this.CB_SortOrder.Size = new System.Drawing.Size(45, 21);
+            this.CB_SortOrder.TabIndex = 64;
+            // 
+            // L_UsabilityText
+            // 
+            this.L_UsabilityText.AutoSize = true;
+            this.L_UsabilityText.Location = new System.Drawing.Point(-2, 159);
+            this.L_UsabilityText.Name = "L_UsabilityText";
+            this.L_UsabilityText.Size = new System.Drawing.Size(167, 13);
+            this.L_UsabilityText.TabIndex = 65;
+            this.L_UsabilityText.Text = "254 - Nobody, 0 - Self, 2 - Anyone";
+            // 
+            // L_Usability
+            // 
+            this.L_Usability.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Usability.Location = new System.Drawing.Point(-17, 134);
+            this.L_Usability.Name = "L_Usability";
+            this.L_Usability.Size = new System.Drawing.Size(100, 23);
+            this.L_Usability.TabIndex = 66;
+            this.L_Usability.Text = "Usability(?):";
+            this.L_Usability.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // OPower
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 172);
+            this.Controls.Add(this.L_UsabilityText);
+            this.Controls.Add(this.CB_SortOrder);
             this.Controls.Add(this.TB_Name);
             this.Controls.Add(this.L_2);
-            this.Controls.Add(this.L_1);
-            this.Controls.Add(this.L_0);
-            this.Controls.Add(this.NUD_0);
-            this.Controls.Add(this.NUD_1);
+            this.Controls.Add(this.NUD_Usability);
             this.Controls.Add(this.NUD_2);
             this.Controls.Add(this.TB_Quality);
-            this.Controls.Add(this.L_Temp);
             this.Controls.Add(this.TB_Mini);
             this.Controls.Add(this.L_Stage);
             this.Controls.Add(this.L_OtherCost);
@@ -366,6 +343,7 @@
             this.Controls.Add(this.L_Efficacy);
             this.Controls.Add(this.L_Duration);
             this.Controls.Add(this.L_LevelUp);
+            this.Controls.Add(this.L_Usability);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(400, 210);
             this.MinimumSize = new System.Drawing.Size(400, 210);
@@ -380,8 +358,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Duration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Efficacy)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Usability)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -406,13 +383,12 @@
         private System.Windows.Forms.Label L_Duration;
         private System.Windows.Forms.Label L_Efficacy;
         private System.Windows.Forms.TextBox TB_Mini;
-        private System.Windows.Forms.Label L_Temp;
         private System.Windows.Forms.TextBox TB_Quality;
         private System.Windows.Forms.NumericUpDown NUD_2;
-        private System.Windows.Forms.NumericUpDown NUD_1;
-        private System.Windows.Forms.NumericUpDown NUD_0;
-        private System.Windows.Forms.Label L_0;
-        private System.Windows.Forms.Label L_1;
+        private System.Windows.Forms.NumericUpDown NUD_Usability;
         private System.Windows.Forms.Label L_2;
+        private System.Windows.Forms.ComboBox CB_SortOrder;
+        private System.Windows.Forms.Label L_UsabilityText;
+        private System.Windows.Forms.Label L_Usability;
     }
 }

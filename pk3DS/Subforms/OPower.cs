@@ -23,8 +23,10 @@ namespace pk3DS
 
             // Gather Data
             for (int i = 0; i < powerData.Length; i++)
-                powerData[i] = exefsData.Skip(offset + 22*i).Take(22).ToArray();
+                powerData[i] = exefsData.Skip(offset + 22 * i).Take(22).ToArray();
 
+            // Prepare View
+            for (int i = 0; i < 10; i++) CB_SortOrder.Items.Add(i);
             for (int i = 1; i < powerData.Length; i++) CB_Item.Items.Add(i);
             CB_Item.SelectedIndex = 0;
         }
@@ -47,7 +49,7 @@ namespace pk3DS
             if (entry < 1) return;
 
             // Fetch Data
-            byte _00 = powerData[entry][0];
+            byte quality = powerData[entry][0];
             byte _01 = powerData[entry][1];
             byte _02 = powerData[entry][2];
             byte playerCost = powerData[entry][0x3];
@@ -59,7 +61,7 @@ namespace pk3DS
             int name = BitConverter.ToUInt16(powerData[entry], 0xC);
             int stage = powerData[entry][0xE];
             int lvlup = powerData[entry][0xF];
-            int quality = BitConverter.ToUInt16(powerData[entry], 0x10);
+            int sortOrder = BitConverter.ToUInt16(powerData[entry], 0x10);
             int efficacy = BitConverter.ToUInt16(powerData[entry], 0x12);
             byte duration = powerData[entry][0x14]; // sbyte FF = -1 (no duration?)
             // 0x15 unused?
@@ -72,28 +74,50 @@ namespace pk3DS
             TB_Type.Text = powerFlavor[type];
             TB_Mini.Text = powerFlavor[mini];
             TB_Name.Text = powerFlavor[name];
-            TB_Quality.Text = quality.ToString(); // powerFlavor[quality];
+            TB_Quality.Text = powerFlavor[1 + quality]; // powerFlavor[quality];
             RTB.Text = powerFlavor[desc].Replace("\\n", Environment.NewLine);
 
             NUD_Efficacy.Value = efficacy;
             NUD_Duration.Value = duration;
 
-            NUD_0.Value = _00;
-            NUD_1.Value = _01;
+            CB_SortOrder.SelectedIndex = sortOrder;
+            NUD_Usability.Value = _01;
             NUD_2.Value = _02;
         }
         private void setEntry()
         {
             if (entry < 1) return;
 
-            for (int i = 0; i < powerData.Length; i++)
-                Array.Copy(powerData[i], 0, exefsData, offset + i * powerData[i].Length, powerData[i].Length);
+            // Copy back in the edited data sections
+            byte playerCost = (byte)NUD_PlayerCost.Value;
+            byte otherCost = (byte)NUD_OtherCost.Value;
+            byte stage = (byte)NUD_Stage.Value;
+            byte lvlup = (byte)NUD_LevelUp.Value;
+            byte duration = (byte)NUD_Duration.Value;
+            ushort efficacy = (ushort)NUD_Efficacy.Value;
+
+            powerData[entry][0x3] = playerCost;
+            powerData[entry][0x4] = otherCost;
+            powerData[entry][0xE] = stage;
+            powerData[entry][0xF] = lvlup;
+
+            Array.Copy(powerData[entry], 0x12, BitConverter.GetBytes(efficacy), 0, 2);
+            powerData[entry][0x14] = duration; // sbyte FF = -1 (no duration?)
+
+            byte usability = (byte)NUD_Usability.Value;
+
+            if (usability == 2 || usability == 254 || usability == 0)
+                powerData[entry][1] = usability;
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setEntry();
-            File.WriteAllBytes(codebin, exefsData);
+            // Copy data back to storage
+            for (int i = 0; i < powerData.Length; i++)
+                Array.Copy(powerData[i], 0, exefsData, offset + i * powerData[i].Length, powerData[i].Length);
+            if (ModifierKeys != Keys.Control)
+                File.WriteAllBytes(codebin, exefsData);
         }
     }
 }
