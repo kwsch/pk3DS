@@ -128,6 +128,7 @@
             this.CHK_Stats = new System.Windows.Forms.CheckBox();
             this.CHK_Ability = new System.Windows.Forms.CheckBox();
             this.CHK_TM = new System.Windows.Forms.CheckBox();
+            this.B_EasyBreed = new System.Windows.Forms.Button();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -169,8 +170,8 @@
             // 
             // TC_Pokemon
             // 
-            this.TC_Pokemon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.TC_Pokemon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.TC_Pokemon.Controls.Add(this.TP_General);
             this.TC_Pokemon.Controls.Add(this.TP_MoveTutors);
             this.TC_Pokemon.Location = new System.Drawing.Point(12, 40);
@@ -929,8 +930,8 @@
             // 
             // CLB_OrasTutors
             // 
-            this.CLB_OrasTutors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.CLB_OrasTutors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.CLB_OrasTutors.Enabled = false;
             this.CLB_OrasTutors.FormattingEnabled = true;
             this.CLB_OrasTutors.Location = new System.Drawing.Point(301, 19);
@@ -941,8 +942,8 @@
             // 
             // CLB_MoveTutors
             // 
-            this.CLB_MoveTutors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.CLB_MoveTutors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.CLB_MoveTutors.FormattingEnabled = true;
             this.CLB_MoveTutors.Location = new System.Drawing.Point(162, 19);
             this.CLB_MoveTutors.Name = "CLB_MoveTutors";
@@ -951,8 +952,8 @@
             // 
             // CLB_TMHM
             // 
-            this.CLB_TMHM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.CLB_TMHM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.CLB_TMHM.FormattingEnabled = true;
             this.CLB_TMHM.Location = new System.Drawing.Point(9, 19);
             this.CLB_TMHM.Name = "CLB_TMHM";
@@ -1250,11 +1251,22 @@
             this.CHK_TM.Text = "TM";
             this.CHK_TM.UseVisualStyleBackColor = true;
             // 
+            // B_EasyBreed
+            // 
+            this.B_EasyBreed.Location = new System.Drawing.Point(459, 37);
+            this.B_EasyBreed.Name = "B_EasyBreed";
+            this.B_EasyBreed.Size = new System.Drawing.Size(89, 23);
+            this.B_EasyBreed.TabIndex = 421;
+            this.B_EasyBreed.Text = "Quick Hatch All";
+            this.B_EasyBreed.UseVisualStyleBackColor = true;
+            this.B_EasyBreed.Click += new System.EventHandler(this.B_EasyBreed_Click);
+            // 
             // Personal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(552, 416);
+            this.ClientSize = new System.Drawing.Size(552, 417);
+            this.Controls.Add(this.B_EasyBreed);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.B_Difficulty);
             this.Controls.Add(this.B_Dump);
@@ -1387,5 +1399,6 @@
         private System.Windows.Forms.CheckBox CHK_rATK;
         private System.Windows.Forms.CheckBox CHK_rHP;
         private System.Windows.Forms.CheckBox CHK_EggGroup;
+        private System.Windows.Forms.Button B_EasyBreed;
     }
 }

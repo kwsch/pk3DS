@@ -402,7 +402,16 @@ namespace pk3DS
             File.WriteAllBytes(paths[paths.Length - 1], data);
         }
 
-
+        private void B_EasyBreed_Click(object sender, EventArgs e)
+        {
+            for (int i = 1; i < CB_Species.Items.Count; i++)
+            {
+                CB_Species.SelectedIndex = i;
+                TB_HatchCycles.Text = 1.ToString();
+            }
+            CB_Species.SelectedIndex = 1;
+            Util.Alert("All Hatch Cycles set to 1 for every Species. Eggs obtained will hatch quickly.");
+        }
         private void B_Difficulty_Click(object sender, EventArgs e)
         {
             for (int i = 1; i < CB_Species.Items.Count; i++)
@@ -555,6 +564,16 @@ namespace pk3DS
             }
             dumping = false;
         }
+        private void CHK_Stats_CheckedChanged(object sender, EventArgs e)
+        {
+            L_StatDev.Visible = NUD_StatDev.Visible = CHK_Stats.Checked;
+        }
+        private void CHK_Ability_CheckedChanged(object sender, EventArgs e)
+        {
+            CHK_WGuard.Enabled = CHK_Ability.Checked;
+            if (!CHK_WGuard.Enabled)
+                CHK_WGuard.Checked = false;
+        }
 
         private void formClosing(object sender, FormClosingEventArgs e)
         {
@@ -667,16 +686,5 @@ namespace pk3DS
             return species;
         }
 
-        private void CHK_Stats_CheckedChanged(object sender, EventArgs e)
-        {
-            L_StatDev.Visible = NUD_StatDev.Visible = CHK_Stats.Checked;
-        }
-
-        private void CHK_Ability_CheckedChanged(object sender, EventArgs e)
-        {
-            CHK_WGuard.Enabled = CHK_Ability.Checked;
-            if (!CHK_WGuard.Enabled)
-                CHK_WGuard.Checked = false;
-        }
     }
 }
