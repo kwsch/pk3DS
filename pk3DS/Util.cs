@@ -770,6 +770,24 @@ namespace pk3DS
                         returnData[i] = data;
                     }
                 }
+                return returnData;
+            }
+        }
+
+        // Misc
+        internal static string getHexString(byte[] data)
+        {
+            return BitConverter.ToString(data).Replace('-', ' ');
+        }
+        internal static void resizeJagged(ref byte[][] array, int size, int lowLen)
+        {
+            int oldSize = (array == null) ? 0 : array.Length;
+            Array.Resize(ref array, size);
+
+            // Zero fill new data
+            for (int i = oldSize; i < size - oldSize; i++)
+            {
+                array[i] = new byte[lowLen];
             }
         }
     }
