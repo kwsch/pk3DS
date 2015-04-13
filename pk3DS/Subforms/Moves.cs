@@ -168,7 +168,6 @@ namespace pk3DS
         private void B_RandAll_Click(object sender, EventArgs e)
         {
             if (!CHK_Category.Checked && !CHK_Type.Checked) return;
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Randomize all Move Types and Categories?", "Everything else will stay the same.")) return;
             Random rnd = new Random();
             for (int i = 0; i < CB_Move.Items.Count; i++)
             {
