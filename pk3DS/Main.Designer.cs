@@ -49,12 +49,12 @@
             this.pBar1 = new System.Windows.Forms.ProgressBar();
             this.L_About = new System.Windows.Forms.Label();
             this.GB_ExeFS = new System.Windows.Forms.GroupBox();
+            this.B_OPower = new System.Windows.Forms.Button();
             this.B_Pickup = new System.Windows.Forms.Button();
             this.B_Mart = new System.Windows.Forms.Button();
             this.B_MoveTutor = new System.Windows.Forms.Button();
             this.B_TMHM = new System.Windows.Forms.Button();
             this.RTB_Status = new System.Windows.Forms.RichTextBox();
-            this.B_OPower = new System.Windows.Forms.Button();
             this.GB_RomFS.SuspendLayout();
             this.GB_ExeFS.SuspendLayout();
             this.SuspendLayout();
@@ -300,6 +300,16 @@
             this.GB_ExeFS.TabStop = false;
             this.GB_ExeFS.Text = "ExeFS Editing Tools";
             // 
+            // B_OPower
+            // 
+            this.B_OPower.Location = new System.Drawing.Point(350, 19);
+            this.B_OPower.Name = "B_OPower";
+            this.B_OPower.Size = new System.Drawing.Size(74, 23);
+            this.B_OPower.TabIndex = 4;
+            this.B_OPower.Text = "O-Power";
+            this.B_OPower.UseVisualStyleBackColor = true;
+            this.B_OPower.Click += new System.EventHandler(this.B_OPower_Click);
+            // 
             // B_Pickup
             // 
             this.B_Pickup.Location = new System.Drawing.Point(6, 19);
@@ -351,16 +361,6 @@
             this.RTB_Status.Size = new System.Drawing.Size(430, 150);
             this.RTB_Status.TabIndex = 7;
             this.RTB_Status.Text = "";
-            // 
-            // B_OPower
-            // 
-            this.B_OPower.Location = new System.Drawing.Point(350, 19);
-            this.B_OPower.Name = "B_OPower";
-            this.B_OPower.Size = new System.Drawing.Size(74, 23);
-            this.B_OPower.TabIndex = 4;
-            this.B_OPower.Text = "O-Power";
-            this.B_OPower.UseVisualStyleBackColor = true;
-            this.B_OPower.Click += new System.EventHandler(this.B_OPower_Click);
             // 
             // Main
             // 

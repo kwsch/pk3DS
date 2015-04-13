@@ -51,15 +51,18 @@ namespace pk3DS
             if (File.Exists("config.ini"))
             {
                 string path = File.ReadAllText("config.ini");
-                if (Directory.Exists("personal")) { Directory.Delete("personal", true); } // Clear data on form load.
+                if (Directory.Exists("personal") && !skipBoth) { Directory.Delete("personal", true); } // Clear data on form load.
                 if (path.Length > 0) openQuick(path);
-            }
+            } 
+            string filename = Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            skipBoth = (filename.IndexOf("3DSkip", StringComparison.Ordinal) >= 0);
         }
         public static bool oras;
         public static string RomFS;
         public static string ExeFS;
         public volatile int threads;
         private static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN" };
+        private bool skipBoth;
 
         // Main Form Methods
         private void L_About_Click(object sender, EventArgs e)
@@ -94,10 +97,11 @@ namespace pk3DS
         }
         private void L_Game_Click(object sender, EventArgs e)
         {
-            if (GB_RomFS.Enabled && RomFS != null && ModifierKeys == Keys.Control)
-                if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Restore Original Files?"))
-                    restoreGARCs(oras, allGARCs);
+            if (!GB_RomFS.Enabled || RomFS == null || ModifierKeys != Keys.Control) return;
+            if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Restore Original Files?"))
+                restoreGARCs(oras, allGARCs);
         }
+
         private void B_Open_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -113,11 +117,9 @@ namespace pk3DS
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", "gametext", getGARCFileName("gametext")));
                 threadGet(RomFS + getGARCFileName("gametext"), "gametext", true, true);
                 while (threads > 0) Thread.Sleep(50);
-                if (!Directory.Exists("personal"))
-                {
-                    updateStatus(String.Format("GARC Get: {0} @ {1}... ", "personal", getGARCFileName("personal")));
-                    threadGet(RomFS + getGARCFileName("personal"), "personal", true, true);
-                }
+                if (Directory.Exists("personal")) return;
+                updateStatus(String.Format("GARC Get: {0} @ {1}... ", "personal", getGARCFileName("personal")));
+                threadGet(RomFS + getGARCFileName("personal"), "personal", true, true);
             }).Start();
         }
         private void formClosing(object sender, FormClosingEventArgs e)
@@ -128,7 +130,7 @@ namespace pk3DS
             try
             {
                 if (TB_Path.Text.Length > 0) File.WriteAllText("config.ini", TB_Path.Text);
-                if (!GB_RomFS.Enabled) return; // No data/threads need to be addressed if we haven't loaded anything.
+                if (!GB_RomFS.Enabled || skipBoth) return; // No data/threads need to be addressed if we haven't loaded anything.
 
                 // Set the GameText back as other forms may have edited it.
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", "gametext", getGARCFileName("gametext")));
@@ -235,15 +237,12 @@ namespace pk3DS
             if (files.Length != 3) return false;
 
             FileInfo fi = new FileInfo(files[0]);
-            if (fi.Name.Contains("code"))
-            {
-                if (fi.Length % 0x200 != 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes))
-                    new Thread(() => { threads++; new BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+            if (!fi.Name.Contains("code")) return false;
+            if (fi.Length % 0x200 != 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes))
+                new Thread(() => { threads++; new BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
 
-                ExeFS = path;
-                return true;
-            }
-            return false;
+            ExeFS = path;
+            return true;
         }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -341,13 +340,33 @@ namespace pk3DS
         private void B_Wild_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            bool advanced = (ModifierKeys == Keys.Alt);
             new Thread(() =>
             {
-                string[] files = { "encdata" };
-                fileGet(files, false);
-                if (oras) { Invoke((Action)(() => new RSWE().ShowDialog())); }
-                else { Invoke((Action)(() => new XYWE().ShowDialog())); }
-                fileSet(files);
+                if (advanced)
+                {
+                    string[] files = { "encdata", "storytext" };
+                    fileGet(files, false);
+                    Invoke((MethodInvoker)delegate { Enabled = false; });
+                    {
+                        Invoke((Action)(() => new xytext(Directory.GetFiles("storytext")).Show()));
+                        Invoke((Action)(() => new OWSE().Show()));
+                        while (Application.OpenForms.Count > 1)
+                            Thread.Sleep(200);
+                    }
+                    Invoke((MethodInvoker)delegate { Enabled = true; });
+                    fileSet(files);
+                }
+                else
+                {
+                    string[] files = { "encdata" };
+                    fileGet(files, false);
+                    if (oras) 
+                    { Invoke((Action)(() => new RSWE().ShowDialog())); }
+                    else 
+                    { Invoke((Action)(() => new XYWE().ShowDialog())); }
+                    fileSet(files);
+                }
             }).Start();
         }
         private void B_Evolution_Click(object sender, EventArgs e)
@@ -417,10 +436,10 @@ namespace pk3DS
             }).Start();
         }
         // RomFS File Requesting Method Wrapper
-        private void fileGet(IEnumerable<string> files, bool skipDecompression = true, bool skipGet = false)
+        private void fileGet(string[] files, bool skipDecompression = true, bool skipGet = false)
         {
             if (ModifierKeys == (Keys.Control | Keys.Shift)) restoreGARCs(oras, files.ToArray());
-            if (skipGet) return;
+            if (skipGet || skipBoth) return;
             foreach (string toEdit in files)
             {
                 string GARC = getGARCFileName(toEdit);
@@ -431,6 +450,7 @@ namespace pk3DS
         }
         private void fileSet(IEnumerable<string> files, bool keep = false)
         {
+            if (skipBoth) return;
             foreach (string toEdit in files)
             {
                 string GARC = getGARCFileName(toEdit);
@@ -525,6 +545,12 @@ namespace pk3DS
         }
         public bool getGARC(string infile, string outfolder, bool PB, bool bypassExt = false)
         {
+            if (skipBoth && Directory.Exists(outfolder))
+            {
+                updateStatus(String.Format("Skipped - Exists!"), false);
+                threads--;
+                return true;
+            }
             try
             {
                 bool success = GARCTool.garcUnpack(infile, outfolder, bypassExt, (PB) ? pBar1 : null, null, true, bypassExt);
@@ -536,7 +562,7 @@ namespace pk3DS
         }
         public bool setGARC(string outfile, string infolder, bool PB)
         {
-            if (ModifierKeys == Keys.Control && Util.Prompt(MessageBoxButtons.YesNo, "Cancel writing data back to GARC?") == DialogResult.Yes)
+            if (skipBoth || (ModifierKeys == Keys.Control && Util.Prompt(MessageBoxButtons.YesNo, "Cancel writing data back to GARC?") == DialogResult.Yes))
             { threads--; updateStatus(String.Format("Aborted!"), false); return false; }
 
             try
