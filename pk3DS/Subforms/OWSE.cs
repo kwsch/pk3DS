@@ -89,6 +89,21 @@ namespace pk3DS
         private void setEntry()
         {
             //if (entry < 0) return;
+            //
+            //Force writeback of each overworld type
+            //changeFurniture(null, null);
+            //changeOverworld(null, null);
+            //changeWarp(null, null);
+            //changeTrigger(null, null);
+            //
+            //TODO: Reassemble the 5 files
+            //locationData[0] = locationData[0];
+            //locationData[1] = setOWSData();
+            //locationData[2] = locationData[2];
+            //locationData[3] = locationData[3];
+            //locationData[4] = locationData[4];
+            //
+            //Package the files into the permanent package file.
             //byte[] raw = Util.packMini(locationData, "ZO");
             //File.WriteAllBytes(filepaths[entry], raw);
         }
@@ -158,6 +173,34 @@ namespace pk3DS
                 RTB_S.Width = RTB_S.Text.Length < 25*3*16 ? 245 : 260;
                 L_SL1.Text = "1:0x" + BitConverter.ToUInt32(ScriptData, 0x8).ToString("X4");
                 L_SL2.Text = "2:0x" + BitConverter.ToUInt32(ScriptData, 0xC).ToString("X4");
+            }
+        }
+
+        private byte[] setOWSData()
+        {
+            using (var s = new MemoryStream())
+            using (var bw = new BinaryWriter(s))
+            {
+                // Overworld Payload
+                bw.Write(0); // 4 Byte Length of 0 (Temporary)
+                bw.Write((byte)NUD_FurnCount.Value);
+                bw.Write((byte)NUD_NPCCount.Value);
+                bw.Write((byte)NUD_WarpCount.Value);
+                bw.Write((byte)NUD_TrigCount.Value);
+                for (int i = 0; i < NUD_FurnCount.Value; i++) bw.Write(fData[i]);
+                for (int i = 0; i < NUD_NPCCount.Value; i++) bw.Write(nData[i]);
+                for (int i = 0; i < NUD_WarpCount.Value; i++) bw.Write(wData[i]);
+                for (int i = 0; i < NUD_TrigCount.Value; i++) bw.Write(tData[i]);
+                // have to check for 00 padding
+                while (s.Length % 4 != 0) bw.Write((byte)0);
+                s.Position = 0; bw.Write((int)s.Length);
+                s.Position = s.Length - 1;
+                // Script Payload
+                byte[] scriptData = Util.StringToByteArray(RTB_S.Text);
+                bw.Write(scriptData.Length);
+                bw.Write(scriptData); // ScriptData
+
+                return s.ToArray();
             }
         }
 
