@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
+using pk3DS.Properties;
 
 namespace pk3DS
 {
@@ -13,29 +15,31 @@ namespace pk3DS
         public EggMove()
         {
             InitializeComponent();
-
+            string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
             specieslist[0] = movelist[0] = "";
-            Array.Resize(ref specieslist, 722);
 
-            sortedmoves = (string[])movelist.Clone();
-            Array.Sort(sortedmoves);
             string[] sortedspecies = (string[])specieslist.Clone();
-            Array.Sort(sortedspecies);
-
-            foreach (string s in sortedspecies) CB_Species.Items.Add(s);
-            CB_Species.Items.RemoveAt(0);
-
+            Array.Resize(ref sortedspecies, 722); Array.Sort(sortedspecies);
             setupDGV();
+
+            var newlist = new List<Util.cbItem>();
+            for (int i = 1; i < 722; i++) // add all species
+                newlist.Add(new Util.cbItem { Text = sortedspecies[i], Value = Array.IndexOf(specieslist, sortedspecies[i]) });
+
+            CB_Species.DisplayMember = "Text";
+            CB_Species.ValueMember = "Value";
+            CB_Species.DataSource = newlist;
             CB_Species.SelectedIndex = 0;
         }
         private string[] files = Directory.GetFiles("eggmove");
+        private byte[] data = File.ReadAllBytes(Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly).Last());
         private int entry = -1;
         private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
-        private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
-        private string[] sortedmoves;
         bool dumping;
         private void setupDGV()
         {
+            string[] sortedmoves = (string[])movelist.Clone();
+            Array.Sort(sortedmoves);
             DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
             {
                 dgvMove.HeaderText = "Move";
@@ -50,7 +54,12 @@ namespace pk3DS
         }
         private void getList()
         {
-            entry = Array.IndexOf(specieslist, CB_Species.Text);
+            entry = Util.getIndex(CB_Species);
+
+            int[] specForm = Personal.getSpecies(data, Main.oras, entry);
+            string filename = "_" + specForm[0] + ((entry > 721) ? "_" + (specForm[1] + 1) : "");
+            PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
+
             dgv.Rows.Clear();
             byte[] input = File.ReadAllBytes(files[entry]);
             if (input.Length == 0) return;

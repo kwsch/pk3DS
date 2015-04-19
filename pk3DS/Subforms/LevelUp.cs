@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
+using pk3DS.Properties;
 
 namespace pk3DS
 {
@@ -16,14 +18,23 @@ namespace pk3DS
             string[] specieslist = Personal.getSpeciesIndexStrings(Main.oras);
             specieslist[0] = movelist[0] = "";
 
+            string[] sortedspecies = (string[])specieslist.Clone();
+            Array.Resize(ref sortedspecies, 722); Array.Sort(sortedspecies);
             setupDGV();
 
-            // Sort Species list
-            for (int i = 0; i < specieslist.Length; i++)
-                CB_Species.Items.Add(String.Format("{0} - {1}", specieslist[i], i.ToString("000")));
+            var newlist = new List<Util.cbItem>();
+            for (int i = 1; i < 722; i++) // add all species
+                newlist.Add(new Util.cbItem { Text = sortedspecies[i], Value = Array.IndexOf(specieslist, sortedspecies[i]) });
+            for (int i = 722; i < specieslist.Length; i++) // add all forms
+                newlist.Add(new Util.cbItem { Text = specieslist[i], Value = i });
+
+            CB_Species.DisplayMember = "Text";
+            CB_Species.ValueMember = "Value";
+            CB_Species.DataSource = newlist;
             CB_Species.SelectedIndex = 0;
         }
         private string[] files = Directory.GetFiles("levelup");
+        private byte[] data = File.ReadAllBytes(Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly).Last());
         private int entry = -1;
         private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
         bool dumping;
@@ -53,7 +64,12 @@ namespace pk3DS
         }
         private void getList()
         {
-            entry = CB_Species.SelectedIndex;
+            entry = Util.getIndex(CB_Species);
+
+            int[] specForm = Personal.getSpecies(data, Main.oras, entry);
+            string filename = "_" + specForm[0] + ((entry > 721) ? "_" + (specForm[1] + 1) : "");
+            PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
+
             dgv.Rows.Clear();
             byte[] input = File.ReadAllBytes(files[entry]);
             if (input.Length <= 4) { File.WriteAllBytes(files[entry], BitConverter.GetBytes(-1)); return; }

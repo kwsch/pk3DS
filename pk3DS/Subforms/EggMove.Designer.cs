@@ -41,10 +41,12 @@
             this.NUD_STAB = new System.Windows.Forms.NumericUpDown();
             this.CHK_STAB = new System.Windows.Forms.CheckBox();
             this.CHK_HMs = new System.Windows.Forms.CheckBox();
+            this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Moves)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_STAB)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
             this.SuspendLayout();
             // 
             // dgv
@@ -92,7 +94,7 @@
             // 
             // B_Dump
             // 
-            this.B_Dump.Location = new System.Drawing.Point(193, 10);
+            this.B_Dump.Location = new System.Drawing.Point(248, 10);
             this.B_Dump.Name = "B_Dump";
             this.B_Dump.Size = new System.Drawing.Size(46, 23);
             this.B_Dump.TabIndex = 5;
@@ -205,11 +207,20 @@
             this.CHK_HMs.Text = "Allow HMs";
             this.CHK_HMs.UseVisualStyleBackColor = true;
             // 
+            // PB_MonSprite
+            // 
+            this.PB_MonSprite.Location = new System.Drawing.Point(193, 5);
+            this.PB_MonSprite.Name = "PB_MonSprite";
+            this.PB_MonSprite.Size = new System.Drawing.Size(40, 30);
+            this.PB_MonSprite.TabIndex = 91;
+            this.PB_MonSprite.TabStop = false;
+            // 
             // EggMove
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 412);
+            this.Controls.Add(this.PB_MonSprite);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.B_Dump);
             this.Controls.Add(this.B_RandAll);
@@ -227,6 +238,7 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Moves)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_STAB)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -247,5 +259,6 @@
         private System.Windows.Forms.NumericUpDown NUD_STAB;
         private System.Windows.Forms.CheckBox CHK_STAB;
         private System.Windows.Forms.CheckBox CHK_HMs;
+        private System.Windows.Forms.PictureBox PB_MonSprite;
     }
 }
