@@ -13,35 +13,24 @@ namespace pk3DS
         public LevelUp()
         {
             InitializeComponent();
-
-            specieslist = Personal.getSpeciesIndexStrings(Main.oras);
-
+            string[] specieslist = Personal.getSpeciesIndexStrings(Main.oras);
             specieslist[0] = movelist[0] = "";
 
-            sortedmoves = (string[])movelist.Clone();
-            Array.Sort(sortedmoves);
-
-            // Sort Species list but only for the regular dex entries.
-            string[] sortedspecies = (string[])specieslist.Clone();
-            Array.Resize(ref sortedspecies, 722);
-            Array.Sort(sortedspecies);
-            Array.Resize(ref sortedspecies, specieslist.Length);
-            Array.Copy(specieslist, 722, sortedspecies, 722, specieslist.Length - 722);
-            
-            foreach (string s in sortedspecies) CB_Species.Items.Add(s);
-            CB_Species.Items.RemoveAt(0);
-
             setupDGV();
+
+            // Sort Species list
+            for (int i = 0; i < specieslist.Length; i++)
+                CB_Species.Items.Add(String.Format("{0} - {1}", specieslist[i], i.ToString("000")));
             CB_Species.SelectedIndex = 0;
         }
         private string[] files = Directory.GetFiles("levelup");
         private int entry = -1;
         private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
-        private string[] sortedmoves;
-        private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
         bool dumping;
         private void setupDGV()
         {
+            string[] sortedmoves = (string[])movelist.Clone();
+            Array.Sort(sortedmoves);
             DataGridViewColumn dgvLevel = new DataGridViewTextBoxColumn();
             {
                 dgvLevel.HeaderText = "Level";
@@ -64,7 +53,7 @@ namespace pk3DS
         }
         private void getList()
         {
-            entry = Array.IndexOf(specieslist, CB_Species.Text);
+            entry = CB_Species.SelectedIndex;
             dgv.Rows.Clear();
             byte[] input = File.ReadAllBytes(files[entry]);
             if (input.Length <= 4) { File.WriteAllBytes(files[entry], BitConverter.GetBytes(-1)); return; }
@@ -222,7 +211,7 @@ namespace pk3DS
                 CB_Species.SelectedIndex = i; // Get new Species
                 result += "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
                 for (int j = 0; j < dgv.Rows.Count - 1; j++)
-                    result += dgv.Rows[j].Cells[0].Value + " - " + dgv.Rows[j].Cells[1].Value + Environment.NewLine;
+                    result += String.Format("{0} - {1}", dgv.Rows[j].Cells[0].Value, dgv.Rows[j].Cells[1].Value + Environment.NewLine);
 
                 result += Environment.NewLine;
             }

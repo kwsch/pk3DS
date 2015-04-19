@@ -72,7 +72,7 @@
             this.CB_Species.FormattingEnabled = true;
             this.CB_Species.Location = new System.Drawing.Point(66, 12);
             this.CB_Species.Name = "CB_Species";
-            this.CB_Species.Size = new System.Drawing.Size(121, 21);
+            this.CB_Species.Size = new System.Drawing.Size(140, 21);
             this.CB_Species.TabIndex = 1;
             this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.changeEntry);
             // 
@@ -98,7 +98,7 @@
             // 
             // B_Dump
             // 
-            this.B_Dump.Location = new System.Drawing.Point(193, 10);
+            this.B_Dump.Location = new System.Drawing.Point(248, 10);
             this.B_Dump.Name = "B_Dump";
             this.B_Dump.Size = new System.Drawing.Size(46, 23);
             this.B_Dump.TabIndex = 5;
