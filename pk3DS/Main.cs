@@ -87,10 +87,9 @@ namespace pk3DS
                     "Wild Editor (**WE): SciresM & Kaphotics" + Environment.NewLine +
                     "Trainer Editor (**TE): SciresM, Kaphotics, and KazoWAR" + Environment.NewLine +
                     "Personal Editor: SciresM" + Environment.NewLine +
-                    "Mega Evolution Editor (MEE): Huntereb & SciresM",
-
-                    "After integrating standalone tools, the following editors were implemented:" + Environment.NewLine +
-                    "Evolutions, Moves, Items, Maison, and ExeFS Editors: Kaphotics",
+                    "Mega Evolution Editor (MEE): SciresM" + Environment.NewLine +
+                    "Evolutions, Moves, Items, Maison Editors: Kaphotics",
+                    "ExeFS Editors: Kaphotics (thanks Drayano and magical!)",
 
                     "Big thanks to the ProjectPokemon community!"
                     );
@@ -113,6 +112,8 @@ namespace pk3DS
             if (!GB_RomFS.Enabled) return;
             new Thread(() =>
             {
+                // Let all other operations finish first (ie, if the user quickly switches languages on load)
+                while (threads > 0) Thread.Sleep(50);
                 // Gather the Text Language Strings
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", "gametext", getGARCFileName("gametext")));
                 threadGet(RomFS + getGARCFileName("gametext"), "gametext", true, true);
