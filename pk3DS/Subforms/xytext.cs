@@ -68,6 +68,8 @@ namespace pk3DS
                                     .Replace("\\n", " ")
                                     .Replace("\\c", "")
                                     .Replace("\\r", "")
+                                    .Replace("\\\\", "\\")
+                                    .Replace("\\[", "[")
                                 : line);
                         }
                     }
@@ -114,9 +116,11 @@ namespace pk3DS
                       "When exporting text, do not remove newline formatting."); return false; }
 
             // All Text Lines received. Store all back.
-            for (int i = 0; i < files.Length; i++)
-                File.WriteAllBytes(files[i], getBytesForFile(textLines[i]));
-            
+            try {
+                for (int i = 0; i < files.Length; i++)
+                    File.WriteAllBytes(files[i], getBytesForFile(textLines[i]));
+            }
+            catch { return false; }
             return true;
         }
         private void changeEntry(object sender, EventArgs e)
@@ -269,6 +273,10 @@ namespace pk3DS
                     switch (c)
                     {
                         case '\n': s += "\\n";
+                            break;
+                        case '\\': s += "\\\\";
+                            break;
+                        case '[': s += "\\[";
                             break;
                         case 0x10: decryptVar(data, ref offset, ref s, ref c, ref k);
                             break;
@@ -468,7 +476,28 @@ namespace pk3DS
                     bw.Write(encryptU16(1, ref key));
                     bw.Write(encryptU16(0xBE01, ref key));
                 }
-                else { throw new Exception("Invalid terminated line"); }
+                else if (line[i + 1] == '\\') // Not Formatting
+                {
+                    i++;
+                    bw.Write(encryptU16('\\', ref key));
+                }
+                else if (line[i + 1] == '[') // Not Variable
+                {
+                    i++;
+                    bw.Write(encryptU16('[', ref key));
+                }
+                else
+                {
+                    if (DialogResult.Yes != Util.Prompt(
+                        MessageBoxButtons.YesNo, 
+                        "Encoding Error - Please Resolve:", 
+                        String.Format("File: {3}{0}Char: {1}{0}Line:{0}{2}", Environment.NewLine, line[i+1], line, i), 
+                        "Treat as literal '\\'?"))
+                    throw new Exception("Invalid terminated line: " + line);
+                    
+                    i++;
+                    bw.Write(encryptU16('\\', ref key));
+                }
             else if (val == '[')    // Special Variable
             {
                 int bracket = line.Substring(i + 1).IndexOf(']');
