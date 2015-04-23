@@ -2067,6 +2067,7 @@
             this.MaximizeBox = false;
             this.Name = "RSTE";
             this.Text = "Trainer Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();

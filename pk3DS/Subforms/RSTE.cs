@@ -957,5 +957,10 @@ namespace pk3DS
             List<int> valids = megaEvos.Where(spec => (int)personal[spec][6] == type || (int)personal[spec][7] == type).ToList();
             return valids[(int)(rnd32() % valids.Count)];
         }
+
+        private void formClosing(object sender, FormClosingEventArgs e)
+        {
+            writeFile();
+        }
     }
 }
