@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -132,6 +133,7 @@ namespace pk3DS
         #region Global Variables
         private ComboBox[] trpk_pkm, trpk_lvl, trpk_item, trpk_abil,
             trpk_m1, trpk_m2, trpk_m3, trpk_m4, trpk_IV, trpk_form, trpk_gender;
+        private PictureBox[] pba;
 
         // Top Level Functions
         private string[] trdatapaths = Directory.GetFiles("trdata");
@@ -144,6 +146,7 @@ namespace pk3DS
         private string[] forms = Main.getText((Main.oras) ? 5 : 5);
         private string[] trName = Main.getText((Main.oras) ? 22 : 21);
         private string[] trClass = Main.getText((Main.oras) ? 21 : 20);
+        private string[] trText = Main.getText((Main.oras) ? 23 : 22);
         #endregion
 
         // Ability Loading
@@ -179,6 +182,8 @@ namespace pk3DS
             trpk_abil[slot].Items.Add(abilitylist[abilities[2]] + " (H)");
 
             trpk_abil[slot].SelectedIndex = previousAbility;
+
+            showTeams(slot);
         }
         // Set Loading
         private void changeTrainerType(object sender, EventArgs e)
@@ -358,6 +363,14 @@ namespace pk3DS
             }
             loading = false;
             changeTrainerType(null, null); // Prompt cleaning update of PKM fields
+
+            // Refresh Team View
+            if (!loading && !randomizing)
+            {
+                for (int i = 0; i < 6; i++) showTeams(i); 
+                // showText(); // Commented out for now, have to figure out how text is assigned.
+            }
+
         }
         // Change Write
         private void writeFile()
@@ -420,6 +433,82 @@ namespace pk3DS
             }
         }
 
+        // Image Displays
+        private void changeTeam(object sender, EventArgs e)
+        {
+            if (loading || randomizing) return;
+
+            int gendSlot = Array.IndexOf(trpk_gender, sender as ComboBox);
+            int itemSlot = Array.IndexOf(trpk_item, sender as ComboBox);
+            showTeams(gendSlot < 0 ? itemSlot : gendSlot);
+        }
+        private void showTeams(int i)
+        {
+            int species = trpk_pkm[i].SelectedIndex;
+            int form = trpk_form[i].SelectedIndex;
+            int gender = trpk_gender[i].SelectedIndex;
+            int item = trpk_item[i].SelectedIndex;
+
+            Bitmap rawImg = (Bitmap)getSprite(species, form, gender, item);
+            Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
+            for (int x = 0; x < rawImg.Width; x++)
+            {
+                for (int y = 0; y < rawImg.Height; y++)
+                {
+                    Color c = rawImg.GetPixel(x, y);
+                    bigImg.SetPixel(2 * x, 2 * y, c);
+                    bigImg.SetPixel(2 * x + 1, 2 * y, c);
+                    bigImg.SetPixel(2 * x, 2 * y + 1, c);
+                    bigImg.SetPixel(2 * x + 1, 2 * y + 1, c);
+                }
+            }
+            pba[i].Image = bigImg;
+        }
+        private void showText()
+        {
+            if (index * 2 >= trText.Length) return;
+            TB_Text1.Text = trText[index * 2];
+            TB_Text2.Text = trText[index * 2 + 1];
+        }
+
+        internal static Image getSprite(int species, int form, int gender, int item)
+        {
+            string file;
+            if (species == 0)
+            { return (Image)Properties.Resources.ResourceManager.GetObject("_0"); }
+            {
+                file = "_" + species;
+                if (form > 0) // Alt Form Handling
+                    file = file + "_" + form;
+                else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
+                    file = file + "_" + gender;
+                else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
+                    file = "_" + species + "f";
+            }
+
+            // Redrawing logic
+            Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
+            if (baseImage == null)
+            {
+                if (species < 722)
+                {
+                    baseImage = Util.LayerImage(
+                        (Image)Properties.Resources.ResourceManager.GetObject("_" + species),
+                        Properties.Resources.unknown,
+                        0, 0, .5);
+                }
+                else
+                    baseImage = Properties.Resources.unknown;
+            }
+            if (item > 0)
+            {
+                Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem;
+                // Redraw
+                baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
+            }
+            return baseImage;
+        }
+
         byte[] personalData;
         ushort[] indexList;
         private void Setup()
@@ -444,6 +533,7 @@ namespace pk3DS
 
             specieslist[0] = "---";
             abilitylist[0] = itemlist[0] = movelist[0] = "";
+            pba = new[] { PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6 };
 
             for (int i = 0; i < 6; i++)
             {
@@ -508,7 +598,6 @@ namespace pk3DS
             CB_Battle_Type.Items.Add("Triple");
             CB_Battle_Type.Items.Add("Rotation");
             CB_Battle_Type.Items.Add("Horde");
-
             megaEvos = (Main.oras) 
                 ? new[] { 15, 18, 80, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 380, 381, 428, 475, 531, 719, 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 } 
                 : new[] { 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 };
@@ -519,6 +608,7 @@ namespace pk3DS
             SystemSounds.Asterisk.Play();
         }
 
+        private bool randomizing;
         public static bool rPKM, rSmart, rLevel, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand, rTypeTheme, rTypeGymTrainers;
         public static bool[] rThemedClasses = { };
         public static string[] rTags;
@@ -580,6 +670,7 @@ namespace pk3DS
                 }
                 Console.WriteLine(t1 + ": " + types[TagTypes[t1]]);
             }
+            randomizing = true;
             for (int i = 1; i < CB_TrainerID.Items.Count; i++)
             {
                 CB_TrainerID.SelectedIndex = i; // data is loaded
@@ -700,6 +791,7 @@ namespace pk3DS
                     }
                 }
             }
+            randomizing = false;
             CB_TrainerID.SelectedIndex = 1;
             Util.Alert("Randomized all trainers according to specification!", "Press the Dump to TXT to view the new trainer information!");
         }
@@ -820,6 +912,7 @@ namespace pk3DS
             return tags;
         }
 
+        // Theme Methods
         private void TagTrainer(string[] trTags, string tag, params int[] ids)
         {
             foreach (int id in ids.Where(id => id < trTags.Length))
@@ -828,7 +921,6 @@ namespace pk3DS
             if (!Tags.Contains(tag))
                 Tags.Add(tag);
         }
-
         private int[] GetMegaStones(int species) // This is horrible.
         {
             switch (species)
@@ -927,7 +1019,6 @@ namespace pk3DS
                     return new int[] { };
             }
         }
-
         private int GetRandomType(int trainer)
         {
             if (rTags[trainer] != "") 
@@ -936,7 +1027,6 @@ namespace pk3DS
                 return (int)(rnd32()%types.Length);
             return mEvoTypes[rnd32() % mEvoTypes.Length];
         }
-
         private int[] GetMegaEvolvableTypes()
         {
             List<int> MEvoTypes = new List<int>();
@@ -951,7 +1041,6 @@ namespace pk3DS
             Console.WriteLine("There are " + MEvoTypes.Count + " types capable of mega evolution.");
             return MEvoTypes.ToArray();
         }
-
         private int GetRandomMegaEvolvablePokemon(int type)
         {
             List<int> valids = megaEvos.Where(spec => (int)personal[spec][6] == type || (int)personal[spec][7] == type).ToList();
