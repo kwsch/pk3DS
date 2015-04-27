@@ -29,10 +29,12 @@ namespace pk3DS
             // Gather
             encdatapaths = encdata;
             Array.Sort(encdatapaths);
-            filepaths = encdatapaths.Skip(2).Take(encdatapaths.Length - 2).ToArray();
+            filepaths = encdatapaths.Skip(Main.oras ? 2 : 1).Take(encdatapaths.Length - (Main.oras ? 2 : 1)).ToArray();
             zonedata = File.ReadAllBytes(encdatapaths[0]);
             zdLocations = new string[filepaths.Length];
             rawLocations = new string[filepaths.Length];
+
+            TB_File5.Visible = Main.oras; // 5th File is only present with OR/AS.
 
             // Analyze
             for (int f = 0; f < filepaths.Length; f++)
@@ -41,7 +43,7 @@ namespace pk3DS
 
                 int LocationNum = Convert.ToInt16(name.Substring(4, name.Length - 4));
                 int indNum = LocationNum * 56 + 0x1C;
-                string LocationName = gameLocations[zonedata[indNum] + (0x100 * (zonedata[indNum + 1] & 1))];
+                string LocationName = gameLocations[BitConverter.ToUInt16(zonedata, indNum) & 0x1FF];
                 zdLocations[f] = (LocationNum.ToString("000") + " - " + LocationName);
                 rawLocations[f] = LocationName;
             }
@@ -71,7 +73,7 @@ namespace pk3DS
             if (locationData == null) return;
 
             RichTextBox[] rtba = {RTB_MapInfo, RTB_OWSC, RTB_MapSC, RTB_Encounter, RTB_File5};
-            for (int i = 0; i < rtba.Length; i++)
+            for (int i = 0; i < locationData.Length; i++)
                 rtba[i].Text = BitConverter.ToString(locationData[i]).Replace('-', ' ');
 
             // File 0 - ??
@@ -101,7 +103,8 @@ namespace pk3DS
             //locationData[1] = setOWSData();
             //locationData[2] = locationData[2];
             //locationData[3] = locationData[3];
-            //locationData[4] = locationData[4];
+            //if (Main.oras)
+            //  locationData[4] = locationData[4];
             //
             //Package the files into the permanent package file.
             //byte[] raw = Util.packMini(locationData, "ZO");
@@ -306,7 +309,7 @@ namespace pk3DS
                 byte[] oldData = tData[tEntry];
                 tData[tEntry] = oldData;
             }
-            tEntry = (int)NUD_FE.Value;
+            tEntry = (int)NUD_TE.Value;
 
             // Load New Data
             byte[] data = tData[tEntry];
