@@ -266,12 +266,10 @@ namespace pk3DS
             "Megas-Mega (X) - 1",
             "Megas-Mega (Y) - 2",
             };
-            Load_XYWE(null, null);
+            Load_XYWE();
             openQuick(Directory.GetFiles("encdata"));
 
             string[] personalList = Directory.GetFiles("personal");
-            personalData = File.ReadAllBytes(personalList[personalList.Length - 1]);
-            indexList = Personal.getPersonalIndexList(personalData, Main.oras);
             personal = new byte[personalList.Length][];
             for (int i = 0; i < personalList.Length; i++)
                 personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
@@ -288,11 +286,9 @@ namespace pk3DS
         private string[] encdatapaths;
         private string[] filepaths;
 
-        byte[] personalData;
-        ushort[] indexList;
         byte[][] personal;
 
-        private void Load_XYWE(object sender, EventArgs e)
+        private void Load_XYWE()
         {
             specieslist = Main.getText((Main.oras) ? 98 : 80);
             specieslist[0] = "---";

@@ -265,8 +265,6 @@ namespace pk3DS
             openQuick(Directory.GetFiles("encdata"));
 
             string[] personalList = Directory.GetFiles("personal");
-            personalData = File.ReadAllBytes(personalList[personalList.Length - 1]);
-            indexList = Personal.getPersonalIndexList(personalData, Main.oras);
             personal = new byte[personalList.Length][];
             for (int i = 0; i < personalList.Length; i++)
                 personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
@@ -284,8 +282,6 @@ namespace pk3DS
         private string[] encdatapaths;
         private string[] filepaths;
 
-        byte[] personalData;
-        ushort[] indexList;
         byte[][] personal;
 
         private void RSWE_Load()
