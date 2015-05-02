@@ -127,8 +127,10 @@ namespace pk3DS
                 RTB_MS.Text = Util.getHexString(ScriptData);
 
                 RTB_MS.Width = RTB_MS.Text.Length < 25 * 3 * 16 ? 245 : 260;
-                L_MS1.Text = "1:0x" + BitConverter.ToUInt32(ScriptData, 0x8).ToString("X4");
-                L_MS2.Text = "2:0x" + BitConverter.ToUInt32(ScriptData, 0xC).ToString("X4");
+                L_MS08.Text = "Data Start :0x" + BitConverter.ToUInt32(ScriptData, 0x8).ToString("X4");
+                L_MS0C.Text = "Decmp Length: 0x" + BitConverter.ToUInt32(ScriptData, 0xC).ToString("X4");
+                L_MS10.Text = "Junk Offset: 0x" + BitConverter.ToUInt32(ScriptData, 0x10).ToString("X4");
+                L_MS14.Text = "Reserved Size: 0x" + BitConverter.ToUInt32(ScriptData, 0x14).ToString("X4");
             }
         }
         private void getOWSData()
@@ -174,8 +176,10 @@ namespace pk3DS
                 RTB_S.Text = Util.getHexString(ScriptData);
 
                 RTB_S.Width = RTB_S.Text.Length < 25*3*16 ? 245 : 260;
-                L_SL1.Text = "1:0x" + BitConverter.ToUInt32(ScriptData, 0x8).ToString("X4");
-                L_SL2.Text = "2:0x" + BitConverter.ToUInt32(ScriptData, 0xC).ToString("X4");
+                L_SL08.Text = "Data Start :0x" + BitConverter.ToUInt32(ScriptData, 0x8).ToString("X4");
+                L_SL0C.Text = "Decmp Length: 0x" + BitConverter.ToUInt32(ScriptData, 0xC).ToString("X4");
+                L_SL10.Text = "Junk Offset: 0x" + BitConverter.ToUInt32(ScriptData, 0x10).ToString("X4");
+                L_SL14.Text = "Reserved Size: 0x" + BitConverter.ToUInt32(ScriptData, 0x14).ToString("X4");
             }
         }
 
