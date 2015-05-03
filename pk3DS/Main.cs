@@ -510,6 +510,12 @@ namespace pk3DS
             if (ExeFS != null) new OPower().Show();
         }
 
+        // Extra Tools
+        private void L_SubTools_Click(object sender, EventArgs e)
+        {
+            new Tools().ShowDialog();
+        }
+
         // GARC Requests
         public string getGARCFileName(string requestedGARC)
         {

@@ -55,6 +55,7 @@
             this.B_MoveTutor = new System.Windows.Forms.Button();
             this.B_TMHM = new System.Windows.Forms.Button();
             this.RTB_Status = new System.Windows.Forms.RichTextBox();
+            this.L_SubTools = new System.Windows.Forms.Label();
             this.GB_RomFS.SuspendLayout();
             this.GB_ExeFS.SuspendLayout();
             this.SuspendLayout();
@@ -362,11 +363,22 @@
             this.RTB_Status.TabIndex = 7;
             this.RTB_Status.Text = "";
             // 
+            // L_SubTools
+            // 
+            this.L_SubTools.AutoSize = true;
+            this.L_SubTools.Location = new System.Drawing.Point(393, -1);
+            this.L_SubTools.Name = "L_SubTools";
+            this.L_SubTools.Size = new System.Drawing.Size(64, 13);
+            this.L_SubTools.TabIndex = 8;
+            this.L_SubTools.Text = "[Misc Tools]";
+            this.L_SubTools.Click += new System.EventHandler(this.L_SubTools_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(454, 422);
+            this.Controls.Add(this.L_SubTools);
             this.Controls.Add(this.RTB_Status);
             this.Controls.Add(this.GB_ExeFS);
             this.Controls.Add(this.L_About);
@@ -420,5 +432,6 @@
         private System.Windows.Forms.Button B_TMHM;
         public System.Windows.Forms.RichTextBox RTB_Status;
         private System.Windows.Forms.Button B_OPower;
+        private System.Windows.Forms.Label L_SubTools;
     }
 }
