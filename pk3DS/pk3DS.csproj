@@ -50,8 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ARCUtil.cs" />
     <Compile Include="BLZ.cs" />
     <Compile Include="ExeFS.cs" />
+    <Compile Include="png2bclim.cs" />
     <Compile Include="Randomizer.cs" />
     <Compile Include="RomFS.cs" />
     <Compile Include="Subforms\RSWE.cs">
@@ -172,6 +174,12 @@
     <Compile Include="Subforms\XYWE.designer.cs">
       <DependentUpon>XYWE.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\ToolsUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\ToolsUI.Designer.cs">
+      <DependentUpon>ToolsUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="Subforms\xytext.cs">
       <SubType>Form</SubType>
@@ -248,6 +256,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\XYWE.resx">
       <DependentUpon>XYWE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\ToolsUI.resx">
+      <DependentUpon>ToolsUI.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -274,7 +274,7 @@ namespace pk3DS
 
     // Sub-classes
     #region GARC Class & Struct
-    public class ARC
+    public partial class ARC
     {
         public static GARC unpackGARC(string path)
         {

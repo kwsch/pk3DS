@@ -22,9 +22,25 @@ namespace pk3DS
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             string path = files[0]; // open first D&D
-            openQuick(path);
+
+            if (sender == PB_Unpack)
+                openARC(path);
+            else if (sender == PB_BCLIM)
+                openIMG(path);
+            else if (sender == panel1)
+                saveARC(path);
         }
-        private void openQuick(string path, bool recursing = false)
+
+        private void saveARC(string path)
+        {
+            int type = comboBox1.SelectedIndex;
+            Util.Alert("Not implemented." + Environment.NewLine + path);
+        }
+        private void openIMG(string path)
+        {
+            Util.Alert("Not implemented." + Environment.NewLine + path);
+        }
+        private void openARC(string path, bool recursing = false)
         {
             try
             {
@@ -52,13 +68,13 @@ namespace pk3DS
                     if (fi.Length == length)
                     {
                         // Fetch Mini File Contents
-                        Util.unpackMini(path, fx, newFolder);
+                        ARC.unpackMini(path, fx, newFolder);
                         // Recurse throught the extracted contents if they extract successfully
                         if (Directory.Exists(newFolder))
                             foreach (string file in Directory.GetFiles(newFolder))
-                                openQuick(file, true);
+                                openARC(file, true);
                     }
-                    else if (false)
+                    else if (false) // DARC
                     {
                         
                     }

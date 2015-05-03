@@ -513,7 +513,7 @@ namespace pk3DS
         // Extra Tools
         private void L_SubTools_Click(object sender, EventArgs e)
         {
-            new Tools().ShowDialog();
+            new ToolsUI().ShowDialog();
         }
 
         // GARC Requests
