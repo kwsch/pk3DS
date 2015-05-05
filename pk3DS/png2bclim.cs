@@ -420,9 +420,9 @@ namespace pk3DS
 
 
         internal static int[] Convert5To8 = { 0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
-                                      0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
-                                      0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
-                                      0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF };
+                                              0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
+                                              0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
+                                              0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF };
 
         private static Color DecodeColor(uint val, int format)
         {
@@ -508,7 +508,7 @@ namespace pk3DS
         internal static ushort GetHILO8(Color c)
         {
             return (ushort)((c.G) + ((c.R) << 8));
-        } // HILO8
+        }   // HILO8
         internal static ushort GetRGB565(Color c)
         {
             int val = 0;
@@ -705,11 +705,11 @@ namespace pk3DS
         }
         public struct CLIM
         {
-            public UInt32 Magic;         // CLIM = 0x4D494C43
+            public UInt32 Magic;        // CLIM = 0x4D494C43
             public UInt16 BOM;          // 0xFFFE
             public UInt32 CLIMLength;   // HeaderLength - 14
-            public int TileWidth;      // 1<<[[n]]
-            public int TileHeight;     // 1<<[[n]]
+            public int TileWidth;       // 1<<[[n]]
+            public int TileHeight;      // 1<<[[n]]
             public UInt32 totalLength;  // Total Length of file
             public UInt32 Count;        // "1" , guessing it's just Count.
 
@@ -717,7 +717,7 @@ namespace pk3DS
             public UInt32 imagLength;   // HeaderLength - 10
             public UInt16 Width;        // Final Dimensions
             public UInt16 Height;       // Final Dimensions
-            public Int32 FileFormat;           // ??
+            public Int32 FileFormat;    // ??
             public UInt32 dataLength;   // Pixel Data Region Length
 
             public byte[] Data;
@@ -734,7 +734,6 @@ namespace pk3DS
             public string FileName;
             public string FilePath;
             public string Extension;
-
         }
     }
 }

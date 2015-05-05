@@ -10,9 +10,12 @@ namespace pk3DS
         public ToolsUI()
         {
             InitializeComponent();
-
+            AllowDrop = PB_Unpack.AllowDrop = PB_BCLIM.AllowDrop = true;
             PB_Unpack.DragEnter += tabMain_DragEnter;
             PB_Unpack.DragDrop += tabMain_DragDrop;
+            PB_BCLIM.DragEnter += tabMain_DragEnter;
+            PB_BCLIM.DragDrop += tabMain_DragDrop;
+            CLIMWindow = PB_BCLIM.Size;
         }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -30,7 +33,14 @@ namespace pk3DS
             else if (sender == panel1)
                 saveARC(path);
         }
-
+        private void dropHover(object sender, EventArgs e)
+        {
+            (sender as Panel).BackColor = Color.Gray;
+        }
+        private void dropLeave(object sender, EventArgs e)
+        {
+            (sender as Panel).BackColor = Color.Transparent;
+        }
         private void saveARC(string path)
         {
             int type = comboBox1.SelectedIndex;
@@ -38,7 +48,9 @@ namespace pk3DS
         }
         private void openIMG(string path)
         {
-            Util.Alert("Not implemented." + Environment.NewLine + path);
+            var img = png2bclim.makeBMP(path, CHK_PNG.Checked);
+            PB_BCLIM.Size = new Size(img.Width + 2, img.Height + 2);
+            PB_BCLIM.BackgroundImage = img;
         }
         private void openARC(string path, bool recursing = false)
         {
@@ -87,14 +99,20 @@ namespace pk3DS
                 Util.Error("File error:" + Environment.NewLine + path, e.ToString());
             }
         }
-
-        private void PB_BCLIM_Paint(object sender, PaintEventArgs e)
+        private void PB_BCLIM_Click(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control && Util.Prompt(MessageBoxButtons.YesNo, "Copy image to clipboard?") == DialogResult.Yes)
                 Clipboard.SetImage(PB_BCLIM.BackgroundImage);
             else if (PB_BCLIM.BackColor == Color.Transparent)
                 PB_BCLIM.BackColor = Color.GreenYellow;
             else PB_BCLIM.BackColor = Color.Transparent;
+        }
+
+        // Utility
+        private Size CLIMWindow;
+        private void B_Reset_Click(object sender, EventArgs e)
+        {
+            PB_BCLIM.Size = CLIMWindow;
         }
     }
 }
