@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -16,6 +17,11 @@ namespace pk3DS
             PB_BCLIM.DragEnter += tabMain_DragEnter;
             PB_BCLIM.DragDrop += tabMain_DragDrop;
             CLIMWindow = PB_BCLIM.Size;
+            CB_Repack.Items.Add("GARC Pack");
+            CB_Repack.Items.Add("GARC Pack (from Existing)");
+            CB_Repack.Items.Add("DARC Pack (use filenames)");
+            CB_Repack.Items.Add("Mini Pack (from Name)");
+            CB_Repack.SelectedIndex = 0;
         }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -30,7 +36,7 @@ namespace pk3DS
                 openARC(path);
             else if (sender == PB_BCLIM)
                 openIMG(path);
-            else if (sender == panel1)
+            else if (sender == PB_Repack)
                 saveARC(path);
         }
         private void dropHover(object sender, EventArgs e)
@@ -40,11 +46,6 @@ namespace pk3DS
         private void dropLeave(object sender, EventArgs e)
         {
             (sender as Panel).BackColor = Color.Transparent;
-        }
-        private void saveARC(string path)
-        {
-            int type = comboBox1.SelectedIndex;
-            Util.Alert("Not implemented." + Environment.NewLine + path);
         }
         private void openIMG(string path)
         {
@@ -98,6 +99,49 @@ namespace pk3DS
             {
                 Util.Error("File error:" + Environment.NewLine + path, e.ToString());
             }
+        }
+        private void saveARC(string path)
+        {
+            if (Directory.Exists(path)) { Util.Error("Input path is not a Folder", path); return; }
+            string folderName = Path.GetDirectoryName(path);
+            string parentName = Directory.GetParent(path).FullName;
+
+            int type = CB_Repack.SelectedIndex;
+            switch (type)
+            {
+                case -1: return;
+                case 0: // GARC Pack
+                case 1: // GARC Pack Existing
+                case 2: // DARC Pack
+                {
+                    Util.Alert("Repacking not implemented." + Environment.NewLine + path);
+                    return;
+                }
+                case 3: // Mini Pack
+                {
+                    string fileName = folderName.Replace("_", "");
+                    if (fileName.Length < 2) { Util.Error("Mini Folder name not valid:", path); return; }
+
+                    string fileExt = fileName.Substring(fileName.Length - 2);
+                    string fileNum = fileName.Substring(0, fileName.Length - 3); // ignore "."
+
+                    string[] filesToPack = Directory.GetFiles(path);
+                    byte[][] data = new byte[filesToPack.Length][];
+                    for (int i = 0; i < filesToPack.Length; i++) data[i] = File.ReadAllBytes(filesToPack[i]);
+                    byte[] miniBytes = ARC.packMini(data, fileExt);
+
+                    string newName = fileNum + "." + fileExt;
+                    File.WriteAllBytes(parentName + newName, miniBytes);
+                    Util.Alert("Mini Folder Repacked!",
+                        String.Format("InFolder: {0}{2}OutFile{1}", folderName, newName, Path.DirectorySeparatorChar));
+                    break;
+                }
+                default: Util.Alert("Repacking not implemented." + Environment.NewLine + path);
+                    return;
+            }
+            // Delete path after repacking
+            if (CHK_Delete.Checked)
+                Directory.Delete(path, true);
         }
         private void PB_BCLIM_Click(object sender, EventArgs e)
         {

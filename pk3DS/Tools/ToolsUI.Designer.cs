@@ -32,11 +32,12 @@
             this.L_DARCMini = new System.Windows.Forms.Label();
             this.CHK_PNG = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.PB_Repack = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.CB_Repack = new System.Windows.Forms.ComboBox();
             this.PB_BCLIM = new System.Windows.Forms.PictureBox();
             this.B_Reset = new System.Windows.Forms.Button();
+            this.CHK_Delete = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_BCLIM)).BeginInit();
             this.SuspendLayout();
             // 
@@ -78,13 +79,13 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "BCLIM Viewer";
             // 
-            // panel1
+            // PB_Repack
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(168, 124);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(144, 67);
-            this.panel1.TabIndex = 5;
+            this.PB_Repack.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PB_Repack.Location = new System.Drawing.Point(168, 124);
+            this.PB_Repack.Name = "PB_Repack";
+            this.PB_Repack.Size = new System.Drawing.Size(144, 67);
+            this.PB_Repack.TabIndex = 5;
             // 
             // label4
             // 
@@ -95,13 +96,13 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "Folder Repack";
             // 
-            // comboBox1
+            // CB_Repack
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(12, 124);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(150, 21);
-            this.comboBox1.TabIndex = 8;
+            this.CB_Repack.FormattingEnabled = true;
+            this.CB_Repack.Location = new System.Drawing.Point(12, 124);
+            this.CB_Repack.Name = "CB_Repack";
+            this.CB_Repack.Size = new System.Drawing.Size(150, 21);
+            this.CB_Repack.TabIndex = 8;
             // 
             // PB_BCLIM
             // 
@@ -124,16 +125,29 @@
             this.B_Reset.UseVisualStyleBackColor = true;
             this.B_Reset.Click += new System.EventHandler(this.B_Reset_Click);
             // 
+            // CHK_Delete
+            // 
+            this.CHK_Delete.AutoSize = true;
+            this.CHK_Delete.Checked = true;
+            this.CHK_Delete.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Delete.Location = new System.Drawing.Point(12, 148);
+            this.CHK_Delete.Name = "CHK_Delete";
+            this.CHK_Delete.Size = new System.Drawing.Size(155, 17);
+            this.CHK_Delete.TabIndex = 10;
+            this.CHK_Delete.Text = "Delete Folder after Packing";
+            this.CHK_Delete.UseVisualStyleBackColor = true;
+            // 
             // ToolsUI
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(324, 362);
+            this.Controls.Add(this.CHK_Delete);
             this.Controls.Add(this.B_Reset);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.CB_Repack);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.PB_Repack);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CHK_PNG);
             this.Controls.Add(this.PB_BCLIM);
@@ -156,10 +170,11 @@
         private System.Windows.Forms.Label L_DARCMini;
         private System.Windows.Forms.CheckBox CHK_PNG;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel PB_Repack;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox CB_Repack;
         private System.Windows.Forms.PictureBox PB_BCLIM;
         private System.Windows.Forms.Button B_Reset;
+        private System.Windows.Forms.CheckBox CHK_Delete;
     }
 }
