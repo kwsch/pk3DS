@@ -63,8 +63,7 @@ namespace pk3DS
 
                 string newFolder = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
                 // Determine if it is a DARC or a Mini
-                using (var s = new FileStream(path, FileMode.Open))
-                using (var br = new BinaryReader(s))
+                using (var br = new BinaryReader(new MemoryStream(File.ReadAllBytes(path))))
                 {
                     // Check if Mini first
                     // ushort magic = br.ReadUInt16();
@@ -87,12 +86,14 @@ namespace pk3DS
                             foreach (string file in Directory.GetFiles(newFolder))
                                 openARC(file, true);
                     }
-                    else if (false) // DARC
+                    else if (ARC.analyze(path).valid) // DARC
                     {
-                        
+                        ARC.unpackDARC(path, ARC.analyze(path));
                     }
                     else if (!recursing)
-                        Util.Alert("File is not a darc or a mini packed file:" + Environment.NewLine + path);
+                    { Util.Alert("File is not a darc or a mini packed file:" + Environment.NewLine + path); return ;}
+
+                    System.Media.SystemSounds.Asterisk.Play();
                 }
             }
             catch (Exception e)

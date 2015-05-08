@@ -674,6 +674,39 @@ namespace pk3DS
             }
         }
 
+        // Unpacking
+        internal static string unpackDARC(string asdf, DARC darc)
+        {
+            int extracted = 0;
+            int folder = 0;
+
+            for (int i = 0; i < darc.Files.Files.Count; i++)
+            {
+                if (darc.Files.Files[i].Folder > 0) folder++;
+                else
+                {
+                    extracted++;
+                    string dir = Path.GetDirectoryName(asdf) + Path.DirectorySeparatorChar + darc.FileName + Path.DirectorySeparatorChar;
+                    if (!Directory.Exists(dir)) { Directory.CreateDirectory(dir); }
+                    using (var fs = File.OpenRead(asdf))
+                    {
+                        fs.Seek(darc.Files.Files[i].Offset, SeekOrigin.Begin);
+                        byte[] fileBuffer = new byte[darc.Files.Files[i].Length];
+                        fs.Read(fileBuffer, 0, fileBuffer.Length);
+                        File.WriteAllBytes(dir + darc.Files.FileNames[i], fileBuffer);
+                    }
+                }
+            }
+
+            // Debug info string:
+            string s = "";
+            s += "Header Offset: " + darc.HeaderOffset + Environment.NewLine;
+            s += "File Count: " + darc.Files.Files.Count + Environment.NewLine;
+            s += "Extracted " + extracted + " files";
+            s += folder > 0 ? ", did not extract " + folder + " folders." : ".";
+            return s;
+        }
+
         // Generic Utility
         internal static string FixMajoraChecksum(string path)
         {
