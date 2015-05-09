@@ -162,7 +162,7 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setEntry();
-            ARC.packMini("move", "WD", "0", ".bin", "move");
+            ARC.packMini("move", "WD", "0", ".bin");
         }
 
         private void B_RandAll_Click(object sender, EventArgs e)
@@ -191,7 +191,7 @@ namespace pk3DS
             int[] moveTypes = new int[f2.Length];
             for (int i = 0; i < f2.Length; i++)
                 moveTypes[i] = File.ReadAllBytes(f2[i])[0];
-            ARC.packMini("move", "WD", "0", ".bin", "move");
+            ARC.packMini("move", "WD", "0", ".bin");
             return moveTypes;
         }
     }

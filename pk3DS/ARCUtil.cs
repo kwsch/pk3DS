@@ -498,9 +498,13 @@ namespace pk3DS
         }
 
         // Mini Packing Util
-        internal static void packMini(string path, string ident, string fileName, string outExt = null, string outFolder = null)
+        internal static void packMini(string path, string ident, string fileName, string outExt = null, string outFolder = null, bool delete = true)
         {
-            if (outFolder == null) outFolder = path;
+            if (outFolder == null)
+            {
+                delete = false;
+                outFolder = path;
+            }
             if (outExt == null) outExt = ".bin";
             // Create new Binary with the relevant header bytes
             byte[] data = new byte[4];
@@ -547,6 +551,8 @@ namespace pk3DS
                     dataout.WriteTo(newPack);
                 }
             }
+            if (delete)
+                Directory.Delete(path, true);
         }
         internal static byte[] packMini(byte[][] fileData, string ident)
         {
@@ -593,11 +599,11 @@ namespace pk3DS
                 }
             }
         }
-        internal static void unpackMini(string path, string ident, string outFolder = null)
+        internal static void unpackMini(string path, string ident, string outFolder = null, bool delete = true)
         {
             if (outFolder == null) outFolder = Path.GetDirectoryName(path);
-
-            using (var s = new FileStream(path, FileMode.Open))
+            if (!Directory.Exists(outFolder)) Directory.CreateDirectory(outFolder);
+            using (var s = new MemoryStream(File.ReadAllBytes(path)))
             using (var br = new BinaryReader(s))
             {
                 string fx = new string(br.ReadChars(2));
@@ -632,7 +638,8 @@ namespace pk3DS
                     }
                 }
             }
-            File.Delete(path); // File is unpacked.
+            if (delete)
+                File.Delete(path); // File is unpacked.
         }
         internal static byte[][] unpackMini(byte[] fileData, string ident)
         {
@@ -674,11 +681,36 @@ namespace pk3DS
             }
         }
 
+        internal static string getIsMini(string path)
+        {
+            byte[] data = File.ReadAllBytes(path);
+            var fi = new FileInfo(path);
+            try
+            {
+                string fx = new string(new[]{(char)data[0], (char)data[1]});
+                ushort count = BitConverter.ToUInt16(data, 2);
+
+                uint[] offsets = new uint[count + 1];
+                uint length = 1338;
+                for (int i = 0; i < count; i++)
+                {
+                    offsets[i] = BitConverter.ToUInt32(data, 4 + i*4);
+                    length = BitConverter.ToUInt32(data, 8 + i*4);
+                }
+
+                offsets[offsets.Length - 1] = length;
+                return (fi.Length == length) ? fx : null;
+            }
+            catch { return null; }
+        }
+
         // Unpacking
-        internal static string unpackDARC(string asdf, DARC darc)
+        internal static string unpackDARC(string path, string outFolder = null, bool delete = true)
         {
             int extracted = 0;
             int folder = 0;
+            DARC darc = analyze(path);
+            if (!darc.valid) return "Not a DARC?";
 
             for (int i = 0; i < darc.Files.Files.Count; i++)
             {
@@ -686,9 +718,9 @@ namespace pk3DS
                 else
                 {
                     extracted++;
-                    string dir = Path.GetDirectoryName(asdf) + Path.DirectorySeparatorChar + darc.FileName + Path.DirectorySeparatorChar;
+                    string dir = outFolder ?? Path.GetDirectoryName(path) + Path.DirectorySeparatorChar + darc.FileName + Path.DirectorySeparatorChar;
                     if (!Directory.Exists(dir)) { Directory.CreateDirectory(dir); }
-                    using (var fs = File.OpenRead(asdf))
+                    using (var fs = File.OpenRead(path))
                     {
                         fs.Seek(darc.Files.Files[i].Offset, SeekOrigin.Begin);
                         byte[] fileBuffer = new byte[darc.Files.Files[i].Length];
@@ -697,6 +729,8 @@ namespace pk3DS
                     }
                 }
             }
+            if (delete)
+                File.Delete(path); // File is unpacked.
 
             // Debug info string:
             string s = "";

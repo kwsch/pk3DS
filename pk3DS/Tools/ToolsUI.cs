@@ -60,45 +60,38 @@ namespace pk3DS
                 // Pre-check file length to see if it is at least valid.
                 FileInfo fi = new FileInfo(path);
                 if (fi.Length > 900000) { Util.Error("File is too big!"); return; }
+                string folderPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
 
-                string newFolder = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
                 // Determine if it is a DARC or a Mini
-                using (var br = new BinaryReader(new MemoryStream(File.ReadAllBytes(path))))
+                // Check if Mini first
+                string fx = ARC.getIsMini(path);
+                string newFolder = folderPath + "_" + fx;
+                if (fx != null) // Is Mini Packed File
                 {
-                    // Check if Mini first
-                    // ushort magic = br.ReadUInt16();
-                    string fx = new string(br.ReadChars(2));
-                    newFolder += "." + fx + "-";
-                    ushort count = br.ReadUInt16();
-                    uint[] offsets = new uint[count + 1];
-                    for (int i = 0; i < count; i++)
-                    {
-                        offsets[i] = br.ReadUInt32();
-                    }
-                    uint length = br.ReadUInt32();
-                    offsets[offsets.Length - 1] = length;
-                    if (fi.Length == length)
-                    {
-                        // Fetch Mini File Contents
-                        ARC.unpackMini(path, fx, newFolder);
-                        // Recurse throught the extracted contents if they extract successfully
-                        if (Directory.Exists(newFolder))
-                            foreach (string file in Directory.GetFiles(newFolder))
-                                openARC(file, true);
-                    }
-                    else if (ARC.analyze(path).valid) // DARC
-                    {
-                        ARC.unpackDARC(path, ARC.analyze(path));
-                    }
-                    else if (!recursing)
-                    { Util.Alert("File is not a darc or a mini packed file:" + Environment.NewLine + path); return ;}
-
-                    System.Media.SystemSounds.Asterisk.Play();
+                    // Fetch Mini File Contents
+                    ARC.unpackMini(path, fx, newFolder, false);
+                    // Recurse throught the extracted contents if they extract successfully
+                    if (Directory.Exists(newFolder))
+                        foreach (string file in Directory.GetFiles(newFolder))
+                            openARC(file, true);
                 }
+                else if (ARC.analyze(path).valid) // DARC
+                {
+                    ARC.unpackDARC(path, folderPath + "_d", false);
+                }
+                else if (BitConverter.ToUInt32(File.ReadAllBytes(path), 0) == 0x47415243) // GARC
+                {
+                    GARCTool.garcUnpack(path, folderPath + "_g", false);
+                }
+                else if (!recursing)
+                { Util.Alert("File is not a darc or a mini packed file:" + Environment.NewLine + path); return ;}
+
+                System.Media.SystemSounds.Asterisk.Play();
             }
             catch (Exception e)
             {
-                Util.Error("File error:" + Environment.NewLine + path, e.ToString());
+                if (!recursing)
+                    Util.Error("File error:" + Environment.NewLine + path, e.ToString());
             }
         }
         private void saveARC(string path)
