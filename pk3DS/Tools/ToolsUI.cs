@@ -50,6 +50,7 @@ namespace pk3DS
         private void openIMG(string path)
         {
             var img = png2bclim.makeBMP(path, CHK_PNG.Checked);
+            if (img == null) return;
             PB_BCLIM.Size = new Size(img.Width + 2, img.Height + 2);
             PB_BCLIM.BackgroundImage = img;
         }
@@ -59,7 +60,7 @@ namespace pk3DS
             {
                 // Pre-check file length to see if it is at least valid.
                 FileInfo fi = new FileInfo(path);
-                if (fi.Length > 900000) { Util.Error("File is too big!"); return; }
+                if (fi.Length > 50000000) { Util.Error("File is too big!"); return; }
                 string folderPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
 
                 // Determine if it is a DARC or a Mini
