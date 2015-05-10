@@ -680,7 +680,6 @@ namespace pk3DS
                 return returnData;
             }
         }
-
         internal static string getIsMini(string path)
         {
             byte[] data = File.ReadAllBytes(path);
@@ -725,7 +724,7 @@ namespace pk3DS
                         fs.Seek(darc.Files.Files[i].Offset, SeekOrigin.Begin);
                         byte[] fileBuffer = new byte[darc.Files.Files[i].Length];
                         fs.Read(fileBuffer, 0, fileBuffer.Length);
-                        File.WriteAllBytes(dir + darc.Files.FileNames[i], fileBuffer);
+                        File.WriteAllBytes(Path.Combine(dir, darc.Files.FileNames[i]), fileBuffer);
                     }
                 }
             }
@@ -739,6 +738,52 @@ namespace pk3DS
             s += "Extracted " + extracted + " files";
             s += folder > 0 ? ", did not extract " + folder + " folders." : ".";
             return s;
+        }
+
+        internal static void repackDARC(string path, string fileName, string outfolder = null, bool header = true, bool delete = true)
+        {
+            var data = new byte[0];
+            string[] files = Directory.GetFiles(path);
+            int count = files.Length;
+
+            if (outfolder == null)
+            {
+                outfolder = Directory.GetParent(path).FullName;
+            }
+            string donor = Path.Combine(outfolder, fileName);
+
+            if (header && File.Exists(donor))
+            {
+                data = data.Concat(BitConverter.GetBytes(count)).ToArray();
+                foreach (string file in files)
+                {
+                    // File Names are 0x40 characters
+                    string fn = new FileInfo(file).Name;
+                    byte[] bytes = Encoding.ASCII.GetBytes(fn);
+                    Array.Resize(ref bytes, 0x40);
+                    data = data.Concat(bytes).ToArray();
+                }
+
+                // Check the original file
+                byte[] donorBytes = File.ReadAllBytes(donor);
+                if (data.SequenceEqual(donorBytes.Take(data.Length)))
+                {
+                    int headerLen = data.Length + BitConverter.ToInt32(donorBytes, data.Length)*0x20;
+                    headerLen += (0x80 - headerLen%0x80);
+                    data = donorBytes.Take(headerLen).ToArray();
+                }
+                else
+                {
+                    data = new byte[0];
+                }
+            }
+            if (data.Length == 0)
+            {
+                //var dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Donor DARC has no header. Export without header?");
+                //if (dr != DialogResult.Yes) 
+                return;
+            }
+            Util.Alert("Not finished.");
         }
 
         // Generic Utility
