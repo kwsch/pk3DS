@@ -55,8 +55,8 @@
             this.L_WarpDest = new System.Windows.Forms.Label();
             this.NUD_WTile = new System.Windows.Forms.NumericUpDown();
             this.NUD_WMap = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_DestWarpTile = new System.Windows.Forms.Label();
+            this.L_DestMap = new System.Windows.Forms.Label();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.NUD_WE = new System.Windows.Forms.NumericUpDown();
             this.L_WE = new System.Windows.Forms.Label();
@@ -65,12 +65,16 @@
             this.NUD_TE = new System.Windows.Forms.NumericUpDown();
             this.L_TE = new System.Windows.Forms.Label();
             this.tb_Script = new System.Windows.Forms.TabPage();
+            this.L_SL14 = new System.Windows.Forms.Label();
+            this.L_SL10 = new System.Windows.Forms.Label();
             this.L_SL0C = new System.Windows.Forms.Label();
             this.L_SL08 = new System.Windows.Forms.Label();
             this.RTB_S = new System.Windows.Forms.RichTextBox();
             this.NUD_NPCCount = new System.Windows.Forms.NumericUpDown();
             this.L_NPCCount = new System.Windows.Forms.Label();
             this.tb_MSC = new System.Windows.Forms.TabPage();
+            this.L_MS14 = new System.Windows.Forms.Label();
+            this.L_MS10 = new System.Windows.Forms.Label();
             this.L_MS0C = new System.Windows.Forms.Label();
             this.L_MS08 = new System.Windows.Forms.Label();
             this.RTB_MS = new System.Windows.Forms.RichTextBox();
@@ -82,10 +86,7 @@
             this.RTB_OWSC = new System.Windows.Forms.RichTextBox();
             this.RTB_Encounter = new System.Windows.Forms.RichTextBox();
             this.RTB_MapSC = new System.Windows.Forms.RichTextBox();
-            this.L_SL14 = new System.Windows.Forms.Label();
-            this.L_SL10 = new System.Windows.Forms.Label();
-            this.L_MS14 = new System.Windows.Forms.Label();
-            this.L_MS10 = new System.Windows.Forms.Label();
+            this.L_TextFile = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TrigCount)).BeginInit();
@@ -318,7 +319,7 @@
             this.tb_Overworld.Location = new System.Drawing.Point(4, 22);
             this.tb_Overworld.Name = "tb_Overworld";
             this.tb_Overworld.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_Overworld.Size = new System.Drawing.Size(347, 311);
+            this.tb_Overworld.Size = new System.Drawing.Size(334, 311);
             this.tb_Overworld.TabIndex = 1;
             this.tb_Overworld.Text = "Overworld";
             this.tb_Overworld.UseVisualStyleBackColor = true;
@@ -382,8 +383,8 @@
             this.tb_Warp.Controls.Add(this.L_WarpDest);
             this.tb_Warp.Controls.Add(this.NUD_WTile);
             this.tb_Warp.Controls.Add(this.NUD_WMap);
-            this.tb_Warp.Controls.Add(this.label2);
-            this.tb_Warp.Controls.Add(this.label1);
+            this.tb_Warp.Controls.Add(this.L_DestWarpTile);
+            this.tb_Warp.Controls.Add(this.L_DestMap);
             this.tb_Warp.Controls.Add(this.richTextBox2);
             this.tb_Warp.Controls.Add(this.NUD_WE);
             this.tb_Warp.Controls.Add(this.L_WE);
@@ -427,23 +428,23 @@
             this.NUD_WMap.Size = new System.Drawing.Size(53, 20);
             this.NUD_WMap.TabIndex = 430;
             // 
-            // label2
+            // L_DestWarpTile
             // 
-            this.label2.Location = new System.Drawing.Point(3, 55);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(120, 15);
-            this.label2.TabIndex = 429;
-            this.label2.Text = "Destination WarpTile:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_DestWarpTile.Location = new System.Drawing.Point(3, 55);
+            this.L_DestWarpTile.Name = "L_DestWarpTile";
+            this.L_DestWarpTile.Size = new System.Drawing.Size(120, 15);
+            this.L_DestWarpTile.TabIndex = 429;
+            this.L_DestWarpTile.Text = "Destination WarpTile:";
+            this.L_DestWarpTile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label1
+            // L_DestMap
             // 
-            this.label1.Location = new System.Drawing.Point(3, 34);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 15);
-            this.label1.TabIndex = 428;
-            this.label1.Text = "Destination Map:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_DestMap.Location = new System.Drawing.Point(3, 34);
+            this.L_DestMap.Name = "L_DestMap";
+            this.L_DestMap.Size = new System.Drawing.Size(120, 15);
+            this.L_DestMap.TabIndex = 428;
+            this.L_DestMap.Text = "Destination Map:";
+            this.L_DestMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // richTextBox2
             // 
@@ -537,6 +538,24 @@
             this.tb_Script.Text = "ScriptData";
             this.tb_Script.UseVisualStyleBackColor = true;
             // 
+            // L_SL14
+            // 
+            this.L_SL14.AutoSize = true;
+            this.L_SL14.Location = new System.Drawing.Point(154, 24);
+            this.L_SL14.Name = "L_SL14";
+            this.L_SL14.Size = new System.Drawing.Size(19, 13);
+            this.L_SL14.TabIndex = 426;
+            this.L_SL14.Text = "L2";
+            // 
+            // L_SL10
+            // 
+            this.L_SL10.AutoSize = true;
+            this.L_SL10.Location = new System.Drawing.Point(154, 4);
+            this.L_SL10.Name = "L_SL10";
+            this.L_SL10.Size = new System.Drawing.Size(19, 13);
+            this.L_SL10.TabIndex = 425;
+            this.L_SL10.Text = "L1";
+            // 
             // L_SL0C
             // 
             this.L_SL0C.AutoSize = true;
@@ -600,6 +619,24 @@
             this.tb_MSC.TabIndex = 2;
             this.tb_MSC.Text = "Map SC";
             this.tb_MSC.UseVisualStyleBackColor = true;
+            // 
+            // L_MS14
+            // 
+            this.L_MS14.AutoSize = true;
+            this.L_MS14.Location = new System.Drawing.Point(270, 66);
+            this.L_MS14.Name = "L_MS14";
+            this.L_MS14.Size = new System.Drawing.Size(19, 13);
+            this.L_MS14.TabIndex = 429;
+            this.L_MS14.Text = "L2";
+            // 
+            // L_MS10
+            // 
+            this.L_MS10.AutoSize = true;
+            this.L_MS10.Location = new System.Drawing.Point(270, 46);
+            this.L_MS10.Name = "L_MS10";
+            this.L_MS10.Size = new System.Drawing.Size(19, 13);
+            this.L_MS10.TabIndex = 428;
+            this.L_MS10.Text = "L1";
             // 
             // L_MS0C
             // 
@@ -714,47 +751,21 @@
             this.RTB_MapSC.TabIndex = 419;
             this.RTB_MapSC.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF";
             // 
-            // L_SL14
+            // L_TextFile
             // 
-            this.L_SL14.AutoSize = true;
-            this.L_SL14.Location = new System.Drawing.Point(154, 24);
-            this.L_SL14.Name = "L_SL14";
-            this.L_SL14.Size = new System.Drawing.Size(19, 13);
-            this.L_SL14.TabIndex = 426;
-            this.L_SL14.Text = "L2";
-            // 
-            // L_SL10
-            // 
-            this.L_SL10.AutoSize = true;
-            this.L_SL10.Location = new System.Drawing.Point(154, 4);
-            this.L_SL10.Name = "L_SL10";
-            this.L_SL10.Size = new System.Drawing.Size(19, 13);
-            this.L_SL10.TabIndex = 425;
-            this.L_SL10.Text = "L1";
-            // 
-            // L_MS14
-            // 
-            this.L_MS14.AutoSize = true;
-            this.L_MS14.Location = new System.Drawing.Point(270, 66);
-            this.L_MS14.Name = "L_MS14";
-            this.L_MS14.Size = new System.Drawing.Size(19, 13);
-            this.L_MS14.TabIndex = 429;
-            this.L_MS14.Text = "L2";
-            // 
-            // L_MS10
-            // 
-            this.L_MS10.AutoSize = true;
-            this.L_MS10.Location = new System.Drawing.Point(270, 46);
-            this.L_MS10.Name = "L_MS10";
-            this.L_MS10.Size = new System.Drawing.Size(19, 13);
-            this.L_MS10.TabIndex = 428;
-            this.L_MS10.Text = "L1";
+            this.L_TextFile.AutoSize = true;
+            this.L_TextFile.Location = new System.Drawing.Point(216, 8);
+            this.L_TextFile.Name = "L_TextFile";
+            this.L_TextFile.Size = new System.Drawing.Size(50, 13);
+            this.L_TextFile.TabIndex = 418;
+            this.L_TextFile.Text = "Text File:";
             // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 412);
+            this.Controls.Add(this.L_TextFile);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.L_Location);
             this.Controls.Add(this.CB_LocationID);
@@ -834,8 +845,8 @@
         private System.Windows.Forms.RichTextBox RTB_S;
         private System.Windows.Forms.NumericUpDown NUD_WTile;
         private System.Windows.Forms.NumericUpDown NUD_WMap;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_DestWarpTile;
+        private System.Windows.Forms.Label L_DestMap;
         private System.Windows.Forms.Label L_SL0C;
         private System.Windows.Forms.Label L_SL08;
         private System.Windows.Forms.TabPage tabPage1;
@@ -849,6 +860,7 @@
         private System.Windows.Forms.Label L_SL10;
         private System.Windows.Forms.Label L_MS14;
         private System.Windows.Forms.Label L_MS10;
+        private System.Windows.Forms.Label L_TextFile;
     }
 }
 

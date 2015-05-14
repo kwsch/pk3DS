@@ -139,6 +139,7 @@ namespace pk3DS
             int len = BitConverter.ToInt32(data, 0);
 
             RTB_zonedata.Text = BitConverter.ToString(zonedata.Skip(56 * entry).Take(56).ToArray()).Replace('-', ' ');
+            L_TextFile.Text = "Text File: " + BitConverter.ToUInt16(zonedata, 56 * entry + 6).ToString("000");
 
             byte[] owData = data.Skip(4).Take(len).ToArray();
             // Process owData Header
