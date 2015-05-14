@@ -87,6 +87,7 @@
             this.RTB_Encounter = new System.Windows.Forms.RichTextBox();
             this.RTB_MapSC = new System.Windows.Forms.RichTextBox();
             this.L_TextFile = new System.Windows.Forms.Label();
+            this.L_Map = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TrigCount)).BeginInit();
@@ -760,11 +761,21 @@
             this.L_TextFile.TabIndex = 418;
             this.L_TextFile.Text = "Text File:";
             // 
+            // L_Map
+            // 
+            this.L_Map.AutoSize = true;
+            this.L_Map.Location = new System.Drawing.Point(366, 8);
+            this.L_Map.Name = "L_Map";
+            this.L_Map.Size = new System.Drawing.Size(50, 13);
+            this.L_Map.TabIndex = 419;
+            this.L_Map.Text = "Map File:";
+            // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 412);
+            this.Controls.Add(this.L_Map);
             this.Controls.Add(this.L_TextFile);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.L_Location);
@@ -861,6 +872,7 @@
         private System.Windows.Forms.Label L_MS14;
         private System.Windows.Forms.Label L_MS10;
         private System.Windows.Forms.Label L_TextFile;
+        private System.Windows.Forms.Label L_Map;
     }
 }
 
