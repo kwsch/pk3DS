@@ -31,6 +31,7 @@
             this.B_Open = new System.Windows.Forms.Button();
             this.TB_Path = new System.Windows.Forms.TextBox();
             this.GB_RomFS = new System.Windows.Forms.GroupBox();
+            this.B_Wallpaper = new System.Windows.Forms.Button();
             this.B_Maison = new System.Windows.Forms.Button();
             this.B_EggMove = new System.Windows.Forms.Button();
             this.B_LevelUp = new System.Windows.Forms.Button();
@@ -84,6 +85,7 @@
             // 
             this.GB_RomFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.GB_RomFS.Controls.Add(this.B_Wallpaper);
             this.GB_RomFS.Controls.Add(this.B_Maison);
             this.GB_RomFS.Controls.Add(this.B_EggMove);
             this.GB_RomFS.Controls.Add(this.B_LevelUp);
@@ -104,13 +106,24 @@
             this.GB_RomFS.TabStop = false;
             this.GB_RomFS.Text = "RomFS Editing Tools";
             // 
+            // B_Wallpaper
+            // 
+            this.B_Wallpaper.Enabled = false;
+            this.B_Wallpaper.Location = new System.Drawing.Point(350, 77);
+            this.B_Wallpaper.Name = "B_Wallpaper";
+            this.B_Wallpaper.Size = new System.Drawing.Size(74, 23);
+            this.B_Wallpaper.TabIndex = 12;
+            this.B_Wallpaper.Text = "Wallpaper";
+            this.B_Wallpaper.UseVisualStyleBackColor = true;
+            this.B_Wallpaper.Click += new System.EventHandler(this.B_Wallpaper_Click);
+            // 
             // B_Maison
             // 
-            this.B_Maison.Location = new System.Drawing.Point(112, 77);
+            this.B_Maison.Location = new System.Drawing.Point(92, 77);
             this.B_Maison.Name = "B_Maison";
-            this.B_Maison.Size = new System.Drawing.Size(100, 23);
+            this.B_Maison.Size = new System.Drawing.Size(80, 23);
             this.B_Maison.TabIndex = 5;
-            this.B_Maison.Text = "Maison Editor";
+            this.B_Maison.Text = "Maison";
             this.B_Maison.UseVisualStyleBackColor = true;
             this.B_Maison.Click += new System.EventHandler(this.B_Maison_Click);
             // 
@@ -120,7 +133,7 @@
             this.B_EggMove.Name = "B_EggMove";
             this.B_EggMove.Size = new System.Drawing.Size(100, 23);
             this.B_EggMove.TabIndex = 10;
-            this.B_EggMove.Text = "Egg Move Editor";
+            this.B_EggMove.Text = "Egg Moves";
             this.B_EggMove.UseVisualStyleBackColor = true;
             this.B_EggMove.Click += new System.EventHandler(this.B_EggMove_Click);
             // 
@@ -130,7 +143,7 @@
             this.B_LevelUp.Name = "B_LevelUp";
             this.B_LevelUp.Size = new System.Drawing.Size(100, 23);
             this.B_LevelUp.TabIndex = 9;
-            this.B_LevelUp.Text = "Level Up Editor";
+            this.B_LevelUp.Text = "Level Up Moves";
             this.B_LevelUp.UseVisualStyleBackColor = true;
             this.B_LevelUp.Click += new System.EventHandler(this.B_LevelUp_Click);
             // 
@@ -140,27 +153,27 @@
             this.B_StoryText.Name = "B_StoryText";
             this.B_StoryText.Size = new System.Drawing.Size(100, 23);
             this.B_StoryText.TabIndex = 1;
-            this.B_StoryText.Text = "Story Text Editor";
+            this.B_StoryText.Text = "Story Text";
             this.B_StoryText.UseVisualStyleBackColor = true;
             this.B_StoryText.Click += new System.EventHandler(this.B_StoryText_Click);
             // 
             // B_Item
             // 
-            this.B_Item.Location = new System.Drawing.Point(218, 77);
+            this.B_Item.Location = new System.Drawing.Point(178, 77);
             this.B_Item.Name = "B_Item";
-            this.B_Item.Size = new System.Drawing.Size(100, 23);
+            this.B_Item.Size = new System.Drawing.Size(80, 23);
             this.B_Item.TabIndex = 8;
-            this.B_Item.Text = "Item Editor";
+            this.B_Item.Text = "Item Stats";
             this.B_Item.UseVisualStyleBackColor = true;
             this.B_Item.Click += new System.EventHandler(this.B_Item_Click);
             // 
             // B_Move
             // 
-            this.B_Move.Location = new System.Drawing.Point(324, 77);
+            this.B_Move.Location = new System.Drawing.Point(264, 77);
             this.B_Move.Name = "B_Move";
-            this.B_Move.Size = new System.Drawing.Size(100, 23);
+            this.B_Move.Size = new System.Drawing.Size(80, 23);
             this.B_Move.TabIndex = 11;
-            this.B_Move.Text = "Move Editor";
+            this.B_Move.Text = "Move Stats";
             this.B_Move.UseVisualStyleBackColor = true;
             this.B_Move.Click += new System.EventHandler(this.B_Move_Click);
             // 
@@ -170,7 +183,7 @@
             this.B_Evolution.Name = "B_Evolution";
             this.B_Evolution.Size = new System.Drawing.Size(100, 23);
             this.B_Evolution.TabIndex = 6;
-            this.B_Evolution.Text = "Evolution Editor";
+            this.B_Evolution.Text = "Evolutions";
             this.B_Evolution.UseVisualStyleBackColor = true;
             this.B_Evolution.Click += new System.EventHandler(this.B_Evolution_Click);
             // 
@@ -180,7 +193,7 @@
             this.B_Personal.Name = "B_Personal";
             this.B_Personal.Size = new System.Drawing.Size(100, 23);
             this.B_Personal.TabIndex = 3;
-            this.B_Personal.Text = "Personal Editor";
+            this.B_Personal.Text = "Personal Stats";
             this.B_Personal.UseVisualStyleBackColor = true;
             this.B_Personal.Click += new System.EventHandler(this.B_Personal_Click);
             // 
@@ -190,7 +203,7 @@
             this.B_MegaEvo.Name = "B_MegaEvo";
             this.B_MegaEvo.Size = new System.Drawing.Size(100, 23);
             this.B_MegaEvo.TabIndex = 7;
-            this.B_MegaEvo.Text = "Mega Evo Editor";
+            this.B_MegaEvo.Text = "Mega Evolutions";
             this.B_MegaEvo.UseVisualStyleBackColor = true;
             this.B_MegaEvo.Click += new System.EventHandler(this.B_MegaEvo_Click);
             // 
@@ -200,7 +213,7 @@
             this.B_Wild.Name = "B_Wild";
             this.B_Wild.Size = new System.Drawing.Size(100, 23);
             this.B_Wild.TabIndex = 4;
-            this.B_Wild.Text = "Wild Editor";
+            this.B_Wild.Text = "Wild Encounters";
             this.B_Wild.UseVisualStyleBackColor = true;
             this.B_Wild.Click += new System.EventHandler(this.B_Wild_Click);
             // 
@@ -208,9 +221,9 @@
             // 
             this.B_Trainer.Location = new System.Drawing.Point(6, 77);
             this.B_Trainer.Name = "B_Trainer";
-            this.B_Trainer.Size = new System.Drawing.Size(100, 23);
+            this.B_Trainer.Size = new System.Drawing.Size(80, 23);
             this.B_Trainer.TabIndex = 2;
-            this.B_Trainer.Text = "Trainer Editor";
+            this.B_Trainer.Text = "Trainer";
             this.B_Trainer.UseVisualStyleBackColor = true;
             this.B_Trainer.Click += new System.EventHandler(this.B_Trainer_Click);
             // 
@@ -220,7 +233,7 @@
             this.B_GameText.Name = "B_GameText";
             this.B_GameText.Size = new System.Drawing.Size(100, 23);
             this.B_GameText.TabIndex = 0;
-            this.B_GameText.Text = "Game Text Editor";
+            this.B_GameText.Text = "Game Text";
             this.B_GameText.UseVisualStyleBackColor = true;
             this.B_GameText.Click += new System.EventHandler(this.B_GameText_Click);
             // 
@@ -433,5 +446,6 @@
         public System.Windows.Forms.RichTextBox RTB_Status;
         private System.Windows.Forms.Button B_OPower;
         private System.Windows.Forms.Label L_SubTools;
+        private System.Windows.Forms.Button B_Wallpaper;
     }
 }

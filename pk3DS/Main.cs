@@ -436,6 +436,18 @@ namespace pk3DS
                 fileSet(files);
             }).Start();
         }
+        private void B_Wallpaper_Click(object sender, EventArgs e)
+        {
+
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            new Thread(() =>
+            {
+                string[] files = { "wallpaper" };
+                fileGet(files);
+                Invoke((Action)(() => new TitleScreen().ShowDialog()));
+                fileSet(files);
+            }).Start();
+        }
         // RomFS File Requesting Method Wrapper
         private void fileGet(string[] files, bool skipDecompression = true, bool skipGet = false)
         {
@@ -543,6 +555,7 @@ namespace pk3DS
                 case "megaevo": ans = (oras) ? getGARCPath(1, 9, 3) : getGARCPath(2, 1, 6); break;
                 case "personal": ans = (oras) ? getGARCPath(1, 9, 5) : getGARCPath(2, 1, 8); break;
                 case "item": ans = (oras) ? getGARCPath(1, 9, 7) : getGARCPath(2, 2, 0); break;
+                case "wallpaper": ans = (oras) ? getGARCPath(1, 0, 3) : getGARCPath(1, 0, 4); break;
             }
             return ans;
         }
