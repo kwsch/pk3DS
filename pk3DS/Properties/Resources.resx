@@ -4495,4 +4495,28 @@
   <data name="helditem" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\item\helditem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Distributed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\romdata\bin\Logo\Distributed.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="iQue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\romdata\bin\Logo\iQue.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="iQueForSystem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\romdata\bin\Logo\iQueForSystem.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Licensed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\romdata\bin\Logo\Licensed.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Nintendo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\romdata\bin\Logo\Nintendo.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ORAS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\romdata\bin\PlainRegion\ORAS.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="XY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\romdata\bin\PlainRegion\XY.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_3dsgames" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\romdata\txt\3dsgames.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

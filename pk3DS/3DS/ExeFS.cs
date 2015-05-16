@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace pk3DS
+namespace CTR
 {
-    public class ExeFS //A lot of this is lifted directly from pk3DS.
+    public class ExeFS
     {
         public byte[] Data;
         public byte[] SuperBlockHash;

@@ -24,7 +24,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-namespace blz
+namespace BLZ
 {
     public class BLZCoder
     {

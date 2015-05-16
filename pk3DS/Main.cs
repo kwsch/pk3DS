@@ -20,7 +20,7 @@ using System.Linq;
 using System.Media;
 using System.Threading;
 using System.Windows.Forms;
-using blz;
+using BLZ;
 
 namespace pk3DS
 {
@@ -271,7 +271,7 @@ namespace pk3DS
                     updateStatus(Environment.NewLine + "Building RomFS binary. Please wait until the program finishes.");
 
                     threads++;
-                    RomFSTool.BuildRomFS(sfd.FileName, RomFSPath, RTB_Status, pBar1);
+                    CTR.RomFS.BuildRomFS(sfd.FileName, RomFSPath, RTB_Status, pBar1);
                     threads--;
 
                     updateStatus("RomFS binary saved." + Environment.NewLine);
@@ -490,7 +490,7 @@ namespace pk3DS
                     threads++;
                     new BLZCoder(new[] { "-en", files[file] }, pBar1);
                     Util.Alert("Compressed!");
-                    ExeFS.set(Directory.GetFiles(ExeFSPath), sfd.FileName);
+                    CTR.ExeFS.set(Directory.GetFiles(ExeFSPath), sfd.FileName);
                     threads--;
                 }).Start();
             }

@@ -5,11 +5,11 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 
-namespace pk3DS
+namespace CTR
 {
-    // Info acquisition
     public class RomFS
     {
+        // Get Info
         public string FileName;
         public bool isTempFile;
         public byte[] SuperBlockHash;
@@ -35,10 +35,8 @@ namespace pk3DS
                 }
             }
         }
-    }
-    // File operation
-    public class RomFSTool
-    {
+
+        // Build
         internal const int PADDING_ALIGN = 16;
         internal static string ROOT_DIR;
         internal const string TempFile = "tempRomFS.bin";
@@ -77,7 +75,7 @@ namespace pk3DS
             updateTB(TB_Progress, "Creating Layout...");
             for (int i = 0; i < FNT.NumFiles; i++)
             {
-                In[i] = new LayoutManager.Input {FilePath = FNT.NameEntryTable[i].FullName, AlignmentSize = 0x10};
+                In[i] = new LayoutManager.Input { FilePath = FNT.NameEntryTable[i].FullName, AlignmentSize = 0x10 };
             }
             LayoutManager.Output[] Out = LayoutManager.Create(In);
             for (int i = 0; i < Out.Length; i++)
@@ -110,10 +108,10 @@ namespace pk3DS
         internal static void MakeRomFSData(RomfsFile[] RomFiles, MemoryStream metadata, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
             updateTB(TB_Progress, "Computing IVFC Header Data...");
-            IVFCInfo ivfc = new IVFCInfo {Levels = new IVFCLevel[3]};
+            IVFCInfo ivfc = new IVFCInfo { Levels = new IVFCLevel[3] };
             for (int i = 0; i < ivfc.Levels.Length; i++)
             {
-                ivfc.Levels[i] = new IVFCLevel {BlockSize = 0x1000};
+                ivfc.Levels[i] = new IVFCLevel { BlockSize = 0x1000 };
             }
             ivfc.Levels[2].DataLength = RomfsFile.GetDataBlockLength(RomFiles, (ulong)metadata.Length);
             ivfc.Levels[1].DataLength = (Align(ivfc.Levels[2].DataLength, ivfc.Levels[2].BlockSize) / ivfc.Levels[2].BlockSize) * 0x20; //0x20 per SHA256 hash
@@ -154,7 +152,7 @@ namespace pk3DS
                 if (PB_Show.InvokeRequired)
                     PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = RomFiles.Length; });
                 else { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = RomFiles.Length; }
-                    
+
                 foreach (RomfsFile t in RomFiles)
                 {
                     OutFileStream.Seek(baseOfs + (long)t.Offset, SeekOrigin.Begin);
@@ -181,9 +179,9 @@ namespace pk3DS
                     byte[] buffer = new byte[(int)ivfc.Levels[i].BlockSize];
 
                     if (PB_Show.InvokeRequired)
-                    PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = (int)(ivfc.Levels[i].DataLength / ivfc.Levels[i].BlockSize); });
+                        PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = (int)(ivfc.Levels[i].DataLength / ivfc.Levels[i].BlockSize); });
                     else { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = (int)(ivfc.Levels[i].DataLength / ivfc.Levels[i].BlockSize); }
-                    
+
                     for (long ofs = 0; ofs < (long)ivfc.Levels[i].DataLength; ofs += ivfc.Levels[i].BlockSize)
                     {
                         OutFileStream.Seek(hOfs, SeekOrigin.Begin);
@@ -227,7 +225,7 @@ namespace pk3DS
             }
             updateTB(TB_Progress, "RomFS Super Block Hash: " + ByteArrayToString(SuperBlockHash));
             updateTB(TB_Progress, "Saving to destination...");
-            
+
             if (File.Exists(OutFile)) File.Delete(OutFile);
             File.Move(TempFile, OutFile);
         }
@@ -264,7 +262,7 @@ namespace pk3DS
                 }
             }
             File.Delete(TempFile);
-            Util.Alert("Wrote RomFS to path:", outFile);
+            updateTB(TB_Progress, "Wrote RomFS to path:" + Environment.NewLine + outFile);
         }
         internal static string ByteArrayToString(IEnumerable<byte> input)
         {
@@ -317,7 +315,7 @@ namespace pk3DS
             MetaData.M_DirHashTableEntry = GetHashTableEntryCount(MetaData.DirNum);
             MetaData.M_FileHashTableEntry = GetHashTableEntryCount(MetaData.FileNum);
 
-            uint MetaDataSize = (uint)Align((0x28 + MetaData.M_DirHashTableEntry * 4 + MetaData.M_DirTableLen + MetaData.M_FileHashTableEntry * 4 + MetaData.M_FileTableLen), PADDING_ALIGN); 
+            uint MetaDataSize = (uint)Align((0x28 + MetaData.M_DirHashTableEntry * 4 + MetaData.M_DirTableLen + MetaData.M_FileHashTableEntry * 4 + MetaData.M_FileTableLen), PADDING_ALIGN);
             for (int i = 0; i < MetaData.M_DirHashTableEntry; i++)
                 MetaData.DirHashTable.Add(ROMFS_UNUSED_ENTRY);
 
@@ -484,14 +482,14 @@ namespace pk3DS
             if (!DoSubs)
             {
                 uint CurrentDir = MetaData.DirTableLen;
-                Romfs_DirEntry Entry = new Romfs_DirEntry {ParentOffset = parent};
+                Romfs_DirEntry Entry = new Romfs_DirEntry { ParentOffset = parent };
                 Entry.ChildOffset = Entry.HashKeyPointer = Entry.FileOffset = ROMFS_UNUSED_ENTRY;
                 Entry.SiblingOffset = sibling;
                 Entry.FullName = Dir.FullName;
                 Entry.Name = (Entry.FullName == ROOT_DIR) ? "" : Dir.Name;
                 Entry.Offset = CurrentDir;
                 MetaData.DirTable.DirectoryTable.Add(Entry);
-                MetaData.DirTableLen += (CurrentDir == 0) ? 0x18 : 0x18 + (uint) Align((ulong) Dir.Name.Length*2, 4);
+                MetaData.DirTableLen += (CurrentDir == 0) ? 0x18 : 0x18 + (uint)Align((ulong)Dir.Name.Length * 2, 4);
                 // int ParentIndex = GetRomfsDirEntry(MetaData, Dir.FullName);
                 // uint poff = MetaData.DirTable.DirectoryTable[ParentIndex].Offset;
             }
@@ -611,12 +609,11 @@ namespace pk3DS
 
             //Padding
             while (stream.Position % PADDING_ALIGN != 0)
-                 stream.Write(new byte[PADDING_ALIGN - (stream.Position % 0x10)], 0, (int)(PADDING_ALIGN - (stream.Position % 0x10)));
+                stream.Write(new byte[PADDING_ALIGN - (stream.Position % 0x10)], 0, (int)(PADDING_ALIGN - (stream.Position % 0x10)));
             //All Done.
         }
 
         //GetRomfs[...]Entry Functions are all O(n)
-
         internal static int GetRomfsDirEntry(Romfs_MetaData MetaData, string FullName)
         {
             for (int i = 0; i < MetaData.DirTable.DirectoryTable.Count; i++)
