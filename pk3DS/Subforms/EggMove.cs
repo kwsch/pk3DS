@@ -108,7 +108,7 @@ namespace pk3DS
 
             ushort[] HMs = { 15, 19, 57, 70, 127, 249, 291 };
             ushort[] TMs = { };
-            if (CHK_HMs.Checked && Main.ExeFS != null)
+            if (CHK_HMs.Checked && Main.ExeFSPath != null)
                 TMHM.getTMHMList(Main.oras, ref TMs, ref HMs);
 
             int[] banned = new int[HMs.Length];

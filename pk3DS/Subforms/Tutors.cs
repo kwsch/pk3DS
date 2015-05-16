@@ -9,8 +9,8 @@ namespace pk3DS
         public Tutors()
         {
             InitializeComponent();
-            if (Main.ExeFS == null) { Util.Alert("No exeFS code to load."); Close(); }
-            string[] files = Directory.GetFiles(Main.ExeFS);
+            if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); Close(); }
+            string[] files = Directory.GetFiles(Main.ExeFSPath);
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
             if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }

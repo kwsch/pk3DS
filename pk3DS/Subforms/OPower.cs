@@ -10,8 +10,8 @@ namespace pk3DS
         public OPower()
         {
             InitializeComponent();
-            if (Main.ExeFS == null) { Util.Alert("No exeFS code to load."); Close(); }
-            string[] files = Directory.GetFiles(Main.ExeFS);
+            if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); Close(); }
+            string[] files = Directory.GetFiles(Main.ExeFSPath);
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
             codebin = files[0];
             exefsData = File.ReadAllBytes(codebin);

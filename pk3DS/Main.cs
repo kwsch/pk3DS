@@ -58,8 +58,8 @@ namespace pk3DS
             skipBoth = (filename.IndexOf("3DSkip", StringComparison.Ordinal) >= 0);
         }
         public static bool oras;
-        public static string RomFS;
-        public static string ExeFS;
+        public static string RomFSPath;
+        public static string ExeFSPath;
         public volatile int threads;
         private static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN" };
         private bool skipBoth;
@@ -67,7 +67,7 @@ namespace pk3DS
         // Main Form Methods
         private void L_About_Click(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control && RomFS != null)
+            if (ModifierKeys == Keys.Control && RomFSPath != null)
             {
                 string s = "Game Type: " + ((oras) ? "ORAS" : "XY") + Environment.NewLine;
                 s = allGARCs.Aggregate(s, (current, t) => current + String.Format(Environment.NewLine + "{0} - {1}", t, getGARCFileName(t)));
@@ -96,7 +96,7 @@ namespace pk3DS
         }
         private void L_Game_Click(object sender, EventArgs e)
         {
-            if (!GB_RomFS.Enabled || RomFS == null || ModifierKeys != Keys.Control) return;
+            if (!GB_RomFS.Enabled || RomFSPath == null || ModifierKeys != Keys.Control) return;
             if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Restore Original Files?"))
                 restoreGARCs(oras, allGARCs);
         }
@@ -116,11 +116,11 @@ namespace pk3DS
                 while (threads > 0) Thread.Sleep(50);
                 // Gather the Text Language Strings
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", "gametext", getGARCFileName("gametext")));
-                threadGet(RomFS + getGARCFileName("gametext"), "gametext", true, true);
+                threadGet(RomFSPath + getGARCFileName("gametext"), "gametext", true, true);
                 while (threads > 0) Thread.Sleep(50);
                 if (Directory.Exists("personal")) return;
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", "personal", getGARCFileName("personal")));
-                threadGet(RomFS + getGARCFileName("personal"), "personal", true, true);
+                threadGet(RomFSPath + getGARCFileName("personal"), "personal", true, true);
             }).Start();
         }
         private void formClosing(object sender, FormClosingEventArgs e)
@@ -135,13 +135,13 @@ namespace pk3DS
 
                 // Set the GameText back as other forms may have edited it.
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", "gametext", getGARCFileName("gametext")));
-                threadSet(RomFS + getGARCFileName("gametext"), "gametext", false);
+                threadSet(RomFSPath + getGARCFileName("gametext"), "gametext", false);
                 while (threads > 0) Thread.Sleep(100);
 
                 Thread.Sleep(200); // Small gap between beeps for faster computers.
 
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", "personal", getGARCFileName("personal")));
-                threadSet(RomFS + getGARCFileName("personal"), "personal", false);
+                threadSet(RomFSPath + getGARCFileName("personal"), "personal", false);
                 while (threads > 0) Thread.Sleep(100);
 
                 if (Directory.Exists("gametext")) Directory.Delete("gametext", true);
@@ -165,7 +165,7 @@ namespace pk3DS
             else
             {
                 // Check for ROMFS/EXEFS
-                RomFS = ExeFS = null; // Reset
+                RomFSPath = ExeFSPath = null; // Reset
                 string[] folders = Directory.GetDirectories(path);
                 int count = folders.Length;
                 if (count != 2 && count != 1) return; // Only want exefs & romfs (can have exheader there too, it's not a folder)
@@ -176,21 +176,21 @@ namespace pk3DS
                     if (new FileInfo(folders[count - 1]).Name.ToLower().Contains("rom") && Directory.Exists(folders[count - 1]))
                         checkIfRomFS(folders[count - 1]);
 
-                    GB_RomFS.Enabled = (RomFS != null);
-                    GB_ExeFS.Enabled = (RomFS != null && ExeFS != null);
+                    GB_RomFS.Enabled = (RomFSPath != null);
+                    GB_ExeFS.Enabled = (RomFSPath != null && ExeFSPath != null);
                     B_MoveTutor.Enabled = oras; // Default false unless loaded
-                    if (RomFS != null)
+                    if (RomFSPath != null)
                     {
                         if (L_Game.Text == "Game Loaded: ORAS" || L_Game.Text == "Game Loaded: XY")
                         { Directory.Delete("personal", true); } // Force reloading of personal data if the game is switched.
                         L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY"; TB_Path.Text = path; 
                     }
-                    else if (ExeFS != null)
+                    else if (ExeFSPath != null)
                     { L_Game.Text = "ExeFS loaded - no RomFS"; TB_Path.Text = path; }
                     else
                     { L_Game.Text = "No Game Loaded"; TB_Path.Text = ""; }
 
-                    if (RomFS != null)
+                    if (RomFSPath != null)
                     {
                         // Trigger Data Loading
                         if (RTB_Status.Text.Length > 0) RTB_Status.Clear();
@@ -222,13 +222,13 @@ namespace pk3DS
                     DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Loading Override Options:", "Yes - OR/AS" + Environment.NewLine + "No - X/Y" + Environment.NewLine + "Cancel - Abort", "Path:" + Environment.NewLine + path);
                     if (dr == DialogResult.Yes) { oras = true; }
                     else if (dr == DialogResult.No) { oras = false; }
-                    else { RomFS = null; oras = false; return false; }
+                    else { RomFSPath = null; oras = false; return false; }
                 }
-                RomFS = path;
+                RomFSPath = path;
                 backupGARCs(false, allGARCs);
                 return true;
             }
-            RomFS = null; 
+            RomFSPath = null; 
             oras = false; 
             return false;
         }
@@ -242,7 +242,7 @@ namespace pk3DS
             if (fi.Length % 0x200 != 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes))
                 new Thread(() => { threads++; new BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
 
-            ExeFS = path;
+            ExeFSPath = path;
             return true;
         }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
@@ -260,7 +260,7 @@ namespace pk3DS
         private void rebuildRomFS(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            if (RomFS == null) return;
+            if (RomFSPath == null) return;
             if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild RomFS?") != DialogResult.Yes) return;
 
             SaveFileDialog sfd = new SaveFileDialog {FileName = "romfs.bin", Filter = "Binary File|*.*"};
@@ -271,7 +271,7 @@ namespace pk3DS
                     updateStatus(Environment.NewLine + "Building RomFS binary. Please wait until the program finishes.");
 
                     threads++;
-                    RomFSTool.BuildRomFS(sfd.FileName, RomFS, RTB_Status, pBar1);
+                    RomFSTool.BuildRomFS(sfd.FileName, RomFSPath, RTB_Status, pBar1);
                     threads--;
 
                     updateStatus("RomFS binary saved." + Environment.NewLine);
@@ -457,7 +457,7 @@ namespace pk3DS
             {
                 string GARC = getGARCFileName(toEdit);
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", toEdit, GARC));
-                threadGet(RomFS + GARC, toEdit, true, skipDecompression);
+                threadGet(RomFSPath + GARC, toEdit, true, skipDecompression);
                 while (threads > 0) Thread.Sleep(50);
             }
         }
@@ -468,7 +468,7 @@ namespace pk3DS
             {
                 string GARC = getGARCFileName(toEdit);
                 updateStatus(String.Format("GARC Set: {0} @ {1}... ", toEdit, GARC));
-                threadSet(RomFS + GARC, toEdit);
+                threadSet(RomFSPath + GARC, toEdit);
                 while (threads > 0) Thread.Sleep(50);
                 if (!keep && Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
             }
@@ -477,10 +477,10 @@ namespace pk3DS
         // ExeFS Subform Items
         private void rebuildExeFS(object sender, EventArgs e)
         {
-            if (ExeFS == null) return;
+            if (ExeFSPath == null) return;
             if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild ExeFS?") != DialogResult.Yes) return;
 
-            string[] files = Directory.GetFiles(ExeFS);
+            string[] files = Directory.GetFiles(ExeFSPath);
             int file = 0; if (files[1].Contains("code")) file = 1;
             SaveFileDialog sfd = new SaveFileDialog {FileName = "exefs.bin", Filter = "Binary File|*.*"};
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -490,7 +490,7 @@ namespace pk3DS
                     threads++;
                     new BLZCoder(new[] { "-en", files[file] }, pBar1);
                     Util.Alert("Compressed!");
-                    ExeFSTool.set(Directory.GetFiles(ExeFS), sfd.FileName);
+                    ExeFS.set(Directory.GetFiles(ExeFSPath), sfd.FileName);
                     threads--;
                 }).Start();
             }
@@ -498,28 +498,28 @@ namespace pk3DS
         private void B_Pickup_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            if (ExeFS != null) new Pickup().Show();
+            if (ExeFSPath != null) new Pickup().Show();
         }
         private void B_TMHM_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            if (ExeFS != null) new TMHM().Show();
+            if (ExeFSPath != null) new TMHM().Show();
         }
         private void B_Mart_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            if (ExeFS != null) new Mart().Show();
+            if (ExeFSPath != null) new Mart().Show();
         }
         private void B_MoveTutor_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             if (!oras) { Util.Alert("No Tutors for X/Y."); return; } // Already disabled button...
-            if (ExeFS != null) new Tutors().Show();
+            if (ExeFSPath != null) new Tutors().Show();
         }
         private void B_OPower_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            if (ExeFS != null) new OPower().Show();
+            if (ExeFSPath != null) new OPower().Show();
         }
 
         // Extra Tools
@@ -616,7 +616,7 @@ namespace pk3DS
                 string GARC = getGARCFileName(s);
                 string dest = "backup" + Path.DirectorySeparatorChar + s + String.Format(" ({0})", GARC.Replace(Path.DirectorySeparatorChar.ToString(), ""));
                 if (overwrite || !File.Exists(dest))
-                    File.Copy(RomFS + GARC, dest);
+                    File.Copy(RomFSPath + GARC, dest);
             }
         }
         public void restoreGARCs(bool oras_define, params string[] g)
@@ -624,7 +624,7 @@ namespace pk3DS
             oras = oras_define;
             foreach (string s in g)
             {
-                string dest = RomFS + getGARCFileName(s);
+                string dest = RomFSPath + getGARCFileName(s);
                 string src = "backup" + Path.DirectorySeparatorChar + s + String.Format(" ({0})", getGARCFileName(s).Replace(Path.DirectorySeparatorChar.ToString(), ""));
                 File.Copy(src, dest, true);
                 if (s == "personal" || s == "gametext")
