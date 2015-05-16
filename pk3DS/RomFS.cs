@@ -7,6 +7,36 @@ using System.Windows.Forms;
 
 namespace pk3DS
 {
+    // Info acquisition
+    public class RomFS
+    {
+        public string FileName;
+        public bool isTempFile;
+        public byte[] SuperBlockHash;
+        public uint SuperBlockLen;
+
+        public RomFS(string fn)
+        {
+            FileName = fn;
+            isTempFile = false;
+            using (var fs = File.OpenRead(fn))
+            {
+                fs.Seek(0x8, SeekOrigin.Begin);
+                uint mhlen = (uint)(fs.ReadByte() | (fs.ReadByte() << 8) | (fs.ReadByte() << 16) | (fs.ReadByte() << 24));
+                SuperBlockLen = mhlen + 0x50;
+                if (SuperBlockLen % 0x200 != 0)
+                    SuperBlockLen += (0x200 - (SuperBlockLen % 0x200));
+                byte[] superblock = new byte[SuperBlockLen];
+                fs.Seek(0, SeekOrigin.Begin);
+                fs.Read(superblock, 0, superblock.Length);
+                using (SHA256 sha = SHA256.Create())
+                {
+                    SuperBlockHash = sha.ComputeHash(superblock);
+                }
+            }
+        }
+    }
+    // File operation
     public class RomFSTool
     {
         internal const int PADDING_ALIGN = 16;
