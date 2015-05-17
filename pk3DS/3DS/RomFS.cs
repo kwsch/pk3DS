@@ -18,7 +18,7 @@ namespace CTR
         public RomFS(string fn)
         {
             FileName = fn;
-            isTempFile = false;
+            isTempFile = true;
             using (var fs = File.OpenRead(fn))
             {
                 fs.Seek(0x8, SeekOrigin.Begin);
@@ -223,11 +223,12 @@ namespace CTR
                 if (OutFileStream != null)
                     OutFileStream.Dispose();
             }
-            updateTB(TB_Progress, "RomFS Super Block Hash: " + ByteArrayToString(SuperBlockHash));
-            updateTB(TB_Progress, "Saving to destination...");
-
-            if (File.Exists(OutFile)) File.Delete(OutFile);
-            File.Move(TempFile, OutFile);
+            
+            if (OutFile != TempFile)
+            {
+                if (File.Exists(OutFile)) File.Delete(OutFile);
+                File.Move(TempFile, OutFile);
+            }
         }
         internal static void WriteBinary(string tempFile, string outFile, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
