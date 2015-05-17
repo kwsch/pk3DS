@@ -21,6 +21,7 @@ using System.Media;
 using System.Threading;
 using System.Windows.Forms;
 using BLZ;
+using CTR;
 
 namespace pk3DS
 {
@@ -60,6 +61,7 @@ namespace pk3DS
         public static bool oras;
         public static string RomFSPath;
         public static string ExeFSPath;
+        public static string ExHeaderPath;
         public volatile int threads;
         private static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN" };
         private bool skipBoth;
@@ -164,7 +166,7 @@ namespace pk3DS
             }
             else
             {
-                // Check for ROMFS/EXEFS
+                // Check for ROMFS/EXEFS/EXHEADER
                 RomFSPath = ExeFSPath = null; // Reset
                 string[] folders = Directory.GetDirectories(path);
                 int count = folders.Length;
@@ -198,9 +200,28 @@ namespace pk3DS
                         changeLanguage(null, null);
                     }
 
+                    // Enable 3DS Rebuilding options if all files have been found
+                    checkIfExHeader(path);
+                    B_Rebuild3DS.Visible = B_Rebuild3DS.Enabled = 
+                        (ExHeaderPath != null && RomFSPath != null && ExeFSPath != null);
+
                     // Method finished.
                     SystemSounds.Asterisk.Play();
                 }
+            }
+        }
+        private int checkGameType(string[] files)
+        {
+            switch (files.Length)
+            {
+                case 299: // ORAS
+                    return 1;
+                case 301: // ORAS Demo
+                    return 1;
+                case 271: // XY
+                    return 0;
+                default:  // Unknown
+                    return -1;
             }
         }
         private bool checkIfRomFS(string path)
@@ -210,20 +231,16 @@ namespace pk3DS
             // Check to see if the folder is romfs
             if (fi.Name == "a")
             {
-                string[] files = Directory.GetFiles(path, "*", SearchOption.AllDirectories);
-                if (files.Length == 299) // ORAS
-                    oras = true;
-                else if (files.Length == 301) // ORAS demo
-                    oras = true;
-                else if (files.Length == 271) // XY
-                    oras = false;
-                else // Allow Override
+                int game = checkGameType(Directory.GetFiles(path, "*", SearchOption.AllDirectories));
+                if (game < 0) // Unknown
                 {
                     DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Loading Override Options:", "Yes - OR/AS" + Environment.NewLine + "No - X/Y" + Environment.NewLine + "Cancel - Abort", "Path:" + Environment.NewLine + path);
                     if (dr == DialogResult.Yes) { oras = true; }
                     else if (dr == DialogResult.No) { oras = false; }
                     else { RomFSPath = null; oras = false; return false; }
                 }
+                else
+                    oras = (game == 1);
                 RomFSPath = path;
                 backupGARCs(false, allGARCs);
                 return true;
@@ -244,6 +261,16 @@ namespace pk3DS
 
             ExeFSPath = path;
             return true;
+        }
+        private bool checkIfExHeader(string path)
+        {
+            ExHeaderPath = null;
+            // Input folder path should contain the ExHeader.
+                string[] files = Directory.GetFiles(path);
+                foreach (string fp in (from s in files let f = new FileInfo(s) where (f.Name.ToLower().StartsWith("exh") && f.Length == 0x800) select s))
+                ExHeaderPath = fp;
+
+            return ExHeaderPath != null;
         }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -520,6 +547,35 @@ namespace pk3DS
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             if (ExeFSPath != null) new OPower().Show();
+        }
+
+        // 3DS Building
+        private void B_Rebuild3DS_Click(object sender, EventArgs e)
+        {
+            // Ensure that the romfs paths are valid
+            if (checkGameType(Directory.GetFiles(TB_Path.Text, "*", SearchOption.AllDirectories)) >= 0)
+            {
+                Util.Error("RomFS file count does not match the default game file count.");
+                return;
+            }
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                FileName = "newROM.3ds",
+                Filter = "Binary File|*.*"
+            };
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+            string path = sfd.FileName;
+
+            new Thread(() =>
+            {
+                threads++;
+                Exheader exh = new Exheader(ExHeaderPath);
+                CTR.CTR.buildROM(true, "Nintendo", ExeFSPath, RomFSPath, ExHeaderPath, exh.GetSerial(), path, pBar1,
+                    RTB_Status);
+                threads--;
+            }).Start();
         }
 
         // Extra Tools

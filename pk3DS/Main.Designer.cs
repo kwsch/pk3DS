@@ -57,6 +57,7 @@
             this.B_TMHM = new System.Windows.Forms.Button();
             this.RTB_Status = new System.Windows.Forms.RichTextBox();
             this.L_SubTools = new System.Windows.Forms.Label();
+            this.B_Rebuild3DS = new System.Windows.Forms.Button();
             this.GB_RomFS.SuspendLayout();
             this.GB_ExeFS.SuspendLayout();
             this.SuspendLayout();
@@ -251,9 +252,9 @@
             "Deutsch",
             "Español",
             "한국"});
-            this.CB_Lang.Location = new System.Drawing.Point(321, 40);
+            this.CB_Lang.Location = new System.Drawing.Point(351, 40);
             this.CB_Lang.Name = "CB_Lang";
-            this.CB_Lang.Size = new System.Drawing.Size(121, 21);
+            this.CB_Lang.Size = new System.Drawing.Size(91, 21);
             this.CB_Lang.TabIndex = 4;
             this.CB_Lang.SelectedIndexChanged += new System.EventHandler(this.changeLanguage);
             // 
@@ -261,7 +262,7 @@
             // 
             this.L_Lang.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Lang.AutoSize = true;
-            this.L_Lang.Location = new System.Drawing.Point(257, 43);
+            this.L_Lang.Location = new System.Drawing.Point(287, 43);
             this.L_Lang.Name = "L_Lang";
             this.L_Lang.Size = new System.Drawing.Size(58, 13);
             this.L_Lang.TabIndex = 3;
@@ -386,11 +387,24 @@
             this.L_SubTools.Text = "[Misc Tools]";
             this.L_SubTools.Click += new System.EventHandler(this.L_SubTools_Click);
             // 
+            // B_Rebuild3DS
+            // 
+            this.B_Rebuild3DS.Enabled = false;
+            this.B_Rebuild3DS.Location = new System.Drawing.Point(190, 39);
+            this.B_Rebuild3DS.Name = "B_Rebuild3DS";
+            this.B_Rebuild3DS.Size = new System.Drawing.Size(80, 23);
+            this.B_Rebuild3DS.TabIndex = 9;
+            this.B_Rebuild3DS.Text = "Rebuild .3DS";
+            this.B_Rebuild3DS.UseVisualStyleBackColor = true;
+            this.B_Rebuild3DS.Visible = false;
+            this.B_Rebuild3DS.Click += new System.EventHandler(this.B_Rebuild3DS_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(454, 422);
+            this.Controls.Add(this.B_Rebuild3DS);
             this.Controls.Add(this.L_SubTools);
             this.Controls.Add(this.RTB_Status);
             this.Controls.Add(this.GB_ExeFS);
@@ -447,5 +461,6 @@
         private System.Windows.Forms.Button B_OPower;
         private System.Windows.Forms.Label L_SubTools;
         private System.Windows.Forms.Button B_Wallpaper;
+        private System.Windows.Forms.Button B_Rebuild3DS;
     }
 }
