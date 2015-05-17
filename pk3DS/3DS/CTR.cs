@@ -32,7 +32,7 @@ namespace CTR
             // If ExeFS and RomFS are not built, build.
             if (!(File.Exists(EXEFS_PATH)) && Directory.Exists(EXEFS_PATH))
                 ExeFS.set(Directory.GetFiles(EXEFS_PATH), EXEFS_PATH = "exefs.bin");
-            if (!(File.Exists(EXEFS_PATH)) && Directory.Exists(EXEFS_PATH))
+            if (!(File.Exists(ROMFS_PATH)) && Directory.Exists(ROMFS_PATH))
                 RomFS.BuildRomFS(ROMFS_PATH, ROMFS_PATH = "romfs.bin", TB_Progress, PB_Show);
 
             NCCH NCCH = setNCCH(EXEFS_PATH, ROMFS_PATH, EXHEADER_PATH, SERIAL_TEXT, LOGO_NAME, PB_Show, TB_Progress);
@@ -279,7 +279,8 @@ namespace CTR
             }
 
             //Delete Temporary Romfs File
-            File.Delete(NCSD.NCCH_Array[0].romfs.FileName);
+            if (NCSD.NCCH_Array[0].romfs.isTempFile)
+                File.Delete(NCSD.NCCH_Array[0].romfs.FileName);
 
             updateTB(TB_Progress, "Done!");
             return true;
