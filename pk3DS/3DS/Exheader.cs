@@ -69,7 +69,7 @@ namespace CTR
         {
             if (!isPokemon())
                 return "CTR-P-XXXX";
-            string name = string.Empty;
+            string name;
             switch ((TitleID & 0xFFFFFFFF) >> 8)
             {
                 case 0x11C5: //Alpha Sapphire
