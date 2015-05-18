@@ -212,7 +212,17 @@ namespace CTR
             // Fix the First two folders to specify the number of files
             darc.Entries[0].DataLength = (uint)darcFileCount;
             darc.Entries[1].DataLength = (uint)darcFileCount;
+
+            // Fix the Data Offset of the files to point to actual destination
+            foreach (FileTableEntry f in darc.Entries.Where(x => !x.IsFolder))
+                f.DataOffset += darc.Header.FileDataOffset;
             return darc;
+        }
+
+        internal static bool darc2files(string path, string folderName)
+        {
+            try { return darc2files(File.ReadAllBytes(path), folderName); }
+            catch (Exception) { return false; }
         }
         internal static bool darc2files(byte[] darc, string folderName)
         {
@@ -243,7 +253,7 @@ namespace CTR
                         string fileName = DARC.FileNameTable[i].FileName;
                         int offset = (int)DARC.Entries[i].DataOffset;
                         int length = (int)DARC.Entries[i].DataLength;
-                        byte[] data = DARC.Data.Skip(offset).Take(length).ToArray();
+                        byte[] data = DARC.Data.Skip((int)(offset - DARC.Header.FileDataOffset)).Take(length).ToArray();
 
                         string outPath = Path.Combine(root, parentName, fileName);
                         File.WriteAllBytes(outPath, data);
@@ -304,6 +314,35 @@ namespace CTR
             }
             return pos;
         }
+        internal static bool insertFile(DARC orig, int index, string path)
+        {
+            try { return insertFile(orig, index, File.ReadAllBytes(path)); }
+            catch (Exception) { return false; }
+        }
+        internal static bool insertFile(DARC orig, int index, byte[] data)
+        {
+            if (index < 0) return false;
+
+            try
+            {
+                uint oldLength = orig.Entries[index].DataLength;
+                uint offset = orig.Entries[index].DataOffset;
+                int diff = (int) (data.Length - oldLength);
+
+                // Insert into Data Block
+                byte[] pre = orig.Data.Take((int) offset).ToArray();
+                byte[] post = orig.Data.Skip((int) (offset + oldLength)).ToArray();
+
+                // Reassemble data
+                orig.Data = pre.Concat(data).Concat(post).ToArray();
+
+                // Fix Offset references of other files
+                foreach (var x in orig.Entries.Where(x => x.DataOffset >= offset + oldLength))
+                    x.DataOffset += (uint) diff;
+                return true;
+            }
+            catch (Exception) { return false; }
+        }
         internal static DARC insertFiles(DARC orig, string folderName)
         {
             string[] fileNames = new string[orig.Entries.Count()];
@@ -318,28 +357,13 @@ namespace CTR
                 {
                     FileInfo fi = new FileInfo(file);
                     string FileName = fi.Name;
-                    int length = (int)fi.Length;
 
                     // Get Index of file
                     int index = Array.IndexOf(fileNames, FileName);
                     if (orig.Entries[index].IsFolder)
                         throw new Exception(file + " is not a valid file to reinsert!");
-                    if (index < 0) continue;
-                    uint oldLength = orig.Entries[index].DataLength;
-                    uint offset = orig.Entries[index].DataOffset;
-                    int diff = (int)(length - oldLength);
 
-                    // Insert into Data Block
-                    byte[] pre = orig.Data.Take((int)offset).ToArray();
-                    byte[] data = File.ReadAllBytes(file);
-                    byte[] post = orig.Data.Skip((int)(offset + oldLength)).ToArray();
-
-                    // Reassemble data
-                    orig.Data = pre.Concat(data).Concat(post).ToArray();
-
-                    // Fix Offset references of other files
-                    foreach (var x in orig.Entries.Where(x => x.DataOffset >= offset + oldLength))
-                        x.DataOffset += (uint)diff;
+                    insertFile(orig, index, file);
                 }
             }
             // Fix Data layout
