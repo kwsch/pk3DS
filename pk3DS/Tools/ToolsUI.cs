@@ -11,9 +11,11 @@ namespace pk3DS
         public ToolsUI()
         {
             InitializeComponent();
-            AllowDrop = PB_Unpack.AllowDrop = PB_BCLIM.AllowDrop = true;
+            AllowDrop = PB_Unpack.AllowDrop = PB_Repack.AllowDrop = PB_BCLIM.AllowDrop = true;
             PB_Unpack.DragEnter += tabMain_DragEnter;
             PB_Unpack.DragDrop += tabMain_DragDrop;
+            PB_Repack.DragEnter += tabMain_DragEnter;
+            PB_Repack.DragDrop += tabMain_DragDrop;
             PB_BCLIM.DragEnter += tabMain_DragEnter;
             PB_BCLIM.DragDrop += tabMain_DragDrop;
             CLIMWindow = PB_BCLIM.Size;
@@ -78,7 +80,15 @@ namespace pk3DS
                 }
                 else if (ARC.analyze(path).valid) // DARC
                 {
-                    ARC.unpackDARC(path, folderPath + "_d", false);
+                    var data = File.ReadAllBytes(path);
+                    int pos = 0;
+                    while (BitConverter.ToUInt32(data, pos) != 0x63726164)
+                    {
+                        pos += 4;
+                        if (pos >= data.Length) return;
+                    }
+                    var darcData = data.Skip(pos).ToArray();
+                    var res = CTR.DARC.darc2files(darcData, folderPath + "_d");
                 }
                 else if (BitConverter.ToUInt32(File.ReadAllBytes(path), 0) == 0x47415243) // GARC
                 {
@@ -97,7 +107,7 @@ namespace pk3DS
         }
         private void saveARC(string path)
         {
-            if (Directory.Exists(path)) { Util.Error("Input path is not a Folder", path); return; }
+            if (!Directory.Exists(path)) { Util.Error("Input path is not a Folder", path); return; }
             string folderName = Path.GetDirectoryName(path);
             string parentName = Directory.GetParent(path).FullName;
 
@@ -109,8 +119,16 @@ namespace pk3DS
                 case 1: // GARC Pack Existing
                 case 2: // DARC Pack
                 {
-                    Util.Alert("Repacking not implemented." + Environment.NewLine + path);
-                    return;
+                    string oldFile = path.Replace("_d", "");
+                    if (File.Exists(Path.Combine(parentName, oldFile)))
+                        oldFile = Path.Combine(parentName, oldFile);
+                    else if (File.Exists(Path.Combine(parentName, oldFile + ".bin")))
+                        oldFile = Path.Combine(parentName, oldFile + ".bin");
+                    else if (File.Exists(Path.Combine(parentName, oldFile + ".darc")))
+                        oldFile = Path.Combine(parentName, oldFile + ".darc");
+                    else oldFile = null;
+                    bool result = CTR.DARC.files2darc(path, false, oldFile);
+                    break;
                 }
                 case 3: // Mini Pack
                 {
@@ -135,7 +153,7 @@ namespace pk3DS
                     return;
             }
             // Delete path after repacking
-            if (CHK_Delete.Checked)
+            if (CHK_Delete.Checked && Directory.Exists(path))
                 Directory.Delete(path, true);
         }
         private void PB_BCLIM_Click(object sender, EventArgs e)
