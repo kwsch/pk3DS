@@ -80,7 +80,7 @@ namespace CTR
 			public UInt32 NameOffset;
 			public Boolean IsFolder;
 			public UInt32 DataOffset; // FOLDER: Parent Entry Index
-            public UInt32 DataLength; // FOLDER: # Files
+            public UInt32 DataLength; // FOLDER: Next Folder Index
 		}
         public class NameTableEntry
         {
@@ -238,17 +238,19 @@ namespace CTR
                 DARC DARC = new DARC(darc);
 
                 // Output data
-                for (int i = 2; i < DARC.FileNameTable.Length; i++)
+                for (int i = 2; i < DARC.FileNameTable.Length;)
                 {
                     bool isFolder = DARC.Entries[i].IsFolder;
-                    if (!isFolder) return false;
-                    // uint level = DARC.Entries[i].DataOffset;
+                    if (!isFolder) 
+                        return false;
+                    // uint level = DARC.Entries[i].DataOffset; Only assuming 1 layer of folders.
                     string parentName = DARC.FileNameTable[i].FileName;
                     Directory.CreateDirectory(Path.Combine(root, parentName));
 
-                    // If folders still, I haven't seen more than one layer deep of folders.
-                    // Next folder occurring should be at the same level as the current folder.
-                    while (++i < DARC.FileNameTable.Length && !DARC.Entries[i].IsFolder)
+                    int nextFolder = (int)DARC.Entries[i++].DataLength;
+
+                    // Extract all Contents of said folder
+                    while (i < nextFolder)
                     {
                         string fileName = DARC.FileNameTable[i].FileName;
                         int offset = (int)DARC.Entries[i].DataOffset;
@@ -257,8 +259,8 @@ namespace CTR
 
                         string outPath = Path.Combine(root, parentName, fileName);
                         File.WriteAllBytes(outPath, data);
+                        i++; // Advance to next Entry
                     }
-                    i--;
                 }
                 return true;
             }
