@@ -156,7 +156,7 @@ namespace CTR
                     EntryList.Add(new FileTableEntry
                     {
                         DataOffset = 1,
-                        DataLength = (uint) files.Count(),
+                        DataLength = (uint) (files.Count() + EntryList.Count),
                         IsFolder = true,
                         NameOffset = nameOffset
                     });
