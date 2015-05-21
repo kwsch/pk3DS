@@ -131,6 +131,11 @@ namespace pk3DS
                 L_MS0C.Text = "Decmp Length: 0x" + BitConverter.ToUInt32(ScriptData, 0xC).ToString("X4");
                 L_MS10.Text = "Junk Offset: 0x" + BitConverter.ToUInt32(ScriptData, 0x10).ToString("X4");
                 L_MS14.Text = "Reserved Size: 0x" + BitConverter.ToUInt32(ScriptData, 0x14).ToString("X4");
+
+                byte[] compressed = ScriptData.Skip(BitConverter.ToInt32(ScriptData, 0x8)).ToArray();
+                string c = Util.getHexString(compressed);
+                byte[] decompressed = Scripts.decompressScript(compressed);
+                string d = Util.getHexString(decompressed);
             }
         }
         private void getOWSData()
@@ -182,7 +187,11 @@ namespace pk3DS
                 L_SL0C.Text = "Decmp Length: 0x" + BitConverter.ToUInt32(ScriptData, 0xC).ToString("X4");
                 L_SL10.Text = "Junk Offset: 0x" + BitConverter.ToUInt32(ScriptData, 0x10).ToString("X4");
                 L_SL14.Text = "Reserved Size: 0x" + BitConverter.ToUInt32(ScriptData, 0x14).ToString("X4");
+
+                byte[] compressed = ScriptData.Skip(BitConverter.ToInt32(ScriptData, 0x8)).ToArray();
+                byte[] decompressed = Scripts.decompressScript(compressed);
             }
+
         }
 
         private byte[] setOWSData()
