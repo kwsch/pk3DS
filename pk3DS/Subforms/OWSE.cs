@@ -200,7 +200,7 @@ namespace pk3DS
                 L_SL10.Text = "Junk Offset: 0x" + junkoff.ToString("X4");
                 L_SL14.Text = "Reserved Size: 0x" + reserved.ToString("X4");
 
-                byte[] compressed = ScriptData.Skip(BitConverter.ToInt32(ScriptData, 0x8)).ToArray();
+                byte[] compressed = ScriptData.Skip(start).ToArray();
                 string c = Util.getHexString(compressed);
                 byte[] decompressed = Scripts.decompressScript(compressed);
                 string d = Util.getHexString(decompressed);
