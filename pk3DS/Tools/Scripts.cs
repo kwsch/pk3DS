@@ -19,26 +19,70 @@ namespace pk3DS
                     // Read until the top bit is not set
                     List<byte>raw = new List<byte>();
                     byte val = br.ReadByte(); raw.Add(val);
-                    while ((val >> 7) > 0)
+                    while ((val >> 6) > 0)
                     {
                         val = br.ReadByte(); raw.Add(val);
                     }
 
                     byte[] compressedBytes = raw.ToArray();
-                    Array.Reverse(compressedBytes);
-                    uint cmd = val;
 
-                    // Assemble the bits into the final uint
-                    for (int i = 0; i < compressedBytes.Length; i++)
-                        cmd |= (uint)(compressedBytes[i] & 0x7F) << (7 * i);
+                    // Interpret the bytecode
+                    val = compressedBytes[0];
 
-                    bw.Write(cmd);
+                    if ((val & 0x40) > 0) // Signed Parameter
+                    {
+                        // Check the next bytecode
+                        byte second = compressedBytes[1];
+                        if ((second & 0x80) > 0) // Many-bits-required command
+                        {
+                            // 2 Byte Signed Parameter
+                            int deviation = ((val >> 1) & 0x3F) - 0x40;
+                            bw.Write(BitConverter.GetBytes(deviation), 0, 2);
+
+                            // Process Many-bits instructional
+                            {
+                                // there can only be 1 manybit based on max CMD value restriction; simple.
+                                Array.Reverse(compressedBytes);
+                                int cmd = (compressedBytes[1] & 0x7F << 7) | compressedBytes[2];
+                                bw.Write(BitConverter.GetBytes((ushort)cmd), 0, 2);
+                            }
+                        }
+                        else if (val > 0x7F)
+                        {
+                            // 3 Byte Signed Parameter
+                            int deviation = ((val >> 1) & 0x3F) - 0x40;
+                            bw.Write(BitConverter.GetBytes(deviation), 0, 3);
+                            bw.Write((byte)(((val & 0x1) << 7) | compressedBytes[1]));  // bottom bit is sent to low byte as the 8th bit
+                        }
+                        else
+                        {
+                            // 4 Byte Signed Parameter
+                            int deviation = ((val >> 1) & 0x3F) - 0x40;
+                            bw.Write(BitConverter.GetBytes(deviation), 0, 4);
+                        }
+                    }
+                    else if ((val & 0x80) > 0) // Manybit
+                    {
+                        Array.Reverse(compressedBytes);
+                        int cmd = 0;
+                        for (int i = 0; i < compressedBytes.Length; i++)
+                        {
+                            cmd |= ((compressedBytes[i] & 0x7F) << (7*i));
+                        }
+
+                        bw.Write(BitConverter.GetBytes((uint)cmd), 0, 4);
+                    }
+                    else // Literal
+                    {
+                        bw.Write(BitConverter.GetBytes((uint)val), 0, 4);
+                    }
                 }
                 return mn.ToArray();
             }
         }
         internal static byte[] compressScript(byte[] data)
         {
+            // Need decompression functional first.
             using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
             using (MemoryStream mn = new MemoryStream())
             using (BinaryWriter bw = new BinaryWriter(mn))

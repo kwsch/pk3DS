@@ -127,12 +127,18 @@ namespace pk3DS
                 RTB_MS.Text = Util.getHexString(ScriptData);
 
                 RTB_MS.Width = RTB_MS.Text.Length < 25 * 3 * 16 ? 245 : 260;
-                L_MS08.Text = "Data Start :0x" + BitConverter.ToUInt32(ScriptData, 0x8).ToString("X4");
-                L_MS0C.Text = "Decmp Length: 0x" + BitConverter.ToUInt32(ScriptData, 0xC).ToString("X4");
-                L_MS10.Text = "Junk Offset: 0x" + BitConverter.ToUInt32(ScriptData, 0x10).ToString("X4");
-                L_MS14.Text = "Reserved Size: 0x" + BitConverter.ToUInt32(ScriptData, 0x14).ToString("X4");
 
-                byte[] compressed = ScriptData.Skip(BitConverter.ToInt32(ScriptData, 0x8)).ToArray();
+                int start = BitConverter.ToInt32(ScriptData, 0x8);
+                int declen = BitConverter.ToInt32(ScriptData, 0xC);
+                int junkoff = BitConverter.ToInt32(ScriptData, 0x10);
+                int reserved = BitConverter.ToInt32(ScriptData, 0x14);
+
+                L_MS08.Text = "Data Start :0x" + start.ToString("X4");
+                L_MS0C.Text = "Decmp Length: 0x" + declen.ToString("X4");
+                L_MS10.Text = "Junk Offset: 0x" + junkoff.ToString("X4");
+                L_MS14.Text = "Reserved Size: 0x" + reserved.ToString("X4");
+
+                byte[] compressed = ScriptData.Skip(start).ToArray();
                 string c = Util.getHexString(compressed);
                 byte[] decompressed = Scripts.decompressScript(compressed);
                 string d = Util.getHexString(decompressed);
@@ -182,16 +188,23 @@ namespace pk3DS
                 byte[] ScriptData = OWScriptData.Skip(4).Take(OWScriptData.Length - 4).ToArray();
                 RTB_S.Text = Util.getHexString(ScriptData);
 
-                RTB_S.Width = RTB_S.Text.Length < 25*3*16 ? 245 : 260;
-                L_SL08.Text = "Data Start :0x" + BitConverter.ToUInt32(ScriptData, 0x8).ToString("X4");
-                L_SL0C.Text = "Decmp Length: 0x" + BitConverter.ToUInt32(ScriptData, 0xC).ToString("X4");
-                L_SL10.Text = "Junk Offset: 0x" + BitConverter.ToUInt32(ScriptData, 0x10).ToString("X4");
-                L_SL14.Text = "Reserved Size: 0x" + BitConverter.ToUInt32(ScriptData, 0x14).ToString("X4");
+                RTB_S.Width = RTB_S.Text.Length < 25 * 3 * 16 ? 245 : 260;
+
+                int start = BitConverter.ToInt32(ScriptData, 0x8);
+                int declen = BitConverter.ToInt32(ScriptData, 0xC);
+                int junkoff = BitConverter.ToInt32(ScriptData, 0x10);
+                int reserved = BitConverter.ToInt32(ScriptData, 0x14);
+
+                L_SL08.Text = "Data Start :0x" + start.ToString("X4");
+                L_SL0C.Text = "Decmp Length: 0x" + declen.ToString("X4");
+                L_SL10.Text = "Junk Offset: 0x" + junkoff.ToString("X4");
+                L_SL14.Text = "Reserved Size: 0x" + reserved.ToString("X4");
 
                 byte[] compressed = ScriptData.Skip(BitConverter.ToInt32(ScriptData, 0x8)).ToArray();
+                string c = Util.getHexString(compressed);
                 byte[] decompressed = Scripts.decompressScript(compressed);
+                string d = Util.getHexString(decompressed);
             }
-
         }
 
         private byte[] setOWSData()
