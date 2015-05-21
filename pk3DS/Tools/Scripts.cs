@@ -27,8 +27,6 @@ namespace pk3DS
                             val = br.ReadByte(); raw.Add(val);
                         }
                     }
-                    
-
                     byte[] compressedBytes = raw.ToArray();
 
                     // Interpret the bytecode
@@ -41,22 +39,22 @@ namespace pk3DS
                         if ((second >> 7) > 0) // Many-bits-required command
                         {
                             // 2 Byte Signed Parameter
+                            // Process Many-bits instructional
+                            // there can only be 1 manybit based on max CMD value restriction; simple.
+                            int cmd = (compressedBytes[1] & 0x7F << 7) | compressedBytes[2];
+                            bw.Write(BitConverter.GetBytes((ushort)cmd), 0, 2);
+
                             int deviation = ((val >> 1) & 0x3F) - 0x40;
                             bw.Write(BitConverter.GetBytes(deviation), 0, 2);
-
-                            // Process Many-bits instructional
-                            {
-                                // there can only be 1 manybit based on max CMD value restriction; simple.
-                                int cmd = (compressedBytes[0] & 0x7F << 7) | compressedBytes[1];
-                                bw.Write(BitConverter.GetBytes((ushort)cmd), 0, 2);
-                            }
                         }
                         else if ((val >> 7) > 0)
                         {
                             // 3 Byte Signed Parameter
+                            // Process Many-bits instructional
+                            bw.Write((byte)(((val & 0x1) << 7) | compressedBytes[1]));  // bottom bit is sent to low byte as the 8th bit
+
                             int deviation = ((val >> 1) & 0x3F) - 0x40;
                             bw.Write(BitConverter.GetBytes(deviation), 0, 3);
-                            bw.Write((byte)(((val & 0x1) << 7) | compressedBytes[1]));  // bottom bit is sent to low byte as the 8th bit
                         }
                         else
                         {
