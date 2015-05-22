@@ -140,7 +140,6 @@ namespace pk3DS
 
                 byte[] compressed = ScriptData.Skip(start).ToArray();
                 string c = Util.getHexString(compressed);
-                compressed = File.ReadAllBytes("raw.bin");
                 byte[] decompressed = Scripts.decompressScript(compressed);
                 string d = Util.getHexString(decompressed);
 

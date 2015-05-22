@@ -36,28 +36,26 @@ namespace pk3DS
                         if (compressedBytes.Length > 1 && (compressedBytes[1] >> 7) > 0) // Many-bits-required command
                         {
                             // 2 Byte Signed Parameter
-                            // Process Many-bits instructional
-                            // there can only be 1 manybit based on max CMD value restriction; simple.
-                            int cmd = (compressedBytes[1] & 0x7F << 7) | compressedBytes[2];
-                            bw.Write(BitConverter.GetBytes((ushort)cmd), 0, 2);
+                            int cmd = (compressedBytes[0] & 0x3 << 14) | (compressedBytes[1] & 0x7F << 7) | compressedBytes[2]; // 16 Bits total
+                            bw.Write(BitConverter.GetBytes(cmd), 0, 2);
 
-                            int deviation = -((val & 0x3F) >> 1);
-                            bw.Write(BitConverter.GetBytes(deviation), 0, 2);
+                            int deviation = ((val & 0x3F) - 0x40) >> 2; // Lowest 2 bits have already been used for the command
+                            bw.Write(BitConverter.GetBytes(deviation), 0, 2); // 16 Bits
                         }
                         else if ((val >> 7) > 0)
                         {
                             // 3 Byte Signed Parameter
-                            // Process Many-bits instructional
-                            bw.Write((byte)(((val & 0x1) << 7) | compressedBytes[1]));  // bottom bit is sent to low byte as the 8th bit
+                            int cmd = ((compressedBytes[0] << 7) | compressedBytes[1]);
+                            bw.Write(BitConverter.GetBytes(cmd), 0, 1);  // 8 Bits Total
 
-                            int deviation = ((val & 0x3F) >> 1) - 0x40;
-                            bw.Write(BitConverter.GetBytes(deviation), 0, 3);
+                            int deviation = ((val & 0x3F) - 0x40) >> 1; // Lowest bit has already been used for the command
+                            bw.Write(BitConverter.GetBytes(deviation), 0, 3); // 24 Bits
                         }
                         else
                         {
                             // 4 Byte Signed Parameter
-                            int deviation = ((val & 0x3F) >> 1) - 0x40;
-                            bw.Write(BitConverter.GetBytes(deviation), 0, 4);
+                            int deviation = ((val & 0x3F) - 0x40) >> 0; // No bits have already been used; no command
+                            bw.Write(BitConverter.GetBytes(deviation), 0, 4); // 32 Bits
                         }
                     }
                     else if ((val >> 7) > 0) // Manybit
