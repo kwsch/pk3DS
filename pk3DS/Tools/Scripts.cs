@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace pk3DS
 {
@@ -19,13 +20,10 @@ namespace pk3DS
                     // Read until the top bit is not set
                     List<byte>raw = new List<byte>();
                     byte val = br.ReadByte(); raw.Add(val);
-                    if ((val >> 6) > 0)
+                    while ((val >> 7) > 0)
                     {
+                        if (br.BaseStream.Position == br.BaseStream.Length) return mn.ToArray();
                         val = br.ReadByte(); raw.Add(val);
-                        while ((val >> 7) > 0)
-                        {
-                            val = br.ReadByte(); raw.Add(val);
-                        }
                     }
                     byte[] compressedBytes = raw.ToArray();
 
@@ -35,8 +33,7 @@ namespace pk3DS
                     if ((val & 0x40) > 0) // Signed Parameter
                     {
                         // Check the next bytecode
-                        byte second = compressedBytes[1];
-                        if ((second >> 7) > 0) // Many-bits-required command
+                        if (compressedBytes.Length > 1 && (compressedBytes[1] >> 7) > 0) // Many-bits-required command
                         {
                             // 2 Byte Signed Parameter
                             // Process Many-bits instructional
@@ -44,7 +41,7 @@ namespace pk3DS
                             int cmd = (compressedBytes[1] & 0x7F << 7) | compressedBytes[2];
                             bw.Write(BitConverter.GetBytes((ushort)cmd), 0, 2);
 
-                            int deviation = ((val >> 1) & 0x3F) - 0x40;
+                            int deviation = -((val & 0x3F) >> 1);
                             bw.Write(BitConverter.GetBytes(deviation), 0, 2);
                         }
                         else if ((val >> 7) > 0)
@@ -53,13 +50,13 @@ namespace pk3DS
                             // Process Many-bits instructional
                             bw.Write((byte)(((val & 0x1) << 7) | compressedBytes[1]));  // bottom bit is sent to low byte as the 8th bit
 
-                            int deviation = ((val >> 1) & 0x3F) - 0x40;
+                            int deviation = ((val & 0x3F) >> 1) - 0x40;
                             bw.Write(BitConverter.GetBytes(deviation), 0, 3);
                         }
                         else
                         {
                             // 4 Byte Signed Parameter
-                            int deviation = ((val >> 1) & 0x3F) - 0x40;
+                            int deviation = ((val & 0x3F) >> 1) - 0x40;
                             bw.Write(BitConverter.GetBytes(deviation), 0, 4);
                         }
                     }
@@ -108,6 +105,14 @@ namespace pk3DS
                 }
                 return mn.ToArray();
             }
+        }
+
+        internal static string getu32line(byte[] data)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < data.Length; i+= 4)
+                sb.Append(BitConverter.ToString(data, i, 4).Replace('-', ' ') + "\r\n");
+            return sb.ToString();
         }
     }
 }

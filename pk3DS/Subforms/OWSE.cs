@@ -123,15 +123,15 @@ namespace pk3DS
             if (data.Length > 4)
             {
                 uint length = BitConverter.ToUInt32(data, 0);
-                byte[] ScriptData = data.Skip(4).Take(data.Length - 4).ToArray();
+                byte[] ScriptData = data;
                 RTB_MS.Text = Util.getHexString(ScriptData);
 
                 RTB_MS.Width = RTB_MS.Text.Length < 25 * 3 * 16 ? 245 : 260;
 
-                int start = BitConverter.ToInt32(ScriptData, 0x8);
-                int declen = BitConverter.ToInt32(ScriptData, 0xC);
-                int junkoff = BitConverter.ToInt32(ScriptData, 0x10);
-                int reserved = BitConverter.ToInt32(ScriptData, 0x14);
+                int start = BitConverter.ToInt32(ScriptData, 0xC);
+                int declen = BitConverter.ToInt32(ScriptData, 0x10);
+                int junkoff = BitConverter.ToInt32(ScriptData, 0x14);
+                int reserved = BitConverter.ToInt32(ScriptData, 0x18);
 
                 L_MS08.Text = "Data Start :0x" + start.ToString("X4");
                 L_MS0C.Text = "Decmp Length: 0x" + declen.ToString("X4");
@@ -140,8 +140,11 @@ namespace pk3DS
 
                 byte[] compressed = ScriptData.Skip(start).ToArray();
                 string c = Util.getHexString(compressed);
+                compressed = File.ReadAllBytes("raw.bin");
                 byte[] decompressed = Scripts.decompressScript(compressed);
                 string d = Util.getHexString(decompressed);
+
+                RTB_MS.Text = Scripts.getu32line(decompressed);
             }
         }
         private void getOWSData()
@@ -185,15 +188,15 @@ namespace pk3DS
             OWScriptData = data.Skip(4 + owData.Length).Take(data.Length - 4 - owData.Length).ToArray();
             if (OWScriptData.Length > 4)
             {
-                byte[] ScriptData = OWScriptData.Skip(4).Take(OWScriptData.Length - 4).ToArray();
+                byte[] ScriptData = OWScriptData;
                 RTB_S.Text = Util.getHexString(ScriptData);
 
                 RTB_S.Width = RTB_S.Text.Length < 25 * 3 * 16 ? 245 : 260;
 
-                int start = BitConverter.ToInt32(ScriptData, 0x8);
-                int declen = BitConverter.ToInt32(ScriptData, 0xC);
-                int junkoff = BitConverter.ToInt32(ScriptData, 0x10);
-                int reserved = BitConverter.ToInt32(ScriptData, 0x14);
+                int start = BitConverter.ToInt32(ScriptData, 0xC);
+                int declen = BitConverter.ToInt32(ScriptData, 0x10);
+                int junkoff = BitConverter.ToInt32(ScriptData, 0x14);
+                int reserved = BitConverter.ToInt32(ScriptData, 0x18);
 
                 L_SL08.Text = "Data Start :0x" + start.ToString("X4");
                 L_SL0C.Text = "Decmp Length: 0x" + declen.ToString("X4");
@@ -204,6 +207,8 @@ namespace pk3DS
                 string c = Util.getHexString(compressed);
                 byte[] decompressed = Scripts.decompressScript(compressed);
                 string d = Util.getHexString(decompressed);
+
+                RTB_S.Text = Scripts.getu32line(decompressed);
             }
         }
 
