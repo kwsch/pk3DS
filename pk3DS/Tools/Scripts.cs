@@ -10,8 +10,8 @@ namespace pk3DS
         // Decompression
         internal static byte[] decompressScript(byte[] data)
         {
-            if (data == null || data.Length % 4 != 0) // Bad Input
-                return null;
+            data = data ?? new byte[0]; // Bad Input
+                
             using (MemoryStream mn = new MemoryStream())
             using (BinaryWriter bw = new BinaryWriter(mn))
             {
@@ -101,35 +101,76 @@ namespace pk3DS
                 return mn.ToArray();
             }
         }
-        internal static byte[] compressBytes(byte[] cb)
+        internal static byte[] compressBytes(byte[] db)
         {
-            short cmd = BitConverter.ToInt16(cb, 0);
-            short val = BitConverter.ToInt16(cb, 2);
+            short cmd = BitConverter.ToInt16(db, 0);
+            short val = BitConverter.ToInt16(db, 2);
 
-            byte[] blank = new byte[0];
-            bool manyb = cmd > 0x3F; // manybit
-            bool sign4 = cmd < 0 && !manyb; // 4 byte signed
-            bool sign3 = cmd < 0 && manyb; // 3 byte signed
-            bool sign2 = val < 0; // 2 byte signed
-            bool liter = cmd >= 0 && cmd < 0x40;
+            byte[] cb = new byte[0];
+            bool sign4 = val < 0 && cmd < 0 && db[0] >= 0xC0; // 4 byte signed
+            bool sign3 = val < 0 && cmd < 0 && db[0] < 0xC0; // 3 byte signed
+            bool sign2 = val < 0 && cmd > 0; // 2 byte signed
+            bool liter = cmd >= 0 && cmd < 0x40; // Literal
+            bool manyb = cmd >= 0x40; // manybit
 
             if (sign4)
-                return blank;
-            if (sign3)
-                return blank;
-            if (sign2)
-                return blank;
-            if (manyb)
-                return blank;
-            if (liter)
-                return blank;
+            {
+                int dev = 0x40 + BitConverter.ToInt32(db, 0);
+                if (dev < 0) // BADLOGIC
+                    return cb;
+                cb = new[] {(byte)((dev & 0x3F) | 0x40)};
+            }
+            else if (sign3)
+            {
+                byte dev = (byte)(((db[1] << 1) + 0x40) | 0xC0 | db[0] >> 7);
+                byte low = db[0];
+                cb = new[] {dev, low};
+            }
+            else if (sign2)
+            {
+                if (manyb)
+                {
+                    byte dev = (byte)(((db[2] << 2) + 0x40) | 0xC0 | db[1] >> 7);
+                    byte low1 = (byte)(0x80 | (db[0] >> 7) | (db[1] & 0x80));
+                    byte low0 = (byte)(db[0] & 0x80);
+                    cb = new[] {low0, low1, dev};
+                }
+                else // Dunno if this ever naturally happens; the command reader may ignore db[1] if db[0] < 0x80... needs verification.
+                {
+                    byte dev = (byte)(((db[1] << 2) + 0x40) | 0xC0 | db[0] >> 6);
+                    byte low0 = (byte)(db[0] & 0x3F);
+                    cb = new[] {low0, dev};
+                }
+            }
+            else if (manyb)
+            {
+                ulong bitStorage = 0;
 
-            return blank;
+                uint dv = BitConverter.ToUInt32(db, 0);
+                int ctr = 0;
+                while (dv != 0) // bits remaining
+                {
+                    byte bits = (byte)(((byte)dv) & 0x7F); dv >>= 7; // Take off 7 bits at a time
+                    bitStorage |= (byte)(bits << (ctr*8)); // Write the 7 bits into storage
+                    bitStorage |= (byte)(1 << (7 + (ctr++*8))); // continue reading flag
+                }
+                byte[] compressedBits = BitConverter.GetBytes(bitStorage);
+
+                Array.Reverse(compressedBits);
+                // Trim off leading zero-bytes
+                cb = compressedBits.SkipWhile(v => v == 0).ToArray();
+            }
+            else if (liter)
+            {
+                cb = new[] { (byte)cmd };
+            }
+            return cb;
         }
 
         // General Viewing Utility
         internal static string[] getHexLines(byte[] data, int count = 4)
         {
+            data = data ?? new byte[0];
             // Generates an x-byte wide space separated string array; leftovers included at the end.
             string[] s = new string[data.Length/count + ((data.Length % count > 0) ? 1 : 0)];
             for (int i = 0; i < s.Length;i++)
