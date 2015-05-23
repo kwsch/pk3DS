@@ -124,7 +124,7 @@ namespace pk3DS
             {
                 byte[] ScriptData = data;
                 uint length = BitConverter.ToUInt32(ScriptData, 0);
-                RTB_MS.Text = Util.getHexString(ScriptData);
+                RTB_MS.Lines = Scripts.getHexLines(ScriptData, 8);
 
 
                 int start = BitConverter.ToInt32(ScriptData, 0xC);
@@ -145,7 +145,7 @@ namespace pk3DS
                 int diff = declength - decompressed.Length;
                 Array.Resize(ref decompressed, declength);
 
-                RTB_MSCMD.Text = Scripts.getu32line(decompressed);
+                RTB_MSCMD.Lines = Scripts.getHexLines(decompressed);
                 RTB_MSCMD.Width = RTB_MSCMD.Lines.Length < 20 ? 75 : 85;
                 if (diff > 20 || diff < -20)
                     RTB_MSCMD.Text = "DCMP FAIL";
@@ -194,7 +194,7 @@ namespace pk3DS
             {
                 byte[] ScriptData = OWScriptData;
                 uint length = BitConverter.ToUInt32(ScriptData, 0);
-                RTB_S.Text = Util.getHexString(ScriptData);
+                RTB_S.Lines = Scripts.getHexLines(ScriptData, 8);
                 // RTB_S.Width = RTB_S.Text.Length < 25 * 3 * 16 ? 245 : 260;
 
                 int start = BitConverter.ToInt32(ScriptData, 0xC);
@@ -216,7 +216,7 @@ namespace pk3DS
                 int diff = declength - decompressed.Length;
                 Array.Resize(ref decompressed, declength);
 
-                RTB_OWSCMD.Text = Scripts.getu32line(decompressed);
+                RTB_OWSCMD.Lines = Scripts.getHexLines(decompressed);
                 RTB_OWSCMD.Width = RTB_OWSCMD.Lines.Length < 20 ? 75 : 85;
                 if (diff > 20 || diff < -20)
                     RTB_OWSCMD.Text = "DCMP FAIL";
