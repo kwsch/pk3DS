@@ -65,11 +65,13 @@
             this.NUD_TE = new System.Windows.Forms.NumericUpDown();
             this.L_TE = new System.Windows.Forms.Label();
             this.tb_Script = new System.Windows.Forms.TabPage();
+            this.RTB_S = new System.Windows.Forms.RichTextBox();
             this.L_OWSCDesc = new System.Windows.Forms.Label();
             this.RTB_OWSCMD = new System.Windows.Forms.RichTextBox();
             this.NUD_NPCCount = new System.Windows.Forms.NumericUpDown();
             this.L_NPCCount = new System.Windows.Forms.Label();
             this.tb_MSC = new System.Windows.Forms.TabPage();
+            this.RTB_MSCMD = new System.Windows.Forms.RichTextBox();
             this.L_MSSCDesc = new System.Windows.Forms.Label();
             this.RTB_MS = new System.Windows.Forms.RichTextBox();
             this.tb_Encounters = new System.Windows.Forms.TabPage();
@@ -82,8 +84,6 @@
             this.RTB_MapSC = new System.Windows.Forms.RichTextBox();
             this.L_TextFile = new System.Windows.Forms.Label();
             this.L_Map = new System.Windows.Forms.Label();
-            this.RTB_S = new System.Windows.Forms.RichTextBox();
-            this.RTB_MSCMD = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TrigCount)).BeginInit();
@@ -533,24 +533,34 @@
             this.tb_Script.Text = "ScriptData";
             this.tb_Script.UseVisualStyleBackColor = true;
             // 
+            // RTB_S
+            // 
+            this.RTB_S.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_S.Location = new System.Drawing.Point(97, 3);
+            this.RTB_S.Name = "RTB_S";
+            this.RTB_S.ReadOnly = true;
+            this.RTB_S.Size = new System.Drawing.Size(85, 307);
+            this.RTB_S.TabIndex = 424;
+            this.RTB_S.Text = "Raw Data Here";
+            // 
             // L_OWSCDesc
             // 
             this.L_OWSCDesc.AutoSize = true;
-            this.L_OWSCDesc.Location = new System.Drawing.Point(3, 7);
+            this.L_OWSCDesc.Location = new System.Drawing.Point(188, 3);
             this.L_OWSCDesc.Name = "L_OWSCDesc";
-            this.L_OWSCDesc.Size = new System.Drawing.Size(19, 52);
+            this.L_OWSCDesc.Size = new System.Drawing.Size(75, 13);
             this.L_OWSCDesc.TabIndex = 423;
-            this.L_OWSCDesc.Text = "L1\r\nL2\r\nL3\r\nL4";
+            this.L_OWSCDesc.Text = "Script Analysis";
             // 
             // RTB_OWSCMD
             // 
             this.RTB_OWSCMD.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_OWSCMD.Location = new System.Drawing.Point(6, 60);
+            this.RTB_OWSCMD.Location = new System.Drawing.Point(6, 3);
             this.RTB_OWSCMD.Name = "RTB_OWSCMD";
             this.RTB_OWSCMD.ReadOnly = true;
-            this.RTB_OWSCMD.Size = new System.Drawing.Size(85, 250);
+            this.RTB_OWSCMD.Size = new System.Drawing.Size(85, 307);
             this.RTB_OWSCMD.TabIndex = 422;
-            this.RTB_OWSCMD.Text = "u32\'s here";
+            this.RTB_OWSCMD.Text = "Script CMDs";
             // 
             // NUD_NPCCount
             // 
@@ -586,24 +596,34 @@
             this.tb_MSC.Text = "Map SC";
             this.tb_MSC.UseVisualStyleBackColor = true;
             // 
+            // RTB_MSCMD
+            // 
+            this.RTB_MSCMD.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_MSCMD.Location = new System.Drawing.Point(3, 3);
+            this.RTB_MSCMD.Name = "RTB_MSCMD";
+            this.RTB_MSCMD.ReadOnly = true;
+            this.RTB_MSCMD.Size = new System.Drawing.Size(85, 341);
+            this.RTB_MSCMD.TabIndex = 427;
+            this.RTB_MSCMD.Text = "Script CMDs";
+            // 
             // L_MSSCDesc
             // 
             this.L_MSSCDesc.AutoSize = true;
-            this.L_MSSCDesc.Location = new System.Drawing.Point(5, 8);
+            this.L_MSSCDesc.Location = new System.Drawing.Point(185, 3);
             this.L_MSSCDesc.Name = "L_MSSCDesc";
-            this.L_MSSCDesc.Size = new System.Drawing.Size(19, 52);
+            this.L_MSSCDesc.Size = new System.Drawing.Size(75, 13);
             this.L_MSSCDesc.TabIndex = 426;
-            this.L_MSSCDesc.Text = "L1\r\nL2\r\nL3\r\nL4";
+            this.L_MSSCDesc.Text = "Script Analysis";
             // 
             // RTB_MS
             // 
             this.RTB_MS.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_MS.Location = new System.Drawing.Point(187, 65);
+            this.RTB_MS.Location = new System.Drawing.Point(94, 3);
             this.RTB_MS.Name = "RTB_MS";
             this.RTB_MS.ReadOnly = true;
-            this.RTB_MS.Size = new System.Drawing.Size(141, 279);
+            this.RTB_MS.Size = new System.Drawing.Size(85, 341);
             this.RTB_MS.TabIndex = 425;
-            this.RTB_MS.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF";
+            this.RTB_MS.Text = "Raw Data Here";
             // 
             // tb_Encounters
             // 
@@ -707,26 +727,6 @@
             this.L_Map.Size = new System.Drawing.Size(50, 13);
             this.L_Map.TabIndex = 419;
             this.L_Map.Text = "Map File:";
-            // 
-            // RTB_S
-            // 
-            this.RTB_S.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_S.Location = new System.Drawing.Point(190, 60);
-            this.RTB_S.Name = "RTB_S";
-            this.RTB_S.ReadOnly = true;
-            this.RTB_S.Size = new System.Drawing.Size(141, 250);
-            this.RTB_S.TabIndex = 424;
-            this.RTB_S.Text = "u32\'s here";
-            // 
-            // RTB_MSCMD
-            // 
-            this.RTB_MSCMD.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_MSCMD.Location = new System.Drawing.Point(3, 64);
-            this.RTB_MSCMD.Name = "RTB_MSCMD";
-            this.RTB_MSCMD.ReadOnly = true;
-            this.RTB_MSCMD.Size = new System.Drawing.Size(85, 280);
-            this.RTB_MSCMD.TabIndex = 427;
-            this.RTB_MSCMD.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF";
             // 
             // OWSE
             // 

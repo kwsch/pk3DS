@@ -123,31 +123,33 @@ namespace pk3DS
             if (data.Length > 4)
             {
                 byte[] ScriptData = data;
-                uint length = BitConverter.ToUInt32(ScriptData, 0);
-                RTB_MS.Lines = Scripts.getHexLines(ScriptData, 8);
+                int length = BitConverter.ToInt32(ScriptData, 0);
+                Array.Resize(ref ScriptData, length); // Cap Size
 
+                RTB_MS.Lines = Scripts.getHexLines(ScriptData, 8);
 
                 int start = BitConverter.ToInt32(ScriptData, 0xC);
                 int moves = BitConverter.ToInt32(ScriptData, 0x10);
                 int finaloffset = BitConverter.ToInt32(ScriptData, 0x14);
                 int reserved = BitConverter.ToInt32(ScriptData, 0x18);
+                int compressedLength = length - start;
+                int decompressedLength = finaloffset - start;
 
                 L_MSSCDesc.Text = "Data Start: 0x" + start.ToString("X4")
                 + Environment.NewLine + "Movement Offset: 0x" + moves.ToString("X4")
-                + Environment.NewLine + "Total Length Offset: 0x" + finaloffset.ToString("X4")
-                + Environment.NewLine + "Reserved Size: 0x" + reserved.ToString("X4");
+                + Environment.NewLine + "Total Used Size: 0x" + finaloffset.ToString("X4")
+                + Environment.NewLine + "Reserved Size: 0x" + reserved.ToString("X4")
+                + Environment.NewLine + "Compressed Len: 0x" + compressedLength.ToString("X4")
+                + Environment.NewLine + "Decompressed Len: 0x" + decompressedLength.ToString("X4");
 
                 byte[] compressed = ScriptData.Skip(start).ToArray();
-                string c = Util.getHexString(compressed);
-                byte[] decompressed = Scripts.decompressScript(compressed);
-
-                int declength = finaloffset - start;
-                int diff = declength - decompressed.Length;
-                Array.Resize(ref decompressed, declength);
+                // string c = Util.getHexString(compressed);
+                byte[] decompressed = Scripts.decompressScript(compressed) ?? new byte[0];
+                // string d = Util.getHexString(decompressed);
 
                 RTB_MSCMD.Lines = Scripts.getHexLines(decompressed);
-                RTB_MSCMD.Width = RTB_MSCMD.Lines.Length < 20 ? 75 : 85;
-                if (diff > 20 || diff < -20)
+
+                if (decompressedLength != decompressed.Length)
                     RTB_MSCMD.Text = "DCMP FAIL";
             }
         }
@@ -193,32 +195,33 @@ namespace pk3DS
             if (OWScriptData.Length > 4)
             {
                 byte[] ScriptData = OWScriptData;
-                uint length = BitConverter.ToUInt32(ScriptData, 0);
+                int length = BitConverter.ToInt32(ScriptData, 0);
+                Array.Resize(ref ScriptData, length); // Cap Size
+
                 RTB_S.Lines = Scripts.getHexLines(ScriptData, 8);
-                // RTB_S.Width = RTB_S.Text.Length < 25 * 3 * 16 ? 245 : 260;
 
                 int start = BitConverter.ToInt32(ScriptData, 0xC);
                 int moves = BitConverter.ToInt32(ScriptData, 0x10);
                 int finaloffset = BitConverter.ToInt32(ScriptData, 0x14);
                 int reserved = BitConverter.ToInt32(ScriptData, 0x18);
+                int compressedLength = length - start;
+                int decompressedLength = finaloffset - start;
 
                 L_OWSCDesc.Text = "Data Start: 0x" + start.ToString("X4")
                 + Environment.NewLine + "Movement Offset: 0x" + moves.ToString("X4")
-                + Environment.NewLine + "Total Length Offset: 0x" + finaloffset.ToString("X4")
-                + Environment.NewLine + "Reserved Size: 0x" + reserved.ToString("X4");
+                + Environment.NewLine + "Total Used Size: 0x" + finaloffset.ToString("X4")
+                + Environment.NewLine + "Reserved Size: 0x" + reserved.ToString("X4")
+                + Environment.NewLine + "Compressed Len: 0x" + compressedLength.ToString("X4")
+                + Environment.NewLine + "Decompressed Len: 0x" + decompressedLength.ToString("X4");
 
                 byte[] compressed = ScriptData.Skip(start).ToArray();
-                string c = Util.getHexString(compressed);
-                byte[] decompressed = Scripts.decompressScript(compressed);
-                string d = Util.getHexString(decompressed);
-
-                int declength = finaloffset - start;
-                int diff = declength - decompressed.Length;
-                Array.Resize(ref decompressed, declength);
+                // string c = Util.getHexString(compressed);
+                byte[] decompressed = Scripts.decompressScript(compressed) ?? new byte[0];
+                // string d = Util.getHexString(decompressed);
 
                 RTB_OWSCMD.Lines = Scripts.getHexLines(decompressed);
-                RTB_OWSCMD.Width = RTB_OWSCMD.Lines.Length < 20 ? 75 : 85;
-                if (diff > 20 || diff < -20)
+
+                if (decompressedLength != decompressed.Length)
                     RTB_OWSCMD.Text = "DCMP FAIL";
             }
         }
