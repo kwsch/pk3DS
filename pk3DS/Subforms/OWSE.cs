@@ -126,7 +126,7 @@ namespace pk3DS
                 int length = BitConverter.ToInt32(ScriptData, 0);
                 Array.Resize(ref ScriptData, length); // Cap Size
 
-                RTB_MS.Lines = Scripts.getHexLines(ScriptData, 8);
+                RTB_MS.Lines = Scripts.getHexLines(ScriptData);
 
                 int start = BitConverter.ToInt32(ScriptData, 0xC);
                 int moves = BitConverter.ToInt32(ScriptData, 0x10);
@@ -144,12 +144,12 @@ namespace pk3DS
 
                 byte[] compressed = ScriptData.Skip(start).ToArray();
                 // string c = Util.getHexString(compressed);
-                byte[] decompressed = Scripts.decompressScript(compressed) ?? new byte[0];
+                uint[] decompressed = Scripts.quickDecompress(compressed, decompressedLength/4) ?? new uint[0];
                 // string d = Util.getHexString(decompressed);
 
                 RTB_MSCMD.Lines = Scripts.getHexLines(decompressed);
 
-                if (decompressedLength != decompressed.Length)
+                if (decompressedLength/4 != decompressed.Length)
                     RTB_MSCMD.Text = "DCMP FAIL";
             }
         }
@@ -198,7 +198,7 @@ namespace pk3DS
                 int length = BitConverter.ToInt32(ScriptData, 0);
                 Array.Resize(ref ScriptData, length); // Cap Size
 
-                RTB_S.Lines = Scripts.getHexLines(ScriptData, 8);
+                RTB_S.Lines = Scripts.getHexLines(ScriptData);
 
                 int start = BitConverter.ToInt32(ScriptData, 0xC);
                 int moves = BitConverter.ToInt32(ScriptData, 0x10);
@@ -216,12 +216,13 @@ namespace pk3DS
 
                 byte[] compressed = ScriptData.Skip(start).ToArray();
                 // string c = Util.getHexString(compressed);
-                byte[] decompressed = Scripts.decompressScript(compressed) ?? new byte[0];
+                uint[] decompressed = Scripts.quickDecompress(compressed, decompressedLength/4) ?? new uint[0];
+                // byte[] decompressed = Scripts.decompressScript(compressed) ?? new byte[0]; -- DEPRECATED
                 // string d = Util.getHexString(decompressed);
 
                 RTB_OWSCMD.Lines = Scripts.getHexLines(decompressed);
 
-                if (decompressedLength != decompressed.Length)
+                if (decompressedLength/4 != decompressed.Length)
                     RTB_OWSCMD.Text = "DCMP FAIL";
             }
         }
