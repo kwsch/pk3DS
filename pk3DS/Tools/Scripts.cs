@@ -174,7 +174,7 @@ namespace pk3DS
             // Generates an x-byte wide space separated string array; leftovers included at the end.
             string[] s = new string[data.Length/count + ((data.Length % count > 0) ? 1 : 0)];
             for (int i = 0; i < s.Length;i++)
-                s[i] += BitConverter.ToString(data, i*count, i+1<s.Length ? count : data.Length % count).Replace('-', ' ');
+                s[i] = BitConverter.ToString(data.Skip(i*4).Take(count).ToArray()).Replace('-', ' ');
             return s;
         }
     }
