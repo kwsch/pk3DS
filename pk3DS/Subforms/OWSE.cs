@@ -67,14 +67,14 @@ namespace pk3DS
         private void getEntry()
         {
             if (entry < 0) return;
-            RTB_F.Text = RTB_O.Text = richTextBox2.Text = RTB_T.Text = string.Empty;
+            RTB_F.Text = RTB_O.Text = RTB_W.Text = RTB_T.Text = string.Empty;
             byte[] raw = File.ReadAllBytes(filepaths[entry]);
             locationData = ARC.unpackMini(raw, "ZO");
             if (locationData == null) return;
 
             RichTextBox[] rtba = {RTB_MapInfo, RTB_OWSC, RTB_MapSC, RTB_Encounter, RTB_File5};
             for (int i = 0; i < locationData.Length; i++)
-                rtba[i].Text = BitConverter.ToString(locationData[i]).Replace('-', ' ');
+                rtba[i].Lines = Scripts.getHexLines(locationData[i], 0x10);
 
             // File 0 - ??
 
@@ -152,15 +152,18 @@ namespace pk3DS
                 if (decompressedLength/4 != decompressed.Length)
                     RTB_MSCMD.Text = "DCMP FAIL";
             }
+            else
+                RTB_MSCMD.Lines = RTB_MS.Lines = new[] {"No Data"};
         }
         private void getOWSData()
         {
             byte[] data = locationData[1];
             int len = BitConverter.ToInt32(data, 0);
 
-            RTB_zonedata.Text = BitConverter.ToString(zonedata.Skip(56 * entry).Take(56).ToArray()).Replace('-', ' ');
-            L_Map.Text = "Map File: " + BitConverter.ToUInt16(zonedata, 56 * entry + 2);
-            L_TextFile.Text = "Text File: " + BitConverter.ToUInt16(zonedata, 56 * entry + 6);
+            byte[] zd = zonedata.Skip(56*entry).Take(56).ToArray();
+            RTB_zonedata.Lines = Scripts.getHexLines(zd, 0x10);
+            L_ZDPreview.Text = "Text File: " + BitConverter.ToUInt16(zonedata, 56 * entry + 6)
+            + Environment.NewLine + "Map File: " + BitConverter.ToUInt16(zonedata, 56 * entry + 2);
 
             byte[] owData = data.Skip(4).Take(len).ToArray();
             // Process owData Header
@@ -198,7 +201,7 @@ namespace pk3DS
                 int length = BitConverter.ToInt32(ScriptData, 0);
                 Array.Resize(ref ScriptData, length); // Cap Size
 
-                RTB_S.Lines = Scripts.getHexLines(ScriptData);
+                RTB_OS.Lines = Scripts.getHexLines(ScriptData);
 
                 int start = BitConverter.ToInt32(ScriptData, 0xC);
                 int moves = BitConverter.ToInt32(ScriptData, 0x10);
@@ -225,6 +228,8 @@ namespace pk3DS
                 if (decompressedLength/4 != decompressed.Length)
                     RTB_OWSCMD.Text = "DCMP FAIL";
             }
+            else
+                RTB_OWSCMD.Lines = RTB_OS.Lines = new[] {"No Data"};
         }
 
         private byte[] setOWSData()
@@ -335,7 +340,7 @@ namespace pk3DS
 
             // Load New Data
             byte[] data = wData[wEntry];
-            richTextBox2.Text = Util.getHexString(data);
+            RTB_W.Text = Util.getHexString(data);
 
             ushort Map = BitConverter.ToUInt16(data, 0x4);
             ushort Dest = BitConverter.ToUInt16(data, 0x6);

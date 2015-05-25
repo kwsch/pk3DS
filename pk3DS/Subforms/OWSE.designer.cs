@@ -57,7 +57,7 @@
             this.NUD_WMap = new System.Windows.Forms.NumericUpDown();
             this.L_DestWarpTile = new System.Windows.Forms.Label();
             this.L_DestMap = new System.Windows.Forms.Label();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.RTB_W = new System.Windows.Forms.RichTextBox();
             this.NUD_WE = new System.Windows.Forms.NumericUpDown();
             this.L_WE = new System.Windows.Forms.Label();
             this.tb_Trigger = new System.Windows.Forms.TabPage();
@@ -65,7 +65,7 @@
             this.NUD_TE = new System.Windows.Forms.NumericUpDown();
             this.L_TE = new System.Windows.Forms.Label();
             this.tb_Script = new System.Windows.Forms.TabPage();
-            this.RTB_S = new System.Windows.Forms.RichTextBox();
+            this.RTB_OS = new System.Windows.Forms.RichTextBox();
             this.L_OWSCDesc = new System.Windows.Forms.Label();
             this.RTB_OWSCMD = new System.Windows.Forms.RichTextBox();
             this.NUD_NPCCount = new System.Windows.Forms.NumericUpDown();
@@ -82,9 +82,19 @@
             this.RTB_OWSC = new System.Windows.Forms.RichTextBox();
             this.RTB_Encounter = new System.Windows.Forms.RichTextBox();
             this.RTB_MapSC = new System.Windows.Forms.RichTextBox();
-            this.L_TextFile = new System.Windows.Forms.Label();
-            this.L_Map = new System.Windows.Forms.Label();
+            this.L_ZDPreview = new System.Windows.Forms.Label();
+            this.L_Encounters = new System.Windows.Forms.Label();
+            this.L_File1 = new System.Windows.Forms.Label();
+            this.L_File2 = new System.Windows.Forms.Label();
+            this.L_File4 = new System.Windows.Forms.Label();
+            this.L_File5 = new System.Windows.Forms.Label();
+            this.L_ZD = new System.Windows.Forms.Label();
+            this.L_File3 = new System.Windows.Forms.Label();
+            this.L_File5TabData = new System.Windows.Forms.Label();
+            this.L_MapInfoTabData = new System.Windows.Forms.Label();
+            this.L_OWEntities = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
+            this.tb_MapInfo.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TrigCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WarpCount)).BeginInit();
@@ -104,6 +114,8 @@
             this.tb_Script.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NPCCount)).BeginInit();
             this.tb_MSC.SuspendLayout();
+            this.tb_Encounters.SuspendLayout();
+            this.TB_File5.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,11 +142,11 @@
             // 
             // RTB_MapInfo
             // 
-            this.RTB_MapInfo.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_MapInfo.Location = new System.Drawing.Point(125, 3);
+            this.RTB_MapInfo.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_MapInfo.Location = new System.Drawing.Point(217, 3);
             this.RTB_MapInfo.Name = "RTB_MapInfo";
             this.RTB_MapInfo.ReadOnly = true;
-            this.RTB_MapInfo.Size = new System.Drawing.Size(358, 36);
+            this.RTB_MapInfo.Size = new System.Drawing.Size(266, 36);
             this.RTB_MapInfo.TabIndex = 412;
             this.RTB_MapInfo.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF";
             // 
@@ -154,6 +166,7 @@
             // 
             // tb_MapInfo
             // 
+            this.tb_MapInfo.Controls.Add(this.L_MapInfoTabData);
             this.tb_MapInfo.Location = new System.Drawing.Point(4, 22);
             this.tb_MapInfo.Name = "tb_MapInfo";
             this.tb_MapInfo.Padding = new System.Windows.Forms.Padding(3);
@@ -164,6 +177,7 @@
             // 
             // tb_OWSC
             // 
+            this.tb_OWSC.Controls.Add(this.L_OWEntities);
             this.tb_OWSC.Controls.Add(this.NUD_TrigCount);
             this.tb_OWSC.Controls.Add(this.L_TriggerCount);
             this.tb_OWSC.Controls.Add(this.NUD_WarpCount);
@@ -382,7 +396,7 @@
             this.tb_Warp.Controls.Add(this.NUD_WMap);
             this.tb_Warp.Controls.Add(this.L_DestWarpTile);
             this.tb_Warp.Controls.Add(this.L_DestMap);
-            this.tb_Warp.Controls.Add(this.richTextBox2);
+            this.tb_Warp.Controls.Add(this.RTB_W);
             this.tb_Warp.Controls.Add(this.NUD_WE);
             this.tb_Warp.Controls.Add(this.L_WE);
             this.tb_Warp.Location = new System.Drawing.Point(4, 22);
@@ -443,15 +457,15 @@
             this.L_DestMap.Text = "Destination Map:";
             this.L_DestMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // richTextBox2
+            // RTB_W
             // 
-            this.richTextBox2.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox2.Location = new System.Drawing.Point(2, 268);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(245, 42);
-            this.richTextBox2.TabIndex = 427;
-            this.richTextBox2.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
+            this.RTB_W.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_W.Location = new System.Drawing.Point(2, 268);
+            this.RTB_W.Name = "RTB_W";
+            this.RTB_W.ReadOnly = true;
+            this.RTB_W.Size = new System.Drawing.Size(245, 42);
+            this.RTB_W.TabIndex = 427;
+            this.RTB_W.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
     "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
             // 
             // NUD_WE
@@ -523,7 +537,7 @@
             // 
             // tb_Script
             // 
-            this.tb_Script.Controls.Add(this.RTB_S);
+            this.tb_Script.Controls.Add(this.RTB_OS);
             this.tb_Script.Controls.Add(this.L_OWSCDesc);
             this.tb_Script.Controls.Add(this.RTB_OWSCMD);
             this.tb_Script.Location = new System.Drawing.Point(4, 22);
@@ -533,15 +547,15 @@
             this.tb_Script.Text = "ScriptData";
             this.tb_Script.UseVisualStyleBackColor = true;
             // 
-            // RTB_S
+            // RTB_OS
             // 
-            this.RTB_S.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_S.Location = new System.Drawing.Point(97, 3);
-            this.RTB_S.Name = "RTB_S";
-            this.RTB_S.ReadOnly = true;
-            this.RTB_S.Size = new System.Drawing.Size(85, 307);
-            this.RTB_S.TabIndex = 424;
-            this.RTB_S.Text = "Raw Data Here";
+            this.RTB_OS.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_OS.Location = new System.Drawing.Point(97, 3);
+            this.RTB_OS.Name = "RTB_OS";
+            this.RTB_OS.ReadOnly = true;
+            this.RTB_OS.Size = new System.Drawing.Size(85, 307);
+            this.RTB_OS.TabIndex = 424;
+            this.RTB_OS.Text = "Raw Data Here";
             // 
             // L_OWSCDesc
             // 
@@ -627,6 +641,7 @@
             // 
             // tb_Encounters
             // 
+            this.tb_Encounters.Controls.Add(this.L_Encounters);
             this.tb_Encounters.Location = new System.Drawing.Point(4, 22);
             this.tb_Encounters.Name = "tb_Encounters";
             this.tb_Encounters.Size = new System.Drawing.Size(486, 346);
@@ -636,6 +651,7 @@
             // 
             // TB_File5
             // 
+            this.TB_File5.Controls.Add(this.L_File5TabData);
             this.TB_File5.Location = new System.Drawing.Point(4, 22);
             this.TB_File5.Name = "TB_File5";
             this.TB_File5.Size = new System.Drawing.Size(486, 346);
@@ -645,6 +661,12 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.L_File3);
+            this.tabPage1.Controls.Add(this.L_ZD);
+            this.tabPage1.Controls.Add(this.L_File5);
+            this.tabPage1.Controls.Add(this.L_File4);
+            this.tabPage1.Controls.Add(this.L_File2);
+            this.tabPage1.Controls.Add(this.L_File1);
             this.tabPage1.Controls.Add(this.RTB_zonedata);
             this.tabPage1.Controls.Add(this.RTB_MapInfo);
             this.tabPage1.Controls.Add(this.RTB_File5);
@@ -672,69 +694,149 @@
             // 
             // RTB_File5
             // 
-            this.RTB_File5.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_File5.Location = new System.Drawing.Point(125, 171);
+            this.RTB_File5.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_File5.Location = new System.Drawing.Point(217, 171);
             this.RTB_File5.Name = "RTB_File5";
             this.RTB_File5.ReadOnly = true;
-            this.RTB_File5.Size = new System.Drawing.Size(358, 36);
+            this.RTB_File5.Size = new System.Drawing.Size(266, 36);
             this.RTB_File5.TabIndex = 421;
             this.RTB_File5.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF";
             // 
             // RTB_OWSC
             // 
-            this.RTB_OWSC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_OWSC.Location = new System.Drawing.Point(125, 45);
+            this.RTB_OWSC.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_OWSC.Location = new System.Drawing.Point(217, 45);
             this.RTB_OWSC.Name = "RTB_OWSC";
             this.RTB_OWSC.ReadOnly = true;
-            this.RTB_OWSC.Size = new System.Drawing.Size(358, 36);
+            this.RTB_OWSC.Size = new System.Drawing.Size(266, 36);
             this.RTB_OWSC.TabIndex = 418;
             this.RTB_OWSC.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF";
             // 
             // RTB_Encounter
             // 
-            this.RTB_Encounter.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_Encounter.Location = new System.Drawing.Point(125, 129);
+            this.RTB_Encounter.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_Encounter.Location = new System.Drawing.Point(217, 129);
             this.RTB_Encounter.Name = "RTB_Encounter";
             this.RTB_Encounter.ReadOnly = true;
-            this.RTB_Encounter.Size = new System.Drawing.Size(358, 36);
+            this.RTB_Encounter.Size = new System.Drawing.Size(266, 36);
             this.RTB_Encounter.TabIndex = 420;
             this.RTB_Encounter.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF";
             // 
             // RTB_MapSC
             // 
-            this.RTB_MapSC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_MapSC.Location = new System.Drawing.Point(125, 87);
+            this.RTB_MapSC.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_MapSC.Location = new System.Drawing.Point(217, 87);
             this.RTB_MapSC.Name = "RTB_MapSC";
             this.RTB_MapSC.ReadOnly = true;
-            this.RTB_MapSC.Size = new System.Drawing.Size(358, 36);
+            this.RTB_MapSC.Size = new System.Drawing.Size(266, 36);
             this.RTB_MapSC.TabIndex = 419;
             this.RTB_MapSC.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF";
             // 
-            // L_TextFile
+            // L_ZDPreview
             // 
-            this.L_TextFile.AutoSize = true;
-            this.L_TextFile.Location = new System.Drawing.Point(216, 8);
-            this.L_TextFile.Name = "L_TextFile";
-            this.L_TextFile.Size = new System.Drawing.Size(50, 13);
-            this.L_TextFile.TabIndex = 418;
-            this.L_TextFile.Text = "Text File:";
+            this.L_ZDPreview.AutoSize = true;
+            this.L_ZDPreview.Location = new System.Drawing.Point(216, 3);
+            this.L_ZDPreview.Name = "L_ZDPreview";
+            this.L_ZDPreview.Size = new System.Drawing.Size(50, 26);
+            this.L_ZDPreview.TabIndex = 418;
+            this.L_ZDPreview.Text = "Text File:\r\nMap File:";
             // 
-            // L_Map
+            // L_Encounters
             // 
-            this.L_Map.AutoSize = true;
-            this.L_Map.Location = new System.Drawing.Point(366, 8);
-            this.L_Map.Name = "L_Map";
-            this.L_Map.Size = new System.Drawing.Size(50, 13);
-            this.L_Map.TabIndex = 419;
-            this.L_Map.Text = "Map File:";
+            this.L_Encounters.AutoSize = true;
+            this.L_Encounters.Location = new System.Drawing.Point(26, 26);
+            this.L_Encounters.Name = "L_Encounters";
+            this.L_Encounters.Size = new System.Drawing.Size(241, 13);
+            this.L_Encounters.TabIndex = 0;
+            this.L_Encounters.Text = "Encounters are handled in the regular Wild Editor.";
+            // 
+            // L_File1
+            // 
+            this.L_File1.Location = new System.Drawing.Point(70, -1);
+            this.L_File1.Name = "L_File1";
+            this.L_File1.Size = new System.Drawing.Size(141, 23);
+            this.L_File1.TabIndex = 423;
+            this.L_File1.Text = "Map Info [1]:";
+            this.L_File1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_File2
+            // 
+            this.L_File2.Location = new System.Drawing.Point(70, 41);
+            this.L_File2.Name = "L_File2";
+            this.L_File2.Size = new System.Drawing.Size(141, 23);
+            this.L_File2.TabIndex = 424;
+            this.L_File2.Text = "Overworlds [2]:";
+            this.L_File2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_File4
+            // 
+            this.L_File4.Location = new System.Drawing.Point(70, 125);
+            this.L_File4.Name = "L_File4";
+            this.L_File4.Size = new System.Drawing.Size(141, 23);
+            this.L_File4.TabIndex = 426;
+            this.L_File4.Text = "Encounter Data [4]:";
+            this.L_File4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_File5
+            // 
+            this.L_File5.Location = new System.Drawing.Point(70, 167);
+            this.L_File5.Name = "L_File5";
+            this.L_File5.Size = new System.Drawing.Size(141, 23);
+            this.L_File5.TabIndex = 427;
+            this.L_File5.Text = "Unknown [5]:";
+            this.L_File5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_ZD
+            // 
+            this.L_ZD.Location = new System.Drawing.Point(-4, 277);
+            this.L_ZD.Name = "L_ZD";
+            this.L_ZD.Size = new System.Drawing.Size(141, 23);
+            this.L_ZD.TabIndex = 428;
+            this.L_ZD.Text = "ZoneData Information:";
+            this.L_ZD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_File3
+            // 
+            this.L_File3.Location = new System.Drawing.Point(70, 83);
+            this.L_File3.Name = "L_File3";
+            this.L_File3.Size = new System.Drawing.Size(141, 23);
+            this.L_File3.TabIndex = 429;
+            this.L_File3.Text = "Map Environment [3]:";
+            this.L_File3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_File5TabData
+            // 
+            this.L_File5TabData.AutoSize = true;
+            this.L_File5TabData.Location = new System.Drawing.Point(26, 26);
+            this.L_File5TabData.Name = "L_File5TabData";
+            this.L_File5TabData.Size = new System.Drawing.Size(227, 13);
+            this.L_File5TabData.TabIndex = 1;
+            this.L_File5TabData.Text = "Functionality unknown. See RAW tab for data.";
+            // 
+            // L_MapInfoTabData
+            // 
+            this.L_MapInfoTabData.AutoSize = true;
+            this.L_MapInfoTabData.Location = new System.Drawing.Point(26, 26);
+            this.L_MapInfoTabData.Name = "L_MapInfoTabData";
+            this.L_MapInfoTabData.Size = new System.Drawing.Size(227, 13);
+            this.L_MapInfoTabData.TabIndex = 2;
+            this.L_MapInfoTabData.Text = "Functionality unknown. See RAW tab for data.";
+            // 
+            // L_OWEntities
+            // 
+            this.L_OWEntities.AutoSize = true;
+            this.L_OWEntities.Location = new System.Drawing.Point(357, 13);
+            this.L_OWEntities.Name = "L_OWEntities";
+            this.L_OWEntities.Size = new System.Drawing.Size(118, 13);
+            this.L_OWEntities.TabIndex = 423;
+            this.L_OWEntities.Text = "Overworld Entity Count:";
             // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 412);
-            this.Controls.Add(this.L_Map);
-            this.Controls.Add(this.L_TextFile);
+            this.Controls.Add(this.L_ZDPreview);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.L_Location);
             this.Controls.Add(this.CB_LocationID);
@@ -742,7 +844,10 @@
             this.Name = "OWSE";
             this.Text = "Overworld Editor";
             this.tabControl1.ResumeLayout(false);
+            this.tb_MapInfo.ResumeLayout(false);
+            this.tb_MapInfo.PerformLayout();
             this.tb_OWSC.ResumeLayout(false);
+            this.tb_OWSC.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TrigCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WarpCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FurnCount)).EndInit();
@@ -763,6 +868,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NPCCount)).EndInit();
             this.tb_MSC.ResumeLayout(false);
             this.tb_MSC.PerformLayout();
+            this.tb_Encounters.ResumeLayout(false);
+            this.tb_Encounters.PerformLayout();
+            this.TB_File5.ResumeLayout(false);
+            this.TB_File5.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -809,7 +918,7 @@
         private System.Windows.Forms.TabPage tb_Script;
         private System.Windows.Forms.RichTextBox RTB_zonedata;
         private System.Windows.Forms.RichTextBox RTB_F;
-        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.RichTextBox RTB_W;
         private System.Windows.Forms.RichTextBox RTB_T;
         private System.Windows.Forms.RichTextBox RTB_OWSCMD;
         private System.Windows.Forms.NumericUpDown NUD_WTile;
@@ -823,10 +932,19 @@
         private System.Windows.Forms.Label L_WarpDest;
         private System.Windows.Forms.NumericUpDown NUD_OID;
         private System.Windows.Forms.Label L_OID;
-        private System.Windows.Forms.Label L_TextFile;
-        private System.Windows.Forms.Label L_Map;
-        private System.Windows.Forms.RichTextBox RTB_S;
+        private System.Windows.Forms.Label L_ZDPreview;
+        private System.Windows.Forms.RichTextBox RTB_OS;
         private System.Windows.Forms.RichTextBox RTB_MSCMD;
+        private System.Windows.Forms.Label L_Encounters;
+        private System.Windows.Forms.Label L_ZD;
+        private System.Windows.Forms.Label L_File5;
+        private System.Windows.Forms.Label L_File4;
+        private System.Windows.Forms.Label L_File2;
+        private System.Windows.Forms.Label L_File1;
+        private System.Windows.Forms.Label L_File3;
+        private System.Windows.Forms.Label L_MapInfoTabData;
+        private System.Windows.Forms.Label L_File5TabData;
+        private System.Windows.Forms.Label L_OWEntities;
     }
 }
 
