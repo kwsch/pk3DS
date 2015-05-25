@@ -7,7 +7,7 @@ namespace pk3DS
     // Big thanks to FireFly for figuring out the 7/6-bit compression routine for scripts.
     class Scripts
     {
-        // Decompression
+        // Decompression - Deprecated: Use FireFly's method.
         internal static byte[] decompressScript(byte[] data)
         {
             data = data ?? new byte[0]; // Bad Input
@@ -81,6 +81,23 @@ namespace pk3DS
                 db = db.Concat(BitConverter.GetBytes((uint)cb[0]).Take(4)).ToArray();
             }
             return db;
+        }
+        // FireFly's (github.com/FireyFly) concise decompression (c->c#):
+        internal static uint[] quickDecompress(byte[] data, int count)
+        {
+            uint[] code = new uint[count];
+            uint i = 0, j = 0, x = 0, f = 0;
+            while (i < code.Length) {
+                int b = data[f++], 
+                    v = b & 0x7F;
+                if (++j == 1) // sign extension possible
+                    x = (uint)(((((v >> 6) == 0 ? 1 : 0) - 1) << 6) | v); // only for bit6 being set
+                else x = ((x << 7) | (byte)v); // shift data into place
+
+                if (((b & 0x80) != 0)) continue; // more data to read
+                code[i++] = x; j = 0; // write finalized instruction
+            }
+            return code;
         }
 
         // Compression
@@ -167,7 +184,7 @@ namespace pk3DS
             return cb;
         }
 
-        // General Viewing Utility
+        // General Utility
         internal static string[] getHexLines(byte[] data, int count = 4)
         {
             data = data ?? new byte[0];
@@ -176,6 +193,19 @@ namespace pk3DS
             for (int i = 0; i < s.Length;i++)
                 s[i] = BitConverter.ToString(data.Skip(i*4).Take(count).ToArray()).Replace('-', ' ');
             return s;
+        }
+        internal static string[] getHexLines(uint[] data)
+        {
+            data = data ?? new uint[0];
+            // Generates an 4-byte wide space separated string array.
+            string[] s = new string[data.Length];
+            for (int i = 0; i < s.Length; i++)
+                s[i] = BitConverter.ToString(BitConverter.GetBytes(data[i])).Replace('-', ' ');
+            return s;
+        }
+        internal static byte[] getBytes(uint[] data)
+        {
+            return data.Aggregate(new byte[0], (current, t) => current.Concat(BitConverter.GetBytes(t)).ToArray());
         }
     }
 }
