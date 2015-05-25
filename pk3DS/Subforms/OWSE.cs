@@ -220,7 +220,6 @@ namespace pk3DS
                 // string d = Util.getHexString(decompressed);
 
                 RTB_OWSCMD.Lines = Scripts.getHexLines(decompressed);
-                RTB_S.Lines = Scripts.getHexLines(Scripts.quickDecompress(compressed, decompressedLength/4));
 
                 if (decompressedLength != decompressed.Length)
                     RTB_OWSCMD.Text = "DCMP FAIL";
