@@ -93,6 +93,8 @@
             this.L_File5TabData = new System.Windows.Forms.Label();
             this.L_MapInfoTabData = new System.Windows.Forms.Label();
             this.L_OWEntities = new System.Windows.Forms.Label();
+            this.RTB_OSP = new System.Windows.Forms.RichTextBox();
+            this.RTB_MSP = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tb_MapInfo.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -152,6 +154,9 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tb_MapInfo);
             this.tabControl1.Controls.Add(this.tb_OWSC);
             this.tabControl1.Controls.Add(this.tb_MSC);
@@ -161,7 +166,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 32);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(494, 372);
+            this.tabControl1.Size = new System.Drawing.Size(494, 497);
             this.tabControl1.TabIndex = 417;
             // 
             // tb_MapInfo
@@ -190,13 +195,14 @@
             this.tb_OWSC.Location = new System.Drawing.Point(4, 22);
             this.tb_OWSC.Name = "tb_OWSC";
             this.tb_OWSC.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_OWSC.Size = new System.Drawing.Size(486, 346);
+            this.tb_OWSC.Size = new System.Drawing.Size(486, 471);
             this.tb_OWSC.TabIndex = 1;
             this.tb_OWSC.Text = "OW & SC";
             this.tb_OWSC.UseVisualStyleBackColor = true;
             // 
             // NUD_TrigCount
             // 
+            this.NUD_TrigCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_TrigCount.Location = new System.Drawing.Point(422, 88);
             this.NUD_TrigCount.Maximum = new decimal(new int[] {
             255,
@@ -210,6 +216,7 @@
             // 
             // L_TriggerCount
             // 
+            this.L_TriggerCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_TriggerCount.Location = new System.Drawing.Point(350, 88);
             this.L_TriggerCount.Name = "L_TriggerCount";
             this.L_TriggerCount.Size = new System.Drawing.Size(66, 15);
@@ -219,6 +226,7 @@
             // 
             // NUD_WarpCount
             // 
+            this.NUD_WarpCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_WarpCount.Location = new System.Drawing.Point(422, 68);
             this.NUD_WarpCount.Maximum = new decimal(new int[] {
             255,
@@ -232,6 +240,7 @@
             // 
             // L_WarpCount
             // 
+            this.L_WarpCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_WarpCount.Location = new System.Drawing.Point(350, 68);
             this.L_WarpCount.Name = "L_WarpCount";
             this.L_WarpCount.Size = new System.Drawing.Size(66, 15);
@@ -241,6 +250,7 @@
             // 
             // NUD_FurnCount
             // 
+            this.NUD_FurnCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_FurnCount.Location = new System.Drawing.Point(422, 28);
             this.NUD_FurnCount.Maximum = new decimal(new int[] {
             255,
@@ -254,6 +264,7 @@
             // 
             // L_FurnitureCount
             // 
+            this.L_FurnitureCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_FurnitureCount.Location = new System.Drawing.Point(350, 28);
             this.L_FurnitureCount.Name = "L_FurnitureCount";
             this.L_FurnitureCount.Size = new System.Drawing.Size(66, 15);
@@ -263,6 +274,9 @@
             // 
             // tc_OWSC
             // 
+            this.tc_OWSC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tc_OWSC.Controls.Add(this.tb_Furniture);
             this.tc_OWSC.Controls.Add(this.tb_Overworld);
             this.tc_OWSC.Controls.Add(this.tb_Warp);
@@ -271,7 +285,7 @@
             this.tc_OWSC.Location = new System.Drawing.Point(6, 6);
             this.tc_OWSC.Name = "tc_OWSC";
             this.tc_OWSC.SelectedIndex = 0;
-            this.tc_OWSC.Size = new System.Drawing.Size(342, 337);
+            this.tc_OWSC.Size = new System.Drawing.Size(342, 462);
             this.tc_OWSC.TabIndex = 415;
             // 
             // tb_Furniture
@@ -282,7 +296,7 @@
             this.tb_Furniture.Location = new System.Drawing.Point(4, 22);
             this.tb_Furniture.Name = "tb_Furniture";
             this.tb_Furniture.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_Furniture.Size = new System.Drawing.Size(334, 311);
+            this.tb_Furniture.Size = new System.Drawing.Size(334, 434);
             this.tb_Furniture.TabIndex = 0;
             this.tb_Furniture.Text = "Furniture";
             this.tb_Furniture.UseVisualStyleBackColor = true;
@@ -330,7 +344,7 @@
             this.tb_Overworld.Location = new System.Drawing.Point(4, 22);
             this.tb_Overworld.Name = "tb_Overworld";
             this.tb_Overworld.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_Overworld.Size = new System.Drawing.Size(334, 311);
+            this.tb_Overworld.Size = new System.Drawing.Size(334, 434);
             this.tb_Overworld.TabIndex = 1;
             this.tb_Overworld.Text = "Overworld";
             this.tb_Overworld.UseVisualStyleBackColor = true;
@@ -401,7 +415,7 @@
             this.tb_Warp.Controls.Add(this.L_WE);
             this.tb_Warp.Location = new System.Drawing.Point(4, 22);
             this.tb_Warp.Name = "tb_Warp";
-            this.tb_Warp.Size = new System.Drawing.Size(334, 311);
+            this.tb_Warp.Size = new System.Drawing.Size(334, 434);
             this.tb_Warp.TabIndex = 2;
             this.tb_Warp.Text = "Warp";
             this.tb_Warp.UseVisualStyleBackColor = true;
@@ -497,7 +511,7 @@
             this.tb_Trigger.Controls.Add(this.L_TE);
             this.tb_Trigger.Location = new System.Drawing.Point(4, 22);
             this.tb_Trigger.Name = "tb_Trigger";
-            this.tb_Trigger.Size = new System.Drawing.Size(334, 311);
+            this.tb_Trigger.Size = new System.Drawing.Size(334, 434);
             this.tb_Trigger.TabIndex = 3;
             this.tb_Trigger.Text = "Trigger";
             this.tb_Trigger.UseVisualStyleBackColor = true;
@@ -537,12 +551,13 @@
             // 
             // tb_Script
             // 
+            this.tb_Script.Controls.Add(this.RTB_OSP);
             this.tb_Script.Controls.Add(this.RTB_OS);
             this.tb_Script.Controls.Add(this.L_OWSCDesc);
             this.tb_Script.Controls.Add(this.RTB_OWSCMD);
             this.tb_Script.Location = new System.Drawing.Point(4, 22);
             this.tb_Script.Name = "tb_Script";
-            this.tb_Script.Size = new System.Drawing.Size(334, 311);
+            this.tb_Script.Size = new System.Drawing.Size(334, 436);
             this.tb_Script.TabIndex = 4;
             this.tb_Script.Text = "ScriptData";
             this.tb_Script.UseVisualStyleBackColor = true;
@@ -553,9 +568,9 @@
             this.RTB_OS.Location = new System.Drawing.Point(97, 3);
             this.RTB_OS.Name = "RTB_OS";
             this.RTB_OS.ReadOnly = true;
-            this.RTB_OS.Size = new System.Drawing.Size(85, 307);
+            this.RTB_OS.Size = new System.Drawing.Size(85, 225);
             this.RTB_OS.TabIndex = 424;
-            this.RTB_OS.Text = "Raw Data Here";
+            this.RTB_OS.Text = "Raw Data";
             // 
             // L_OWSCDesc
             // 
@@ -572,12 +587,13 @@
             this.RTB_OWSCMD.Location = new System.Drawing.Point(6, 3);
             this.RTB_OWSCMD.Name = "RTB_OWSCMD";
             this.RTB_OWSCMD.ReadOnly = true;
-            this.RTB_OWSCMD.Size = new System.Drawing.Size(85, 307);
+            this.RTB_OWSCMD.Size = new System.Drawing.Size(85, 225);
             this.RTB_OWSCMD.TabIndex = 422;
             this.RTB_OWSCMD.Text = "Script CMDs";
             // 
             // NUD_NPCCount
             // 
+            this.NUD_NPCCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_NPCCount.Location = new System.Drawing.Point(422, 48);
             this.NUD_NPCCount.Maximum = new decimal(new int[] {
             255,
@@ -591,6 +607,7 @@
             // 
             // L_NPCCount
             // 
+            this.L_NPCCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_NPCCount.Location = new System.Drawing.Point(350, 48);
             this.L_NPCCount.Name = "L_NPCCount";
             this.L_NPCCount.Size = new System.Drawing.Size(66, 15);
@@ -600,12 +617,13 @@
             // 
             // tb_MSC
             // 
+            this.tb_MSC.Controls.Add(this.RTB_MSP);
             this.tb_MSC.Controls.Add(this.RTB_MSCMD);
             this.tb_MSC.Controls.Add(this.L_MSSCDesc);
             this.tb_MSC.Controls.Add(this.RTB_MS);
             this.tb_MSC.Location = new System.Drawing.Point(4, 22);
             this.tb_MSC.Name = "tb_MSC";
-            this.tb_MSC.Size = new System.Drawing.Size(486, 346);
+            this.tb_MSC.Size = new System.Drawing.Size(486, 471);
             this.tb_MSC.TabIndex = 2;
             this.tb_MSC.Text = "Map SC";
             this.tb_MSC.UseVisualStyleBackColor = true;
@@ -616,7 +634,7 @@
             this.RTB_MSCMD.Location = new System.Drawing.Point(3, 3);
             this.RTB_MSCMD.Name = "RTB_MSCMD";
             this.RTB_MSCMD.ReadOnly = true;
-            this.RTB_MSCMD.Size = new System.Drawing.Size(85, 341);
+            this.RTB_MSCMD.Size = new System.Drawing.Size(85, 225);
             this.RTB_MSCMD.TabIndex = 427;
             this.RTB_MSCMD.Text = "Script CMDs";
             // 
@@ -635,16 +653,16 @@
             this.RTB_MS.Location = new System.Drawing.Point(94, 3);
             this.RTB_MS.Name = "RTB_MS";
             this.RTB_MS.ReadOnly = true;
-            this.RTB_MS.Size = new System.Drawing.Size(85, 341);
+            this.RTB_MS.Size = new System.Drawing.Size(85, 225);
             this.RTB_MS.TabIndex = 425;
-            this.RTB_MS.Text = "Raw Data Here";
+            this.RTB_MS.Text = "Raw Data";
             // 
             // tb_Encounters
             // 
             this.tb_Encounters.Controls.Add(this.L_Encounters);
             this.tb_Encounters.Location = new System.Drawing.Point(4, 22);
             this.tb_Encounters.Name = "tb_Encounters";
-            this.tb_Encounters.Size = new System.Drawing.Size(486, 346);
+            this.tb_Encounters.Size = new System.Drawing.Size(486, 469);
             this.tb_Encounters.TabIndex = 3;
             this.tb_Encounters.Text = "Encounters";
             this.tb_Encounters.UseVisualStyleBackColor = true;
@@ -824,6 +842,7 @@
             // 
             // L_OWEntities
             // 
+            this.L_OWEntities.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_OWEntities.AutoSize = true;
             this.L_OWEntities.Location = new System.Drawing.Point(357, 13);
             this.L_OWEntities.Name = "L_OWEntities";
@@ -831,17 +850,45 @@
             this.L_OWEntities.TabIndex = 423;
             this.L_OWEntities.Text = "Overworld Entity Count:";
             // 
+            // RTB_OSP
+            // 
+            this.RTB_OSP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB_OSP.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_OSP.Location = new System.Drawing.Point(6, 234);
+            this.RTB_OSP.Name = "RTB_OSP";
+            this.RTB_OSP.ReadOnly = true;
+            this.RTB_OSP.Size = new System.Drawing.Size(328, 202);
+            this.RTB_OSP.TabIndex = 425;
+            this.RTB_OSP.Text = "Parse Output";
+            // 
+            // RTB_MSP
+            // 
+            this.RTB_MSP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB_MSP.Font = new System.Drawing.Font("Courier New", 8.25F);
+            this.RTB_MSP.Location = new System.Drawing.Point(3, 234);
+            this.RTB_MSP.Name = "RTB_MSP";
+            this.RTB_MSP.ReadOnly = true;
+            this.RTB_MSP.Size = new System.Drawing.Size(483, 237);
+            this.RTB_MSP.TabIndex = 428;
+            this.RTB_MSP.Text = "Parse Output";
+            // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 412);
+            this.ClientSize = new System.Drawing.Size(514, 537);
             this.Controls.Add(this.L_ZDPreview);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.L_Location);
             this.Controls.Add(this.CB_LocationID);
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(530, 575);
             this.Name = "OWSE";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Overworld Editor";
             this.tabControl1.ResumeLayout(false);
             this.tb_MapInfo.ResumeLayout(false);
@@ -945,6 +992,8 @@
         private System.Windows.Forms.Label L_MapInfoTabData;
         private System.Windows.Forms.Label L_File5TabData;
         private System.Windows.Forms.Label L_OWEntities;
+        private System.Windows.Forms.RichTextBox RTB_OSP;
+        private System.Windows.Forms.RichTextBox RTB_MSP;
     }
 }
 

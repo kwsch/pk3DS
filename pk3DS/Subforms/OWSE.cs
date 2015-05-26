@@ -11,6 +11,7 @@ namespace pk3DS
         {
             InitializeComponent();
             openQuick(Directory.GetFiles("encdata"));
+            tabControl1.SelectedIndex = 2;  // Map Script Tab
         }
         private string[] encdatapaths;
         private string[] filepaths;
@@ -150,7 +151,9 @@ namespace pk3DS
                 RTB_MSCMD.Lines = Scripts.getHexLines(decompressed);
 
                 if (decompressedLength/4 != decompressed.Length)
-                    RTB_MSCMD.Text = "DCMP FAIL";
+                    RTB_MSCMD.Text = RTB_MSP.Text = "DCMP FAIL";
+                else
+                    RTB_MSP.Lines = Scripts.parseScript(decompressed);
             }
             else
                 RTB_MSCMD.Lines = RTB_MS.Lines = new[] {"No Data"};
@@ -226,7 +229,9 @@ namespace pk3DS
                 RTB_OWSCMD.Lines = Scripts.getHexLines(decompressed);
 
                 if (decompressedLength/4 != decompressed.Length)
-                    RTB_OWSCMD.Text = "DCMP FAIL";
+                    RTB_OWSCMD.Text = RTB_OSP.Text = "DCMP FAIL";
+                else
+                    RTB_OSP.Lines = Scripts.parseScript(decompressed);
             }
             else
                 RTB_OWSCMD.Lines = RTB_OS.Lines = new[] {"No Data"};

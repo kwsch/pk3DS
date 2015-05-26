@@ -207,5 +207,100 @@ namespace pk3DS
         {
             return data.Aggregate(new byte[0], (current, t) => current.Concat(BitConverter.GetBytes(t)).ToArray());
         }
+
+        // Interpreting
+        internal static string[] parseScript(uint[] cmd)
+        {
+            string[] rv = new string[cmd.Length * 4];  // arbitrary length, gets resized to final dim at the end.
+            int used = 0;
+            for (int i = 0; i < cmd.Length; i++)
+            {
+                uint c = cmd[i];
+                string op;
+                int offset = i*4;
+                switch (c & 0x7FF)
+                {
+                    case 0x2E: op = "Begin"; break;
+                    case 0x30: op = "Return\n"; break;
+                    case 0x31: op = "Call";
+                        op += eA(new[] { cmd[++i] }); break;
+                    case 0x35: op = "CondJump";
+                        op += eA(new[] { cmd[++i] }); break;
+                    case 0x36: op = "CondJump2";
+                        op += eA(new[] { cmd[++i] }); break;
+                    case 0x4E: op = "Add?"; break; 
+                    case 0x59: op = "ClearAll"; break;
+                    case 0x81: op = "Jump";
+                        op += Environment.NewLine +
+                              String.Format("\t* => 0x{0} ({1}))",
+                                  (i*4 + (int) cmd[++i]).ToString("X4"),
+                                  (int)cmd[i]);
+                                break;
+                    case 0x82:
+                    {
+                        op = "JumpIfElse";
+                        uint count = cmd[++i];
+                        int[] jump = new int[count];
+                        int[] val = new int[count];
+                        // Populate If-Case Tree
+                        for (int j = 0; j < count; j++)
+                        {
+                            jump[j] = (int)cmd[++i];
+                            val[j] = (int)cmd[++i];
+                            op += Environment.NewLine +
+                                     String.Format("\t{2} => 0x{0} ({1}))",
+                                        ((i-1)*4 + jump[j]).ToString("X4"),
+                                        jump[j],
+                                        val[j]);
+                        }
+                        // Else-Default
+                        int elsejump = (int)cmd[++i];
+                        op += Environment.NewLine +
+                                     String.Format("\t * 0x{0} ({1}))",
+                                        (((i - 1) * 4 + elsejump).ToString("X4")),
+                                        elsejump);
+                        break;
+                    }
+                    case 0x87: op = "DoCommand?";
+                        op += eA(new[] { cmd[++i], cmd[++i] }); break;
+                    case 0x89: op = "LineNo?"; break;
+                    case 0xA2: op = "GetGlobal2";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xA3: op = "GetGlobal";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xA4: op = "GetGlobal";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xAF: op = "SetGlobal";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xB1: op = "SetLocal";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xBC: op = "PushConst";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xBE: op = "PushCmdLocal?";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xBF: op = "ResetLocal";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xC8: op = "CmpLocal";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xC9: op = "CmpConst";
+                        op += eA(new[] { c >> 16 }); break;
+
+                    case 0xD2: op = "BeginScript"; break;
+                    case 0x7FF: op = "EndScript"; break;
+                    default: op = "Unknown"; break;
+                }
+                rv[used++] = String.Format("0x{2}: [{0}] {1}", (c & 0x7FF).ToString("X2"), op, offset.ToString("X4"));
+            }
+            Array.Resize(ref rv, used);  // End result will cap out at lines used.
+            return rv;
+        }
+
+        internal static string eA(uint[] arr)
+        {
+            string s = "";
+            for (int i = 0; i < arr.Length; i++)
+                s += String.Format("0x{0}{1}", arr[i].ToString("X4"), (i+1 < arr.Length ? ", " : ""));
+            return "("+s+")";
+        }
     }
 }
