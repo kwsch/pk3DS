@@ -220,6 +220,8 @@ namespace pk3DS
                 int offset = i*4;
                 switch (c & 0x7FF)
                 {
+                    case 0x0E: op = "$0E";
+                        op += eA(new[] { cmd[++i] }); break;
                     case 0x27: op = "$27";
                         op += eA(new[] { cmd[++i] }); break;
                     case 0x2E: op = "Begin"; break;
@@ -240,7 +242,10 @@ namespace pk3DS
                                   (int)cmd[i]);
                         break;
                     case 0x36: op = "CondJump2";
-                        op += eA(new[] { cmd[++i] }); break;
+                        op += String.Format(" => 0x{0} ({1})",
+                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
+                                  (int)cmd[i]);
+                        break;
                     case 0x4E: op = "Add?"; break; 
                     case 0x59: op = "ClearAll"; break;
                     case 0x81: op = "Jump";
@@ -277,17 +282,21 @@ namespace pk3DS
                         op += eA(new[] { cmd[++i], cmd[++i] }); break;
                     case 0x89: op = "LineNo?"; break;
                     case 0x8A: op = "$8A";
-                        op += eA(new[] { cmd[++i], cmd[++i] }); break;
+                        op += eF(new[] { cmd[++i], cmd[++i] }); break;
                     case 0x8E: op = "$8E";
-                        op += eA(new[] { cmd[++i], cmd[++i], cmd[++i] }); break;
+                        op += eF(new[] { cmd[++i], cmd[++i], cmd[++i] }); break;
                     case 0x96: op = "$96";
-                        op += eA(new[] { cmd[++i], 
+                        op += eF(new[] { cmd[++i], 
                             cmd[++i], cmd[++i], cmd[++i], cmd[++i] }); break;
                     case 0xA2: op = "GetGlobal2";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xA3: op = "GetGlobal";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xA4: op = "GetGlobal";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xAC: op = "$AC";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xAE: op = "$AE";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xAF: op = "SetGlobal";
                         op += eA(new[] { c >> 16 }); break;
@@ -306,8 +315,7 @@ namespace pk3DS
                     case 0xC9: op = "CmpConst";
                         op += eA(new[] { c >> 16 }); break;
 
-                    case 0xD2: op = "BeginScript"; break;
-                    case 0x7FF: op = "EndScript"; break;
+                    case 0xD2: op = "BeginScript"+Environment.NewLine; break;
                     case 0x0: op = "Nop"; break;
                     default: op = String.Format("**${0}**", (c & 0xFFFF).ToString("X2"));
                         op += eA(new[] { c >> 16 }); break;
@@ -329,6 +337,13 @@ namespace pk3DS
             for (int i = 0; i < arr.Length; i++)
                 s += String.Format("0x{0}{1}", arr[i].ToString("X4"), (i+1 < arr.Length ? ", " : ""));
             return "("+s+")";
+        }
+        internal static string eF(uint[] arr)
+        {
+            string s = "";
+            for (int i = 0; i < arr.Length; i++)  // stupid hack, Convert.ToSingle((uint)) doesn't behave.
+                s += String.Format("{0}{1}", BitConverter.ToSingle(BitConverter.GetBytes(arr[i]), 0), (i + 1 < arr.Length ? ", " : ""));
+            return "(" + s + ")";
         }
     }
 }
