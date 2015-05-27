@@ -153,7 +153,14 @@ namespace pk3DS
                 if (decompressedLength/4 != decompressed.Length)
                     RTB_MSCMD.Text = RTB_MSP.Text = "DCMP FAIL";
                 else
-                    RTB_MSP.Lines = Scripts.parseScript(decompressed);
+                {
+                    uint[] rawCMD = decompressed.Take((moves - start)/4).ToArray();
+                    string[] instructions = Scripts.parseScript(rawCMD);
+                    uint[] moveCMD = decompressed.Skip((moves - start)/4).ToArray();
+                    string[] movements = Scripts.parseMovement(moveCMD);
+                    RTB_MSP.Lines = instructions.Concat(movements).ToArray();
+                }
+                    
             }
             else
                 RTB_MSCMD.Lines = RTB_MS.Lines = new[] {"No Data"};
@@ -231,7 +238,13 @@ namespace pk3DS
                 if (decompressedLength/4 != decompressed.Length)
                     RTB_OWSCMD.Text = RTB_OSP.Text = "DCMP FAIL";
                 else
-                    RTB_OSP.Lines = Scripts.parseScript(decompressed);
+                {
+                    uint[] rawCMD = decompressed.Take((moves - start) / 4).ToArray();
+                    string[] instructions = Scripts.parseScript(rawCMD);
+                    uint[] moveCMD = decompressed.Skip((moves - start) / 4).ToArray();
+                    string[] movements = Scripts.parseMovement(moveCMD);
+                    RTB_OSP.Lines = instructions.Concat(movements).ToArray();
+                }
             }
             else
                 RTB_OWSCMD.Lines = RTB_OS.Lines = new[] {"No Data"};

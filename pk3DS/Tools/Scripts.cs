@@ -220,20 +220,32 @@ namespace pk3DS
                 int offset = i*4;
                 switch (c & 0x7FF)
                 {
+                    case 0x27: op = "$27";
+                        op += eA(new[] { cmd[++i] }); break;
                     case 0x2E: op = "Begin"; break;
                     case 0x30: op = "Return\n"; break;
-                    case 0x31: op = "Call";
-                        op += eA(new[] { cmd[++i] }); break;
-                    case 0x35: op = "CondJump";
-                        op += eA(new[] { cmd[++i] }); break;
+                    case 0x31: op = "CallFunc";
+                        op += String.Format("[0x{0}] ({1})",
+                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
+                                  (int)cmd[i]);
+                        break;
+                    case 0x33: op = "$33";
+                        op += String.Format(" => 0x{0} ({1})",
+                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
+                                  (int)cmd[i]);
+                        break;
+                    case 0x35: op = "Jump!=";
+                        op += String.Format(" => 0x{0} ({1})",
+                                  (i*4 + (int)cmd[++i]).ToString("X4"),
+                                  (int)cmd[i]);
+                        break;
                     case 0x36: op = "CondJump2";
                         op += eA(new[] { cmd[++i] }); break;
                     case 0x4E: op = "Add?"; break; 
                     case 0x59: op = "ClearAll"; break;
                     case 0x81: op = "Jump";
-                        op += Environment.NewLine +
-                              String.Format("\t* => 0x{0} ({1}))",
-                                  (i*4 + (int) cmd[++i]).ToString("X4"),
+                        op += String.Format(" => 0x{0} ({1})",
+                                  (i*4 + (int)cmd[++i]).ToString("X4"),
                                   (int)cmd[i]);
                                 break;
                     case 0x82:
@@ -248,7 +260,7 @@ namespace pk3DS
                             jump[j] = (int)cmd[++i];
                             val[j] = (int)cmd[++i];
                             op += Environment.NewLine +
-                                     String.Format("\t{2} => 0x{0} ({1}))",
+                                     String.Format("\t{2} => 0x{0} ({1})",
                                         ((i-1)*4 + jump[j]).ToString("X4"),
                                         jump[j],
                                         val[j]);
@@ -256,7 +268,7 @@ namespace pk3DS
                         // Else-Default
                         int elsejump = (int)cmd[++i];
                         op += Environment.NewLine +
-                                     String.Format("\t * 0x{0} ({1}))",
+                                     String.Format("\t * => 0x{0} ({1})",
                                         (((i - 1) * 4 + elsejump).ToString("X4")),
                                         elsejump);
                         break;
@@ -264,6 +276,13 @@ namespace pk3DS
                     case 0x87: op = "DoCommand?";
                         op += eA(new[] { cmd[++i], cmd[++i] }); break;
                     case 0x89: op = "LineNo?"; break;
+                    case 0x8A: op = "$8A";
+                        op += eA(new[] { cmd[++i], cmd[++i] }); break;
+                    case 0x8E: op = "$8E";
+                        op += eA(new[] { cmd[++i], cmd[++i], cmd[++i] }); break;
+                    case 0x96: op = "$96";
+                        op += eA(new[] { cmd[++i], 
+                            cmd[++i], cmd[++i], cmd[++i], cmd[++i] }); break;
                     case 0xA2: op = "GetGlobal2";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xA3: op = "GetGlobal";
@@ -276,9 +295,11 @@ namespace pk3DS
                         op += eA(new[] { c >> 16 }); break;
                     case 0xBC: op = "PushConst";
                         op += eA(new[] { c >> 16 }); break;
-                    case 0xBE: op = "PushCmdLocal?";
+                    case 0xBE: op = "GetArg";
                         op += eA(new[] { c >> 16 }); break;
-                    case 0xBF: op = "ResetLocal";
+                    case 0xBF: op = "AdjustStack";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xC5: op = "$C5";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xC8: op = "CmpLocal";
                         op += eA(new[] { c >> 16 }); break;
@@ -287,12 +308,19 @@ namespace pk3DS
 
                     case 0xD2: op = "BeginScript"; break;
                     case 0x7FF: op = "EndScript"; break;
-                    default: op = "Unknown"; break;
+                    case 0x0: op = "Nop"; break;
+                    default: op = String.Format("**${0}**", (c & 0xFFFF).ToString("X2"));
+                        op += eA(new[] { c >> 16 }); break;
                 }
                 rv[used++] = String.Format("0x{2}: [{0}] {1}", (c & 0x7FF).ToString("X2"), op, offset.ToString("X4"));
             }
             Array.Resize(ref rv, used);  // End result will cap out at lines used.
             return rv;
+        }
+
+        internal static string[] parseMovement(uint[] cmd)
+        {
+            return getHexLines(cmd);
         }
 
         internal static string eA(uint[] arr)
