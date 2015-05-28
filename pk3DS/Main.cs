@@ -252,7 +252,7 @@ namespace pk3DS
         private bool checkIfExeFS(string path)
         {
             string[] files = Directory.GetFiles(path);
-            if (files.Length != 3) return false;
+            if (files.Length != 3 && files.Length != 4) return false;
 
             FileInfo fi = new FileInfo(files[0]);
             if (!fi.Name.Contains("code")) return false;
