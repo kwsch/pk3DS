@@ -220,10 +220,26 @@ namespace pk3DS
                 int offset = i*4;
                 switch (c & 0x7FF)
                 {
+                    case 0x09: op = "$09";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0x0C: op = "$0C";
+                        op += eA(new[] { cmd[++i] }); break;
                     case 0x0E: op = "$0E";
                         op += eA(new[] { cmd[++i] }); break;
-                    case 0x27: op = "$27";
+                    case 0x17: op = "$17";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0x20: op = "$20";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0x22: op = "$22";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0x24: op = "$24";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0x25: op = "$25";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0x27: op = "PushConst";
                         op += eA(new[] { cmd[++i] }); break;
+                    case 0x2B: op = "$2B";
+                        op += eA(new[] { c >> 16 }); break;
                     case 0x2E: op = "Begin"; break;
                     case 0x30: op = "Return\n"; break;
                     case 0x31: op = "CallFunc";
@@ -236,18 +252,52 @@ namespace pk3DS
                                   (i * 4 + (int)cmd[++i]).ToString("X4"),
                                   (int)cmd[i]);
                         break;
+                    case 0x34: op = "$34";
+                        op += String.Format(" => 0x{0} ({1})",
+                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
+                                  (int)cmd[i]);
+                        break;
                     case 0x35: op = "Jump!=";
                         op += String.Format(" => 0x{0} ({1})",
                                   (i*4 + (int)cmd[++i]).ToString("X4"),
                                   (int)cmd[i]);
                         break;
-                    case 0x36: op = "CondJump2";
+                    case 0x36: op = "Jump==";
                         op += String.Format(" => 0x{0} ({1})",
                                   (i * 4 + (int)cmd[++i]).ToString("X4"),
                                   (int)cmd[i]);
                         break;
-                    case 0x4E: op = "Add?"; break; 
+                    case 0x37: op = "$37";
+                        op += String.Format(" => 0x{0} ({1})",
+                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
+                                  (int)cmd[i]);
+                        break;
+                    case 0x38: op = "$38";
+                        op += String.Format(" => 0x{0} ({1})",
+                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
+                                  (int)cmd[i]);
+                        break;
+                    case 0x3D: op = "$3D";
+                        op += String.Format(" => 0x{0} ({1})",
+                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
+                                  (int)cmd[i]);
+                        break;
+                    case 0x3E: op = "$3E";
+                        op += String.Format(" => 0x{0} ({1})",
+                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
+                                  (int)cmd[i]);
+                        break;
+                    case 0x40: op = "$40";
+                        op += String.Format(" => 0x{0} ({1})",
+                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
+                                  (int)cmd[i]);
+                        break;
+                    case 0x4E: op = "Add?"; break;
+                    case 0x51: op = "Cmp?";
+                        op += eA(new[] { c >> 16 }); break;
                     case 0x59: op = "ClearAll"; break;
+                    case 0x69: op = "$69";
+                        op += eA(new[] { cmd[++i] }); break;
                     case 0x81: op = "Jump";
                         op += String.Format(" => 0x{0} ({1})",
                                   (i*4 + (int)cmd[++i]).ToString("X4"),
@@ -288,13 +338,19 @@ namespace pk3DS
                     case 0x96: op = "$96";
                         op += eF(new[] { cmd[++i], 
                             cmd[++i], cmd[++i], cmd[++i], cmd[++i] }); break;
+                    case 0x9B: op = "Copy";
+                        op += eA(new[] { cmd[++i], cmd[++i] }); break;
+                    case 0x9D: op = "$9D";
+                        op += eA(new[] { cmd[++i], cmd[++i] }); break;
                     case 0xA2: op = "GetGlobal2";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xA3: op = "GetGlobal";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xA4: op = "GetGlobal";
                         op += eA(new[] { c >> 16 }); break;
-                    case 0xAC: op = "$AC";
+                    case 0xAB: op = "PushConst2";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xAC: op = "CmpConst2";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xAE: op = "$AE";
                         op += eA(new[] { c >> 16 }); break;
@@ -302,7 +358,13 @@ namespace pk3DS
                         op += eA(new[] { c >> 16 }); break;
                     case 0xB1: op = "SetLocal";
                         op += eA(new[] { c >> 16 }); break;
+                    case 0xB8: op = "$B8";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xB9: op = "$B9";
+                        op += eA(new[] { c >> 16 }); break;
                     case 0xBC: op = "PushConst";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xBD: op = "GetGlobal3";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xBE: op = "GetArg";
                         op += eA(new[] { c >> 16 }); break;
@@ -310,9 +372,15 @@ namespace pk3DS
                         op += eA(new[] { c >> 16 }); break;
                     case 0xC5: op = "$C5";
                         op += eA(new[] { c >> 16 }); break;
+                    case 0xC6: op = "$C6";
+                        op += eA(new[] { c >> 16 }); break;
                     case 0xC8: op = "CmpLocal";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xC9: op = "CmpConst";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xCC: op = "$CC";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xD4: op = "$D4";
                         op += eA(new[] { c >> 16 }); break;
 
                     case 0xD2: op = "BeginScript"+Environment.NewLine; break;
