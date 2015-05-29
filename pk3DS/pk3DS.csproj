@@ -285,13 +285,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\romdata\bin\Logo\Distributed.bin" />
-    <None Include="Resources\romdata\bin\Logo\iQue.bin" />
-    <None Include="Resources\romdata\bin\Logo\iQueForSystem.bin" />
-    <None Include="Resources\romdata\bin\Logo\Licensed.bin" />
-    <None Include="Resources\romdata\bin\Logo\Nintendo.bin" />
-    <None Include="Resources\romdata\bin\PlainRegion\ORAS.bin" />
-    <None Include="Resources\romdata\bin\PlainRegion\XY.bin" />
+    <None Include="Resources\romdata\byte\Logo\Distributed.bin" />
+    <None Include="Resources\romdata\byte\Logo\iQue.bin" />
+    <None Include="Resources\romdata\byte\Logo\iQueForSystem.bin" />
+    <None Include="Resources\romdata\byte\Logo\Licensed.bin" />
+    <None Include="Resources\romdata\byte\Logo\Nintendo.bin" />
+    <None Include="Resources\romdata\byte\PlainRegion\ORAS.bin" />
+    <None Include="Resources\romdata\byte\PlainRegion\XY.bin" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\img\Pokemon Sprites\2.png" />
