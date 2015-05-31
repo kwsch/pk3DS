@@ -222,6 +222,8 @@ namespace pk3DS
                 {
                     case 0x09: op = "$09";
                         op += eA(new[] { c >> 16 }); break;
+                    case 0x0B: op = "$0B";
+                        op += eA(new[] { cmd[++i] }); break;
                     case 0x0C: op = "$0C";
                         op += eA(new[] { cmd[++i] }); break;
                     case 0x0E: op = "$0E";
