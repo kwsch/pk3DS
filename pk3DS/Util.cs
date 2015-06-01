@@ -620,5 +620,24 @@ namespace pk3DS
                              .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
                              .ToArray();
         }
+        internal static int highlightText(RichTextBox RTB, string word, Color hlColor)
+        {
+            int ctr = 0;
+            int s_start = RTB.SelectionStart, startIndex = 0, index;
+
+            while ((index = RTB.Text.IndexOf(word, startIndex, StringComparison.Ordinal)) != -1)
+            {
+                RTB.Select(index, word.Length);
+                RTB.SelectionColor = hlColor;
+
+                startIndex = index + word.Length;
+                ctr++;
+            }
+
+            RTB.SelectionStart = s_start;
+            RTB.SelectionLength = 0;
+            RTB.SelectionColor = Color.Black;
+            return ctr;
+        }
     }
 }
