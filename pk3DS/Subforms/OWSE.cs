@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -385,6 +386,12 @@ namespace pk3DS
             // Load New Data
             byte[] data = tData[tEntry];
             RTB_T.Text = Util.getHexString(data);
+        }
+
+        private void B_HLCMD_Click(object sender, EventArgs e)
+        {
+            int ctr = Util.highlightText(RTB_OSP, "**", Color.Red) + Util.highlightText(RTB_MSP, "**", Color.Red) / 2;
+            Util.Alert(String.Format("{0} instance{1} of \"*\" present.", ctr, ctr > 1 ? "s" : ""));
         }
     }
 }

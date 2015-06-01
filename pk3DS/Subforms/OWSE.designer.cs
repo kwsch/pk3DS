@@ -33,7 +33,9 @@
             this.RTB_MapInfo = new System.Windows.Forms.RichTextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tb_MapInfo = new System.Windows.Forms.TabPage();
+            this.L_MapInfoTabData = new System.Windows.Forms.Label();
             this.tb_OWSC = new System.Windows.Forms.TabPage();
+            this.L_OWEntities = new System.Windows.Forms.Label();
             this.NUD_TrigCount = new System.Windows.Forms.NumericUpDown();
             this.L_TriggerCount = new System.Windows.Forms.Label();
             this.NUD_WarpCount = new System.Windows.Forms.NumericUpDown();
@@ -65,36 +67,35 @@
             this.NUD_TE = new System.Windows.Forms.NumericUpDown();
             this.L_TE = new System.Windows.Forms.Label();
             this.tb_Script = new System.Windows.Forms.TabPage();
+            this.RTB_OSP = new System.Windows.Forms.RichTextBox();
             this.RTB_OS = new System.Windows.Forms.RichTextBox();
             this.L_OWSCDesc = new System.Windows.Forms.Label();
             this.RTB_OWSCMD = new System.Windows.Forms.RichTextBox();
             this.NUD_NPCCount = new System.Windows.Forms.NumericUpDown();
             this.L_NPCCount = new System.Windows.Forms.Label();
             this.tb_MSC = new System.Windows.Forms.TabPage();
+            this.RTB_MSP = new System.Windows.Forms.RichTextBox();
             this.RTB_MSCMD = new System.Windows.Forms.RichTextBox();
             this.L_MSSCDesc = new System.Windows.Forms.Label();
             this.RTB_MS = new System.Windows.Forms.RichTextBox();
             this.tb_Encounters = new System.Windows.Forms.TabPage();
+            this.L_Encounters = new System.Windows.Forms.Label();
             this.TB_File5 = new System.Windows.Forms.TabPage();
+            this.L_File5TabData = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.L_File3 = new System.Windows.Forms.Label();
+            this.L_ZD = new System.Windows.Forms.Label();
+            this.L_File5 = new System.Windows.Forms.Label();
+            this.L_File4 = new System.Windows.Forms.Label();
+            this.L_File2 = new System.Windows.Forms.Label();
+            this.L_File1 = new System.Windows.Forms.Label();
             this.RTB_zonedata = new System.Windows.Forms.RichTextBox();
             this.RTB_File5 = new System.Windows.Forms.RichTextBox();
             this.RTB_OWSC = new System.Windows.Forms.RichTextBox();
             this.RTB_Encounter = new System.Windows.Forms.RichTextBox();
             this.RTB_MapSC = new System.Windows.Forms.RichTextBox();
             this.L_ZDPreview = new System.Windows.Forms.Label();
-            this.L_Encounters = new System.Windows.Forms.Label();
-            this.L_File1 = new System.Windows.Forms.Label();
-            this.L_File2 = new System.Windows.Forms.Label();
-            this.L_File4 = new System.Windows.Forms.Label();
-            this.L_File5 = new System.Windows.Forms.Label();
-            this.L_ZD = new System.Windows.Forms.Label();
-            this.L_File3 = new System.Windows.Forms.Label();
-            this.L_File5TabData = new System.Windows.Forms.Label();
-            this.L_MapInfoTabData = new System.Windows.Forms.Label();
-            this.L_OWEntities = new System.Windows.Forms.Label();
-            this.RTB_OSP = new System.Windows.Forms.RichTextBox();
-            this.RTB_MSP = new System.Windows.Forms.RichTextBox();
+            this.B_HLCMD = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tb_MapInfo.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -175,10 +176,19 @@
             this.tb_MapInfo.Location = new System.Drawing.Point(4, 22);
             this.tb_MapInfo.Name = "tb_MapInfo";
             this.tb_MapInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_MapInfo.Size = new System.Drawing.Size(486, 346);
+            this.tb_MapInfo.Size = new System.Drawing.Size(486, 471);
             this.tb_MapInfo.TabIndex = 0;
             this.tb_MapInfo.Text = "Map Info";
             this.tb_MapInfo.UseVisualStyleBackColor = true;
+            // 
+            // L_MapInfoTabData
+            // 
+            this.L_MapInfoTabData.AutoSize = true;
+            this.L_MapInfoTabData.Location = new System.Drawing.Point(26, 26);
+            this.L_MapInfoTabData.Name = "L_MapInfoTabData";
+            this.L_MapInfoTabData.Size = new System.Drawing.Size(227, 13);
+            this.L_MapInfoTabData.TabIndex = 2;
+            this.L_MapInfoTabData.Text = "Functionality unknown. See RAW tab for data.";
             // 
             // tb_OWSC
             // 
@@ -199,6 +209,16 @@
             this.tb_OWSC.TabIndex = 1;
             this.tb_OWSC.Text = "OW & SC";
             this.tb_OWSC.UseVisualStyleBackColor = true;
+            // 
+            // L_OWEntities
+            // 
+            this.L_OWEntities.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_OWEntities.AutoSize = true;
+            this.L_OWEntities.Location = new System.Drawing.Point(357, 13);
+            this.L_OWEntities.Name = "L_OWEntities";
+            this.L_OWEntities.Size = new System.Drawing.Size(118, 13);
+            this.L_OWEntities.TabIndex = 423;
+            this.L_OWEntities.Text = "Overworld Entity Count:";
             // 
             // NUD_TrigCount
             // 
@@ -296,7 +316,7 @@
             this.tb_Furniture.Location = new System.Drawing.Point(4, 22);
             this.tb_Furniture.Name = "tb_Furniture";
             this.tb_Furniture.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_Furniture.Size = new System.Drawing.Size(334, 434);
+            this.tb_Furniture.Size = new System.Drawing.Size(334, 436);
             this.tb_Furniture.TabIndex = 0;
             this.tb_Furniture.Text = "Furniture";
             this.tb_Furniture.UseVisualStyleBackColor = true;
@@ -344,7 +364,7 @@
             this.tb_Overworld.Location = new System.Drawing.Point(4, 22);
             this.tb_Overworld.Name = "tb_Overworld";
             this.tb_Overworld.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_Overworld.Size = new System.Drawing.Size(334, 434);
+            this.tb_Overworld.Size = new System.Drawing.Size(334, 436);
             this.tb_Overworld.TabIndex = 1;
             this.tb_Overworld.Text = "Overworld";
             this.tb_Overworld.UseVisualStyleBackColor = true;
@@ -415,7 +435,7 @@
             this.tb_Warp.Controls.Add(this.L_WE);
             this.tb_Warp.Location = new System.Drawing.Point(4, 22);
             this.tb_Warp.Name = "tb_Warp";
-            this.tb_Warp.Size = new System.Drawing.Size(334, 434);
+            this.tb_Warp.Size = new System.Drawing.Size(334, 436);
             this.tb_Warp.TabIndex = 2;
             this.tb_Warp.Text = "Warp";
             this.tb_Warp.UseVisualStyleBackColor = true;
@@ -511,7 +531,7 @@
             this.tb_Trigger.Controls.Add(this.L_TE);
             this.tb_Trigger.Location = new System.Drawing.Point(4, 22);
             this.tb_Trigger.Name = "tb_Trigger";
-            this.tb_Trigger.Size = new System.Drawing.Size(334, 434);
+            this.tb_Trigger.Size = new System.Drawing.Size(334, 436);
             this.tb_Trigger.TabIndex = 3;
             this.tb_Trigger.Text = "Trigger";
             this.tb_Trigger.UseVisualStyleBackColor = true;
@@ -561,6 +581,19 @@
             this.tb_Script.TabIndex = 4;
             this.tb_Script.Text = "ScriptData";
             this.tb_Script.UseVisualStyleBackColor = true;
+            // 
+            // RTB_OSP
+            // 
+            this.RTB_OSP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB_OSP.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_OSP.Location = new System.Drawing.Point(6, 234);
+            this.RTB_OSP.Name = "RTB_OSP";
+            this.RTB_OSP.ReadOnly = true;
+            this.RTB_OSP.Size = new System.Drawing.Size(328, 202);
+            this.RTB_OSP.TabIndex = 425;
+            this.RTB_OSP.Text = "Parse Output";
             // 
             // RTB_OS
             // 
@@ -628,6 +661,19 @@
             this.tb_MSC.Text = "Map SC";
             this.tb_MSC.UseVisualStyleBackColor = true;
             // 
+            // RTB_MSP
+            // 
+            this.RTB_MSP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB_MSP.Font = new System.Drawing.Font("Courier New", 8.25F);
+            this.RTB_MSP.Location = new System.Drawing.Point(3, 234);
+            this.RTB_MSP.Name = "RTB_MSP";
+            this.RTB_MSP.ReadOnly = true;
+            this.RTB_MSP.Size = new System.Drawing.Size(483, 237);
+            this.RTB_MSP.TabIndex = 428;
+            this.RTB_MSP.Text = "Parse Output";
+            // 
             // RTB_MSCMD
             // 
             this.RTB_MSCMD.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -662,20 +708,38 @@
             this.tb_Encounters.Controls.Add(this.L_Encounters);
             this.tb_Encounters.Location = new System.Drawing.Point(4, 22);
             this.tb_Encounters.Name = "tb_Encounters";
-            this.tb_Encounters.Size = new System.Drawing.Size(486, 469);
+            this.tb_Encounters.Size = new System.Drawing.Size(486, 471);
             this.tb_Encounters.TabIndex = 3;
             this.tb_Encounters.Text = "Encounters";
             this.tb_Encounters.UseVisualStyleBackColor = true;
+            // 
+            // L_Encounters
+            // 
+            this.L_Encounters.AutoSize = true;
+            this.L_Encounters.Location = new System.Drawing.Point(26, 26);
+            this.L_Encounters.Name = "L_Encounters";
+            this.L_Encounters.Size = new System.Drawing.Size(241, 13);
+            this.L_Encounters.TabIndex = 0;
+            this.L_Encounters.Text = "Encounters are handled in the regular Wild Editor.";
             // 
             // TB_File5
             // 
             this.TB_File5.Controls.Add(this.L_File5TabData);
             this.TB_File5.Location = new System.Drawing.Point(4, 22);
             this.TB_File5.Name = "TB_File5";
-            this.TB_File5.Size = new System.Drawing.Size(486, 346);
+            this.TB_File5.Size = new System.Drawing.Size(486, 471);
             this.TB_File5.TabIndex = 4;
             this.TB_File5.Text = "File 5";
             this.TB_File5.UseVisualStyleBackColor = true;
+            // 
+            // L_File5TabData
+            // 
+            this.L_File5TabData.AutoSize = true;
+            this.L_File5TabData.Location = new System.Drawing.Point(26, 26);
+            this.L_File5TabData.Name = "L_File5TabData";
+            this.L_File5TabData.Size = new System.Drawing.Size(227, 13);
+            this.L_File5TabData.TabIndex = 1;
+            this.L_File5TabData.Text = "Functionality unknown. See RAW tab for data.";
             // 
             // tabPage1
             // 
@@ -693,10 +757,64 @@
             this.tabPage1.Controls.Add(this.RTB_MapSC);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(486, 346);
+            this.tabPage1.Size = new System.Drawing.Size(486, 471);
             this.tabPage1.TabIndex = 5;
             this.tabPage1.Text = "RAW";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // L_File3
+            // 
+            this.L_File3.Location = new System.Drawing.Point(70, 83);
+            this.L_File3.Name = "L_File3";
+            this.L_File3.Size = new System.Drawing.Size(141, 23);
+            this.L_File3.TabIndex = 429;
+            this.L_File3.Text = "Map Environment [3]:";
+            this.L_File3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_ZD
+            // 
+            this.L_ZD.Location = new System.Drawing.Point(-4, 277);
+            this.L_ZD.Name = "L_ZD";
+            this.L_ZD.Size = new System.Drawing.Size(141, 23);
+            this.L_ZD.TabIndex = 428;
+            this.L_ZD.Text = "ZoneData Information:";
+            this.L_ZD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_File5
+            // 
+            this.L_File5.Location = new System.Drawing.Point(70, 167);
+            this.L_File5.Name = "L_File5";
+            this.L_File5.Size = new System.Drawing.Size(141, 23);
+            this.L_File5.TabIndex = 427;
+            this.L_File5.Text = "Unknown [5]:";
+            this.L_File5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_File4
+            // 
+            this.L_File4.Location = new System.Drawing.Point(70, 125);
+            this.L_File4.Name = "L_File4";
+            this.L_File4.Size = new System.Drawing.Size(141, 23);
+            this.L_File4.TabIndex = 426;
+            this.L_File4.Text = "Encounter Data [4]:";
+            this.L_File4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_File2
+            // 
+            this.L_File2.Location = new System.Drawing.Point(70, 41);
+            this.L_File2.Name = "L_File2";
+            this.L_File2.Size = new System.Drawing.Size(141, 23);
+            this.L_File2.TabIndex = 424;
+            this.L_File2.Text = "Overworlds [2]:";
+            this.L_File2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_File1
+            // 
+            this.L_File1.Location = new System.Drawing.Point(70, -1);
+            this.L_File1.Name = "L_File1";
+            this.L_File1.Size = new System.Drawing.Size(141, 23);
+            this.L_File1.TabIndex = 423;
+            this.L_File1.Text = "Map Info [1]:";
+            this.L_File1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // RTB_zonedata
             // 
@@ -759,128 +877,22 @@
             this.L_ZDPreview.TabIndex = 418;
             this.L_ZDPreview.Text = "Text File:\r\nMap File:";
             // 
-            // L_Encounters
+            // B_HLCMD
             // 
-            this.L_Encounters.AutoSize = true;
-            this.L_Encounters.Location = new System.Drawing.Point(26, 26);
-            this.L_Encounters.Name = "L_Encounters";
-            this.L_Encounters.Size = new System.Drawing.Size(241, 13);
-            this.L_Encounters.TabIndex = 0;
-            this.L_Encounters.Text = "Encounters are handled in the regular Wild Editor.";
-            // 
-            // L_File1
-            // 
-            this.L_File1.Location = new System.Drawing.Point(70, -1);
-            this.L_File1.Name = "L_File1";
-            this.L_File1.Size = new System.Drawing.Size(141, 23);
-            this.L_File1.TabIndex = 423;
-            this.L_File1.Text = "Map Info [1]:";
-            this.L_File1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_File2
-            // 
-            this.L_File2.Location = new System.Drawing.Point(70, 41);
-            this.L_File2.Name = "L_File2";
-            this.L_File2.Size = new System.Drawing.Size(141, 23);
-            this.L_File2.TabIndex = 424;
-            this.L_File2.Text = "Overworlds [2]:";
-            this.L_File2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_File4
-            // 
-            this.L_File4.Location = new System.Drawing.Point(70, 125);
-            this.L_File4.Name = "L_File4";
-            this.L_File4.Size = new System.Drawing.Size(141, 23);
-            this.L_File4.TabIndex = 426;
-            this.L_File4.Text = "Encounter Data [4]:";
-            this.L_File4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_File5
-            // 
-            this.L_File5.Location = new System.Drawing.Point(70, 167);
-            this.L_File5.Name = "L_File5";
-            this.L_File5.Size = new System.Drawing.Size(141, 23);
-            this.L_File5.TabIndex = 427;
-            this.L_File5.Text = "Unknown [5]:";
-            this.L_File5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_ZD
-            // 
-            this.L_ZD.Location = new System.Drawing.Point(-4, 277);
-            this.L_ZD.Name = "L_ZD";
-            this.L_ZD.Size = new System.Drawing.Size(141, 23);
-            this.L_ZD.TabIndex = 428;
-            this.L_ZD.Text = "ZoneData Information:";
-            this.L_ZD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_File3
-            // 
-            this.L_File3.Location = new System.Drawing.Point(70, 83);
-            this.L_File3.Name = "L_File3";
-            this.L_File3.Size = new System.Drawing.Size(141, 23);
-            this.L_File3.TabIndex = 429;
-            this.L_File3.Text = "Map Environment [3]:";
-            this.L_File3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_File5TabData
-            // 
-            this.L_File5TabData.AutoSize = true;
-            this.L_File5TabData.Location = new System.Drawing.Point(26, 26);
-            this.L_File5TabData.Name = "L_File5TabData";
-            this.L_File5TabData.Size = new System.Drawing.Size(227, 13);
-            this.L_File5TabData.TabIndex = 1;
-            this.L_File5TabData.Text = "Functionality unknown. See RAW tab for data.";
-            // 
-            // L_MapInfoTabData
-            // 
-            this.L_MapInfoTabData.AutoSize = true;
-            this.L_MapInfoTabData.Location = new System.Drawing.Point(26, 26);
-            this.L_MapInfoTabData.Name = "L_MapInfoTabData";
-            this.L_MapInfoTabData.Size = new System.Drawing.Size(227, 13);
-            this.L_MapInfoTabData.TabIndex = 2;
-            this.L_MapInfoTabData.Text = "Functionality unknown. See RAW tab for data.";
-            // 
-            // L_OWEntities
-            // 
-            this.L_OWEntities.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_OWEntities.AutoSize = true;
-            this.L_OWEntities.Location = new System.Drawing.Point(357, 13);
-            this.L_OWEntities.Name = "L_OWEntities";
-            this.L_OWEntities.Size = new System.Drawing.Size(118, 13);
-            this.L_OWEntities.TabIndex = 423;
-            this.L_OWEntities.Text = "Overworld Entity Count:";
-            // 
-            // RTB_OSP
-            // 
-            this.RTB_OSP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RTB_OSP.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_OSP.Location = new System.Drawing.Point(6, 234);
-            this.RTB_OSP.Name = "RTB_OSP";
-            this.RTB_OSP.ReadOnly = true;
-            this.RTB_OSP.Size = new System.Drawing.Size(328, 202);
-            this.RTB_OSP.TabIndex = 425;
-            this.RTB_OSP.Text = "Parse Output";
-            // 
-            // RTB_MSP
-            // 
-            this.RTB_MSP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RTB_MSP.Font = new System.Drawing.Font("Courier New", 8.25F);
-            this.RTB_MSP.Location = new System.Drawing.Point(3, 234);
-            this.RTB_MSP.Name = "RTB_MSP";
-            this.RTB_MSP.ReadOnly = true;
-            this.RTB_MSP.Size = new System.Drawing.Size(483, 237);
-            this.RTB_MSP.TabIndex = 428;
-            this.RTB_MSP.Text = "Parse Output";
+            this.B_HLCMD.Location = new System.Drawing.Point(413, 5);
+            this.B_HLCMD.Name = "B_HLCMD";
+            this.B_HLCMD.Size = new System.Drawing.Size(89, 23);
+            this.B_HLCMD.TabIndex = 419;
+            this.B_HLCMD.Text = "HL **CMD**";
+            this.B_HLCMD.UseVisualStyleBackColor = true;
+            this.B_HLCMD.Click += new System.EventHandler(this.B_HLCMD_Click);
             // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 537);
+            this.Controls.Add(this.B_HLCMD);
             this.Controls.Add(this.L_ZDPreview);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.L_Location);
@@ -994,6 +1006,7 @@
         private System.Windows.Forms.Label L_OWEntities;
         private System.Windows.Forms.RichTextBox RTB_OSP;
         private System.Windows.Forms.RichTextBox RTB_MSP;
+        private System.Windows.Forms.Button B_HLCMD;
     }
 }
 
