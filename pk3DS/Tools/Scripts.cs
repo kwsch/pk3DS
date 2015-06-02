@@ -232,6 +232,8 @@ namespace pk3DS
                         op += eA(new[] { c >> 16 }); break;
                     case 0x20: op = "$20";
                         op += eA(new[] { c >> 16 }); break;
+                    case 0x21: op = "$21";
+                        op += eA(new[] { c >> 16 }); break;
                     case 0x22: op = "$22";
                         op += eA(new[] { c >> 16 }); break;
                     case 0x23: op = "$23";
@@ -301,6 +303,12 @@ namespace pk3DS
                                   (i * 4 + (int)cmd[++i]).ToString("X4"),
                                   (int)cmd[i]);
                         break;
+                    case 0x41: op = "$41";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0x43: op = "$43";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0x48: op = "$48";
+                        op += eA(new[] { c >> 16 }); break;
                     case 0x4A: op = "$4A";
                         op += eA(new[] { c >> 16 }); break;
                     case 0x4E: op = "Add?"; break;
@@ -310,12 +318,20 @@ namespace pk3DS
                         op += eA(new[] { c >> 16 }); break;
                     case 0x52: op = "$52";
                         op += eA(new[] { c >> 16 }); break;
+                    case 0x55: op = "$55";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0x56: op = "$56";
+                        op += eA(new[] { c >> 16 }); break;
                     case 0x59: op = "ClearAll"; break;
                     case 0x5A: op = "$5A";
                         op += eA(new[] { c >> 16 }); break;
                     case 0x5F: op = "$5F";
                         op += eA(new[] { c >> 16 }); break;
                     case 0x60: op = "$60";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0x66: op = "$66";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0x67: op = "$67";
                         op += eA(new[] { c >> 16 }); break;
                     case 0x68: op = "$68";
                         op += eA(new[] { c >> 16 }); break;
@@ -369,6 +385,8 @@ namespace pk3DS
                             cmd[++i], cmd[++i], cmd[++i], cmd[++i] }); break;
                     case 0x9B: op = "Copy";
                         op += eA(new[] { cmd[++i], cmd[++i] }); break;
+                    case 0x9C: op = "$9C";
+                        op += eA(new[] { cmd[++i], cmd[++i] }); break;
                     case 0x9D: op = "$9D";
                         op += eA(new[] { cmd[++i], cmd[++i] }); break;
                     case 0xA2: op = "GetGlobal2";
@@ -407,11 +425,15 @@ namespace pk3DS
                         op += eA(new[] { c >> 16 }); break;
                     case 0xC6: op = "$C6";
                         op += eA(new[] { c >> 16 }); break;
+                    case 0xC7: op = "$C7";
+                        op += eA(new[] { c >> 16 }); break;
                     case 0xC8: op = "CmpLocal";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xC9: op = "CmpConst";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xCC: op = "$CC";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xCE: op = "$CE";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xD4: op = "$D4";
                         op += eA(new[] { c >> 16 }); break;
