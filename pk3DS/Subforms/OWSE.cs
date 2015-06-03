@@ -11,6 +11,9 @@ namespace pk3DS
         public OWSE()
         {
             InitializeComponent();
+            AllowDrop = true;
+            DragEnter += tabMain_DragEnter;
+            DragDrop += tabMain_DragDrop;
             openQuick(Directory.GetFiles("encdata"));
             tabControl1.SelectedIndex = 2;  // Map Script Tab
         }
@@ -392,6 +395,74 @@ namespace pk3DS
         {
             int ctr = Util.highlightText(RTB_OSP, "**", Color.Red) + Util.highlightText(RTB_MSP, "**", Color.Red) / 2;
             Util.Alert(String.Format("{0} instance{1} of \"*\" present.", ctr, ctr > 1 ? "s" : ""));
+        }
+
+
+        private void tabMain_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+        private void tabMain_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            string path = files[0]; // open first D&D
+            if (new FileInfo(path).Length < 10000000)
+                parseScriptInput(File.ReadAllBytes(path));
+        }
+        internal static void parseScriptInput(byte[] OWScriptData)
+        {
+            string[] ret, raw, raw2;
+            if (OWScriptData.Length > 4)
+            {
+                byte[] ScriptData = OWScriptData;
+                int length = BitConverter.ToInt32(ScriptData, 0);
+                Array.Resize(ref ScriptData, length); // Cap Size
+
+                raw = Scripts.getHexLines(ScriptData);
+
+                int start = BitConverter.ToInt32(ScriptData, 0xC);
+                int moves = BitConverter.ToInt32(ScriptData, 0x10);
+                int finaloffset = BitConverter.ToInt32(ScriptData, 0x14);
+                // int reserved = BitConverter.ToInt32(ScriptData, 0x18);
+                // int compressedLength = length - start;
+                int decompressedLength = finaloffset - start;
+
+                byte[] compressed = ScriptData.Skip(start).ToArray();
+                // string c = Util.getHexString(compressed);
+                uint[] decompressed = Scripts.quickDecompress(compressed, decompressedLength / 4) ?? new uint[0];
+
+                raw2 = Scripts.getHexLines(decompressed);
+
+                if (decompressedLength / 4 != decompressed.Length)
+                    raw2 = ret = new [] {"DCMP FAIL"};
+                else
+                {
+                    uint[] rawCMD = decompressed.Take((moves - start) / 4).ToArray();
+                    string[] instructions = Scripts.parseScript(rawCMD);
+                    uint[] moveCMD = decompressed.Skip((moves - start) / 4).ToArray();
+                    string[] movements = Scripts.parseMovement(moveCMD);
+                    ret = instructions.Concat(movements).ToArray();
+                }
+            }
+            else
+                raw = raw2 = ret = new[] { "No Data" };
+
+            if (ModifierKeys == Keys.Control)
+            {
+                Clipboard.SetText(String.Join(Environment.NewLine, raw2));
+                //Util.Alert("Set cmd to clipboard.");
+            }
+            else if (ModifierKeys == Keys.Alt)
+            {
+                Clipboard.SetText(String.Join(Environment.NewLine, raw));
+                //Util.Alert("Set raw to clipboard.");
+            }
+            else
+            {
+                Clipboard.SetText(String.Join(Environment.NewLine, ret));
+                //Util.Alert("Set parse to clipboard.");
+            }
+            System.Media.SystemSounds.Asterisk.Play();
         }
     }
 }
