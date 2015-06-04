@@ -331,6 +331,8 @@ namespace pk3DS
                         op += eA(new[] { c >> 16 }); break;
                     case 0x60: op = "$60";
                         op += eA(new[] { c >> 16 }); break;
+                    case 0x65: op = "$65"; // followed by 0x24
+                        op += eA(new[] { c >> 16 }); break;
                     case 0x66: op = "$66";
                         op += eA(new[] { c >> 16 }); break;
                     case 0x67: op = "$67";
