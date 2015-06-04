@@ -312,6 +312,8 @@ namespace pk3DS
                     case 0x4A: op = "$4A";
                         op += eA(new[] { c >> 16 }); break;
                     case 0x4E: op = "Add?"; break;
+                    case 0x4F: op = "$4F"; // followed by 0x24
+                        op += eA(new[] { c >> 16 }); break;
                     case 0x50: op = "$50";
                         op += eA(new[] { c >> 16 }); break;
                     case 0x51: op = "Cmp?";
@@ -380,6 +382,8 @@ namespace pk3DS
                         op += eF(new[] { cmd[++i], cmd[++i] }); break;
                     case 0x8E: op = "$8E";
                         op += eF(new[] { cmd[++i], cmd[++i], cmd[++i] }); break;
+                    case 0x92: op = "$92";
+                        op += eA(new[] { cmd[++i], cmd[++i], cmd[++i], cmd[++i] }); break;
                     case 0x96: op = "$96";
                         op += eF(new[] { cmd[++i], 
                             cmd[++i], cmd[++i], cmd[++i], cmd[++i] }); break;
@@ -431,9 +435,13 @@ namespace pk3DS
                         op += eA(new[] { c >> 16 }); break;
                     case 0xC9: op = "CmpConst";
                         op += eA(new[] { c >> 16 }); break;
+                    case 0xCB: op = "$CB";
+                        op += eA(new[] { c >> 16 }); break;
                     case 0xCC: op = "$CC";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xCE: op = "$CE";
+                        op += eA(new[] { c >> 16 }); break;
+                    case 0xCF: op = "$CF";
                         op += eA(new[] { c >> 16 }); break;
                     case 0xD4: op = "$D4";
                         op += eA(new[] { c >> 16 }); break;
