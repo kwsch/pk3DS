@@ -4,7 +4,7 @@ using System.IO;
 
 namespace pk3DS
 {
-    class Image
+    class mapCollisions
     {
         internal static Bitmap makeIMG(string path, bool save, int shift = 4, int s = 8)
         {
