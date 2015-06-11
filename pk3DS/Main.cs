@@ -53,7 +53,7 @@ namespace pk3DS
                 string[] lines = File.ReadAllLines("config.ini");
                 string path = lines[0];
                 int lang;
-                if (lines.Length > 0 && int.TryParse(lines[1], out lang)) 
+                if (lines.Length > 1 && int.TryParse(lines[1], out lang)) 
                     CB_Lang.SelectedIndex = lang;
                 if (Directory.Exists("personal") && !skipBoth) { Directory.Delete("personal", true); } // Clear data on form load.
                 if (path.Length > 0) openQuick(path);
