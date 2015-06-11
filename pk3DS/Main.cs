@@ -21,7 +21,6 @@ using System.Media;
 using System.Threading;
 using System.Windows.Forms;
 using BLZ;
-using CTR;
 
 namespace pk3DS
 {
@@ -51,7 +50,11 @@ namespace pk3DS
             // Reload Previous Editing Files if the file exists
             if (File.Exists("config.ini"))
             {
-                string path = File.ReadAllText("config.ini");
+                string[] lines = File.ReadAllLines("config.ini");
+                string path = lines[0];
+                int lang;
+                if (lines.Length > 0 && int.TryParse(lines[1], out lang)) 
+                    CB_Lang.SelectedIndex = lang;
                 if (Directory.Exists("personal") && !skipBoth) { Directory.Delete("personal", true); } // Clear data on form load.
                 if (path.Length > 0) openQuick(path);
             } 
@@ -132,7 +135,7 @@ namespace pk3DS
             updateStatus(Environment.NewLine + Environment.NewLine + "Saving data and closing the program...");
             try
             {
-                if (TB_Path.Text.Length > 0) File.WriteAllText("config.ini", TB_Path.Text);
+                if (TB_Path.Text.Length > 0) File.WriteAllLines("config.ini", new[] { TB_Path.Text, CB_Lang.SelectedIndex.ToString() });
                 if (!GB_RomFS.Enabled || skipBoth) return; // No data/threads need to be addressed if we haven't loaded anything.
 
                 // Set the GameText back as other forms may have edited it.
@@ -571,7 +574,7 @@ namespace pk3DS
             new Thread(() =>
             {
                 threads++;
-                Exheader exh = new Exheader(ExHeaderPath);
+                CTR.Exheader exh = new CTR.Exheader(ExHeaderPath);
                 CTR.CTR.buildROM(true, "Nintendo", ExeFSPath, RomFSPath, ExHeaderPath, exh.GetSerial(), path, pBar1,
                     RTB_Status);
                 threads--;
