@@ -8,7 +8,8 @@ namespace pk3DS
     {
         public Moves()
         {
-            ARC.unpackMini(Directory.GetFiles("move")[0], "WD");
+            if (Main.oras)
+                ARC.unpackMini(Directory.GetFiles("move")[0], "WD");
 
             movelist[0] = "";
             sortedmoves = (string[])movelist.Clone();
@@ -162,7 +163,9 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setEntry();
-            ARC.packMini("move", "WD", "0", ".bin");
+
+            if (Main.oras)
+                ARC.packMini("move", "WD", "0", ".bin");
         }
 
         private void B_RandAll_Click(object sender, EventArgs e)
@@ -186,12 +189,16 @@ namespace pk3DS
         }
         internal static int[] getTypes()
         {
-            ARC.unpackMini(Directory.GetFiles("move")[0], "WD");
+            if (Main.oras)
+                ARC.unpackMini(Directory.GetFiles("move")[0], "WD");
             string[] f2 = Directory.GetFiles("move");
             int[] moveTypes = new int[f2.Length];
             for (int i = 0; i < f2.Length; i++)
                 moveTypes[i] = File.ReadAllBytes(f2[i])[0];
-            ARC.packMini("move", "WD", "0", ".bin");
+
+            if (Main.oras)
+                ARC.packMini("move", "WD", "0", ".bin");
+
             return moveTypes;
         }
     }
