@@ -23,7 +23,7 @@ namespace pk3DS
             CB_Repack.Items.Add("GARC Pack (from Existing)");
             CB_Repack.Items.Add("DARC Pack (use filenames)");
             CB_Repack.Items.Add("Mini Pack (from Name)");
-            CB_Repack.SelectedIndex = 0;
+            CB_Repack.SelectedIndex = 2;
         }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -170,6 +170,15 @@ namespace pk3DS
         private void B_Reset_Click(object sender, EventArgs e)
         {
             PB_BCLIM.Size = CLIMWindow;
+        }
+
+        private void CB_Repack_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CB_Repack.SelectedIndex < 2) // 0,1
+            {
+                Util.Alert("Not implemented:", CB_Repack.Text);
+                CB_Repack.SelectedIndex = 2;
+            }
         }
     }
 }
