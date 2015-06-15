@@ -21,7 +21,7 @@ namespace pk3DS
             {
                 Color newColor = overlayImage.GetPixel(i % (overlayImage.Width), i / (overlayImage.Width));
                 Color oldColor = newImage.GetPixel(i % (overlayImage.Width) + x, i / (overlayImage.Width) + y);
-                newColor = Color.FromArgb((int)((double)(newColor.A) * trans), newColor.R, newColor.G, newColor.B); // Apply transparency change
+                newColor = Color.FromArgb((int)(newColor.A * trans), newColor.R, newColor.G, newColor.B); // Apply transparency change
                 // if (newColor.A != 0) // If Pixel isn't transparent, we'll overwrite the color.
                 {
                     // if (newColor.A < 100) 
@@ -312,19 +312,19 @@ namespace pk3DS
         {
             System.Media.SystemSounds.Exclamation.Play();
             string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
-            return (DialogResult)MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         internal static DialogResult Alert(params string[] lines)
         {
             System.Media.SystemSounds.Asterisk.Play();
             string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
-            return (DialogResult)MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         internal static DialogResult Prompt(MessageBoxButtons btn, params string[] lines)
         {
             System.Media.SystemSounds.Question.Play();
             string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
-            return (DialogResult)MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
+            return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
 
         // DataSource Providing
