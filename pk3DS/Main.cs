@@ -21,6 +21,7 @@ using System.Media;
 using System.Threading;
 using System.Windows.Forms;
 using BLZ;
+using CTR;
 
 namespace pk3DS
 {
@@ -156,61 +157,75 @@ namespace pk3DS
         }
         private void openQuick(string path)
         {
-            FileInfo fi = new FileInfo(path);
-            if (!Directory.Exists(path)) return;
-
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            if (fi.Name.Contains("code.bin"))
+
+            if (!Directory.Exists(path)) // File
             {
-                if (fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed code.bin.", "Compress? File will be replaced.") == DialogResult.Yes))
-                    new Thread(() => { threads++; new BLZCoder(new[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
-                else if (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes)
-                    new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+                FileInfo fi = new FileInfo(path);
+                if (fi.Name.Contains("code.bin")) // Compress/Decompress .code.bin
+                {
+                    if (fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed code.bin.", "Compress? File will be replaced.") == DialogResult.Yes))
+                        new Thread(() => { threads++; new BLZCoder(new[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
+                    else if (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes)
+                        new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+                }
+                else if (fi.Name.ToLower().Contains("exe")) // Unpack exefs
+                {
+                    if (fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS.bin.", "Unpack?") == DialogResult.Yes))
+                        new Thread(() => { threads++; ExeFS.get(path, Path.GetDirectoryName(path)); threads--; Util.Alert("Unpacked!"); }).Start();
+                }
+                else if (fi.Name.ToLower().Contains("rom"))
+                {
+                    Util.Alert("RomFS unpacking not implemented.");
+                }
             }
-            else
+            else // Directory
             {
                 // Check for ROMFS/EXEFS/EXHEADER
                 RomFSPath = ExeFSPath = null; // Reset
                 string[] folders = Directory.GetDirectories(path);
                 int count = folders.Length;
-                if (count != 2 && count != 1) return; // Only want exefs & romfs (can have exheader there too, it's not a folder)
+
+                // Find RomFS folder
+                foreach (string f in folders.Where(f => new DirectoryInfo(f).Name.ToLower().Contains("rom") && Directory.Exists(f)))
+                    checkIfRomFS(f);
+                // Find ExeFS folder
+                foreach (string f in folders.Where(f => new DirectoryInfo(f).Name.ToLower().Contains("exe") && Directory.Exists(f)))
+                    checkIfExeFS(f);
+
+                if (count > 3)
+                    Util.Alert("pk3DS will function best if you keep your Game Files folder clean and free of unnecessary folders.");
+
+                // Enable buttons if applicable
+                GB_RomFS.Enabled = (RomFSPath != null);
+                GB_ExeFS.Enabled = (RomFSPath != null && ExeFSPath != null);
+                B_MoveTutor.Enabled = oras; // Default false unless loaded
+                if (RomFSPath != null)
                 {
-                    // First file should be 'exe'
-                    if (new FileInfo(folders[0]).Name.ToLower().Contains("exe") && Directory.Exists(folders[0]))
-                        checkIfExeFS(folders[0]);
-                    if (new FileInfo(folders[count - 1]).Name.ToLower().Contains("rom") && Directory.Exists(folders[count - 1]))
-                        checkIfRomFS(folders[count - 1]);
-
-                    GB_RomFS.Enabled = (RomFSPath != null);
-                    GB_ExeFS.Enabled = (RomFSPath != null && ExeFSPath != null);
-                    B_MoveTutor.Enabled = oras; // Default false unless loaded
-                    if (RomFSPath != null)
-                    {
-                        if (L_Game.Text == "Game Loaded: ORAS" || L_Game.Text == "Game Loaded: XY")
-                        { Directory.Delete("personal", true); } // Force reloading of personal data if the game is switched.
-                        L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY"; TB_Path.Text = path; 
-                    }
-                    else if (ExeFSPath != null)
-                    { L_Game.Text = "ExeFS loaded - no RomFS"; TB_Path.Text = path; }
-                    else
-                    { L_Game.Text = "No Game Loaded"; TB_Path.Text = ""; }
-
-                    if (RomFSPath != null)
-                    {
-                        // Trigger Data Loading
-                        if (RTB_Status.Text.Length > 0) RTB_Status.Clear();
-                        updateStatus("Data found! Loading persistent data for subforms...", false);
-                        changeLanguage(null, null);
-                    }
-
-                    // Enable 3DS Rebuilding options if all files have been found
-                    checkIfExHeader(path);
-                    B_Rebuild3DS.Visible = B_Rebuild3DS.Enabled = 
-                        (ExHeaderPath != null && RomFSPath != null && ExeFSPath != null);
-
-                    // Method finished.
-                    SystemSounds.Asterisk.Play();
+                    if (L_Game.Text == "Game Loaded: ORAS" || L_Game.Text == "Game Loaded: XY")
+                    { Directory.Delete("personal", true); } // Force reloading of personal data if the game is switched.
+                    L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY"; TB_Path.Text = path; 
                 }
+                else if (ExeFSPath != null)
+                { L_Game.Text = "ExeFS loaded - no RomFS"; TB_Path.Text = path; }
+                else
+                { L_Game.Text = "No Game Loaded"; TB_Path.Text = ""; }
+
+                if (RomFSPath != null)
+                {
+                    // Trigger Data Loading
+                    if (RTB_Status.Text.Length > 0) RTB_Status.Clear();
+                    updateStatus("Data found! Loading persistent data for subforms...", false);
+                    changeLanguage(null, null);
+                }
+
+                // Enable 3DS Rebuilding options if all files have been found
+                checkIfExHeader(path);
+                B_Rebuild3DS.Visible = B_Rebuild3DS.Enabled = 
+                    (ExHeaderPath != null && RomFSPath != null && ExeFSPath != null);
+
+                // Method finished.
+                SystemSounds.Asterisk.Play();
             }
         }
         private int checkGameType(string[] files)
