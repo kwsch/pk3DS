@@ -74,7 +74,7 @@ namespace pk3DS
             if (entry < 0) return;
             RTB_F.Text = RTB_O.Text = RTB_W.Text = RTB_T.Text = string.Empty;
             byte[] raw = File.ReadAllBytes(filepaths[entry]);
-            locationData = ARC.unpackMini(raw, "ZO");
+            locationData = CTR.mini.unpackMini(raw, "ZO");
             if (locationData == null) return;
 
             RichTextBox[] rtba = {RTB_MapInfo, RTB_OWSC, RTB_MapSC, RTB_Encounter, RTB_File5};

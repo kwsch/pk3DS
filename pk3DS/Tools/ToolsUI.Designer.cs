@@ -103,7 +103,6 @@
             this.CB_Repack.Name = "CB_Repack";
             this.CB_Repack.Size = new System.Drawing.Size(150, 21);
             this.CB_Repack.TabIndex = 8;
-            this.CB_Repack.SelectedIndexChanged += new System.EventHandler(this.CB_Repack_SelectedIndexChanged);
             // 
             // PB_BCLIM
             // 

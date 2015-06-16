@@ -20,7 +20,6 @@ namespace pk3DS
             PB_BCLIM.DragDrop += tabMain_DragDrop;
             CLIMWindow = PB_BCLIM.Size;
             CB_Repack.Items.Add("GARC Pack");
-            CB_Repack.Items.Add("GARC Pack (from Existing)");
             CB_Repack.Items.Add("DARC Pack (use filenames)");
             CB_Repack.Items.Add("Mini Pack (from Name)");
             CB_Repack.SelectedIndex = 2;
@@ -51,7 +50,7 @@ namespace pk3DS
         }
         private void openIMG(string path)
         {
-            var img = png2bclim.makeBMP(path, CHK_PNG.Checked);
+            var img = CTR.BCLIM.makeBMP(path, CHK_PNG.Checked);
             if (img == null) return;
             PB_BCLIM.Size = new Size(img.Width + 2, img.Height + 2);
             PB_BCLIM.BackgroundImage = img;
@@ -67,12 +66,12 @@ namespace pk3DS
 
                 // Determine if it is a DARC or a Mini
                 // Check if Mini first
-                string fx = ARC.getIsMini(path);
+                string fx = CTR.mini.getIsMini(path);
                 string newFolder = folderPath + "_" + fx;
                 if (fx != null) // Is Mini Packed File
                 {
                     // Fetch Mini File Contents
-                    ARC.unpackMini(path, fx, newFolder, false);
+                    CTR.mini.unpackMini(path, fx, newFolder, false);
                     // Recurse throught the extracted contents if they extract successfully
                     if (Directory.Exists(newFolder))
                         foreach (string file in Directory.GetFiles(newFolder))
@@ -88,11 +87,13 @@ namespace pk3DS
                         if (pos >= data.Length) return;
                     }
                     var darcData = data.Skip(pos).ToArray();
-                    var res = CTR.DARC.darc2files(darcData, folderPath + "_d");
+                    bool r = CTR.DARC.darc2files(darcData, folderPath + "_d");
+                    if (!r) Util.Alert("Unpacking failed.");
                 }
                 else if (BitConverter.ToUInt32(File.ReadAllBytes(path), 0) == 0x47415243) // GARC
                 {
-                    GARCTool.garcUnpack(path, folderPath + "_g", false);
+                    bool r = CTR.GARC.garcUnpack(path, folderPath + "_g", false);
+                    if (!r) Util.Alert("Unpacking failed.");
                 }
                 else if (!recursing)
                 { Util.Alert("File is not a darc or a mini packed file:" + Environment.NewLine + path); return ;}
@@ -114,10 +115,13 @@ namespace pk3DS
             int type = CB_Repack.SelectedIndex;
             switch (type)
             {
-                case -1: return;
                 case 0: // GARC Pack
-                case 1: // GARC Pack Existing
-                case 2: // DARC Pack
+                {
+                    bool r = CTR.GARC.garcPackMS(path, folderName + ".garc");
+                    if (!r) Util.Alert("Packing failed.");
+                    break;
+                }
+                case 1: // DARC Pack (from existing if exists)
                 {
                     string oldFile = path.Replace("_d", "");
                     if (File.Exists(Path.Combine(parentName, oldFile)))
@@ -127,10 +131,12 @@ namespace pk3DS
                     else if (File.Exists(Path.Combine(parentName, oldFile + ".darc")))
                         oldFile = Path.Combine(parentName, oldFile + ".darc");
                     else oldFile = null;
-                    bool result = CTR.DARC.files2darc(path, false, oldFile);
+
+                    bool r = CTR.DARC.files2darc(path, false, oldFile);
+                    if (!r) Util.Alert("Packing failed.");
                     break;
                 }
-                case 3: // Mini Pack
+                case 2: // Mini Pack
                 {
                     string fileName = folderName.Replace("_", "");
                     if (fileName.Length < 2) { Util.Error("Mini Folder name not valid:", path); return; }
@@ -138,15 +144,8 @@ namespace pk3DS
                     string fileExt = fileName.Substring(fileName.Length - 2);
                     string fileNum = fileName.Substring(0, fileName.Length - 3); // ignore "."
 
-                    string[] filesToPack = Directory.GetFiles(path);
-                    byte[][] data = new byte[filesToPack.Length][];
-                    for (int i = 0; i < filesToPack.Length; i++) data[i] = File.ReadAllBytes(filesToPack[i]);
-                    byte[] miniBytes = ARC.packMini(data, fileExt);
-
-                    string newName = fileNum + "." + fileExt;
-                    File.WriteAllBytes(parentName + newName, miniBytes);
-                    Util.Alert("Mini Folder Repacked!",
-                        String.Format("InFolder: {0}{2}OutFile{1}", folderName, newName, Path.DirectorySeparatorChar));
+                    bool r = CTR.mini.packMini2(path, fileExt, parentName + fileNum + "." + fileExt);
+                    if (!r) Util.Alert("Packing failed.");
                     break;
                 }
                 default: Util.Alert("Repacking not implemented." + Environment.NewLine + path);
@@ -170,15 +169,6 @@ namespace pk3DS
         private void B_Reset_Click(object sender, EventArgs e)
         {
             PB_BCLIM.Size = CLIMWindow;
-        }
-
-        private void CB_Repack_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (CB_Repack.SelectedIndex < 2) // 0,1
-            {
-                Util.Alert("Not implemented:", CB_Repack.Text);
-                CB_Repack.SelectedIndex = 2;
-            }
         }
     }
 }

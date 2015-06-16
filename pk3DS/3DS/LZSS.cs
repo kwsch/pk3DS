@@ -1,397 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Media;
-using System.Windows.Forms;
 
-namespace pk3DS
+namespace CTR
 {
-    public class GARCTool
+    // LZSS (de)compression, heavily taken from dsdecmp
+    public class LZSS 
     {
-        // Note: This has been customized from the original GARCTool source to not use temporary files (instead uses MemoryStream).
-        public static bool garcPackMS(string folderPath, string garcPath, ProgressBar pBar1 = null, Label label = null, bool supress = false)
-        {
-            // Check to see if our input folder exists.
-            if (!new DirectoryInfo(folderPath).Exists) { Util.Error("Folder does not exist."); return false; }
-
-            // Okay some basic proofing is done. Proceed.
-
-            // Get the paths of the files to pack up.
-            string[] filepaths = Directory.GetFiles(folderPath, "*.*", SearchOption.TopDirectoryOnly);
-
-            // Initialize ProgressBar
-            if (pBar1 == null) pBar1 = new ProgressBar();
-            if (label == null) label = new Label();
-            if (pBar1.InvokeRequired)
-                pBar1.Invoke((MethodInvoker)delegate { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = filepaths.Length; });
-            else { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = filepaths.Length; }
-            if (label.InvokeRequired)
-                label.Invoke((MethodInvoker)delegate { label.Visible = true; });
-            else { label.Visible = true; }
-
-            // Copy the files to the working directory so our compression doesn't overwrite anything.
-
-
-            // Scan through to see if we have to compress anything.
-            // Delete the old garc if it exists, then write our new one 
-            try { File.Delete(garcPath); } catch { }
-
-            // Set up the Header Info
-            using (var newGARC = new MemoryStream())
-            using (BinaryWriter gw = new BinaryWriter(newGARC))
-            {
-
-                // Write GARC header
-                gw.Write((uint)0x47415243); // Write "CRAG"
-                gw.Write((uint)0x0000001C); // Header Length
-                gw.Write((ushort)0xFEFF);   // FEFF BOM
-                gw.Write((ushort)0x0400);   // 
-                gw.Write((uint)0x00000004); // 
-                gw.Write((uint)0x00000000); // Data Offset
-                gw.Write((uint)0x00000000); // File Length
-                gw.Write((uint)0x00000000); // FATB chunk last word
-
-                // Write OTAF
-                gw.Write((uint)0x4641544F);                     // OTAF                     
-                gw.Write((uint)(0xC + 4 * filepaths.Length));   // Section Size 
-                gw.Write((ushort)filepaths.Length);             // Count: n 
-                gw.Write((ushort)0xFFFF);                       // padding? dunno                  
-
-                // write BTAF jump offsets
-                for (int i = 0; i < filepaths.Length; i++)
-                    gw.Write((uint)i * 0x10);
-
-                // Start BTAF
-                gw.Write((uint)0x46415442); // BTAF
-                gw.Write((uint)(0xC + 0x10 * filepaths.Length)); // Chunk Size
-                gw.Write((uint)filepaths.Length);
-
-                uint offset = 0;
-                uint largest = 0;
-
-                // Sort out the files to get the actual order
-                int[] fp = new int[filepaths.Length];
-                try
-                {
-                    for (int i = 0; i < fp.Length; i++)
-                    {
-                        string fn = Path.GetFileNameWithoutExtension(filepaths[i]);
-                        int compressed = fn.IndexOf("dec_", StringComparison.Ordinal);
-                        if (compressed < 0)
-                            fp[Int32.Parse(fn)] = i;
-                        else
-                            fp[Int32.Parse(fn.Substring(compressed + 4))] = i;
-                    }
-                }
-                catch (Exception e) { Util.Error("Invalid packing filenames", e.ToString()); return false; }
-
-                // Assemble the GARCData.
-                using (var GARCdata = new MemoryStream())
-                {
-                    for (int i = 0; i < filepaths.Length; i++)
-                    {
-                        string name = filepaths[fp[i]];
-                        try
-                        {
-                            if (label.InvokeRequired)
-                                label.Invoke((MethodInvoker)delegate { label.Text = String.Format("{0:P2} - {1}/{2} - {3}", ((float)i) / ((float)filepaths.Length), i, filepaths.Length, Path.GetFileName(name)); });
-                            else { label.Text = String.Format("{0:P2} - {1}/{2} - {3}", ((float)i) / ((float)filepaths.Length), i, filepaths.Length, Path.GetFileName(name)); }
-                        }
-                        catch { }
-                        int compressed = Path.GetFileName(name).IndexOf("dec_", StringComparison.Ordinal);
-                        if (compressed > -1)
-                        {
-                            // File needs to be compressed and replaced.
-                            string compressedName = Path.Combine(Path.GetDirectoryName(name), Path.GetFileNameWithoutExtension(name).Substring(compressed + 4) + ".bin");
-
-                            try { dsdecmp.Compress(name, compressedName); }
-                            catch { throw new Exception("Compression failed"); }
-
-                            // Replace file name with compressed name so we can delete after packing.
-                            name = compressedName;
-                        }
-                        FileInfo fi = new FileInfo(name);
-                        using (var input = File.OpenRead(name))
-                        {
-                            gw.Write((uint)1);          // garc.btaf.entries[i].bits = br.ReadUInt32(); 
-                            gw.Write((uint)offset);     // Start/Begin Offset
-                            uint round = (uint)Math.Ceiling(((double)fi.Length / 4)) * 4;
-                            offset += (uint)(round);    // Round up Offset.
-                            gw.Write((uint)offset);     // End/Stop Offset
-                            gw.Write((uint)fi.Length);  // Length/Size
-
-                            if (fi.Length > largest) largest = (uint)fi.Length;
-
-                            // Write the data to the BMIF data section
-                            input.CopyTo(GARCdata);    // then pad with FF's if not /4
-                            while (GARCdata.Length % 4 > 0) GARCdata.WriteByte(0xFF);
-                        }
-
-                        // Delete file if it is compressed.
-                        if (compressed > -1) File.Delete(name);
-
-                        // Advance the ProgressBar.
-                        if (pBar1.InvokeRequired)
-                            pBar1.Invoke((MethodInvoker)delegate { pBar1.PerformStep(); });
-                        else { pBar1.PerformStep(); }
-                    }
-
-                    gw.Write((uint)0x46494D42);
-                    gw.Write((uint)0x0000000C);
-                    gw.Write((uint)offset);
-
-                    gw.Seek(0x10, SeekOrigin.Begin);                        // Goto the start of the un-set 0 data we set earlier and set it.
-                    gw.Write((uint)newGARC.Length);                         // Write Data Offset
-                    gw.Write((uint)(newGARC.Length + GARCdata.Length));     // Write total GARC Length
-                    gw.Write((uint)largest);                                // Write Largest File stat (?)
-
-                    newGARC.Seek(0, SeekOrigin.End);    // Goto the end so we can copy the filedata after the GARC headers.
-
-                    // Write in the data
-                    GARCdata.Position = 0;
-                    GARCdata.CopyTo(newGARC);       // Copy the data.
-                }
-                // New File is ready to be saved (memstream newGARC)
-                try
-                {
-                    File.WriteAllBytes(garcPath, newGARC.ToArray());
-                    if (label.InvokeRequired)
-                        label.Invoke((MethodInvoker)delegate { label.Visible = false; });
-                    else { label.Visible = false; }
-
-                    // We're done.
-                    SystemSounds.Exclamation.Play();
-                    if (!supress) Util.Alert("Pack Successful!", filepaths.Length + " files packed to the GARC!");
-                    return true;
-                }
-                catch (Exception e) { Util.Error("Packing Failed!", e.ToString()); return false; }
-            }
-        }
-        public static bool garcUnpack(string garcPath, string outPath, bool skipDecompression, ProgressBar pBar1 = null, Label label = null, bool supress = false, bool bypassExt = false)
-        {
-            if (!File.Exists(garcPath) && !supress) { Util.Alert("File does not exist"); return false; }
-
-            // Unpack the GARC
-            GARC garc = ARC.unpackGARC(garcPath);
-
-            // Initialize ProgressBar
-            if (pBar1 == null) pBar1 = new ProgressBar();
-            if (label == null) label = new Label();
-
-
-            if (pBar1.InvokeRequired)
-                pBar1.Invoke((MethodInvoker)delegate { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = garc.otaf.nFiles; });
-            else { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = garc.otaf.nFiles; }
-
-            if (label.InvokeRequired)
-                label.Invoke((MethodInvoker)delegate { label.Visible = true; });
-            else { label.Visible = true; }
-
-            using (BinaryReader br = new BinaryReader(File.OpenRead(garcPath)))
-            {
-                // Create Extraction folder if it does not exist.
-                if (!Directory.Exists(outPath))
-                    Directory.CreateDirectory(outPath);
-
-                // Pull out all the files
-                for (int o = 0; o < garc.otaf.nFiles; o++)
-                {
-                    for (int i = 0; i < garc.btaf.nFiles; i++)
-                    {
-                        string ext = "bin";
-                        bool compressed = false;
-
-                        br.BaseStream.Position = garc.btaf.entries[i].start_offset + garc.data_offset;
-                        byte lzss = 0;
-                        if (!skipDecompression)
-                        {
-                            try
-                            { lzss = (byte)br.PeekChar(); }
-                            catch { lzss = 0; }
-                        }
-                        if (lzss == 0x11)
-                            compressed = true;
-                        else
-                        {
-                            ext = "bin";
-                            br.BaseStream.Seek(0, SeekOrigin.Begin);
-                        }
-
-                        // Set File Name
-                        string filename = o.ToString("D" + Math.Ceiling(Math.Log10(garc.otaf.nFiles)));
-                        if (garc.btaf.nFiles == garc.otaf.nFiles) filename = i.ToString("D" + Math.Ceiling(Math.Log10(garc.otaf.nFiles)));
-                        else if (garc.btaf.nFiles > 1 && garc.btaf.nFiles != garc.otaf.nFiles) filename += "." + i;
-                        string fileout = Path.Combine(outPath, filename + "." + ext);
-                        using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(fileout)))
-                        {
-                            // Write out the data for the file
-                            br.BaseStream.Position = garc.btaf.entries[i].start_offset + garc.data_offset;
-                            for (int x = 0; x < garc.btaf.entries[i].length; x++)
-                                bw.Write(br.ReadByte());
-                        }
-                        // See if decompression should be attempted.
-                        #region Decompression
-                        if (compressed && !skipDecompression)
-                        {
-                            string decout = Path.Combine(outPath, "dec_" + filename + ".bin");
-                            try
-                            {
-                                long n = dsdecmp.Decompress(fileout, decout);
-                                try { File.Delete(fileout); }
-                                catch (Exception e) { Util.Error("A compressed file could not be deleted.", fileout, e.ToString()); }
-
-                                // Try to detect for extension now
-                                ext = "bin";
-
-                                File.Move(decout, Path.Combine(outPath, "dec_" + filename + "." + ext));
-                            }
-                            catch
-                            {
-                                // File is really not encrypted.
-                                try { File.Delete(decout); }
-                                catch (Exception e) { Util.Error("This shouldn't happen", e.ToString()); }
-                            }
-                        }
-                        if (pBar1.InvokeRequired)
-                            pBar1.Invoke((MethodInvoker)delegate { pBar1.PerformStep(); });
-                        else
-                            pBar1.PerformStep();
-                        if (label.InvokeRequired)
-                            label.Invoke((MethodInvoker)delegate { label.Text = String.Format("{0:P2} - {1}/{2}", ((float)i) / garc.otaf.nFiles, i, garc.otaf.nFiles); });
-                        else { label.Text = String.Format("{0:P2} - {1}/{2}", ((float)i) / garc.otaf.nFiles, i, garc.otaf.nFiles); }
-                        #endregion
-                    }
-                    if (garc.otaf.nFiles == garc.btaf.nFiles) break;
-                }
-            }
-            if (label.InvokeRequired)
-                label.Invoke((MethodInvoker)delegate { label.Visible = false; });
-            else { label.Visible = false; }
-            SystemSounds.Exclamation.Play();
-            if (!supress) Util.Alert("Unpack Successful!", garc.otaf.nFiles + " files unpacked from the GARC!");
-            return true;
-        }
-    }
-
-    // Sub-classes
-    #region GARC Class & Struct
-    public partial class ARC
-    {
-        public static GARC unpackGARC(string path)
-        {
-            GARC garc = new GARC();
-            BinaryReader br = new BinaryReader(File.OpenRead(path));
-
-            // GARC Header
-            garc.id = br.ReadChars(4);
-            garc.header_size = br.ReadUInt32();
-            garc.id_endian = br.ReadUInt16();
-            if (garc.id_endian == 0xFEFF)
-                Util.Reverse(garc.id);
-            garc.constant = br.ReadUInt16();
-            garc.file_size = br.ReadUInt32();
-
-            garc.data_offset = br.ReadUInt32();
-            garc.file_length = br.ReadUInt32();
-            garc.lastsize = br.ReadUInt32();
-
-            // OTAF 
-            garc.otaf.id = br.ReadChars(4);
-            garc.otaf.section_size = br.ReadUInt32();
-            garc.otaf.nFiles = br.ReadUInt16();
-            garc.otaf.padding = br.ReadUInt16();
-
-            garc.otaf.entries = new OTAF_Entry[garc.otaf.nFiles];
-            // not really needed; plus it's wrong
-            for (int i = 0; i < garc.otaf.nFiles; i++)
-            {
-                uint val = br.ReadUInt32();
-                if (garc.otaf.padding == 0xffff)
-                    val = Util.Reverse(val);
-
-                garc.otaf.entries[i].name = val.ToString();
-            }
-
-            // BTAF (File Allocation TaBle)
-            garc.btaf.id = br.ReadChars(4);
-            garc.btaf.section_size = br.ReadUInt32();
-            garc.btaf.nFiles = br.ReadUInt32();
-
-            garc.btaf.entries = new BTAF_Entry[garc.btaf.nFiles];
-            garc.btaf.entries[0].bits = br.ReadUInt32();
-            for (int i = 0; i < garc.btaf.nFiles; i++)
-            {
-                if (i != 0 && garc.btaf.nFiles == garc.otaf.nFiles)
-                    garc.btaf.entries[i].bits = br.ReadUInt32();
-                garc.btaf.entries[i].start_offset = br.ReadUInt32();
-                garc.btaf.entries[i].end_offset = br.ReadUInt32();
-                garc.btaf.entries[i].length = br.ReadUInt32();
-            }
-
-            // BMIF
-            garc.gmif.id = br.ReadChars(4);
-            garc.gmif.section_size = br.ReadUInt32();
-            garc.gmif.data_size = br.ReadUInt32();
-
-            // Files data
-
-            br.Close();
-            return garc;
-        }
-    }
-    public struct GARC
-    {
-        public char[] id;           // Always GARC = 0x4E415243
-        public UInt32 header_size;  // Always 0x001C
-        public UInt16 id_endian;    // 0xFFFE
-        public UInt16 constant;     // Always 0x0400 chunk count
-        public UInt32 file_size;
-
-        public UInt32 data_offset;
-        public UInt32 file_length;
-        public UInt32 lastsize;
-
-        public OTAF otaf;
-        public BTAF btaf;
-        public GMIF gmif;
-    }
-    public struct OTAF
-    {
-        public char[] id;
-        public UInt32 section_size;
-        public UInt16 nFiles;
-        public UInt16 padding;
-
-        public OTAF_Entry[] entries;
-    }
-    public struct OTAF_Entry
-    {
-        public string name;
-    }
-    public struct BTAF
-    {
-        public char[] id;
-        public UInt32 section_size;
-        public UInt32 nFiles;
-        public BTAF_Entry[] entries;
-    }
-    public struct BTAF_Entry
-    {
-        public UInt32 bits;
-        public UInt32 start_offset;
-        public UInt32 end_offset;
-        public UInt32 length;
-    }
-    public struct GMIF
-    {
-        public char[] id;
-        public UInt32 section_size;
-        public UInt32 data_size;
-    }
-    #endregion
-    #region dsdecmp Classes
-    public class dsdecmp // LZ11 (de)compression
-    {
-        public static long Decompress(string infile, string outfile)
+        internal static long Decompress(string infile, string outfile)
         {
             // make sure the output directory exists
             string outDirectory = Path.GetDirectoryName(outfile);
@@ -419,7 +34,7 @@ namespace pk3DS
         /// <returns>The length of the output data.</returns>
         /// <exception cref="NotEnoughDataException">When the given length of the input data
         /// is not enough to properly decompress the input.</exception>
-        public static long Decompress(Stream instream, long inLength, Stream outstream)
+        internal static long Decompress(Stream instream, long inLength, Stream outstream)
         {
             #region Format definition in NDSTEK style
             /*  Data header (32bit)
@@ -518,7 +133,7 @@ namespace pk3DS
                         throw new StreamTooShortException();
 
                     int length = byte1 >> 4;
-                    int disp = -1;
+                    int disp;
                     if (length == 0)
                     {
                         #region case 0; 0(B C)(D EF) + (0x11)(0x1) = (LEN)(DISP)
@@ -628,7 +243,7 @@ namespace pk3DS
             return decompressedSize;
         }
 
-        public static int Compress(string infile, string outfile)
+        internal static int Compress(string infile, string outfile)
         {
             // make sure the output directory exists
             string outDirectory = Path.GetDirectoryName(outfile);
@@ -647,7 +262,7 @@ namespace pk3DS
         /// This algorithm should yield files that are the same as those found in the games.
         /// (delegates to the optimized method if LookAhead is set)
         /// </summary>
-        public unsafe static int Compress(Stream instream, long inLength, Stream outstream, bool original)
+        internal unsafe static int Compress(Stream instream, long inLength, Stream outstream, bool original)
         {
             // make sure the decompressed size fits in 3 bytes.
             // There should be room for four bytes, however I'm not 100% sure if that can be used
@@ -774,7 +389,7 @@ namespace pk3DS
         /// and determine the optimal 'length' values for the compressed blocks. Is not 100% optimal,
         /// as the flag-bytes are not taken into account.
         /// </summary>
-        private unsafe static int CompressWithLA(Stream instream, long inLength, Stream outstream)
+        internal unsafe static int CompressWithLA(Stream instream, long inLength, Stream outstream)
         {
             // save the input data in an array to prevent having to go back and forth in a file
             byte[] indata = new byte[inLength];
@@ -892,7 +507,7 @@ namespace pk3DS
         /// this value is the optimal 'length' value. If it is 1, the block should not be compressed.</param>
         /// <param name="disps">The 'disp' values of the compressed blocks. May be 0, in which case the
         /// corresponding length will never be anything other than 1.</param>
-        private unsafe static void GetOptimalCompressionLengths(byte* indata, int inLength, out int[] lengths, out int[] disps)
+        internal unsafe static void GetOptimalCompressionLengths(byte* indata, int inLength, out int[] lengths, out int[] disps)
         {
             lengths = new int[inLength];
             disps = new int[inLength];
@@ -1147,6 +762,5 @@ namespace pk3DS
         }
         #endregion
     }
-    #endregion
     #endregion
 }

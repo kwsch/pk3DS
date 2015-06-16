@@ -52,14 +52,17 @@
   <ItemGroup>
     <Compile Include="3DS\AES.cs" />
     <Compile Include="3DS\DARC.cs" />
+    <Compile Include="3DS\ETC1.cs" />
     <Compile Include="3DS\Exheader.cs" />
+    <Compile Include="3DS\LZSS.cs" />
+    <Compile Include="3DS\mini.cs" />
     <Compile Include="3DS\NCCH.cs" />
     <Compile Include="3DS\NCSD.cs" />
     <Compile Include="ARCUtil.cs" />
     <Compile Include="3DS\BLZ.cs" />
     <Compile Include="3DS\CTR.cs" />
     <Compile Include="3DS\ExeFS.cs" />
-    <Compile Include="png2bclim.cs" />
+    <Compile Include="3DS\BCLIM.cs" />
     <Compile Include="Randomizer.cs" />
     <Compile Include="3DS\RomFS.cs" />
     <Compile Include="Subforms\TitleScreen.cs">
@@ -146,7 +149,7 @@
     <Compile Include="Subforms\EggMove.Designer.cs">
       <DependentUpon>EggMove.cs</DependentUpon>
     </Compile>
-    <Compile Include="GARCTool.cs" />
+    <Compile Include="3DS\GARC.cs" />
     <Compile Include="Legal.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>

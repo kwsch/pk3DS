@@ -20,8 +20,6 @@ using System.Linq;
 using System.Media;
 using System.Threading;
 using System.Windows.Forms;
-using BLZ;
-using CTR;
 
 namespace pk3DS
 {
@@ -165,14 +163,14 @@ namespace pk3DS
                 if (fi.Name.Contains("code.bin")) // Compress/Decompress .code.bin
                 {
                     if (fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed code.bin.", "Compress? File will be replaced.") == DialogResult.Yes))
-                        new Thread(() => { threads++; new BLZCoder(new[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
+                        new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
                     else if (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes)
-                        new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+                        new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
                 }
                 else if (fi.Name.ToLower().Contains("exe")) // Unpack exefs
                 {
                     if (fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS.bin.", "Unpack?") == DialogResult.Yes))
-                        new Thread(() => { threads++; ExeFS.get(path, Path.GetDirectoryName(path)); threads--; Util.Alert("Unpacked!"); }).Start();
+                        new Thread(() => { threads++; CTR.ExeFS.get(path, Path.GetDirectoryName(path)); threads--; Util.Alert("Unpacked!"); }).Start();
                 }
                 else if (fi.Name.ToLower().Contains("rom"))
                 {
@@ -275,7 +273,7 @@ namespace pk3DS
             FileInfo fi = new FileInfo(files[0]);
             if (!fi.Name.Contains("code")) return false;
             if (fi.Length % 0x200 != 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes))
-                new Thread(() => { threads++; new BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+                new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
 
             ExeFSPath = path;
             return true;
@@ -533,7 +531,7 @@ namespace pk3DS
                 new Thread(() =>
                 {
                     threads++;
-                    new BLZCoder(new[] { "-en", files[file] }, pBar1);
+                    new CTR.BLZCoder(new[] { "-en", files[file] }, pBar1);
                     Util.Alert("Compressed!");
                     CTR.ExeFS.set(Directory.GetFiles(ExeFSPath), sfd.FileName);
                     threads--;
@@ -647,7 +645,7 @@ namespace pk3DS
             }
             try
             {
-                bool success = GARCTool.garcUnpack(infile, outfolder, bypassExt, (PB) ? pBar1 : null, null, true, bypassExt);
+                bool success = CTR.GARC.garcUnpack(infile, outfolder, bypassExt, (PB) ? pBar1 : null, null, true, bypassExt);
                 updateStatus(String.Format(success ? "Success!" : "Failed!"), false);
                 threads--;
                 return success;
@@ -661,7 +659,7 @@ namespace pk3DS
 
             try
             {
-                bool success = GARCTool.garcPackMS(infolder, outfile, (PB) ? pBar1 : null, null, true);
+                bool success = CTR.GARC.garcPackMS(infolder, outfile, (PB) ? pBar1 : null, null, true);
                 threads--;
                 updateStatus(String.Format(success ? "Success!" : "Failed!"), false);
                 return success;
