@@ -19,10 +19,11 @@ namespace pk3DS
             PB_BCLIM.DragEnter += tabMain_DragEnter;
             PB_BCLIM.DragDrop += tabMain_DragDrop;
             CLIMWindow = PB_BCLIM.Size;
+            CB_Repack.Items.Add("Autodetect");
             CB_Repack.Items.Add("GARC Pack");
             CB_Repack.Items.Add("DARC Pack (use filenames)");
             CB_Repack.Items.Add("Mini Pack (from Name)");
-            CB_Repack.SelectedIndex = 2;
+            CB_Repack.SelectedIndex = 0;
         }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -110,18 +111,32 @@ namespace pk3DS
         {
             if (!Directory.Exists(path)) { Util.Error("Input path is not a Folder", path); return; }
             string folderName = Path.GetDirectoryName(path);
+            if (folderName == null) return;
             string parentName = Directory.GetParent(path).FullName;
-
             int type = CB_Repack.SelectedIndex;
             switch (type)
             {
-                case 0: // GARC Pack
+                case 0: // AutoDetect
+                {
+                    if (!folderName.Contains("_"))
+                    { Util.Alert("Unable to autodetect pack type."); return; }
+
+                    if (folderName.Contains("_g"))
+                        goto case 1;
+                    if (folderName.Contains("_d"))
+                        goto case 2;
+                    string fileName = folderName.Replace("_", "");
+                    if (fileName.Substring(fileName.Length - 2).Length == 2)
+                        goto case 3;
+                    break;
+                }
+                case 1: // GARC Pack
                 {
                     bool r = CTR.GARC.garcPackMS(path, folderName + ".garc");
                     if (!r) Util.Alert("Packing failed.");
                     break;
                 }
-                case 1: // DARC Pack (from existing if exists)
+                case 2: // DARC Pack (from existing if exists)
                 {
                     string oldFile = path.Replace("_d", "");
                     if (File.Exists(Path.Combine(parentName, oldFile)))
@@ -136,7 +151,7 @@ namespace pk3DS
                     if (!r) Util.Alert("Packing failed.");
                     break;
                 }
-                case 2: // Mini Pack
+                case 3: // Mini Pack
                 {
                     string fileName = folderName.Replace("_", "");
                     if (fileName.Length < 2) { Util.Error("Mini Folder name not valid:", path); return; }
