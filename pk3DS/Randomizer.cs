@@ -10,7 +10,7 @@ namespace pk3DS
             int species = list[ctr++]; ctr %= list.Length;
             return species;
         }
-        internal static readonly int[] RandomSpeciesList = Enumerable.Range(1, 721).Select(i => i).ToArray();
+        internal static readonly int[] RandomSpeciesList = Enumerable.Range(1, 721).ToArray();
 
         internal static int[] getSpeciesList(bool G1, bool G2, bool G3, bool G4, bool G5, bool G6, bool L, bool E, bool Shedinja = true)
         {
@@ -43,6 +43,16 @@ namespace pk3DS
             if (G6 && E) sL = sL.Concat(Enumerable.Range(719, 3)).ToArray(); // 
 
             return sL.Length == 0 ? RandomSpeciesList : sL;
+        }
+
+        public static uint LCRNG(uint seed, int ctr)
+        {
+            for (int i = 0; i < ctr; i++)
+            {
+                seed *= 0x41C64E6D;
+                seed += 0x00006073;
+            }
+            return seed;
         }
     }
 }

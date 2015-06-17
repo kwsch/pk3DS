@@ -24,7 +24,7 @@ namespace pk3DS
                         c = Color.Black;
                     else
                     {
-                        color = LCRNG(color, shift);
+                        color = Randomizer.LCRNG(color, shift);
                         c = Color.FromArgb(0xFF, 0xFF - (byte)(color & 0xFF), 0xFF - (byte)((color >> 8) & 0xFF), 0xFF - (byte)(color >> 24 & 0xFF));
                     }
                     try
@@ -47,15 +47,6 @@ namespace pk3DS
                 }
                 return img;
             }
-        }
-        public static uint LCRNG(uint seed, int ctr)
-        {
-            for (int i = 0; i < ctr; i++)
-            {
-                seed *= 0x41C64E6D;
-                seed += 0x00006073;
-            }
-            return seed;
         }
     }
 }
