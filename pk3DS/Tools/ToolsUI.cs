@@ -77,6 +77,11 @@ namespace pk3DS
                         foreach (string file in Directory.GetFiles(newFolder))
                             openARC(file, true);
                 }
+                else if (BitConverter.ToUInt32(File.ReadAllBytes(path), 0) == 0x47415243) // GARC
+                {
+                    bool r = CTR.GARC.garcUnpack(path, folderPath + "_g", false);
+                    if (!r) Util.Alert("Unpacking failed.");
+                }
                 else if (ARC.analyze(path).valid) // DARC
                 {
                     var data = File.ReadAllBytes(path);
@@ -88,11 +93,6 @@ namespace pk3DS
                     }
                     var darcData = data.Skip(pos).ToArray();
                     bool r = CTR.DARC.darc2files(darcData, folderPath + "_d");
-                    if (!r) Util.Alert("Unpacking failed.");
-                }
-                else if (BitConverter.ToUInt32(File.ReadAllBytes(path), 0) == 0x47415243) // GARC
-                {
-                    bool r = CTR.GARC.garcUnpack(path, folderPath + "_g", false);
                     if (!r) Util.Alert("Unpacking failed.");
                 }
                 else if (!recursing)
