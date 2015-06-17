@@ -685,6 +685,5 @@ namespace pk3DS
             Array.Resize(ref species, oras ? species.Length : 799);
             return species;
         }
-
     }
 }
