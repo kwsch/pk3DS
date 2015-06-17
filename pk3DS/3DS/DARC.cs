@@ -328,7 +328,7 @@ namespace CTR
             try
             {
                 uint oldLength = orig.Entries[index].DataLength;
-                uint offset = orig.Entries[index].DataOffset;
+                uint offset = orig.Entries[index].DataOffset - orig.Header.FileDataOffset;
                 int diff = (int) (data.Length - oldLength);
 
                 // Insert into Data Block
