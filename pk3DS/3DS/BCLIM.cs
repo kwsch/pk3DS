@@ -97,6 +97,7 @@ namespace CTR
             else
                 img = getIMG(bclim);
 
+            if (img == null) return img;
             Rectangle cropRect = new Rectangle(0, 0, bclim.Width, bclim.Height);
             Bitmap CropBMP = new Bitmap(cropRect.Width, cropRect.Height);
             using (Graphics g = Graphics.FromImage(CropBMP))
