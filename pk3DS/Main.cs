@@ -485,7 +485,7 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                string[] files = { "wallpaper" };
+                string[] files = { "titlescreen" };
                 fileGet(files);
                 Invoke((Action)(() => new TitleScreen().ShowDialog()));
                 fileSet(files);
@@ -628,6 +628,8 @@ namespace pk3DS
                 case "personal": ans = (oras) ? getGARCPath(1, 9, 5) : getGARCPath(2, 1, 8); break;
                 case "item": ans = (oras) ? getGARCPath(1, 9, 7) : getGARCPath(2, 2, 0); break;
                 case "wallpaper": ans = (oras) ? getGARCPath(1, 0, 3) : getGARCPath(1, 0, 4); break;
+                case "titlescreen": ans = (oras) ? getGARCPath(1, 5, 2) : getGARCPath(1, 6, 5); break;
+                case "movesprite": ans = getGARCPath(0, 0, 5); break;
             }
             return ans;
         }
