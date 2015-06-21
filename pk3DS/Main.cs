@@ -724,18 +724,19 @@ namespace pk3DS
         // Update RichTextBox
         public void updateStatus(string status, bool preBreak = true)
         {
+            string newtext = ((preBreak) ? Environment.NewLine : "") + status;
             try
             {
                 if (RTB_Status.InvokeRequired)
                     RTB_Status.Invoke((MethodInvoker)delegate
                     {
-                        RTB_Status.AppendText(((preBreak) ? Environment.NewLine : "") + status);
+                        RTB_Status.AppendText(newtext);
                         RTB_Status.SelectionStart = RTB_Status.Text.Length;
                         RTB_Status.ScrollToCaret();
                     });
                 else
                 {
-                    RTB_Status.AppendText(status + Environment.NewLine);
+                    RTB_Status.AppendText(newtext);
                     RTB_Status.SelectionStart = RTB_Status.Text.Length;
                     RTB_Status.ScrollToCaret();
                 }
