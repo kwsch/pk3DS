@@ -310,10 +310,7 @@ namespace CTR
         {
             int pos = 0;
             while (BitConverter.ToUInt32(data, pos) != 0x63726164)
-            {
-                pos += 4;
-                if (pos >= data.Length) return -1;
-            }
+            { pos += 4; if (pos >= data.Length) return -1; }
             return pos;
         }
         internal static bool insertFile(DARC orig, int index, string path)
@@ -351,22 +348,18 @@ namespace CTR
             for (int i = 0; i < fileNames.Length; i++)
                 fileNames[i] = orig.FileNameTable[i].FileName;
 
-            string[] folders = Directory.GetDirectories(folderName);
-            foreach (string folder in folders)
+            string[] files = Directory.GetFiles(folderName, "*", SearchOption.AllDirectories);
+            foreach (string file in files)
             {
-                string[] files = Directory.GetFiles(folder);
-                foreach (string file in files)
-                {
-                    FileInfo fi = new FileInfo(file);
-                    string FileName = fi.Name;
+                FileInfo fi = new FileInfo(file);
+                string FileName = fi.Name;
 
-                    // Get Index of file
-                    int index = Array.IndexOf(fileNames, FileName);
-                    if (orig.Entries[index].IsFolder)
-                        throw new Exception(file + " is not a valid file to reinsert!");
+                // Get Index of file
+                int index = Array.IndexOf(fileNames, FileName);
+                if (orig.Entries[index].IsFolder)
+                    throw new Exception(file + " is not a valid file to reinsert!");
 
-                    insertFile(orig, index, file);
-                }
+                insertFile(orig, index, file);
             }
             // Fix Data layout
             Array.Resize(ref orig.Data, orig.Data.Length % 4 == 0 ? orig.Data.Length : orig.Data.Length + 4 - orig.Data.Length % 4);
