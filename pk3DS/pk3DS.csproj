@@ -65,6 +65,12 @@
     <Compile Include="3DS\BCLIM.cs" />
     <Compile Include="Randomizer.cs" />
     <Compile Include="3DS\RomFS.cs" />
+    <Compile Include="Subforms\Patch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Patch.Designer.cs">
+      <DependentUpon>Patch.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\TitleScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +212,9 @@
     </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Patch.resx">
+      <DependentUpon>Patch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\TitleScreen.resx">
       <DependentUpon>TitleScreen.cs</DependentUpon>

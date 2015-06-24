@@ -65,7 +65,8 @@ namespace pk3DS
         public static string ExeFSPath;
         public static string ExHeaderPath;
         public volatile int threads;
-        private static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN" };
+        internal volatile static int Language;
+        internal static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN" };
         private bool skipBoth;
 
         // Main Form Methods
@@ -113,6 +114,9 @@ namespace pk3DS
         }
         private void changeLanguage(object sender, EventArgs e)
         {
+            if (CB_Lang.InvokeRequired)
+                CB_Lang.Invoke((MethodInvoker)delegate { Language = CB_Lang.SelectedIndex; });
+            else Language = CB_Lang.SelectedIndex;
             if (!GB_RomFS.Enabled) return;
             new Thread(() =>
             {
@@ -601,13 +605,12 @@ namespace pk3DS
         }
 
         // GARC Requests
-        public string getGARCFileName(string requestedGARC)
+        private string getGARCFileName(string requestedGARC)
         {
-            int lang = 0;
-            if (CB_Lang.InvokeRequired)
-                CB_Lang.Invoke((MethodInvoker)delegate { lang = CB_Lang.SelectedIndex; });
-            else lang = CB_Lang.SelectedIndex;
-
+            return getGARCFileName(requestedGARC, Language);
+        }
+        internal static string getGARCFileName(string requestedGARC, int lang)
+        {
             string ans = "";
             switch (requestedGARC)
             {
@@ -633,7 +636,7 @@ namespace pk3DS
             }
             return ans;
         }
-        public string getGARCPath(int A, int B, int C)
+        internal static string getGARCPath(int A, int B, int C)
         {
             return String.Format("{0}a{0}{1}{0}{2}{0}{3}", Path.DirectorySeparatorChar, A, B, C);
         }
