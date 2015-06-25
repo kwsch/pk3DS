@@ -42,10 +42,6 @@ namespace pk3DS
             TB_Path.DragEnter += tabMain_DragEnter;
             TB_Path.DragDrop += tabMain_DragDrop;
 
-            // Rebuilding Functionality
-            GB_RomFS.Click += rebuildRomFS; // Not tested, need some verification first.
-            GB_ExeFS.Click += rebuildExeFS;
-
             // Reload Previous Editing Files if the file exists
             if (File.Exists("config.ini"))
             {
@@ -221,9 +217,12 @@ namespace pk3DS
                     changeLanguage(null, null);
                 }
 
-                // Enable 3DS Rebuilding options if all files have been found
+                // Enable Rebuilding options if all files have been found
                 checkIfExHeader(path);
-                B_Rebuild3DS.Visible = B_Rebuild3DS.Enabled = 
+                B_ExeFS.Enabled = ExeFSPath != null;
+                B_RomFS.Enabled = RomFSPath != null;
+                B_Patch.Enabled = RomFSPath != null && ExeFSPath != null;
+                B_3DS.Enabled = 
                     (ExHeaderPath != null && RomFSPath != null && ExeFSPath != null);
 
                 // Method finished.
@@ -602,6 +601,10 @@ namespace pk3DS
         private void L_SubTools_Click(object sender, EventArgs e)
         {
             new ToolsUI().ShowDialog();
+        }
+        private void B_Patch_Click(object sender, EventArgs e)
+        {
+            new Patch().ShowDialog();
         }
 
         // GARC Requests

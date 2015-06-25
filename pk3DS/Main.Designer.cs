@@ -57,9 +57,14 @@
             this.B_TMHM = new System.Windows.Forms.Button();
             this.RTB_Status = new System.Windows.Forms.RichTextBox();
             this.L_SubTools = new System.Windows.Forms.Label();
-            this.B_Rebuild3DS = new System.Windows.Forms.Button();
+            this.B_3DS = new System.Windows.Forms.Button();
+            this.GB_Extra = new System.Windows.Forms.GroupBox();
+            this.B_RomFS = new System.Windows.Forms.Button();
+            this.B_Patch = new System.Windows.Forms.Button();
+            this.B_ExeFS = new System.Windows.Forms.Button();
             this.GB_RomFS.SuspendLayout();
             this.GB_ExeFS.SuspendLayout();
+            this.GB_Extra.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Open
@@ -114,7 +119,7 @@
             this.B_Wallpaper.Name = "B_Wallpaper";
             this.B_Wallpaper.Size = new System.Drawing.Size(74, 23);
             this.B_Wallpaper.TabIndex = 12;
-            this.B_Wallpaper.Text = "Wallpaper";
+            this.B_Wallpaper.Text = "Title Screen";
             this.B_Wallpaper.UseVisualStyleBackColor = true;
             this.B_Wallpaper.Click += new System.EventHandler(this.B_Wallpaper_Click);
             // 
@@ -283,7 +288,7 @@
             // 
             this.pBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pBar1.Location = new System.Drawing.Point(12, 241);
+            this.pBar1.Location = new System.Drawing.Point(12, 296);
             this.pBar1.Name = "pBar1";
             this.pBar1.Size = new System.Drawing.Size(430, 14);
             this.pBar1.TabIndex = 6;
@@ -370,10 +375,10 @@
             this.RTB_Status.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.RTB_Status.Location = new System.Drawing.Point(12, 263);
+            this.RTB_Status.Location = new System.Drawing.Point(12, 316);
             this.RTB_Status.Name = "RTB_Status";
             this.RTB_Status.ReadOnly = true;
-            this.RTB_Status.Size = new System.Drawing.Size(430, 150);
+            this.RTB_Status.Size = new System.Drawing.Size(430, 134);
             this.RTB_Status.TabIndex = 7;
             this.RTB_Status.Text = "";
             // 
@@ -387,24 +392,70 @@
             this.L_SubTools.Text = "[Misc Tools]";
             this.L_SubTools.Click += new System.EventHandler(this.L_SubTools_Click);
             // 
-            // B_Rebuild3DS
+            // B_3DS
             // 
-            this.B_Rebuild3DS.Enabled = false;
-            this.B_Rebuild3DS.Location = new System.Drawing.Point(190, 39);
-            this.B_Rebuild3DS.Name = "B_Rebuild3DS";
-            this.B_Rebuild3DS.Size = new System.Drawing.Size(80, 23);
-            this.B_Rebuild3DS.TabIndex = 9;
-            this.B_Rebuild3DS.Text = "Rebuild .3DS";
-            this.B_Rebuild3DS.UseVisualStyleBackColor = true;
-            this.B_Rebuild3DS.Visible = false;
-            this.B_Rebuild3DS.Click += new System.EventHandler(this.B_Rebuild3DS_Click);
+            this.B_3DS.Enabled = false;
+            this.B_3DS.Location = new System.Drawing.Point(218, 19);
+            this.B_3DS.Name = "B_3DS";
+            this.B_3DS.Size = new System.Drawing.Size(100, 23);
+            this.B_3DS.TabIndex = 9;
+            this.B_3DS.Text = "Make .3DS";
+            this.B_3DS.UseVisualStyleBackColor = true;
+            this.B_3DS.Visible = false;
+            this.B_3DS.Click += new System.EventHandler(this.B_Rebuild3DS_Click);
+            // 
+            // GB_Extra
+            // 
+            this.GB_Extra.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.GB_Extra.Controls.Add(this.B_RomFS);
+            this.GB_Extra.Controls.Add(this.B_3DS);
+            this.GB_Extra.Controls.Add(this.B_Patch);
+            this.GB_Extra.Controls.Add(this.B_ExeFS);
+            this.GB_Extra.Enabled = false;
+            this.GB_Extra.Location = new System.Drawing.Point(12, 240);
+            this.GB_Extra.Name = "GB_Extra";
+            this.GB_Extra.Size = new System.Drawing.Size(430, 50);
+            this.GB_Extra.TabIndex = 7;
+            this.GB_Extra.TabStop = false;
+            this.GB_Extra.Text = "Extra Tools";
+            // 
+            // B_RomFS
+            // 
+            this.B_RomFS.Location = new System.Drawing.Point(6, 19);
+            this.B_RomFS.Name = "B_RomFS";
+            this.B_RomFS.Size = new System.Drawing.Size(100, 23);
+            this.B_RomFS.TabIndex = 0;
+            this.B_RomFS.Text = "Make RomFS";
+            this.B_RomFS.UseVisualStyleBackColor = true;
+            this.B_RomFS.Click += new System.EventHandler(this.rebuildRomFS);
+            // 
+            // B_Patch
+            // 
+            this.B_Patch.Location = new System.Drawing.Point(324, 19);
+            this.B_Patch.Name = "B_Patch";
+            this.B_Patch.Size = new System.Drawing.Size(100, 23);
+            this.B_Patch.TabIndex = 3;
+            this.B_Patch.Text = "Make Patch";
+            this.B_Patch.UseVisualStyleBackColor = true;
+            this.B_Patch.Click += new System.EventHandler(this.B_Patch_Click);
+            // 
+            // B_ExeFS
+            // 
+            this.B_ExeFS.Location = new System.Drawing.Point(112, 19);
+            this.B_ExeFS.Name = "B_ExeFS";
+            this.B_ExeFS.Size = new System.Drawing.Size(100, 23);
+            this.B_ExeFS.TabIndex = 1;
+            this.B_ExeFS.Text = "Make ExeFS";
+            this.B_ExeFS.UseVisualStyleBackColor = true;
+            this.B_ExeFS.Click += new System.EventHandler(this.rebuildExeFS);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(454, 422);
-            this.Controls.Add(this.B_Rebuild3DS);
+            this.ClientSize = new System.Drawing.Size(454, 462);
+            this.Controls.Add(this.GB_Extra);
             this.Controls.Add(this.L_SubTools);
             this.Controls.Add(this.RTB_Status);
             this.Controls.Add(this.GB_ExeFS);
@@ -418,13 +469,14 @@
             this.Controls.Add(this.B_Open);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(470, 700);
-            this.MinimumSize = new System.Drawing.Size(470, 300);
+            this.MinimumSize = new System.Drawing.Size(470, 355);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "pk3DS";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             this.GB_RomFS.ResumeLayout(false);
             this.GB_ExeFS.ResumeLayout(false);
+            this.GB_Extra.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -461,6 +513,10 @@
         private System.Windows.Forms.Button B_OPower;
         private System.Windows.Forms.Label L_SubTools;
         private System.Windows.Forms.Button B_Wallpaper;
-        private System.Windows.Forms.Button B_Rebuild3DS;
+        private System.Windows.Forms.Button B_3DS;
+        private System.Windows.Forms.GroupBox GB_Extra;
+        private System.Windows.Forms.Button B_RomFS;
+        private System.Windows.Forms.Button B_Patch;
+        private System.Windows.Forms.Button B_ExeFS;
     }
 }
