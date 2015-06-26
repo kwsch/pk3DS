@@ -31,7 +31,7 @@
             this.B_Open = new System.Windows.Forms.Button();
             this.TB_Path = new System.Windows.Forms.TextBox();
             this.GB_RomFS = new System.Windows.Forms.GroupBox();
-            this.B_Wallpaper = new System.Windows.Forms.Button();
+            this.B_TitleScreen = new System.Windows.Forms.Button();
             this.B_Maison = new System.Windows.Forms.Button();
             this.B_EggMove = new System.Windows.Forms.Button();
             this.B_LevelUp = new System.Windows.Forms.Button();
@@ -91,7 +91,7 @@
             // 
             this.GB_RomFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.GB_RomFS.Controls.Add(this.B_Wallpaper);
+            this.GB_RomFS.Controls.Add(this.B_TitleScreen);
             this.GB_RomFS.Controls.Add(this.B_Maison);
             this.GB_RomFS.Controls.Add(this.B_EggMove);
             this.GB_RomFS.Controls.Add(this.B_LevelUp);
@@ -112,16 +112,16 @@
             this.GB_RomFS.TabStop = false;
             this.GB_RomFS.Text = "RomFS Editing Tools";
             // 
-            // B_Wallpaper
+            // B_TitleScreen
             // 
-            this.B_Wallpaper.Enabled = false;
-            this.B_Wallpaper.Location = new System.Drawing.Point(350, 77);
-            this.B_Wallpaper.Name = "B_Wallpaper";
-            this.B_Wallpaper.Size = new System.Drawing.Size(74, 23);
-            this.B_Wallpaper.TabIndex = 12;
-            this.B_Wallpaper.Text = "Title Screen";
-            this.B_Wallpaper.UseVisualStyleBackColor = true;
-            this.B_Wallpaper.Click += new System.EventHandler(this.B_Wallpaper_Click);
+            this.B_TitleScreen.Enabled = false;
+            this.B_TitleScreen.Location = new System.Drawing.Point(350, 77);
+            this.B_TitleScreen.Name = "B_TitleScreen";
+            this.B_TitleScreen.Size = new System.Drawing.Size(74, 23);
+            this.B_TitleScreen.TabIndex = 12;
+            this.B_TitleScreen.Text = "Title Screen";
+            this.B_TitleScreen.UseVisualStyleBackColor = true;
+            this.B_TitleScreen.Click += new System.EventHandler(this.B_Wallpaper_Click);
             // 
             // B_Maison
             // 
@@ -401,7 +401,6 @@
             this.B_3DS.TabIndex = 9;
             this.B_3DS.Text = "Make .3DS";
             this.B_3DS.UseVisualStyleBackColor = true;
-            this.B_3DS.Visible = false;
             this.B_3DS.Click += new System.EventHandler(this.B_Rebuild3DS_Click);
             // 
             // GB_Extra
@@ -412,7 +411,6 @@
             this.GB_Extra.Controls.Add(this.B_3DS);
             this.GB_Extra.Controls.Add(this.B_Patch);
             this.GB_Extra.Controls.Add(this.B_ExeFS);
-            this.GB_Extra.Enabled = false;
             this.GB_Extra.Location = new System.Drawing.Point(12, 240);
             this.GB_Extra.Name = "GB_Extra";
             this.GB_Extra.Size = new System.Drawing.Size(430, 50);
@@ -422,6 +420,7 @@
             // 
             // B_RomFS
             // 
+            this.B_RomFS.Enabled = false;
             this.B_RomFS.Location = new System.Drawing.Point(6, 19);
             this.B_RomFS.Name = "B_RomFS";
             this.B_RomFS.Size = new System.Drawing.Size(100, 23);
@@ -432,6 +431,7 @@
             // 
             // B_Patch
             // 
+            this.B_Patch.Enabled = false;
             this.B_Patch.Location = new System.Drawing.Point(324, 19);
             this.B_Patch.Name = "B_Patch";
             this.B_Patch.Size = new System.Drawing.Size(100, 23);
@@ -442,6 +442,7 @@
             // 
             // B_ExeFS
             // 
+            this.B_ExeFS.Enabled = false;
             this.B_ExeFS.Location = new System.Drawing.Point(112, 19);
             this.B_ExeFS.Name = "B_ExeFS";
             this.B_ExeFS.Size = new System.Drawing.Size(100, 23);
@@ -512,7 +513,7 @@
         public System.Windows.Forms.RichTextBox RTB_Status;
         private System.Windows.Forms.Button B_OPower;
         private System.Windows.Forms.Label L_SubTools;
-        private System.Windows.Forms.Button B_Wallpaper;
+        private System.Windows.Forms.Button B_TitleScreen;
         private System.Windows.Forms.Button B_3DS;
         private System.Windows.Forms.GroupBox GB_Extra;
         private System.Windows.Forms.Button B_RomFS;
