@@ -18,7 +18,7 @@ namespace pk3DS
                 CHKLB_GARCs.Items.Add(s);
         }
 
-        internal static bool patchExeFS(string path, string[] oldstr, string[] newstr, ref string result, string outPath = null)
+        internal static bool patchExeFS(string path, string[] oldstr, string[] newstr, string oldROM, string newROM, ref string result, string outPath = null)
         {
             int ctr = 0;
             if (oldstr.Length != newstr.Length)
@@ -28,66 +28,86 @@ namespace pk3DS
             }
 
             string text = File.ReadAllText(path, Encoding.Unicode);
+            if (!text.Contains(newROM))
+            {
+                result = "ExeFS\\.code.bin is not a patchable ExeFS (no rom2: found).";
+                return false;
+            }
             for (int i = 0; i < oldstr.Length; i++)
             {
-                if (!text.Contains(oldstr[i])) 
+                string oldString = (oldROM + oldstr[i]).Replace(Path.DirectorySeparatorChar, '/');
+                string patchedStr = (newROM + oldstr[i]).Replace(Path.DirectorySeparatorChar, '/');
+                string newString = (newROM + newstr[i]).Replace(Path.DirectorySeparatorChar, '/');
+
+                bool old = text.Contains(oldString);
+                bool patched = text.Contains(patchedStr);
+                if (!old && !patched)
                     result += "Does not contain " + oldstr + Environment.NewLine;
                 else
                     ctr++;
 
-                text = text.Replace(oldstr[i], newstr[i]);
+                if (old)
+                    text = text.Replace(oldString, newString);
+                if (patched)
+                    text = text.Replace(patchedStr, newString);
             }
 
             if (ctr == 0)
             { result = "Did not find the old path strings to replace."; return false; }
             result += String.Format("Redirected {0} file paths.", ctr);
+            Directory.CreateDirectory(Directory.GetParent(outPath).Name);
             File.WriteAllText(outPath ?? path, text, Encoding.Unicode);
             return true;
         }
         internal static string exportGARCs(string[] garcPaths, string[] newPaths, string parentRomFS, string patchFolder)
         {
-            if (Directory.Exists(patchFolder))
-                Directory.Delete(patchFolder, true);
-            Directory.CreateDirectory(patchFolder);
-
             // Stuff files into new patch folder
             for (int i = 0; i < garcPaths.Length; i++)
             {
                 if ((garcPaths[i] ?? "").Length == 0) continue;
-                string folder = Path.GetDirectoryName(newPaths[i]);
+                string oldPath = parentRomFS + garcPaths[i];
+                string newPath = patchFolder + newPaths[i];
+                string folder = Path.GetDirectoryName(newPath);
                 Directory.CreateDirectory(folder);
-                File.Copy(Path.Combine(parentRomFS, garcPaths[i]), folder);
+                File.Copy(oldPath, newPath);
             }
             return patchFolder;
         }
 
         private void B_PatchCIA_Click(object sender, EventArgs e)
         {
+            string patchFolder = String.Format("{0} ({1})", "Patch", (DateTime.Now).ToString("yy-MM-dd@HH-mm-ss"));
             try
             {
                 string[] garcs = getGARCs();
                 string[] garcPaths = getPaths(garcs);
 
-                const string oldROM = "rom:/a/";
-                const string newROM = "rom2:/a";
+                const string oldROM = "rom:";
+                const string newROM = "rom2:";
+                const string oldA = "\\a\\";
+                const string newA = "\\a";
 
                 string[] newPaths = (string[]) garcPaths.Clone();
 
                 // Patch the reference
                 for (int i = 0; i < newPaths.Length; i++)
                 {
-                    int posA = newPaths[i].LastIndexOf(oldROM, StringComparison.Ordinal);
-                    newPaths[i] = (posA == -1) ? null : newPaths[i].Remove(posA, oldROM.Length).Insert(posA, newROM);
+                    int posA = newPaths[i].LastIndexOf(oldA, StringComparison.Ordinal);
+                    newPaths[i] = (posA == -1) ? null : newPaths[i].Remove(posA, oldA.Length).Insert(posA, newA);
                 }
-                string patchFolder = String.Format("{0} ({1})", "Patch", new DateTime().ToString("yyMMdd@HHmmss"));
                 string result = "";
-                if (!patchExeFS(Main.ExeFSPath, garcPaths, newPaths, ref result, Path.Combine(patchFolder, ".code.bin")))
-                    return;
+                string ExeFS = Directory.GetFiles(Main.ExeFSPath)[0];
+                if (!File.Exists(ExeFS) || !Path.GetFileNameWithoutExtension(ExeFS).Contains("code")) { throw new Exception("No .code.bin detected."); }
+                if (!patchExeFS(ExeFS, garcPaths, newPaths, oldROM, newROM, ref result, Path.Combine(patchFolder, ".code.bin")))
+                    throw new Exception(result);
 
                 Util.Alert("Patch contents saved to:" + Environment.NewLine + exportGARCs(garcPaths, newPaths, Main.RomFSPath, patchFolder), result);
             }
             catch (Exception ex)
-            { Util.Error("Could not create patch:", ex.ToString()); }
+            { 
+                Util.Error("Could not create patch:", ex.ToString());
+                Directory.Delete(patchFolder, true);
+            }
         }
 
         private string[] getGARCs()
@@ -109,7 +129,7 @@ namespace pk3DS
             bool languages = CHK_Lang.Checked;
             StringCollection paths = new StringCollection();
             foreach (string s in sc)
-                if (!languages || (s != "gametext" || s != "storytext"))
+                if (!languages || (s != "gametext" && s != "storytext"))
                     paths.Add(Main.getGARCFileName(s, Main.Language));
                 else
                     for (int l = 0; l < 8; l++)
@@ -118,6 +138,17 @@ namespace pk3DS
             string[] garcs = new string[paths.Count];
             paths.CopyTo(garcs, 0);
             return garcs;
+        }
+
+        private void B_CheckAll_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < CHKLB_GARCs.Items.Count; i++)
+                CHKLB_GARCs.SetItemChecked(i, true);
+        }
+        private void B_CheckNone_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < CHKLB_GARCs.Items.Count; i++)
+                CHKLB_GARCs.SetItemChecked(i, false);
         }
     }
 }

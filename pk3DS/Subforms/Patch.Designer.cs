@@ -35,6 +35,8 @@
             this.CHK_Lang = new System.Windows.Forms.CheckBox();
             this.RTB_GARCs = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.B_CheckAll = new System.Windows.Forms.Button();
+            this.B_CheckNone = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CHKLB_GARCs
@@ -44,7 +46,7 @@
             this.CHKLB_GARCs.FormattingEnabled = true;
             this.CHKLB_GARCs.Location = new System.Drawing.Point(12, 12);
             this.CHKLB_GARCs.Name = "CHKLB_GARCs";
-            this.CHKLB_GARCs.Size = new System.Drawing.Size(150, 289);
+            this.CHKLB_GARCs.Size = new System.Drawing.Size(150, 259);
             this.CHKLB_GARCs.TabIndex = 0;
             // 
             // textBox1
@@ -94,7 +96,7 @@
             this.RTB_GARCs.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RTB_GARCs.Location = new System.Drawing.Point(168, 90);
             this.RTB_GARCs.Name = "RTB_GARCs";
-            this.RTB_GARCs.Size = new System.Drawing.Size(75, 160);
+            this.RTB_GARCs.Size = new System.Drawing.Size(75, 181);
             this.RTB_GARCs.TabIndex = 5;
             this.RTB_GARCs.Text = "";
             // 
@@ -107,11 +109,35 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Extra GARCs:";
             // 
+            // B_CheckAll
+            // 
+            this.B_CheckAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.B_CheckAll.Location = new System.Drawing.Point(12, 278);
+            this.B_CheckAll.Name = "B_CheckAll";
+            this.B_CheckAll.Size = new System.Drawing.Size(75, 23);
+            this.B_CheckAll.TabIndex = 7;
+            this.B_CheckAll.Text = "Check All";
+            this.B_CheckAll.UseVisualStyleBackColor = true;
+            this.B_CheckAll.Click += new System.EventHandler(this.B_CheckAll_Click);
+            // 
+            // B_CheckNone
+            // 
+            this.B_CheckNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.B_CheckNone.Location = new System.Drawing.Point(87, 278);
+            this.B_CheckNone.Name = "B_CheckNone";
+            this.B_CheckNone.Size = new System.Drawing.Size(75, 23);
+            this.B_CheckNone.TabIndex = 8;
+            this.B_CheckNone.Text = "Check None";
+            this.B_CheckNone.UseVisualStyleBackColor = true;
+            this.B_CheckNone.Click += new System.EventHandler(this.B_CheckNone_Click);
+            // 
             // Patch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 312);
+            this.Controls.Add(this.B_CheckNone);
+            this.Controls.Add(this.B_CheckAll);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.RTB_GARCs);
             this.Controls.Add(this.CHK_Lang);
@@ -139,5 +165,7 @@
         private System.Windows.Forms.CheckBox CHK_Lang;
         private System.Windows.Forms.RichTextBox RTB_GARCs;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button B_CheckAll;
+        private System.Windows.Forms.Button B_CheckNone;
     }
 }
