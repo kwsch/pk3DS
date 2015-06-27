@@ -49,7 +49,7 @@ namespace pk3DS
                 if (old)
                     text = text.Replace(oldString, newString);
                 if (patched)
-                    text = text.Replace(patchedStr, newString);
+                    text = text.Replace(patchedStr, newString + "\0");
             }
 
             if (ctr == 0)
