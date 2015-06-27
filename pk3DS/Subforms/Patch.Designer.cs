@@ -151,6 +151,7 @@
             this.Name = "Patch";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Patch Manager";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.savePatch);
             this.ResumeLayout(false);
             this.PerformLayout();
 

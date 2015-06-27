@@ -16,6 +16,9 @@ namespace pk3DS
             CHKLB_GARCs.Items.Clear();
             foreach (string s in Main.allGARCs)
                 CHKLB_GARCs.Items.Add(s);
+
+            if (File.Exists("patch.ini"))
+                RTB_GARCs.Lines = File.ReadAllLines("patch.txt", Encoding.Unicode);
         }
 
         internal static bool patchExeFS(string path, string[] oldstr, string[] newstr, string oldROM, string newROM, ref string result, string outPath = null)
@@ -149,6 +152,12 @@ namespace pk3DS
         {
             for (int i = 0; i < CHKLB_GARCs.Items.Count; i++)
                 CHKLB_GARCs.SetItemChecked(i, false);
+        }
+
+        private void savePatch(object sender, FormClosingEventArgs e)
+        {
+            if (RTB_GARCs.Text.Length > 0)
+                try { File.WriteAllLines("patch.ini", RTB_GARCs.Lines, Encoding.Unicode); } catch {}
         }
     }
 }
