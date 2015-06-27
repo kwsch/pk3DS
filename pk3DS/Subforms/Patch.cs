@@ -125,7 +125,7 @@ namespace pk3DS
 
             string[] garcs = new string[sc.Count];
             sc.CopyTo(garcs, 0);
-            return garcs;
+            return garcs.Distinct().ToArray();
         }
         private string[] getPaths(string[] sc)
         {
