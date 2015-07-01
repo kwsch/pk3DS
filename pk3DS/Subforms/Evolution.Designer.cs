@@ -72,6 +72,10 @@
             this.PB_8 = new System.Windows.Forms.PictureBox();
             this.PB_7 = new System.Windows.Forms.PictureBox();
             this.B_RandAll = new System.Windows.Forms.Button();
+            this.GB_Randomizer = new System.Windows.Forms.GroupBox();
+            this.CHK_Exp = new System.Windows.Forms.CheckBox();
+            this.CHK_Type = new System.Windows.Forms.CheckBox();
+            this.CHK_BST = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_4)).BeginInit();
@@ -80,6 +84,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_7)).BeginInit();
+            this.GB_Randomizer.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_Species
@@ -514,7 +519,7 @@
             // 
             // B_RandAll
             // 
-            this.B_RandAll.Location = new System.Drawing.Point(258, 11);
+            this.B_RandAll.Location = new System.Drawing.Point(251, 19);
             this.B_RandAll.Name = "B_RandAll";
             this.B_RandAll.Size = new System.Drawing.Size(100, 23);
             this.B_RandAll.TabIndex = 62;
@@ -522,12 +527,61 @@
             this.B_RandAll.UseVisualStyleBackColor = true;
             this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
             // 
+            // GB_Randomizer
+            // 
+            this.GB_Randomizer.Controls.Add(this.CHK_BST);
+            this.GB_Randomizer.Controls.Add(this.CHK_Type);
+            this.GB_Randomizer.Controls.Add(this.CHK_Exp);
+            this.GB_Randomizer.Controls.Add(this.B_RandAll);
+            this.GB_Randomizer.Location = new System.Drawing.Point(21, 474);
+            this.GB_Randomizer.Name = "GB_Randomizer";
+            this.GB_Randomizer.Size = new System.Drawing.Size(357, 76);
+            this.GB_Randomizer.TabIndex = 63;
+            this.GB_Randomizer.TabStop = false;
+            this.GB_Randomizer.Text = "Randomizer Options";
+            // 
+            // CHK_Exp
+            // 
+            this.CHK_Exp.AutoSize = true;
+            this.CHK_Exp.Checked = true;
+            this.CHK_Exp.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Exp.Location = new System.Drawing.Point(6, 23);
+            this.CHK_Exp.Name = "CHK_Exp";
+            this.CHK_Exp.Size = new System.Drawing.Size(222, 17);
+            this.CHK_Exp.TabIndex = 63;
+            this.CHK_Exp.Text = "Share the  same Exp Growth as Evolution";
+            this.CHK_Exp.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Type
+            // 
+            this.CHK_Type.AutoSize = true;
+            this.CHK_Type.Checked = true;
+            this.CHK_Type.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Type.Location = new System.Drawing.Point(6, 38);
+            this.CHK_Type.Name = "CHK_Type";
+            this.CHK_Type.Size = new System.Drawing.Size(200, 17);
+            this.CHK_Type.TabIndex = 64;
+            this.CHK_Type.Text = "Share at least one Type as Evolution";
+            this.CHK_Type.UseVisualStyleBackColor = true;
+            // 
+            // CHK_BST
+            // 
+            this.CHK_BST.AutoSize = true;
+            this.CHK_BST.Checked = true;
+            this.CHK_BST.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_BST.Location = new System.Drawing.Point(6, 53);
+            this.CHK_BST.Name = "CHK_BST";
+            this.CHK_BST.Size = new System.Drawing.Size(179, 17);
+            this.CHK_BST.TabIndex = 65;
+            this.CHK_BST.Text = "Share a similar BST as Evolution";
+            this.CHK_BST.UseVisualStyleBackColor = true;
+            // 
             // Evolution
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 477);
-            this.Controls.Add(this.B_RandAll);
+            this.ClientSize = new System.Drawing.Size(394, 562);
+            this.Controls.Add(this.GB_Randomizer);
             this.Controls.Add(this.PB_8);
             this.Controls.Add(this.PB_7);
             this.Controls.Add(this.PB_6);
@@ -572,7 +626,7 @@
             this.Controls.Add(this.L_Species);
             this.Controls.Add(this.CB_Species);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(410, 515);
+            this.MaximumSize = new System.Drawing.Size(410, 600);
             this.MinimumSize = new System.Drawing.Size(410, 515);
             this.Name = "Evolution";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -586,6 +640,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_7)).EndInit();
+            this.GB_Randomizer.ResumeLayout(false);
+            this.GB_Randomizer.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -637,5 +693,9 @@
         private System.Windows.Forms.PictureBox PB_8;
         private System.Windows.Forms.PictureBox PB_7;
         private System.Windows.Forms.Button B_RandAll;
+        private System.Windows.Forms.GroupBox GB_Randomizer;
+        private System.Windows.Forms.CheckBox CHK_Exp;
+        private System.Windows.Forms.CheckBox CHK_Type;
+        private System.Windows.Forms.CheckBox CHK_BST;
     }
 }

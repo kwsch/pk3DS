@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
@@ -138,16 +139,71 @@ namespace pk3DS
             getList();
         }
 
+        public static int[] sL; // Random Species List
+        byte[][] personal;
         private void B_RandAll_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Randomize all resulting species?", "Evolution methods and parameters will stay the same.")) return;
             Random rnd = new Random();
+
+            // Set up advanced randomization options
+            bool rBST = CHK_BST.Checked;
+            bool rEXP = CHK_Exp.Checked;
+            bool rType = CHK_Type.Checked;
+            if (rBST || rEXP || rType)
+            {
+                // initialize personal data
+                string[] personalList = Directory.GetFiles("personal");
+                personal = new byte[personalList.Length][];
+                for (int i = 0; i < personalList.Length; i++)
+                    personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
+            }
+            int ctr = 0;
+            sL = Randomizer.RandomSpeciesList;
+
             for (int i = 0; i < CB_Species.Items.Count; i++)
             {
-                CB_Species.SelectedIndex = i; // Get new Species
+                CB_Species.SelectedIndex = i;
                 for (int j = 0; j < mb.Length; j++)
                     if (mb[j].SelectedIndex > 0)
-                        rb[j].SelectedIndex = rnd.Next(1, 722);
+                    {
+                        // Get a new random species
+                        int oldSpecies = rb[j].SelectedIndex;
+                        int loopctr = 0; // altering calculatiosn to prevent infinite loops
+                    defspecies:
+                        int newSpecies = Randomizer.getRandomSpecies(ref sL, ref ctr);
+                        loopctr++;
+
+                        // Verify it meets specifications
+                        if (newSpecies == CB_Species.SelectedIndex // no A->A evolutions
+                            || (newSpecies == oldSpecies && loopctr < 722 * 5)) // prevent runaway calcs
+                        { goto defspecies; }
+                        if (rEXP) // Experience Growth Rate matches
+                        {
+                            if (personal[oldSpecies][0x15] != personal[newSpecies][0x15])
+                            { goto defspecies; }
+                        }
+                        if (rType) // Type has to be somewhat similar
+                        {
+                            int o1 = personal[oldSpecies][6];
+                            int o2 = personal[oldSpecies][7];
+                            int n1 = personal[newSpecies][6];
+                            int n2 = personal[newSpecies][7];
+                            if (o1 != n1 && o1 != n2 && o2 != n2 && o2 != n1)
+                            { goto defspecies; }
+                        }
+                        if (rBST) // Base stat total has to be close
+                        {
+                            const int l = 5; // tweakable scalars
+                            const int h = 6;
+                            int oldBST = personal[oldSpecies].Take(6).Sum(b => (ushort)b);
+                            int newBST = personal[newSpecies].Take(6).Sum(b => (ushort)b);
+                            if (!(newBST * l / (h + loopctr/722) < oldBST && newBST * h / l > oldBST))
+                            { goto defspecies; }
+                        }
+                        // assign random val
+                        rb[j].SelectedIndex = newSpecies;
+                    }
             }
             setList();
             Util.Alert("All Pokemon's Evolutions have been randomized!");
