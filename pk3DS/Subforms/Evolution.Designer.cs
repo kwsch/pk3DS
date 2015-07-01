@@ -76,6 +76,7 @@
             this.CHK_Exp = new System.Windows.Forms.CheckBox();
             this.CHK_Type = new System.Windows.Forms.CheckBox();
             this.CHK_BST = new System.Windows.Forms.CheckBox();
+            this.L_Protip = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PB_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_4)).BeginInit();
@@ -519,7 +520,7 @@
             // 
             // B_RandAll
             // 
-            this.B_RandAll.Location = new System.Drawing.Point(251, 19);
+            this.B_RandAll.Location = new System.Drawing.Point(251, 47);
             this.B_RandAll.Name = "B_RandAll";
             this.B_RandAll.Size = new System.Drawing.Size(100, 23);
             this.B_RandAll.TabIndex = 62;
@@ -529,6 +530,7 @@
             // 
             // GB_Randomizer
             // 
+            this.GB_Randomizer.Controls.Add(this.L_Protip);
             this.GB_Randomizer.Controls.Add(this.CHK_BST);
             this.GB_Randomizer.Controls.Add(this.CHK_Type);
             this.GB_Randomizer.Controls.Add(this.CHK_Exp);
@@ -575,6 +577,16 @@
             this.CHK_BST.TabIndex = 65;
             this.CHK_BST.Text = "Share a similar BST as Evolution";
             this.CHK_BST.UseVisualStyleBackColor = true;
+            // 
+            // L_Protip
+            // 
+            this.L_Protip.AutoSize = true;
+            this.L_Protip.ForeColor = System.Drawing.Color.Red;
+            this.L_Protip.Location = new System.Drawing.Point(198, 11);
+            this.L_Protip.Name = "L_Protip";
+            this.L_Protip.Size = new System.Drawing.Size(153, 13);
+            this.L_Protip.TabIndex = 66;
+            this.L_Protip.Text = "(Protip: Difficulty++ in Personal)";
             // 
             // Evolution
             // 
@@ -697,5 +709,6 @@
         private System.Windows.Forms.CheckBox CHK_Exp;
         private System.Windows.Forms.CheckBox CHK_Type;
         private System.Windows.Forms.CheckBox CHK_BST;
+        private System.Windows.Forms.Label L_Protip;
     }
 }
