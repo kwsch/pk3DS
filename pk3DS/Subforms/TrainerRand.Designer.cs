@@ -44,6 +44,9 @@
             this.NUD_Level = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_GymTrainers = new System.Windows.Forms.CheckBox();
+            this.CHK_StoryMEvos = new System.Windows.Forms.CheckBox();
+            this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
             this.CHK_BST = new System.Windows.Forms.CheckBox();
             this.CHK_E = new System.Windows.Forms.CheckBox();
             this.CHK_L = new System.Windows.Forms.CheckBox();
@@ -53,9 +56,8 @@
             this.CHK_G3 = new System.Windows.Forms.CheckBox();
             this.CHK_G2 = new System.Windows.Forms.CheckBox();
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
-            this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
-            this.CHK_StoryMEvos = new System.Windows.Forms.CheckBox();
-            this.CHK_GymTrainers = new System.Windows.Forms.CheckBox();
+            this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
+            this.CHK_OnlySingles = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             this.GB_Tweak.SuspendLayout();
@@ -80,7 +82,7 @@
             this.CHK_RandomItems.AutoSize = true;
             this.CHK_RandomItems.Checked = true;
             this.CHK_RandomItems.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomItems.Location = new System.Drawing.Point(12, 265);
+            this.CHK_RandomItems.Location = new System.Drawing.Point(12, 231);
             this.CHK_RandomItems.Name = "CHK_RandomItems";
             this.CHK_RandomItems.Size = new System.Drawing.Size(119, 17);
             this.CHK_RandomItems.TabIndex = 6;
@@ -93,7 +95,7 @@
             this.CHK_RandomMoves.AutoSize = true;
             this.CHK_RandomMoves.Checked = true;
             this.CHK_RandomMoves.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomMoves.Location = new System.Drawing.Point(12, 250);
+            this.CHK_RandomMoves.Location = new System.Drawing.Point(12, 216);
             this.CHK_RandomMoves.Name = "CHK_RandomMoves";
             this.CHK_RandomMoves.Size = new System.Drawing.Size(101, 17);
             this.CHK_RandomMoves.TabIndex = 5;
@@ -106,7 +108,7 @@
             this.CHK_RandomAbilities.AutoSize = true;
             this.CHK_RandomAbilities.Checked = true;
             this.CHK_RandomAbilities.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomAbilities.Location = new System.Drawing.Point(12, 280);
+            this.CHK_RandomAbilities.Location = new System.Drawing.Point(12, 246);
             this.CHK_RandomAbilities.Name = "CHK_RandomAbilities";
             this.CHK_RandomAbilities.Size = new System.Drawing.Size(193, 17);
             this.CHK_RandomAbilities.TabIndex = 7;
@@ -133,12 +135,13 @@
             this.CHK_RandomClass.AutoSize = true;
             this.CHK_RandomClass.Checked = true;
             this.CHK_RandomClass.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomClass.Location = new System.Drawing.Point(12, 315);
+            this.CHK_RandomClass.Location = new System.Drawing.Point(12, 284);
             this.CHK_RandomClass.Name = "CHK_RandomClass";
             this.CHK_RandomClass.Size = new System.Drawing.Size(141, 17);
             this.CHK_RandomClass.TabIndex = 9;
             this.CHK_RandomClass.Text = "Random Trainer Classes";
             this.CHK_RandomClass.UseVisualStyleBackColor = true;
+            this.CHK_RandomClass.CheckedChanged += new System.EventHandler(this.CHK_RandomClass_CheckedChanged);
             // 
             // CHK_MaxDiffAI
             // 
@@ -159,7 +162,7 @@
             this.CHK_MaxDiffPKM.AutoSize = true;
             this.CHK_MaxDiffPKM.Checked = true;
             this.CHK_MaxDiffPKM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(12, 295);
+            this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(12, 261);
             this.CHK_MaxDiffPKM.Name = "CHK_MaxDiffPKM";
             this.CHK_MaxDiffPKM.Size = new System.Drawing.Size(161, 17);
             this.CHK_MaxDiffPKM.TabIndex = 8;
@@ -191,7 +194,7 @@
             // NUD_GiftPercent
             // 
             this.NUD_GiftPercent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.NUD_GiftPercent.Location = new System.Drawing.Point(155, 327);
+            this.NUD_GiftPercent.Location = new System.Drawing.Point(157, 329);
             this.NUD_GiftPercent.Name = "NUD_GiftPercent";
             this.NUD_GiftPercent.Size = new System.Drawing.Size(43, 20);
             this.NUD_GiftPercent.TabIndex = 11;
@@ -206,7 +209,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(200, 329);
+            this.label1.Location = new System.Drawing.Point(202, 331);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(15, 13);
             this.label1.TabIndex = 12;
@@ -272,6 +275,40 @@
             this.GB_Tweak.TabIndex = 323;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Options";
+            // 
+            // CHK_GymTrainers
+            // 
+            this.CHK_GymTrainers.AutoSize = true;
+            this.CHK_GymTrainers.Enabled = false;
+            this.CHK_GymTrainers.Location = new System.Drawing.Point(8, 92);
+            this.CHK_GymTrainers.Name = "CHK_GymTrainers";
+            this.CHK_GymTrainers.Size = new System.Drawing.Size(124, 17);
+            this.CHK_GymTrainers.TabIndex = 292;
+            this.CHK_GymTrainers.Text = "Theme Gym Trainers";
+            this.CHK_GymTrainers.UseVisualStyleBackColor = true;
+            // 
+            // CHK_StoryMEvos
+            // 
+            this.CHK_StoryMEvos.AutoSize = true;
+            this.CHK_StoryMEvos.Checked = true;
+            this.CHK_StoryMEvos.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_StoryMEvos.Location = new System.Drawing.Point(141, 73);
+            this.CHK_StoryMEvos.Name = "CHK_StoryMEvos";
+            this.CHK_StoryMEvos.Size = new System.Drawing.Size(122, 17);
+            this.CHK_StoryMEvos.TabIndex = 291;
+            this.CHK_StoryMEvos.Text = "Ensure Story MEvos";
+            this.CHK_StoryMEvos.UseVisualStyleBackColor = true;
+            // 
+            // CHK_TypeTheme
+            // 
+            this.CHK_TypeTheme.AutoSize = true;
+            this.CHK_TypeTheme.Location = new System.Drawing.Point(8, 74);
+            this.CHK_TypeTheme.Name = "CHK_TypeTheme";
+            this.CHK_TypeTheme.Size = new System.Drawing.Size(130, 17);
+            this.CHK_TypeTheme.TabIndex = 289;
+            this.CHK_TypeTheme.Text = "Type Theme Trainers:";
+            this.CHK_TypeTheme.UseVisualStyleBackColor = true;
+            this.CHK_TypeTheme.CheckedChanged += new System.EventHandler(this.CHK_TypeTheme_CheckedChanged);
             // 
             // CHK_BST
             // 
@@ -379,45 +416,36 @@
             this.CHK_G1.Text = "Gen 1";
             this.CHK_G1.UseVisualStyleBackColor = true;
             // 
-            // CHK_TypeTheme
+            // CHK_IgnoreSpecialClass
             // 
-            this.CHK_TypeTheme.AutoSize = true;
-            this.CHK_TypeTheme.Location = new System.Drawing.Point(8, 74);
-            this.CHK_TypeTheme.Name = "CHK_TypeTheme";
-            this.CHK_TypeTheme.Size = new System.Drawing.Size(130, 17);
-            this.CHK_TypeTheme.TabIndex = 289;
-            this.CHK_TypeTheme.Text = "Type Theme Trainers:";
-            this.CHK_TypeTheme.UseVisualStyleBackColor = true;
-            this.CHK_TypeTheme.CheckedChanged += new System.EventHandler(this.CHK_TypeTheme_CheckedChanged);
+            this.CHK_IgnoreSpecialClass.AutoSize = true;
+            this.CHK_IgnoreSpecialClass.Checked = true;
+            this.CHK_IgnoreSpecialClass.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_IgnoreSpecialClass.Location = new System.Drawing.Point(31, 299);
+            this.CHK_IgnoreSpecialClass.Name = "CHK_IgnoreSpecialClass";
+            this.CHK_IgnoreSpecialClass.Size = new System.Drawing.Size(133, 17);
+            this.CHK_IgnoreSpecialClass.TabIndex = 324;
+            this.CHK_IgnoreSpecialClass.Text = "Ignore Special Classes";
+            this.CHK_IgnoreSpecialClass.UseVisualStyleBackColor = true;
             // 
-            // CHK_StoryMEvos
+            // CHK_OnlySingles
             // 
-            this.CHK_StoryMEvos.AutoSize = true;
-            this.CHK_StoryMEvos.Checked = true;
-            this.CHK_StoryMEvos.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_StoryMEvos.Location = new System.Drawing.Point(141, 73);
-            this.CHK_StoryMEvos.Name = "CHK_StoryMEvos";
-            this.CHK_StoryMEvos.Size = new System.Drawing.Size(122, 17);
-            this.CHK_StoryMEvos.TabIndex = 291;
-            this.CHK_StoryMEvos.Text = "Ensure Story MEvos";
-            this.CHK_StoryMEvos.UseVisualStyleBackColor = true;
-            // 
-            // CHK_GymTrainers
-            // 
-            this.CHK_GymTrainers.AutoSize = true;
-            this.CHK_GymTrainers.Enabled = false;
-            this.CHK_GymTrainers.Location = new System.Drawing.Point(8, 92);
-            this.CHK_GymTrainers.Name = "CHK_GymTrainers";
-            this.CHK_GymTrainers.Size = new System.Drawing.Size(124, 17);
-            this.CHK_GymTrainers.TabIndex = 292;
-            this.CHK_GymTrainers.Text = "Theme Gym Trainers";
-            this.CHK_GymTrainers.UseVisualStyleBackColor = true;
+            this.CHK_OnlySingles.AutoSize = true;
+            this.CHK_OnlySingles.Checked = true;
+            this.CHK_OnlySingles.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_OnlySingles.Location = new System.Drawing.Point(31, 314);
+            this.CHK_OnlySingles.Name = "CHK_OnlySingles";
+            this.CHK_OnlySingles.Size = new System.Drawing.Size(114, 17);
+            this.CHK_OnlySingles.TabIndex = 325;
+            this.CHK_OnlySingles.Text = "Only Single Battles";
+            this.CHK_OnlySingles.UseVisualStyleBackColor = true;
             // 
             // TrainerRand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(294, 377);
+            this.ClientSize = new System.Drawing.Size(284, 377);
+            this.Controls.Add(this.CHK_OnlySingles);
             this.Controls.Add(this.GB_Tweak);
             this.Controls.Add(this.NUD_GiftPercent);
             this.Controls.Add(this.CHK_MaxDiffAI);
@@ -433,6 +461,7 @@
             this.Controls.Add(this.CHK_RandomGift);
             this.Controls.Add(this.CHK_RandomMoves);
             this.Controls.Add(this.CHK_RandomPKM);
+            this.Controls.Add(this.CHK_IgnoreSpecialClass);
             this.Controls.Add(this.CHK_RandomClass);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -480,5 +509,7 @@
         private System.Windows.Forms.CheckBox CHK_TypeTheme;
         private System.Windows.Forms.CheckBox CHK_StoryMEvos;
         private System.Windows.Forms.CheckBox CHK_GymTrainers;
+        private System.Windows.Forms.CheckBox CHK_IgnoreSpecialClass;
+        private System.Windows.Forms.CheckBox CHK_OnlySingles;
     }
 }

@@ -40,6 +40,15 @@ namespace pk3DS
             RSTE.rDiffIV = CHK_MaxDiffPKM.Checked;
 
             RSTE.rClass = CHK_RandomClass.Checked;
+            if (RSTE.rClass)
+            {
+                RSTE.rIgnoreClass = (CHK_IgnoreSpecialClass.Checked)
+                    ? Main.oras
+                        ? Legal.SpecialClasses_ORAS
+                        : Legal.SpecialClasses_XY
+                    : new int[] {};
+                RSTE.rOnlySingles = CHK_OnlySingles.Checked;
+            }
             RSTE.rGift = CHK_RandomGift.Checked;
             RSTE.rGiftPercent = NUD_GiftPercent.Value;
             RSTE.rDiffAI = CHK_MaxDiffAI.Checked;
@@ -98,6 +107,12 @@ namespace pk3DS
             CHK_GymTrainers.Enabled = CHK_GymTrainers.Checked = CHK_TypeTheme.Checked;
             if (CHK_TypeTheme.Checked)
                 CHK_BST.Checked = false;
+        }
+
+        private void CHK_RandomClass_CheckedChanged(object sender, EventArgs e)
+        {
+            CHK_IgnoreSpecialClass.Enabled = CHK_IgnoreSpecialClass.Checked = 
+            CHK_OnlySingles.Enabled = CHK_OnlySingles.Checked = CHK_RandomClass.Checked;
         }
     }
 }

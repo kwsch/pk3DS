@@ -609,11 +609,11 @@ namespace pk3DS
         }
 
         private bool randomizing;
-        public static bool rPKM, rSmart, rLevel, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand, rTypeTheme, rTypeGymTrainers;
+        public static bool rPKM, rSmart, rLevel, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand, rTypeTheme, rTypeGymTrainers, rOnlySingles;
         public static bool[] rThemedClasses = { };
         public static string[] rTags;
         public static int[] megaEvos;
-        public static int[] rEnsureMEvo;
+        public static int[] rIgnoreClass, rEnsureMEvo;
         private int[] mEvoTypes;
         private List<string> Tags = new List<string>();
         private Dictionary<string, int> TagTypes = new Dictionary<string, int>();
@@ -687,8 +687,19 @@ namespace pk3DS
                     else if (CB_Battle_Type.SelectedIndex == 1)
                         CB_AI.SelectedIndex = 135; // Max Double
                 }
-                if (rClass && CB_Battle_Type.SelectedIndex == 0)  // Change only Single Battles
-                    CB_Trainer_Class.SelectedIndex = (int)(rnd32() % (CB_Trainer_Class.Items.Count));
+                if (
+                    rClass // Classes selected to be randomized
+                    && (!rOnlySingles || CB_Battle_Type.SelectedIndex == 0) //  Nonsingles only get changed if rOnlySingles
+                    && !rIgnoreClass.Contains(CB_Trainer_Class.SelectedIndex) // Current class isn't a special class
+                    )
+                {
+                    int rv = (int)(rnd32() % (CB_Trainer_Class.Items.Count));
+                    // Ensure the Random Class isn't an exclusive class
+                    while (rIgnoreClass.Contains(rv) && !trClass[rv].StartsWith("[~")) // don't allow disallowed classes
+                        rv = (int)(rnd32() % (CB_Trainer_Class.Items.Count));
+
+                    CB_Trainer_Class.SelectedIndex = rv;
+                }
 
                 if (rGift && rnd32() % 100 < rGiftPercent)
                 #region Random Prize Logic

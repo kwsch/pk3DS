@@ -98,5 +98,121 @@ namespace pk3DS
             531,
             719
         }).ToArray();
+        internal static readonly int[] SpecialClasses_XY =
+        {
+            #region Classes
+            000, // Pokémon Trainer
+            001, // Pokémon Trainer
+            004, // Leader
+            035, // Elite Four
+            036, // Elite Four
+            037, // Elite Four
+            038, // Elite Four
+            039, // Leader
+            040, // Leader
+            041, // Leader
+            042, // Leader
+            043, // Leader
+            044, // Leader
+            045, // Leader
+            053, // Champion
+            055, // Pokémon Trainer
+            056, // Pokémon Trainer
+            057, // Pokémon Trainer
+            064, // Battle Chatelaine
+            065, // Battle Chatelaine
+            066, // Battle Chatelaine
+            067, // Battle Chatelaine
+            102, // Pokémon Trainer
+            103, // Pokémon Trainer
+            104, // Pokémon Trainer
+            105, // Pokémon Professor
+            151, // Grand Duchess
+            160, // Pokémon Trainer
+            161, // Pokémon Trainer
+            170, // Pokémon Trainer
+            171, // Pokémon Trainer
+            172, // Pokémon Trainer
+            173, // Team Flare
+            174, // Team Flare
+            175, // Team Flare Boss
+            176, // Successor
+            177, // Leader
+            #endregion
+        };
+        internal static readonly int[] SpecialClasses_ORAS =
+        {
+            #region Classes
+            000, // Pokémon Trainer
+            001, // Pokémon Trainer
+            004, // Leader
+            035, // Elite Four
+            036, // Elite Four
+            037, // Elite Four
+            038, // Elite Four
+            039, // Leader
+            040, // Leader
+            041, // Leader
+            042, // Leader
+            043, // Leader
+            044, // Leader
+            045, // Leader
+            053, // Champion
+            055, // Pokémon Trainer
+            056, // Pokémon Trainer
+            057, // Pokémon Trainer
+            064, // Battle Chatelaine
+            065, // Battle Chatelaine
+            066, // Battle Chatelaine
+            067, // Battle Chatelaine
+            081, // Team Flare Boss
+            102, // Pokémon Trainer
+            103, // Pokémon Trainer
+            104, // Pokémon Trainer
+            105, // Pokémon Professor
+            109, // Pokémon Trainer
+            110, // Pokémon Trainer
+            119, // Pokémon Trainer
+            120, // Pokémon Trainer
+            121, // Pokémon Trainer
+            124, // Team Flare Boss
+            125, // Successor
+            126, // Leader
+            127, // Pokémon Trainer
+            128, // Pokémon Trainer
+            174, // Aqua Leader
+            178, // Magma Leader
+            192, // Pokémon Trainer
+            194, // Elite Four
+            195, // Elite Four
+            196, // Elite Four
+            197, // Elite Four
+            198, // Champion
+            200, // Leader
+            201, // Leader
+            202, // Leader
+            203, // Leader
+            204, // Leader
+            205, // Leader
+            206, // Leaders
+            207, // Leader
+            219, // Pokémon Trainer
+            232, // Pokémon Trainer
+            233, // Pokémon Trainer
+            234, // Pokémon Trainer
+            267, // Pokémon Trainer
+            268, // Sootopolitan
+            270, // Pokémon Trainer
+            271, // Pokémon Trainer
+            272, // Pokémon Trainer
+            273, // Elite Four
+            274, // Elite Four
+            275, // Elite Four
+            276, // Elite Four
+            277, // Champion
+            278, // Pokémon Trainer
+            279, // Pokémon Trainer
+            #endregion
+        };
     }
 }
