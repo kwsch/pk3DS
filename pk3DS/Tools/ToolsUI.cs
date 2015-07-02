@@ -62,7 +62,7 @@ namespace pk3DS
             {
                 // Pre-check file length to see if it is at least valid.
                 FileInfo fi = new FileInfo(path);
-                if (fi.Length > 50000000) { Util.Error("File is too big!"); return; }
+                if (fi.Length > 1300 * 1024 * 1024) { Util.Error("File is too big!"); return; }
                 string folderPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
 
                 // Determine if it is a DARC or a Mini
