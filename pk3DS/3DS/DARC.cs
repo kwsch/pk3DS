@@ -313,12 +313,12 @@ namespace CTR
             { pos += 4; if (pos >= data.Length) return -1; }
             return pos;
         }
-        internal static bool insertFile(DARC orig, int index, string path)
+        internal static bool insertFile(ref DARC orig, int index, string path)
         {
-            try { return insertFile(orig, index, File.ReadAllBytes(path)); }
+            try { return insertFile(ref orig, index, File.ReadAllBytes(path)); }
             catch (Exception) { return false; }
         }
-        internal static bool insertFile(DARC orig, int index, byte[] data)
+        internal static bool insertFile(ref DARC orig, int index, byte[] data)
         {
             if (index < 0) return false;
 
@@ -359,7 +359,7 @@ namespace CTR
                 if (orig.Entries[index].IsFolder)
                     throw new Exception(file + " is not a valid file to reinsert!");
 
-                insertFile(orig, index, file);
+                insertFile(ref orig, index, file);
             }
             // Fix Data layout
             Array.Resize(ref orig.Data, orig.Data.Length % 4 == 0 ? orig.Data.Length : orig.Data.Length + 4 - orig.Data.Length % 4);
