@@ -629,6 +629,7 @@ namespace pk3DS
         }
         private void Randomize()
         {
+            int[] banned = new[] {165};
             rTags = (Main.oras) ? GetTagsORAS() : GetTagsXY();
             mEvoTypes = GetMegaEvolvableTypes();
             List<int> GymE4Types = new List<int>();
@@ -720,7 +721,7 @@ namespace pk3DS
 
                 ushort[] itemvals = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
                 itemvals = itemvals.Concat(Legal.Pouch_Berry_XY).ToArray();
-                int moves = trpk_m1[0].Items.Count;
+                int moveC = trpk_m1[0].Items.Count;
                 int itemC = itemvals.Length;
                 int ctr = 0;
 
@@ -795,10 +796,15 @@ namespace pk3DS
                     
                     if (rMove)
                     {
-                        trpk_m1[p].SelectedIndex = (int)(rnd32() % (moves));
-                        trpk_m2[p].SelectedIndex = (int)(rnd32() % (moves));
-                        trpk_m3[p].SelectedIndex = (int)(rnd32() % (moves));
-                        trpk_m4[p].SelectedIndex = (int)(rnd32() % (moves));
+                        var moves = new[] {trpk_m1[p], trpk_m2[p], trpk_m3[p], trpk_m4[p]};
+                        for (int m = 0; m < 4; m++)
+                        {
+                            int mv = (int)rnd32()%(moveC);
+                            while (banned.Contains(mv))
+                                mv = (int)rnd32()%(moveC);
+
+                            moves[m].SelectedIndex = mv;
+                        }
                     }
                 }
             }
