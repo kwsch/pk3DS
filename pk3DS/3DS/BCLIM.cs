@@ -20,58 +20,66 @@ namespace CTR
                 makeBMP(path, autosave, crop);
         }
 
-        internal static Image makeBCLIM(string path, char fc)
+        internal static byte[] IMGToBCLIM(Image img, char fc)
+        {
+            Bitmap mBitmap = new Bitmap(img);
+            MemoryStream ms = new MemoryStream();
+            int bclimformat = 7; // Init to default (for X)
+
+            if (fc == 'X')
+                write16BitColorPalette(mBitmap, ref ms);
+            else
+            {
+                bclimformat = Convert.ToInt16(fc.ToString(), 16);
+                try
+                {
+                    writeGeneric(bclimformat, mBitmap, ref ms);
+                }
+                catch (Exception e)
+                {
+                    System.Media.SystemSounds.Beep.Play();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                }
+            }
+
+            long datalength = ms.Length;
+            // Write the CLIM + imag data.
+            using (BinaryWriter bw = new BinaryWriter(ms))
+            {
+                bw.Write((uint)0x4D494C43); // CLIM
+                bw.Write((ushort)0xFEFF);   // BOM
+                bw.Write((uint)0x14);
+                bw.Write((ushort)0x0202);   // 2 2 
+                bw.Write((uint)(datalength + 0x28));
+                bw.Write((uint)1);
+                bw.Write((uint)0x67616D69);
+                bw.Write((uint)0x10);
+                bw.Write((ushort)mBitmap.Width);
+                bw.Write((ushort)mBitmap.Height);
+                bw.Write((uint)bclimformat);
+                bw.Write((uint)datalength);
+            }
+            return ms.ToArray();
+        }
+        internal static byte[] getBCLIM(string path, char fc)
         {
             byte[] byteArray = File.ReadAllBytes(path);
             using (Stream BitmapStream = new MemoryStream(byteArray)) // Open the file, even if it is in use.
             {
                 Image img = Image.FromStream(BitmapStream);
-                Bitmap mBitmap = new Bitmap(img);
-                // Pixel format acquired. Now to determine how we want to save the data.
-                MemoryStream ms = new MemoryStream();
-                int bclimformat = 7; // Init to default (for X)
-
-                if (fc == 'X')
-                    write16BitColorPalette(mBitmap, ref ms);
-                else
-                {
-                    bclimformat = Convert.ToInt16(fc.ToString(), 16);
-                    try
-                    {
-                        writeGeneric(bclimformat, mBitmap, ref ms);
-                    }
-                    catch (Exception e)
-                    {
-                        System.Media.SystemSounds.Beep.Play();
-                        System.Diagnostics.Debug.WriteLine(e.ToString());
-                    }
-                }
-
-                long datalength = ms.Length;
-                // Write the CLIM + imag data.
-                using (BinaryWriter bw = new BinaryWriter(ms))
-                {
-                    bw.Write((uint)0x4D494C43); // CLIM
-                    bw.Write((ushort)0xFEFF);   // BOM
-                    bw.Write((uint)0x14);
-                    bw.Write((ushort)0x0202);   // 2 2 
-                    bw.Write((uint)(datalength+0x28));
-                    bw.Write((uint)1);
-                    bw.Write((uint)0x67616D69);
-                    bw.Write((uint)0x10);
-                    bw.Write((ushort)mBitmap.Width);
-                    bw.Write((ushort)mBitmap.Height);
-                    bw.Write((uint)bclimformat);
-                    bw.Write((uint)datalength);
-                }
-                string fp = Path.GetFileNameWithoutExtension(path);
-                fp = "new_" + fp.Substring(fp.IndexOf('_') + 1);
-                string pp = Path.GetDirectoryName(path);
-                string newPath = Path.Combine(pp, fp + ".bclim");
-                File.WriteAllBytes(newPath, ms.ToArray());
-
-                return makeBMP(newPath);
+                return IMGToBCLIM(img, fc);
             }
+        }
+        internal static Image makeBCLIM(string path, char fc)
+        {
+            byte[] bclim = getBCLIM(path, fc);
+            string fp = Path.GetFileNameWithoutExtension(path);
+            fp = "new_" + fp.Substring(fp.IndexOf('_') + 1);
+            string pp = Path.GetDirectoryName(path);
+            string newPath = Path.Combine(pp, fp + ".bclim");
+            File.WriteAllBytes(newPath, bclim);
+
+            return makeBMP(newPath);
         }
         internal static Image makeBMP(string path, bool autosave = false, bool crop = true)
         {
@@ -762,6 +770,42 @@ namespace CTR
 	        y &= 0x0000ffff;
         }
 
+        public static CLIM analyze(byte[] data, string shortPath)
+        {
+            CLIM bclim = new CLIM
+            {
+                FileName = Path.GetFileNameWithoutExtension(shortPath),
+                FilePath = Path.GetDirectoryName(shortPath),
+                Extension = Path.GetExtension(shortPath)
+            };
+            byte[] byteArray = data;
+            using (BinaryReader br = new BinaryReader(new MemoryStream(byteArray)))
+            {
+                br.BaseStream.Seek(br.BaseStream.Length - 0x28, SeekOrigin.Begin);
+                bclim.Magic = br.ReadUInt32();
+
+                bclim.BOM = br.ReadUInt16();
+                bclim.CLIMLength = br.ReadUInt32();
+                bclim.TileWidth = 2 << br.ReadByte();
+                bclim.TileHeight = 2 << br.ReadByte();
+                bclim.totalLength = br.ReadUInt32();
+                bclim.Count = br.ReadUInt32();
+
+                bclim.imag = br.ReadChars(4);
+                bclim.imagLength = br.ReadUInt32();
+                bclim.Width = br.ReadUInt16();
+                bclim.Height = br.ReadUInt16();
+                bclim.FileFormat = br.ReadInt32();
+                bclim.dataLength = br.ReadUInt32();
+
+                bclim.BaseSize = Math.Max(nlpo2(bclim.Width), nlpo2(bclim.Height));
+
+                br.BaseStream.Seek(0, SeekOrigin.Begin);
+                bclim.Data = br.ReadBytes((int)bclim.dataLength);
+
+                return bclim;
+            }
+        }
         public static CLIM analyze(string path)
         {
             CLIM bclim = new CLIM
