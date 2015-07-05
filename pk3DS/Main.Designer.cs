@@ -114,7 +114,6 @@
             // 
             // B_TitleScreen
             // 
-            this.B_TitleScreen.Enabled = false;
             this.B_TitleScreen.Location = new System.Drawing.Point(350, 77);
             this.B_TitleScreen.Name = "B_TitleScreen";
             this.B_TitleScreen.Size = new System.Drawing.Size(74, 23);

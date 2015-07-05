@@ -489,7 +489,7 @@ namespace pk3DS
             new Thread(() =>
             {
                 string[] files = { "titlescreen" };
-                fileGet(files);
+                fileGet(files, false); // Compressed files exist
                 Invoke((Action)(() => new TitleScreen().ShowDialog()));
                 fileSet(files);
             }).Start();
