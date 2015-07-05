@@ -131,6 +131,10 @@ namespace CTR
         // Bitmap Data Writing
         internal static Bitmap getIMG(CLIM bclim)
         {
+            if (bclim.FileFormat == 7 && BitConverter.ToUInt16(bclim.Data, 0) == 2) // XY7
+                return getIMG_XY7(bclim);
+            if (bclim.FileFormat == 10 || bclim.FileFormat == 11) // Use ETC1 to get image instead.
+                return getIMG_ETC(bclim);
             // New Image
             Bitmap img = new Bitmap(nlpo2(gcm(bclim.Width,8)), nlpo2(gcm(bclim.Height,8)));
             int f = bclim.FileFormat;
