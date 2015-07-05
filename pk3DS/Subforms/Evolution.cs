@@ -169,13 +169,14 @@ namespace pk3DS
                     {
                         // Get a new random species
                         int oldSpecies = rb[j].SelectedIndex;
+                        int currentSpecies = Array.IndexOf(specieslist, CB_Species.Text);
                         int loopctr = 0; // altering calculatiosn to prevent infinite loops
                     defspecies:
                         int newSpecies = Randomizer.getRandomSpecies(ref sL, ref ctr);
                         loopctr++;
 
                         // Verify it meets specifications
-                        if (newSpecies == CB_Species.SelectedIndex // no A->A evolutions
+                        if (newSpecies == currentSpecies // no A->A evolutions
                             || (newSpecies == oldSpecies && loopctr < 722 * 5)) // prevent runaway calcs
                         { goto defspecies; }
                         if (rEXP) // Experience Growth Rate matches
