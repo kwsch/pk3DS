@@ -124,8 +124,6 @@ namespace pk3DS
             }
 
             PB_Image.Image = CropBMP;
-            Width
-                Height
             // store image locally for saving if need be
             currentBytes = data;
 
