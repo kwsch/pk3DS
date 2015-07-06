@@ -43,12 +43,21 @@ namespace pk3DS
             // Load darcs
             for (int i = 0; i < darcs.Length; i++)
             {
-                var data = File.ReadAllBytes(files[darcFiles[i]]);
+                // Get DARC name and assign the decompressed name
+                usedFiles[i] = "titlescreen\\" + "dec_" + Path.GetFileName(files[darcFiles[i]]);
+                // Decompress file
+                CTR.LZSS.Decompress(files[darcFiles[i]], usedFiles[i]);
+                File.Delete(files[darcFiles[i]]);
+                // Read decompressed file
+                var data = File.ReadAllBytes(usedFiles[i]);
+
+                // Find darc data offset (ignore header)
                 int pos = 0;
                 while (BitConverter.ToUInt32(data, pos) != 0x63726164)
                 {
                     pos += 4;
-                    if (pos >= data.Length) return;
+                    if (pos >= data.Length) 
+                        throw new Exception("Invalid DARC?\n\n" + usedFiles[i]);
                 }
                 var darcData = data.Skip(pos).ToArray();
                 darcs[i] = new CTR.DARC(darcData);
@@ -58,6 +67,7 @@ namespace pk3DS
         }
         private string[] files = Directory.GetFiles("titlescreen");
         private CTR.DARC[] darcs = new CTR.DARC[2 * (Main.oras ? 8 : 7)];
+        private string[] usedFiles = new string[2 * (Main.oras ? 8 : 7)];
         int[] darcFiles = Main.oras 
             ? new[]
             {
@@ -187,10 +197,11 @@ namespace pk3DS
 
         private void formClosing(object sender, FormClosingEventArgs e)
         {
+            Util.Alert("Recompressing will take some time. Please let the form close on its own.");
             // Write darcs
             for (int i = 0; i < darcs.Length; i++)
             {
-                var data = File.ReadAllBytes(files[darcFiles[i]]);
+                var data = File.ReadAllBytes(usedFiles[i]);
                 int pos = 0;
                 while (BitConverter.ToUInt32(data, pos) != 0x63726164)
                 {
@@ -200,7 +211,11 @@ namespace pk3DS
                 byte[] preData = data.Skip(pos).ToArray();
                 byte[] darcData = CTR.DARC.setDARC(darcs[i]);
                 byte[] newData = preData.Concat(darcData).ToArray();
-                File.WriteAllBytes(files[darcFiles[i]], newData);
+
+                File.WriteAllBytes(usedFiles[i], newData);
+                //// Compress Data
+                //CTR.LZSS.Compress(usedFiles[i], files[darcFiles[i]]);
+                //File.Delete(usedFiles[i]);
             }
         }
 
