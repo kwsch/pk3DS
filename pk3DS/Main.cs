@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -68,7 +69,25 @@ namespace pk3DS
         // Main Form Methods
         private void L_About_Click(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control && RomFSPath != null)
+            Util.Alert
+                (
+                "pk3DS: A package of Pokémon X/Y/OR/AS tools by various contributors.",
+
+                "GARCTool (Backbone): Kaphotics" + Environment.NewLine +
+                "Text Editing (xytext): Kaphotics" + Environment.NewLine +
+                "Wild Editor (**WE): SciresM & Kaphotics" + Environment.NewLine +
+                "Trainer Editor (**TE): SciresM, Kaphotics, and KazoWAR" + Environment.NewLine +
+                "Personal Editor: SciresM" + Environment.NewLine +
+                "Mega Evolution Editor (MEE): SciresM" + Environment.NewLine +
+                "Evolutions, Moves, Items, Maison, Title Screen Editors: Kaphotics",
+                "ExeFS Editors: Kaphotics (thanks Drayano and magical!)",
+
+                "Big thanks to the ProjectPokemon community!"
+                );
+        }
+        private void L_GARCInfo_Click(object sender, EventArgs e)
+        {
+            if (RomFSPath != null)
             {
                 string s = "Game Type: " + ((oras) ? "ORAS" : "XY") + Environment.NewLine;
                 s = allGARCs.Aggregate(s, (current, t) => current + String.Format(Environment.NewLine + "{0} - {1}", t, getGARCFileName(t)));
@@ -78,26 +97,9 @@ namespace pk3DS
                 try { Clipboard.SetText(s); }
                 catch { Util.Alert("Unable to copy to Clipboard."); }
             }
-            else
-                Util.Alert
-                    (
-                    "pk3DS: A package of Pokémon X/Y/OR/AS tools by various contributors.",
-
-                    "GARCTool (Backbone): Kaphotics" + Environment.NewLine +
-                    "Text Editing (xytext): Kaphotics" + Environment.NewLine +
-                    "Wild Editor (**WE): SciresM & Kaphotics" + Environment.NewLine +
-                    "Trainer Editor (**TE): SciresM, Kaphotics, and KazoWAR" + Environment.NewLine +
-                    "Personal Editor: SciresM" + Environment.NewLine +
-                    "Mega Evolution Editor (MEE): SciresM" + Environment.NewLine +
-                    "Evolutions, Moves, Items, Maison Editors: Kaphotics",
-                    "ExeFS Editors: Kaphotics (thanks Drayano and magical!)",
-
-                    "Big thanks to the ProjectPokemon community!"
-                    );
         }
         private void L_Game_Click(object sender, EventArgs e)
         {
-            if (!GB_RomFS.Enabled || RomFSPath == null || ModifierKeys != Keys.Control) return;
             if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Restore Original Files?"))
                 restoreGARCs(oras, allGARCs);
         }
@@ -110,9 +112,10 @@ namespace pk3DS
         }
         private void changeLanguage(object sender, EventArgs e)
         {
-            if (CB_Lang.InvokeRequired)
-                CB_Lang.Invoke((MethodInvoker)delegate { Language = CB_Lang.SelectedIndex; });
+            if (InvokeRequired)
+                Invoke((MethodInvoker)delegate { Language = CB_Lang.SelectedIndex; });
             else Language = CB_Lang.SelectedIndex;
+            Menu_Options.DropDown.Close();
             if (!GB_RomFS.Enabled) return;
             new Thread(() =>
             {
@@ -126,6 +129,10 @@ namespace pk3DS
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", "personal", getGARCFileName("personal")));
                 threadGet(RomFSPath + getGARCFileName("personal"), "personal", true, true);
             }).Start();
+        }
+        private void Menu_Exit_Click(object sender, EventArgs e)
+        {
+            Close();
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {
@@ -219,12 +226,22 @@ namespace pk3DS
 
                 // Enable Rebuilding options if all files have been found
                 checkIfExHeader(path);
-                B_ExeFS.Enabled = ExeFSPath != null;
-                B_RomFS.Enabled = RomFSPath != null;
-                B_Patch.Enabled = RomFSPath != null && ExeFSPath != null;
-                B_3DS.Enabled = 
+                Menu_ExeFS.Enabled = ExeFSPath != null;
+                Menu_RomFS.Enabled = Menu_Restore.Enabled = Menu_GARCs.Enabled = RomFSPath != null;
+                Menu_Patch.Enabled = RomFSPath != null && ExeFSPath != null;
+                Menu_3DS.Enabled = 
                     (ExHeaderPath != null && RomFSPath != null && ExeFSPath != null);
 
+                // Change L_Game if RomFS and ExeFS exists to a better descriptor
+                if (ExeFSPath != null && RomFSPath != null && File.Exists(Path.Combine(ExeFSPath, "icon.bin")))
+                {
+                    byte[] gameName =
+                        File.ReadAllBytes(Path.Combine(ExeFSPath, "icon.bin")).Skip(0x208).Take(0x80).ToArray();
+                    string game = Util.TrimFromZero(Encoding.Unicode.GetString(gameName));
+                    if (game.Length > 0)
+                        L_Game.Text = game;
+                }
+                TB_Path.Select(TB_Path.TextLength, 0);
                 // Method finished.
                 SystemSounds.Asterisk.Play();
             }
@@ -484,7 +501,6 @@ namespace pk3DS
         }
         private void B_Wallpaper_Click(object sender, EventArgs e)
         {
-
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
@@ -605,6 +621,51 @@ namespace pk3DS
         private void B_Patch_Click(object sender, EventArgs e)
         {
             new Patch().ShowDialog();
+        }
+        private void Menu_BLZ_Click(object sender, EventArgs e)
+        {
+            var ofd = new OpenFileDialog();
+            if (DialogResult.Yes != ofd.ShowDialog()) return;
+
+            string path = ofd.FileName;
+            FileInfo fi = new FileInfo(path);
+            if (fi.Length > 15 * 1024 * 1024) // 15MB
+            { Util.Error("File too big!", fi.Length + " bytes."); return; }
+
+            if (ModifierKeys != Keys.Control && fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed Binary.", "Compress? File will be replaced.") == DialogResult.Yes))
+                new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
+            else if (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed Binary", "Decompress? File will be replaced.") == DialogResult.Yes)
+                new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+        }
+        private void Menu_LZ11_Click(object sender, EventArgs e)
+        {
+            var ofd = new OpenFileDialog();
+            if (DialogResult.Yes != ofd.ShowDialog()) return;
+
+            string path = ofd.FileName;
+            FileInfo fi = new FileInfo(path);
+            if (fi.Length > 15*1024*1024) // 15MB
+            { Util.Error("File too big!", fi.Length + " bytes."); return; }
+
+            byte[] data = File.ReadAllBytes(path);
+            string predict = data[0] == 0x11 ? "compressed" : "decompressed";
+            var dr = Util.Prompt(MessageBoxButtons.YesNoCancel, String.Format("Detected {0} file. Do what?", predict),
+                "Yes = Decompress\nNo = Compress\nCancel = Abort");
+            new Thread(() =>
+            {
+                threads++; 
+                if (dr == DialogResult.Yes)
+                {
+                    CTR.LZSS.Decompress(path, path);
+                    Util.Alert("File Decompressed!", path);
+                }
+                if (dr == DialogResult.No)
+                {
+                    CTR.LZSS.Compress(path, path);
+                    Util.Alert("File Compressed!", path);
+                }
+                threads--;
+            }).Start();
         }
 
         // GARC Requests
