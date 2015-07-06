@@ -62,7 +62,7 @@ namespace pk3DS
         public static string ExHeaderPath;
         public volatile int threads;
         internal volatile static int Language;
-        internal static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN" };
+        internal static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN", "titlescreen" };
         private bool skipBoth;
 
         // Main Form Methods
@@ -489,7 +489,7 @@ namespace pk3DS
             new Thread(() =>
             {
                 string[] files = { "titlescreen" };
-                fileGet(files, false); // Compressed files exist
+                fileGet(files); // Compressed files exist, handled in the other form since there's so many
                 Invoke((Action)(() => new TitleScreen().ShowDialog()));
                 fileSet(files);
             }).Start();
