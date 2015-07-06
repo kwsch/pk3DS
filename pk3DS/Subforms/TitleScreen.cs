@@ -19,6 +19,9 @@ namespace pk3DS
             PB_Image.DragEnter += tabMain_DragEnter;
             PB_Image.DragDrop += tabMain_DragDrop;
 
+            // Add tooltip to image
+            new ToolTip().SetToolTip(PB_Image, "Click to toggle Green Screen\nRightClick for I/O\nCTRL+Click for Copy->Clipboard.");
+
             // Add context menus
             ContextMenuStrip mnu = new ContextMenuStrip();
             ToolStripMenuItem mnuR = new ToolStripMenuItem("Replace with...");
@@ -47,7 +50,6 @@ namespace pk3DS
                 usedFiles[i] = "titlescreen\\" + "dec_" + Path.GetFileName(files[darcFiles[i]]);
                 // Decompress file
                 CTR.LZSS.Decompress(files[darcFiles[i]], usedFiles[i]);
-                File.Delete(files[darcFiles[i]]);
                 // Read decompressed file
                 var data = File.ReadAllBytes(usedFiles[i]);
 
@@ -122,7 +124,8 @@ namespace pk3DS
             }
 
             PB_Image.Image = CropBMP;
-
+            Width
+                Height
             // store image locally for saving if need be
             currentBytes = data;
 
@@ -197,7 +200,7 @@ namespace pk3DS
 
         private void formClosing(object sender, FormClosingEventArgs e)
         {
-            Util.Alert("Recompressing will take some time. Please let the form close on its own.");
+            Util.Alert("Recompressing may take some time...", "Don't panic if the Progress Bar doesn't move!");
             // Write darcs
             for (int i = 0; i < darcs.Length; i++)
             {
@@ -208,14 +211,20 @@ namespace pk3DS
                     pos += 4;
                     if (pos >= data.Length) return;
                 }
-                byte[] preData = data.Skip(pos).ToArray();
+                byte[] preData = data.Take(pos).ToArray();
                 byte[] darcData = CTR.DARC.setDARC(darcs[i]);
                 byte[] newData = preData.Concat(darcData).ToArray();
 
-                File.WriteAllBytes(usedFiles[i], newData);
-                //// Compress Data
-                //CTR.LZSS.Compress(usedFiles[i], files[darcFiles[i]]);
-                //File.Delete(usedFiles[i]);
+                byte[] oldDarc = File.ReadAllBytes(usedFiles[i]);
+                if (newData.SequenceEqual(oldDarc)) // if same, just continue.
+                {
+                    File.Delete(usedFiles[i]); // Use old compressed file (speedup)
+                }
+                else // File is different, replace and allow repacking to compress.
+                {
+                    File.Delete(files[darcFiles[i]]); // delete the old compressed file
+                    File.WriteAllBytes(usedFiles[i], newData); // write the new edited (uncompressed) file
+                }
             }
         }
 

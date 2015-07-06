@@ -40,7 +40,7 @@
             // 
             this.PB_Image.Location = new System.Drawing.Point(12, 66);
             this.PB_Image.Name = "PB_Image";
-            this.PB_Image.Size = new System.Drawing.Size(315, 184);
+            this.PB_Image.Size = new System.Drawing.Size(400, 240);
             this.PB_Image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.PB_Image.TabIndex = 0;
             this.PB_Image.TabStop = false;
@@ -62,7 +62,7 @@
             this.CB_File.FormattingEnabled = true;
             this.CB_File.Location = new System.Drawing.Point(12, 35);
             this.CB_File.Name = "CB_File";
-            this.CB_File.Size = new System.Drawing.Size(315, 21);
+            this.CB_File.Size = new System.Drawing.Size(400, 21);
             this.CB_File.TabIndex = 2;
             this.CB_File.SelectedIndexChanged += new System.EventHandler(this.changeFile);
             // 
@@ -88,7 +88,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(339, 262);
+            this.ClientSize = new System.Drawing.Size(424, 316);
             this.Controls.Add(this.L_Dimensions);
             this.Controls.Add(this.L_DARCSelect);
             this.Controls.Add(this.CB_File);
@@ -96,7 +96,7 @@
             this.Controls.Add(this.PB_Image);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(555, 420);
-            this.MinimumSize = new System.Drawing.Size(355, 220);
+            this.MinimumSize = new System.Drawing.Size(440, 354);
             this.Name = "TitleScreen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Title Screen Editor";
