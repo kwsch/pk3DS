@@ -161,7 +161,7 @@ namespace pk3DS
                                 img.Width, PB_Image.Width, img.Height, PB_Image.Height));
                         return;
                     }
-                    bclim = CTR.BCLIM.IMGToBCLIM(img, '8');
+                    bclim = CTR.BCLIM.IMGToBCLIM(img, '9');
                 }
             }
 
