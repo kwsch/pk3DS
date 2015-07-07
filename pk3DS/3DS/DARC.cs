@@ -338,6 +338,7 @@ namespace CTR
                 // Fix Offset references of other files
                 foreach (var x in orig.Entries.Where(x => x.DataOffset >= offset + oldLength))
                     x.DataOffset += (uint) diff;
+                orig.Entries[index].DataLength = (uint)data.Length;
                 return true;
             }
             catch (Exception) { return false; }
