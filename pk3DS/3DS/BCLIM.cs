@@ -432,14 +432,14 @@ namespace CTR
             }
             return 7;
         }
-        internal static void writeGeneric(int format, Bitmap img, ref MemoryStream ms)
+        internal static void writeGeneric(int format, Bitmap img, ref MemoryStream ms, bool rectangle = true)
         {
             int w = img.Width;
             int h = img.Height; 
             
             // square format. Yay.
             w = h = Math.Max(nlpo2(w),nlpo2(h));
-            if (format == 0 && Math.Min(img.Width, img.Height) > 64)
+            if (rectangle && Math.Min(img.Width, img.Height) > 64)
             {
                 w = nlpo2(img.Width);
                 h = nlpo2(img.Height);
