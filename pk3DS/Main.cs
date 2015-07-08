@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Media;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -63,6 +62,7 @@ namespace pk3DS
         public static string ExHeaderPath;
         public volatile int threads;
         internal volatile static int Language;
+        internal static CTR.SMDH SMDH;
         internal static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN", "titlescreen" };
         private bool skipBoth;
 
@@ -117,6 +117,8 @@ namespace pk3DS
             else Language = CB_Lang.SelectedIndex;
             Menu_Options.DropDown.Close();
             if (!GB_RomFS.Enabled) return;
+
+            updateGameInfo();
             new Thread(() =>
             {
                 // Let all other operations finish first (ie, if the user quickly switches languages on load)
@@ -233,18 +235,28 @@ namespace pk3DS
                     (ExHeaderPath != null && RomFSPath != null && ExeFSPath != null);
 
                 // Change L_Game if RomFS and ExeFS exists to a better descriptor
-                if (ExeFSPath != null && RomFSPath != null && File.Exists(Path.Combine(ExeFSPath, "icon.bin")))
-                {
-                    byte[] gameName =
-                        File.ReadAllBytes(Path.Combine(ExeFSPath, "icon.bin")).Skip(0x208).Take(0x80).ToArray();
-                    string game = Util.TrimFromZero(Encoding.Unicode.GetString(gameName));
-                    if (game.Length > 0)
-                        L_Game.Text = game;
-                }
+                SMDH = ExeFSPath != null ? (File.Exists(Path.Combine(ExeFSPath, "icon.bin"))) ? new CTR.SMDH(Path.Combine(ExeFSPath, "icon.bin")) : null : null;
+                L_Game.Visible = (SMDH == null && RomFSPath != null);
+                updateGameInfo();
                 TB_Path.Select(TB_Path.TextLength, 0);
                 // Method finished.
                 SystemSounds.Asterisk.Play();
             }
+        }
+
+        private void updateGameInfo()
+        {
+            // 0 - JP
+            // 1 - EN
+            // 2 - FR
+            // 3 - DE
+            // 4 - IT
+            // 5 - ES
+            // 6 - XX
+            // 7 - KO
+            if (SMDH == null) return;
+            int[] AILang = { 0, 0, 1, 2, 4, 3, 5, 7 };
+            Text = "pk3DS - " + SMDH.AppInfo[AILang[Language]].ShortDescription;
         }
         private int checkGameType(string[] files)
         {
@@ -666,6 +678,10 @@ namespace pk3DS
                 }
                 threads--;
             }).Start();
+        }
+        private void Menu_SMDH_Click(object sender, EventArgs e)
+        {
+            new Icon().ShowDialog();
         }
 
         // GARC Requests

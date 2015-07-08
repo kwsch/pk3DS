@@ -196,6 +196,12 @@
     <Compile Include="Subforms\XYWE.designer.cs">
       <DependentUpon>XYWE.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\Icon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\Icon.Designer.cs">
+      <DependentUpon>Icon.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\Image.cs" />
     <Compile Include="Tools\Scripts.cs" />
     <Compile Include="Tools\ToolsUI.cs">
@@ -286,6 +292,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\XYWE.resx">
       <DependentUpon>XYWE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\Icon.resx">
+      <DependentUpon>Icon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\ToolsUI.resx">
       <DependentUpon>ToolsUI.cs</DependentUpon>
