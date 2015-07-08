@@ -129,29 +129,14 @@ namespace CTR
             return !crop ? img : CropBMP;
         }
         // Bitmap Data Writing
-        internal static Bitmap getIMG(CLIM bclim)
+        internal static Bitmap getIMG(int width, int height, byte[] bytes, int f)
         {
-            if (bclim.FileFormat == 7 && BitConverter.ToUInt16(bclim.Data, 0) == 2) // XY7
-                return getIMG_XY7(bclim);
-            if (bclim.FileFormat == 10 || bclim.FileFormat == 11) // Use ETC1 to get image instead.
-                return getIMG_ETC(bclim);
-            // New Image
-            Bitmap img = new Bitmap(nlpo2(gcm(bclim.Width,8)), nlpo2(gcm(bclim.Height,8)));
-            int f = bclim.FileFormat;
+            Bitmap img = new Bitmap(width, height);
             int area = img.Width * img.Height;
-            if (f == 9 && area > bclim.Data.Length/4)
-            {
-                img = new Bitmap(gcm(bclim.Width, 8), gcm(bclim.Height, 8)); 
-                area = img.Width * img.Height;
-            }
-            // Coordinates
-            // Colors
             // Tiles Per Width
             int p = gcm(img.Width, 8) / 8;
             if (p == 0) p = 1;
-
-            // Build Image
-            using (Stream BitmapStream = new MemoryStream(bclim.Data))
+            using (Stream BitmapStream = new MemoryStream(bytes))
             using (BinaryReader br = new BinaryReader(BitmapStream))
             for (uint i = 0; i < area; i++) // for every pixel
             {
@@ -199,6 +184,25 @@ namespace CTR
                 img.SetPixel((int)x, (int)y, c);
             }
             return img;
+        }
+        internal static Bitmap getIMG(CLIM bclim)
+        {
+            if (bclim.FileFormat == 7 && BitConverter.ToUInt16(bclim.Data, 0) == 2) // XY7
+                return getIMG_XY7(bclim);
+            if (bclim.FileFormat == 10 || bclim.FileFormat == 11) // Use ETC1 to get image instead.
+                return getIMG_ETC(bclim);
+            // New Image
+            int w = nlpo2(gcm(bclim.Width, 8));
+            int h = nlpo2(gcm(bclim.Height, 8));
+            int f = bclim.FileFormat;
+            int area = w * h;
+            if (f == 9 && area > bclim.Data.Length / 4)
+            {
+                w = gcm(bclim.Width, 8);
+                h = gcm(bclim.Height, 8);
+            }
+            // Build Image
+            return getIMG(w, h, bclim.Data, f);
         }
         internal static Bitmap getIMG_XY7(CLIM bclim)
         {
@@ -434,11 +438,17 @@ namespace CTR
         }
         internal static void writeGeneric(int format, Bitmap img, ref MemoryStream ms, bool rectangle = true)
         {
+            using (BinaryWriter bz = new BinaryWriter(ms))
+                bz.Write(getPixelData(img, format, rectangle));
+        }
+
+        internal static byte[] getPixelData(Bitmap img, int format, bool rectangle = true)
+        {
             int w = img.Width;
-            int h = img.Height; 
-            
+            int h = img.Height;
+
             // square format. Yay.
-            w = h = Math.Max(nlpo2(w),nlpo2(h));
+            w = h = Math.Max(nlpo2(w), nlpo2(h));
             if (rectangle && Math.Min(img.Width, img.Height) > 64)
             {
                 w = nlpo2(img.Width);
@@ -479,15 +489,15 @@ namespace CTR
                         case 5: bz.Write(GetRGB565(c)); break;          // RGB565
                         case 6:
                             {
-                                bz.Write(c.B); 
-                                bz.Write(c.G); 
+                                bz.Write(c.B);
+                                bz.Write(c.G);
                                 bz.Write(c.R); break;
                             }
                         case 7: bz.Write(GetRGBA5551(c)); break;        // RGBA5551
                         case 8: bz.Write(GetRGBA4444(c)); break;        // RGBA4444
                         case 9: bz.Write(GetRGBA8888(c)); break;          // RGBA8
-                        case 10: throw new Exception("ETC1 not supported."); 
-                        case 11: throw new Exception("ETC1A4 not supported."); 
+                        case 10: throw new Exception("ETC1 not supported.");
+                        case 11: throw new Exception("ETC1A4 not supported.");
                         case 12:
                             {
                                 byte val = (byte)(GetL8(c) / 0x11); // First Pix    // L4
@@ -506,8 +516,7 @@ namespace CTR
                 }
                 while (mz.Length < nlpo2((int)mz.Length)) // pad
                     bz.Write((byte)0);
-                mz.Position = 0;
-                mz.CopyTo(ms);
+                return mz.ToArray();
             }            
         }
         internal static int getColorCount(Bitmap img)
