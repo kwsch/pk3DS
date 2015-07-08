@@ -156,6 +156,7 @@ namespace pk3DS
             if (newSMDH.LargeIcon.Icon == null) return;
 
             SMDH = newSMDH;
+            entry = -1; // allow proper refreshing
             LoadSMDH();
         }
         private void importIcon(byte[] data, bool prompt = false)
