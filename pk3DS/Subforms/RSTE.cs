@@ -796,14 +796,15 @@ namespace pk3DS
                     
                     if (rMove)
                     {
+                        int[] movelist = new int[4];
                         var moves = new[] {trpk_m1[p], trpk_m2[p], trpk_m3[p], trpk_m4[p]};
                         for (int m = 0; m < 4; m++)
                         {
                             int mv = (int)rnd32()%(moveC);
-                            while (banned.Contains(mv))
+                            while (banned.Contains(mv) || movelist.Contains(mv))
                                 mv = (int)rnd32()%(moveC);
 
-                            moves[m].SelectedIndex = mv;
+                            movelist[m] = moves[m].SelectedIndex = mv;
                         }
                     }
                 }
