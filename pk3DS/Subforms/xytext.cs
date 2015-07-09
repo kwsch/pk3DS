@@ -394,7 +394,7 @@ namespace pk3DS
             string variable = (noArgs) ? varType : varType.Substring(0, bracket);
             string[] arguments = (noArgs) ? null : varType.Substring(bracket + 1, varType.Length - bracket - 2).Split(',');
 
-            ushort varVal = 0;
+            ushort varVal;
 
             switch (variable)
             {
@@ -511,7 +511,7 @@ namespace pk3DS
                 string[] split = varCMD.Split(' ');
                 string varMethod = split[0];                   // Returns VAR or WAIT or ~
                 string varType = (split.Length > 1) ? varCMD.Substring(varMethod.Length + 1) : "";    // Returns the remainder of the var command data.
-                ushort varValue = 0;
+                ushort varValue;
 
                 // Set up argument storage (even if it not used)
                 List<ushort> args = new List<ushort>();
@@ -579,7 +579,7 @@ namespace pk3DS
                 default:
                     {
                         ushort varCode = varType; // decryptU16(d, ref o, ref v, ref k);
-                        string tvname = "";
+                        string tvname;
                         switch (varCode) // get variable's info name
                         {
                             case 0xFF00: tvname = "COLOR"; break; // Change text line color (0 = white, 1 = red, 2 = blue...)
