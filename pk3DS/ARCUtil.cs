@@ -185,7 +185,7 @@ namespace pk3DS
                 FilePath = Path.GetDirectoryName(path),
                 Extension = Path.GetExtension(path)
             };
-            BinaryReader br = new BinaryReader(File.OpenRead(path));
+            using (BinaryReader br = new BinaryReader(File.OpenRead(path))) {
             long len = br.BaseStream.Length;
             darc.Magic = br.ReadUInt32();
             UInt32 m = darc.Magic;
@@ -250,6 +250,7 @@ namespace pk3DS
             darc.FilePath = Path.GetDirectoryName(path);
             darc.Extension = Path.GetExtension(path);
             return darc;
+            }
         }
         internal static FARC analyzeFARC(string path)
         {
