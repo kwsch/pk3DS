@@ -73,10 +73,10 @@
             this.PB_7 = new System.Windows.Forms.PictureBox();
             this.B_RandAll = new System.Windows.Forms.Button();
             this.GB_Randomizer = new System.Windows.Forms.GroupBox();
-            this.CHK_Exp = new System.Windows.Forms.CheckBox();
-            this.CHK_Type = new System.Windows.Forms.CheckBox();
-            this.CHK_BST = new System.Windows.Forms.CheckBox();
             this.L_Protip = new System.Windows.Forms.Label();
+            this.CHK_BST = new System.Windows.Forms.CheckBox();
+            this.CHK_Type = new System.Windows.Forms.CheckBox();
+            this.CHK_Exp = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_4)).BeginInit();
@@ -542,29 +542,15 @@
             this.GB_Randomizer.TabStop = false;
             this.GB_Randomizer.Text = "Randomizer Options";
             // 
-            // CHK_Exp
+            // L_Protip
             // 
-            this.CHK_Exp.AutoSize = true;
-            this.CHK_Exp.Checked = true;
-            this.CHK_Exp.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Exp.Location = new System.Drawing.Point(6, 23);
-            this.CHK_Exp.Name = "CHK_Exp";
-            this.CHK_Exp.Size = new System.Drawing.Size(222, 17);
-            this.CHK_Exp.TabIndex = 63;
-            this.CHK_Exp.Text = "Share the  same Exp Growth as Evolution";
-            this.CHK_Exp.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Type
-            // 
-            this.CHK_Type.AutoSize = true;
-            this.CHK_Type.Checked = true;
-            this.CHK_Type.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Type.Location = new System.Drawing.Point(6, 38);
-            this.CHK_Type.Name = "CHK_Type";
-            this.CHK_Type.Size = new System.Drawing.Size(200, 17);
-            this.CHK_Type.TabIndex = 64;
-            this.CHK_Type.Text = "Share at least one Type as Evolution";
-            this.CHK_Type.UseVisualStyleBackColor = true;
+            this.L_Protip.AutoSize = true;
+            this.L_Protip.ForeColor = System.Drawing.Color.Red;
+            this.L_Protip.Location = new System.Drawing.Point(198, 11);
+            this.L_Protip.Name = "L_Protip";
+            this.L_Protip.Size = new System.Drawing.Size(153, 13);
+            this.L_Protip.TabIndex = 66;
+            this.L_Protip.Text = "(Protip: Difficulty++ in Personal)";
             // 
             // CHK_BST
             // 
@@ -578,15 +564,29 @@
             this.CHK_BST.Text = "Share a similar BST as Evolution";
             this.CHK_BST.UseVisualStyleBackColor = true;
             // 
-            // L_Protip
+            // CHK_Type
             // 
-            this.L_Protip.AutoSize = true;
-            this.L_Protip.ForeColor = System.Drawing.Color.Red;
-            this.L_Protip.Location = new System.Drawing.Point(198, 11);
-            this.L_Protip.Name = "L_Protip";
-            this.L_Protip.Size = new System.Drawing.Size(153, 13);
-            this.L_Protip.TabIndex = 66;
-            this.L_Protip.Text = "(Protip: Difficulty++ in Personal)";
+            this.CHK_Type.AutoSize = true;
+            this.CHK_Type.Checked = true;
+            this.CHK_Type.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Type.Location = new System.Drawing.Point(6, 38);
+            this.CHK_Type.Name = "CHK_Type";
+            this.CHK_Type.Size = new System.Drawing.Size(200, 17);
+            this.CHK_Type.TabIndex = 64;
+            this.CHK_Type.Text = "Share at least one Type as Evolution";
+            this.CHK_Type.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Exp
+            // 
+            this.CHK_Exp.AutoSize = true;
+            this.CHK_Exp.Checked = true;
+            this.CHK_Exp.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Exp.Location = new System.Drawing.Point(6, 23);
+            this.CHK_Exp.Name = "CHK_Exp";
+            this.CHK_Exp.Size = new System.Drawing.Size(219, 17);
+            this.CHK_Exp.TabIndex = 63;
+            this.CHK_Exp.Text = "Share the same Exp Growth as Evolution";
+            this.CHK_Exp.UseVisualStyleBackColor = true;
             // 
             // Evolution
             // 
