@@ -54,6 +54,7 @@
     <Compile Include="3DS\DARC.cs" />
     <Compile Include="3DS\ETC1.cs" />
     <Compile Include="3DS\Exheader.cs" />
+    <Compile Include="3DS\FileFormat.cs" />
     <Compile Include="3DS\SMDH.cs" />
     <Compile Include="3DS\LZSS.cs" />
     <Compile Include="3DS\mini.cs" />

@@ -58,6 +58,7 @@ namespace pk3DS
         }
         private void openARC(string path, bool recursing = false)
         {
+            string newFolder = "";
             try
             {
                 // Pre-check file length to see if it is at least valid.
@@ -68,20 +69,26 @@ namespace pk3DS
                 // Determine if it is a DARC or a Mini
                 // Check if Mini first
                 string fx = CTR.mini.getIsMini(path);
-                string newFolder = folderPath + "_" + fx;
                 if (fx != null) // Is Mini Packed File
                 {
+                    newFolder = folderPath + "_" + fx;
                     // Fetch Mini File Contents
                     CTR.mini.unpackMini(path, fx, newFolder, false);
                     // Recurse throught the extracted contents if they extract successfully
                     if (Directory.Exists(newFolder))
+                    {   
                         foreach (string file in Directory.GetFiles(newFolder))
                             openARC(file, true);
+                        batchRenameExtension(newFolder);
+                    }
                 }
                 else if (BitConverter.ToUInt32(File.ReadAllBytes(path), 0) == 0x47415243) // GARC
                 {
                     bool r = CTR.GARC.garcUnpack(path, folderPath + "_g", false);
-                    if (!r) Util.Alert("Unpacking failed.");
+                    if (r)
+                        batchRenameExtension(newFolder);
+                    else
+                    { Util.Alert("Unpacking failed."); return; }
                 }
                 else if (ARC.analyze(path).valid) // DARC
                 {
@@ -93,19 +100,21 @@ namespace pk3DS
                         if (pos >= data.Length) return;
                     }
                     var darcData = data.Skip(pos).ToArray();
-                    bool r = CTR.DARC.darc2files(darcData, folderPath + "_d");
-                    if (!r) Util.Alert("Unpacking failed.");
+                    newFolder = folderPath + "_d";
+                    bool r = CTR.DARC.darc2files(darcData, newFolder);
+                    if (!r)
+                    { Util.Alert("Unpacking failed."); return; }
                 }
                 else if (!recursing)
-                { Util.Alert("File is not a darc or a mini packed file:" + Environment.NewLine + path); return ;}
+                { Util.Alert("File is not a darc or a mini packed file:" + Environment.NewLine + path); return;}
 
-                System.Media.SystemSounds.Asterisk.Play();
             }
             catch (Exception e)
             {
                 if (!recursing)
                     Util.Error("File error:" + Environment.NewLine + path, e.ToString());
             }
+            System.Media.SystemSounds.Asterisk.Play();
         }
         private void saveARC(string path)
         {
@@ -184,6 +193,20 @@ namespace pk3DS
         private void B_Reset_Click(object sender, EventArgs e)
         {
             PB_BCLIM.Size = CLIMWindow;
+        }
+
+        private void batchRenameExtension(string Folder)
+        {
+            if (!Directory.Exists(Folder)) 
+                return;
+
+            foreach (string f in Directory.GetFiles(Folder, "*", SearchOption.AllDirectories))
+            try {
+                string ext = Path.GetExtension(f);
+                string newExt = CTR.FileFormat.Guess(f);
+                if (ext != newExt)
+                    File.Move(f, Path.Combine(Path.GetDirectoryName(f), Path.GetFileNameWithoutExtension(f)) + newExt);
+            } catch { }
         }
     }
 }
