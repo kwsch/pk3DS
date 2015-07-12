@@ -169,16 +169,12 @@ namespace CTR
             ext = ""; // Reset extension
             try
             {
-                byte[] magic = Encoding.ASCII.GetBytes(br.ReadChars(4));
-                if (magic[0] < 0x41)
-                    return false;
-                for (int i = 0; i < magic.Length && i < 3; i++)
-                {
-                    if ((magic[i] >= 'a' && magic[i] <= 'z') || (magic[i] >= 'A' && magic[i] <= 'Z') || char.IsDigit((char)magic[i]))
-                        ext += (char)magic[i];
-                    else
-                        return false;
-                }
+                byte[] magic = Encoding.ASCII.GetBytes(br.ReadChars(3));
+
+                ext = Encoding.ASCII.GetString(magic);
+                // Return BaseStream position to the start.
+                br.BaseStream.Position = position;
+
                 return validEXT.Contains(ext);
             }
             catch { }
