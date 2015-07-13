@@ -21,7 +21,7 @@ namespace pk3DS
             if (G1 && L) sL = sL.Concat(Enumerable.Range(144, 3)).Concat(Enumerable.Range(150, 1)).ToArray(); // Birds & Mewtwo
             if (G1 && E) sL = sL.Concat(Enumerable.Range(151, 1)).ToArray(); // Mew
             // Gen 2
-            if (G2) sL = sL.Concat(Enumerable.Range(152, 91)).Concat(Enumerable.Range(248, 3)).ToArray(); // Chikorita - Blissey & Larvitar - Tyranitar
+            if (G2) sL = sL.Concat(Enumerable.Range(152, 91)).Concat(Enumerable.Range(246, 3)).ToArray(); // Chikorita - Blissey & Larvitar - Tyranitar
             if (G2 && L) sL = sL.Concat(Enumerable.Range(243, 3)).Concat(Enumerable.Range(249, 2)).ToArray(); // Dogs, Lugia & Ho-Oh
             if (G2 && E) sL = sL.Concat(Enumerable.Range(251, 1)).ToArray(); // Celebi
             // Gen 3
