@@ -407,7 +407,7 @@ namespace pk3DS
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>
             {
-                string[] files = { "trdata", "trpoke" };
+                string[] files = { "trdata", "trpoke", "move" }; // Moves required for smart randomization
                 fileGet(files);
                 Invoke((Action)(() => new RSTE().ShowDialog()));
                 fileSet(files);
