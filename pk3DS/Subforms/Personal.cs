@@ -23,7 +23,6 @@ namespace pk3DS
             rstat_boxes = new[] { CHK_rHP, CHK_rATK, CHK_rDEF, CHK_rSPA, CHK_rSPD, CHK_rSPE };
 
             data = File.ReadAllBytes(paths[paths.Length - 1]); // Load last to data.
-            L_Mode.Text = "Mode: " + mode;
             Setup(); //Turn string resources into arrays
             CB_Species.SelectedIndex = 1;
         }
@@ -123,7 +122,7 @@ namespace pk3DS
 
                 CLB_OrasTutors.Visible = 
                 CLB_OrasTutors.Enabled =
-                Lbl_OrasTutors.Visible = false;
+                L_ORASTutors.Visible = false;
             }
             else if (mode == "ORAS")
             {
@@ -139,7 +138,7 @@ namespace pk3DS
 
                 CLB_OrasTutors.Visible = 
                 CLB_OrasTutors.Enabled = 
-                Lbl_OrasTutors.Visible = true;
+                L_ORASTutors.Visible = true;
             }
             for (int i = 0; i < species.Length; i++)
                 CB_Species.Items.Add(String.Format("{0} - {1}", species[i], i.ToString("000")));
@@ -176,7 +175,7 @@ namespace pk3DS
         private void ByteLimiter(object sender, EventArgs e)
         {
             MaskedTextBox mtb = sender as MaskedTextBox;
-            int val = 0;
+            int val;
             Int32.TryParse(mtb.Text, out val);
             if (Array.IndexOf(byte_boxes, mtb) > -1 && val > 255)
                 mtb.Text = "255";
@@ -402,30 +401,6 @@ namespace pk3DS
             File.WriteAllBytes(paths[paths.Length - 1], data);
         }
 
-        private void B_EasyBreed_Click(object sender, EventArgs e)
-        {
-            for (int i = 1; i < CB_Species.Items.Count; i++)
-            {
-                CB_Species.SelectedIndex = i;
-                TB_HatchCycles.Text = 1.ToString();
-            }
-            CB_Species.SelectedIndex = 1;
-            Util.Alert("All Hatch Cycles set to 1 for every Species. Eggs obtained will hatch quickly.");
-        }
-        private void B_Difficulty_Click(object sender, EventArgs e)
-        {
-            for (int i = 1; i < CB_Species.Items.Count; i++)
-            {
-                CB_Species.SelectedIndex = i; // Get new Species
-                TB_BaseExp.Text = (Convert.ToUInt16(TB_BaseExp.Text) / 2).ToString("000");
-                for (int z = 0; z < 6; z++)
-                    ev_boxes[z].Text = 0.ToString();
-
-                CB_EXPGroup.SelectedIndex = 5;
-            }
-            saveEntry();
-            Util.Alert("EXP Yield reduced by 50%, Level Growth Type set to Slow, and EV yields set to 0. Good luck!");
-        }
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             Random rnd = new Random();
@@ -494,7 +469,7 @@ namespace pk3DS
                     TB_CatchRate.Text = rnd.Next(3, 251).ToString("000"); //Random Catch Rate between 3 and 250. Should I make this normally distributed?
                 if (CHK_EggGroup.Checked)
                 {
-                    if (rnd.Next(0, 100) < 50) // 50% chance to have either One or Two Egg Groups
+                    if (rnd.Next(0, 100) < NUD_Egg.Value) // 50% chance to have either One or Two Egg Groups
                         CB_EggGroup1.SelectedIndex = CB_EggGroup2.SelectedIndex = rnd.Next(1, CB_EggGroup1.Items.Count);
                     else
                     {
@@ -514,7 +489,7 @@ namespace pk3DS
                 // Type
                 if (CHK_Type.Checked)
                 {
-                    if (rnd.Next(0, 100) < 50) // 50% chance to have either Single or Dual Typing
+                    if (rnd.Next(0, 100) < NUD_TypePercent.Value) // 50% chance to have either Single or Dual Typing
                         CB_Type1.SelectedIndex = CB_Type2.SelectedIndex = rnd.Next(0, typelen);
                     else
                     {
@@ -525,6 +500,28 @@ namespace pk3DS
             }
             saveEntry();
             Util.Alert("All relevant Pokemon Personal Entries have been randomized!");
+        }
+        private void B_ModifyAll(object sender, EventArgs e)
+        {
+            for (int i = 1; i < CB_Species.Items.Count; i++)
+            {
+                CB_Species.SelectedIndex = i; // Get new Species
+
+                if (CHK_NoEV.Checked)
+                    for (int z = 0; z < 6; z++)
+                        ev_boxes[z].Text = 0.ToString();
+                if (CHK_CatchRate.Checked)
+                    TB_CatchRate.Text = 3.ToString("000");
+                if (CHK_Growth.Checked)
+                    CB_EXPGroup.SelectedIndex = 5;
+                if (CHK_EXP.Checked)
+                    TB_BaseExp.Text = (Convert.ToUInt16(TB_BaseExp.Text) / (100 / NUD_EXP.Value)).ToString("000");
+
+                if (CHK_QuickHatch.Checked)
+                    TB_HatchCycles.Text = 1.ToString();
+            }
+            CB_Species.SelectedIndex = 1;
+            Util.Alert("All species modified to specification!");
         }
         bool dumping;
         private void B_Dump_Click(object sender, EventArgs e)

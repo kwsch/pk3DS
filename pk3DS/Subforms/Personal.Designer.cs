@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.L_Mode = new System.Windows.Forms.Label();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.L_Species_Precursor = new System.Windows.Forms.Label();
             this.TC_Pokemon = new System.Windows.Forms.TabControl();
@@ -36,47 +35,47 @@
             this.TB_RawColor = new System.Windows.Forms.TextBox();
             this.TB_CatchRate = new System.Windows.Forms.MaskedTextBox();
             this.TB_Stage = new System.Windows.Forms.TextBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
+            this.L_Stage = new System.Windows.Forms.Label();
+            this.L_WeightKG = new System.Windows.Forms.Label();
+            this.L_HeightM = new System.Windows.Forms.Label();
             this.TB_FormeCount = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
+            this.L_FormesCount = new System.Windows.Forms.Label();
             this.TB_FormeSprite = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
+            this.L_FormeSprite = new System.Windows.Forms.Label();
+            this.L_CatchRate = new System.Windows.Forms.Label();
             this.CB_Color = new System.Windows.Forms.ComboBox();
             this.CB_EXPGroup = new System.Windows.Forms.ComboBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
+            this.L_Color = new System.Windows.Forms.Label();
+            this.L_EXPGrowth = new System.Windows.Forms.Label();
             this.TB_Weight = new System.Windows.Forms.MaskedTextBox();
             this.TB_Height = new System.Windows.Forms.MaskedTextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
+            this.L_Weight = new System.Windows.Forms.Label();
+            this.L_Height = new System.Windows.Forms.Label();
             this.CB_Ability3 = new System.Windows.Forms.ComboBox();
             this.CB_Ability2 = new System.Windows.Forms.ComboBox();
             this.CB_Ability1 = new System.Windows.Forms.ComboBox();
             this.CB_EggGroup2 = new System.Windows.Forms.ComboBox();
             this.CB_EggGroup1 = new System.Windows.Forms.ComboBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
+            this.L_EggGroup = new System.Windows.Forms.Label();
+            this.L_Ability = new System.Windows.Forms.Label();
             this.TB_BaseExp = new System.Windows.Forms.MaskedTextBox();
-            this.label13 = new System.Windows.Forms.Label();
+            this.L_BaseEXP = new System.Windows.Forms.Label();
             this.TB_HatchCycles = new System.Windows.Forms.MaskedTextBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.L_HatchCycles = new System.Windows.Forms.Label();
             this.TB_Friendship = new System.Windows.Forms.MaskedTextBox();
             this.TB_Gender = new System.Windows.Forms.MaskedTextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.L_Friendship = new System.Windows.Forms.Label();
+            this.L_Gender = new System.Windows.Forms.Label();
+            this.L_Item1 = new System.Windows.Forms.Label();
+            this.L_Item5 = new System.Windows.Forms.Label();
+            this.L_Item50 = new System.Windows.Forms.Label();
             this.CB_HeldItem3 = new System.Windows.Forms.ComboBox();
             this.CB_HeldItem2 = new System.Windows.Forms.ComboBox();
             this.CB_HeldItem1 = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.L_HeldItem = new System.Windows.Forms.Label();
             this.CB_Type2 = new System.Windows.Forms.ComboBox();
             this.CB_Type1 = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.L_Type = new System.Windows.Forms.Label();
             this.TB_SPEEVs = new System.Windows.Forms.MaskedTextBox();
             this.TB_SPDEVs = new System.Windows.Forms.MaskedTextBox();
             this.TB_SPAEVs = new System.Windows.Forms.MaskedTextBox();
@@ -95,58 +94,64 @@
             this.Label_SPA = new System.Windows.Forms.Label();
             this.Label_SPD = new System.Windows.Forms.Label();
             this.Label_SPE = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.L_EVYield = new System.Windows.Forms.Label();
             this.L_BaseStats = new System.Windows.Forms.Label();
             this.TP_MoveTutors = new System.Windows.Forms.TabPage();
-            this.Lbl_OrasTutors = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
+            this.L_ORASTutors = new System.Windows.Forms.Label();
+            this.L_Special = new System.Windows.Forms.Label();
+            this.L_TMHM = new System.Windows.Forms.Label();
             this.CLB_OrasTutors = new System.Windows.Forms.CheckedListBox();
             this.CLB_MoveTutors = new System.Windows.Forms.CheckedListBox();
             this.CLB_TMHM = new System.Windows.Forms.CheckedListBox();
-            this.PB_MonSprite = new System.Windows.Forms.PictureBox();
-            this.B_Randomize = new System.Windows.Forms.Button();
-            this.B_Dump = new System.Windows.Forms.Button();
-            this.B_Difficulty = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.CHK_rSPE = new System.Windows.Forms.CheckBox();
-            this.CHK_rSPD = new System.Windows.Forms.CheckBox();
-            this.CHK_rSPA = new System.Windows.Forms.CheckBox();
-            this.CHK_rDEF = new System.Windows.Forms.CheckBox();
-            this.CHK_rATK = new System.Windows.Forms.CheckBox();
-            this.CHK_rHP = new System.Windows.Forms.CheckBox();
-            this.CHK_EggGroup = new System.Windows.Forms.CheckBox();
-            this.CHK_CatchRate = new System.Windows.Forms.CheckBox();
+            this.TP_Randomizer = new System.Windows.Forms.TabPage();
+            this.GB_Modifier = new System.Windows.Forms.GroupBox();
+            this.CHK_EXP = new System.Windows.Forms.CheckBox();
+            this.CHK_Growth = new System.Windows.Forms.CheckBox();
+            this.CHK_QuickHatch = new System.Windows.Forms.CheckBox();
+            this.L_FinalXP = new System.Windows.Forms.Label();
+            this.NUD_EXP = new System.Windows.Forms.NumericUpDown();
+            this.CHK_LowCatch = new System.Windows.Forms.CheckBox();
+            this.CHK_NoEV = new System.Windows.Forms.CheckBox();
+            this.B_ModAll = new System.Windows.Forms.Button();
+            this.GB_Randomizer = new System.Windows.Forms.GroupBox();
             this.CHK_WGuard = new System.Windows.Forms.CheckBox();
+            this.CHK_Ability = new System.Windows.Forms.CheckBox();
             this.CHK_ORASTutors = new System.Windows.Forms.CheckBox();
             this.CHK_Tutors = new System.Windows.Forms.CheckBox();
-            this.CHK_HM = new System.Windows.Forms.CheckBox();
+            this.CHK_rSPE = new System.Windows.Forms.CheckBox();
             this.CHK_Type = new System.Windows.Forms.CheckBox();
-            this.CHK_Item = new System.Windows.Forms.CheckBox();
+            this.CHK_rSPD = new System.Windows.Forms.CheckBox();
+            this.CHK_rSPA = new System.Windows.Forms.CheckBox();
+            this.L_SingleType = new System.Windows.Forms.Label();
+            this.CHK_rDEF = new System.Windows.Forms.CheckBox();
+            this.CHK_rATK = new System.Windows.Forms.CheckBox();
+            this.NUD_TypePercent = new System.Windows.Forms.NumericUpDown();
+            this.CHK_rHP = new System.Windows.Forms.CheckBox();
+            this.CHK_HM = new System.Windows.Forms.CheckBox();
             this.L_StatDev = new System.Windows.Forms.Label();
+            this.CHK_TM = new System.Windows.Forms.CheckBox();
             this.NUD_StatDev = new System.Windows.Forms.NumericUpDown();
             this.CHK_Stats = new System.Windows.Forms.CheckBox();
-            this.CHK_Ability = new System.Windows.Forms.CheckBox();
-            this.CHK_TM = new System.Windows.Forms.CheckBox();
-            this.B_EasyBreed = new System.Windows.Forms.Button();
+            this.CHK_EggGroup = new System.Windows.Forms.CheckBox();
+            this.CHK_CatchRate = new System.Windows.Forms.CheckBox();
+            this.CHK_Item = new System.Windows.Forms.CheckBox();
+            this.B_Randomize = new System.Windows.Forms.Button();
+            this.PB_MonSprite = new System.Windows.Forms.PictureBox();
+            this.B_Dump = new System.Windows.Forms.Button();
+            this.NUD_Egg = new System.Windows.Forms.NumericUpDown();
+            this.L_Same = new System.Windows.Forms.Label();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.TP_Randomizer.SuspendLayout();
+            this.GB_Modifier.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EXP)).BeginInit();
+            this.GB_Randomizer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TypePercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_StatDev)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Egg)).BeginInit();
             this.SuspendLayout();
-            // 
-            // L_Mode
-            // 
-            this.L_Mode.AutoSize = true;
-            this.L_Mode.ForeColor = System.Drawing.Color.Red;
-            this.L_Mode.Location = new System.Drawing.Point(371, 9);
-            this.L_Mode.Name = "L_Mode";
-            this.L_Mode.Size = new System.Drawing.Size(64, 13);
-            this.L_Mode.TabIndex = 1;
-            this.L_Mode.Text = "Mode: ????";
-            this.L_Mode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_Species
             // 
@@ -174,6 +179,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TC_Pokemon.Controls.Add(this.TP_General);
             this.TC_Pokemon.Controls.Add(this.TP_MoveTutors);
+            this.TC_Pokemon.Controls.Add(this.TP_Randomizer);
             this.TC_Pokemon.Location = new System.Drawing.Point(12, 40);
             this.TC_Pokemon.Name = "TC_Pokemon";
             this.TC_Pokemon.SelectedIndex = 0;
@@ -185,47 +191,47 @@
             this.TP_General.Controls.Add(this.TB_RawColor);
             this.TP_General.Controls.Add(this.TB_CatchRate);
             this.TP_General.Controls.Add(this.TB_Stage);
-            this.TP_General.Controls.Add(this.label25);
-            this.TP_General.Controls.Add(this.label24);
-            this.TP_General.Controls.Add(this.label23);
+            this.TP_General.Controls.Add(this.L_Stage);
+            this.TP_General.Controls.Add(this.L_WeightKG);
+            this.TP_General.Controls.Add(this.L_HeightM);
             this.TP_General.Controls.Add(this.TB_FormeCount);
-            this.TP_General.Controls.Add(this.label22);
+            this.TP_General.Controls.Add(this.L_FormesCount);
             this.TP_General.Controls.Add(this.TB_FormeSprite);
-            this.TP_General.Controls.Add(this.label21);
-            this.TP_General.Controls.Add(this.label20);
+            this.TP_General.Controls.Add(this.L_FormeSprite);
+            this.TP_General.Controls.Add(this.L_CatchRate);
             this.TP_General.Controls.Add(this.CB_Color);
             this.TP_General.Controls.Add(this.CB_EXPGroup);
-            this.TP_General.Controls.Add(this.label19);
-            this.TP_General.Controls.Add(this.label18);
+            this.TP_General.Controls.Add(this.L_Color);
+            this.TP_General.Controls.Add(this.L_EXPGrowth);
             this.TP_General.Controls.Add(this.TB_Weight);
             this.TP_General.Controls.Add(this.TB_Height);
-            this.TP_General.Controls.Add(this.label17);
-            this.TP_General.Controls.Add(this.label16);
+            this.TP_General.Controls.Add(this.L_Weight);
+            this.TP_General.Controls.Add(this.L_Height);
             this.TP_General.Controls.Add(this.CB_Ability3);
             this.TP_General.Controls.Add(this.CB_Ability2);
             this.TP_General.Controls.Add(this.CB_Ability1);
             this.TP_General.Controls.Add(this.CB_EggGroup2);
             this.TP_General.Controls.Add(this.CB_EggGroup1);
-            this.TP_General.Controls.Add(this.label15);
-            this.TP_General.Controls.Add(this.label14);
+            this.TP_General.Controls.Add(this.L_EggGroup);
+            this.TP_General.Controls.Add(this.L_Ability);
             this.TP_General.Controls.Add(this.TB_BaseExp);
-            this.TP_General.Controls.Add(this.label13);
+            this.TP_General.Controls.Add(this.L_BaseEXP);
             this.TP_General.Controls.Add(this.TB_HatchCycles);
-            this.TP_General.Controls.Add(this.label11);
+            this.TP_General.Controls.Add(this.L_HatchCycles);
             this.TP_General.Controls.Add(this.TB_Friendship);
             this.TP_General.Controls.Add(this.TB_Gender);
-            this.TP_General.Controls.Add(this.label10);
-            this.TP_General.Controls.Add(this.label9);
-            this.TP_General.Controls.Add(this.label8);
-            this.TP_General.Controls.Add(this.label7);
-            this.TP_General.Controls.Add(this.label6);
+            this.TP_General.Controls.Add(this.L_Friendship);
+            this.TP_General.Controls.Add(this.L_Gender);
+            this.TP_General.Controls.Add(this.L_Item1);
+            this.TP_General.Controls.Add(this.L_Item5);
+            this.TP_General.Controls.Add(this.L_Item50);
             this.TP_General.Controls.Add(this.CB_HeldItem3);
             this.TP_General.Controls.Add(this.CB_HeldItem2);
             this.TP_General.Controls.Add(this.CB_HeldItem1);
-            this.TP_General.Controls.Add(this.label5);
+            this.TP_General.Controls.Add(this.L_HeldItem);
             this.TP_General.Controls.Add(this.CB_Type2);
             this.TP_General.Controls.Add(this.CB_Type1);
-            this.TP_General.Controls.Add(this.label4);
+            this.TP_General.Controls.Add(this.L_Type);
             this.TP_General.Controls.Add(this.TB_SPEEVs);
             this.TP_General.Controls.Add(this.TB_SPDEVs);
             this.TP_General.Controls.Add(this.TB_SPAEVs);
@@ -244,7 +250,7 @@
             this.TP_General.Controls.Add(this.Label_SPA);
             this.TP_General.Controls.Add(this.Label_SPD);
             this.TP_General.Controls.Add(this.Label_SPE);
-            this.TP_General.Controls.Add(this.label3);
+            this.TP_General.Controls.Add(this.L_EVYield);
             this.TP_General.Controls.Add(this.L_BaseStats);
             this.TP_General.Location = new System.Drawing.Point(4, 22);
             this.TP_General.Name = "TP_General";
@@ -282,33 +288,33 @@
             this.TB_Stage.Size = new System.Drawing.Size(30, 20);
             this.TB_Stage.TabIndex = 86;
             // 
-            // label25
+            // L_Stage
             // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(337, 251);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(38, 13);
-            this.label25.TabIndex = 85;
-            this.label25.Text = "Stage:";
-            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Stage.AutoSize = true;
+            this.L_Stage.Location = new System.Drawing.Point(290, 251);
+            this.L_Stage.Name = "L_Stage";
+            this.L_Stage.Size = new System.Drawing.Size(85, 13);
+            this.L_Stage.TabIndex = 85;
+            this.L_Stage.Text = "Evolution Stage:";
+            this.L_Stage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label24
+            // L_WeightKG
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(269, 300);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(19, 13);
-            this.label24.TabIndex = 84;
-            this.label24.Text = "kg";
+            this.L_WeightKG.AutoSize = true;
+            this.L_WeightKG.Location = new System.Drawing.Point(269, 300);
+            this.L_WeightKG.Name = "L_WeightKG";
+            this.L_WeightKG.Size = new System.Drawing.Size(19, 13);
+            this.L_WeightKG.TabIndex = 84;
+            this.L_WeightKG.Text = "kg";
             // 
-            // label23
+            // L_HeightM
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(128, 300);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(15, 13);
-            this.label23.TabIndex = 83;
-            this.label23.Text = "m";
+            this.L_HeightM.AutoSize = true;
+            this.L_HeightM.Location = new System.Drawing.Point(128, 300);
+            this.L_HeightM.Name = "L_HeightM";
+            this.L_HeightM.Size = new System.Drawing.Size(15, 13);
+            this.L_HeightM.TabIndex = 83;
+            this.L_HeightM.Text = "m";
             // 
             // TB_FormeCount
             // 
@@ -318,15 +324,15 @@
             this.TB_FormeCount.Size = new System.Drawing.Size(30, 20);
             this.TB_FormeCount.TabIndex = 82;
             // 
-            // label22
+            // L_FormesCount
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(331, 300);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(44, 13);
-            this.label22.TabIndex = 81;
-            this.label22.Text = "Formes:";
-            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_FormesCount.AutoSize = true;
+            this.L_FormesCount.Location = new System.Drawing.Point(300, 300);
+            this.L_FormesCount.Name = "L_FormesCount";
+            this.L_FormesCount.Size = new System.Drawing.Size(75, 13);
+            this.L_FormesCount.TabIndex = 81;
+            this.L_FormesCount.Text = "Formes Count:";
+            this.L_FormesCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TB_FormeSprite
             // 
@@ -336,24 +342,24 @@
             this.TB_FormeSprite.Size = new System.Drawing.Size(30, 20);
             this.TB_FormeSprite.TabIndex = 80;
             // 
-            // label21
+            // L_FormeSprite
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(306, 276);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(69, 13);
-            this.label21.TabIndex = 79;
-            this.label21.Text = "Forme Sprite:";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_FormeSprite.AutoSize = true;
+            this.L_FormeSprite.Location = new System.Drawing.Point(306, 276);
+            this.L_FormeSprite.Name = "L_FormeSprite";
+            this.L_FormeSprite.Size = new System.Drawing.Size(69, 13);
+            this.L_FormeSprite.TabIndex = 79;
+            this.L_FormeSprite.Text = "Forme Sprite:";
+            this.L_FormeSprite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label20
+            // L_CatchRate
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(322, 52);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(64, 13);
-            this.label20.TabIndex = 77;
-            this.label20.Text = "Catch Rate:";
+            this.L_CatchRate.AutoSize = true;
+            this.L_CatchRate.Location = new System.Drawing.Point(322, 52);
+            this.L_CatchRate.Name = "L_CatchRate";
+            this.L_CatchRate.Size = new System.Drawing.Size(64, 13);
+            this.L_CatchRate.TabIndex = 77;
+            this.L_CatchRate.Text = "Catch Rate:";
             // 
             // CB_Color
             // 
@@ -375,23 +381,23 @@
             this.CB_EXPGroup.Size = new System.Drawing.Size(101, 21);
             this.CB_EXPGroup.TabIndex = 75;
             // 
-            // label19
+            // L_Color
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(276, 214);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(34, 13);
-            this.label19.TabIndex = 74;
-            this.label19.Text = "Color:";
+            this.L_Color.AutoSize = true;
+            this.L_Color.Location = new System.Drawing.Point(276, 214);
+            this.L_Color.Name = "L_Color";
+            this.L_Color.Size = new System.Drawing.Size(34, 13);
+            this.L_Color.TabIndex = 74;
+            this.L_Color.Text = "Color:";
             // 
-            // label18
+            // L_EXPGrowth
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(27, 214);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(63, 13);
-            this.label18.TabIndex = 73;
-            this.label18.Text = "EXP Group:";
+            this.L_EXPGrowth.AutoSize = true;
+            this.L_EXPGrowth.Location = new System.Drawing.Point(27, 214);
+            this.L_EXPGrowth.Name = "L_EXPGrowth";
+            this.L_EXPGrowth.Size = new System.Drawing.Size(63, 13);
+            this.L_EXPGrowth.TabIndex = 73;
+            this.L_EXPGrowth.Text = "EXP Group:";
             // 
             // TB_Weight
             // 
@@ -413,25 +419,25 @@
             this.TB_Height.TabIndex = 71;
             this.TB_Height.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label17
+            // L_Weight
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(190, 300);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(44, 13);
-            this.label17.TabIndex = 70;
-            this.label17.Text = "Weight:";
-            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Weight.AutoSize = true;
+            this.L_Weight.Location = new System.Drawing.Point(190, 300);
+            this.L_Weight.Name = "L_Weight";
+            this.L_Weight.Size = new System.Drawing.Size(44, 13);
+            this.L_Weight.TabIndex = 70;
+            this.L_Weight.Text = "Weight:";
+            this.L_Weight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label16
+            // L_Height
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(52, 300);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(41, 13);
-            this.label16.TabIndex = 69;
-            this.label16.Text = "Height:";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Height.AutoSize = true;
+            this.L_Height.Location = new System.Drawing.Point(52, 300);
+            this.L_Height.Name = "L_Height";
+            this.L_Height.Size = new System.Drawing.Size(41, 13);
+            this.L_Height.TabIndex = 69;
+            this.L_Height.Text = "Height:";
+            this.L_Height.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_Ability3
             // 
@@ -483,23 +489,23 @@
             this.CB_EggGroup1.Size = new System.Drawing.Size(121, 21);
             this.CB_EggGroup1.TabIndex = 64;
             // 
-            // label15
+            // L_EggGroup
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(228, 161);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(66, 13);
-            this.label15.TabIndex = 63;
-            this.label15.Text = "Egg Groups:";
+            this.L_EggGroup.AutoSize = true;
+            this.L_EggGroup.Location = new System.Drawing.Point(228, 161);
+            this.L_EggGroup.Name = "L_EggGroup";
+            this.L_EggGroup.Size = new System.Drawing.Size(66, 13);
+            this.L_EggGroup.TabIndex = 63;
+            this.L_EggGroup.Text = "Egg Groups:";
             // 
-            // label14
+            // L_Ability
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(230, 83);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(45, 13);
-            this.label14.TabIndex = 62;
-            this.label14.Text = "Abilities:";
+            this.L_Ability.AutoSize = true;
+            this.L_Ability.Location = new System.Drawing.Point(230, 83);
+            this.L_Ability.Name = "L_Ability";
+            this.L_Ability.Size = new System.Drawing.Size(45, 13);
+            this.L_Ability.TabIndex = 62;
+            this.L_Ability.Text = "Abilities:";
             // 
             // TB_BaseExp
             // 
@@ -512,15 +518,15 @@
             this.TB_BaseExp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_BaseExp.TextChanged += new System.EventHandler(this.ByteLimiter);
             // 
-            // label13
+            // L_BaseEXP
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(176, 276);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(58, 13);
-            this.label13.TabIndex = 60;
-            this.label13.Text = "Base EXP:";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_BaseEXP.AutoSize = true;
+            this.L_BaseEXP.Location = new System.Drawing.Point(176, 276);
+            this.L_BaseEXP.Name = "L_BaseEXP";
+            this.L_BaseEXP.Size = new System.Drawing.Size(58, 13);
+            this.L_BaseEXP.TabIndex = 60;
+            this.L_BaseEXP.Text = "Base EXP:";
+            this.L_BaseEXP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TB_HatchCycles
             // 
@@ -533,15 +539,15 @@
             this.TB_HatchCycles.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_HatchCycles.TextChanged += new System.EventHandler(this.ByteLimiter);
             // 
-            // label11
+            // L_HatchCycles
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(161, 251);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(73, 13);
-            this.label11.TabIndex = 57;
-            this.label11.Text = "Hatch Cycles:";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_HatchCycles.AutoSize = true;
+            this.L_HatchCycles.Location = new System.Drawing.Point(161, 251);
+            this.L_HatchCycles.Name = "L_HatchCycles";
+            this.L_HatchCycles.Size = new System.Drawing.Size(73, 13);
+            this.L_HatchCycles.TabIndex = 57;
+            this.L_HatchCycles.Text = "Hatch Cycles:";
+            this.L_HatchCycles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TB_Friendship
             // 
@@ -565,52 +571,52 @@
             this.TB_Gender.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_Gender.TextChanged += new System.EventHandler(this.ByteLimiter);
             // 
-            // label10
+            // L_Friendship
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(35, 276);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(58, 13);
-            this.label10.TabIndex = 54;
-            this.label10.Text = "Friendship:";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Friendship.AutoSize = true;
+            this.L_Friendship.Location = new System.Drawing.Point(35, 276);
+            this.L_Friendship.Name = "L_Friendship";
+            this.L_Friendship.Size = new System.Drawing.Size(58, 13);
+            this.L_Friendship.TabIndex = 54;
+            this.L_Friendship.Text = "Friendship:";
+            this.L_Friendship.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label9
+            // L_Gender
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(48, 251);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(45, 13);
-            this.label9.TabIndex = 53;
-            this.label9.Text = "Gender:";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Gender.AutoSize = true;
+            this.L_Gender.Location = new System.Drawing.Point(48, 251);
+            this.L_Gender.Name = "L_Gender";
+            this.L_Gender.Size = new System.Drawing.Size(45, 13);
+            this.L_Gender.TabIndex = 53;
+            this.L_Gender.Text = "Gender:";
+            this.L_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label8
+            // L_Item1
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(195, 134);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(21, 13);
-            this.label8.TabIndex = 52;
-            this.label8.Text = "1%";
+            this.L_Item1.AutoSize = true;
+            this.L_Item1.Location = new System.Drawing.Point(195, 134);
+            this.L_Item1.Name = "L_Item1";
+            this.L_Item1.Size = new System.Drawing.Size(21, 13);
+            this.L_Item1.TabIndex = 52;
+            this.L_Item1.Text = "1%";
             // 
-            // label7
+            // L_Item5
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(195, 107);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(21, 13);
-            this.label7.TabIndex = 51;
-            this.label7.Text = "5%";
+            this.L_Item5.AutoSize = true;
+            this.L_Item5.Location = new System.Drawing.Point(195, 107);
+            this.L_Item5.Name = "L_Item5";
+            this.L_Item5.Size = new System.Drawing.Size(21, 13);
+            this.L_Item5.TabIndex = 51;
+            this.L_Item5.Text = "5%";
             // 
-            // label6
+            // L_Item50
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(195, 83);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(27, 13);
-            this.label6.TabIndex = 50;
-            this.label6.Text = "50%";
+            this.L_Item50.AutoSize = true;
+            this.L_Item50.Location = new System.Drawing.Point(195, 83);
+            this.L_Item50.Name = "L_Item50";
+            this.L_Item50.Size = new System.Drawing.Size(27, 13);
+            this.L_Item50.TabIndex = 50;
+            this.L_Item50.Text = "50%";
             // 
             // CB_HeldItem3
             // 
@@ -642,14 +648,14 @@
             this.CB_HeldItem1.Size = new System.Drawing.Size(140, 21);
             this.CB_HeldItem1.TabIndex = 47;
             // 
-            // label5
+            // L_HeldItem
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(16, 82);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 13);
-            this.label5.TabIndex = 46;
-            this.label5.Text = "Items:";
+            this.L_HeldItem.AutoSize = true;
+            this.L_HeldItem.Location = new System.Drawing.Point(16, 82);
+            this.L_HeldItem.Name = "L_HeldItem";
+            this.L_HeldItem.Size = new System.Drawing.Size(35, 13);
+            this.L_HeldItem.TabIndex = 46;
+            this.L_HeldItem.Text = "Items:";
             // 
             // CB_Type2
             // 
@@ -671,14 +677,14 @@
             this.CB_Type1.Size = new System.Drawing.Size(121, 21);
             this.CB_Type1.TabIndex = 44;
             // 
-            // label4
+            // L_Type
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(23, 161);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(47, 13);
-            this.label4.TabIndex = 43;
-            this.label4.Text = "Typings:";
+            this.L_Type.AutoSize = true;
+            this.L_Type.Location = new System.Drawing.Point(23, 161);
+            this.L_Type.Name = "L_Type";
+            this.L_Type.Size = new System.Drawing.Size(47, 13);
+            this.L_Type.TabIndex = 43;
+            this.L_Type.Text = "Typings:";
             // 
             // TB_SPEEVs
             // 
@@ -866,14 +872,14 @@
             this.Label_SPE.Text = "Spe:";
             this.Label_SPE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label3
+            // L_EVYield
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(29, 54);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(50, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "EV Yield:";
+            this.L_EVYield.AutoSize = true;
+            this.L_EVYield.Location = new System.Drawing.Point(29, 54);
+            this.L_EVYield.Name = "L_EVYield";
+            this.L_EVYield.Size = new System.Drawing.Size(50, 13);
+            this.L_EVYield.TabIndex = 2;
+            this.L_EVYield.Text = "EV Yield:";
             // 
             // L_BaseStats
             // 
@@ -886,9 +892,9 @@
             // 
             // TP_MoveTutors
             // 
-            this.TP_MoveTutors.Controls.Add(this.Lbl_OrasTutors);
-            this.TP_MoveTutors.Controls.Add(this.label27);
-            this.TP_MoveTutors.Controls.Add(this.label26);
+            this.TP_MoveTutors.Controls.Add(this.L_ORASTutors);
+            this.TP_MoveTutors.Controls.Add(this.L_Special);
+            this.TP_MoveTutors.Controls.Add(this.L_TMHM);
             this.TP_MoveTutors.Controls.Add(this.CLB_OrasTutors);
             this.TP_MoveTutors.Controls.Add(this.CLB_MoveTutors);
             this.TP_MoveTutors.Controls.Add(this.CLB_TMHM);
@@ -900,33 +906,33 @@
             this.TP_MoveTutors.Text = "Move Tutors";
             this.TP_MoveTutors.UseVisualStyleBackColor = true;
             // 
-            // Lbl_OrasTutors
+            // L_ORASTutors
             // 
-            this.Lbl_OrasTutors.AutoSize = true;
-            this.Lbl_OrasTutors.Location = new System.Drawing.Point(298, 3);
-            this.Lbl_OrasTutors.Name = "Lbl_OrasTutors";
-            this.Lbl_OrasTutors.Size = new System.Drawing.Size(65, 13);
-            this.Lbl_OrasTutors.TabIndex = 7;
-            this.Lbl_OrasTutors.Text = "Oras Tutors:";
-            this.Lbl_OrasTutors.Visible = false;
+            this.L_ORASTutors.AutoSize = true;
+            this.L_ORASTutors.Location = new System.Drawing.Point(298, 3);
+            this.L_ORASTutors.Name = "L_ORASTutors";
+            this.L_ORASTutors.Size = new System.Drawing.Size(65, 13);
+            this.L_ORASTutors.TabIndex = 7;
+            this.L_ORASTutors.Text = "Oras Tutors:";
+            this.L_ORASTutors.Visible = false;
             // 
-            // label27
+            // L_Special
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(159, 3);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(78, 13);
-            this.label27.TabIndex = 6;
-            this.label27.Text = "Special Tutors:";
+            this.L_Special.AutoSize = true;
+            this.L_Special.Location = new System.Drawing.Point(159, 3);
+            this.L_Special.Name = "L_Special";
+            this.L_Special.Size = new System.Drawing.Size(78, 13);
+            this.L_Special.TabIndex = 6;
+            this.L_Special.Text = "Special Tutors:";
             // 
-            // label26
+            // L_TMHM
             // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(6, 3);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(48, 13);
-            this.label26.TabIndex = 5;
-            this.label26.Text = "TM/HM:";
+            this.L_TMHM.AutoSize = true;
+            this.L_TMHM.Location = new System.Drawing.Point(6, 3);
+            this.L_TMHM.Name = "L_TMHM";
+            this.L_TMHM.Size = new System.Drawing.Size(48, 13);
+            this.L_TMHM.TabIndex = 5;
+            this.L_TMHM.Text = "TM/HM:";
             // 
             // CLB_OrasTutors
             // 
@@ -960,90 +966,235 @@
             this.CLB_TMHM.Size = new System.Drawing.Size(147, 319);
             this.CLB_TMHM.TabIndex = 2;
             // 
-            // PB_MonSprite
+            // TP_Randomizer
             // 
-            this.PB_MonSprite.Location = new System.Drawing.Point(285, 0);
-            this.PB_MonSprite.Name = "PB_MonSprite";
-            this.PB_MonSprite.Size = new System.Drawing.Size(80, 60);
-            this.PB_MonSprite.TabIndex = 89;
-            this.PB_MonSprite.TabStop = false;
+            this.TP_Randomizer.Controls.Add(this.GB_Modifier);
+            this.TP_Randomizer.Controls.Add(this.B_ModAll);
+            this.TP_Randomizer.Controls.Add(this.GB_Randomizer);
+            this.TP_Randomizer.Controls.Add(this.B_Randomize);
+            this.TP_Randomizer.Location = new System.Drawing.Point(4, 22);
+            this.TP_Randomizer.Name = "TP_Randomizer";
+            this.TP_Randomizer.Size = new System.Drawing.Size(437, 339);
+            this.TP_Randomizer.TabIndex = 2;
+            this.TP_Randomizer.Text = "Enhancements";
+            this.TP_Randomizer.UseVisualStyleBackColor = true;
             // 
-            // B_Randomize
+            // GB_Modifier
             // 
-            this.B_Randomize.Location = new System.Drawing.Point(459, 86);
-            this.B_Randomize.Name = "B_Randomize";
-            this.B_Randomize.Size = new System.Drawing.Size(89, 23);
-            this.B_Randomize.TabIndex = 417;
-            this.B_Randomize.Text = "Randomize";
-            this.B_Randomize.UseVisualStyleBackColor = true;
-            this.B_Randomize.Click += new System.EventHandler(this.B_Randomize_Click);
+            this.GB_Modifier.Controls.Add(this.CHK_EXP);
+            this.GB_Modifier.Controls.Add(this.CHK_Growth);
+            this.GB_Modifier.Controls.Add(this.CHK_QuickHatch);
+            this.GB_Modifier.Controls.Add(this.L_FinalXP);
+            this.GB_Modifier.Controls.Add(this.NUD_EXP);
+            this.GB_Modifier.Controls.Add(this.CHK_LowCatch);
+            this.GB_Modifier.Controls.Add(this.CHK_NoEV);
+            this.GB_Modifier.Location = new System.Drawing.Point(4, 147);
+            this.GB_Modifier.Name = "GB_Modifier";
+            this.GB_Modifier.Size = new System.Drawing.Size(345, 129);
+            this.GB_Modifier.TabIndex = 419;
+            this.GB_Modifier.TabStop = false;
+            this.GB_Modifier.Text = "Modifier Options";
             // 
-            // B_Dump
+            // CHK_EXP
             // 
-            this.B_Dump.Location = new System.Drawing.Point(192, 35);
-            this.B_Dump.Name = "B_Dump";
-            this.B_Dump.Size = new System.Drawing.Size(75, 23);
-            this.B_Dump.TabIndex = 418;
-            this.B_Dump.Text = "Dump All";
-            this.B_Dump.UseVisualStyleBackColor = true;
-            this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
+            this.CHK_EXP.AutoSize = true;
+            this.CHK_EXP.Checked = true;
+            this.CHK_EXP.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_EXP.Location = new System.Drawing.Point(6, 66);
+            this.CHK_EXP.Name = "CHK_EXP";
+            this.CHK_EXP.Size = new System.Drawing.Size(114, 17);
+            this.CHK_EXP.TabIndex = 7;
+            this.CHK_EXP.Text = "Reduce EXP Yield";
+            this.CHK_EXP.UseVisualStyleBackColor = true;
             // 
-            // B_Difficulty
+            // CHK_Growth
             // 
-            this.B_Difficulty.Location = new System.Drawing.Point(459, 62);
-            this.B_Difficulty.Name = "B_Difficulty";
-            this.B_Difficulty.Size = new System.Drawing.Size(89, 23);
-            this.B_Difficulty.TabIndex = 419;
-            this.B_Difficulty.Text = "Difficulty++";
-            this.B_Difficulty.UseVisualStyleBackColor = true;
-            this.B_Difficulty.Click += new System.EventHandler(this.B_Difficulty_Click);
+            this.CHK_Growth.AutoSize = true;
+            this.CHK_Growth.Checked = true;
+            this.CHK_Growth.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Growth.Location = new System.Drawing.Point(6, 51);
+            this.CHK_Growth.Name = "CHK_Growth";
+            this.CHK_Growth.Size = new System.Drawing.Size(147, 17);
+            this.CHK_Growth.TabIndex = 8;
+            this.CHK_Growth.Text = "Lowest EXP Growth Rate";
+            this.CHK_Growth.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // CHK_QuickHatch
             // 
-            this.groupBox1.Controls.Add(this.CHK_rSPE);
-            this.groupBox1.Controls.Add(this.CHK_rSPD);
-            this.groupBox1.Controls.Add(this.CHK_rSPA);
-            this.groupBox1.Controls.Add(this.CHK_rDEF);
-            this.groupBox1.Controls.Add(this.CHK_rATK);
-            this.groupBox1.Controls.Add(this.CHK_rHP);
-            this.groupBox1.Controls.Add(this.CHK_EggGroup);
-            this.groupBox1.Controls.Add(this.CHK_CatchRate);
-            this.groupBox1.Controls.Add(this.CHK_WGuard);
-            this.groupBox1.Controls.Add(this.CHK_ORASTutors);
-            this.groupBox1.Controls.Add(this.CHK_Tutors);
-            this.groupBox1.Controls.Add(this.CHK_HM);
-            this.groupBox1.Controls.Add(this.CHK_Type);
-            this.groupBox1.Controls.Add(this.CHK_Item);
-            this.groupBox1.Controls.Add(this.L_StatDev);
-            this.groupBox1.Controls.Add(this.NUD_StatDev);
-            this.groupBox1.Controls.Add(this.CHK_Stats);
-            this.groupBox1.Controls.Add(this.CHK_Ability);
-            this.groupBox1.Controls.Add(this.CHK_TM);
-            this.groupBox1.Location = new System.Drawing.Point(459, 111);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(89, 290);
-            this.groupBox1.TabIndex = 420;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Options";
+            this.CHK_QuickHatch.AutoSize = true;
+            this.CHK_QuickHatch.Checked = true;
+            this.CHK_QuickHatch.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_QuickHatch.Location = new System.Drawing.Point(204, 21);
+            this.CHK_QuickHatch.Name = "CHK_QuickHatch";
+            this.CHK_QuickHatch.Size = new System.Drawing.Size(113, 17);
+            this.CHK_QuickHatch.TabIndex = 10;
+            this.CHK_QuickHatch.Text = "Quick Hatch Eggs";
+            this.CHK_QuickHatch.UseVisualStyleBackColor = true;
+            // 
+            // L_FinalXP
+            // 
+            this.L_FinalXP.AutoSize = true;
+            this.L_FinalXP.Location = new System.Drawing.Point(6, 86);
+            this.L_FinalXP.Name = "L_FinalXP";
+            this.L_FinalXP.Size = new System.Drawing.Size(57, 13);
+            this.L_FinalXP.TabIndex = 6;
+            this.L_FinalXP.Text = "FinalXP(%)";
+            // 
+            // NUD_EXP
+            // 
+            this.NUD_EXP.Location = new System.Drawing.Point(69, 84);
+            this.NUD_EXP.Name = "NUD_EXP";
+            this.NUD_EXP.Size = new System.Drawing.Size(46, 20);
+            this.NUD_EXP.TabIndex = 5;
+            this.NUD_EXP.Value = new decimal(new int[] {
+            28,
+            0,
+            0,
+            0});
+            // 
+            // CHK_LowCatch
+            // 
+            this.CHK_LowCatch.AutoSize = true;
+            this.CHK_LowCatch.Checked = true;
+            this.CHK_LowCatch.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_LowCatch.Location = new System.Drawing.Point(6, 36);
+            this.CHK_LowCatch.Name = "CHK_LowCatch";
+            this.CHK_LowCatch.Size = new System.Drawing.Size(117, 17);
+            this.CHK_LowCatch.TabIndex = 9;
+            this.CHK_LowCatch.Text = "Lowest Catch Rate";
+            this.CHK_LowCatch.UseVisualStyleBackColor = true;
+            // 
+            // CHK_NoEV
+            // 
+            this.CHK_NoEV.AutoSize = true;
+            this.CHK_NoEV.Checked = true;
+            this.CHK_NoEV.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_NoEV.Location = new System.Drawing.Point(6, 21);
+            this.CHK_NoEV.Name = "CHK_NoEV";
+            this.CHK_NoEV.Size = new System.Drawing.Size(114, 17);
+            this.CHK_NoEV.TabIndex = 0;
+            this.CHK_NoEV.Text = "Remove EV Yields";
+            this.CHK_NoEV.UseVisualStyleBackColor = true;
+            // 
+            // B_ModAll
+            // 
+            this.B_ModAll.Location = new System.Drawing.Point(352, 162);
+            this.B_ModAll.Name = "B_ModAll";
+            this.B_ModAll.Size = new System.Drawing.Size(82, 23);
+            this.B_ModAll.TabIndex = 421;
+            this.B_ModAll.Text = "Modify All";
+            this.B_ModAll.UseVisualStyleBackColor = true;
+            this.B_ModAll.Click += new System.EventHandler(this.B_ModifyAll);
+            // 
+            // GB_Randomizer
+            // 
+            this.GB_Randomizer.Controls.Add(this.L_Same);
+            this.GB_Randomizer.Controls.Add(this.NUD_Egg);
+            this.GB_Randomizer.Controls.Add(this.CHK_WGuard);
+            this.GB_Randomizer.Controls.Add(this.CHK_Ability);
+            this.GB_Randomizer.Controls.Add(this.CHK_ORASTutors);
+            this.GB_Randomizer.Controls.Add(this.CHK_Tutors);
+            this.GB_Randomizer.Controls.Add(this.CHK_rSPE);
+            this.GB_Randomizer.Controls.Add(this.CHK_Type);
+            this.GB_Randomizer.Controls.Add(this.CHK_rSPD);
+            this.GB_Randomizer.Controls.Add(this.CHK_rSPA);
+            this.GB_Randomizer.Controls.Add(this.L_SingleType);
+            this.GB_Randomizer.Controls.Add(this.CHK_rDEF);
+            this.GB_Randomizer.Controls.Add(this.CHK_rATK);
+            this.GB_Randomizer.Controls.Add(this.NUD_TypePercent);
+            this.GB_Randomizer.Controls.Add(this.CHK_rHP);
+            this.GB_Randomizer.Controls.Add(this.CHK_HM);
+            this.GB_Randomizer.Controls.Add(this.L_StatDev);
+            this.GB_Randomizer.Controls.Add(this.CHK_TM);
+            this.GB_Randomizer.Controls.Add(this.NUD_StatDev);
+            this.GB_Randomizer.Controls.Add(this.CHK_Stats);
+            this.GB_Randomizer.Controls.Add(this.CHK_EggGroup);
+            this.GB_Randomizer.Controls.Add(this.CHK_CatchRate);
+            this.GB_Randomizer.Controls.Add(this.CHK_Item);
+            this.GB_Randomizer.Location = new System.Drawing.Point(4, 12);
+            this.GB_Randomizer.Name = "GB_Randomizer";
+            this.GB_Randomizer.Size = new System.Drawing.Size(345, 129);
+            this.GB_Randomizer.TabIndex = 418;
+            this.GB_Randomizer.TabStop = false;
+            this.GB_Randomizer.Text = "Randomizer Options";
+            // 
+            // CHK_WGuard
+            // 
+            this.CHK_WGuard.AutoSize = true;
+            this.CHK_WGuard.Location = new System.Drawing.Point(118, 49);
+            this.CHK_WGuard.Name = "CHK_WGuard";
+            this.CHK_WGuard.Size = new System.Drawing.Size(72, 17);
+            this.CHK_WGuard.TabIndex = 10;
+            this.CHK_WGuard.Text = "W. Guard";
+            this.CHK_WGuard.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Ability
+            // 
+            this.CHK_Ability.AutoSize = true;
+            this.CHK_Ability.Checked = true;
+            this.CHK_Ability.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Ability.Location = new System.Drawing.Point(118, 34);
+            this.CHK_Ability.Name = "CHK_Ability";
+            this.CHK_Ability.Size = new System.Drawing.Size(61, 17);
+            this.CHK_Ability.TabIndex = 1;
+            this.CHK_Ability.Text = "Abilities";
+            this.CHK_Ability.UseVisualStyleBackColor = true;
+            this.CHK_Ability.CheckedChanged += new System.EventHandler(this.CHK_Ability_CheckedChanged);
+            // 
+            // CHK_ORASTutors
+            // 
+            this.CHK_ORASTutors.AutoSize = true;
+            this.CHK_ORASTutors.Checked = true;
+            this.CHK_ORASTutors.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_ORASTutors.Location = new System.Drawing.Point(204, 49);
+            this.CHK_ORASTutors.Name = "CHK_ORASTutors";
+            this.CHK_ORASTutors.Size = new System.Drawing.Size(79, 17);
+            this.CHK_ORASTutors.TabIndex = 9;
+            this.CHK_ORASTutors.Text = "R/S Tutors";
+            this.CHK_ORASTutors.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Tutors
+            // 
+            this.CHK_Tutors.AutoSize = true;
+            this.CHK_Tutors.Checked = true;
+            this.CHK_Tutors.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Tutors.Location = new System.Drawing.Point(204, 34);
+            this.CHK_Tutors.Name = "CHK_Tutors";
+            this.CHK_Tutors.Size = new System.Drawing.Size(94, 17);
+            this.CHK_Tutors.TabIndex = 8;
+            this.CHK_Tutors.Text = "Special Tutors";
+            this.CHK_Tutors.UseVisualStyleBackColor = true;
             // 
             // CHK_rSPE
             // 
             this.CHK_rSPE.AutoSize = true;
             this.CHK_rSPE.Checked = true;
             this.CHK_rSPE.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rSPE.Location = new System.Drawing.Point(43, 225);
+            this.CHK_rSPE.Location = new System.Drawing.Point(45, 65);
             this.CHK_rSPE.Name = "CHK_rSPE";
             this.CHK_rSPE.Size = new System.Drawing.Size(45, 17);
             this.CHK_rSPE.TabIndex = 19;
             this.CHK_rSPE.Text = "Spe";
             this.CHK_rSPE.UseVisualStyleBackColor = true;
             // 
+            // CHK_Type
+            // 
+            this.CHK_Type.AutoSize = true;
+            this.CHK_Type.Checked = true;
+            this.CHK_Type.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Type.Location = new System.Drawing.Point(118, 65);
+            this.CHK_Type.Name = "CHK_Type";
+            this.CHK_Type.Size = new System.Drawing.Size(55, 17);
+            this.CHK_Type.TabIndex = 6;
+            this.CHK_Type.Text = "Types";
+            this.CHK_Type.UseVisualStyleBackColor = true;
+            // 
             // CHK_rSPD
             // 
             this.CHK_rSPD.AutoSize = true;
             this.CHK_rSPD.Checked = true;
             this.CHK_rSPD.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rSPD.Location = new System.Drawing.Point(4, 225);
+            this.CHK_rSPD.Location = new System.Drawing.Point(6, 65);
             this.CHK_rSPD.Name = "CHK_rSPD";
             this.CHK_rSPD.Size = new System.Drawing.Size(45, 17);
             this.CHK_rSPD.TabIndex = 18;
@@ -1055,19 +1206,28 @@
             this.CHK_rSPA.AutoSize = true;
             this.CHK_rSPA.Checked = true;
             this.CHK_rSPA.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rSPA.Location = new System.Drawing.Point(43, 209);
+            this.CHK_rSPA.Location = new System.Drawing.Point(45, 49);
             this.CHK_rSPA.Name = "CHK_rSPA";
             this.CHK_rSPA.Size = new System.Drawing.Size(45, 17);
             this.CHK_rSPA.TabIndex = 17;
             this.CHK_rSPA.Text = "Spa";
             this.CHK_rSPA.UseVisualStyleBackColor = true;
             // 
+            // L_SingleType
+            // 
+            this.L_SingleType.AutoSize = true;
+            this.L_SingleType.Location = new System.Drawing.Point(115, 82);
+            this.L_SingleType.Name = "L_SingleType";
+            this.L_SingleType.Size = new System.Drawing.Size(74, 13);
+            this.L_SingleType.TabIndex = 21;
+            this.L_SingleType.Text = "SingleType(%)";
+            // 
             // CHK_rDEF
             // 
             this.CHK_rDEF.AutoSize = true;
             this.CHK_rDEF.Checked = true;
             this.CHK_rDEF.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rDEF.Location = new System.Drawing.Point(4, 209);
+            this.CHK_rDEF.Location = new System.Drawing.Point(6, 49);
             this.CHK_rDEF.Name = "CHK_rDEF";
             this.CHK_rDEF.Size = new System.Drawing.Size(43, 17);
             this.CHK_rDEF.TabIndex = 16;
@@ -1079,131 +1239,73 @@
             this.CHK_rATK.AutoSize = true;
             this.CHK_rATK.Checked = true;
             this.CHK_rATK.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rATK.Location = new System.Drawing.Point(43, 194);
+            this.CHK_rATK.Location = new System.Drawing.Point(45, 34);
             this.CHK_rATK.Name = "CHK_rATK";
             this.CHK_rATK.Size = new System.Drawing.Size(42, 17);
             this.CHK_rATK.TabIndex = 15;
             this.CHK_rATK.Text = "Atk";
             this.CHK_rATK.UseVisualStyleBackColor = true;
             // 
+            // NUD_TypePercent
+            // 
+            this.NUD_TypePercent.Location = new System.Drawing.Point(134, 98);
+            this.NUD_TypePercent.Name = "NUD_TypePercent";
+            this.NUD_TypePercent.Size = new System.Drawing.Size(46, 20);
+            this.NUD_TypePercent.TabIndex = 20;
+            this.NUD_TypePercent.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
             // CHK_rHP
             // 
             this.CHK_rHP.AutoSize = true;
             this.CHK_rHP.Checked = true;
             this.CHK_rHP.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rHP.Location = new System.Drawing.Point(4, 194);
+            this.CHK_rHP.Location = new System.Drawing.Point(6, 34);
             this.CHK_rHP.Name = "CHK_rHP";
             this.CHK_rHP.Size = new System.Drawing.Size(41, 17);
             this.CHK_rHP.TabIndex = 14;
             this.CHK_rHP.Text = "HP";
             this.CHK_rHP.UseVisualStyleBackColor = true;
             // 
-            // CHK_EggGroup
-            // 
-            this.CHK_EggGroup.AutoSize = true;
-            this.CHK_EggGroup.Checked = true;
-            this.CHK_EggGroup.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_EggGroup.Location = new System.Drawing.Point(4, 142);
-            this.CHK_EggGroup.Name = "CHK_EggGroup";
-            this.CHK_EggGroup.Size = new System.Drawing.Size(77, 17);
-            this.CHK_EggGroup.TabIndex = 13;
-            this.CHK_EggGroup.Text = "Egg Group";
-            this.CHK_EggGroup.UseVisualStyleBackColor = true;
-            // 
-            // CHK_CatchRate
-            // 
-            this.CHK_CatchRate.AutoSize = true;
-            this.CHK_CatchRate.Checked = true;
-            this.CHK_CatchRate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_CatchRate.Location = new System.Drawing.Point(4, 126);
-            this.CHK_CatchRate.Name = "CHK_CatchRate";
-            this.CHK_CatchRate.Size = new System.Drawing.Size(75, 17);
-            this.CHK_CatchRate.TabIndex = 11;
-            this.CHK_CatchRate.Text = "Catch rate";
-            this.CHK_CatchRate.UseVisualStyleBackColor = true;
-            // 
-            // CHK_WGuard
-            // 
-            this.CHK_WGuard.AutoSize = true;
-            this.CHK_WGuard.Location = new System.Drawing.Point(4, 80);
-            this.CHK_WGuard.Name = "CHK_WGuard";
-            this.CHK_WGuard.Size = new System.Drawing.Size(72, 17);
-            this.CHK_WGuard.TabIndex = 10;
-            this.CHK_WGuard.Text = "W. Guard";
-            this.CHK_WGuard.UseVisualStyleBackColor = true;
-            // 
-            // CHK_ORASTutors
-            // 
-            this.CHK_ORASTutors.AutoSize = true;
-            this.CHK_ORASTutors.Checked = true;
-            this.CHK_ORASTutors.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_ORASTutors.Location = new System.Drawing.Point(4, 49);
-            this.CHK_ORASTutors.Name = "CHK_ORASTutors";
-            this.CHK_ORASTutors.Size = new System.Drawing.Size(75, 17);
-            this.CHK_ORASTutors.TabIndex = 9;
-            this.CHK_ORASTutors.Text = "OR Tutors";
-            this.CHK_ORASTutors.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Tutors
-            // 
-            this.CHK_Tutors.AutoSize = true;
-            this.CHK_Tutors.Checked = true;
-            this.CHK_Tutors.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Tutors.Location = new System.Drawing.Point(4, 34);
-            this.CHK_Tutors.Name = "CHK_Tutors";
-            this.CHK_Tutors.Size = new System.Drawing.Size(69, 17);
-            this.CHK_Tutors.TabIndex = 8;
-            this.CHK_Tutors.Text = "S. Tutors";
-            this.CHK_Tutors.UseVisualStyleBackColor = true;
-            // 
             // CHK_HM
             // 
             this.CHK_HM.AutoSize = true;
             this.CHK_HM.Checked = true;
             this.CHK_HM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_HM.Location = new System.Drawing.Point(42, 19);
+            this.CHK_HM.Location = new System.Drawing.Point(252, 19);
             this.CHK_HM.Name = "CHK_HM";
             this.CHK_HM.Size = new System.Drawing.Size(43, 17);
             this.CHK_HM.TabIndex = 7;
             this.CHK_HM.Text = "HM";
             this.CHK_HM.UseVisualStyleBackColor = true;
             // 
-            // CHK_Type
-            // 
-            this.CHK_Type.AutoSize = true;
-            this.CHK_Type.Checked = true;
-            this.CHK_Type.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Type.Location = new System.Drawing.Point(4, 111);
-            this.CHK_Type.Name = "CHK_Type";
-            this.CHK_Type.Size = new System.Drawing.Size(55, 17);
-            this.CHK_Type.TabIndex = 6;
-            this.CHK_Type.Text = "Types";
-            this.CHK_Type.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Item
-            // 
-            this.CHK_Item.AutoSize = true;
-            this.CHK_Item.Checked = true;
-            this.CHK_Item.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Item.Location = new System.Drawing.Point(4, 96);
-            this.CHK_Item.Name = "CHK_Item";
-            this.CHK_Item.Size = new System.Drawing.Size(51, 17);
-            this.CHK_Item.TabIndex = 5;
-            this.CHK_Item.Text = "Items";
-            this.CHK_Item.UseVisualStyleBackColor = true;
-            // 
             // L_StatDev
             // 
             this.L_StatDev.AutoSize = true;
-            this.L_StatDev.Location = new System.Drawing.Point(6, 247);
+            this.L_StatDev.Location = new System.Drawing.Point(6, 82);
             this.L_StatDev.Name = "L_StatDev";
             this.L_StatDev.Size = new System.Drawing.Size(67, 13);
             this.L_StatDev.TabIndex = 4;
             this.L_StatDev.Text = "Deviance(%)";
             // 
+            // CHK_TM
+            // 
+            this.CHK_TM.AutoSize = true;
+            this.CHK_TM.Checked = true;
+            this.CHK_TM.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_TM.Location = new System.Drawing.Point(204, 19);
+            this.CHK_TM.Name = "CHK_TM";
+            this.CHK_TM.Size = new System.Drawing.Size(42, 17);
+            this.CHK_TM.TabIndex = 0;
+            this.CHK_TM.Text = "TM";
+            this.CHK_TM.UseVisualStyleBackColor = true;
+            // 
             // NUD_StatDev
             // 
-            this.NUD_StatDev.Location = new System.Drawing.Point(25, 263);
+            this.NUD_StatDev.Location = new System.Drawing.Point(27, 98);
             this.NUD_StatDev.Name = "NUD_StatDev";
             this.NUD_StatDev.Size = new System.Drawing.Size(46, 20);
             this.NUD_StatDev.TabIndex = 3;
@@ -1218,80 +1320,131 @@
             this.CHK_Stats.AutoSize = true;
             this.CHK_Stats.Checked = true;
             this.CHK_Stats.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Stats.Location = new System.Drawing.Point(4, 179);
+            this.CHK_Stats.Location = new System.Drawing.Point(6, 19);
             this.CHK_Stats.Name = "CHK_Stats";
-            this.CHK_Stats.Size = new System.Drawing.Size(50, 17);
+            this.CHK_Stats.Size = new System.Drawing.Size(106, 17);
             this.CHK_Stats.TabIndex = 2;
-            this.CHK_Stats.Text = "Stats";
+            this.CHK_Stats.Text = "Randomize Stats";
             this.CHK_Stats.UseVisualStyleBackColor = true;
             this.CHK_Stats.CheckedChanged += new System.EventHandler(this.CHK_Stats_CheckedChanged);
             // 
-            // CHK_Ability
+            // CHK_EggGroup
             // 
-            this.CHK_Ability.AutoSize = true;
-            this.CHK_Ability.Checked = true;
-            this.CHK_Ability.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Ability.Location = new System.Drawing.Point(4, 65);
-            this.CHK_Ability.Name = "CHK_Ability";
-            this.CHK_Ability.Size = new System.Drawing.Size(61, 17);
-            this.CHK_Ability.TabIndex = 1;
-            this.CHK_Ability.Text = "Abilities";
-            this.CHK_Ability.UseVisualStyleBackColor = true;
-            this.CHK_Ability.CheckedChanged += new System.EventHandler(this.CHK_Ability_CheckedChanged);
+            this.CHK_EggGroup.AutoSize = true;
+            this.CHK_EggGroup.Checked = true;
+            this.CHK_EggGroup.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_EggGroup.Location = new System.Drawing.Point(203, 80);
+            this.CHK_EggGroup.Name = "CHK_EggGroup";
+            this.CHK_EggGroup.Size = new System.Drawing.Size(77, 17);
+            this.CHK_EggGroup.TabIndex = 13;
+            this.CHK_EggGroup.Text = "Egg Group";
+            this.CHK_EggGroup.UseVisualStyleBackColor = true;
             // 
-            // CHK_TM
+            // CHK_CatchRate
             // 
-            this.CHK_TM.AutoSize = true;
-            this.CHK_TM.Checked = true;
-            this.CHK_TM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_TM.Location = new System.Drawing.Point(4, 19);
-            this.CHK_TM.Name = "CHK_TM";
-            this.CHK_TM.Size = new System.Drawing.Size(42, 17);
-            this.CHK_TM.TabIndex = 0;
-            this.CHK_TM.Text = "TM";
-            this.CHK_TM.UseVisualStyleBackColor = true;
+            this.CHK_CatchRate.AutoSize = true;
+            this.CHK_CatchRate.Checked = true;
+            this.CHK_CatchRate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_CatchRate.Location = new System.Drawing.Point(203, 65);
+            this.CHK_CatchRate.Name = "CHK_CatchRate";
+            this.CHK_CatchRate.Size = new System.Drawing.Size(80, 17);
+            this.CHK_CatchRate.TabIndex = 11;
+            this.CHK_CatchRate.Text = "Catch Rate";
+            this.CHK_CatchRate.UseVisualStyleBackColor = true;
             // 
-            // B_EasyBreed
+            // CHK_Item
             // 
-            this.B_EasyBreed.Location = new System.Drawing.Point(459, 37);
-            this.B_EasyBreed.Name = "B_EasyBreed";
-            this.B_EasyBreed.Size = new System.Drawing.Size(89, 23);
-            this.B_EasyBreed.TabIndex = 421;
-            this.B_EasyBreed.Text = "Quick Hatch All";
-            this.B_EasyBreed.UseVisualStyleBackColor = true;
-            this.B_EasyBreed.Click += new System.EventHandler(this.B_EasyBreed_Click);
+            this.CHK_Item.AutoSize = true;
+            this.CHK_Item.Checked = true;
+            this.CHK_Item.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Item.Location = new System.Drawing.Point(118, 19);
+            this.CHK_Item.Name = "CHK_Item";
+            this.CHK_Item.Size = new System.Drawing.Size(76, 17);
+            this.CHK_Item.TabIndex = 5;
+            this.CHK_Item.Text = "Held Items";
+            this.CHK_Item.UseVisualStyleBackColor = true;
+            // 
+            // B_Randomize
+            // 
+            this.B_Randomize.Location = new System.Drawing.Point(352, 25);
+            this.B_Randomize.Name = "B_Randomize";
+            this.B_Randomize.Size = new System.Drawing.Size(82, 23);
+            this.B_Randomize.TabIndex = 417;
+            this.B_Randomize.Text = "Randomize";
+            this.B_Randomize.UseVisualStyleBackColor = true;
+            this.B_Randomize.Click += new System.EventHandler(this.B_Randomize_Click);
+            // 
+            // PB_MonSprite
+            // 
+            this.PB_MonSprite.Location = new System.Drawing.Point(285, 0);
+            this.PB_MonSprite.Name = "PB_MonSprite";
+            this.PB_MonSprite.Size = new System.Drawing.Size(80, 60);
+            this.PB_MonSprite.TabIndex = 89;
+            this.PB_MonSprite.TabStop = false;
+            // 
+            // B_Dump
+            // 
+            this.B_Dump.Location = new System.Drawing.Point(368, 10);
+            this.B_Dump.Name = "B_Dump";
+            this.B_Dump.Size = new System.Drawing.Size(82, 23);
+            this.B_Dump.TabIndex = 418;
+            this.B_Dump.Text = "Dump All";
+            this.B_Dump.UseVisualStyleBackColor = true;
+            this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
+            // 
+            // NUD_Egg
+            // 
+            this.NUD_Egg.Location = new System.Drawing.Point(252, 98);
+            this.NUD_Egg.Name = "NUD_Egg";
+            this.NUD_Egg.Size = new System.Drawing.Size(46, 20);
+            this.NUD_Egg.TabIndex = 22;
+            this.NUD_Egg.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // L_Same
+            // 
+            this.L_Same.AutoSize = true;
+            this.L_Same.Location = new System.Drawing.Point(201, 100);
+            this.L_Same.Name = "L_Same";
+            this.L_Same.Size = new System.Drawing.Size(48, 13);
+            this.L_Same.TabIndex = 23;
+            this.L_Same.Text = "Same(%)";
             // 
             // Personal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(552, 417);
-            this.Controls.Add(this.B_EasyBreed);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.B_Difficulty);
+            this.ClientSize = new System.Drawing.Size(469, 417);
             this.Controls.Add(this.B_Dump);
-            this.Controls.Add(this.B_Randomize);
-            this.Controls.Add(this.L_Mode);
             this.Controls.Add(this.PB_MonSprite);
             this.Controls.Add(this.TC_Pokemon);
             this.Controls.Add(this.L_Species_Precursor);
             this.Controls.Add(this.CB_Species);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(568, 455);
-            this.MinimumSize = new System.Drawing.Size(568, 455);
+            this.MaximumSize = new System.Drawing.Size(485, 455);
+            this.MinimumSize = new System.Drawing.Size(485, 455);
             this.Name = "Personal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Gen VI Personal.Garc Editor";
+            this.Text = "Personal Stats Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             this.TC_Pokemon.ResumeLayout(false);
             this.TP_General.ResumeLayout(false);
             this.TP_General.PerformLayout();
             this.TP_MoveTutors.ResumeLayout(false);
             this.TP_MoveTutors.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.TP_Randomizer.ResumeLayout(false);
+            this.GB_Modifier.ResumeLayout(false);
+            this.GB_Modifier.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EXP)).EndInit();
+            this.GB_Randomizer.ResumeLayout(false);
+            this.GB_Randomizer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TypePercent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_StatDev)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Egg)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1299,7 +1452,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label L_Mode;
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Label L_Species_Precursor;
         private System.Windows.Forms.TabControl TC_Pokemon;
@@ -1323,63 +1475,61 @@
         private System.Windows.Forms.Label Label_SPA;
         private System.Windows.Forms.Label Label_SPD;
         private System.Windows.Forms.Label Label_SPE;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label L_EVYield;
         private System.Windows.Forms.Label L_BaseStats;
         private System.Windows.Forms.ComboBox CB_HeldItem1;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label L_HeldItem;
         private System.Windows.Forms.ComboBox CB_Type2;
         private System.Windows.Forms.ComboBox CB_Type1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label L_Type;
+        private System.Windows.Forms.Label L_Item1;
+        private System.Windows.Forms.Label L_Item5;
+        private System.Windows.Forms.Label L_Item50;
         private System.Windows.Forms.ComboBox CB_HeldItem3;
         private System.Windows.Forms.ComboBox CB_HeldItem2;
         private System.Windows.Forms.MaskedTextBox TB_Weight;
         private System.Windows.Forms.MaskedTextBox TB_Height;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label L_Weight;
+        private System.Windows.Forms.Label L_Height;
         private System.Windows.Forms.ComboBox CB_Ability3;
         private System.Windows.Forms.ComboBox CB_Ability2;
         private System.Windows.Forms.ComboBox CB_Ability1;
         private System.Windows.Forms.ComboBox CB_EggGroup2;
         private System.Windows.Forms.ComboBox CB_EggGroup1;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label L_EggGroup;
+        private System.Windows.Forms.Label L_Ability;
         private System.Windows.Forms.MaskedTextBox TB_BaseExp;
-        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label L_BaseEXP;
         private System.Windows.Forms.MaskedTextBox TB_HatchCycles;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label L_HatchCycles;
         private System.Windows.Forms.MaskedTextBox TB_Friendship;
         private System.Windows.Forms.MaskedTextBox TB_Gender;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label L_Friendship;
+        private System.Windows.Forms.Label L_Gender;
         private System.Windows.Forms.ComboBox CB_Color;
         private System.Windows.Forms.ComboBox CB_EXPGroup;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label L_Color;
+        private System.Windows.Forms.Label L_EXPGrowth;
+        private System.Windows.Forms.Label L_CatchRate;
+        private System.Windows.Forms.Label L_WeightKG;
+        private System.Windows.Forms.Label L_HeightM;
         private System.Windows.Forms.TextBox TB_FormeCount;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label L_FormesCount;
         private System.Windows.Forms.TextBox TB_FormeSprite;
-        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label L_FormeSprite;
         private System.Windows.Forms.TextBox TB_Stage;
-        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label L_Stage;
         private System.Windows.Forms.MaskedTextBox TB_CatchRate;
         private System.Windows.Forms.TextBox TB_RawColor;
         private System.Windows.Forms.CheckedListBox CLB_TMHM;
         private System.Windows.Forms.CheckedListBox CLB_OrasTutors;
         private System.Windows.Forms.CheckedListBox CLB_MoveTutors;
-        private System.Windows.Forms.Label Lbl_OrasTutors;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label L_ORASTutors;
+        private System.Windows.Forms.Label L_Special;
+        private System.Windows.Forms.Label L_TMHM;
         private System.Windows.Forms.PictureBox PB_MonSprite;
         private System.Windows.Forms.Button B_Randomize;
         private System.Windows.Forms.Button B_Dump;
-        private System.Windows.Forms.Button B_Difficulty;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox CHK_TM;
         private System.Windows.Forms.CheckBox CHK_Ability;
         private System.Windows.Forms.CheckBox CHK_Stats;
@@ -1399,6 +1549,20 @@
         private System.Windows.Forms.CheckBox CHK_rATK;
         private System.Windows.Forms.CheckBox CHK_rHP;
         private System.Windows.Forms.CheckBox CHK_EggGroup;
-        private System.Windows.Forms.Button B_EasyBreed;
+        private System.Windows.Forms.Button B_ModAll;
+        private System.Windows.Forms.CheckBox CHK_NoEV;
+        private System.Windows.Forms.TabPage TP_Randomizer;
+        private System.Windows.Forms.Label L_SingleType;
+        private System.Windows.Forms.NumericUpDown NUD_TypePercent;
+        private System.Windows.Forms.GroupBox GB_Randomizer;
+        private System.Windows.Forms.GroupBox GB_Modifier;
+        private System.Windows.Forms.CheckBox CHK_EXP;
+        private System.Windows.Forms.Label L_FinalXP;
+        private System.Windows.Forms.NumericUpDown NUD_EXP;
+        private System.Windows.Forms.CheckBox CHK_Growth;
+        private System.Windows.Forms.CheckBox CHK_LowCatch;
+        private System.Windows.Forms.CheckBox CHK_QuickHatch;
+        private System.Windows.Forms.Label L_Same;
+        private System.Windows.Forms.NumericUpDown NUD_Egg;
     }
 }
