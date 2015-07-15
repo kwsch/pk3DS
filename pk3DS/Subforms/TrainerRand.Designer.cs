@@ -58,9 +58,15 @@
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
             this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
             this.CHK_OnlySingles = new System.Windows.Forms.CheckBox();
+            this.NUD_Damage = new System.Windows.Forms.NumericUpDown();
+            this.CHK_Damage = new System.Windows.Forms.CheckBox();
+            this.CHK_STAB = new System.Windows.Forms.CheckBox();
+            this.NUD_STAB = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             this.GB_Tweak.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Damage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_STAB)).BeginInit();
             this.SuspendLayout();
             // 
             // CHK_RandomPKM
@@ -95,7 +101,7 @@
             this.CHK_RandomMoves.AutoSize = true;
             this.CHK_RandomMoves.Checked = true;
             this.CHK_RandomMoves.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomMoves.Location = new System.Drawing.Point(12, 216);
+            this.CHK_RandomMoves.Location = new System.Drawing.Point(12, 180);
             this.CHK_RandomMoves.Name = "CHK_RandomMoves";
             this.CHK_RandomMoves.Size = new System.Drawing.Size(101, 17);
             this.CHK_RandomMoves.TabIndex = 5;
@@ -440,11 +446,77 @@
             this.CHK_OnlySingles.Text = "Only Single Battles";
             this.CHK_OnlySingles.UseVisualStyleBackColor = true;
             // 
+            // NUD_Damage
+            // 
+            this.NUD_Damage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.NUD_Damage.Location = new System.Drawing.Point(204, 192);
+            this.NUD_Damage.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.NUD_Damage.Name = "NUD_Damage";
+            this.NUD_Damage.Size = new System.Drawing.Size(35, 20);
+            this.NUD_Damage.TabIndex = 326;
+            this.NUD_Damage.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // CHK_Damage
+            // 
+            this.CHK_Damage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_Damage.AutoSize = true;
+            this.CHK_Damage.Checked = true;
+            this.CHK_Damage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Damage.Location = new System.Drawing.Point(12, 195);
+            this.CHK_Damage.Name = "CHK_Damage";
+            this.CHK_Damage.Size = new System.Drawing.Size(192, 17);
+            this.CHK_Damage.TabIndex = 327;
+            this.CHK_Damage.Text = "Ensure at least # Damaging Moves";
+            this.CHK_Damage.UseVisualStyleBackColor = true;
+            // 
+            // CHK_STAB
+            // 
+            this.CHK_STAB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_STAB.AutoSize = true;
+            this.CHK_STAB.Checked = true;
+            this.CHK_STAB.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_STAB.Location = new System.Drawing.Point(12, 210);
+            this.CHK_STAB.Name = "CHK_STAB";
+            this.CHK_STAB.Size = new System.Drawing.Size(172, 17);
+            this.CHK_STAB.TabIndex = 328;
+            this.CHK_STAB.Text = "Ensure at least # STAB Moves";
+            this.CHK_STAB.UseVisualStyleBackColor = true;
+            // 
+            // NUD_STAB
+            // 
+            this.NUD_STAB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.NUD_STAB.Location = new System.Drawing.Point(179, 212);
+            this.NUD_STAB.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.NUD_STAB.Name = "NUD_STAB";
+            this.NUD_STAB.Size = new System.Drawing.Size(35, 20);
+            this.NUD_STAB.TabIndex = 329;
+            this.NUD_STAB.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
             // TrainerRand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 377);
+            this.Controls.Add(this.NUD_STAB);
+            this.Controls.Add(this.CHK_STAB);
+            this.Controls.Add(this.CHK_Damage);
+            this.Controls.Add(this.NUD_Damage);
             this.Controls.Add(this.CHK_OnlySingles);
             this.Controls.Add(this.GB_Tweak);
             this.Controls.Add(this.NUD_GiftPercent);
@@ -474,6 +546,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).EndInit();
             this.GB_Tweak.ResumeLayout(false);
             this.GB_Tweak.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Damage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_STAB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -511,5 +585,9 @@
         private System.Windows.Forms.CheckBox CHK_GymTrainers;
         private System.Windows.Forms.CheckBox CHK_IgnoreSpecialClass;
         private System.Windows.Forms.CheckBox CHK_OnlySingles;
+        private System.Windows.Forms.NumericUpDown NUD_Damage;
+        private System.Windows.Forms.CheckBox CHK_Damage;
+        private System.Windows.Forms.CheckBox CHK_STAB;
+        private System.Windows.Forms.NumericUpDown NUD_STAB;
     }
 }

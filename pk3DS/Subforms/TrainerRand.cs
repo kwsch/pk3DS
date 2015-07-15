@@ -35,6 +35,15 @@ namespace pk3DS
             RSTE.rLevelPercent = NUD_Level.Value;
 
             RSTE.rMove = CHK_RandomMoves.Checked;
+            if (CHK_RandomMoves.Checked)
+            {
+                RSTE.rDMG = CHK_Damage.Checked;
+                if (RSTE.rDMG)
+                    RSTE.rDMGCount = (int)NUD_Damage.Value;
+                RSTE.rSTAB = CHK_STAB.Checked;
+                if (RSTE.rSTAB)
+                    RSTE.rSTABCount = (int)NUD_STAB.Value;
+            }
             RSTE.rItem = CHK_RandomItems.Checked;
             RSTE.rAbility = CHK_RandomAbilities.Checked;
             RSTE.rDiffIV = CHK_MaxDiffPKM.Checked;

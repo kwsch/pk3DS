@@ -609,11 +609,12 @@ namespace pk3DS
         }
 
         private bool randomizing;
-        public static bool rPKM, rSmart, rLevel, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand, rTypeTheme, rTypeGymTrainers, rOnlySingles;
+        public static bool rPKM, rSmart, rLevel, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand, rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB;
         public static bool[] rThemedClasses = { };
         public static string[] rTags;
         public static int[] megaEvos;
         public static int[] rIgnoreClass, rEnsureMEvo;
+        public static int rDMGCount, rSTABCount;
         private int[] mEvoTypes;
         private List<string> Tags = new List<string>();
         private Dictionary<string, int> TagTypes = new Dictionary<string, int>();
@@ -633,6 +634,13 @@ namespace pk3DS
             rTags = (Main.oras) ? GetTagsORAS() : GetTagsXY();
             mEvoTypes = GetMegaEvolvableTypes();
             List<int> GymE4Types = new List<int>();
+
+            // Fetch Move Stats for more difficult randomization
+            var moveData = Moves.getMoves();
+            int[] moveList = Enumerable.Range(1, movelist.Count() - 1).ToArray();
+            int mctr = 0;
+            Util.Shuffle(moveList);
+
             if (rEnsureMEvo.Length > 0)
             {
                 if (mEvoTypes.Length < 13 && rTypeTheme)
@@ -796,16 +804,39 @@ namespace pk3DS
                     
                     if (rMove)
                     {
-                        int[] movelist = new int[4];
+                        int[] speciesSTAB = { personal[trpk_pkm[p].SelectedIndex][6], personal[trpk_pkm[p].SelectedIndex][7] };
+                        int[] pkMoves = new int[4];
                         var moves = new[] {trpk_m1[p], trpk_m2[p], trpk_m3[p], trpk_m4[p]};
+
+                        int loopctr = 0;
+                    getMoves: // Get list of moves
+                        loopctr++;
                         for (int m = 0; m < 4; m++)
                         {
-                            int mv = (int)rnd32()%(moveC);
-                            while (banned.Contains(mv) || movelist.Contains(mv))
-                                mv = (int)rnd32()%(moveC);
+                            int mv = Randomizer.getRandomSpecies(ref moveList, ref mctr);
+                            while (banned.Contains(mv) || pkMoves.Contains(mv))
+                                mv = Randomizer.getRandomSpecies(ref moveList, ref mctr); ;
 
-                            movelist[m] = moves[m].SelectedIndex = mv;
+                            pkMoves[m] = mv;
                         }
+
+                        // If a certain amount of damaging moves is required, check.
+                        if (rDMG)
+                        {
+                            int damagingMoves = pkMoves.Count(move => moveData[move].Category != 0);
+                            if (damagingMoves < rDMGCount && loopctr < 666)
+                                goto getMoves;
+                        }
+                        if (rSTAB)
+                        {
+                            int STAB = pkMoves.Count(move => speciesSTAB.Contains(moveData[move].Type));
+                            if (STAB < rSTABCount && loopctr < 666)
+                                goto getMoves;
+                        }
+
+                        // Assign Moves
+                        for (int m = 0; m < 4; m++)
+                            moves[m].SelectedIndex = pkMoves[m];
                     }
                 }
             }
