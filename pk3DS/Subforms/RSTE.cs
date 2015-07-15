@@ -629,7 +629,7 @@ namespace pk3DS
         }
         private void Randomize()
         {
-            int[] banned = {165};
+            int[] banned = { 165, 621 }; // Struggle, Hyperspace Fury
             rTags = (Main.oras) ? GetTagsORAS() : GetTagsXY();
             mEvoTypes = GetMegaEvolvableTypes();
             List<int> GymE4Types = new List<int>();

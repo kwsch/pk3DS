@@ -156,7 +156,7 @@ namespace pk3DS
             int[] banned = new int[HMs.Length];
             for (int i = 0; i < banned.Length; i++) 
                 banned[i] = HMs[i];
-            banned = banned.Concat(new[] {165}).ToArray(); // Struggle
+            banned = banned.Concat(new[] { 165, 621 }).ToArray(); // Struggle, Hyperspace Fury
 
             // Move Stats
             int[] moveTypes = Moves.getTypes();
