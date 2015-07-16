@@ -101,24 +101,23 @@ namespace pk3DS
         private void getPokemon()
         {
             if (pkEntry < 0 || dumping) return;
-            byte[] data = File.ReadAllBytes(pkFiles[pkEntry]);
+            Pokemon pkm = new Pokemon(File.ReadAllBytes(pkFiles[pkEntry]));
 
             // Get
-            CB_Species.SelectedIndex = BitConverter.ToUInt16(data, 0);
-            CB_Move1.SelectedIndex = BitConverter.ToUInt16(data, 2);
-            CB_Move2.SelectedIndex = BitConverter.ToUInt16(data, 4);
-            CB_Move3.SelectedIndex = BitConverter.ToUInt16(data, 6);
-            CB_Move4.SelectedIndex = BitConverter.ToUInt16(data, 8);
-            byte EVs = data[0xA];
-            CHK_HP.Checked = ((EVs & 0x01) > 0);
-            CHK_ATK.Checked = ((EVs & 0x02) > 0);
-            CHK_DEF.Checked = ((EVs & 0x04) > 0);
-            CHK_Spe.Checked = ((EVs & 0x08) > 0);
-            CHK_SpA.Checked = ((EVs & 0x10) > 0);
-            CHK_SpD.Checked = ((EVs & 0x20) > 0);
-            CB_Nature.SelectedIndex = data[0xB];
-            CB_Item.SelectedIndex = BitConverter.ToUInt16(data, 0xC);
+            CB_Move1.SelectedIndex = pkm.Moves[0];
+            CB_Move2.SelectedIndex = pkm.Moves[1];
+            CB_Move3.SelectedIndex = pkm.Moves[2];
+            CB_Move4.SelectedIndex = pkm.Moves[3];
+            CHK_HP.Checked = pkm.HP;
+            CHK_ATK.Checked = pkm.ATK;
+            CHK_DEF.Checked = pkm.DEF;
+            CHK_Spe.Checked = pkm.SPE;
+            CHK_SpA.Checked = pkm.SPA;
+            CHK_SpD.Checked = pkm.SPD;
+            CB_Nature.SelectedIndex = pkm.Nature;
+            CB_Item.SelectedIndex = pkm.Item;
 
+            CB_Species.SelectedIndex = pkm.Species; // Loaded last in order to refresh the sprite with all info.
             // Last 2 Bytes are unused.
         }
         private void setPokemon()
@@ -126,33 +125,28 @@ namespace pk3DS
             if (pkEntry < 0 || dumping) return;
 
             // Each File is 16 Bytes.
-            byte[] data = new byte[0x10];
+            Pokemon pkm = new Pokemon(new byte[0x10]);
+            pkm.Species = (ushort) CB_Species.SelectedIndex;
+            pkm.Moves[0] = (ushort)CB_Move1.SelectedIndex;
+            pkm.Moves[1] = (ushort)CB_Move2.SelectedIndex;
+            pkm.Moves[2] = (ushort)CB_Move3.SelectedIndex;
+            pkm.Moves[3] = (ushort)CB_Move4.SelectedIndex;
+            pkm.HP = CHK_HP.Checked;
+            pkm.ATK = CHK_ATK.Checked;
+            pkm.DEF = CHK_DEF.Checked;
+            pkm.SPE = CHK_Spe.Checked;
+            pkm.SPA = CHK_SpA.Checked;
+            pkm.SPD = CHK_SpD.Checked;
+            pkm.Nature = (byte)CB_Nature.SelectedIndex;
+            pkm.Item = (ushort)CB_Item.SelectedIndex;
 
-            // Set
-            Array.Copy(BitConverter.GetBytes((ushort)CB_Species.SelectedIndex), 0, data, 0, 2);
-            Array.Copy(BitConverter.GetBytes((ushort)CB_Move1.SelectedIndex), 0, data, 2, 2);
-            Array.Copy(BitConverter.GetBytes((ushort)CB_Move2.SelectedIndex), 0, data, 4, 2);
-            Array.Copy(BitConverter.GetBytes((ushort)CB_Move3.SelectedIndex), 0, data, 6, 2);
-            Array.Copy(BitConverter.GetBytes((ushort)CB_Move4.SelectedIndex), 0, data, 8, 2);
-            int EVs = 0;
-            EVs |= (CHK_HP.Checked) ? 1 << 0 : 0;
-            EVs |= (CHK_ATK.Checked) ? 1 << 1 : 0;
-            EVs |= (CHK_DEF.Checked) ? 1 << 2 : 0;
-            EVs |= (CHK_Spe.Checked) ? 1 << 3 : 0;
-            EVs |= (CHK_SpA.Checked) ? 1 << 4 : 0;
-            EVs |= (CHK_SpD.Checked) ? 1 << 5 : 0;
-            data[0xA] = (byte)EVs;
-            data[0xB] = (byte)CB_Nature.SelectedIndex;
-            Array.Copy(BitConverter.GetBytes((ushort)CB_Item.SelectedIndex), 0, data, 0xC, 2);
-
-            // Last 2 Bytes are unused.
+            byte[] data = pkm.Write();
             File.WriteAllBytes(pkFiles[pkEntry], data);
         }
 
         private void changeSpecies(object sender, EventArgs e)
         {
-            string filename = "_" + CB_Species.SelectedIndex;
-            PB_PKM.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
+            PB_PKM.Image = RSTE.getSprite(CB_Species.SelectedIndex, 0, 0, CB_Item.SelectedIndex);
         }
 
         private void B_Remove_Click(object sender, EventArgs e)
@@ -267,6 +261,90 @@ namespace pk3DS
             }
             dumping = false;
             CB_Trainer.SelectedIndex = 0;
+        }
+
+        public class Trainer
+        {
+            public ushort Class;
+            public ushort Count;
+            public ushort[] Choices;
+
+            public Trainer(byte[] data)
+            {
+                Class = BitConverter.ToUInt16(data, 0);
+                Count = BitConverter.ToUInt16(data, 0);
+                Choices = new ushort[Count];
+                for (int i = 0; i < Count; i++)
+                    Choices[i] = BitConverter.ToUInt16(data, 4 + 2*i);
+            }
+            public byte[] Write()
+            {
+                using (var ms = new MemoryStream())
+                using (var bw = new BinaryWriter(ms))
+                {
+                    bw.Write(Class);
+                    bw.Write(Count);
+                    foreach (ushort Choice in Choices)
+                        bw.Write(Choice);
+                    return ms.ToArray();
+                }
+            }
+        }
+        public class Pokemon
+        {
+            public ushort Species, Item;
+            public byte Nature;
+            public ushort[] Moves;
+            public bool HP, ATK, DEF, SPE, SPA, SPD;
+
+            private byte _u1, _u2;
+
+            public Pokemon(byte[] data)
+            {
+                Species = BitConverter.ToUInt16(data, 0);
+                Moves = new[]
+                {
+                    BitConverter.ToUInt16(data, 2),
+                    BitConverter.ToUInt16(data, 4),
+                    BitConverter.ToUInt16(data, 6),
+                    BitConverter.ToUInt16(data, 8)
+                };
+                byte EVs = data[0xA];
+                HP = (EVs >> 0 & 1) == 1;
+                ATK = (EVs >> 1 & 1) == 1;
+                DEF = (EVs >> 2 & 1) == 1;
+                SPE = (EVs >> 3 & 1) == 1;
+                SPA = (EVs >> 4 & 1) == 1;
+                SPD = (EVs >> 5 & 1) == 1;
+                Nature = data[0xB];
+                Item = BitConverter.ToUInt16(data, 0xC);
+                _u1 = data[0xE];
+                _u2 = data[0xF];
+            }
+            public byte[] Write()
+            {
+                using (var ms = new MemoryStream())
+                using (var bw = new BinaryWriter(ms))
+                {
+                    bw.Write(Species);
+                    foreach (ushort Move in Moves)
+                        bw.Write(Move);
+
+                    int EVs = HP ? 1 : 0;
+                    EVs |= ATK ? 1 << 1 : 0;
+                    EVs |= DEF ? 1 << 1 : 0;
+                    EVs |= SPE ? 1 << 1 : 0;
+                    EVs |= SPA ? 1 << 1 : 0;
+                    EVs |= SPD ? 1 << 1 : 0;
+                    bw.Write((byte)EVs);
+
+                    bw.Write(Nature);
+                    bw.Write(Item);
+                    bw.Write(_u1);
+                    bw.Write(_u2);
+                    return ms.ToArray();
+                }
+            }
         }
     }
 }
