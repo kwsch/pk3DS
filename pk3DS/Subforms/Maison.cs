@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
-using pk3DS.Properties;
 
 namespace pk3DS
 {
@@ -125,7 +123,7 @@ namespace pk3DS
             if (pkEntry < 0 || dumping) return;
 
             // Each File is 16 Bytes.
-            Pokemon pkm = new Pokemon(new byte[0x10]);
+            Pokemon pkm = new Pokemon(File.ReadAllBytes(pkFiles[pkEntry]));
             pkm.Species = (ushort) CB_Species.SelectedIndex;
             pkm.Moves[0] = (ushort)CB_Move1.SelectedIndex;
             pkm.Moves[1] = (ushort)CB_Move2.SelectedIndex;
@@ -293,7 +291,7 @@ namespace pk3DS
         public class Pokemon
         {
             public ushort Species, Item;
-            public byte Nature;
+            public byte EVs, Nature;
             public ushort[] Moves;
             public bool HP, ATK, DEF, SPE, SPA, SPD;
 
@@ -309,7 +307,7 @@ namespace pk3DS
                     BitConverter.ToUInt16(data, 6),
                     BitConverter.ToUInt16(data, 8)
                 };
-                byte EVs = data[0xA];
+                EVs = data[0xA];
                 HP = (EVs >> 0 & 1) == 1;
                 ATK = (EVs >> 1 & 1) == 1;
                 DEF = (EVs >> 2 & 1) == 1;
@@ -330,13 +328,14 @@ namespace pk3DS
                     foreach (ushort Move in Moves)
                         bw.Write(Move);
 
-                    int EVs = HP ? 1 : 0;
-                    EVs |= ATK ? 1 << 1 : 0;
-                    EVs |= DEF ? 1 << 1 : 0;
-                    EVs |= SPE ? 1 << 1 : 0;
-                    EVs |= SPA ? 1 << 1 : 0;
-                    EVs |= SPD ? 1 << 1 : 0;
-                    bw.Write((byte)EVs);
+                    EVs &= 0xC0;
+                    EVs |= (byte)(HP ? 1 << 0 : 0);
+                    EVs |= (byte)(ATK ? 1 << 1 : 0);
+                    EVs |= (byte)(DEF ? 1 << 1 : 0);
+                    EVs |= (byte)(SPE ? 1 << 1 : 0);
+                    EVs |= (byte)(SPA ? 1 << 1 : 0);
+                    EVs |= (byte)(SPD ? 1 << 1 : 0);
+                    bw.Write(EVs);
 
                     bw.Write(Nature);
                     bw.Write(Item);
