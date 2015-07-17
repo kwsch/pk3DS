@@ -66,35 +66,29 @@ namespace pk3DS
         private void getTrainer()
         {
             if (trEntry < 0) return;
-            byte[] data = File.ReadAllBytes(trFiles[trEntry]);
+
             // Get
-            CB_Class.SelectedIndex = BitConverter.ToUInt16(data, 0);
-            ushort count = BitConverter.ToUInt16(data, 2);
             LB_Choices.Items.Clear();
-            GB_Trainer.Enabled = (count > 0);
-            for (int i = 0; i < count; i++)
-                LB_Choices.Items.Add(BitConverter.ToUInt16(data, 4 + 2 * i).ToString());
+            Trainer tr = new Trainer(File.ReadAllBytes(trFiles[trEntry]));
+
+            CB_Class.SelectedIndex = tr.Class;
+            GB_Trainer.Enabled = tr.Count > 0;
+
+            foreach (ushort Entry in tr.Choices)
+                LB_Choices.Items.Add(Entry.ToString());
         }
         private void setTrainer()
         {
             if (trEntry < 0 || !GB_Trainer.Enabled || dumping) return;
             // Gather
-            int trclass = CB_Class.SelectedIndex;
-            int count = LB_Choices.Items.Count;
-            byte[] data = new byte[4 + count * 2];
-            // Set
-            Array.Copy(BitConverter.GetBytes((ushort)trclass), 0, data, 0, 2);
-            Array.Copy(BitConverter.GetBytes((ushort)count), 0, data, 2, 2);
-            List<ushort> choices = new List<ushort>();
-            for (int i = 0; i < count; i++)
-                choices.Add(Convert.ToUInt16(LB_Choices.Items[i].ToString()));
-
-            ushort[] choiceList = choices.ToArray(); Array.Sort(choiceList);
-
-            for (int i = 0; i < count; i++)
-                Array.Copy(BitConverter.GetBytes(choiceList[i]), 0, data, 4 + 2 * i, 2);
-
-            File.WriteAllBytes(trFiles[trEntry], data);
+            Trainer tr = new Trainer();
+            tr.Class = (ushort)CB_Class.SelectedIndex;
+            tr.Count = (ushort)LB_Choices.Items.Count;
+            tr.Choices = new ushort[tr.Count];
+            for (int i = 0; i < tr.Count; i++)
+                tr.Choices[i] = Convert.ToUInt16(LB_Choices.Items[i].ToString());
+            Array.Sort(tr.Choices);
+            File.WriteAllBytes(trFiles[trEntry], tr.Write());
         }
         private void getPokemon()
         {
@@ -154,29 +148,27 @@ namespace pk3DS
         }
         private void B_Set_Click(object sender, EventArgs e)
         {
+            if (LB_Choices.SelectedIndex <= -1 || !GB_Trainer.Enabled) return;
 
-            if (LB_Choices.SelectedIndex > -1 && GB_Trainer.Enabled)
-            {
-                int toAdd = CB_Pokemon.SelectedIndex;
-                int count = LB_Choices.Items.Count;
-                List<ushort> choices = new List<ushort>();
-                for (int i = 0; i < count; i++)
-                    choices.Add(Convert.ToUInt16(LB_Choices.Items[i].ToString()));
+            int toAdd = CB_Pokemon.SelectedIndex;
+            int count = LB_Choices.Items.Count;
+            List<ushort> choices = new List<ushort>();
+            for (int i = 0; i < count; i++)
+                choices.Add(Convert.ToUInt16(LB_Choices.Items[i].ToString()));
 
-                if (Array.IndexOf(choices.ToArray(), toAdd) > 0) return; // Abort if already in the list
-                choices.Add((ushort)toAdd); // Add it to the list.
+            if (Array.IndexOf(choices.ToArray(), toAdd) > 0) return; // Abort if already in the list
+            choices.Add((ushort)toAdd); // Add it to the list.
 
-                // Get new list, and sort it.
-                ushort[] choiceList = choices.ToArray(); Array.Sort(choiceList);
+            // Get new list, and sort it.
+            ushort[] choiceList = choices.ToArray(); Array.Sort(choiceList);
 
-                // Set new list.
-                LB_Choices.Items.Clear();
-                foreach (ushort t in choiceList)
-                    LB_Choices.Items.Add(t.ToString());
+            // Set new list.
+            LB_Choices.Items.Clear();
+            foreach (ushort t in choiceList)
+                LB_Choices.Items.Add(t.ToString());
 
-                // Set current index to the one just added.
-                LB_Choices.SelectedIndex = Array.IndexOf(choiceList, toAdd);
-            }
+            // Set current index to the one just added.
+            LB_Choices.SelectedIndex = Array.IndexOf(choiceList, toAdd);
         }
         private void B_View_Click(object sender, EventArgs e)
         {
@@ -267,6 +259,7 @@ namespace pk3DS
             public ushort Count;
             public ushort[] Choices;
 
+            public Trainer(){}
             public Trainer(byte[] data)
             {
                 Class = BitConverter.ToUInt16(data, 0);
