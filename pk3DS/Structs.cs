@@ -425,4 +425,68 @@ namespace pk3DS
             }
         }
     }
+    public class Learnset
+    {
+        public int Count;
+        public short[] Moves;
+        public short[] Levels;
+        public Learnset(byte[] data)
+        {
+            if (data.Length < 4 || data.Length % 4 != 0) return; // Detect invalid files, weakly.
+            int Count = (data.Length / 4) - 1;
+            Moves = new short[Count];
+            Levels = new short[Count];
+            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    Moves[i] = br.ReadInt16();
+                    Levels[i] = br.ReadInt16();
+                }
+            }
+        }
+        public byte[] Write()
+        {
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter bw = new BinaryWriter(ms))
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    bw.Write(Moves[i]);
+                    bw.Write(Levels[i]);
+                }
+                bw.Write(-1);
+                return ms.ToArray();
+            }
+        }
+    }
+    public class EggMoves
+    {
+        public ushort Count;
+        public ushort[] Moves;
+
+        public EggMoves(byte[] data)
+        {
+            if (data.Length < 2 || data.Length % 2 != 0) return; // Detect invalid files, weakly.
+            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+            {
+                Count = br.ReadUInt16();
+                Moves = new ushort[Count];
+                for (int i = 0; i < Count; i++)
+                    Moves[i] = br.ReadUInt16();
+            }
+        }
+        public byte[] Write()
+        {
+            Count = (ushort)Moves.Length;
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter bw = new BinaryWriter(ms))
+            {
+                for (int i = 0; i < Count; i++)
+                    bw.Write(Moves[i]);
+
+                return ms.ToArray();
+            }
+        }
+    }
 }
