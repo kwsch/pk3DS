@@ -62,6 +62,8 @@ namespace pk3DS
             dgv.Columns.Add(dgvLevel);
             dgv.Columns.Add(dgvMove);
         }
+
+        private Learnset pkm;
         private void getList()
         {
             entry = Util.getIndex(CB_Species);
@@ -73,27 +75,15 @@ namespace pk3DS
             dgv.Rows.Clear();
             byte[] input = File.ReadAllBytes(files[entry]);
             if (input.Length <= 4) { File.WriteAllBytes(files[entry], BitConverter.GetBytes(-1)); return; }
+            pkm = new Learnset(input);
 
-            List<short> moves = new List<short>();
-            List<byte> levels = new List<byte>();
-            for (int i = 0; i < (input.Length / 4) - 1; i++)
-            {
-                short move = BitConverter.ToInt16(input, i * 4);
-                if (move < 0) continue;
-
-                moves.Add(move);
-                levels.Add(input[i * 4 + 2]);
-            }
-            short[] moveList = moves.ToArray();
-            byte[] levelList = levels.ToArray();
-
-            dgv.Rows.Add(moveList.Length);
+            dgv.Rows.Add(pkm.Count);
 
             // Fill Entries
-            for (int i = 0; i < moveList.Length; i++)
+            for (int i = 0; i < pkm.Count; i++)
             {
-                dgv.Rows[i].Cells[0].Value = levelList[i];
-                dgv.Rows[i].Cells[1].Value = movelist[moveList[i]];
+                dgv.Rows[i].Cells[0].Value = pkm.Levels[i];
+                dgv.Rows[i].Cells[1].Value = movelist[pkm.Moves[i]];
             }
 
             dgv.CancelEdit();
@@ -101,35 +91,24 @@ namespace pk3DS
         private void setList()
         {
             if (entry < 1 || dumping) return;
-            List<ushort> moves = new List<ushort>();
-            List<ushort> levels = new List<ushort>();
+            List<short> moves = new List<short>();
+            List<short> levels = new List<short>();
             for (int i = 0; i < dgv.Rows.Count - 1; i++)
             {
                 int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[1].Value);
                 if (move < 1) continue;
 
-                moves.Add((ushort)move);
+                moves.Add((short)move);
                 string level = (dgv.Rows[i].Cells[0].Value ?? 0).ToString();
-                ushort lv;
-                UInt16.TryParse(level, out lv);
+                short lv;
+                Int16.TryParse(level, out lv);
                 if (lv > 100) lv = 100;
                 else if (lv == 0) lv = 1;
                 levels.Add(lv);
             }
-            ushort[] movevals = moves.ToArray(); if (movevals.Length == 0) { File.WriteAllBytes(files[entry], BitConverter.GetBytes(-1)); return; }
-            ushort[] levelvals = levels.ToArray();
-
-            byte[] data = new byte[4 + 4 * movevals.Length];
-            for (int i = 0; i < movevals.Length; i++)
-            {
-                Array.Copy(BitConverter.GetBytes(movevals[i]), 0, data, 4 * i, 2);
-                Array.Copy(BitConverter.GetBytes(levelvals[i]), 0, data, 2 + 4 * i, 2);
-            }
-
-            // Cap data
-            Array.Copy(BitConverter.GetBytes(-1), 0, data, data.Length - 4, 4);
-
-            File.WriteAllBytes(files[entry], data);
+            pkm.Moves = moves.ToArray();
+            pkm.Levels = levels.ToArray();
+            File.WriteAllBytes(files[entry], pkm.Write());
         }
 
         private void changeEntry(object sender, EventArgs e)

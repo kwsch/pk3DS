@@ -52,6 +52,8 @@ namespace pk3DS
             }
             dgv.Columns.Add(dgvMove);
         }
+
+        private EggMoves pkm = new EggMoves(new byte[0]);
         private void getList()
         {
             entry = Util.getIndex(CB_Species);
@@ -63,13 +65,13 @@ namespace pk3DS
             dgv.Rows.Clear();
             byte[] input = File.ReadAllBytes(files[entry]);
             if (input.Length == 0) return;
-            int count = BitConverter.ToUInt16(input, 0);
-            if (count < 1) { File.WriteAllBytes(files[entry], new byte[0]); return; }
-            dgv.Rows.Add(count);
+            pkm = new EggMoves(input);
+            if (pkm.Count < 1) { File.WriteAllBytes(files[entry], new byte[0]); return; }
+            dgv.Rows.Add(pkm.Count);
 
             // Fill Entries
-            for (int i = 0; i < count; i++)
-                dgv.Rows[i].Cells[0].Value = movelist[BitConverter.ToUInt16(input, 2 + i * 2)];
+            for (int i = 0; i < pkm.Count; i++)
+                dgv.Rows[i].Cells[0].Value = movelist[pkm.Moves[i]];
 
             dgv.CancelEdit();
         }
@@ -82,13 +84,9 @@ namespace pk3DS
                 int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[0].Value);
                 if (move > 0) moves.Add((ushort)move);
             }
-            ushort[] movevals = moves.ToArray(); if (movevals.Length == 0) { File.WriteAllBytes(files[entry], new byte[0]); return; }
-            byte[] movedata = new byte[2 + movevals.Length * 2];
-            Array.Copy(BitConverter.GetBytes((ushort)movevals.Length), movedata, 2);
-            for (int i = 0; i < movevals.Length; i++)
-                Array.Copy(BitConverter.GetBytes(movevals[i]), 0, movedata, 2 + 2 * i, 2);
+            pkm.Moves = moves.ToArray();
 
-            File.WriteAllBytes(files[entry], movedata);
+            File.WriteAllBytes(files[entry], pkm.Write());
         }
 
         private void changeEntry(object sender, EventArgs e)

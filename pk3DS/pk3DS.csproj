@@ -67,9 +67,7 @@
     <Compile Include="3DS\BCLIM.cs" />
     <Compile Include="Randomizer.cs" />
     <Compile Include="3DS\RomFS.cs" />
-    <Compile Include="Structs.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Structs.cs" />
     <Compile Include="Subforms\Patch.cs">
       <SubType>Form</SubType>
     </Compile>

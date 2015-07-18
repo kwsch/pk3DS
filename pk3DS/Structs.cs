@@ -433,7 +433,7 @@ namespace pk3DS
         public Learnset(byte[] data)
         {
             if (data.Length < 4 || data.Length % 4 != 0) return; // Detect invalid files, weakly.
-            int Count = (data.Length / 4) - 1;
+            Count = (data.Length / 4) - 1;
             Moves = new short[Count];
             Levels = new short[Count];
             using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
@@ -479,9 +479,11 @@ namespace pk3DS
         public byte[] Write()
         {
             Count = (ushort)Moves.Length;
+            if (Count == 0) return new byte[0];
             using (MemoryStream ms = new MemoryStream())
             using (BinaryWriter bw = new BinaryWriter(ms))
             {
+                bw.Write(Count);
                 for (int i = 0; i < Count; i++)
                     bw.Write(Moves[i]);
 
