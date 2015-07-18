@@ -187,20 +187,6 @@ namespace pk3DS
             }
             Util.Alert("Moves have been randomized!");
         }
-        internal static int[] getTypes()
-        {
-            if (Main.oras)
-                CTR.mini.unpackMini(Directory.GetFiles("move")[0], "WD");
-            string[] f2 = Directory.GetFiles("move");
-            int[] moveTypes = new int[f2.Length];
-            for (int i = 0; i < f2.Length; i++)
-                moveTypes[i] = File.ReadAllBytes(f2[i])[0];
-
-            if (Main.oras)
-                CTR.mini.packMini("move", "WD", "0", ".bin");
-
-            return moveTypes;
-        }
 
         internal static Move[] getMoves()
         {

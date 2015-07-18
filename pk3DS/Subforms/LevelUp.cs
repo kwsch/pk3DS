@@ -159,7 +159,7 @@ namespace pk3DS
             banned = banned.Concat(new[] { 165, 621 }).ToArray(); // Struggle, Hyperspace Fury
 
             // Move Stats
-            int[] moveTypes = Moves.getTypes();
+            Move[] moveTypes = Moves.getMoves();
 
             // Personal Stats
             byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
@@ -189,9 +189,9 @@ namespace pk3DS
                         (!CHK_HMs.Checked && banned.Contains(move)) // HM Moves Not Allowed
                         || (forceSTAB && // STAB is required
                             !(
-                            moveTypes[move] == personalData[6 + (Main.oras ? 0x50 : 0x40) * i] // Type 1
+                            moveTypes[move].Type == personalData[6 + (Main.oras ? 0x50 : 0x40) * i] // Type 1
                             ||
-                            moveTypes[move] == personalData[7 + (Main.oras ? 0x50 : 0x40) * i] // Type 2
+                            moveTypes[move].Type == personalData[7 + (Main.oras ? 0x50 : 0x40) * i] // Type 2
                             )
                             )
                             )
@@ -256,7 +256,7 @@ namespace pk3DS
 
         public void calcStats() // Debug Function
         {
-            int[] moveTypes = Moves.getTypes();
+            Move[] MoveData = Moves.getMoves();
 
             byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
 
@@ -280,13 +280,12 @@ namespace pk3DS
                         movectr--;
                         continue;
                     }
-                    int movetype = moveTypes[move];
-                    if (movetype == personalData[6 + (Main.oras ? 0x50 : 0x40)*i] ||
-                        movetype == personalData[7 + (Main.oras ? 0x50 : 0x40)*i])
+                    if (MoveData[move].Type == personalData[6 + (Main.oras ? 0x50 : 0x40) * i] ||
+                        MoveData[move].Type == personalData[7 + (Main.oras ? 0x50 : 0x40) * i])
                         stab++;
                 }
             }
-            Util.Alert(String.Format("Moves Learned: {0}\r\nMost Learned: {1} @ {2}\r\nStab Count: {3}", 
+            Util.Alert(String.Format("Moves Learned: {0}\r\nMost Learned: {1} @ {2}\r\nSTAB Count: {3}", 
                 movectr, max,
                 spec, stab));
         }
