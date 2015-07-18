@@ -729,23 +729,26 @@ namespace pk3DS
 
                 ushort[] itemvals = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
                 itemvals = itemvals.Concat(Legal.Pouch_Berry_XY).ToArray();
-                int moveC = trpk_m1[0].Items.Count;
                 int itemC = itemvals.Length;
                 int ctr = 0;
 
                 int type = GetRandomType(i);
                 bool mevo = rEnsureMEvo.Contains(i);
 
+
                 // Randomize Pokemon
                 for (int p = 0; p < CB_numPokemon.SelectedIndex; p++)
                 {
+                    Personal.Info oldpkm = new Personal.Info(personal[trpk_pkm[p].SelectedIndex]);
+                    Personal.Info pkm = null;
                     if (rPKM)
                     {
                         // randomize pokemon
                         int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
+                        pkm = new Personal.Info(personal[species]);
                         if (rTypeTheme)
                         {
-                            while (personal[species][6] != type && personal[species][7] != type || (mevo && p == CB_numPokemon.SelectedIndex-1 && !megaEvos.Contains(species)))
+                            while (pkm.Types[0] != type && pkm.Types[1] != type || (mevo && p == CB_numPokemon.SelectedIndex - 1 && !megaEvos.Contains(species)))
                             {
                                 if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
                                 {
@@ -753,10 +756,8 @@ namespace pk3DS
                                 }
                                 else if (rSmart) // Get a new Pokemon with a close BST
                                 {
-                                    int oldBST = personal[trpk_pkm[p].SelectedIndex].Take(6).Sum(b => (ushort)b);
-                                    int newBST = personal[species].Take(6).Sum(b => (ushort)b);
-                                    while (!(newBST * 5 / 6 < oldBST && newBST * 6 / 5 > oldBST))
-                                    { species = sL[rand.Next(1, sL.Length)]; newBST = personal[species].Take(6).Sum(b => (ushort)b); }
+                                    while (!(pkm.BST * 5 / 6 < oldpkm.BST && pkm.BST * 6 / 5 > oldpkm.BST))
+                                    { species = sL[rand.Next(1, sL.Length)]; pkm = new Personal.Info(personal[species]); }
                                 }
                                 else
                                 {
@@ -770,10 +771,8 @@ namespace pk3DS
                         }
                         else if (rSmart) // Get a new Pokemon with a close BST
                         {
-                            int oldBST = personal[trpk_pkm[p].SelectedIndex].Take(6).Sum(b => (ushort)b);
-                            int newBST = personal[species].Take(6).Sum(b => (ushort)b);
-                            while (!(newBST * 5 / 6 < oldBST && newBST * 6 / 5 > oldBST))
-                            { species = sL[rand.Next(1, sL.Length)]; newBST = personal[species].Take(6).Sum(b => (ushort)b); }
+                            while (!(pkm.BST * 5 / 6 < oldpkm.BST && pkm.BST * 6 / 5 > oldpkm.BST))
+                            { species = sL[rand.Next(1, sL.Length)]; pkm = new Personal.Info(personal[species]); }
                         }
 
                         trpk_pkm[p].SelectedIndex = species;
@@ -804,7 +803,7 @@ namespace pk3DS
                     
                     if (rMove)
                     {
-                        int[] speciesSTAB = { personal[trpk_pkm[p].SelectedIndex][6], personal[trpk_pkm[p].SelectedIndex][7] };
+                        pkm = pkm ?? new Personal.Info(personal[trpk_pkm[p].SelectedIndex]);
                         int[] pkMoves = new int[4];
                         var moves = new[] {trpk_m1[p], trpk_m2[p], trpk_m3[p], trpk_m4[p]};
 
@@ -829,7 +828,7 @@ namespace pk3DS
                         }
                         if (rSTAB)
                         {
-                            int STAB = pkMoves.Count(move => speciesSTAB.Contains(moveData[move].Type));
+                            int STAB = pkMoves.Count(move => pkm.Types.Contains(moveData[move].Type));
                             if (STAB < rSTABCount && loopctr < 666)
                                 goto getMoves;
                         }
