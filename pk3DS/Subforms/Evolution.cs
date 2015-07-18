@@ -144,7 +144,6 @@ namespace pk3DS
         private void B_RandAll_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Randomize all resulting species?", "Evolution methods and parameters will stay the same.")) return;
-            Random rnd = new Random();
 
             // Set up advanced randomization options
             bool rBST = CHK_BST.Checked;
@@ -169,7 +168,9 @@ namespace pk3DS
                     {
                         // Get a new random species
                         int oldSpecies = rb[j].SelectedIndex;
+                        Personal.Info oldpkm = new Personal.Info(personal[oldSpecies]);
                         int currentSpecies = Array.IndexOf(specieslist, CB_Species.Text);
+                        Personal.Info pkm = new Personal.Info(personal[currentSpecies]);
                         int loopctr = 0; // altering calculatiosn to prevent infinite loops
                     defspecies:
                         int newSpecies = Randomizer.getRandomSpecies(ref sL, ref ctr);
@@ -181,25 +182,19 @@ namespace pk3DS
                         { goto defspecies; }
                         if (rEXP) // Experience Growth Rate matches
                         {
-                            if (personal[oldSpecies][0x15] != personal[newSpecies][0x15])
+                            if (oldpkm.EXPGrowth != pkm.EXPGrowth)
                             { goto defspecies; }
                         }
                         if (rType) // Type has to be somewhat similar
                         {
-                            int o1 = personal[oldSpecies][6];
-                            int o2 = personal[oldSpecies][7];
-                            int n1 = personal[newSpecies][6];
-                            int n2 = personal[newSpecies][7];
-                            if (o1 != n1 && o1 != n2 && o2 != n2 && o2 != n1)
+                            if (!oldpkm.Types.Contains(pkm.Types[0]) && !oldpkm.Types.Contains(pkm.Types[1]))
                             { goto defspecies; }
                         }
                         if (rBST) // Base stat total has to be close
                         {
                             const int l = 5; // tweakable scalars
                             const int h = 6;
-                            int oldBST = personal[oldSpecies].Take(6).Sum(b => (ushort)b);
-                            int newBST = personal[newSpecies].Take(6).Sum(b => (ushort)b);
-                            if (!(newBST * l / (h + loopctr/722) < oldBST && newBST * h / l > oldBST))
+                            if (!(pkm.BST * l / (h + loopctr/722) < oldpkm.BST && pkm.BST * h / l > oldpkm.BST))
                             { goto defspecies; }
                         }
                         // assign random val
