@@ -7,9 +7,9 @@ using System.Windows.Forms;
 
 namespace pk3DS
 {
-    public partial class Maison : Form
+    public partial class MaisonEditor : Form
     {
-        public Maison(bool super)
+        public MaisonEditor(bool super)
         {
             Array.Resize(ref specieslist, 722);
             movelist[0] = specieslist[0] = itemlist[0] = "";
@@ -69,7 +69,7 @@ namespace pk3DS
 
             // Get
             LB_Choices.Items.Clear();
-            Trainer tr = new Trainer(File.ReadAllBytes(trFiles[trEntry]));
+            Maison.Trainer tr = new Maison.Trainer(File.ReadAllBytes(trFiles[trEntry]));
 
             CB_Class.SelectedIndex = tr.Class;
             GB_Trainer.Enabled = tr.Count > 0;
@@ -81,9 +81,11 @@ namespace pk3DS
         {
             if (trEntry < 0 || !GB_Trainer.Enabled || dumping) return;
             // Gather
-            Trainer tr = new Trainer();
-            tr.Class = (ushort)CB_Class.SelectedIndex;
-            tr.Count = (ushort)LB_Choices.Items.Count;
+            Maison.Trainer tr = new Maison.Trainer
+            {
+                Class = (ushort) CB_Class.SelectedIndex,
+                Count = (ushort) LB_Choices.Items.Count
+            };
             tr.Choices = new ushort[tr.Count];
             for (int i = 0; i < tr.Count; i++)
                 tr.Choices[i] = Convert.ToUInt16(LB_Choices.Items[i].ToString());
@@ -93,7 +95,7 @@ namespace pk3DS
         private void getPokemon()
         {
             if (pkEntry < 0 || dumping) return;
-            Pokemon pkm = new Pokemon(File.ReadAllBytes(pkFiles[pkEntry]));
+            Maison.Pokemon pkm = new Maison.Pokemon(File.ReadAllBytes(pkFiles[pkEntry]));
 
             // Get
             CB_Move1.SelectedIndex = pkm.Moves[0];
@@ -117,20 +119,22 @@ namespace pk3DS
             if (pkEntry < 0 || dumping) return;
 
             // Each File is 16 Bytes.
-            Pokemon pkm = new Pokemon(File.ReadAllBytes(pkFiles[pkEntry]));
-            pkm.Species = (ushort) CB_Species.SelectedIndex;
+            Maison.Pokemon pkm = new Maison.Pokemon(File.ReadAllBytes(pkFiles[pkEntry]))
+            {
+                Species = (ushort) CB_Species.SelectedIndex,
+                HP = CHK_HP.Checked,
+                ATK = CHK_ATK.Checked,
+                DEF = CHK_DEF.Checked,
+                SPE = CHK_Spe.Checked,
+                SPA = CHK_SpA.Checked,
+                SPD = CHK_SpD.Checked,
+                Nature = (byte) CB_Nature.SelectedIndex,
+                Item = (ushort) CB_Item.SelectedIndex
+            };
             pkm.Moves[0] = (ushort)CB_Move1.SelectedIndex;
             pkm.Moves[1] = (ushort)CB_Move2.SelectedIndex;
             pkm.Moves[2] = (ushort)CB_Move3.SelectedIndex;
             pkm.Moves[3] = (ushort)CB_Move4.SelectedIndex;
-            pkm.HP = CHK_HP.Checked;
-            pkm.ATK = CHK_ATK.Checked;
-            pkm.DEF = CHK_DEF.Checked;
-            pkm.SPE = CHK_Spe.Checked;
-            pkm.SPA = CHK_SpA.Checked;
-            pkm.SPD = CHK_SpD.Checked;
-            pkm.Nature = (byte)CB_Nature.SelectedIndex;
-            pkm.Item = (ushort)CB_Item.SelectedIndex;
 
             byte[] data = pkm.Write();
             File.WriteAllBytes(pkFiles[pkEntry], data);
@@ -211,7 +215,6 @@ namespace pk3DS
             dumping = false;
             CB_Trainer.SelectedIndex = 0;
         }
-
         private void B_DumpPKs_Click(object sender, EventArgs e)
         {
             dumping = true;
@@ -251,92 +254,6 @@ namespace pk3DS
             }
             dumping = false;
             CB_Trainer.SelectedIndex = 0;
-        }
-
-        public class Trainer
-        {
-            public ushort Class;
-            public ushort Count;
-            public ushort[] Choices;
-
-            public Trainer(){}
-            public Trainer(byte[] data)
-            {
-                Class = BitConverter.ToUInt16(data, 0);
-                Count = BitConverter.ToUInt16(data, 0);
-                Choices = new ushort[Count];
-                for (int i = 0; i < Count; i++)
-                    Choices[i] = BitConverter.ToUInt16(data, 4 + 2*i);
-            }
-            public byte[] Write()
-            {
-                using (var ms = new MemoryStream())
-                using (var bw = new BinaryWriter(ms))
-                {
-                    bw.Write(Class);
-                    bw.Write(Count);
-                    foreach (ushort Choice in Choices)
-                        bw.Write(Choice);
-                    return ms.ToArray();
-                }
-            }
-        }
-        public class Pokemon
-        {
-            public ushort Species, Item;
-            public byte EVs, Nature;
-            public ushort[] Moves;
-            public bool HP, ATK, DEF, SPE, SPA, SPD;
-
-            private byte _u1, _u2;
-
-            public Pokemon(byte[] data)
-            {
-                Species = BitConverter.ToUInt16(data, 0);
-                Moves = new[]
-                {
-                    BitConverter.ToUInt16(data, 2),
-                    BitConverter.ToUInt16(data, 4),
-                    BitConverter.ToUInt16(data, 6),
-                    BitConverter.ToUInt16(data, 8)
-                };
-                EVs = data[0xA];
-                HP = (EVs >> 0 & 1) == 1;
-                ATK = (EVs >> 1 & 1) == 1;
-                DEF = (EVs >> 2 & 1) == 1;
-                SPE = (EVs >> 3 & 1) == 1;
-                SPA = (EVs >> 4 & 1) == 1;
-                SPD = (EVs >> 5 & 1) == 1;
-                Nature = data[0xB];
-                Item = BitConverter.ToUInt16(data, 0xC);
-                _u1 = data[0xE];
-                _u2 = data[0xF];
-            }
-            public byte[] Write()
-            {
-                using (var ms = new MemoryStream())
-                using (var bw = new BinaryWriter(ms))
-                {
-                    bw.Write(Species);
-                    foreach (ushort Move in Moves)
-                        bw.Write(Move);
-
-                    EVs &= 0xC0;
-                    EVs |= (byte)(HP ? 1 << 0 : 0);
-                    EVs |= (byte)(ATK ? 1 << 1 : 0);
-                    EVs |= (byte)(DEF ? 1 << 1 : 0);
-                    EVs |= (byte)(SPE ? 1 << 1 : 0);
-                    EVs |= (byte)(SPA ? 1 << 1 : 0);
-                    EVs |= (byte)(SPD ? 1 << 1 : 0);
-                    bw.Write(EVs);
-
-                    bw.Write(Nature);
-                    bw.Write(Item);
-                    bw.Write(_u1);
-                    bw.Write(_u2);
-                    return ms.ToArray();
-                }
-            }
         }
     }
 }

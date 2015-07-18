@@ -387,7 +387,7 @@ namespace pk3DS
                 bool super = (dr == DialogResult.Yes);
                 string[] files = { (super) ? "maisontrS" : "maisontrN", (super) ? "maisonpkS" : "maisonpkN" };
                 fileGet(files);
-                Invoke((Action)(() => new Maison(super).ShowDialog()));
+                Invoke((Action)(() => new MaisonEditor(super).ShowDialog()));
                 fileSet(files);
             }).Start();
         }

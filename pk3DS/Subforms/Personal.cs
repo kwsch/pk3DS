@@ -182,14 +182,13 @@ namespace pk3DS
             else if (Array.IndexOf(ev_boxes, mtb) > -1 && val > 3)
                 mtb.Text = "3";
         }
-        int bst;
 
-        private Info pkm;
+        private PersonalInfo pkm;
         private void readInfo()
         {
             byte[] array = new byte[Main.oras ? 0x50 : 0x40];
             Array.Copy(data, array.Length * entry, array, 0, array.Length);
-            pkm = new Info(array);
+            pkm = new PersonalInfo(array);
 
             TB_BaseHP.Text = pkm.HP.ToString("000");
             TB_BaseATK.Text = pkm.ATK.ToString("000");
@@ -197,7 +196,6 @@ namespace pk3DS
             TB_BaseSPE.Text = pkm.SPE.ToString("000");
             TB_BaseSPA.Text = pkm.SPA.ToString("000");
             TB_BaseSPD.Text = pkm.SPD.ToString("000");
-            bst = pkm.BST;
             TB_HPEVs.Text = pkm.EV_HP.ToString("0");
             TB_ATKEVs.Text = pkm.EV_ATK.ToString("0");
             TB_DEFEVs.Text = pkm.EV_DEF.ToString("0");
@@ -477,7 +475,7 @@ namespace pk3DS
                 CB_Species.SelectedIndex = i; // Get new Species
                 result += "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
 
-                result += String.Format("Base Stats: {0}.{1}.{2}.{3}.{4}.{5} (BST: {6})", TB_BaseHP.Text, TB_BaseATK.Text, TB_BaseDEF.Text, TB_BaseSPA.Text, TB_BaseSPD.Text, TB_BaseSPE.Text, bst) + Environment.NewLine;
+                result += String.Format("Base Stats: {0}.{1}.{2}.{3}.{4}.{5} (BST: {6})", TB_BaseHP.Text, TB_BaseATK.Text, TB_BaseDEF.Text, TB_BaseSPA.Text, TB_BaseSPD.Text, TB_BaseSPE.Text, pkm.BST) + Environment.NewLine;
                 result += String.Format("EV Yield: {0}.{1}.{2}.{3}.{4}.{5}", TB_HPEVs.Text, TB_ATKEVs.Text, TB_DEFEVs.Text, TB_SPAEVs.Text, TB_SPDEVs.Text, TB_SPEEVs.Text) + Environment.NewLine;
                 result += String.Format("Abilities: {0} (1) | {1} (2) | {2} (H)", CB_Ability1.Text, CB_Ability2.Text, CB_Ability3.Text) + Environment.NewLine;
 
@@ -621,159 +619,6 @@ namespace pk3DS
             species = getPersonalEntryList(data, Main.oras, AltForms, species);
             Array.Resize(ref species, oras ? species.Length : 799);
             return species;
-        }
-
-        public class Info
-        {
-            public byte HP, ATK, DEF, SPE, SPA, SPD;
-            public int BST;
-            private ushort EVs;
-            public int EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD;
-            public byte[] Types = new byte[2];
-            public byte CatchRate, EvoStage;
-            public ushort[] Items = new ushort[3];
-            public byte Gender, HatchCycles, BaseFriendship, EXPGrowth;
-            public byte[] EggGroups = new byte[2];
-            public byte[] Abilities = new byte[3];
-            public ushort FormeSprite, BaseEXP;
-            public byte FormeCount, Color;
-            public float Height, Weight;
-            public bool[] TMHM;
-            public bool[] Tutors;
-            public bool[][] ORASTutors = new bool[4][];
-            public byte _1B;
-            public ushort _1C;
-            public Info(byte[] data)
-            {
-                using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
-                {
-                    HP = br.ReadByte(); ATK = br.ReadByte(); DEF = br.ReadByte();
-                    SPE = br.ReadByte(); SPA = br.ReadByte(); SPD = br.ReadByte();
-                    BST = HP + ATK + DEF + SPE + SPA + SPD;
-                    
-                    Types = new[] {br.ReadByte(), br.ReadByte()};
-                    CatchRate = br.ReadByte();
-                    EvoStage = br.ReadByte();
-
-                    EVs = br.ReadUInt16();
-                    EV_HP = ((EVs >> 0) & 0x3);
-                    EV_ATK = ((EVs >> 2) & 0x3);
-                    EV_DEF = ((EVs >> 4) & 0x3);
-                    EV_SPE = ((EVs >> 6) & 0x3);
-                    EV_SPA = ((EVs >> 8) & 0x3);
-                    EV_SPD = ((EVs >> 10) & 0x3);
-
-                    Items = new[] {br.ReadUInt16(), br.ReadUInt16(), br.ReadUInt16()};
-                    Gender = br.ReadByte();
-                    HatchCycles = br.ReadByte();
-                    BaseFriendship = br.ReadByte();
-
-                    EXPGrowth = br.ReadByte();
-                    EggGroups = new[] {br.ReadByte(), br.ReadByte()};
-                    Abilities = new[] {br.ReadByte(), br.ReadByte(), br.ReadByte()};
-                    _1B = br.ReadByte();
-                    _1C = br.ReadUInt16();
-
-                    FormeSprite = br.ReadUInt16();
-                    FormeCount = br.ReadByte();
-                    Color = br.ReadByte();
-                    BaseEXP = br.ReadUInt16();
-
-                    Height = br.ReadUInt16();
-                    Weight = br.ReadUInt16();
-
-                    byte[] TMHMData = br.ReadBytes(0x10);
-                    TMHM = new bool[8 * TMHMData.Length];
-                    for (int j = 0; j < TMHM.Length; j++)
-                            TMHM[j/8 + j%8] = ((TMHMData[j/8] >> j%8) & 0x1) == 1; //Bitflags for TMHM
-
-                    byte[] TutorData = br.ReadBytes(8);
-                    Tutors = new bool[8 * TutorData.Length];
-                    for (int j = 0; j < Tutors.Length; j++)
-                            Tutors[j/8 + j%8] = ((TutorData[j/8] >> j%8) & 0x1) == 1; //Bitflags for Tutors
-
-                    if (br.BaseStream.Length - br.BaseStream.Position == 0x10) // ORAS
-                    {
-                        byte[][] ORASTutorData =
-                        {
-                            br.ReadBytes(2), // 15
-                            br.ReadBytes(3), // 17
-                            br.ReadBytes(2), // 16
-                            br.ReadBytes(2), // 15
-                        };
-                        for (int i = 0; i < 4; i++)
-                        {
-                            ORASTutors[i] = new bool[8*ORASTutorData[i].Length];
-                            for (int b = 0; b < 8*ORASTutorData[i].Length; b++)
-                                ORASTutors[i][b] = ((ORASTutorData[i][b/8] >> b%8) & 0x1) == 1;
-                        }
-                    }
-                }
-            }
-            public byte[] Write()
-            {
-                using (MemoryStream ms = new MemoryStream())
-                using (BinaryWriter bw = new BinaryWriter(ms))
-                {
-                    bw.Write(HP);
-                    bw.Write(ATK);
-                    bw.Write(DEF);
-                    bw.Write(SPE);
-                    bw.Write(SPD);
-                    bw.Write(SPE);
-                    foreach (byte Type in Types) bw.Write(Type);
-                    bw.Write(CatchRate);
-                    bw.Write(EvoStage);
-                    EVs = (ushort)(EVs & 0x80 | (HP >> 0 & 3) | (ATK >> 2 & 3) | (DEF >> 4 & 3) | (SPE >> 6 & 3) | (SPA >> 8 & 3) | (SPD >> 10 & 3));
-                    bw.Write(EVs);
-                    foreach (ushort Item in Items) bw.Write(Item);
-                    bw.Write(Gender);
-                    bw.Write(HatchCycles);
-                    bw.Write(BaseFriendship);
-                    bw.Write(EXPGrowth);
-                    foreach (byte EggGroup in EggGroups) bw.Write(EggGroup);
-                    foreach (byte Ability in Abilities) bw.Write(Ability);
-                    bw.Write(_1B);
-                    bw.Write(_1C);
-                    bw.Write(FormeSprite);
-                    bw.Write(FormeCount);
-                    bw.Write(Color);
-                    bw.Write(BaseEXP);
-                    bw.Write(BitConverter.GetBytes(Convert.ToUInt16(Height)));
-                    bw.Write(BitConverter.GetBytes(Convert.ToUInt16(Weight)));
-
-                    byte[] TMHMData = new byte[0x10];
-                    for (int i = 0; i < TMHM.Length; i++)
-                        TMHMData[i % 8] |= (byte)(TMHM[i] ? (1 << i % 8) : 0);
-                    bw.Write(TMHMData);
-
-                    byte[] TutorData = new byte[8];
-                    for (int i = 0; i < Tutors.Length; i++)
-                        TutorData[i % 8] |= (byte)(Tutors[i] ? (1 << i % 8) : 0);
-                    bw.Write(TutorData);
-
-                    while (bw.BaseStream.Length != 0x40) bw.Write((byte)0);
-
-                    if (ORASTutors[0] != null) // ORAS Data
-                    {
-                        byte[][] ORASTutorData =
-                        {
-                            new byte[2], // 15
-                            new byte[3], // 17
-                            new byte[2], // 16
-                            new byte[2], // 15
-                        };
-                        for (int i = 0; i < 4; i++)
-                            for (int b = 0; b < ORASTutors[i].Length; b++)
-                                ORASTutorData[i][b / 8] = (byte)(ORASTutors[i][b] ? (1 << b % 8) : 0);
-
-                        foreach (byte[] ORASTutor in ORASTutorData) bw.Write(ORASTutor);
-
-                        while (bw.BaseStream.Length != 0x50) bw.Write((byte)0);
-                    }
-                    return ms.ToArray();
-                }
-            }
         }
     }
 }

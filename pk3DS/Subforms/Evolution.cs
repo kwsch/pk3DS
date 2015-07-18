@@ -168,9 +168,9 @@ namespace pk3DS
                     {
                         // Get a new random species
                         int oldSpecies = rb[j].SelectedIndex;
-                        Personal.Info oldpkm = new Personal.Info(personal[oldSpecies]);
+                        PersonalInfo oldpkm = new PersonalInfo(personal[oldSpecies]);
                         int currentSpecies = Array.IndexOf(specieslist, CB_Species.Text);
-                        Personal.Info pkm = new Personal.Info(personal[currentSpecies]);
+                        PersonalInfo pkm = new PersonalInfo(personal[currentSpecies]);
                         int loopctr = 0; // altering calculatiosn to prevent infinite loops
                     defspecies:
                         int newSpecies = Randomizer.getRandomSpecies(ref sL, ref ctr);

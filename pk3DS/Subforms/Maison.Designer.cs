@@ -1,6 +1,6 @@
 ﻿namespace pk3DS
 {
-    partial class Maison
+    partial class MaisonEditor
     {
         /// <summary>
         /// Required designer variable.
