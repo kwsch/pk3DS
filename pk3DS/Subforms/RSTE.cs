@@ -288,7 +288,8 @@ namespace pk3DS
             dumping = false;
         }
 
-        // Change Read
+        // Change Read/Write
+        private Trainer tr;
         private void changeTrainerIndex(object sender, EventArgs e)
         {
             if (!dumping && index > -1) writeFile();
@@ -299,67 +300,47 @@ namespace pk3DS
             if (start) return;
             index = CB_TrainerID.SelectedIndex;
             loading = true;
-            int format;
 
             if (index == 0) return;
 
+            tabControl1.Enabled = true;
+            byte[] trdata = File.ReadAllBytes(trdatapaths[index]);
+            byte[] trpoke = File.ReadAllBytes(trpokepaths[index]);
+            tr = new Trainer(trdata, trpoke, Main.oras);
+
             // Load Trainer Data
-            using (BinaryReader br = new BinaryReader(File.OpenRead(trdatapaths[index])))
-            {
-                // load trainer data
-                tabControl1.Enabled = true;
-                {
-                    format = (Main.oras) ? br.ReadUInt16() : br.ReadByte();
-                    CB_Trainer_Class.SelectedIndex = (Main.oras) ? br.ReadUInt16() : br.ReadByte();
-                    if (Main.oras) br.ReadUInt16();
-
-                    checkBox_Item.Checked = ((format >> 1) & 1) == 1;
-                    checkBox_Moves.Checked = ((format) & 1) == 1;
-
-                    CB_Battle_Type.SelectedIndex = br.ReadByte();
-                    CB_numPokemon.SelectedIndex = br.ReadByte();
-
-                    CB_Item_1.SelectedIndex = br.ReadUInt16();
-                    CB_Item_2.SelectedIndex = br.ReadUInt16();
-                    CB_Item_3.SelectedIndex = br.ReadUInt16();
-                    CB_Item_4.SelectedIndex = br.ReadUInt16();
-                    CB_AI.SelectedIndex = br.ReadByte();
-                    br.ReadByte();
-                    br.ReadByte();
-                    br.ReadByte();
-
-                    checkBox_Healer.Checked = Convert.ToBoolean(br.ReadByte());
-                    CB_Money.SelectedIndex = br.ReadByte();
-
-                    CB_Prize.SelectedIndex = br.ReadUInt16();
-                }
-            }
+            CB_Trainer_Class.SelectedIndex = tr.Class;
+            checkBox_Item.Checked = tr.Item;
+            checkBox_Moves.Checked = tr.Moves;
+            CB_Battle_Type.SelectedIndex = tr.BattleType;
+            CB_numPokemon.SelectedIndex = tr.NumPokemon;
+            CB_Item_1.SelectedIndex = tr.Items[0];
+            CB_Item_2.SelectedIndex = tr.Items[1];
+            CB_Item_3.SelectedIndex = tr.Items[2];
+            CB_Item_4.SelectedIndex = tr.Items[3];
+            CB_AI.SelectedIndex = tr.AI;
+            checkBox_Healer.Checked = tr.Healer;
+            CB_Money.SelectedIndex = tr.Money;
+            CB_Prize.SelectedIndex = tr.Prize;
+            
             // Load Pokemon Data
-            using (BinaryReader br = new BinaryReader(File.OpenRead(trpokepaths[index])))
+            for (int i = 0; i < tr.NumPokemon; i++)
             {
-                for (int i = 0; i < CB_numPokemon.SelectedIndex; i++)
-                {
-                    trpk_IV[i].SelectedIndex = br.ReadByte();
-                    byte PID = br.ReadByte();
-                    trpk_lvl[i].SelectedIndex = br.ReadUInt16();
-                    trpk_pkm[i].SelectedIndex = br.ReadUInt16();
-                    Personal.setForms(trpk_pkm[i].SelectedIndex, trpk_form[i], AltForms);
-                    trpk_form[i].SelectedIndex = br.ReadUInt16() % trpk_form[i].Items.Count; // stupid X/Y buggy edge cases (220 / 222)
-                    refreshPKMSlotAbility(i); // Repopulate Abilities
+                trpk_IV[i].SelectedIndex = tr.Team[i].IVs;
+                trpk_lvl[i].SelectedIndex = tr.Team[i].Level;
+                trpk_pkm[i].SelectedIndex = tr.Team[i].Species;
+                Personal.setForms(tr.Team[i].Species, trpk_form[i], AltForms);
+                trpk_form[i].SelectedIndex = tr.Team[i].Form % trpk_form[i].Items.Count; // stupid X/Y buggy edge cases (220 / 222)
+                refreshPKMSlotAbility(i); // Repopulate Abilities
 
-                    trpk_abil[i].SelectedIndex = PID >> 4;
-                    trpk_gender[i].SelectedIndex = PID & 3;
+                trpk_abil[i].SelectedIndex = tr.Team[i].Ability;
+                trpk_gender[i].SelectedIndex = tr.Team[i].Gender;
 
-                    if (((format >> 1) & 1) == 1) // Items Exist in Data
-                        trpk_item[i].SelectedIndex = br.ReadUInt16();
-                    if (((format) & 1) == 1) // Moves Exist in Data
-                    {
-                        trpk_m1[i].SelectedIndex = br.ReadUInt16();
-                        trpk_m2[i].SelectedIndex = br.ReadUInt16();
-                        trpk_m3[i].SelectedIndex = br.ReadUInt16();
-                        trpk_m4[i].SelectedIndex = br.ReadUInt16();
-                    }
-                }
+                trpk_item[i].SelectedIndex = tr.Team[i].Item;
+                trpk_m1[i].SelectedIndex = tr.Team[i].Moves[0];
+                trpk_m2[i].SelectedIndex = tr.Team[i].Moves[1];
+                trpk_m3[i].SelectedIndex = tr.Team[i].Moves[2];
+                trpk_m4[i].SelectedIndex = tr.Team[i].Moves[3];
             }
             loading = false;
             changeTrainerType(null, null); // Prompt cleaning update of PKM fields
@@ -372,65 +353,43 @@ namespace pk3DS
             }
 
         }
-        // Change Write
         private void writeFile()
         {
-            // fetch trainer format we're saving as
-            // index = index;
-            int format = Convert.ToByte(checkBox_Moves.Checked) + (Convert.ToByte(checkBox_Item.Checked) << 1);
+            // Set Trainer Data
+            tr.Moves = checkBox_Moves.Checked;
+            tr.Item = checkBox_Item.Checked;
+            tr.Class = CB_Trainer_Class.SelectedIndex;
+            tr.BattleType = (byte)CB_Battle_Type.SelectedIndex;
+            tr.NumPokemon = (byte)CB_numPokemon.SelectedIndex;
+            tr.Items[0] = (ushort)CB_Item_1.SelectedIndex;
+            tr.Items[1] = (ushort)CB_Item_2.SelectedIndex;
+            tr.Items[2] = (ushort)CB_Item_3.SelectedIndex;
+            tr.Items[3] = (ushort)CB_Item_4.SelectedIndex;
+            tr.AI = (byte)CB_AI.SelectedIndex;
+            tr.Healer = checkBox_Healer.Checked;
+            tr.Money = (byte)CB_Money.SelectedIndex;
+            tr.Prize = (ushort)CB_Prize.SelectedIndex;
 
-            // Write Trainer Data
-            using (MemoryStream ms = new MemoryStream())
-            using (BinaryWriter bw = new BinaryWriter(ms))
+            // Set Pokemon Data
+            for (int i = 0; i < tr.NumPokemon; i++)
             {
-                if (Main.oras)
-                { bw.Write((ushort)format); bw.Write((ushort)CB_Trainer_Class.SelectedIndex); bw.Write((ushort)0); }
-                else
-                { bw.Write((byte)format); bw.Write((byte)CB_Trainer_Class.SelectedIndex); }
+                tr.Team[i].IVs = (byte)trpk_IV[i].SelectedIndex;
+                tr.Team[i].Ability = trpk_abil[i].SelectedIndex;
+                tr.Team[i].Gender = trpk_gender[i].SelectedIndex;
+                tr.Team[i].Level = (ushort)trpk_lvl[i].SelectedIndex;
+                tr.Team[i].Species = (ushort)trpk_pkm[i].SelectedIndex;
+                tr.Team[i].Form = (ushort)trpk_form[i].SelectedIndex;
+                tr.Team[i].Item = (ushort)trpk_item[i].SelectedIndex;
 
-                bw.Write((byte)CB_Battle_Type.SelectedIndex);
-                bw.Write((byte)CB_numPokemon.SelectedIndex);
-                bw.Write((ushort)CB_Item_1.SelectedIndex);
-                bw.Write((ushort)CB_Item_2.SelectedIndex);
-                bw.Write((ushort)CB_Item_3.SelectedIndex);
-                bw.Write((ushort)CB_Item_4.SelectedIndex);
-
-                bw.Write((byte)CB_AI.SelectedIndex);
-                bw.Write((byte)0);
-                bw.Write((byte)0);
-                bw.Write((byte)0);
-                bw.Write((byte)Convert.ToInt32(checkBox_Healer.Checked));
-                bw.Write((byte)CB_Money.SelectedIndex);
-                bw.Write((ushort)CB_Prize.SelectedIndex);
-
-                File.WriteAllBytes(trdatapaths[index], ms.ToArray());
+                tr.Team[i].Moves[0] = (ushort)trpk_m1[i].SelectedIndex;
+                tr.Team[i].Moves[1] = (ushort)trpk_m2[i].SelectedIndex;
+                tr.Team[i].Moves[2] = (ushort)trpk_m3[i].SelectedIndex;
+                tr.Team[i].Moves[3] = (ushort)trpk_m4[i].SelectedIndex;
             }
-            // Load Pokemon Data
-            using (MemoryStream ms = new MemoryStream())
-            using (BinaryWriter bw = new BinaryWriter(ms))
-            {
-                for (int i = 0; i < CB_numPokemon.SelectedIndex; i++)
-                {
-                    bw.Write((byte)trpk_IV[i].SelectedIndex);
-                    int PID = (byte)((trpk_abil[i].SelectedIndex << 4) + trpk_gender[i].SelectedIndex);
-                    bw.Write((byte)PID);
-                    bw.Write((ushort)trpk_lvl[i].SelectedIndex);
-
-                    bw.Write((ushort)trpk_pkm[i].SelectedIndex);
-                    bw.Write((ushort)trpk_form[i].SelectedIndex);
-
-                    if (((format >> 1) & 1) == 1) // Items Exist in Data
-                        bw.Write((ushort)trpk_item[i].SelectedIndex);
-                    if (((format) & 1) == 1) // Moves Exist in Data
-                    {
-                        bw.Write((ushort)trpk_m1[i].SelectedIndex);
-                        bw.Write((ushort)trpk_m2[i].SelectedIndex);
-                        bw.Write((ushort)trpk_m3[i].SelectedIndex);
-                        bw.Write((ushort)trpk_m4[i].SelectedIndex);
-                    }
-                }
-                File.WriteAllBytes(trpokepaths[index], ms.ToArray());
-            }
+            byte[] trdata = tr.Write();
+            File.WriteAllBytes(trdatapaths[index], trdata);
+            byte[] trpoke = tr.WriteTeam();
+            File.WriteAllBytes(trpokepaths[index], trpoke);
         }
 
         // Image Displays
@@ -444,12 +403,9 @@ namespace pk3DS
         }
         private void showTeams(int i)
         {
-            int species = trpk_pkm[i].SelectedIndex;
-            int form = trpk_form[i].SelectedIndex;
-            int gender = trpk_gender[i].SelectedIndex;
-            int item = trpk_item[i].SelectedIndex;
-
-            Bitmap rawImg = (Bitmap)getSprite(species, form, gender, item);
+            if (tr == null) return;
+            if (i >= tr.Team.Length) { pba[i].Image = null; return; }
+            Bitmap rawImg = (Bitmap)getSprite(tr.Team[i].Species, tr.Team[i].Form, tr.Team[i].Gender, tr.Team[i].Item);
             Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
             for (int x = 0; x < rawImg.Width; x++)
             {
@@ -814,7 +770,7 @@ namespace pk3DS
                         {
                             int mv = Randomizer.getRandomSpecies(ref moveList, ref mctr);
                             while (banned.Contains(mv) || pkMoves.Contains(mv))
-                                mv = Randomizer.getRandomSpecies(ref moveList, ref mctr); ;
+                                mv = Randomizer.getRandomSpecies(ref moveList, ref mctr);
 
                             pkMoves[m] = mv;
                         }
@@ -1138,7 +1094,7 @@ namespace pk3DS
                     // Fetch Team
                     Team = new Pokemon[NumPokemon];
                     byte[][] TeamData = new byte[NumPokemon][];
-                    int dataLen = trData.Length/NumPokemon;
+                    int dataLen = trPoke.Length/NumPokemon;
                     for (int i = 0; i < TeamData.Length; i++)
                         TeamData[i] = trPoke.Skip(i*dataLen).Take(dataLen).ToArray();
                     for (int i = 0; i < NumPokemon; i++)
@@ -1150,7 +1106,7 @@ namespace pk3DS
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter bw = new BinaryWriter(ms))
                 {
-                    Format = Convert.ToByte(Moves) + (Convert.ToByte(Items) << 1);
+                    Format = Convert.ToByte(Moves) + (Convert.ToByte(Item) << 1);
                     if (isORAS)
                     { bw.Write((ushort)Format); bw.Write((ushort)Class); bw.Write((ushort)0); }
                     else
