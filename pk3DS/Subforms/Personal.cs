@@ -184,100 +184,80 @@ namespace pk3DS
         }
         int bst;
 
+        private Info pkm;
+        private void readInfo()
+        {
+            byte[] array = new byte[Main.oras ? 0x50 : 0x40];
+            Array.Copy(data, array.Length * entry, array, 0, array.Length);
+            pkm = new Info(array);
+
+            TB_BaseHP.Text = pkm.HP.ToString("000");
+            TB_BaseATK.Text = pkm.ATK.ToString("000");
+            TB_BaseDEF.Text = pkm.DEF.ToString("000");
+            TB_BaseSPE.Text = pkm.SPE.ToString("000");
+            TB_BaseSPA.Text = pkm.SPA.ToString("000");
+            TB_BaseSPD.Text = pkm.SPD.ToString("000");
+            bst = pkm.BST;
+            TB_HPEVs.Text = pkm.EV_HP.ToString("0");
+            TB_ATKEVs.Text = pkm.EV_ATK.ToString("0");
+            TB_DEFEVs.Text = pkm.EV_DEF.ToString("0");
+            TB_SPEEVs.Text = pkm.EV_SPE.ToString("0");
+            TB_SPAEVs.Text = pkm.EV_SPA.ToString("0");
+            TB_SPDEVs.Text = pkm.EV_SPD.ToString("0");
+            
+            CB_Type1.SelectedIndex = pkm.Types[0];
+            CB_Type2.SelectedIndex = pkm.Types[1];
+
+            TB_CatchRate.Text = pkm.CatchRate.ToString("000");
+            TB_Stage.Text = pkm.EvoStage.ToString("0");
+
+            CB_HeldItem1.SelectedIndex = pkm.Items[0];
+            CB_HeldItem2.SelectedIndex = pkm.Items[1];
+            CB_HeldItem3.SelectedIndex = pkm.Items[2];
+
+            TB_Gender.Text = pkm.Gender.ToString("000");
+            TB_HatchCycles.Text = pkm.HatchCycles.ToString("000");
+            TB_Friendship.Text = pkm.BaseFriendship.ToString("000");
+
+            CB_EXPGroup.SelectedIndex = pkm.EXPGrowth;
+
+            CB_EggGroup1.SelectedIndex = pkm.EggGroups[0];
+            CB_EggGroup2.SelectedIndex = pkm.EggGroups[1];
+
+            CB_Ability1.SelectedIndex = pkm.Abilities[0];
+            CB_Ability2.SelectedIndex = pkm.Abilities[1];
+            CB_Ability3.SelectedIndex = pkm.Abilities[2];
+
+            TB_FormeCount.Text = pkm.FormeCount.ToString("000");
+            TB_FormeSprite.Text = pkm.FormeSprite.ToString("000");
+
+            TB_RawColor.Text = pkm.Color.ToString("000");
+            CB_Color.SelectedIndex = (pkm.Color & 0xF);
+
+            TB_BaseExp.Text = pkm.BaseEXP.ToString("000");
+
+            TB_Height.Text = (pkm.Height / 100).ToString("00.0");
+            TB_Weight.Text = (pkm.Weight / 10).ToString("000.0");
+
+            for (int i = 0; i < CLB_TMHM.Items.Count; i++)
+                CLB_TMHM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TMHM
+
+            for (int i = 0; i < CLB_MoveTutors.Items.Count; i++)
+                CLB_TMHM.SetItemChecked(i, pkm.Tutors[i]); // Bitflags for Tutors
+
+            if (pkm.ORASTutors[0] != null)
+            {
+                int[] len = { tutor1.Length, tutor2.Length, tutor3.Length, tutor4.Length };
+                int ctr = 0;
+                for (int i = 0; i < len.Length; i++)
+                    for (int b = 0; b < len[i]; b++)
+                        CLB_OrasTutors.SetItemChecked(ctr++, pkm.ORASTutors[i][b]);
+            }
+        }
         private void readEntry()
         {
-            int len = 0;
-            if (mode == "ORAS")
-                len = 0x50;
-            else if (mode == "XY")
-                len = 0x40;
-
-            byte[] file = new byte[len];
-            Array.Copy(data, len * entry, file, 0, len);
-            TB_BaseHP.Text = file[0].ToString("000");
-            TB_BaseATK.Text = file[1].ToString("000");
-            TB_BaseDEF.Text = file[2].ToString("000");
-            TB_BaseSPE.Text = file[3].ToString("000");
-            TB_BaseSPA.Text = file[4].ToString("000");
-            TB_BaseSPD.Text = file[5].ToString("000");
-            bst = file[0] + file[1] + file[2] + file[3] + file[4] + file[5];
-
-            int EVs = BitConverter.ToInt16(file, 0xA);
-            TB_HPEVs.Text = ((EVs >> 0) & 0x3).ToString("0");
-            TB_ATKEVs.Text = ((EVs >> 2) & 0x3).ToString("0");
-            TB_DEFEVs.Text = ((EVs >> 4) & 0x3).ToString("0");
-            TB_SPEEVs.Text = ((EVs >> 6) & 0x3).ToString("0");
-            TB_SPAEVs.Text = ((EVs >> 8) & 0x3).ToString("0");
-            TB_SPDEVs.Text = ((EVs >> 10) & 0x3).ToString("0");
-
-            CB_Type1.SelectedIndex = file[6];
-            CB_Type2.SelectedIndex = file[7];
-
-            TB_CatchRate.Text = file[8].ToString("000");
-            TB_Stage.Text = file[9].ToString("0");
-
-            CB_HeldItem1.SelectedIndex = BitConverter.ToUInt16(file, 0xC);
-            CB_HeldItem2.SelectedIndex = BitConverter.ToUInt16(file, 0xE);
-            CB_HeldItem3.SelectedIndex = BitConverter.ToUInt16(file, 0x10);
-
-            TB_Gender.Text = file[0x12].ToString("000");
-            TB_HatchCycles.Text = file[0x13].ToString("000");
-            TB_Friendship.Text = file[0x14].ToString("000");
-
-            CB_EXPGroup.SelectedIndex = file[0x15];
-
-            CB_EggGroup1.SelectedIndex = file[0x16];
-            CB_EggGroup2.SelectedIndex = file[0x17];
-
-            CB_Ability1.SelectedIndex = file[0x18];
-            CB_Ability2.SelectedIndex = file[0x19];
-            CB_Ability3.SelectedIndex = file[0x1A];
-
-            TB_FormeCount.Text = file[0x20].ToString("000");
-            TB_FormeSprite.Text = BitConverter.ToUInt16(file, 0x1E).ToString("000");
-
-            int color = file[0x21] & 0xF;
-            TB_RawColor.Text = file[0x21].ToString("000");
-            CB_Color.SelectedIndex = color;
-
-            TB_BaseExp.Text = BitConverter.ToUInt16(file, 0x22).ToString("000");
-
-            TB_Height.Text = ((float)BitConverter.ToUInt16(file, 0x24) / 100).ToString("00.0");
-            TB_Weight.Text = ((float)BitConverter.ToUInt16(file, 0x26) / 10).ToString("000.0");
-
-            for (int i = 0; i < 16; i++)
-                for (int j = 0; j < 8; j++)
-                    if (i * 8 + j < CLB_TMHM.Items.Count)
-                        CLB_TMHM.SetItemChecked(i * 8 + j, ((file[0x28 + i] >> j) & 0x1) == 1); //Bitflags for TMHM
-
-            uint tutors = BitConverter.ToUInt32(file, 0x38);
-            for (int t = 0; t < 8; t++)
-                if (t < CLB_MoveTutors.Items.Count)
-                    CLB_MoveTutors.SetItemChecked(t, ((tutors >> t) & 1) == 1);
-
-            if (mode == "ORAS")
-            {
-                uint[] tutorm = new uint[4];
-                for (int j = 0x40; j < 0x50; j += 4)
-                    tutorm[(j - 0x40) / 4] = BitConverter.ToUInt32(file, j);
-
-                int ofs = 0;
-                for (int j = 0; j < tutorm.Length; j++)
-                {
-                    for (int i = 0; i < 32; i++)
-                        if (ofs + i < CLB_OrasTutors.Items.Count)
-                            CLB_OrasTutors.SetItemChecked(ofs + i, ((tutorm[j] >> i) & 1) == 1);
-                    // hardcode this, bad, I know
-                    if (j == 0)
-                        ofs += tutor1.Length;
-                    else if (j == 1)
-                        ofs += tutor2.Length;
-                    else if (j == 2)
-                        ofs += tutor3.Length;
-                    else
-                        ofs += tutor4.Length;
-                }
-            }
+            readInfo();
+            
             if (dumping) return;
             int[] specForm = getSpecies(data, Main.oras, CB_Species.SelectedIndex);
             string filename = "_" + specForm[0] + ((CB_Species.SelectedIndex > 721) ? "_" + (specForm[1] + 1) : "");
@@ -296,108 +276,68 @@ namespace pk3DS
             }
             PB_MonSprite.Image = bigImg;
         }
+        private void savePersonal()
+        {
+            pkm.HP = Convert.ToByte(TB_BaseHP.Text);
+            pkm.ATK = Convert.ToByte(TB_BaseATK.Text);
+            pkm.DEF = Convert.ToByte(TB_BaseDEF.Text);
+            pkm.SPE = Convert.ToByte(TB_BaseSPE.Text);
+            pkm.SPA = Convert.ToByte(TB_BaseSPA.Text);
+            pkm.SPD = Convert.ToByte(TB_BaseSPD.Text);
+
+            pkm.EV_HP = Convert.ToByte(TB_HPEVs.Text);
+            pkm.EV_ATK = Convert.ToByte(TB_ATKEVs.Text);
+            pkm.EV_DEF = Convert.ToByte(TB_DEFEVs.Text);
+            pkm.EV_SPE = Convert.ToByte(TB_SPEEVs.Text);
+            pkm.EV_SPA = Convert.ToByte(TB_SPAEVs.Text);
+            pkm.EV_SPD = Convert.ToByte(TB_SPDEVs.Text);
+
+            pkm.CatchRate = Convert.ToByte(TB_CatchRate.Text);
+            pkm.EvoStage = Convert.ToByte(TB_Stage.Text);
+
+            pkm.Types[0] = (byte) CB_Type1.SelectedIndex;
+            pkm.Types[1] = (byte) CB_Type2.SelectedIndex;
+            pkm.Items[0] = (ushort) CB_HeldItem1.SelectedIndex;
+            pkm.Items[1] = (ushort) CB_HeldItem2.SelectedIndex;
+            pkm.Items[2] = (ushort) CB_HeldItem3.SelectedIndex;
+
+            pkm.Gender = Convert.ToByte(TB_Gender.Text);
+            pkm.HatchCycles = Convert.ToByte(TB_HatchCycles.Text);
+            pkm.BaseFriendship = Convert.ToByte(TB_Friendship.Text);
+            pkm.EXPGrowth = (byte) CB_EXPGroup.SelectedIndex;
+            pkm.EggGroups[0] = (byte) CB_EggGroup1.SelectedIndex;
+            pkm.EggGroups[1] = (byte) CB_EggGroup2.SelectedIndex;
+
+            pkm.Abilities[0] = (byte) CB_Ability1.SelectedIndex;
+            pkm.Abilities[1] = (byte) CB_Ability2.SelectedIndex;
+            pkm.Abilities[2] = (byte) CB_Ability3.SelectedIndex;
+
+            pkm.FormeSprite = Convert.ToUInt16(TB_FormeSprite.Text);
+            pkm.FormeCount = Convert.ToByte(TB_FormeCount.Text);
+            pkm.Color = (byte) (Convert.ToByte(CB_Color.SelectedIndex) | (Convert.ToByte(TB_RawColor.Text) & 0xF0));
+            pkm.BaseEXP = Convert.ToUInt16(TB_BaseExp.Text);
+
+            pkm.Height = (float) Convert.ToDouble(TB_Height.Text)*100;
+            pkm.Weight = (float) Convert.ToDouble(TB_Weight.Text)*10;
+
+            for (int i = 0; i < CLB_TMHM.Items.Count; i++)
+                pkm.TMHM[i] = CLB_TMHM.GetItemChecked(i);
+
+            for (int t = 0; t < 8; t++)
+                pkm.Tutors[t] = CLB_MoveTutors.GetItemChecked(t);
+
+            int[] len = {tutor1.Length, tutor2.Length, tutor3.Length, tutor4.Length};
+            int ctr = 0;
+            for (int i = 0; i < 4; i++)
+                for (int t = 0; t < len[i]; t++)
+                    pkm.ORASTutors[i][t] = CLB_OrasTutors.GetItemChecked(ctr++);
+        }
         private void saveEntry()
         {
-            int len = 0;
-            if (mode == "XY")
-                len = 0x40;
-            else if (mode == "ORAS")
-                len = 0x50;
-
-            byte[] edits = new byte[len];
-            Array.Copy(data, len * entry, edits, 0, len); //edit raw data for easiness's sake
-            edits[0] = Convert.ToByte(TB_BaseHP.Text);
-            edits[1] = Convert.ToByte(TB_BaseATK.Text);
-            edits[2] = Convert.ToByte(TB_BaseDEF.Text);
-            edits[3] = Convert.ToByte(TB_BaseSPE.Text);
-            edits[4] = Convert.ToByte(TB_BaseSPA.Text);
-            edits[5] = Convert.ToByte(TB_BaseSPD.Text);
-
-            ushort evs = 0;
-            evs |= (ushort)((Convert.ToByte(TB_HPEVs.Text) & 3) << 0);
-            evs |= (ushort)((Convert.ToByte(TB_ATKEVs.Text) & 3) << 2);
-            evs |= (ushort)((Convert.ToByte(TB_DEFEVs.Text) & 3) << 4);
-            evs |= (ushort)((Convert.ToByte(TB_SPEEVs.Text) & 3) << 6);
-            evs |= (ushort)((Convert.ToByte(TB_SPAEVs.Text) & 3) << 8);
-            evs |= (ushort)((Convert.ToByte(TB_SPDEVs.Text) & 3) << 10);
-            Array.Copy(BitConverter.GetBytes(evs), 0, edits, 0xa, 2);
-
-            edits[6] = (byte)CB_Type1.SelectedIndex;
-            edits[7] = (byte)CB_Type2.SelectedIndex;
-
-            edits[8] = Convert.ToByte(TB_CatchRate.Text);
-            edits[9] = Convert.ToByte(TB_Stage.Text);
-
-            Array.Copy(BitConverter.GetBytes((ushort)CB_HeldItem1.SelectedIndex), 0, edits, 0xC, 2);
-            Array.Copy(BitConverter.GetBytes((ushort)CB_HeldItem2.SelectedIndex), 0, edits, 0xE, 2);
-            Array.Copy(BitConverter.GetBytes((ushort)CB_HeldItem3.SelectedIndex), 0, edits, 0x10, 2);
-
-            edits[0x12] = Convert.ToByte(TB_Gender.Text);
-            edits[0x13] = Convert.ToByte(TB_HatchCycles.Text);
-            edits[0x14] = Convert.ToByte(TB_Friendship.Text);
-
-            edits[0x15] = (byte)CB_EXPGroup.SelectedIndex;
-
-            edits[0x16] = (byte)CB_EggGroup1.SelectedIndex;
-            edits[0x17] = (byte)CB_EggGroup2.SelectedIndex;
-
-            edits[0x18] = (byte)CB_Ability1.SelectedIndex;
-            edits[0x19] = (byte)CB_Ability2.SelectedIndex;
-            edits[0x1A] = (byte)CB_Ability3.SelectedIndex;
-
-            //edits[0x20] = Convert.ToByte(TB_FormeCount.Text);
-            //Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(TB_FormeSprite.Text)),0, edits, 0x1E,2);
-            byte color = Convert.ToByte(CB_Color.SelectedIndex);
-            color |= (byte)(Convert.ToByte(TB_RawColor.Text) & 0xF0);
-            edits[0x21] = color;
-
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(TB_BaseExp.Text)), 0, edits, 0x22, 2);
-
-            float height = (float)Convert.ToDouble(TB_Height.Text) * 100;
-            float weight = (float)Convert.ToDouble(TB_Weight.Text) * 10;
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(height)), 0, edits, 0x24, 2);
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(weight)), 0, edits, 0x26, 2);
-
-            //TMHM
-            for (int i = 0; i < 16; i++)
-                for (int j = 0; j < 8; j++)
-                    if (i * 8 + j < CLB_TMHM.Items.Count)
-                        if (CLB_TMHM.GetItemChecked(i * 8 + j))
-                            edits[0x28 + i] |= (byte)(1 << j);
-
-            uint tutors = 0;
-            for (int t = 0; t < 8; t++)
-                if (t < CLB_MoveTutors.Items.Count && CLB_MoveTutors.GetItemChecked(t))
-                    tutors |= (uint)(1 << t);
-
-            Array.Copy(BitConverter.GetBytes(tutors), 0, edits, 0x38, 4);
-
-            if (mode == "ORAS")
-            {
-                uint[] tutorm = new uint[4];
-                int ofs = 0;
-                for (int j = 0; j < tutor1.Length; j++)
-                    if (CLB_OrasTutors.GetItemChecked(ofs++))
-                        tutorm[0] |= (uint)(1 << j);
-
-                for (int j = 0; j < tutor2.Length; j++)
-                    if (CLB_OrasTutors.GetItemChecked(ofs++))
-                        tutorm[1] |= (uint)(1 << j);
-
-                for (int j = 0; j < tutor3.Length; j++)
-                    if (CLB_OrasTutors.GetItemChecked(ofs++))
-                        tutorm[2] |= (uint)(1 << j);
-
-                for (int j = 0; j < tutor4.Length; j++)
-                    if (CLB_OrasTutors.GetItemChecked(ofs++))
-                        tutorm[3] |= (uint)(1 << j);
-
-                for (int j = 0x40; j < 0x50; j += 4)
-                    Array.Copy(BitConverter.GetBytes(tutorm[(j - 0x40) / 4]), 0, edits, j, 4);
-            }
-
+            savePersonal();
+            byte[] edits = pkm.Write();
             File.WriteAllBytes(paths[entry], edits);
-            Array.Copy(edits, 0, data, entry * len, len);
+            Array.Copy(edits, 0, data, entry * edits.Length, edits.Length);
             File.WriteAllBytes(paths[paths.Length - 1], data);
         }
 
@@ -681,6 +621,159 @@ namespace pk3DS
             species = getPersonalEntryList(data, Main.oras, AltForms, species);
             Array.Resize(ref species, oras ? species.Length : 799);
             return species;
+        }
+
+        public class Info
+        {
+            public byte HP, ATK, DEF, SPE, SPA, SPD;
+            public int BST;
+            private ushort EVs;
+            public int EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD;
+            public byte[] Types = new byte[2];
+            public byte CatchRate, EvoStage;
+            public ushort[] Items = new ushort[3];
+            public byte Gender, HatchCycles, BaseFriendship, EXPGrowth;
+            public byte[] EggGroups = new byte[2];
+            public byte[] Abilities = new byte[3];
+            public ushort FormeSprite, BaseEXP;
+            public byte FormeCount, Color;
+            public float Height, Weight;
+            public bool[] TMHM;
+            public bool[] Tutors;
+            public bool[][] ORASTutors = new bool[4][];
+            public byte _1B;
+            public ushort _1C;
+            public Info(byte[] data)
+            {
+                using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+                {
+                    HP = br.ReadByte(); ATK = br.ReadByte(); DEF = br.ReadByte();
+                    SPE = br.ReadByte(); SPA = br.ReadByte(); SPD = br.ReadByte();
+                    BST = HP + ATK + DEF + SPE + SPA + SPD;
+                    
+                    Types = new[] {br.ReadByte(), br.ReadByte()};
+                    CatchRate = br.ReadByte();
+                    EvoStage = br.ReadByte();
+
+                    EVs = br.ReadUInt16();
+                    EV_HP = ((EVs >> 0) & 0x3);
+                    EV_ATK = ((EVs >> 2) & 0x3);
+                    EV_DEF = ((EVs >> 4) & 0x3);
+                    EV_SPE = ((EVs >> 6) & 0x3);
+                    EV_SPA = ((EVs >> 8) & 0x3);
+                    EV_SPD = ((EVs >> 10) & 0x3);
+
+                    Items = new[] {br.ReadUInt16(), br.ReadUInt16(), br.ReadUInt16()};
+                    Gender = br.ReadByte();
+                    HatchCycles = br.ReadByte();
+                    BaseFriendship = br.ReadByte();
+
+                    EXPGrowth = br.ReadByte();
+                    EggGroups = new[] {br.ReadByte(), br.ReadByte()};
+                    Abilities = new[] {br.ReadByte(), br.ReadByte(), br.ReadByte()};
+                    _1B = br.ReadByte();
+                    _1C = br.ReadUInt16();
+
+                    FormeSprite = br.ReadUInt16();
+                    FormeCount = br.ReadByte();
+                    Color = br.ReadByte();
+                    BaseEXP = br.ReadUInt16();
+
+                    Height = br.ReadUInt16();
+                    Weight = br.ReadUInt16();
+
+                    byte[] TMHMData = br.ReadBytes(0x10);
+                    TMHM = new bool[8 * TMHMData.Length];
+                    for (int j = 0; j < TMHM.Length; j++)
+                            TMHM[j/8 + j%8] = ((TMHMData[j/8] >> j%8) & 0x1) == 1; //Bitflags for TMHM
+
+                    byte[] TutorData = br.ReadBytes(8);
+                    Tutors = new bool[8 * TutorData.Length];
+                    for (int j = 0; j < Tutors.Length; j++)
+                            Tutors[j/8 + j%8] = ((TutorData[j/8] >> j%8) & 0x1) == 1; //Bitflags for Tutors
+
+                    if (br.BaseStream.Length - br.BaseStream.Position == 0x10) // ORAS
+                    {
+                        byte[][] ORASTutorData =
+                        {
+                            br.ReadBytes(2), // 15
+                            br.ReadBytes(3), // 17
+                            br.ReadBytes(2), // 16
+                            br.ReadBytes(2), // 15
+                        };
+                        for (int i = 0; i < 4; i++)
+                        {
+                            ORASTutors[i] = new bool[8*ORASTutorData[i].Length];
+                            for (int b = 0; b < 8*ORASTutorData[i].Length; b++)
+                                ORASTutors[i][b] = ((ORASTutorData[i][b/8] >> b%8) & 0x1) == 1;
+                        }
+                    }
+                }
+            }
+            public byte[] Write()
+            {
+                using (MemoryStream ms = new MemoryStream())
+                using (BinaryWriter bw = new BinaryWriter(ms))
+                {
+                    bw.Write(HP);
+                    bw.Write(ATK);
+                    bw.Write(DEF);
+                    bw.Write(SPE);
+                    bw.Write(SPD);
+                    bw.Write(SPE);
+                    foreach (byte Type in Types) bw.Write(Type);
+                    bw.Write(CatchRate);
+                    bw.Write(EvoStage);
+                    EVs = (ushort)(EVs & 0x80 | (HP >> 0 & 3) | (ATK >> 2 & 3) | (DEF >> 4 & 3) | (SPE >> 6 & 3) | (SPA >> 8 & 3) | (SPD >> 10 & 3));
+                    bw.Write(EVs);
+                    foreach (ushort Item in Items) bw.Write(Item);
+                    bw.Write(Gender);
+                    bw.Write(HatchCycles);
+                    bw.Write(BaseFriendship);
+                    bw.Write(EXPGrowth);
+                    foreach (byte EggGroup in EggGroups) bw.Write(EggGroup);
+                    foreach (byte Ability in Abilities) bw.Write(Ability);
+                    bw.Write(_1B);
+                    bw.Write(_1C);
+                    bw.Write(FormeSprite);
+                    bw.Write(FormeCount);
+                    bw.Write(Color);
+                    bw.Write(BaseEXP);
+                    bw.Write(BitConverter.GetBytes(Convert.ToUInt16(Height)));
+                    bw.Write(BitConverter.GetBytes(Convert.ToUInt16(Weight)));
+
+                    byte[] TMHMData = new byte[0x10];
+                    for (int i = 0; i < TMHM.Length; i++)
+                        TMHMData[i % 8] |= (byte)(TMHM[i] ? (1 << i % 8) : 0);
+                    bw.Write(TMHMData);
+
+                    byte[] TutorData = new byte[8];
+                    for (int i = 0; i < Tutors.Length; i++)
+                        TutorData[i % 8] |= (byte)(Tutors[i] ? (1 << i % 8) : 0);
+                    bw.Write(TutorData);
+
+                    while (bw.BaseStream.Length != 0x40) bw.Write((byte)0);
+
+                    if (ORASTutors[0] != null) // ORAS Data
+                    {
+                        byte[][] ORASTutorData =
+                        {
+                            new byte[2], // 15
+                            new byte[3], // 17
+                            new byte[2], // 16
+                            new byte[2], // 15
+                        };
+                        for (int i = 0; i < 4; i++)
+                            for (int b = 0; b < ORASTutors[i].Length; b++)
+                                ORASTutorData[i][b / 8] = (byte)(ORASTutors[i][b] ? (1 << b % 8) : 0);
+
+                        foreach (byte[] ORASTutor in ORASTutorData) bw.Write(ORASTutor);
+
+                        while (bw.BaseStream.Length != 0x50) bw.Write((byte)0);
+                    }
+                    return ms.ToArray();
+                }
+            }
         }
     }
 }
