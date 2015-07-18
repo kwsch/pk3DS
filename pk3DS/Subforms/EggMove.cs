@@ -82,7 +82,7 @@ namespace pk3DS
             for (int i = 0; i < dgv.Rows.Count - 1; i++)
             {
                 int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[0].Value);
-                if (move > 0) moves.Add((ushort)move);
+                if (move > 0 && !moves.Contains((ushort)move)) moves.Add((ushort)move);
             }
             pkm.Moves = moves.ToArray();
 
