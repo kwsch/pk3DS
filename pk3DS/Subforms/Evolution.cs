@@ -85,52 +85,34 @@ namespace pk3DS
         private string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
         private string[] typelist = Main.getText((Main.oras) ? 18 : 17);
         bool dumping;
+        private Evolutions evo = new Evolutions(new byte[0x30]);
         private void getList()
         {
             entry = Array.IndexOf(specieslist, CB_Species.Text);
             byte[] input = File.ReadAllBytes(files[entry]);
             if (input.Length != 0x30) return; // error
+            evo = new Evolutions(input);
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < evo.Method.Length; i++)
             {
-                int method = BitConverter.ToUInt16(input, 0 + 6 * i);
-                int param = BitConverter.ToUInt16(input, 2 + 6 * i);
-                int poke = BitConverter.ToUInt16(input, 4 + 6 * i);
-                if (method > 34) return; // Invalid!
+                if (evo.Method[i] > 34) return; // Invalid!
 
-                mb[i].SelectedIndex = method; // Which will trigger the params cb to reload the valid params list
-                pb[i].SelectedIndex = param;
-                rb[i].SelectedIndex = poke;
+                mb[i].SelectedIndex = evo.Method[i]; // Which will trigger the params cb to reload the valid params list
+                pb[i].SelectedIndex = evo.Criteria[i];
+                rb[i].SelectedIndex = evo.Species[i];
             }
         }
         private void setList()
         {
             if (entry < 1 || dumping) return;
 
-            List<byte[]> methods = new List<byte[]>();
             for (int i = 0; i < 8; i++)
             {
-                // Each Evolution Method is comprised of 6 bytes.
-                byte[] method = new byte[6];
-                int methodval = mb[i].SelectedIndex;
-                int param = pb[i].SelectedIndex;
-                int poke = rb[i].SelectedIndex;
-
-                if (poke > 0 && methodval > 0)
-                {
-                    Array.Copy(BitConverter.GetBytes((ushort)methodval), method, 2);
-                    Array.Copy(BitConverter.GetBytes((ushort)param), 0, method, 2, 2);
-                    Array.Copy(BitConverter.GetBytes((ushort)poke), 0, method, 4, 2);
-                    methods.Add(method);
-                }
+                evo.Method[i] = (ushort)mb[i].SelectedIndex;
+                evo.Criteria[i] = (ushort)pb[i].SelectedIndex;
+                evo.Species[i] = (ushort)rb[i].SelectedIndex;
             }
-
-            byte[] data = new byte[0x30];
-            byte[][] methodList = methods.ToArray();
-            for (int i = 0; i < methodList.Length; i++)
-                Array.Copy(methodList[i], 0, data, i * 6, 6);
-
-            File.WriteAllBytes(files[entry], data);
+            File.WriteAllBytes(files[entry], evo.Write());
         }
 
         private void changeEntry(object sender, EventArgs e)

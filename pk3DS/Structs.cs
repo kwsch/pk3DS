@@ -491,4 +491,36 @@ namespace pk3DS
             }
         }
     }
+    public class Evolutions
+    {
+        public ushort[] Method, Criteria, Species;
+        public Evolutions(byte[] data)
+        {
+            if (data.Length < 0x30 || data.Length % 6 != 0) return;
+            Method = new ushort[data.Length / 6];
+            Criteria = new ushort[data.Length / 6];
+            Species = new ushort[data.Length / 6];
+            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+            for (int i = 0; i < Species.Length; i++)
+            {
+                Method[i] = br.ReadUInt16();
+                Criteria[i] = br.ReadUInt16();
+                Species[i] = br.ReadUInt16();
+            }
+        }
+        public byte[] Write()
+        {
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter bw = new BinaryWriter(ms))
+            {
+                for (int i = 0; i < Species.Length; i++)
+                {
+                    bw.Write(Method[i]);
+                    bw.Write(Criteria[i]);
+                    bw.Write(Species[i]);
+                }
+                return ms.ToArray();
+            }
+        }
+    }
 }
