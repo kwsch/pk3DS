@@ -422,7 +422,7 @@ namespace pk3DS
                 if (advanced)
                 {
                     string[] files = { "encdata", "storytext", "mapGR", "mapMatrix" };
-                    if (files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0)
+                    if (files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
                         fileGet(files, false);
                     Invoke((MethodInvoker)delegate { Enabled = false; });
                     {

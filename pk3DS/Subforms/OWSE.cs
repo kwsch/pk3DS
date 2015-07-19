@@ -521,7 +521,7 @@ namespace pk3DS
                 }
             }
             CB_LocationID.SelectedIndex = 0;
-            Util.Alert("All Dumped!");
+            Util.Alert("All images have been dumped to " + folder + ".");
         }
     }
 }
