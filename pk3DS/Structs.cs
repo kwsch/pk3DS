@@ -29,14 +29,13 @@ namespace pk3DS
         public byte Gender, HatchCycles, BaseFriendship, EXPGrowth;
         public byte[] EggGroups = new byte[2];
         public byte[] Abilities = new byte[3];
-        public ushort FormeSprite, BaseEXP;
+        public ushort FormStats, FormeSprite, BaseEXP;
         public byte FormeCount, Color;
         public float Height, Weight;
         public bool[] TMHM;
         public bool[] Tutors;
         public bool[][] ORASTutors = new bool[4][];
-        public byte _1B;
-        public ushort _1C;
+        public byte EscapeRate;
         public PersonalInfo(byte[] data)
         {
             using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
@@ -65,8 +64,8 @@ namespace pk3DS
                 EXPGrowth = br.ReadByte();
                 EggGroups = new[] { br.ReadByte(), br.ReadByte() };
                 Abilities = new[] { br.ReadByte(), br.ReadByte(), br.ReadByte() };
-                _1B = br.ReadByte();
-                _1C = br.ReadUInt16();
+                EscapeRate = br.ReadByte();
+                FormStats = br.ReadUInt16();
 
                 FormeSprite = br.ReadUInt16();
                 FormeCount = br.ReadByte();
@@ -127,8 +126,8 @@ namespace pk3DS
                 bw.Write(EXPGrowth);
                 foreach (byte EggGroup in EggGroups) bw.Write(EggGroup);
                 foreach (byte Ability in Abilities) bw.Write(Ability);
-                bw.Write(_1B);
-                bw.Write(_1C);
+                bw.Write(EscapeRate);
+                bw.Write(FormStats);
                 bw.Write(FormeSprite);
                 bw.Write(FormeCount);
                 bw.Write(Color);
