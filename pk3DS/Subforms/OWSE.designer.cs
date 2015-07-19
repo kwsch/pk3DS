@@ -80,9 +80,9 @@
             this.RTB_MS = new System.Windows.Forms.RichTextBox();
             this.tb_Encounters = new System.Windows.Forms.TabPage();
             this.L_Encounters = new System.Windows.Forms.Label();
-            this.TB_File5 = new System.Windows.Forms.TabPage();
+            this.tb_File5 = new System.Windows.Forms.TabPage();
             this.L_File5TabData = new System.Windows.Forms.Label();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tb_RAW = new System.Windows.Forms.TabPage();
             this.L_File3 = new System.Windows.Forms.Label();
             this.L_ZD = new System.Windows.Forms.Label();
             this.L_File5 = new System.Windows.Forms.Label();
@@ -96,6 +96,13 @@
             this.RTB_MapSC = new System.Windows.Forms.RichTextBox();
             this.L_ZDPreview = new System.Windows.Forms.Label();
             this.B_HLCMD = new System.Windows.Forms.Button();
+            this.tb_Map = new System.Windows.Forms.TabPage();
+            this.PB_Map = new System.Windows.Forms.PictureBox();
+            this.NUD_Flavor = new System.Windows.Forms.NumericUpDown();
+            this.L_Flavor = new System.Windows.Forms.Label();
+            this.B_Redraw = new System.Windows.Forms.Button();
+            this.L_Scale = new System.Windows.Forms.Label();
+            this.NUD_Scale = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.tb_MapInfo.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -118,8 +125,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NPCCount)).BeginInit();
             this.tb_MSC.SuspendLayout();
             this.tb_Encounters.SuspendLayout();
-            this.TB_File5.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tb_File5.SuspendLayout();
+            this.tb_RAW.SuspendLayout();
+            this.tb_Map.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Flavor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Scale)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_LocationID
@@ -162,8 +173,9 @@
             this.tabControl1.Controls.Add(this.tb_OWSC);
             this.tabControl1.Controls.Add(this.tb_MSC);
             this.tabControl1.Controls.Add(this.tb_Encounters);
-            this.tabControl1.Controls.Add(this.TB_File5);
-            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tb_File5);
+            this.tabControl1.Controls.Add(this.tb_RAW);
+            this.tabControl1.Controls.Add(this.tb_Map);
             this.tabControl1.Location = new System.Drawing.Point(12, 32);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -722,15 +734,15 @@
             this.L_Encounters.TabIndex = 0;
             this.L_Encounters.Text = "Encounters are handled in the regular Wild Editor.";
             // 
-            // TB_File5
+            // tb_File5
             // 
-            this.TB_File5.Controls.Add(this.L_File5TabData);
-            this.TB_File5.Location = new System.Drawing.Point(4, 22);
-            this.TB_File5.Name = "TB_File5";
-            this.TB_File5.Size = new System.Drawing.Size(486, 471);
-            this.TB_File5.TabIndex = 4;
-            this.TB_File5.Text = "File 5";
-            this.TB_File5.UseVisualStyleBackColor = true;
+            this.tb_File5.Controls.Add(this.L_File5TabData);
+            this.tb_File5.Location = new System.Drawing.Point(4, 22);
+            this.tb_File5.Name = "tb_File5";
+            this.tb_File5.Size = new System.Drawing.Size(486, 471);
+            this.tb_File5.TabIndex = 4;
+            this.tb_File5.Text = "File 5";
+            this.tb_File5.UseVisualStyleBackColor = true;
             // 
             // L_File5TabData
             // 
@@ -741,26 +753,26 @@
             this.L_File5TabData.TabIndex = 1;
             this.L_File5TabData.Text = "Functionality unknown. See RAW tab for data.";
             // 
-            // tabPage1
+            // tb_RAW
             // 
-            this.tabPage1.Controls.Add(this.L_File3);
-            this.tabPage1.Controls.Add(this.L_ZD);
-            this.tabPage1.Controls.Add(this.L_File5);
-            this.tabPage1.Controls.Add(this.L_File4);
-            this.tabPage1.Controls.Add(this.L_File2);
-            this.tabPage1.Controls.Add(this.L_File1);
-            this.tabPage1.Controls.Add(this.RTB_zonedata);
-            this.tabPage1.Controls.Add(this.RTB_MapInfo);
-            this.tabPage1.Controls.Add(this.RTB_File5);
-            this.tabPage1.Controls.Add(this.RTB_OWSC);
-            this.tabPage1.Controls.Add(this.RTB_Encounter);
-            this.tabPage1.Controls.Add(this.RTB_MapSC);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(486, 471);
-            this.tabPage1.TabIndex = 5;
-            this.tabPage1.Text = "RAW";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tb_RAW.Controls.Add(this.L_File3);
+            this.tb_RAW.Controls.Add(this.L_ZD);
+            this.tb_RAW.Controls.Add(this.L_File5);
+            this.tb_RAW.Controls.Add(this.L_File4);
+            this.tb_RAW.Controls.Add(this.L_File2);
+            this.tb_RAW.Controls.Add(this.L_File1);
+            this.tb_RAW.Controls.Add(this.RTB_zonedata);
+            this.tb_RAW.Controls.Add(this.RTB_MapInfo);
+            this.tb_RAW.Controls.Add(this.RTB_File5);
+            this.tb_RAW.Controls.Add(this.RTB_OWSC);
+            this.tb_RAW.Controls.Add(this.RTB_Encounter);
+            this.tb_RAW.Controls.Add(this.RTB_MapSC);
+            this.tb_RAW.Location = new System.Drawing.Point(4, 22);
+            this.tb_RAW.Name = "tb_RAW";
+            this.tb_RAW.Size = new System.Drawing.Size(486, 471);
+            this.tb_RAW.TabIndex = 5;
+            this.tb_RAW.Text = "RAW";
+            this.tb_RAW.UseVisualStyleBackColor = true;
             // 
             // L_File3
             // 
@@ -887,6 +899,94 @@
             this.B_HLCMD.UseVisualStyleBackColor = true;
             this.B_HLCMD.Click += new System.EventHandler(this.B_HLCMD_Click);
             // 
+            // tb_Map
+            // 
+            this.tb_Map.Controls.Add(this.B_Redraw);
+            this.tb_Map.Controls.Add(this.L_Scale);
+            this.tb_Map.Controls.Add(this.NUD_Scale);
+            this.tb_Map.Controls.Add(this.L_Flavor);
+            this.tb_Map.Controls.Add(this.NUD_Flavor);
+            this.tb_Map.Controls.Add(this.PB_Map);
+            this.tb_Map.Location = new System.Drawing.Point(4, 22);
+            this.tb_Map.Name = "tb_Map";
+            this.tb_Map.Padding = new System.Windows.Forms.Padding(3);
+            this.tb_Map.Size = new System.Drawing.Size(486, 471);
+            this.tb_Map.TabIndex = 6;
+            this.tb_Map.Text = "Map Preview";
+            this.tb_Map.UseVisualStyleBackColor = true;
+            // 
+            // PB_Map
+            // 
+            this.PB_Map.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.PB_Map.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PB_Map.Location = new System.Drawing.Point(6, 32);
+            this.PB_Map.Name = "PB_Map";
+            this.PB_Map.Size = new System.Drawing.Size(300, 124);
+            this.PB_Map.TabIndex = 2;
+            this.PB_Map.TabStop = false;
+            // 
+            // NUD_Flavor
+            // 
+            this.NUD_Flavor.Location = new System.Drawing.Point(51, 6);
+            this.NUD_Flavor.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_Flavor.Name = "NUD_Flavor";
+            this.NUD_Flavor.Size = new System.Drawing.Size(37, 20);
+            this.NUD_Flavor.TabIndex = 3;
+            this.NUD_Flavor.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // L_Flavor
+            // 
+            this.L_Flavor.AutoSize = true;
+            this.L_Flavor.Location = new System.Drawing.Point(6, 8);
+            this.L_Flavor.Name = "L_Flavor";
+            this.L_Flavor.Size = new System.Drawing.Size(39, 13);
+            this.L_Flavor.TabIndex = 4;
+            this.L_Flavor.Text = "Flavor:";
+            // 
+            // B_Redraw
+            // 
+            this.B_Redraw.Location = new System.Drawing.Point(180, 4);
+            this.B_Redraw.Name = "B_Redraw";
+            this.B_Redraw.Size = new System.Drawing.Size(75, 23);
+            this.B_Redraw.TabIndex = 9;
+            this.B_Redraw.Text = "Redraw";
+            this.B_Redraw.UseVisualStyleBackColor = true;
+            this.B_Redraw.Click += new System.EventHandler(this.B_Redraw_Click);
+            // 
+            // L_Scale
+            // 
+            this.L_Scale.AutoSize = true;
+            this.L_Scale.Location = new System.Drawing.Point(94, 8);
+            this.L_Scale.Name = "L_Scale";
+            this.L_Scale.Size = new System.Drawing.Size(37, 13);
+            this.L_Scale.TabIndex = 6;
+            this.L_Scale.Text = "Scale:";
+            // 
+            // NUD_Scale
+            // 
+            this.NUD_Scale.Location = new System.Drawing.Point(137, 6);
+            this.NUD_Scale.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_Scale.Name = "NUD_Scale";
+            this.NUD_Scale.Size = new System.Drawing.Size(37, 20);
+            this.NUD_Scale.TabIndex = 5;
+            this.NUD_Scale.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -929,9 +1029,14 @@
             this.tb_MSC.PerformLayout();
             this.tb_Encounters.ResumeLayout(false);
             this.tb_Encounters.PerformLayout();
-            this.TB_File5.ResumeLayout(false);
-            this.TB_File5.PerformLayout();
-            this.tabPage1.ResumeLayout(false);
+            this.tb_File5.ResumeLayout(false);
+            this.tb_File5.PerformLayout();
+            this.tb_RAW.ResumeLayout(false);
+            this.tb_Map.ResumeLayout(false);
+            this.tb_Map.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Flavor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Scale)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -947,7 +1052,7 @@
         private System.Windows.Forms.TabPage tb_OWSC;
         private System.Windows.Forms.TabPage tb_MSC;
         private System.Windows.Forms.TabPage tb_Encounters;
-        private System.Windows.Forms.TabPage TB_File5;
+        private System.Windows.Forms.TabPage tb_File5;
         private System.Windows.Forms.TabControl tc_OWSC;
         private System.Windows.Forms.TabPage tb_Furniture;
         private System.Windows.Forms.TabPage tb_Overworld;
@@ -985,7 +1090,7 @@
         private System.Windows.Forms.Label L_DestWarpTile;
         private System.Windows.Forms.Label L_DestMap;
         private System.Windows.Forms.Label L_OWSCDesc;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tb_RAW;
         private System.Windows.Forms.Label L_MSSCDesc;
         private System.Windows.Forms.RichTextBox RTB_MS;
         private System.Windows.Forms.Label L_WarpDest;
@@ -1007,6 +1112,13 @@
         private System.Windows.Forms.RichTextBox RTB_OSP;
         private System.Windows.Forms.RichTextBox RTB_MSP;
         private System.Windows.Forms.Button B_HLCMD;
+        private System.Windows.Forms.TabPage tb_Map;
+        private System.Windows.Forms.Label L_Flavor;
+        private System.Windows.Forms.NumericUpDown NUD_Flavor;
+        private System.Windows.Forms.PictureBox PB_Map;
+        private System.Windows.Forms.Button B_Redraw;
+        private System.Windows.Forms.Label L_Scale;
+        private System.Windows.Forms.NumericUpDown NUD_Scale;
     }
 }
 

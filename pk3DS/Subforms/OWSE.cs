@@ -43,7 +43,7 @@ namespace pk3DS
             zdLocations = new string[filepaths.Length];
             rawLocations = new string[filepaths.Length];
 
-            TB_File5.Visible = Main.oras; // 5th File is only present with OR/AS.
+            tb_File5.Visible = Main.oras; // 5th File is only present with OR/AS.
 
             // Analyze
             for (int f = 0; f < filepaths.Length; f++)
@@ -180,12 +180,14 @@ namespace pk3DS
 
             byte[] zd = zonedata.Skip(56*entry).Take(56).ToArray();
             ushort text = BitConverter.ToUInt16(zonedata, 56*entry + 6);
-            ushort map = BitConverter.ToUInt16(zonedata, 56*entry + 2);
+            ushort map = BitConverter.ToUInt16(zonedata, 56*entry + 4);
             RTB_zonedata.Lines = Scripts.getHexLines(zd, 0x10);
             L_ZDPreview.Text = "Text File: " + text
             + Environment.NewLine + "Map File: " + map;
 
             // Fetch Map Image
+            DrawMap = map;
+            PB_Map.Image = getMapImage();
 
             byte[] owData = data.Skip(4).Take(len).ToArray();
             // Process owData Header
@@ -471,6 +473,55 @@ namespace pk3DS
                 //Util.Alert("Set parse to clipboard.");
             }
             System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private int DrawMap = -1;
+        private Image getMapImage()
+        {
+            // Load MM
+            byte[][] MM = CTR.mini.unpackMini(File.ReadAllBytes(MapMatrixes[DrawMap]), "MM");
+            MapMatrix mm = new MapMatrix(MM[0]);
+
+            // Load GR TileMaps
+            for (int i = 0; i < mm.EntryList.Length; i++)
+            {
+                if (mm.EntryList[i] == 0xFFFF) // Mystery Zone
+                    continue;
+                byte[][] GR = CTR.mini.unpackMini(File.ReadAllBytes(MapGRs[mm.EntryList[i]]), "GR");
+                mm.Entries[i] = new MapMatrix.Entry(GR[0]);
+            }
+            Image img = mm.Preview((int)NUD_Scale.Value, (int)NUD_Flavor.Value);
+            img = Util.TrimBitmap((Bitmap)img);
+            PB_Map.Size = new Size(img.Width + 2, img.Height + 2);
+            return img;
+        }
+        private void B_Redraw_Click(object sender, EventArgs e)
+        {
+            if (DrawMap != -1)
+                PB_Map.Image = getMapImage();
+
+            if (ModifierKeys != Keys.Control ||
+                Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all?") != DialogResult.Yes)
+                return;
+            
+            const string folder = "MapImages";
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            for (int i = 0; i < CB_LocationID.Items.Count; i++)
+            {
+                DrawMap = BitConverter.ToUInt16(zonedata, 56 * i + 4);
+                Image img = getMapImage();
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    //error will throw from here
+                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    byte[] data = ms.ToArray();
+                    File.WriteAllBytes(Path.Combine(folder, String.Format("{0} ({1}).png", zdLocations[i].Replace('?', '-'), DrawMap)), data);
+                }
+            }
+            CB_LocationID.SelectedIndex = 0;
+            Util.Alert("All Dumped!");
         }
     }
 }

@@ -556,7 +556,8 @@ namespace pk3DS
                 for (int i = 0; i < Area; i++)
                     EntryList[i] = br.ReadUInt16();
 
-                uL = br.ReadUInt16();
+                if (br.BaseStream.Position != br.BaseStream.Length)
+                    uL = br.ReadUInt16();
             }
         }
         public byte[] Write()
@@ -573,30 +574,29 @@ namespace pk3DS
             }
         }
 
-        public Image Preview(int Scale, int Spacing, int ColorShift)
+        public Image Preview(int Scale, int ColorShift)
         {
             // Require the entries to be defined in order to continue.
             if (Entries.Any(entry => entry == null))
-                return null;
+            {
+                // Do nothing; images are instead created with the standard dimensions and returned.
+            }
 
             // Fetch Singular Images first
             Image[] EntryImages = new Image[Area];
             for (int i = 0; i < Area; i++)
-                EntryImages[i] = Entries[i].Preview(Scale, Spacing, ColorShift);
+                EntryImages[i] = (Entries[i] == null)
+                    ? new Bitmap(40 * Scale, 40 * Scale)
+                    : Entries[i].Preview(Scale, ColorShift);
 
             // Combine all images into one.
-            Bitmap img = new Bitmap(EntryImages[0].Width * Width, EntryImages[1].Height * Height);
+            Bitmap img = new Bitmap(EntryImages[0].Width * Width, EntryImages[0].Height * Height);
+
+            using (Graphics g = Graphics.FromImage(img))
             for (int i = 0; i < Area; i++)
-            { try {
-                for (int x = 0; x < EntryImages[i].Width; x++)
-                    for (int y = 0; y < EntryImages[i].Height; y++)
-                    {
-                        img.SetPixel(
-                            x + (i * EntryImages[0].Width) % (img.Width), // Shifted X
-                            y + EntryImages[0].Height * ((i / Width)), // Shifted Y
-                            img.GetPixel(x, y)); // Color at Pixel
-                    }
-            } catch { } }
+            {
+                g.DrawImage(EntryImages[i], new Point((i * EntryImages[0].Width) % (img.Width), EntryImages[0].Height * ((i / Width))));
+            }
             return img;
         }
 
@@ -628,9 +628,9 @@ namespace pk3DS
                     return ms.ToArray();
                 }
             }
-            public Image Preview(int s, int Spacing, int ColorShift)
+            public Image Preview(int s, int ColorShift)
             {
-                Bitmap img = new Bitmap(Width*s + 2*Spacing, Height*s + 2*Spacing);
+                Bitmap img = new Bitmap(Width*s, Height*s);
                 for (int i = 0; i < Area; i++)
                 {
                     Color c = Tiles[i] == 0x01000021
@@ -642,8 +642,8 @@ namespace pk3DS
                             for (int y = 0; y < s; y++)
                             {
                                 img.SetPixel(
-                                    x + (i*s)%(img.Width) + Spacing,
-                                    y + ((i/Width)*s) + Spacing,
+                                    x + (i * s) % (img.Width),
+                                    y + ((i/Width)*s),
                                     c);
                             }
                     }

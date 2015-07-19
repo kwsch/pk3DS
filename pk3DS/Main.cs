@@ -421,8 +421,9 @@ namespace pk3DS
             {
                 if (advanced)
                 {
-                    string[] files = { "encdata", "storytext" };
-                    fileGet(files, false);
+                    string[] files = { "encdata", "storytext", "mapGR", "mapMatrix" };
+                    if (files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0)
+                        fileGet(files, false);
                     Invoke((MethodInvoker)delegate { Enabled = false; });
                     {
                         Invoke((Action)(() => new xytext(Directory.GetFiles("storytext")).Show()));
