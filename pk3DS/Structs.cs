@@ -536,57 +536,68 @@ namespace pk3DS
             }
         }
     }
-    public class MovementPermissions
+    public class MapMatrix
     {
-        public ushort Width, Height;
-        private int Area;
-        public uint[] Tiles; // Certain bits?
-        public MovementPermissions(byte[] data)
+        public Entry[] Entries;
+        public MapMatrix(byte[] data)
         {
-            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
-            {
-                Width = br.ReadUInt16();
-                Height = br.ReadUInt16();
-                Area = Width*Height;
-                Tiles = new uint[Area];
-                for (int i = 0; i < Area; i++)
-                    Tiles[i] = br.ReadUInt32();
-            }
+            
         }
         public byte[] Write()
         {
-            using (MemoryStream ms = new MemoryStream())
-            using (BinaryWriter bw = new BinaryWriter(ms))
-            {
-                bw.Write(Width);
-                bw.Write(Height);
-                foreach (uint Tile in Tiles) bw.Write(Tile);
-                return ms.ToArray();
-            }
+            return null;
         }
-
-        public Image Preview(int s, int Spacing, int ColorShift)
+        public class Entry
         {
-            Bitmap img = new Bitmap(Width*s + 2 * Spacing, Height*s + 2 * Spacing);
-            for (int i = 0; i < Area; i++)
+            public ushort Width, Height;
+            private int Area;
+            public uint[] Tiles; // Certain bits?
+            public Entry(byte[] data)
             {
-                Color c = Tiles[i] == 0x01000021 
-                    ? Color.Black
-                    : Color.FromArgb((int)(RNG.Forward32(Tiles[i], ColorShift) | 0xFF000000));
-                try
+                using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
                 {
-                    for (int x = 0; x < s; x++)
-                        for (int y = 0; y < s; y++)
-                        {
-                            img.SetPixel(
-                                x + (i*s)%(img.Width) + Spacing, 
-                                y + ((i/Width)*s) + Spacing, 
-                                c);
-                        }
+                    Width = br.ReadUInt16();
+                    Height = br.ReadUInt16();
+                    Area = Width*Height;
+                    Tiles = new uint[Area];
+                    for (int i = 0; i < Area; i++)
+                        Tiles[i] = br.ReadUInt32();
                 }
-                catch { }
             }
-            return img;
+            public byte[] Write()
+            {
+                using (MemoryStream ms = new MemoryStream())
+                using (BinaryWriter bw = new BinaryWriter(ms))
+                {
+                    bw.Write(Width);
+                    bw.Write(Height);
+                    foreach (uint Tile in Tiles) bw.Write(Tile);
+                    return ms.ToArray();
+                }
+            }
+            public Image Preview(int s, int Spacing, int ColorShift)
+            {
+                Bitmap img = new Bitmap(Width*s + 2*Spacing, Height*s + 2*Spacing);
+                for (int i = 0; i < Area; i++)
+                {
+                    Color c = Tiles[i] == 0x01000021
+                        ? Color.Black
+                        : Color.FromArgb((int) (RNG.Forward32(Tiles[i], ColorShift) | 0xFF000000));
+                    try
+                    {
+                        for (int x = 0; x < s; x++)
+                            for (int y = 0; y < s; y++)
+                            {
+                                img.SetPixel(
+                                    x + (i*s)%(img.Width) + Spacing,
+                                    y + ((i/Width)*s) + Spacing,
+                                    c);
+                            }
+                    }
+                    catch { }
+                }
+                return img;
+            }
         }
     }
 }
