@@ -1,9 +1,22 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 
 namespace pk3DS
 {
+    public class RNG
+    {
+        public static uint Forward32(uint seed, int ctr)
+        {
+            for (int i = 0; i < ctr; i++)
+            {
+                seed *= 0x41C64E6D;
+                seed += 0x00006073;
+            }
+            return seed;
+        }
+    }
     public class PersonalInfo
     {
         public byte HP, ATK, DEF, SPE, SPA, SPD;
@@ -521,6 +534,59 @@ namespace pk3DS
                 }
                 return ms.ToArray();
             }
+        }
+    }
+    public class MovementPermissions
+    {
+        public ushort Width, Height;
+        private int Area;
+        public uint[] Tiles; // Certain bits?
+        public MovementPermissions(byte[] data)
+        {
+            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+            {
+                Width = br.ReadUInt16();
+                Height = br.ReadUInt16();
+                Area = Width*Height;
+                Tiles = new uint[Area];
+                for (int i = 0; i < Area; i++)
+                    Tiles[i] = br.ReadUInt32();
+            }
+        }
+        public byte[] Write()
+        {
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter bw = new BinaryWriter(ms))
+            {
+                bw.Write(Width);
+                bw.Write(Height);
+                foreach (uint Tile in Tiles) bw.Write(Tile);
+                return ms.ToArray();
+            }
+        }
+
+        public Image Preview(int s, int Spacing, int ColorShift)
+        {
+            Bitmap img = new Bitmap(Width*s + 2 * Spacing, Height*s + 2 * Spacing);
+            for (int i = 0; i < Area; i++)
+            {
+                Color c = Tiles[i] == 0x01000021 
+                    ? Color.Black
+                    : Color.FromArgb((int)(RNG.Forward32(Tiles[i], ColorShift) | 0xFF000000));
+                try
+                {
+                    for (int x = 0; x < s; x++)
+                        for (int y = 0; y < s; y++)
+                        {
+                            img.SetPixel(
+                                x + (i*s)%(img.Width) + Spacing, 
+                                y + ((i/Width)*s) + Spacing, 
+                                c);
+                        }
+                }
+                catch { }
+            }
+            return img;
         }
     }
 }
