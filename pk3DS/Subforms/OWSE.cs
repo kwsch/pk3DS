@@ -14,9 +14,13 @@ namespace pk3DS
             AllowDrop = true;
             DragEnter += tabMain_DragEnter;
             DragDrop += tabMain_DragDrop;
+            MapMatrixes = Directory.GetFiles("mapMatrix");
+            MapGRs = Directory.GetFiles("mapGR");
             openQuick(Directory.GetFiles("encdata"));
             tabControl1.SelectedIndex = 2;  // Map Script Tab
         }
+        private string[] MapMatrixes;
+        private string[] MapGRs;
         private string[] encdatapaths;
         private string[] filepaths;
         private string[] gameLocations = Main.getText((Main.oras) ? 90 : 72);
@@ -175,9 +179,13 @@ namespace pk3DS
             int len = BitConverter.ToInt32(data, 0);
 
             byte[] zd = zonedata.Skip(56*entry).Take(56).ToArray();
+            ushort text = BitConverter.ToUInt16(zonedata, 56*entry + 6);
+            ushort map = BitConverter.ToUInt16(zonedata, 56*entry + 2);
             RTB_zonedata.Lines = Scripts.getHexLines(zd, 0x10);
-            L_ZDPreview.Text = "Text File: " + BitConverter.ToUInt16(zonedata, 56 * entry + 6)
-            + Environment.NewLine + "Map File: " + BitConverter.ToUInt16(zonedata, 56 * entry + 2);
+            L_ZDPreview.Text = "Text File: " + text
+            + Environment.NewLine + "Map File: " + map;
+
+            // Fetch Map Image
 
             byte[] owData = data.Skip(4).Take(len).ToArray();
             // Process owData Header
