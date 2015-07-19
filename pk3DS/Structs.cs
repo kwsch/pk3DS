@@ -537,15 +537,69 @@ namespace pk3DS
     }
     public class MapMatrix
     {
+        public uint u0;
+        public ushort uL;
+        public ushort Width, Height;
+        private int Area;
+        public ushort[] EntryList;
         public Entry[] Entries;
         public MapMatrix(byte[] data)
         {
-            
+            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+            {
+                u0 = br.ReadUInt32();
+                Width = br.ReadUInt16();
+                Height = br.ReadUInt16();
+                Area = Width*Height;
+                Entries = new Entry[Area];
+                EntryList = new ushort[Area];
+                for (int i = 0; i < Area; i++)
+                    EntryList[i] = br.ReadUInt16();
+
+                uL = br.ReadUInt16();
+            }
         }
         public byte[] Write()
         {
-            return null;
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter bw = new BinaryWriter(ms))
+            {
+                bw.Write(u0);
+                bw.Write(Width);
+                bw.Write(Height);
+                foreach (ushort Entry in EntryList) bw.Write(Entry);
+                bw.Write(uL);
+                return ms.ToArray();
+            }
         }
+
+        public Image Preview(int Scale, int Spacing, int ColorShift)
+        {
+            // Require the entries to be defined in order to continue.
+            if (Entries.Any(entry => entry == null))
+                return null;
+
+            // Fetch Singular Images first
+            Image[] EntryImages = new Image[Area];
+            for (int i = 0; i < Area; i++)
+                EntryImages[i] = Entries[i].Preview(Scale, Spacing, ColorShift);
+
+            // Combine all images into one.
+            Bitmap img = new Bitmap(EntryImages[0].Width * Width, EntryImages[1].Height * Height);
+            for (int i = 0; i < Area; i++)
+            { try {
+                for (int x = 0; x < EntryImages[i].Width; x++)
+                    for (int y = 0; y < EntryImages[i].Height; y++)
+                    {
+                        img.SetPixel(
+                            x + (i * EntryImages[0].Width) % (img.Width), // Shifted X
+                            y + EntryImages[0].Height * ((i / Width)), // Shifted Y
+                            img.GetPixel(x, y)); // Color at Pixel
+                    }
+            } catch { } }
+            return img;
+        }
+
         public class Entry
         {
             public ushort Width, Height;
