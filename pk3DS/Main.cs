@@ -63,7 +63,7 @@ namespace pk3DS
         public volatile int threads;
         internal volatile static int Language;
         internal static CTR.SMDH SMDH;
-        internal static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN", "titlescreen" };
+        internal static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN", "titlescreen", "mapMatrix", "mapGR" };
         private bool skipBoth;
 
         // Main Form Methods
@@ -694,11 +694,16 @@ namespace pk3DS
             string ans = "";
             switch (requestedGARC)
             {
+                case "movesprite": ans = getGARCPath(0, 0, 5); break;
                 case "encdata": ans = (oras) ? getGARCPath(0, 1, 3) : getGARCPath(0, 1, 2); break;
                 case "trdata": ans = (oras) ? getGARCPath(0, 3, 6) : getGARCPath(0, 3, 8); break;
                 case "trpoke": ans = (oras) ? getGARCPath(0, 3, 8) : getGARCPath(0, 4, 0); break;
+                case "mapGR": ans = (oras) ? getGARCPath(0, 3, 9) : getGARCPath(0, 4, 1); break;
+                case "mapMatrix": ans = (oras) ? getGARCPath(0, 4, 0) : getGARCPath(0, 4, 2); break;
                 case "gametext": ans = (oras) ? getGARCPath(0, 7, 1 + lang) : getGARCPath(0, 7, 2 + lang); break;
                 case "storytext": ans = (oras) ? getGARCPath(0, 7 + ((lang + 9) / 10), (10 + (lang + 9)) % 10) : getGARCPath(0, 8, lang); break;
+                case "wallpaper": ans = (oras) ? getGARCPath(1, 0, 3) : getGARCPath(1, 0, 4); break;
+                case "titlescreen": ans = (oras) ? getGARCPath(1, 5, 2) : getGARCPath(1, 6, 5); break;
                 case "maisonpkN": ans = (oras) ? getGARCPath(1, 8, 2) : getGARCPath(2, 0, 3); break;
                 case "maisontrN": ans = (oras) ? getGARCPath(1, 8, 3) : getGARCPath(2, 0, 4); break;
                 case "maisonpkS": ans = (oras) ? getGARCPath(1, 8, 4) : getGARCPath(2, 0, 5); break;
@@ -710,9 +715,6 @@ namespace pk3DS
                 case "megaevo": ans = (oras) ? getGARCPath(1, 9, 3) : getGARCPath(2, 1, 6); break;
                 case "personal": ans = (oras) ? getGARCPath(1, 9, 5) : getGARCPath(2, 1, 8); break;
                 case "item": ans = (oras) ? getGARCPath(1, 9, 7) : getGARCPath(2, 2, 0); break;
-                case "wallpaper": ans = (oras) ? getGARCPath(1, 0, 3) : getGARCPath(1, 0, 4); break;
-                case "titlescreen": ans = (oras) ? getGARCPath(1, 5, 2) : getGARCPath(1, 6, 5); break;
-                case "movesprite": ans = getGARCPath(0, 0, 5); break;
             }
             return ans;
         }
