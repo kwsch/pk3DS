@@ -735,7 +735,7 @@ namespace pk3DS
                         break;
                 }
 
-                srcRect = Rectangle.FromLTRB(xMin, yMin, xMax, yMax);
+                srcRect = Rectangle.FromLTRB(xMin, yMin, xMax + 1, yMax + 1); // fixed; was cropping 1px too much on the max end
             }
             finally
             {
