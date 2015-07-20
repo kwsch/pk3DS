@@ -535,6 +535,43 @@ namespace pk3DS
             }
         }
     }
+    public class MegaEvolutions
+    {
+        public ushort[] Form, Method, Argument, u6;
+        public MegaEvolutions(byte[] data)
+        {
+            if (data.Length < 0x10 || data.Length % 8 != 0) return;
+            Form = new ushort[data.Length / 8];
+            Method = new ushort[data.Length / 8];
+            Argument = new ushort[data.Length / 8];
+            u6 = new ushort[data.Length / 8];
+            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+            for (int i = 0; i < Form.Length; i++)
+            {
+                Form[i] = br.ReadUInt16();
+                Method[i] = br.ReadUInt16();
+                Argument[i] = br.ReadUInt16();
+                u6[i] = br.ReadUInt16();
+            }
+        }
+        public byte[] Write()
+        {
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter bw = new BinaryWriter(ms))
+            {
+                for (int i = 0; i < Form.Length; i++)
+                {
+                    if (Method[i] == 0)
+                    { Form[i] = Argument[i] = 0; } // No method to evolve, clear information.
+                    bw.Write(Form[i]);
+                    bw.Write(Method[i]);
+                    bw.Write(Argument[i]);
+                    bw.Write(u6[i]);
+                }
+                return ms.ToArray();
+            }
+        }
+    }
     public class MapMatrix
     {
         public uint u0;
@@ -650,6 +687,83 @@ namespace pk3DS
                     catch { }
                 }
                 return img;
+            }
+        }
+    }
+    public class ZoneData
+    {
+        public ushort u00, u02, MapMatrix, TextFile, u08; // Changing
+        public ushort u0A, u0C, u0E, u10, u12, u14, u16; // Constant
+
+        public ushort u18, u1A, OverworldLocation, u1E;
+        public byte OLFlags; // Part of OverworldLocation
+        public byte u20, u21; // uses 3 bits, uses 7 bits
+        public ushort u22, u24; // Zero
+        public short u26; // -1 thru ~25
+
+        public ushort u28, u2A; // 2 bytes float?
+        public short u2C, u2E, u30, u32, u34, u36;
+
+        public ZoneData(byte[] data)
+        {
+            if (data.Length != 0x36) 
+                return;
+            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+            {
+                u00 = br.ReadUInt16();
+                u02 = br.ReadUInt16();
+                MapMatrix = br.ReadUInt16();
+                TextFile = br.ReadUInt16();
+                u08 = br.ReadUInt16();
+
+                u0A = br.ReadUInt16();
+                u0C = br.ReadUInt16();
+                u0E = br.ReadUInt16();
+                u10 = br.ReadUInt16();
+                u12 = br.ReadUInt16();
+                u14 = br.ReadUInt16();
+
+                u18 = br.ReadUInt16();
+                u1A = br.ReadUInt16();
+                OverworldLocation = br.ReadUInt16();
+                OLFlags = (byte)(OverworldLocation >> 9);
+                OverworldLocation &= 0x1FF;
+
+                u20 = br.ReadByte();
+                u21 = br.ReadByte();
+
+                u22 = br.ReadUInt16();
+                u24 = br.ReadUInt16();
+                u26 = br.ReadInt16();
+                u28 = br.ReadUInt16();
+                u2A = br.ReadUInt16();
+
+                u2C = br.ReadInt16();
+                u2E = br.ReadInt16();
+                u30 = br.ReadInt16();
+                u32 = br.ReadInt16();
+                u34 = br.ReadInt16();
+                u36 = br.ReadInt16();
+            }
+        }
+        public byte[] Write()
+        {
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter bw = new BinaryWriter(ms))
+            {
+                bw.Write(u00); bw.Write(u02); bw.Write(MapMatrix); bw.Write(TextFile);
+                bw.Write(u08); bw.Write(u0A); bw.Write(u0C); bw.Write(u0E);
+                bw.Write(u10); bw.Write(u12); bw.Write(u14); bw.Write(u16);
+
+                bw.Write(u18); bw.Write(u1A);
+                bw.Write((ushort)(OverworldLocation << (OLFlags << 9)));
+                bw.Write(u1E); bw.Write(u20); bw.Write(u21);
+                bw.Write(u22); bw.Write(u22); bw.Write(u24);
+                bw.Write(u26); bw.Write(u28); bw.Write(u2A);
+
+                bw.Write(u2C); bw.Write(u2E); bw.Write(u30);
+                bw.Write(u32); bw.Write(u34); bw.Write(u36);
+                return ms.ToArray();
             }
         }
     }
