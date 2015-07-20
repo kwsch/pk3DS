@@ -476,11 +476,12 @@ namespace pk3DS
         }
 
         private int DrawMap = -1;
+        private MapMatrix mm;
         private Image getMapImage()
         {
             // Load MM
             byte[][] MM = CTR.mini.unpackMini(File.ReadAllBytes(MapMatrixes[DrawMap]), "MM");
-            MapMatrix mm = new MapMatrix(MM[0]);
+            mm = new MapMatrix(MM[0]);
 
             // Load GR TileMaps
             for (int i = 0; i < mm.EntryList.Length; i++)
@@ -508,6 +509,7 @@ namespace pk3DS
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
+            string[] result = new string[CB_LocationID.Items.Count];
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
             {
                 DrawMap = BitConverter.ToUInt16(zonedata, 56 * i + 4);
@@ -519,7 +521,11 @@ namespace pk3DS
                     byte[] data = ms.ToArray();
                     File.WriteAllBytes(Path.Combine(folder, String.Format("{0} ({1}).png", zdLocations[i].Replace('?', '-'), DrawMap)), data);
                 }
+                string l = mm.EntryList.Where(t => t != 0xFFFF).Aggregate("", (current, t) => current + t.ToString("000" + " "));
+                result[i] = String.Format("{0}\t{1}\t{2}", DrawMap.ToString("000"), CB_LocationID.Items[i], l);
             }
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write parse output?") == DialogResult.Yes)
+                File.WriteAllLines("MapLocations.txt", result);
             CB_LocationID.SelectedIndex = 0;
             Util.Alert("All images have been dumped to " + folder + ".");
         }

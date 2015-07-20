@@ -94,15 +94,15 @@
             this.RTB_OWSC = new System.Windows.Forms.RichTextBox();
             this.RTB_Encounter = new System.Windows.Forms.RichTextBox();
             this.RTB_MapSC = new System.Windows.Forms.RichTextBox();
-            this.L_ZDPreview = new System.Windows.Forms.Label();
-            this.B_HLCMD = new System.Windows.Forms.Button();
             this.tb_Map = new System.Windows.Forms.TabPage();
-            this.PB_Map = new System.Windows.Forms.PictureBox();
-            this.NUD_Flavor = new System.Windows.Forms.NumericUpDown();
-            this.L_Flavor = new System.Windows.Forms.Label();
             this.B_Redraw = new System.Windows.Forms.Button();
             this.L_Scale = new System.Windows.Forms.Label();
             this.NUD_Scale = new System.Windows.Forms.NumericUpDown();
+            this.L_Flavor = new System.Windows.Forms.Label();
+            this.NUD_Flavor = new System.Windows.Forms.NumericUpDown();
+            this.PB_Map = new System.Windows.Forms.PictureBox();
+            this.L_ZDPreview = new System.Windows.Forms.Label();
+            this.B_HLCMD = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tb_MapInfo.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -128,9 +128,9 @@
             this.tb_File5.SuspendLayout();
             this.tb_RAW.SuspendLayout();
             this.tb_Map.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Flavor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Scale)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Flavor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_LocationID
@@ -880,25 +880,6 @@
             this.RTB_MapSC.TabIndex = 419;
             this.RTB_MapSC.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF";
             // 
-            // L_ZDPreview
-            // 
-            this.L_ZDPreview.AutoSize = true;
-            this.L_ZDPreview.Location = new System.Drawing.Point(216, 3);
-            this.L_ZDPreview.Name = "L_ZDPreview";
-            this.L_ZDPreview.Size = new System.Drawing.Size(50, 26);
-            this.L_ZDPreview.TabIndex = 418;
-            this.L_ZDPreview.Text = "Text File:\r\nMap File:";
-            // 
-            // B_HLCMD
-            // 
-            this.B_HLCMD.Location = new System.Drawing.Point(413, 5);
-            this.B_HLCMD.Name = "B_HLCMD";
-            this.B_HLCMD.Size = new System.Drawing.Size(89, 23);
-            this.B_HLCMD.TabIndex = 419;
-            this.B_HLCMD.Text = "HL **CMD**";
-            this.B_HLCMD.UseVisualStyleBackColor = true;
-            this.B_HLCMD.Click += new System.EventHandler(this.B_HLCMD_Click);
-            // 
             // tb_Map
             // 
             this.tb_Map.Controls.Add(this.B_Redraw);
@@ -914,42 +895,6 @@
             this.tb_Map.TabIndex = 6;
             this.tb_Map.Text = "Map Preview";
             this.tb_Map.UseVisualStyleBackColor = true;
-            // 
-            // PB_Map
-            // 
-            this.PB_Map.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PB_Map.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PB_Map.Location = new System.Drawing.Point(6, 32);
-            this.PB_Map.Name = "PB_Map";
-            this.PB_Map.Size = new System.Drawing.Size(300, 124);
-            this.PB_Map.TabIndex = 2;
-            this.PB_Map.TabStop = false;
-            // 
-            // NUD_Flavor
-            // 
-            this.NUD_Flavor.Location = new System.Drawing.Point(51, 6);
-            this.NUD_Flavor.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NUD_Flavor.Name = "NUD_Flavor";
-            this.NUD_Flavor.Size = new System.Drawing.Size(37, 20);
-            this.NUD_Flavor.TabIndex = 3;
-            this.NUD_Flavor.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            // 
-            // L_Flavor
-            // 
-            this.L_Flavor.AutoSize = true;
-            this.L_Flavor.Location = new System.Drawing.Point(6, 8);
-            this.L_Flavor.Name = "L_Flavor";
-            this.L_Flavor.Size = new System.Drawing.Size(39, 13);
-            this.L_Flavor.TabIndex = 4;
-            this.L_Flavor.Text = "Flavor:";
             // 
             // B_Redraw
             // 
@@ -986,6 +931,61 @@
             0,
             0,
             0});
+            // 
+            // L_Flavor
+            // 
+            this.L_Flavor.AutoSize = true;
+            this.L_Flavor.Location = new System.Drawing.Point(6, 8);
+            this.L_Flavor.Name = "L_Flavor";
+            this.L_Flavor.Size = new System.Drawing.Size(39, 13);
+            this.L_Flavor.TabIndex = 4;
+            this.L_Flavor.Text = "Flavor:";
+            // 
+            // NUD_Flavor
+            // 
+            this.NUD_Flavor.Location = new System.Drawing.Point(51, 6);
+            this.NUD_Flavor.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_Flavor.Name = "NUD_Flavor";
+            this.NUD_Flavor.Size = new System.Drawing.Size(37, 20);
+            this.NUD_Flavor.TabIndex = 3;
+            this.NUD_Flavor.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // PB_Map
+            // 
+            this.PB_Map.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.PB_Map.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PB_Map.Location = new System.Drawing.Point(6, 32);
+            this.PB_Map.Name = "PB_Map";
+            this.PB_Map.Size = new System.Drawing.Size(300, 124);
+            this.PB_Map.TabIndex = 2;
+            this.PB_Map.TabStop = false;
+            // 
+            // L_ZDPreview
+            // 
+            this.L_ZDPreview.AutoSize = true;
+            this.L_ZDPreview.Location = new System.Drawing.Point(216, 3);
+            this.L_ZDPreview.Name = "L_ZDPreview";
+            this.L_ZDPreview.Size = new System.Drawing.Size(50, 26);
+            this.L_ZDPreview.TabIndex = 418;
+            this.L_ZDPreview.Text = "Text File:\r\nMap File:";
+            // 
+            // B_HLCMD
+            // 
+            this.B_HLCMD.Location = new System.Drawing.Point(413, 5);
+            this.B_HLCMD.Name = "B_HLCMD";
+            this.B_HLCMD.Size = new System.Drawing.Size(89, 23);
+            this.B_HLCMD.TabIndex = 419;
+            this.B_HLCMD.Text = "HL **CMD**";
+            this.B_HLCMD.UseVisualStyleBackColor = true;
+            this.B_HLCMD.Click += new System.EventHandler(this.B_HLCMD_Click);
             // 
             // OWSE
             // 
@@ -1034,9 +1034,9 @@
             this.tb_RAW.ResumeLayout(false);
             this.tb_Map.ResumeLayout(false);
             this.tb_Map.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Flavor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Scale)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Flavor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
