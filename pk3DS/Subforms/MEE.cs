@@ -106,6 +106,7 @@ namespace pk3DS
             getEntry();
         }
         bool dumping;
+        MegaEvolutions me;
         private void getEntry()
         {
             if (!loaded) return;
@@ -117,39 +118,26 @@ namespace pk3DS
             foreach (ComboBox CB in forme_spec)
                 Personal.setForms(entry, CB, AltForms);
 
+            me = new MegaEvolutions(data);
             for (int i = 0; i < 3; i++)
             {
-                ushort method = BitConverter.ToUInt16(data, 2 + (i * 8));
-                ushort form = BitConverter.ToUInt16(data, i * 8);
-                int item = BitConverter.ToUInt16(data, 4 + i * 8);
-                checkbox_spec[i].Checked = (method == 1);
-                forme_spec[i].SelectedIndex = form;
-                item_spec[i].SelectedValue = item;
+                checkbox_spec[i].Checked = (me.Method[i] == 1);
+                item_spec[i].SelectedValue = me.Argument[i];
+                forme_spec[i].SelectedIndex = me.Form[i];
             }
         }
         private void setEntry()
         {
-            if (entry < 1 || entry == 384) return;
-            string path = files[entry];
-            byte[] data = File.ReadAllBytes(path);
+            if (entry < 1 || entry == 384) return; // Don't edit invalid / Rayquaza.
             for (int i = 0; i < 3; i++)
             {
-                bool isChecked = checkbox_spec[i].Checked;
-                Array.Copy(BitConverter.GetBytes(isChecked ? (ushort)1 : (ushort)0), 0, data, 2 + i * 8, 2);
-                if (isChecked)
-                {
-                    int item = (int)(item_spec[i].SelectedValue);
-                    int form = forme_spec[i].SelectedIndex;
-                    Array.Copy(BitConverter.GetBytes((ushort)item), 0, data, 4 + i * 8, 2);
-                    Array.Copy(BitConverter.GetBytes((ushort)form), 0, data, i * 8, 2);
-                }
-                else
-                {
-                    Array.Copy(BitConverter.GetBytes((ushort)0), 0, data, i * 8, 2);
-                    Array.Copy(BitConverter.GetBytes((ushort)0), 0, data, 4 + i * 8, 2);
-                }
+                if (me.Method[i] > 1) 
+                    return; // Shouldn't hit this.
+                me.Method[i] = (ushort)((checkbox_spec[i].Checked) ? 1 : 0);
+                me.Argument[i] = (ushort)Util.getIndex(item_spec[i]);
+                me.Form[i] = (ushort)forme_spec[i].SelectedIndex;
             }
-            File.WriteAllBytes(path, data);
+            File.WriteAllBytes(files[entry], me.Write());
         }
 
         private void Update_PBs(object sender, EventArgs e)
@@ -160,13 +148,13 @@ namespace pk3DS
                 CheckBox CB = checkbox_spec[i];
                 if (CB.Checked)
                 {
-                    UpdateImage(picturebox_spec[0][i], entry, 0, (int)(item_spec[i]).SelectedValue, 0);
-                    UpdateImage(picturebox_spec[1][i], entry, (forme_spec[i]).SelectedIndex, (int)(item_spec[i]).SelectedValue, 0);
+                    UpdateImage(picturebox_spec[0][i], entry, 0, Util.getIndex(item_spec[i]), 0);
+                    UpdateImage(picturebox_spec[1][i], entry, (forme_spec[i]).SelectedIndex, Util.getIndex(item_spec[i]), 0);
                 }
                 else
                 {
-                    UpdateImage(picturebox_spec[0][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
-                    UpdateImage(picturebox_spec[1][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
+                    UpdateImage(picturebox_spec[0][i], 0, 0, Util.getIndex(item_spec[i]), 0);
+                    UpdateImage(picturebox_spec[1][i], 0, 0, Util.getIndex(item_spec[i]), 0);
                 }
             }
         }
@@ -177,44 +165,24 @@ namespace pk3DS
             CheckBox CB = checkbox_spec[i];
             if (CB.Checked)
             {
-                UpdateImage(picturebox_spec[0][i], entry, 0, (int)(item_spec[i]).SelectedValue, 0);
-                UpdateImage(picturebox_spec[1][i], entry, (forme_spec[i]).SelectedIndex, (int)(item_spec[i]).SelectedValue, 0);
+                UpdateImage(picturebox_spec[0][i], entry, 0, Util.getIndex(item_spec[i]), 0);
+                UpdateImage(picturebox_spec[1][i], entry, (forme_spec[i]).SelectedIndex, Util.getIndex(item_spec[i]), 0);
             }
             else
             {
-                UpdateImage(picturebox_spec[0][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
-                UpdateImage(picturebox_spec[1][i], 0, 0, (int)(item_spec[i]).SelectedValue, 0);
+                UpdateImage(picturebox_spec[0][i], 0, 0, Util.getIndex(item_spec[i]), 0);
+                UpdateImage(picturebox_spec[1][i], 0, 0, Util.getIndex(item_spec[i]), 0);
             }
         }
         
-        private void UpdateImage(PictureBox bpkx, int species, int form, int item, int gender)
+        private void UpdateImage(PictureBox pb, int species, int form, int item, int gender)
         {
-            Image baseImage;
-            if (!bpkx.Enabled)
+            if (!pb.Enabled)
             {
-                bpkx.Image = null;
+                pb.Image = null;
                 return;
             }
-
-            if (species == 0)
-            { baseImage = (Image)Resources.ResourceManager.GetObject("_0"); }
-            else
-            {
-                string file = "_" + species;
-                if (form > 0) // Alt Form Handling
-                    file = file + "_" + form;
-                else if ((gender == 1) && (species == 521 || species == 668))   // Unfezant & Pyroar
-                    file = "_" + species + "f";
-                { baseImage = (Image)Resources.ResourceManager.GetObject(file); }
-            }
-            if (item > 0)
-            {
-                // Has Item
-                Image itemimg = (Image)Resources.ResourceManager.GetObject("item_" + item) ?? Resources.helditem;
-                // Redraw
-                baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
-            }
-            bpkx.Image = baseImage;
+            pb.Image = RSTE.getSprite(species, form, gender, item);
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {
