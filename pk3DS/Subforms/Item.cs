@@ -4,9 +4,9 @@ using System.Windows.Forms;
 
 namespace pk3DS
 {
-    public partial class Item : Form
+    public partial class ItemEditor : Form
     {
-        public Item()
+        public ItemEditor()
         {
             itemlist[0] = "";
 

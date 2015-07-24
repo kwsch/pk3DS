@@ -1,6 +1,6 @@
 ﻿namespace pk3DS
 {
-    partial class Item
+    partial class ItemEditor
     {
         /// <summary>
         /// Required designer variable.

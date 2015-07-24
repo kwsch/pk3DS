@@ -475,7 +475,7 @@ namespace pk3DS
             {
                 string[] files = { "item" };
                 fileGet(files);
-                Invoke((Action)(() => new Item().ShowDialog()));
+                Invoke((Action)(() => new ItemEditor().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
