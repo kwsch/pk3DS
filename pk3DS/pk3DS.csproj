@@ -204,7 +204,6 @@
     <Compile Include="Tools\Icon.Designer.cs">
       <DependentUpon>Icon.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Image.cs" />
     <Compile Include="Tools\Scripts.cs" />
     <Compile Include="Tools\ToolsUI.cs">
       <SubType>Form</SubType>
