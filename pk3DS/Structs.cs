@@ -982,4 +982,124 @@ namespace pk3DS
             }
         }
     }
+    public class Zone
+    {
+        public ZoneInfo Info;
+        public ZoneEntities Entities;
+        public ZoneScript MapScript;
+        public ZoneEncounters Encounters;
+        public ZoneUnknown File5;
+
+        public Zone(byte[][] Zone)
+        {
+            // A ZO is comprised of 4-5 files.
+
+            // Array 0 is [Map Info]
+            Info = new ZoneInfo(Zone[0]);
+            // Array 1 is [Overworld Entities & their Scripts]
+            Entities = new ZoneEntities(Zone[1]);
+            // Array 2 is [Map Script]
+            MapScript = new ZoneScript(Zone[2]);
+            // Array 3 is [Wild Encounters]
+            Encounters = new ZoneEncounters(Zone[3]);
+            // Array 4 is [???] - May not be present in all.
+            if (Zone.Length <= 4) 
+                return;
+            File5 = new ZoneUnknown(Zone[4]);
+        }
+
+        public byte[][] Write()
+        {
+            byte[][] Zone = new byte[(File5 != null) ? 5 : 4][];
+            Zone[0] = Info.Write();
+            Zone[1] = Entities.Write();
+            Zone[2] = MapScript.Write();
+            Zone[3] = Encounters.Write();
+            if (Zone.Length <= 4) 
+                return Zone;
+
+            Zone[4] = File5.Write();
+            return Zone;
+        }
+
+        public class ZoneInfo
+        {
+            public byte[] InfoData; // File details unknown.
+            public ZoneInfo(byte[] data)
+            {
+                InfoData = data;
+            }
+            public byte[] Write()
+            {
+                return InfoData;
+            }
+        }
+        public class ZoneEntities
+        {
+            public byte[] Data; // File details unknown.
+            public ZoneEntities(byte[] data)
+            {
+                Data = data;
+            }
+            public byte[] Write()
+            {
+                return Data;
+            }
+
+            // Entity Classes
+            public class Furniture
+            {
+                // 0x14 Bytes Long
+            }
+            public class NPC
+            {
+                // 0x30 Bytes Long
+            }
+            public class Warp
+            {
+                // 0x18 Bytes Long
+            }
+            public class Trigger
+            {
+                // 0x18 Bytes Long
+            }
+        }
+        public class ZoneScript
+        {
+            public byte[] Data; // File details unknown.
+            public ZoneScript(byte[] data)
+            {
+                Data = data;
+            }
+            public byte[] Write()
+            {
+                return Data;
+            }
+        }
+        public class ZoneEncounters
+        {
+            public byte[] Data; // File details unknown.
+            public ZoneEncounters(byte[] data)
+            {
+                Data = data;
+            }
+            public byte[] Write()
+            {
+                return Data;
+            }
+        }
+        public class ZoneUnknown
+        {
+            public byte[] FileData; // File details unknown.
+            public ZoneUnknown(byte[] data)
+            {
+                FileData = data;
+            }
+
+            public byte[] Write()
+            {
+                return FileData;
+            }
+        }
+    }
 }
