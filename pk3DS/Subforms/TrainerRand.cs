@@ -9,6 +9,7 @@ namespace pk3DS
         public TrainerRand()
         {
             InitializeComponent();
+            CB_Moves.SelectedIndex = 1;
             trClassnorep = new List<string>();
             foreach (string tclass in trClass)
             {
@@ -34,8 +35,9 @@ namespace pk3DS
             RSTE.rLevel = CHK_Level.Checked;
             RSTE.rLevelPercent = NUD_Level.Value;
 
-            RSTE.rMove = CHK_RandomMoves.Checked;
-            if (CHK_RandomMoves.Checked)
+            RSTE.rMove = CB_Moves.SelectedIndex == 1;
+            RSTE.rNoMove = CB_Moves.SelectedIndex == 2;
+            if (RSTE.rMove)
             {
                 RSTE.rDMG = CHK_Damage.Checked;
                 if (RSTE.rDMG)
@@ -122,6 +124,13 @@ namespace pk3DS
         {
             CHK_IgnoreSpecialClass.Enabled = CHK_IgnoreSpecialClass.Checked = 
             CHK_OnlySingles.Enabled = CHK_OnlySingles.Checked = CHK_RandomClass.Checked;
+        }
+
+        private void changeMoveRandomization(object sender, EventArgs e)
+        {
+            CHK_Damage.Checked = CHK_STAB.Checked =
+            CHK_Damage.Enabled = CHK_STAB.Enabled =
+            NUD_Damage.Enabled = NUD_STAB.Enabled = (CB_Moves.SelectedIndex == 1);
         }
     }
 }

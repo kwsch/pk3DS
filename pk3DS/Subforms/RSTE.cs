@@ -565,7 +565,7 @@ namespace pk3DS
         }
 
         private bool randomizing;
-        public static bool rPKM, rSmart, rLevel, rMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand, rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB;
+        public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand, rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB;
         public static bool[] rThemedClasses = { };
         public static string[] rTags;
         public static int[] megaEvos;
@@ -641,7 +641,7 @@ namespace pk3DS
                 CB_TrainerID.SelectedIndex = i; // data is loaded
 
                 // Setup
-                checkBox_Moves.Checked = rMove || checkBox_Moves.Checked;
+                checkBox_Moves.Checked = rMove || (!rNoMove && checkBox_Moves.Checked);
                 checkBox_Item.Checked = rItem || checkBox_Item.Checked;
 
                 // Randomize Trainer Stats

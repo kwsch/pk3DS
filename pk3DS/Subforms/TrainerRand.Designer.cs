@@ -30,7 +30,6 @@
         {
             this.CHK_RandomPKM = new System.Windows.Forms.CheckBox();
             this.CHK_RandomItems = new System.Windows.Forms.CheckBox();
-            this.CHK_RandomMoves = new System.Windows.Forms.CheckBox();
             this.CHK_RandomAbilities = new System.Windows.Forms.CheckBox();
             this.CHK_RandomGift = new System.Windows.Forms.CheckBox();
             this.CHK_RandomClass = new System.Windows.Forms.CheckBox();
@@ -62,6 +61,8 @@
             this.CHK_Damage = new System.Windows.Forms.CheckBox();
             this.CHK_STAB = new System.Windows.Forms.CheckBox();
             this.NUD_STAB = new System.Windows.Forms.NumericUpDown();
+            this.CB_Moves = new System.Windows.Forms.ComboBox();
+            this.L_Moves = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             this.GB_Tweak.SuspendLayout();
@@ -94,19 +95,6 @@
             this.CHK_RandomItems.TabIndex = 6;
             this.CHK_RandomItems.Text = "Random Held Items";
             this.CHK_RandomItems.UseVisualStyleBackColor = true;
-            // 
-            // CHK_RandomMoves
-            // 
-            this.CHK_RandomMoves.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CHK_RandomMoves.AutoSize = true;
-            this.CHK_RandomMoves.Checked = true;
-            this.CHK_RandomMoves.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomMoves.Location = new System.Drawing.Point(12, 180);
-            this.CHK_RandomMoves.Name = "CHK_RandomMoves";
-            this.CHK_RandomMoves.Size = new System.Drawing.Size(101, 17);
-            this.CHK_RandomMoves.TabIndex = 5;
-            this.CHK_RandomMoves.Text = "Random Moves";
-            this.CHK_RandomMoves.UseVisualStyleBackColor = true;
             // 
             // CHK_RandomAbilities
             // 
@@ -449,7 +437,7 @@
             // NUD_Damage
             // 
             this.NUD_Damage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.NUD_Damage.Location = new System.Drawing.Point(204, 192);
+            this.NUD_Damage.Location = new System.Drawing.Point(204, 198);
             this.NUD_Damage.Maximum = new decimal(new int[] {
             4,
             0,
@@ -470,7 +458,7 @@
             this.CHK_Damage.AutoSize = true;
             this.CHK_Damage.Checked = true;
             this.CHK_Damage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Damage.Location = new System.Drawing.Point(12, 195);
+            this.CHK_Damage.Location = new System.Drawing.Point(12, 201);
             this.CHK_Damage.Name = "CHK_Damage";
             this.CHK_Damage.Size = new System.Drawing.Size(192, 17);
             this.CHK_Damage.TabIndex = 327;
@@ -483,7 +471,7 @@
             this.CHK_STAB.AutoSize = true;
             this.CHK_STAB.Checked = true;
             this.CHK_STAB.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_STAB.Location = new System.Drawing.Point(12, 210);
+            this.CHK_STAB.Location = new System.Drawing.Point(12, 216);
             this.CHK_STAB.Name = "CHK_STAB";
             this.CHK_STAB.Size = new System.Drawing.Size(172, 17);
             this.CHK_STAB.TabIndex = 328;
@@ -493,7 +481,7 @@
             // NUD_STAB
             // 
             this.NUD_STAB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.NUD_STAB.Location = new System.Drawing.Point(179, 212);
+            this.NUD_STAB.Location = new System.Drawing.Point(179, 218);
             this.NUD_STAB.Maximum = new decimal(new int[] {
             4,
             0,
@@ -508,15 +496,36 @@
             0,
             0});
             // 
+            // CB_Moves
+            // 
+            this.CB_Moves.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Moves.FormattingEnabled = true;
+            this.CB_Moves.Items.AddRange(new object[] {
+            "Don\'t Modify",
+            "Randomize All",
+            "Use Levelup Only"});
+            this.CB_Moves.Location = new System.Drawing.Point(60, 179);
+            this.CB_Moves.Name = "CB_Moves";
+            this.CB_Moves.Size = new System.Drawing.Size(121, 21);
+            this.CB_Moves.TabIndex = 330;
+            this.CB_Moves.SelectedIndexChanged += new System.EventHandler(this.changeMoveRandomization);
+            // 
+            // L_Moves
+            // 
+            this.L_Moves.AutoSize = true;
+            this.L_Moves.Location = new System.Drawing.Point(12, 182);
+            this.L_Moves.Name = "L_Moves";
+            this.L_Moves.Size = new System.Drawing.Size(42, 13);
+            this.L_Moves.TabIndex = 331;
+            this.L_Moves.Text = "Moves:";
+            // 
             // TrainerRand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 377);
-            this.Controls.Add(this.NUD_STAB);
-            this.Controls.Add(this.CHK_STAB);
-            this.Controls.Add(this.CHK_Damage);
-            this.Controls.Add(this.NUD_Damage);
+            this.Controls.Add(this.L_Moves);
+            this.Controls.Add(this.CB_Moves);
             this.Controls.Add(this.CHK_OnlySingles);
             this.Controls.Add(this.GB_Tweak);
             this.Controls.Add(this.NUD_GiftPercent);
@@ -531,10 +540,13 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.CHK_RandomGift);
-            this.Controls.Add(this.CHK_RandomMoves);
             this.Controls.Add(this.CHK_RandomPKM);
             this.Controls.Add(this.CHK_IgnoreSpecialClass);
             this.Controls.Add(this.CHK_RandomClass);
+            this.Controls.Add(this.NUD_STAB);
+            this.Controls.Add(this.CHK_STAB);
+            this.Controls.Add(this.CHK_Damage);
+            this.Controls.Add(this.NUD_Damage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(300, 840);
@@ -557,7 +569,6 @@
 
         private System.Windows.Forms.CheckBox CHK_RandomPKM;
         private System.Windows.Forms.CheckBox CHK_RandomItems;
-        private System.Windows.Forms.CheckBox CHK_RandomMoves;
         private System.Windows.Forms.CheckBox CHK_RandomAbilities;
         private System.Windows.Forms.CheckBox CHK_RandomGift;
         private System.Windows.Forms.CheckBox CHK_RandomClass;
@@ -589,5 +600,7 @@
         private System.Windows.Forms.CheckBox CHK_Damage;
         private System.Windows.Forms.CheckBox CHK_STAB;
         private System.Windows.Forms.NumericUpDown NUD_STAB;
+        private System.Windows.Forms.ComboBox CB_Moves;
+        private System.Windows.Forms.Label L_Moves;
     }
 }
