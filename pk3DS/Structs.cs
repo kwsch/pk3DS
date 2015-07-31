@@ -1037,6 +1037,11 @@ namespace pk3DS
         public class ZoneEntities
         {
             public byte[] Data; // File details unknown.
+
+            public EntityFurniture[] Furniture;
+            public EntityNPC[] NPCs;
+            public EntityWarp[] Warps;
+            public EntityTrigger[] Triggers;
             public ZoneEntities(byte[] data)
             {
                 Data = data;
@@ -1047,21 +1052,57 @@ namespace pk3DS
             }
 
             // Entity Classes
-            public class Furniture
+            public class EntityFurniture
             {
                 // 0x14 Bytes Long
+                public byte[] Raw;
+                public EntityFurniture(byte[] data)
+                {
+                    Raw = data;
+                }
+                public byte[] Write()
+                {
+                    return Raw;
+                }
             }
-            public class NPC
+            public class EntityNPC
             {
                 // 0x30 Bytes Long
+                public byte[] Raw;
+                public EntityNPC(byte[] data)
+                {
+                    Raw = data;
+                }
+                public byte[] Write()
+                {
+                    return Raw;
+                }
             }
-            public class Warp
+            public class EntityWarp
             {
                 // 0x18 Bytes Long
+                public byte[] Raw;
+                public EntityWarp(byte[] data)
+                {
+                    Raw = data;
+                }
+                public byte[] Write()
+                {
+                    return Raw;
+                }
             }
-            public class Trigger
+            public class EntityTrigger
             {
                 // 0x18 Bytes Long
+                public byte[] Raw;
+                public EntityTrigger(byte[] data)
+                {
+                    Raw = data;
+                }
+                public byte[] Write()
+                {
+                    return Raw;
+                }
             }
         }
         public class ZoneScript
