@@ -9,6 +9,7 @@ namespace pk3DS
 {
     public partial class TitleScreen : Form
     {
+        private bool compressed = Main.oras;
         public TitleScreen()
         {
             InitializeComponent();
@@ -47,9 +48,9 @@ namespace pk3DS
             for (int i = 0; i < darcs.Length; i++)
             {
                 // Get DARC name and assign the decompressed name
-                usedFiles[i] = "titlescreen\\" + "dec_" + Path.GetFileName(files[darcFiles[i]]);
-                // Decompress file
-                CTR.LZSS.Decompress(files[darcFiles[i]], usedFiles[i]);
+                usedFiles[i] = "titlescreen\\" + (compressed ? "dec_" : "") + Path.GetFileName(files[darcFiles[i]]);
+                if (compressed) // Decompress file (XY does not compress)
+                    CTR.LZSS.Decompress(files[darcFiles[i]], usedFiles[i]);
                 // Read decompressed file
                 var data = File.ReadAllBytes(usedFiles[i]);
 
@@ -198,7 +199,8 @@ namespace pk3DS
 
         private void formClosing(object sender, FormClosingEventArgs e)
         {
-            Util.Alert("Recompressing may take some time...", "Don't panic if the Progress Bar doesn't move!");
+            if (compressed)
+                Util.Alert("Recompressing may take some time...", "Don't panic if the Progress Bar doesn't move!");
             // Write darcs
             for (int i = 0; i < darcs.Length; i++)
             {
@@ -216,11 +218,13 @@ namespace pk3DS
                 byte[] oldDarc = File.ReadAllBytes(usedFiles[i]);
                 if (newData.SequenceEqual(oldDarc)) // if same, just continue.
                 {
-                    File.Delete(usedFiles[i]); // Use old compressed file (speedup)
+                    if (compressed) 
+                        File.Delete(usedFiles[i]); // Use old compressed file (speedup)
                 }
                 else // File is different, replace and allow repacking to compress.
                 {
-                    File.Delete(files[darcFiles[i]]); // delete the old compressed file
+                    if (compressed) 
+                        File.Delete(files[darcFiles[i]]); // delete the old compressed file
                     File.WriteAllBytes(usedFiles[i], newData); // write the new edited (uncompressed) file
                 }
             }
