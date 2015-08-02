@@ -1068,10 +1068,12 @@ namespace pk3DS
             public class EntityNPC
             {
                 // 0x30 Bytes Long
+                public ushort ID;
                 public byte[] Raw;
                 public EntityNPC(byte[] data)
                 {
                     Raw = data;
+                    ID = BitConverter.ToUInt16(data, 0x4);
                 }
                 public byte[] Write()
                 {
@@ -1082,9 +1084,14 @@ namespace pk3DS
             {
                 // 0x18 Bytes Long
                 public byte[] Raw;
+                public ushort DestinationMap;
+                public ushort DestinationTileIndex;
                 public EntityWarp(byte[] data)
                 {
                     Raw = data;
+
+                    DestinationMap = BitConverter.ToUInt16(data, 0x4);
+                    DestinationTileIndex = BitConverter.ToUInt16(data, 0x6);
                 }
                 public byte[] Write()
                 {
