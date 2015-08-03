@@ -1038,13 +1038,33 @@ namespace pk3DS
         {
             public byte[] Data; // File details unknown.
 
+            public UInt32 Length;
             public EntityFurniture[] Furniture;
             public EntityNPC[] NPCs;
             public EntityWarp[] Warps;
             public EntityTrigger[] Triggers;
+            public Byte[] ScriptData;
             public ZoneEntities(byte[] data)
             {
                 Data = data;
+
+                using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+                {
+                    Length = br.ReadUInt32();
+                    Furniture = new EntityFurniture[br.ReadByte()];
+                    NPCs = new EntityNPC[br.ReadByte()];
+                    Warps = new EntityWarp[br.ReadByte()];
+                    Triggers = new EntityTrigger[br.ReadByte()];
+                    for (int i = 0; i < Furniture.Length; i++)
+                        Furniture[i] = new EntityFurniture(br.ReadBytes(Furniture.Length));
+                    for (int i = 0; i < NPCs.Length; i++)
+                        NPCs[i] = new EntityNPC(br.ReadBytes(NPCs.Length));
+                    for (int i = 0; i < Warps.Length; i++)
+                        Warps[i] = new EntityWarp(br.ReadBytes(Warps.Length));
+                    for (int i = 0; i < Triggers.Length; i++) 
+                        Triggers[i] = new EntityTrigger(br.ReadBytes(Triggers.Length));
+                    ScriptData = br.ReadBytes((int)(br.BaseStream.Length - br.BaseStream.Position));
+                }
             }
             public byte[] Write()
             {
@@ -1054,7 +1074,7 @@ namespace pk3DS
             // Entity Classes
             public class EntityFurniture
             {
-                // 0x14 Bytes Long
+                internal static readonly byte Length = 0x14;
                 public byte[] Raw;
                 public EntityFurniture(byte[] data)
                 {
@@ -1067,7 +1087,7 @@ namespace pk3DS
             }
             public class EntityNPC
             {
-                // 0x30 Bytes Long
+                internal static readonly byte Length = 0x30;
                 public ushort ID;
                 public byte[] Raw;
                 public EntityNPC(byte[] data)
@@ -1082,7 +1102,7 @@ namespace pk3DS
             }
             public class EntityWarp
             {
-                // 0x18 Bytes Long
+                internal static readonly byte Length = 0x18;
                 public byte[] Raw;
                 public ushort DestinationMap;
                 public ushort DestinationTileIndex;
@@ -1100,7 +1120,7 @@ namespace pk3DS
             }
             public class EntityTrigger
             {
-                // 0x18 Bytes Long
+                internal static readonly byte Length = 0x18;
                 public byte[] Raw;
                 public EntityTrigger(byte[] data)
                 {
