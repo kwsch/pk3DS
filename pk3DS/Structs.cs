@@ -1147,13 +1147,54 @@ namespace pk3DS
         public class ZoneEncounters
         {
             public byte[] Data; // File details unknown.
+            public byte[] Header;
+            public EncounterSet[] Encounters;
             public ZoneEncounters(byte[] data)
             {
                 Data = data;
+
+                using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+                {
+                    Header = br.ReadBytes(0x10);
+                    Encounters = new EncounterSet[(int)(br.BaseStream.Length - br.BaseStream.Position)/4];
+                    for (int i = 0; i < Encounters.Length; i++)
+                        Encounters[i] = new EncounterSet(br.ReadBytes(4));
+                }
             }
             public byte[] Write()
             {
-                return Data;
+                byte[] data = Header; // Start with the header data, then concat every encounter in afterwards.
+                return Encounters.Aggregate(data, (current, t) => current.Concat(t.Write()).ToArray());
+            }
+
+            public class EncounterSet
+            {
+                public int Species;
+                public int Form;
+                public byte LevelMin, LevelMax;
+
+                public EncounterSet(byte[] data)
+                {
+                    using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+                    {
+                        ushort SpecForm = br.ReadUInt16();
+                        Species = SpecForm & 0x7FF;
+                        Form = SpecForm >> 11;
+                        LevelMin = br.ReadByte();
+                        LevelMax = br.ReadByte();
+                    }
+                }
+                public byte[] Write()
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    using (BinaryWriter bw = new BinaryWriter(ms))
+                    {
+                        bw.Write((ushort)(Species | (Form << 11)));
+                        bw.Write(LevelMin);
+                        bw.Write(LevelMax);
+                        return ms.ToArray();
+                    }
+                }
             }
         }
         public class ZoneUnknown
