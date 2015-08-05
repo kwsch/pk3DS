@@ -434,13 +434,15 @@ namespace pk3DS
         public byte FieldEffect; // Revive 1, Sacred Ash 3, Rare Candy 5, EvoStone 8
         public int BoostATK, 
             BoostDEF, BoostSPA, 
-            BoostSPD, BoostSPE, 
+            BoostSPD, BoostSPE,
             BoostACC, BoostCRIT, BoostPP;
+        public ushort FunctionFlags;
 
         public ushort FieldBoost; // 0x15-0x16
         public byte EVHP, EVATK, EVDEF, EVSPE, EVSPA, EVSPD;
         public Heal Healing;
         public byte PPGain, Friendship1, Friendship2, Friendship3;
+        public byte _0x23, _0x24;
 
         public Item(byte[] data)
         {
@@ -482,6 +484,8 @@ namespace pk3DS
                 BoostPP = (BoostACC >> 6);
                 BoostACC &= 0xF;
 
+                FunctionFlags = br.ReadUInt16();
+
                 EVHP = br.ReadByte();
                 EVATK = br.ReadByte();
                 EVDEF = br.ReadByte();
@@ -494,6 +498,8 @@ namespace pk3DS
                 Friendship1 = br.ReadByte();
                 Friendship2 = br.ReadByte();
                 Friendship3 = br.ReadByte();
+                _0x23 = br.ReadByte();
+                _0x24 = br.ReadByte();
             }
         }
         public byte[] Write()
@@ -523,6 +529,8 @@ namespace pk3DS
                 bw.Write((byte)(BoostSPD | (BoostSPE << 4)));
                 bw.Write((byte)(BoostACC | (BoostCRIT << 4) | (BoostPP << 6)));
 
+                bw.Write(FunctionFlags);
+
                 bw.Write(EVHP);
                 bw.Write(EVATK);
                 bw.Write(EVDEF);
@@ -534,6 +542,9 @@ namespace pk3DS
                 bw.Write(Friendship1);
                 bw.Write(Friendship2);
                 bw.Write(Friendship3);
+
+                bw.Write(_0x23);
+                bw.Write(_0x24);
 
                 return ms.ToArray();
             }
