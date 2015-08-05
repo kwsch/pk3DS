@@ -23,6 +23,7 @@ namespace pk3DS
             CB_Item.SelectedIndex = 1;
         }
         int entry = -1;
+        private Item item;
         private void changeEntry(object sender, EventArgs e)
         {
             setEntry();
@@ -33,22 +34,20 @@ namespace pk3DS
         private void getEntry()
         {
             if (entry < 1) return;
-            byte[] data = File.ReadAllBytes(files[entry]);
-            {
-                RTB.Text = itemflavor[entry].Replace("\\n", Environment.NewLine);
-                MT_Price.Text = (BitConverter.ToUInt16(data, 0) * 10).ToString();
-                NUD_UseEffect.Value = data[0x0A];
-            }
+            item = new Item(File.ReadAllBytes(files[entry]));
+
+            RTB.Text = itemflavor[entry].Replace("\\n", Environment.NewLine);
+            MT_Price.Text = item.BuyPrice.ToString();
+            NUD_UseEffect.Value = item.UseEffect;
         }
         private void setEntry()
         {
             if (entry < 1) return;
-            byte[] data = File.ReadAllBytes(files[entry]);
-            {
-                Array.Copy(BitConverter.GetBytes((ushort)(Util.ToUInt32(MT_Price) / 10)), 0, data, 0, 2);
-                data[0x0A] = (byte)(int)NUD_UseEffect.Value;
-            }
-            File.WriteAllBytes(files[entry], data);
+
+            item.Price = (ushort)(Util.ToInt32(MT_Price)/10);
+            item.UseEffect = (byte)(int)NUD_UseEffect.Value;
+
+            File.WriteAllBytes(files[entry], item.Write());
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {

@@ -418,7 +418,7 @@ namespace pk3DS
     }
     public class Item
     {
-        private ushort Price;
+        public ushort Price;
         public int BuyPrice;
         public int SellPrice;
         public byte HeldEffect, HeldArgument, NaturalGiftEffect, FlingEffect, FlingPower, NaturalGiftPower;
