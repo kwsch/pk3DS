@@ -13,9 +13,11 @@ namespace pk3DS
         {
             InitializeComponent();
             SMDH = Main.SMDH;
-            if (SMDH.LargeIcon.Bytes == null)
+            if (SMDH == null || SMDH.AppSettings == null || SMDH.LargeIcon.Bytes == null)
             {
-                SMDH = new CTR.SMDH(new byte[0x36C0]);
+                byte[] data = new byte[0x3C0]; // Feed a blank SMDH
+                Array.Copy(BitConverter.GetBytes(0x48444D53), data, 4); // SMDH header
+                SMDH = new CTR.SMDH(data);
                 B_Save.Enabled = false;
             }
             for (int i = 0; i < 16; i++)
@@ -43,6 +45,7 @@ namespace pk3DS
             PB_Large.Image = SMDH.LargeIcon.Icon;
             PB_Small.Image = SMDH.SmallIcon.Icon;
             CB_AppInfo.SelectedIndex = 0;
+            CB_AppInfo_SelectedIndexChanged(null, null);
         }
         private void SaveSMDH()
         {
@@ -65,7 +68,10 @@ namespace pk3DS
         {
             CB_AppInfo_SelectedIndexChanged(null, null); // Force re-save
             if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Save changes?"))
+            {
                 SaveSMDH();
+                Close();
+            }
         }
         private void B_Cancel_Click(object sender, EventArgs e)
         {
