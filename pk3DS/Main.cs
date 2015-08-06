@@ -204,7 +204,7 @@ namespace pk3DS
                     Util.Alert("pk3DS will function best if you keep your Game Files folder clean and free of unnecessary folders.");
 
                 // Enable buttons if applicable
-                GB_RomFS.Enabled = (RomFSPath != null);
+                GB_RomFS.Enabled = Menu_Restore.Enabled = (RomFSPath != null);
                 GB_ExeFS.Enabled = (RomFSPath != null && ExeFSPath != null);
                 B_MoveTutor.Enabled = oras; // Default false unless loaded
                 if (RomFSPath != null)

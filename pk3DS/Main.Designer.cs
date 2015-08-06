@@ -394,6 +394,7 @@
             // 
             // Menu_Restore
             // 
+            this.Menu_Restore.Enabled = false;
             this.Menu_Restore.Name = "Menu_Restore";
             this.Menu_Restore.Size = new System.Drawing.Size(184, 22);
             this.Menu_Restore.Text = "Restore Original Files";
@@ -443,6 +444,7 @@
             // 
             // Menu_RomFS
             // 
+            this.Menu_RomFS.Enabled = false;
             this.Menu_RomFS.Name = "Menu_RomFS";
             this.Menu_RomFS.Size = new System.Drawing.Size(152, 22);
             this.Menu_RomFS.Text = "RomFS";
@@ -450,6 +452,7 @@
             // 
             // Menu_ExeFS
             // 
+            this.Menu_ExeFS.Enabled = false;
             this.Menu_ExeFS.Name = "Menu_ExeFS";
             this.Menu_ExeFS.Size = new System.Drawing.Size(152, 22);
             this.Menu_ExeFS.Text = "ExeFS";
@@ -457,6 +460,7 @@
             // 
             // Menu_3DS
             // 
+            this.Menu_3DS.Enabled = false;
             this.Menu_3DS.Name = "Menu_3DS";
             this.Menu_3DS.Size = new System.Drawing.Size(152, 22);
             this.Menu_3DS.Text = ".3DS";
@@ -464,6 +468,7 @@
             // 
             // Menu_Patch
             // 
+            this.Menu_Patch.Enabled = false;
             this.Menu_Patch.Name = "Menu_Patch";
             this.Menu_Patch.Size = new System.Drawing.Size(152, 22);
             this.Menu_Patch.Text = "Patch";
