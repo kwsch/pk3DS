@@ -447,13 +447,21 @@ namespace CTR
             int w = img.Width;
             int h = img.Height;
 
-            // square format. Yay.
-            w = h = Math.Max(nlpo2(w), nlpo2(h));
-            if (rectangle && Math.Min(img.Width, img.Height) > 64)
+            bool perfect = (w == h && (w != 0) && ((w & (w - 1)) == 0));
+            if (!perfect) // Check if square power of two, else resize
             {
-                w = nlpo2(img.Width);
-                h = nlpo2(img.Height);
+                // Square Format Checks
+                if (rectangle && Math.Min(img.Width, img.Height) < 32)
+                {
+                    w = nlpo2(img.Width);
+                    h = nlpo2(img.Height);
+                }
+                else
+                {
+                    w = h = Math.Max(nlpo2(w), nlpo2(h)); // else resize
+                }
             }
+
             using (MemoryStream mz = new MemoryStream())
             using (BinaryWriter bz = new BinaryWriter(mz))
             {
@@ -514,8 +522,9 @@ namespace CTR
                             }
                     }
                 }
-                while (mz.Length < nlpo2((int)mz.Length)) // pad
-                    bz.Write((byte)0);
+                if (!perfect)
+                    while (mz.Length < nlpo2((int)mz.Length)) // pad
+                        bz.Write((byte)0);
                 return mz.ToArray();
             }            
         }
