@@ -74,9 +74,9 @@ namespace CTR
         }
         public void Write(BinaryWriter bw)
         {
-            bw.Write(Encoding.Unicode.GetBytes(ShortDescription.PadRight(64, '\0')));
-            bw.Write(Encoding.Unicode.GetBytes(LongDescription.PadRight(64, '\0')));
-            bw.Write(Encoding.Unicode.GetBytes(Publisher.PadRight(64, '\0')));
+            bw.Write(Encoding.Unicode.GetBytes(ShortDescription.PadRight(0x80/2, '\0')));
+            bw.Write(Encoding.Unicode.GetBytes(LongDescription.PadRight(0x100/2, '\0')));
+            bw.Write(Encoding.Unicode.GetBytes(Publisher.PadRight(0x80/2, '\0')));
         }
     }
 
@@ -169,13 +169,12 @@ namespace CTR
         public byte[] Bytes;
         public LargeIcon(BinaryReader br)
         {
-            Bytes = br.ReadBytes(0x2000);
+            Bytes = br.ReadBytes(0x1200);
             Icon = BCLIM.getIMG(48, 48, Bytes, 0x5);
         }
         public void Write(BinaryWriter bw)
         {
             bw.Write(Bytes);
-            Bytes = BCLIM.getPixelData(Icon, 0x5);
         }
         public bool ChangeIcon(Bitmap img)
         {
