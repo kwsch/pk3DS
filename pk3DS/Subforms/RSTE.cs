@@ -1055,5 +1055,11 @@ namespace pk3DS
         {
             writeFile();
         }
+
+        private void gotoParty(object sender, EventArgs e)
+        {
+            // When sprite is clicked, jump to that Pokémon.
+            tabControl1.SelectedIndex = 1 + Array.IndexOf(new[]{PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6,}, sender as PictureBox);
+        }
     }
 }

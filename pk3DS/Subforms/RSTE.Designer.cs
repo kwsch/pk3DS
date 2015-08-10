@@ -405,6 +405,7 @@
             // 
             this.CB_Trainer_Class.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Trainer_Class.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Trainer_Class.DropDownWidth = 165;
             this.CB_Trainer_Class.FormattingEnabled = true;
             this.CB_Trainer_Class.Location = new System.Drawing.Point(156, 46);
             this.CB_Trainer_Class.Name = "CB_Trainer_Class";
@@ -2106,6 +2107,7 @@
             this.PB_Team6.Size = new System.Drawing.Size(80, 60);
             this.PB_Team6.TabIndex = 432;
             this.PB_Team6.TabStop = false;
+            this.PB_Team6.Click += new System.EventHandler(this.gotoParty);
             // 
             // PB_Team5
             // 
@@ -2114,6 +2116,7 @@
             this.PB_Team5.Size = new System.Drawing.Size(80, 60);
             this.PB_Team5.TabIndex = 433;
             this.PB_Team5.TabStop = false;
+            this.PB_Team5.Click += new System.EventHandler(this.gotoParty);
             // 
             // PB_Team4
             // 
@@ -2122,6 +2125,7 @@
             this.PB_Team4.Size = new System.Drawing.Size(80, 60);
             this.PB_Team4.TabIndex = 434;
             this.PB_Team4.TabStop = false;
+            this.PB_Team4.Click += new System.EventHandler(this.gotoParty);
             // 
             // PB_Team3
             // 
@@ -2130,6 +2134,7 @@
             this.PB_Team3.Size = new System.Drawing.Size(80, 60);
             this.PB_Team3.TabIndex = 435;
             this.PB_Team3.TabStop = false;
+            this.PB_Team3.Click += new System.EventHandler(this.gotoParty);
             // 
             // PB_Team2
             // 
@@ -2138,6 +2143,7 @@
             this.PB_Team2.Size = new System.Drawing.Size(80, 60);
             this.PB_Team2.TabIndex = 436;
             this.PB_Team2.TabStop = false;
+            this.PB_Team2.Click += new System.EventHandler(this.gotoParty);
             // 
             // PB_Team1
             // 
@@ -2146,6 +2152,7 @@
             this.PB_Team1.Size = new System.Drawing.Size(80, 60);
             this.PB_Team1.TabIndex = 437;
             this.PB_Team1.TabStop = false;
+            this.PB_Team1.Click += new System.EventHandler(this.gotoParty);
             // 
             // label4
             // 
