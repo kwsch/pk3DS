@@ -44,15 +44,5 @@ namespace pk3DS
 
             return sL.Length == 0 ? RandomSpeciesList : sL;
         }
-
-        public static uint LCRNG(uint seed, int ctr)
-        {
-            for (int i = 0; i < ctr; i++)
-            {
-                seed *= 0x41C64E6D;
-                seed += 0x00006073;
-            }
-            return seed;
-        }
     }
 }
