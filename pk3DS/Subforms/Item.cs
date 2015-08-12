@@ -58,5 +58,20 @@ namespace pk3DS
         {
             MT_Sell.Text = ((Math.Min(Util.ToUInt32(MT_Price) / 10, 0x7FFF)) * 10 / 2).ToString();
         }
+
+        private int getItemMapOffset()
+        {
+            if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); return -1; }
+            string[] files = Directory.GetFiles(Main.ExeFSPath);
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); return -1; }
+            byte[] data = File.ReadAllBytes(files[0]);
+
+            byte[] reference = (Main.oras)
+                ? new byte[] { 0x92, 0x0A, 0x06, 0x3F, 0x75, 0x02 } // ORAS (vanilla @ 47C640)
+                : new byte[] { 0x92, 0x0A, 0x06, 0x3F, 0x41, 0x02 }; // XY (vanilla @ 43DB74)
+
+            int ptr = Util.IndexOfBytes(data, reference, 0x400000, 0) - 2 + reference.Length;
+            return ptr;
+        }
     }
 }
