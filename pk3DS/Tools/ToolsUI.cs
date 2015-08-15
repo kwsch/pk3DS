@@ -162,13 +162,15 @@ namespace pk3DS
                 }
                 case 3: // Mini Pack
                 {
-                    string fileName = folderName.Replace("_", "");
-                    if (fileName.Length < 2) { Util.Error("Mini Folder name not valid:", path); return; }
+                    // Get Folder Name
+                    string fileName = Path.GetFileName(path);
+                    if (fileName.Length < 3) { Util.Error("Mini Folder name not valid:", path); return; }
 
-                    string fileExt = fileName.Substring(fileName.Length - 2);
-                    string fileNum = fileName.Substring(0, fileName.Length - 3); // ignore "."
+                    string[] pieces = fileName.Split('_');
+                    string fileNum = pieces[0];
+                    string fileExt = pieces[1];
 
-                    bool r = CTR.mini.packMini2(path, fileExt, parentName + fileNum + "." + fileExt);
+                    bool r = CTR.mini.packMini2(path, fileExt, Path.Combine(parentName, fileNum + "." + fileExt));
                     if (!r) Util.Alert("Packing failed.");
                     break;
                 }
