@@ -119,7 +119,7 @@ namespace pk3DS
         private void saveARC(string path)
         {
             if (!Directory.Exists(path)) { Util.Error("Input path is not a Folder", path); return; }
-            string folderName = Path.GetDirectoryName(path);
+            string folderName = Path.GetFileName(path);
             if (folderName == null) return;
             string parentName = Directory.GetParent(path).FullName;
             int type = CB_Repack.SelectedIndex;
@@ -134,10 +134,8 @@ namespace pk3DS
                         goto case 1;
                     if (folderName.Contains("_d"))
                         goto case 2;
-                    string fileName = folderName.Replace("_", "");
-                    if (fileName.Substring(fileName.Length - 2).Length == 2)
+                    // else
                         goto case 3;
-                    break;
                 }
                 case 1: // GARC Pack
                 {
@@ -166,9 +164,9 @@ namespace pk3DS
                     string fileName = Path.GetFileName(path);
                     if (fileName.Length < 3) { Util.Error("Mini Folder name not valid:", path); return; }
 
-                    string[] pieces = fileName.Split('_');
-                    string fileNum = pieces[0];
-                    string fileExt = pieces[1];
+                    int index = fileName.LastIndexOf('_');
+                    string fileNum = fileName.Substring(0, index);
+                    string fileExt = fileName.Substring(index + 1);
 
                     bool r = CTR.mini.packMini2(path, fileExt, Path.Combine(parentName, fileNum + "." + fileExt));
                     if (!r) Util.Alert("Packing failed.");
