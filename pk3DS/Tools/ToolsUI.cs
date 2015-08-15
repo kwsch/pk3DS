@@ -167,9 +167,46 @@ namespace pk3DS
                     int index = fileName.LastIndexOf('_');
                     string fileNum = fileName.Substring(0, index);
                     string fileExt = fileName.Substring(index + 1);
+                    
+                    // Find old file for reference...
+                    string file;
+                    if (File.Exists(Path.Combine(parentName, fileNum + ".bin")))
+                        file = Path.Combine(parentName, fileNum + ".bin");
+                    else if (File.Exists(Path.Combine(parentName, fileNum + "." + fileExt)))
+                        file = Path.Combine(parentName, fileNum + "." + fileExt);
+                    else
+                        file = null;
 
+                    byte[] oldData = (file != null) ? File.ReadAllBytes(file) : null;
                     bool r = CTR.mini.packMini2(path, fileExt, Path.Combine(parentName, fileNum + "." + fileExt));
-                    if (!r) Util.Alert("Packing failed.");
+                    if (!r)
+                    {
+                        Util.Alert("Packing failed.");
+                        break;
+                    }
+
+                    // Check to see if the header size is different...
+                    if (oldData == null) // No data to compare to.
+                        break;
+
+                    byte[] newData = File.ReadAllBytes(Path.Combine(parentName, fileNum + "." + fileExt));
+                    if ((newData[2] == oldData[2]))
+                    {
+                        int newPtr = BitConverter.ToInt32(newData, 4);
+                        int oldPtr = BitConverter.ToInt32(oldData, 4);
+                        if (newPtr != oldPtr) // Header size is different. Prompt repointing.
+                        {
+                            if (DialogResult.Yes !=
+                                Util.Prompt(MessageBoxButtons.YesNo, "Header size of existing file is nonstandard.",
+                                    "Adjust newly packed file to have the same header size as old file? Data pointers will be updated accordingly."))
+                                break;
+
+                            // Fix pointers
+                            byte[] update = CTR.mini.adjustMiniHeader(newData, oldPtr);
+                            File.WriteAllBytes(Path.Combine(parentName, fileNum + "." + fileExt), update);
+                        }                        
+                    }
+
                     break;
                 }
                 default: Util.Alert("Repacking not implemented." + Environment.NewLine + path);

@@ -1,11 +1,33 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace CTR
 {
     // Mini Packing Util
     class mini
     {
+        internal static byte[] adjustMiniHeader(byte[] data, int headerLength)
+        {
+            // Adjust the header size of the mini file.
+            int count = BitConverter.ToUInt16(data, 2);
+            int[] start = new int[count];
+            for (int i = 0; i < count; i++)
+                start[i] = BitConverter.ToInt32(data, 4 + i*4);
+
+            int dataStart = start.Min();
+            if (headerLength < dataStart)
+                throw new Exception("Specified Header length is too small!?");
+            byte[] pack = data.Skip(dataStart).ToArray(); // pull out payload
+            byte[] newData = (new byte[headerLength].Concat(pack).ToArray()); // append payload onto new header
+            Array.Copy(data, 0, newData, 0, dataStart); // copy in old header (then repoint)
+
+            int diff = headerLength - dataStart; // shift pointer
+            for (int i = 0; i < count + 1; i++)
+                Array.Copy(BitConverter.GetBytes(BitConverter.ToInt32(data, 4 + i * 4) + diff), 0, newData, 4 + 4 * i, 4);
+
+            return newData;
+        }
         internal static void packMini(string path, string ident, string fileName, string outExt = null, string outFolder = null, bool delete = true)
         {
             if (outFolder == null)
