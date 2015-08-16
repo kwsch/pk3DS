@@ -346,7 +346,7 @@ namespace pk3DS
                     updateStatus(Environment.NewLine + "Building RomFS binary. Please wait until the program finishes.");
 
                     threads++;
-                    CTR.RomFS.BuildRomFS(sfd.FileName, RomFSPath, RTB_Status, pBar1);
+                    CTR.RomFS.BuildRomFS(RomFSPath, sfd.FileName, RTB_Status, pBar1);
                     threads--;
 
                     updateStatus("RomFS binary saved." + Environment.NewLine);
