@@ -438,8 +438,9 @@ namespace CTR
         }
         internal static void writeGeneric(int format, Bitmap img, ref MemoryStream ms, bool rectangle = true)
         {
-            using (BinaryWriter bz = new BinaryWriter(ms))
-                bz.Write(getPixelData(img, format, rectangle));
+            BinaryWriter bz = new BinaryWriter(ms);
+            bz.Write(getPixelData(img, format, rectangle));
+            bz.Flush();
         }
 
         internal static byte[] getPixelData(Bitmap img, int format, bool rectangle = true)
