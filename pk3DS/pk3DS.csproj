@@ -68,6 +68,18 @@
     <Compile Include="Randomizer.cs" />
     <Compile Include="3DS\RomFS.cs" />
     <Compile Include="Structs.cs" />
+    <Compile Include="Subforms\TypeChart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\TypeChart.Designer.cs">
+      <DependentUpon>TypeChart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Starters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Starters.Designer.cs">
+      <DependentUpon>Starters.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Patch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -220,6 +232,12 @@
     </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\TypeChart.resx">
+      <DependentUpon>TypeChart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Starters.resx">
+      <DependentUpon>Starters.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Patch.resx">
       <DependentUpon>Patch.cs</DependentUpon>

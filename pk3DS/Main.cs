@@ -204,7 +204,7 @@ namespace pk3DS
                     Util.Alert("pk3DS will function best if you keep your Game Files folder clean and free of unnecessary folders.");
 
                 // Enable buttons if applicable
-                GB_RomFS.Enabled = Menu_Restore.Enabled = (RomFSPath != null);
+                GB_RomFS.Enabled = Menu_Restore.Enabled = GB_CRO.Enabled = Menu_CRO.Enabled = (RomFSPath != null);
                 GB_ExeFS.Enabled = (RomFSPath != null && ExeFSPath != null);
                 B_MoveTutor.Enabled = oras; // Default false unless loaded
                 if (RomFSPath != null)
@@ -595,6 +595,36 @@ namespace pk3DS
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             if (ExeFSPath != null) new OPower().Show();
+        }
+
+        // CRO Subform Items
+        private void patchCRO_CRR(object sender, EventArgs e)
+        {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (RomFSPath == null) return;
+            Util.Alert("Not implemented yet!");
+        }
+        private void B_Starter_Click(object sender, EventArgs e)
+        {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            string CRO = Path.Combine(RomFSPath, "DllPoke3Select.cro");
+            if (!File.Exists(CRO))
+            {
+                Util.Error("File Missing!", "DllPoke3Select.cro was not found in your RomFS folder!");
+                return;
+            }
+            new Starters().ShowDialog();
+        }
+        private void B_TypeChart_Click(object sender, EventArgs e)
+        {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            string CRO = Path.Combine(RomFSPath, "DllBattle.cro");
+            if (!File.Exists(CRO))
+            {
+                Util.Error("File Missing!", "DllPoke3Select.cro was not found in your RomFS folder!");
+                return;
+            }
+            new TypeChart().ShowDialog();
         }
 
         // 3DS Building
