@@ -142,7 +142,7 @@ namespace pk3DS
 
         private void changeSpecies(object sender, EventArgs e)
         {
-            PB_PKM.Image = RSTE.getSprite(CB_Species.SelectedIndex, 0, 0, CB_Item.SelectedIndex);
+            PB_PKM.Image = Util.getSprite(CB_Species.SelectedIndex, 0, 0, CB_Item.SelectedIndex);
         }
 
         private void B_Remove_Click(object sender, EventArgs e)

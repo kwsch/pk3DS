@@ -73,6 +73,51 @@ namespace pk3DS
                 B = 255;
             return Color.FromArgb(Math.Abs(A), Math.Abs(R), Math.Abs(G), Math.Abs(B));
         }
+        internal static Bitmap getSprite(int species, int form, int gender, int item)
+        {
+            string file;
+            if (species == 0)
+            { return (Bitmap)Properties.Resources.ResourceManager.GetObject("_0"); }
+            {
+                file = "_" + species;
+                if (form > 0) // Alt Form Handling
+                    file = file + "_" + form;
+                else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
+                    file = file + "_" + gender;
+                else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
+                    file = "_" + species + "f";
+            }
+
+            // Redrawing logic
+            Bitmap baseImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(file);
+            if (baseImage == null)
+            {
+                if (species < 722)
+                {
+                    baseImage = LayerImage(
+                        (Image)Properties.Resources.ResourceManager.GetObject("_" + species),
+                        Properties.Resources.unknown,
+                        0, 0, .5);
+                }
+                else
+                    baseImage = Properties.Resources.unknown;
+            }
+            if (item > 0)
+            {
+                Bitmap itemimg = (Bitmap)Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem;
+                // Redraw
+                baseImage = LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
+            }
+            return baseImage;
+        }
+        internal static Bitmap scaleImage(Bitmap rawImg, int s)
+        {
+            Bitmap bigImg = new Bitmap(rawImg.Width * s, rawImg.Height * s);
+            for (int x = 0; x < bigImg.Width; x++)
+                for (int y = 0; y < bigImg.Height; y++)
+                    bigImg.SetPixel(x, y, rawImg.GetPixel(x / s, y / s));
+            return bigImg;
+        }
 
         // Strings and Paths
         internal static FileInfo GetNewestFile(DirectoryInfo directory)

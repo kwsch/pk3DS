@@ -182,7 +182,7 @@ namespace pk3DS
                 pb.Image = null;
                 return;
             }
-            pb.Image = RSTE.getSprite(species, form, gender, item);
+            pb.Image = Util.getSprite(species, form, gender, item);
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {

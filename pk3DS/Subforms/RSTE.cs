@@ -405,20 +405,8 @@ namespace pk3DS
         {
             if (tr == null) return;
             if (i >= tr.Team.Length) { pba[i].Image = null; return; }
-            Bitmap rawImg = (Bitmap)getSprite(tr.Team[i].Species, tr.Team[i].Form, tr.Team[i].Gender, tr.Team[i].Item);
-            Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
-            for (int x = 0; x < rawImg.Width; x++)
-            {
-                for (int y = 0; y < rawImg.Height; y++)
-                {
-                    Color c = rawImg.GetPixel(x, y);
-                    bigImg.SetPixel(2 * x, 2 * y, c);
-                    bigImg.SetPixel(2 * x + 1, 2 * y, c);
-                    bigImg.SetPixel(2 * x, 2 * y + 1, c);
-                    bigImg.SetPixel(2 * x + 1, 2 * y + 1, c);
-                }
-            }
-            pba[i].Image = bigImg;
+            Bitmap rawImg = (Bitmap)Util.getSprite(tr.Team[i].Species, tr.Team[i].Form, tr.Team[i].Gender, tr.Team[i].Item);
+            pba[i].Image = Util.scaleImage(rawImg, 2);
         }
         private void showText()
         {
@@ -427,43 +415,6 @@ namespace pk3DS
             TB_Text2.Text = trText[index * 2 + 1];
         }
 
-        internal static Image getSprite(int species, int form, int gender, int item)
-        {
-            string file;
-            if (species == 0)
-            { return (Image)Properties.Resources.ResourceManager.GetObject("_0"); }
-            {
-                file = "_" + species;
-                if (form > 0) // Alt Form Handling
-                    file = file + "_" + form;
-                else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
-                    file = file + "_" + gender;
-                else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
-                    file = "_" + species + "f";
-            }
-
-            // Redrawing logic
-            Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
-            if (baseImage == null)
-            {
-                if (species < 722)
-                {
-                    baseImage = Util.LayerImage(
-                        (Image)Properties.Resources.ResourceManager.GetObject("_" + species),
-                        Properties.Resources.unknown,
-                        0, 0, .5);
-                }
-                else
-                    baseImage = Properties.Resources.unknown;
-            }
-            if (item > 0)
-            {
-                Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem;
-                // Redraw
-                baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
-            }
-            return baseImage;
-        }
 
         byte[] personalData;
         ushort[] indexList;
