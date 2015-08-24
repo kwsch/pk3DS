@@ -157,7 +157,7 @@ namespace CTR
 
             updateTB(TB_Progress, "Hashes sorted, writing hashes to CRR.");
 
-            // Store Hashes in CRR
+            // Loop to check which CROs have to be updated. Do this separate from overwriting so we don't overwrite hashes for other CROs (yet).
             int updatedCTR = 0;
             for (int i = 0; i < hashData.Length; i++)
             {
@@ -170,8 +170,11 @@ namespace CTR
                     updateTB(TB_Progress, String.Format("{0} hash has been updated.", Path.GetFileName(file)));
                     updatedCTR++;
                 }
-                Array.Copy(hashData[i], 0, CRR, hashTableOffset + 0x20 * i, 0x20);
             }
+            // Store Hashes in CRR
+            for (int i = 0; i < hashData.Length; i++)
+                Array.Copy(hashData[i], 0, CRR, hashTableOffset + 0x20 * i, 0x20);
+
             updateTB(TB_Progress,
                 updatedCTR > 0
                     ? String.Format("{0} hashes have been updated.", updatedCTR)
