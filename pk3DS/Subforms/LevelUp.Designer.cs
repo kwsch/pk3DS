@@ -141,9 +141,10 @@
             // 
             // NUD_Moves
             // 
+            this.NUD_Moves.Enabled = false;
             this.NUD_Moves.Location = new System.Drawing.Point(53, 128);
             this.NUD_Moves.Maximum = new decimal(new int[] {
-            40,
+            25,
             0,
             0,
             0});
