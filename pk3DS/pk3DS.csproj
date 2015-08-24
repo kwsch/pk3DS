@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="3DS\AES.cs" />
+    <Compile Include="3DS\CRO.cs" />
     <Compile Include="3DS\DARC.cs" />
     <Compile Include="3DS\ETC1.cs" />
     <Compile Include="3DS\Exheader.cs" />

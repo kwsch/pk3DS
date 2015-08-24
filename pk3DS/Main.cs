@@ -602,7 +602,16 @@ namespace pk3DS
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             if (RomFSPath == null) return;
-            Util.Alert("Not implemented yet!");
+                new Thread(() =>
+                {
+                    threads++;
+                    CTR.CRO.rehashCRR(Path.Combine(RomFSPath, ".crr", "static.crr"), RomFSPath, true, true, RTB_Status, pBar1);
+                    threads--;
+
+                    Util.Alert("CRO's and CRR have been updated.",
+                            "If you have made any modifications, it is required that the RSA Verification check be patched on the system in order for the modified CROs to load (ie, no file redirection like NTR's layeredFS).");
+                }).Start();
+
         }
         private void B_Starter_Click(object sender, EventArgs e)
         {
