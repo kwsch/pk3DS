@@ -54,7 +54,7 @@ namespace pk3DS
             : new[] { "Gen 6 Starters", "Gen 1 Starters" };
         private byte[] Data;
         private int Count = Main.oras ? 4 : 2;
-        private int offset = Main.oras ? 0x9FFC : 0x8E58;
+        private int offset;
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveData();
@@ -68,6 +68,7 @@ namespace pk3DS
         private void loadData()
         {
             Data = File.ReadAllBytes(CROPath);
+            offset = BitConverter.ToInt32(Data, 0xb8);
             for (int i = 0; i < Count; i++)
             {
                 Labels[i].Visible = true;
