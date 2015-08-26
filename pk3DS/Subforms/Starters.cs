@@ -122,7 +122,7 @@ namespace pk3DS
                     Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, FieldData, fieldOffset + entries[i*3 + j]*fieldSize, 2);
 
             File.WriteAllBytes(CROPath, Data); // poke3
-            File.WriteAllBytes(FieldPath, Data); // field
+            File.WriteAllBytes(FieldPath, FieldData); // field
         }
 
         private void changeSpecies(object sender, EventArgs e)
