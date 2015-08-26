@@ -21,6 +21,11 @@ namespace pk3DS
                 Util.Error("CRO does not exist! Closing.", CROPath);
                 Close();
             }
+            if (!File.Exists(FieldPath))
+            {
+                Util.Error("CRO does not exist! Closing.", FieldPath);
+                Close();
+            }
             InitializeComponent();
 
             // 2 sets of Starters for X/Y
@@ -45,6 +50,7 @@ namespace pk3DS
             loadData();
         }
         internal static string CROPath = Path.Combine(Main.RomFSPath, "DllPoke3Select.cro");
+        internal static string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
         private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
         private ComboBox[][] Choices;
         private PictureBox[][] Previews;
@@ -53,6 +59,7 @@ namespace pk3DS
             ? new[] { "Gen 3 Starters", "Gen 2 Starters", "Gen 4 Starters", "Gen 5 Starters" }
             : new[] { "Gen 6 Starters", "Gen 1 Starters" };
         private byte[] Data;
+        private byte[] FieldData;
         private int Count = Main.oras ? 4 : 2;
         private int offset;
         private void B_Save_Click(object sender, EventArgs e)
@@ -68,6 +75,7 @@ namespace pk3DS
         private void loadData()
         {
             Data = File.ReadAllBytes(CROPath);
+            FieldData = File.ReadAllBytes(FieldPath);
             offset = BitConverter.ToInt32(Data, 0xb8);
             for (int i = 0; i < Count; i++)
             {
@@ -92,7 +100,29 @@ namespace pk3DS
                         BitConverter.GetBytes((ushort) Choices[i][j].SelectedIndex), 0, 
                         Data, offset + (i*3 + j)*0x54, 2);
 
-            File.WriteAllBytes(CROPath, Data);
+            // Set the choices back
+            int fieldOffset = Main.oras ? 0xF906C : 0xF805C;
+            int fieldSize = Main.oras ? 0x24 : 0x18;
+            int[] entries = Main.oras
+                ? new[]
+                {
+                    0, 1, 2, // Gen 3
+                    28, 29, 30, // Gen 2
+                    31, 32, 33, // Gen 4
+                    34, 35, 36 // Gen 5
+                }
+                : new[]
+                {
+                    0, 1, 2, // Gen 6
+                    3, 4, 5, // Gen 1
+                };
+
+            for (int i = 0; i < Count; i++)
+                for (int j = 0; j < 3; j++)
+                    Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, FieldData, fieldOffset + entries[i*3 + j]*fieldSize, 2);
+
+            File.WriteAllBytes(CROPath, Data); // poke3
+            File.WriteAllBytes(FieldPath, Data); // field
         }
 
         private void changeSpecies(object sender, EventArgs e)
