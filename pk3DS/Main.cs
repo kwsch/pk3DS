@@ -605,7 +605,7 @@ namespace pk3DS
                 new Thread(() =>
                 {
                     threads++;
-                    CTR.CRO.rehashCRR(Path.Combine(RomFSPath, ".crr", "static.crr"), RomFSPath, true, true, RTB_Status, pBar1);
+                    CTR.CRO.rehashCRR(Path.Combine(RomFSPath, ".crr", "static.crr"), RomFSPath, true, /* true // don't patch crr for now */ false, RTB_Status, pBar1);
                     threads--;
 
                     Util.Alert("CRO's and CRR have been updated.",
