@@ -617,9 +617,15 @@ namespace pk3DS
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             string CRO = Path.Combine(RomFSPath, "DllPoke3Select.cro");
+            string CRO2 = Path.Combine(Main.RomFSPath, "DllField.cro");
             if (!File.Exists(CRO))
             {
                 Util.Error("File Missing!", "DllPoke3Select.cro was not found in your RomFS folder!");
+                return;
+            }
+            if (!File.Exists(CRO2))
+            {
+                Util.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
                 return;
             }
             new Starters().ShowDialog();
@@ -630,10 +636,21 @@ namespace pk3DS
             string CRO = Path.Combine(RomFSPath, "DllBattle.cro");
             if (!File.Exists(CRO))
             {
-                Util.Error("File Missing!", "DllPoke3Select.cro was not found in your RomFS folder!");
+                Util.Error("File Missing!", "DllBattle.cro was not found in your RomFS folder!");
                 return;
             }
             new TypeChart().ShowDialog();
+        }
+        private void B_Gift_Click(object sender, EventArgs e)
+        {
+            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            string CRO = Path.Combine(Main.RomFSPath, "DllField.cro");
+            if (!File.Exists(CRO))
+            {
+                Util.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
+                return;
+            }
+            new Gifts().ShowDialog();
         }
 
         // 3DS Building
