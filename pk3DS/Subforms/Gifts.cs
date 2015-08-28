@@ -65,8 +65,38 @@ namespace pk3DS
         }
         private void saveData()
         {
+            // Check to see if a starter has been modified right before we write data.
+            bool starters = false;
+            int[] entries = Main.oras
+                ? new[]
+                {
+                    0, 1, 2, // Gen 3
+                    28, 29, 30, // Gen 2
+                    31, 32, 33, // Gen 4
+                    34, 35, 36 // Gen 5
+                }
+                : new[]
+                {
+                    0, 1, 2, // Gen 6
+                    3, 4, 5, // Gen 1
+                };
+
             for (int i = 0; i < GiftData.Length; i++)
-                Array.Copy(GiftData[i].Write(), 0, FieldData, fieldOffset + i * fieldSize, fieldSize);
+            {
+                int offset = fieldOffset + i*fieldSize;
+
+                // Check too see if starters got modified
+                if (Array.IndexOf(entries, i) > - 1 && BitConverter.ToUInt16(FieldData, offset) != GiftData[i].Species)
+                    starters = true;
+                
+                // Write new data
+                Array.Copy(GiftData[i].Write(), 0, FieldData, offset, fieldSize);
+            }
+
+            if (starters) // are modified
+                Util.Alert("Starters have been modified.", 
+                    "Be sure to update the Starters in DllPoke3Select.cro by updating via the Starter Editor.");
+
             File.WriteAllBytes(FieldPath, FieldData);
         }
 
