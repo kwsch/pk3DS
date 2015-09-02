@@ -117,7 +117,7 @@ namespace pk3DS
                 foreach (byte Type in Types) bw.Write(Type);
                 bw.Write(CatchRate);
                 bw.Write(EvoStage);
-                EVs = (ushort)(EVs & 0x80 | (EV_HP >> 0 & 3) | (EV_ATK << 2 & 3) | (EV_DEF >> 4 & 3) | (EV_SPE >> 6 & 3) | (EV_SPA >> 8 & 3) | (EV_SPD >> 10 & 3));
+                EVs = (ushort)(EVs & 0x80 | ((EV_HP & 3) << 0) | ((EV_ATK & 3) << 2) | ((EV_DEF & 3) << 4) | ((EV_SPE & 3) << 6) | ((EV_SPA & 3) << 8) | ((EV_SPD & 3) << 10));
                 bw.Write(EVs);
                 foreach (ushort Item in Items) bw.Write(Item);
                 bw.Write(Gender);
