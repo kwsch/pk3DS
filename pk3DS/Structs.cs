@@ -761,6 +761,109 @@ namespace pk3DS
             }
         }
     }
+    public class Gift
+    {
+        // All
+        public byte[] Data;
+        public bool ORAS;
+
+        public ushort Species;
+        public ushort u2;
+        public byte Form;
+        public byte Level;
+        public byte Gender;
+        public short Nature;
+        public byte u9, uA, uB;
+        public int HeldItem;
+        public byte Ability;
+        // ORAS
+        public byte u11;
+        public short MetLocation;
+        public ushort Move;
+        // All
+        public sbyte[] IVs = new sbyte[6];
+        // ORAS
+        public byte[] ContestStats;
+        public byte u22;
+        // All
+        public byte uLast;
+
+        public Gift(byte[] data, bool oras)
+        {
+            Data = data;
+            ORAS = oras;
+            using (BinaryReader br = new BinaryReader(new MemoryStream(Data)))
+            {
+                Species = br.ReadUInt16();
+                u2 = br.ReadUInt16();
+                Form = br.ReadByte();
+                Level = br.ReadByte();
+                Gender = br.ReadByte();
+                Nature = br.ReadInt16();
+                u9 = br.ReadByte();
+                uA = br.ReadByte();
+                uB = br.ReadByte();
+                HeldItem = br.ReadInt32();
+                Ability = br.ReadByte();
+
+                if (ORAS)
+                {
+                    u11 = br.ReadByte();
+                    MetLocation = br.ReadInt16();
+                    Move = br.ReadUInt16();
+                }
+
+                for (int i = 0; i < 6; i++)
+                    IVs[i] = br.ReadSByte();
+
+                if (ORAS)
+                {
+                    ContestStats = br.ReadBytes(6);
+                    u22 = br.ReadByte();
+                }
+
+                uLast = br.ReadByte();
+            }
+        }
+        public byte[] Write()
+        {
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter bw = new BinaryWriter(ms))
+            {
+                bw.Write(Species);
+                bw.Write(u2);
+                bw.Write(Form);
+                bw.Write(Level);
+                bw.Write(Gender);
+                bw.Write(Nature);
+                bw.Write(u9);
+                bw.Write(uA);
+                bw.Write(uB);
+                bw.Write(HeldItem);
+                bw.Write(Ability);
+
+                if (ORAS)
+                {
+                    bw.Write(u11);
+                    bw.Write(MetLocation);
+                    bw.Write(Move);
+                }
+
+                for (int i = 0; i < 6; i++)
+                    bw.Write(IVs[i]);
+
+                if (ORAS)
+                {
+                    bw.Write(ContestStats);
+                    bw.Write(u22);
+                }
+
+                bw.Write(uLast);
+
+                return ms.ToArray();
+            }
+        }
+    }
     public class MegaEvolutions
     {
         public ushort[] Form, Method, Argument, u6;
