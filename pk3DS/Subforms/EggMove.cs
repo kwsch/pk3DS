@@ -128,6 +128,7 @@ namespace pk3DS
             {
                 CB_Species.SelectedIndex = i; // Get new Species
                 int count = dgv.Rows.Count - 1;
+                int species = Util.getIndex(CB_Species);
                 if (count == 0)
                     continue;
 
@@ -142,9 +143,9 @@ namespace pk3DS
                         (!CHK_HMs.Checked && banned.Contains(move)) // HM Moves Not Allowed
                         || (forceSTAB && // STAB is required
                             !(
-                                moveTypes[move].Type == personalData[6 + (Main.oras ? 0x50 : 0x40)*i] // Type 1
+                                moveTypes[move].Type == personalData[6 + (Main.oras ? 0x50 : 0x40) * species] // Type 1
                                 ||
-                                moveTypes[move].Type == personalData[7 + (Main.oras ? 0x50 : 0x40) * i] // Type 2
+                                moveTypes[move].Type == personalData[7 + (Main.oras ? 0x50 : 0x40) * species] // Type 2
                                 )
                             )
                         )

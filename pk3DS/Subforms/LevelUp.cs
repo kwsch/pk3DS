@@ -152,7 +152,7 @@ namespace pk3DS
             {
                 CB_Species.SelectedIndex = i; // Get new Species
                 int count = dgv.Rows.Count - 1;
-
+                int species = Util.getIndex(CB_Species);
                 if (CHK_Expand.Checked && (int)NUD_Moves.Value > count)
                     dgv.Rows.AddCopies(count, (int)NUD_Moves.Value - count);
 
@@ -168,9 +168,9 @@ namespace pk3DS
                         (!CHK_HMs.Checked && banned.Contains(move)) // HM Moves Not Allowed
                         || (forceSTAB && // STAB is required
                             !(
-                            moveTypes[move].Type == personalData[6 + (Main.oras ? 0x50 : 0x40) * i] // Type 1
+                            moveTypes[move].Type == personalData[6 + (Main.oras ? 0x50 : 0x40) * species] // Type 1
                             ||
-                            moveTypes[move].Type == personalData[7 + (Main.oras ? 0x50 : 0x40) * i] // Type 2
+                            moveTypes[move].Type == personalData[7 + (Main.oras ? 0x50 : 0x40) * species] // Type 2
                             )
                             )
                             )
@@ -230,7 +230,7 @@ namespace pk3DS
         private void CHK_TypeBias_CheckedChanged(object sender, EventArgs e)
         {
             NUD_STAB.Enabled = CHK_STAB.Checked;
-            NUD_STAB.Value = Convert.ToDecimal(CHK_STAB.Checked) * 20;
+            NUD_STAB.Value = Convert.ToDecimal(CHK_STAB.Checked) * 52;
         }
 
         public void calcStats() // Debug Function
