@@ -29,6 +29,7 @@ namespace pk3DS
             for (int i = 0; i < 10; i++) CB_SortOrder.Items.Add(i);
             for (int i = 1; i < powerData.Length; i++) CB_Item.Items.Add(i);
             CB_Item.SelectedIndex = 0;
+            Util.Alert("More research is required for giving S/MAX O-Powers ingame.");
         }
 
         private string codebin;
