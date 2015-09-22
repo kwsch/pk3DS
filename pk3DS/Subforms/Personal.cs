@@ -321,8 +321,10 @@ namespace pk3DS
             for (int i = 0; i < CLB_TMHM.Items.Count; i++)
                 pkm.TMHM[i] = CLB_TMHM.GetItemChecked(i);
 
-            for (int t = 0; t < 8; t++)
+            for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
                 pkm.Tutors[t] = CLB_MoveTutors.GetItemChecked(t);
+
+            if (!Main.oras) return;
 
             int[] len = {tutor1.Length, tutor2.Length, tutor3.Length, tutor4.Length};
             int ctr = 0;
@@ -372,7 +374,7 @@ namespace pk3DS
                     if ((Main.oras) && (CB_Species.SelectedIndex == 384 || CB_Species.SelectedIndex == 814)) //Make sure Rayquaza can learn Dragon Ascent.
                         CLB_MoveTutors.SetItemCheckState(CLB_MoveTutors.Items.Count-1, CheckState.Checked); 
                 }
-                if (CHK_ORASTutors.Checked)
+                if (Main.oras && CHK_ORASTutors.Checked)
                     for (int t = 0; t < CLB_OrasTutors.Items.Count; t++)
                         CLB_OrasTutors.SetItemCheckState(t, rnd.Next(0, 100) < OrasTutorPercent ? CheckState.Checked : CheckState.Unchecked);
 
