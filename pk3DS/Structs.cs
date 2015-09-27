@@ -78,12 +78,12 @@ namespace pk3DS
                 byte[] TMHMData = br.ReadBytes(0x10);
                 TMHM = new bool[8 * TMHMData.Length];
                 for (int j = 0; j < TMHM.Length; j++)
-                    TMHM[j / 8 + j % 8] = ((TMHMData[j / 8] >> j % 8) & 0x1) == 1; //Bitflags for TMHM
+                    TMHM[j] = ((TMHMData[j / 8] >> (j % 8)) & 0x1) == 1; //Bitflags for TMHM
 
                 byte[] TutorData = br.ReadBytes(8);
                 Tutors = new bool[8 * TutorData.Length];
                 for (int j = 0; j < Tutors.Length; j++)
-                    Tutors[j / 8 + j % 8] = ((TutorData[j / 8] >> j % 8) & 0x1) == 1; //Bitflags for Tutors
+                    Tutors[j] = ((TutorData[j / 8] >> (j % 8)) & 0x1) == 1; //Bitflags for Tutors
 
                 if (br.BaseStream.Length - br.BaseStream.Position == 0x10) // ORAS
                 {
@@ -98,7 +98,7 @@ namespace pk3DS
                     {
                         ORASTutors[i] = new bool[8 * ORASTutorData[i].Length];
                         for (int b = 0; b < 8 * ORASTutorData[i].Length; b++)
-                            ORASTutors[i][b] = ((ORASTutorData[i][b / 8] >> b % 8) & 0x1) == 1;
+                            ORASTutors[i][b] = ((ORASTutorData[i][b / 8] >> (b % 8)) & 0x1) == 1;
                     }
                 }
             }
@@ -137,12 +137,12 @@ namespace pk3DS
 
                 byte[] TMHMData = new byte[0x10];
                 for (int i = 0; i < TMHM.Length; i++)
-                    TMHMData[i % 8] |= (byte)(TMHM[i] ? (1 << i % 8) : 0);
+                    TMHMData[i / 8] |= (byte)(TMHM[i] ? (1 << (i % 8)) : 0);
                 bw.Write(TMHMData);
 
                 byte[] TutorData = new byte[8];
                 for (int i = 0; i < Tutors.Length; i++)
-                    TutorData[i % 8] |= (byte)(Tutors[i] ? (1 << i % 8) : 0);
+                    TutorData[i / 8] |= (byte)(Tutors[i] ? (1 << (i % 8)) : 0);
                 bw.Write(TutorData);
 
                 while (bw.BaseStream.Length != 0x40) bw.Write((byte)0);
@@ -158,7 +158,7 @@ namespace pk3DS
                         };
                     for (int i = 0; i < 4; i++)
                         for (int b = 0; b < ORASTutors[i].Length; b++)
-                            ORASTutorData[i][b / 8] = (byte)(ORASTutors[i][b] ? (1 << b % 8) : 0);
+                            ORASTutorData[i][b / 8] |= (byte)(ORASTutors[i][b] ? (1 << b % 8) : 0);
 
                     foreach (byte[] ORASTutor in ORASTutorData) bw.Write(ORASTutor);
 

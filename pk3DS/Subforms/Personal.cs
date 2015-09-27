@@ -241,7 +241,7 @@ namespace pk3DS
                 CLB_TMHM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TMHM
 
             for (int i = 0; i < CLB_MoveTutors.Items.Count; i++)
-                CLB_TMHM.SetItemChecked(i, pkm.Tutors[i]); // Bitflags for Tutors
+                CLB_MoveTutors.SetItemChecked(i, pkm.Tutors[i]); // Bitflags for Tutors
 
             if (pkm.ORASTutors[0] != null)
             {
