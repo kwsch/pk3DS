@@ -112,8 +112,8 @@ namespace pk3DS
                 bw.Write(ATK);
                 bw.Write(DEF);
                 bw.Write(SPE);
+                bw.Write(SPA);
                 bw.Write(SPD);
-                bw.Write(SPE);
                 foreach (byte Type in Types) bw.Write(Type);
                 bw.Write(CatchRate);
                 bw.Write(EvoStage);
