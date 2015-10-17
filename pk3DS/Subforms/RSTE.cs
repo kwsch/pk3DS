@@ -405,7 +405,7 @@ namespace pk3DS
         {
             if (tr == null) return;
             if (i >= tr.Team.Length) { pba[i].Image = null; return; }
-            Bitmap rawImg = (Bitmap)Util.getSprite(tr.Team[i].Species, tr.Team[i].Form, tr.Team[i].Gender, tr.Team[i].Item);
+            Bitmap rawImg = Util.getSprite(tr.Team[i].Species, tr.Team[i].Form, tr.Team[i].Gender, tr.Team[i].Item);
             pba[i].Image = Util.scaleImage(rawImg, 2);
         }
         private void showText()
@@ -642,7 +642,6 @@ namespace pk3DS
                 int type = GetRandomType(i);
                 bool mevo = rEnsureMEvo.Contains(i);
 
-
                 // Randomize Pokemon
                 for (int p = 0; p < CB_numPokemon.SelectedIndex; p++)
                 {
@@ -651,35 +650,34 @@ namespace pk3DS
                     if (rPKM)
                     {
                         // randomize pokemon
-                        int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
-                        pkm = new PersonalInfo(personal[species]);
+                        int species;
+                        pkm = new PersonalInfo(personal[species = Randomizer.getRandomSpecies(ref sL, ref ctr)]);
                         if (rTypeTheme)
                         {
-                            while (pkm.Types[0] != type && pkm.Types[1] != type || (mevo && p == CB_numPokemon.SelectedIndex - 1 && !megaEvos.Contains(species)))
-                            {
+                            int tries = 0;
+                            while ((pkm.Types[0] != type && pkm.Types[1] != type) || ((mevo && p == CB_numPokemon.SelectedIndex - 1 && !megaEvos.Contains(species))))
                                 if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
-                                {
-                                    species = GetRandomMegaEvolvablePokemon(type);
-                                }
+                                    pkm = new PersonalInfo(personal[species = GetRandomMegaEvolvablePokemon(type)]);
                                 else if (rSmart) // Get a new Pokemon with a close BST
                                 {
-                                    while (!(pkm.BST * 5 / 6 < oldpkm.BST && pkm.BST * 6 / 5 > oldpkm.BST))
-                                    { species = sL[rand.Next(1, sL.Length)]; pkm = new PersonalInfo(personal[species]); }
+                                    pkm = new PersonalInfo(personal[species = Randomizer.getRandomSpecies(ref sL, ref ctr)]);
+                                    while (!((pkm.BST * (5 - ++tries / 722) / 6 < oldpkm.BST) && (pkm.BST * (6 + ++tries / 722) / 5) > oldpkm.BST))
+                                    {
+                                        pkm = new PersonalInfo(personal[species = Randomizer.getRandomSpecies(ref sL, ref ctr)]);
+                                    }
                                 }
                                 else
-                                {
-                                    species = Randomizer.getRandomSpecies(ref sL, ref ctr);
-                                }
-                            }
+                                    pkm = new PersonalInfo(personal[species = Randomizer.getRandomSpecies(ref sL, ref ctr)]);
                         }
                         else if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
-                        {
-                            species = megaEvos[rnd32() % megaEvos.Length];
-                        }
+                            pkm = new PersonalInfo(personal[species = megaEvos[rnd32() % megaEvos.Length]]);
                         else if (rSmart) // Get a new Pokemon with a close BST
                         {
-                            while (!(pkm.BST * 5 / 6 < oldpkm.BST && pkm.BST * 6 / 5 > oldpkm.BST))
-                            { species = sL[rand.Next(1, sL.Length)]; pkm = new PersonalInfo(personal[species]); }
+                            int tries = 0;
+                            while (!((pkm.BST * (5 - ++tries / 722) / 6 < oldpkm.BST) && (pkm.BST * (6 + ++tries / 722) / 5) > oldpkm.BST))
+                            {
+                                pkm = new PersonalInfo(personal[species = Randomizer.getRandomSpecies(ref sL, ref ctr)]);
+                            }
                         }
 
                         trpk_pkm[p].SelectedIndex = species;
