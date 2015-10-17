@@ -149,6 +149,7 @@
             // 
             // B_ImportLargeIcon
             // 
+            this.B_ImportLargeIcon.Enabled = false;
             this.B_ImportLargeIcon.Location = new System.Drawing.Point(194, 19);
             this.B_ImportLargeIcon.Name = "B_ImportLargeIcon";
             this.B_ImportLargeIcon.Size = new System.Drawing.Size(88, 23);
@@ -159,6 +160,7 @@
             // 
             // B_ImportSmallIcon
             // 
+            this.B_ImportSmallIcon.Enabled = false;
             this.B_ImportSmallIcon.Location = new System.Drawing.Point(100, 19);
             this.B_ImportSmallIcon.Name = "B_ImportSmallIcon";
             this.B_ImportSmallIcon.Size = new System.Drawing.Size(88, 23);
