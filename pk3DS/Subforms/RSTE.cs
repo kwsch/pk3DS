@@ -361,6 +361,8 @@ namespace pk3DS
             tr.Class = CB_Trainer_Class.SelectedIndex;
             tr.BattleType = (byte)CB_Battle_Type.SelectedIndex;
             tr.NumPokemon = (byte)CB_numPokemon.SelectedIndex;
+            if (tr.NumPokemon == 0) 
+                tr.NumPokemon = 1; // No empty teams!
             tr.Items[0] = (ushort)CB_Item_1.SelectedIndex;
             tr.Items[1] = (ushort)CB_Item_2.SelectedIndex;
             tr.Items[2] = (ushort)CB_Item_3.SelectedIndex;
@@ -371,8 +373,11 @@ namespace pk3DS
             tr.Prize = (ushort)CB_Prize.SelectedIndex;
 
             // Set Pokemon Data
+            Array.Resize(ref tr.Team, tr.NumPokemon);
             for (int i = 0; i < tr.NumPokemon; i++)
             {
+                if (tr.Team[i] == null)
+                    tr.Team[i] = new Trainer.Pokemon(new byte[100], false, false); // Initialize with zeroes
                 tr.Team[i].IVs = (byte)trpk_IV[i].SelectedIndex;
                 tr.Team[i].Ability = trpk_abil[i].SelectedIndex;
                 tr.Team[i].Gender = trpk_gender[i].SelectedIndex;
