@@ -260,17 +260,19 @@ namespace pk3DS
         }
         private int checkGameType(string[] files)
         {
-            switch (files.Length)
+            try 
             {
-                case 299: // ORAS
+                int aFiles = Directory.GetFiles(Path.Combine(Directory.GetParent(files[0]).FullName, "a"), 
+                    "*", SearchOption.AllDirectories).Length;
+                if (aFiles == 271)
+                    return 0; // XY
+                if (aFiles == 299)
+                    return 1; // ORAS
+                if (aFiles == 301) // rootFiles == meh
                     return 1;
-                case 301: // ORAS Demo
-                    return 1;
-                case 271: // XY
-                    return 0;
-                default:  // Unknown
-                    return -1;
             }
+            catch { }
+            return -1;
         }
         private bool checkIfRomFS(string path)
         {
@@ -617,7 +619,7 @@ namespace pk3DS
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             string CRO = Path.Combine(RomFSPath, "DllPoke3Select.cro");
-            string CRO2 = Path.Combine(Main.RomFSPath, "DllField.cro");
+            string CRO2 = Path.Combine(RomFSPath, "DllField.cro");
             if (!File.Exists(CRO))
             {
                 Util.Error("File Missing!", "DllPoke3Select.cro was not found in your RomFS folder!");
@@ -644,7 +646,7 @@ namespace pk3DS
         private void B_Gift_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            string CRO = Path.Combine(Main.RomFSPath, "DllField.cro");
+            string CRO = Path.Combine(RomFSPath, "DllField.cro");
             if (!File.Exists(CRO))
             {
                 Util.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
