@@ -152,15 +152,14 @@ namespace pk3DS
                         int oldSpecies = rb[j].SelectedIndex;
                         PersonalInfo oldpkm = new PersonalInfo(personal[oldSpecies]);
                         int currentSpecies = Array.IndexOf(specieslist, CB_Species.Text);
-                        PersonalInfo pkm = new PersonalInfo(personal[currentSpecies]);
                         int loopctr = 0; // altering calculatiosn to prevent infinite loops
                     defspecies:
                         int newSpecies = Randomizer.getRandomSpecies(ref sL, ref ctr);
+                        PersonalInfo pkm = new PersonalInfo(personal[newSpecies]);
                         loopctr++;
 
                         // Verify it meets specifications
-                        if (newSpecies == currentSpecies // no A->A evolutions
-                            || (newSpecies == oldSpecies && loopctr < 722 * 5)) // prevent runaway calcs
+                        if (newSpecies == currentSpecies && loopctr < 722*10) // no A->A evolutions
                         { goto defspecies; }
                         if (rEXP) // Experience Growth Rate matches
                         {
@@ -169,14 +168,14 @@ namespace pk3DS
                         }
                         if (rType) // Type has to be somewhat similar
                         {
-                            if (!oldpkm.Types.Contains(pkm.Types[0]) && !oldpkm.Types.Contains(pkm.Types[1]))
+                            if (!oldpkm.Types.Contains(pkm.Types[0]) || !oldpkm.Types.Contains(pkm.Types[1]))
                             { goto defspecies; }
                         }
                         if (rBST) // Base stat total has to be close
                         {
                             const int l = 5; // tweakable scalars
                             const int h = 6;
-                            if (!(pkm.BST * l / (h + loopctr/722) < oldpkm.BST && pkm.BST * h / l > oldpkm.BST))
+                            if (!(pkm.BST * l / (h + loopctr/722) < oldpkm.BST && (pkm.BST * h + loopctr/722) / l > oldpkm.BST))
                             { goto defspecies; }
                         }
                         // assign random val
