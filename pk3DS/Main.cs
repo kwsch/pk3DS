@@ -260,8 +260,10 @@ namespace pk3DS
         }
         private int checkGameType(string[] files)
         {
-            try 
+            try
             {
+                if (files.Length > 1000)
+                    return -1;
                 int aFiles = Directory.GetFiles(Path.Combine(Directory.GetParent(files[0]).FullName, "a"), 
                     "*", SearchOption.AllDirectories).Length;
                 if (aFiles == 271)
