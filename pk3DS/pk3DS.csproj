@@ -66,6 +66,12 @@
     <Compile Include="3DS\CTR.cs" />
     <Compile Include="3DS\ExeFS.cs" />
     <Compile Include="3DS\BCLIM.cs" />
+    <Compile Include="Misc\About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Misc\About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
     <Compile Include="Randomizer.cs" />
     <Compile Include="3DS\RomFS.cs" />
     <Compile Include="Structs.cs" />
@@ -239,6 +245,9 @@
     </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\About.resx">
+      <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gifts.resx">
       <DependentUpon>Gifts.cs</DependentUpon>
@@ -4727,6 +4736,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ETC1Lib.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Misc\changelog.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
