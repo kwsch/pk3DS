@@ -69,21 +69,7 @@ namespace pk3DS
         // Main Form Methods
         private void L_About_Click(object sender, EventArgs e)
         {
-            Util.Alert
-                (
-                "pk3DS: A package of Pokémon X/Y/OR/AS tools by various contributors.",
-
-                "GARCTool (Backbone): Kaphotics" + Environment.NewLine +
-                "Text Editing (xytext): Kaphotics" + Environment.NewLine +
-                "Wild Editor (**WE): SciresM & Kaphotics" + Environment.NewLine +
-                "Trainer Editor (**TE): SciresM, Kaphotics, and KazoWAR" + Environment.NewLine +
-                "Personal Editor: SciresM" + Environment.NewLine +
-                "Mega Evolution Editor (MEE): SciresM" + Environment.NewLine +
-                "Evolutions, Moves, Items, Maison, Title Screen Editors: Kaphotics",
-                "ExeFS Editors: Kaphotics (thanks Drayano and magical!)",
-
-                "Big thanks to the ProjectPokemon community!"
-                );
+            new About().ShowDialog();
         }
         private void L_GARCInfo_Click(object sender, EventArgs e)
         {
