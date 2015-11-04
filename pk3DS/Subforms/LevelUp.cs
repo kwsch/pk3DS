@@ -108,6 +108,7 @@ namespace pk3DS
             }
             pkm.Moves = moves.ToArray();
             pkm.Levels = levels.ToArray();
+            pkm.Count = moves.Length;
             File.WriteAllBytes(files[entry], pkm.Write());
         }
 
