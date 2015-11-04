@@ -281,6 +281,7 @@ namespace pk3DS
                     oras = (game == 1);
                 RomFSPath = path;
                 backupGARCs(false, allGARCs);
+                backupCROs(false, RomFSPath);
                 return true;
             }
             RomFSPath = null; 
@@ -641,6 +642,42 @@ namespace pk3DS
                 return;
             }
             new Gifts().ShowDialog();
+        }
+        private void backupCROs(bool overwrite, string path)
+        {
+            if (!Directory.Exists(path))
+                return;
+
+            string[] files = Directory.GetFiles(path);
+            string[] CROs = files.Where(x => new FileInfo(x).Name.Contains("Dll")).ToArray();
+            string[] CRSs = files.Where(x => new FileInfo(x).Extension.Contains("crs")).ToArray();
+            string[] CRRs = Directory.Exists(Path.Combine(path, ".crr"))
+                ? Directory.GetFiles(Path.Combine(path, ".crr"))
+                : new string[0];
+
+            int count = CROs.Length + CRSs.Length + CRRs.Length;
+            if (count <= 0)
+                return;
+
+            // Somewhat unique ID for the dlls to separate backup folders between versions
+            string CROBAKPATH = Path.Combine("backup", "DLL" + count);
+
+            if (!Directory.Exists(CROBAKPATH))
+                Directory.CreateDirectory(CROBAKPATH);
+
+            foreach (string file in CROs.Concat(CRSs).Where(file => overwrite || !File.Exists(Path.Combine(CROBAKPATH, Path.GetFileName(file)))))
+                File.Copy(file, Path.Combine(CROBAKPATH, Path.GetFileName(file)));
+
+            if (CRRs.Length <= 0)
+                return;
+
+            // Separate folder for the .crr
+            string CRRBAKPATH = Path.Combine(CROBAKPATH, ".crr");
+            if (!Directory.Exists(CRRBAKPATH))
+                Directory.CreateDirectory(CRRBAKPATH);
+
+            foreach (string file in CRRs.Where(file => overwrite || !File.Exists(Path.Combine(CRRBAKPATH, Path.GetFileName(file)))))
+                File.Copy(file, Path.Combine(CRRBAKPATH, Path.GetFileName(file)));
         }
 
         // 3DS Building
