@@ -660,7 +660,7 @@ namespace pk3DS
                 return;
 
             // Somewhat unique ID for the dlls to separate backup folders between versions
-            string CROBAKPATH = Path.Combine("backup", "DLL" + count);
+            string CROBAKPATH = Path.Combine("backup", "DLL_" + count);
 
             if (!Directory.Exists(CROBAKPATH))
                 Directory.CreateDirectory(CROBAKPATH);
