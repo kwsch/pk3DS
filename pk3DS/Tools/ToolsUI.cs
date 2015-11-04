@@ -63,8 +63,19 @@ namespace pk3DS
             {
                 // Pre-check file length to see if it is at least valid.
                 FileInfo fi = new FileInfo(path);
-                if (fi.Length > 1300 * 1024 * 1024) { Util.Error("File is too big!"); return; }
+                if (fi.Length > 1.6 * (1<<30)) { Util.Error("File is too big!"); return; } // 1.6 GB
                 string folderPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+
+                byte[] first4 = new byte[4];
+                try
+                {
+                    using (BinaryReader bw = new BinaryReader(new FileStream(path, FileMode.Open)))
+                        first4 = bw.ReadBytes(4);
+                }
+                catch (Exception e)
+                {
+                    Util.Error("Cannot open file!", e.ToString());
+                }
 
                 // Determine if it is a DARC or a Mini
                 // Check if Mini first
@@ -82,7 +93,7 @@ namespace pk3DS
                         batchRenameExtension(newFolder);
                     }
                 }
-                else if (BitConverter.ToUInt32(File.ReadAllBytes(path), 0) == 0x47415243) // GARC
+                else if (first4.SequenceEqual(BitConverter.GetBytes(0x47415243))) // GARC
                 {
                     bool r = CTR.GARC.garcUnpack(path, folderPath + "_g", ModifierKeys == Keys.Control);
                     if (r)
