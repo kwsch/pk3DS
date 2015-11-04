@@ -84,7 +84,7 @@ namespace pk3DS
                 }
                 else if (BitConverter.ToUInt32(File.ReadAllBytes(path), 0) == 0x47415243) // GARC
                 {
-                    bool r = CTR.GARC.garcUnpack(path, folderPath + "_g", false);
+                    bool r = CTR.GARC.garcUnpack(path, folderPath + "_g", ModifierKeys == Keys.Control);
                     if (r)
                         batchRenameExtension(newFolder);
                     else
