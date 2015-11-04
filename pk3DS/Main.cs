@@ -503,7 +503,7 @@ namespace pk3DS
                 fileSet(files);
             }).Start();
         }
-        private void B_Wallpaper_Click(object sender, EventArgs e)
+        private void B_TitleScreen_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
             new Thread(() =>

@@ -127,7 +127,7 @@
             this.B_TitleScreen.TabIndex = 12;
             this.B_TitleScreen.Text = "Title Screen";
             this.B_TitleScreen.UseVisualStyleBackColor = true;
-            this.B_TitleScreen.Click += new System.EventHandler(this.B_Wallpaper_Click);
+            this.B_TitleScreen.Click += new System.EventHandler(this.B_TitleScreen_Click);
             // 
             // B_Maison
             // 
