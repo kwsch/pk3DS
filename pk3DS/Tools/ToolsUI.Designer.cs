@@ -38,6 +38,7 @@
             this.PB_BCLIM = new System.Windows.Forms.PictureBox();
             this.B_Reset = new System.Windows.Forms.Button();
             this.CHK_Delete = new System.Windows.Forms.CheckBox();
+            this.pBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.PB_BCLIM)).BeginInit();
             this.SuspendLayout();
             // 
@@ -137,12 +138,22 @@
             this.CHK_Delete.Text = "Delete Folder after Packing";
             this.CHK_Delete.UseVisualStyleBackColor = true;
             // 
+            // pBar1
+            // 
+            this.pBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pBar1.Location = new System.Drawing.Point(12, 95);
+            this.pBar1.Name = "pBar1";
+            this.pBar1.Size = new System.Drawing.Size(300, 12);
+            this.pBar1.TabIndex = 11;
+            // 
             // ToolsUI
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(324, 362);
+            this.Controls.Add(this.pBar1);
             this.Controls.Add(this.CHK_Delete);
             this.Controls.Add(this.B_Reset);
             this.Controls.Add(this.CB_Repack);
@@ -176,5 +187,6 @@
         private System.Windows.Forms.PictureBox PB_BCLIM;
         private System.Windows.Forms.Button B_Reset;
         private System.Windows.Forms.CheckBox CHK_Delete;
+        private System.Windows.Forms.ProgressBar pBar1;
     }
 }

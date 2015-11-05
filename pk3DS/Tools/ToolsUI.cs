@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -56,6 +57,8 @@ namespace pk3DS
             PB_BCLIM.Size = new Size(img.Width + 2, img.Height + 2);
             PB_BCLIM.BackgroundImage = img;
         }
+
+        private int threads = 0;
         private void openARC(string path, bool recursing = false)
         {
             string newFolder = "";
@@ -95,11 +98,19 @@ namespace pk3DS
                 }
                 else if (first4.SequenceEqual(BitConverter.GetBytes(0x47415243))) // GARC
                 {
-                    bool r = CTR.GARC.garcUnpack(path, folderPath + "_g", ModifierKeys == Keys.Control);
-                    if (r)
-                        batchRenameExtension(newFolder);
-                    else
-                    { Util.Alert("Unpacking failed."); return; }
+                    if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+                    bool SkipDecompression = ModifierKeys == Keys.Control;
+                    new Thread(() =>
+                    {
+                        threads++;
+                        bool r = CTR.GARC.garcUnpack(path, folderPath + "_g", SkipDecompression, pBar1);
+                        if (r)
+                            batchRenameExtension(newFolder);
+                        else
+                        { Util.Alert("Unpacking failed."); return; }
+                        System.Media.SystemSounds.Asterisk.Play();
+                    }).Start();
+                    return;
                 }
                 else if (ARC.analyze(path).valid) // DARC
                 {
@@ -150,9 +161,18 @@ namespace pk3DS
                 }
                 case 1: // GARC Pack
                 {
-                    bool r = CTR.GARC.garcPackMS(path, folderName + ".garc");
-                    if (!r) Util.Alert("Packing failed.");
-                    break;
+                    if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+                    new Thread(() =>
+                    {
+                        bool r = CTR.GARC.garcPackMS(path, folderName + ".garc", pBar1);
+                        if (!r) { Util.Alert("Packing failed."); return; }
+                        // Delete path after repacking
+                        if (CHK_Delete.Checked && Directory.Exists(path))
+                            Directory.Delete(path, true);
+
+                        System.Media.SystemSounds.Asterisk.Play();
+                    }).Start();
+                    return;
                 }
                 case 2: // DARC Pack (from existing if exists)
                 {
@@ -226,6 +246,7 @@ namespace pk3DS
             // Delete path after repacking
             if (CHK_Delete.Checked && Directory.Exists(path))
                 Directory.Delete(path, true);
+            System.Media.SystemSounds.Asterisk.Play();
         }
         private void PB_BCLIM_Click(object sender, EventArgs e)
         {
