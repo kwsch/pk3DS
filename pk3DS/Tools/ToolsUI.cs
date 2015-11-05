@@ -58,7 +58,7 @@ namespace pk3DS
             PB_BCLIM.BackgroundImage = img;
         }
 
-        private int threads = 0;
+        private int threads;
         private void openARC(string path, bool recursing = false)
         {
             string newFolder = "";

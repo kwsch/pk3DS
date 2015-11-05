@@ -685,10 +685,11 @@ namespace pk3DS
         }
         public byte[] Write()
         {
+            Count = (ushort)Moves.Length;
             using (MemoryStream ms = new MemoryStream())
             using (BinaryWriter bw = new BinaryWriter(ms))
             {
-                for (int i = 0; i < Moves.Length; i++)
+                for (int i = 0; i < Count; i++)
                 {
                     bw.Write(Moves[i]);
                     bw.Write(Levels[i]);
