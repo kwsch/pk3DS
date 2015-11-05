@@ -1099,7 +1099,7 @@ namespace pk3DS
     }
     public class Zone
     {
-        public ZoneInfo Info;
+        public ZoneData ZD;
         public ZoneEntities Entities;
         public ZoneScript MapScript;
         public ZoneEncounters Encounters;
@@ -1110,7 +1110,7 @@ namespace pk3DS
             // A ZO is comprised of 4-5 files.
 
             // Array 0 is [Map Info]
-            Info = new ZoneInfo(Zone[0]);
+            ZD = new ZoneData(Zone[0]);
             // Array 1 is [Overworld Entities & their Scripts]
             Entities = new ZoneEntities(Zone[1]);
             // Array 2 is [Map Script]
@@ -1126,7 +1126,7 @@ namespace pk3DS
         public byte[][] Write()
         {
             byte[][] Zone = new byte[(File5 != null) ? 5 : 4][];
-            Zone[0] = Info.Write();
+            Zone[0] = ZD.Write();
             Zone[1] = Entities.Write();
             Zone[2] = MapScript.Write();
             Zone[3] = Encounters.Write();
@@ -1137,18 +1137,6 @@ namespace pk3DS
             return Zone;
         }
 
-        public class ZoneInfo
-        {
-            public byte[] InfoData; // File details unknown.
-            public ZoneInfo(byte[] data)
-            {
-                InfoData = data;
-            }
-            public byte[] Write()
-            {
-                return InfoData;
-            }
-        }
         public class ZoneEntities
         {
             public byte[] Data; // File details unknown.
