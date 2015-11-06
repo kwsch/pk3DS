@@ -291,11 +291,27 @@ namespace pk3DS
         private bool checkIfExeFS(string path)
         {
             string[] files = Directory.GetFiles(path);
-            if (files.Length != 3 && files.Length != 4) return false;
+            if (files.Length == 1 && Path.GetFileName(files[0]).ToLower() == "exefs.bin")
+            {
+                // Prompt if the user wants to unpack the ExeFS.
+                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS binary.", "Unpack?"))
+                    return false;
+
+                // User wanted to unpack. Unpack.
+                if (!CTR.ExeFS.get(files[0], path))
+                    return false; // on unpack fail
+
+                files = Directory.GetFiles(path);
+                // unpack successful, continue onward!
+            }
+
+            if (files.Length != 3 && files.Length != 4) 
+                return false;
 
             FileInfo fi = new FileInfo(files[0]);
-            if (!fi.Name.Contains("code")) return false;
-            if (fi.Length % 0x200 != 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes))
+            if (!fi.Name.Contains("code")) 
+                return false;
+            if (fi.Length % 0x200 != 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code binary.", "Decompress? File will be replaced.") == DialogResult.Yes))
                 new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
 
             ExeFSPath = path;
