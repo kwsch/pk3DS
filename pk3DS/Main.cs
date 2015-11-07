@@ -63,6 +63,7 @@ namespace pk3DS
         public volatile int threads;
         internal volatile static int Language;
         internal static CTR.SMDH SMDH;
+        private uint HANSgameID; // for exporting RomFS/ExeFS with correct X8 gameID
         internal static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN", "titlescreen", "mapMatrix", "mapGR" };
         private bool skipBoth;
 
@@ -222,6 +223,7 @@ namespace pk3DS
 
                 // Change L_Game if RomFS and ExeFS exists to a better descriptor
                 SMDH = ExeFSPath != null ? (File.Exists(Path.Combine(ExeFSPath, "icon.bin"))) ? new CTR.SMDH(Path.Combine(ExeFSPath, "icon.bin")) : null : null;
+                HANSgameID = SMDH != null ? ((SMDH.AppSettings != null) ? SMDH.AppSettings.StreetPassID : 0) : 0;
                 L_Game.Visible = (SMDH == null && RomFSPath != null);
                 updateGameInfo();
                 TB_Path.Select(TB_Path.TextLength, 0);
@@ -348,7 +350,13 @@ namespace pk3DS
             if (RomFSPath == null) return;
             if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild RomFS?") != DialogResult.Yes) return;
 
-            SaveFileDialog sfd = new SaveFileDialog {FileName = "romfs.bin", Filter = "Binary File|*.*"};
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                FileName = (HANSgameID != 0) ? HANSgameID.ToString("X8") + ".romfs" : "romfs.bin",
+                Filter = "HANS RomFS|*.romfs" + "|Binary File|*.bin" + "|All Files|*.*"
+            };
+            sfd.FilterIndex = HANSgameID != 0 ? 0 : sfd.Filter.Length - 1;
+
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 new Thread(() =>
@@ -567,7 +575,14 @@ namespace pk3DS
 
             string[] files = Directory.GetFiles(ExeFSPath);
             int file = 0; if (files[1].Contains("code")) file = 1;
-            SaveFileDialog sfd = new SaveFileDialog {FileName = "exefs.bin", Filter = "Binary File|*.*"};
+
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                FileName = (HANSgameID != 0) ? HANSgameID.ToString("X8") + ".exefs" : "exefs.bin",
+                Filter = "HANS ExeFS|*.exefs" + "|Binary File|*.bin" + "|All Files|*.*"
+            };
+            sfd.FilterIndex = HANSgameID != 0 ? 0 : sfd.Filter.Length - 1;
+
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 new Thread(() =>
