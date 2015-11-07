@@ -1071,7 +1071,7 @@ namespace pk3DS
         public byte[][] Write()
         {
             byte[][] Zone = new byte[(File5 != null) ? 5 : 4][];
-            Zone[0] = ZD.Write();
+            Zone[0] = ZD.Data;
             Zone[1] = Entities.Write();
             Zone[2] = MapScript.Write();
             Zone[3] = Encounters.Write();
