@@ -28,8 +28,8 @@ namespace CTR
 
         public void getSuperBlockHash()
         {
-            SHA256Managed sha = new SHA256Managed();
-            SuperBlockHash = sha.ComputeHash(Data, 0, 0x200);
+            using (SHA256Managed sha = new SHA256Managed())
+                SuperBlockHash = sha.ComputeHash(Data, 0, 0x200);
         }
 
         // Overall R/W files (wrapped)

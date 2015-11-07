@@ -301,6 +301,9 @@ namespace pk3DS
                 if (!CTR.ExeFS.get(files[0], path))
                     return false; // on unpack fail
 
+                // Remove ExeFS binary after unpacking
+                File.Delete(files[0]);
+
                 files = Directory.GetFiles(path);
                 // unpack successful, continue onward!
             }
