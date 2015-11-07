@@ -1022,10 +1022,11 @@ namespace pk3DS
     }
     public class ZoneData
     {
+        internal static int Size = 0x38;
         public byte[] Data;
         public int MapMatrix { get { return BitConverter.ToUInt16(Data, 0x04); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x04);} }
         public int TextFile { get { return BitConverter.ToUInt16(Data, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x06); } }
-        public int OverworldLocation // 0x1C - low 7 bits
+        public int ParentMap // 0x1C - low 7 bits
         {
             get { return BitConverter.ToUInt16(Data, 0x1C) & 0x1FF; }
             set { BitConverter.GetBytes((ushort)(value | (BitConverter.ToUInt16(Data, 0x1C) & ~0x1FF))).CopyTo(Data, 0x1C); }
@@ -1035,9 +1036,13 @@ namespace pk3DS
             get { return BitConverter.ToUInt16(Data, 0x1C) >> 9; }
             set { BitConverter.GetBytes((ushort)((value << 9) | (BitConverter.ToUInt16(Data, 0x1C) & 0x1FF))).CopyTo(Data, 0x1C); }
         }
+        public int X { get { return BitConverter.ToInt32(Data, 0x2C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x2C); } }
+        public int Z { get { return BitConverter.ToInt32(Data, 0x30); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x30); } }
+        public int Y { get { return BitConverter.ToInt32(Data, 0x34); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x34); } }
+
         public ZoneData(byte[] data)
         {
-            if (data.Length != 0x36) 
+            if (data.Length != Size) 
                 return;
             Data = data;
         }
@@ -1086,11 +1091,15 @@ namespace pk3DS
         {
             public byte[] Data; // File details unknown.
 
-            public UInt32 Length;
+            public Int32 Length;
+            public Int32 FurnitureCount, NPCCount, WarpCount, TriggerCount;
+            public Int32 UNKNOWN;
+            public Byte[] UnknownBytes;
             public EntityFurniture[] Furniture;
             public EntityNPC[] NPCs;
             public EntityWarp[] Warps;
             public EntityTrigger[] Triggers;
+            public Int32 ScriptLength;
             public Byte[] ScriptData;
             public ZoneEntities(byte[] data)
             {
@@ -1098,35 +1107,86 @@ namespace pk3DS
 
                 using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
                 {
-                    Length = br.ReadUInt32();
-                    Furniture = new EntityFurniture[br.ReadByte()];
-                    NPCs = new EntityNPC[br.ReadByte()];
-                    Warps = new EntityWarp[br.ReadByte()];
-                    Triggers = new EntityTrigger[br.ReadByte()];
-                    for (int i = 0; i < Furniture.Length; i++)
-                        Furniture[i] = new EntityFurniture(br.ReadBytes(Furniture.Length));
-                    for (int i = 0; i < NPCs.Length; i++)
-                        NPCs[i] = new EntityNPC(br.ReadBytes(NPCs.Length));
-                    for (int i = 0; i < Warps.Length; i++)
-                        Warps[i] = new EntityWarp(br.ReadBytes(Warps.Length));
-                    for (int i = 0; i < Triggers.Length; i++) 
-                        Triggers[i] = new EntityTrigger(br.ReadBytes(Triggers.Length));
-                    ScriptData = br.ReadBytes((int)(br.BaseStream.Length - br.BaseStream.Position));
+                    // Load Header
+                    Length = br.ReadInt32();
+                    Furniture = new EntityFurniture[FurnitureCount = br.ReadByte()];
+                    NPCs = new EntityNPC[NPCCount = br.ReadByte()];
+                    Warps = new EntityWarp[WarpCount = br.ReadByte()];
+                    Triggers = new EntityTrigger[TriggerCount = br.ReadByte()];
+                    UNKNOWN = br.ReadInt32();
+
+                    // Load Entitites
+                    for (int i = 0; i < FurnitureCount; i++)
+                        Furniture[i] = new EntityFurniture(br.ReadBytes(EntityFurniture.Size));
+                    for (int i = 0; i < NPCCount; i++)
+                        NPCs[i] = new EntityNPC(br.ReadBytes(EntityNPC.Size));
+                    for (int i = 0; i < WarpCount; i++)
+                        Warps[i] = new EntityWarp(br.ReadBytes(EntityWarp.Size));
+                    for (int i = 0; i < TriggerCount; i++) 
+                        Triggers[i] = new EntityTrigger(br.ReadBytes(EntityTrigger.Size));
+
+                    int ScriptDataOffset = Length + 4;
+
+                    UnknownBytes = (br.BaseStream.Position == ScriptDataOffset)
+                        ? new byte[0]
+                        : br.ReadBytes(ScriptDataOffset - (int)br.BaseStream.Position);
+
+                    // Load Script Data
+                    ScriptLength = br.ReadInt32();
+                    ScriptData = br.ReadBytes(ScriptLength - 4);
                 }
             }
             public byte[] Write()
             {
-                return Data;
+                byte[] F = new byte[Furniture.Length * EntityFurniture.Size];
+                for (int i = 0; i < Furniture.Length; i++)
+                    Furniture[i].Write().CopyTo(F, i * EntityFurniture.Size);
+
+                byte[] N = new byte[NPCs.Length * EntityNPC.Size];
+                for (int i = 0; i < NPCs.Length; i++)
+                    NPCs[i].Write().CopyTo(F, i * EntityNPC.Size);
+
+                byte[] W = new byte[Warps.Length * EntityWarp.Size];
+                for (int i = 0; i < Warps.Length; i++)
+                    Warps[i].Write().CopyTo(F, i * EntityWarp.Size);
+
+                byte[] T = new byte[Triggers.Length * EntityTrigger.Size];
+                for (int i = 0; i < Triggers.Length; i++)
+                    Triggers[i].Write().CopyTo(F, i * EntityTrigger.Size);
+
+                // Assemble entity information
+                byte[] OWEntities = F.Concat(N).Concat(W).Concat(T).ToArray();
+                byte[] EntityCounts = {(byte)Furniture.Length, (byte)NPCs.Length, (byte)Warps.Length, (byte)Triggers.Length};
+                byte[] EntityLength = BitConverter.GetBytes(8 + OWEntities.Length + 4 + UnknownBytes.Length);
+                byte[] UNKNOWNCT = BitConverter.GetBytes(UNKNOWN);
+
+                // Reassemble NPC portion
+                byte[] OWEntityData = EntityLength.Concat(EntityCounts).Concat(UNKNOWNCT).Concat(OWEntities).Concat(UnknownBytes).ToArray();
+
+                // Add padding zeroes if required (yield above section % 4 == 0)
+                if (OWEntityData.Length % 4 != 0)
+                    Array.Resize(ref OWEntityData, OWEntityData.Length + 4 - (OWEntityData.Length % 4));
+
+                // Reassemble Script portion
+                byte[] OWScriptData = ScriptData;
+
+                // Return final data
+                return OWEntityData.Concat(OWScriptData).ToArray();
             }
 
             // Entity Classes
             public class EntityFurniture
             {
-                internal static readonly byte Length = 0x14;
+                // Usable Attributes
+                public int X { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
+                public int Y { get { return BitConverter.ToUInt16(Raw, 0x0A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0A); } }
+                // Next two bytes should be dealing with furniture width?
+
                 public byte[] Raw;
-                public EntityFurniture(byte[] data)
+                internal static readonly byte Size = 0x14;
+                public EntityFurniture(byte[] data = null)
                 {
-                    Raw = data;
+                    Raw = data ?? new byte[Size];
                 }
                 public byte[] Write()
                 {
@@ -1135,13 +1195,25 @@ namespace pk3DS
             }
             public class EntityNPC
             {
-                internal static readonly byte Length = 0x30;
-                public ushort ID;
+                // Usable Attributes
+                public int ID { get { return BitConverter.ToUInt16(Raw, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); } }
+                public int Model { get { return BitConverter.ToUInt16(Raw, 0x02); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); } }
+                public int MovePermissions { get { return BitConverter.ToUInt16(Raw, 0x04); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x04); } }
+                public int MovePermissions2 { get { return BitConverter.ToUInt16(Raw, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); } }
+                public int SpawnFlag { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
+                public int Script { get { return BitConverter.ToUInt16(Raw, 0x0A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0A); } }
+                public int FaceDirection { get { return BitConverter.ToUInt16(Raw, 0x0C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); } }
+                // ??? Eyecatch/Leash Stuff.
+                public int X { get { return BitConverter.ToUInt16(Raw, 0x28); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x28); } }
+                public int Y { get { return BitConverter.ToUInt16(Raw, 0x2A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2A); } }
+                public int ZU { get { return BitConverter.ToUInt16(Raw, 0x2C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2C); } }
+                public int Z { get { return BitConverter.ToUInt16(Raw, 0x2E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2E); } }
+
                 public byte[] Raw;
-                public EntityNPC(byte[] data)
+                internal static readonly byte Size = 0x30;
+                public EntityNPC(byte[] data = null)
                 {
-                    Raw = data;
-                    ID = BitConverter.ToUInt16(data, 0x4);
+                    Raw = data ?? new byte[Size];
                 }
                 public byte[] Write()
                 {
@@ -1150,16 +1222,15 @@ namespace pk3DS
             }
             public class EntityWarp
             {
-                internal static readonly byte Length = 0x18;
-                public byte[] Raw;
-                public ushort DestinationMap;
-                public ushort DestinationTileIndex;
-                public EntityWarp(byte[] data)
-                {
-                    Raw = data;
+                // Usable Attributes
+                public int DestinationMap { get { return BitConverter.ToUInt16(Raw, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00);} }
+                public int DestinationTileIndex { get { return BitConverter.ToUInt16(Raw, 0x02); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02);} }
 
-                    DestinationMap = BitConverter.ToUInt16(data, 0x4);
-                    DestinationTileIndex = BitConverter.ToUInt16(data, 0x6);
+                public byte[] Raw;
+                internal static readonly byte Size = 0x18;
+                public EntityWarp(byte[] data = null)
+                {
+                    Raw = data ?? new byte[Size];
                 }
                 public byte[] Write()
                 {
@@ -1168,11 +1239,15 @@ namespace pk3DS
             }
             public class EntityTrigger
             {
-                internal static readonly byte Length = 0x18;
+                // Usable Attributes
+                public int X { get { return BitConverter.ToUInt16(Raw, 0x28); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x28); } }
+                public int Y { get { return BitConverter.ToUInt16(Raw, 0x2A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2A); } }
+
                 public byte[] Raw;
-                public EntityTrigger(byte[] data)
+                internal static readonly byte Size = 0x18;
+                public EntityTrigger(byte[] data = null)
                 {
-                    Raw = data;
+                    Raw = data ?? new byte[Size];
                 }
                 public byte[] Write()
                 {

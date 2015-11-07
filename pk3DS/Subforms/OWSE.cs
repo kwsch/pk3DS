@@ -51,8 +51,8 @@ namespace pk3DS
                 string name = Path.GetFileNameWithoutExtension(filepaths[f]);
 
                 int LocationNum = Convert.ToInt16(name.Substring(4, name.Length - 4));
-                int indNum = LocationNum * 56 + 0x1C;
-                string LocationName = gameLocations[BitConverter.ToUInt16(zonedata, indNum) & 0x1FF];
+                ZoneData zo = new ZoneData(zonedata.Skip(f * ZoneData.Size).Take(ZoneData.Size).ToArray());
+                string LocationName = gameLocations[zo.ParentMap];
                 zdLocations[f] = (LocationNum.ToString("000") + " - " + LocationName);
                 rawLocations[f] = LocationName;
             }
@@ -76,26 +76,33 @@ namespace pk3DS
         private void getEntry()
         {
             if (entry < 0) return;
-            RTB_F.Text = RTB_O.Text = RTB_W.Text = RTB_T.Text = string.Empty;
             byte[] raw = File.ReadAllBytes(filepaths[entry]);
             locationData = CTR.mini.unpackMini(raw, "ZO");
             if (locationData == null) return;
 
-            RichTextBox[] rtba = {RTB_MapInfo, RTB_OWSC, RTB_MapSC, RTB_Encounter, RTB_File5};
-            for (int i = 0; i < locationData.Length; i++)
-                rtba[i].Lines = Scripts.getHexLines(locationData[i], 0x10);
+            // Read master ZD table
+            byte[] zd = zonedata.Skip(ZoneData.Size * entry).Take(ZoneData.Size).ToArray();
+            RTB_ZDMaster.Lines = Scripts.getHexLines(zd, 0x10);
 
-            // File 0 - ??
+            // Load from location Data.
+            CurrentZone = new Zone(locationData);
+            // File 0 - ZoneData
+            RTB_ZD.Lines = Scripts.getHexLines(locationData[0], 0x10);
+            getZoneData();
 
             // File 1 - Overworld Setup & Script
+            RTB_OWSC.Lines = Scripts.getHexLines(locationData[1], 0x10);
             getOWSData();
 
             // File 2 - Map Script
+            RTB_MapSC.Lines = Scripts.getHexLines(locationData[2], 0x10);
             getScriptData();
 
             // File 3 - Encounters
+            RTB_Encounter.Lines = Scripts.getHexLines(locationData[3], 0x10);
 
-            // File 4 - ??
+            // File 4 - ?? (ORAS Only?)
+            RTB_File5.Lines = Scripts.getHexLines(locationData.Length <= 4 ? null : locationData[4], 0x10);
         }
         private void setEntry()
         {
@@ -120,11 +127,8 @@ namespace pk3DS
             //File.WriteAllBytes(filepaths[entry], raw);
         }
 
-        private byte[][] fData;
-        private byte[][] nData;
-        private byte[][] wData;
-        private byte[][] tData;
         private byte[] OWScriptData;
+        private Zone CurrentZone;
 
         private void getScriptData()
         {
@@ -173,64 +177,45 @@ namespace pk3DS
             else
                 RTB_MSCMD.Lines = RTB_MS.Lines = new[] {"No Data"};
         }
-        private void getOWSData()
-        {
-            byte[] data = locationData[1];
-            int len = BitConverter.ToInt32(data, 0);
 
-            byte[] zd = zonedata.Skip(56*entry).Take(56).ToArray();
-            ushort text = BitConverter.ToUInt16(zonedata, 56*entry + 6);
-            ushort map = BitConverter.ToUInt16(zonedata, 56*entry + 4);
-            RTB_zonedata.Lines = Scripts.getHexLines(zd, 0x10);
-            L_ZDPreview.Text = "Text File: " + text
-            + Environment.NewLine + "Map File: " + map;
+        private void getZoneData()
+        {
+            L_ZDPreview.Text = "Text File: " + CurrentZone.ZD.TextFile
+            + Environment.NewLine + "Map File: " + CurrentZone.ZD.MapMatrix;
 
             // Fetch Map Image
-            DrawMap = map;
-            PB_Map.Image = getMapImage();
+            DrawMap = CurrentZone.ZD.MapMatrix;
+            PB_Map.Image = (CHK_AutoDraw.Checked) ? getMapImage() : null;
+        }
+        private void getOWSData()
+        {
+            File.WriteAllBytes("zd.bin", CurrentZone.Entities.Data);
+            RTB_F.Text = RTB_N.Text = RTB_W.Text = RTB_T.Text = string.Empty;
+            // Set Counters
+            NUD_FurnCount.Value = CurrentZone.Entities.FurnitureCount; changeFurnitureCount(null, null);
+            NUD_NPCCount.Value = CurrentZone.Entities.NPCCount; changeNPCCount(null, null);
+            NUD_WarpCount.Value = CurrentZone.Entities.WarpCount; changeWarpCount(null, null);
+            NUD_TrigCount.Value = CurrentZone.Entities.TriggerCount; changeTriggerCount(null, null);
 
-            byte[] owData = data.Skip(4).Take(len).ToArray();
-            // Process owData Header
-            using (var s = new MemoryStream(owData))
-            using (var br = new BinaryReader(s))
-            {
-                // Prepare Data
-                byte F = br.ReadByte(); fData = new byte[255][]; for (int i = 0; i < 255; i++) fData[i] = new byte[flen];
-                byte N = br.ReadByte(); nData = new byte[255][]; for (int i = 0; i < 255; i++) nData[i] = new byte[nlen];
-                byte W = br.ReadByte(); wData = new byte[255][]; for (int i = 0; i < 255; i++) wData[i] = new byte[wlen];
-                byte T = br.ReadByte(); tData = new byte[255][]; for (int i = 0; i < 255; i++) tData[i] = new byte[tlen];
-
-                // Set Counters
-                NUD_FurnCount.Value = F; changeFurnitureCount(null, null);
-                NUD_NPCCount.Value = N; changeNPCCount(null, null);
-                NUD_WarpCount.Value = W; changeWarpCount(null, null);
-                NUD_TrigCount.Value = T; changeTriggerCount(null, null);
-
-                // Collect/Load Data
-                for (int i = 0; i < F; i++) fData[i] = br.ReadBytes(flen); 
-                for (int i = 0; i < N; i++) nData[i] = br.ReadBytes(nlen); 
-                for (int i = 0; i < W; i++) wData[i] = br.ReadBytes(wlen); 
-                for (int i = 0; i < T; i++) tData[i] = br.ReadBytes(tlen);
-                NUD_FE.Value = (NUD_FE.Maximum < 0) ? -1 : 0; changeFurniture(null, null);
-                NUD_NE.Value = (NUD_NE.Maximum < 0) ? -1 : 0; changeOverworld(null, null);
-                NUD_WE.Value = (NUD_WE.Maximum < 0) ? -1 : 0; changeWarp(null, null);
-                NUD_TE.Value = (NUD_TE.Maximum < 0) ? -1 : 0; changeTrigger(null, null);
-            }
+            // Collect/Load Data
+            NUD_FE.Value = (NUD_FE.Maximum < 0) ? -1 : 0; changeFurniture(null, null);
+            NUD_NE.Value = (NUD_NE.Maximum < 0) ? -1 : 0; changeOverworld(null, null);
+            NUD_WE.Value = (NUD_WE.Maximum < 0) ? -1 : 0; changeWarp(null, null);
+            NUD_TE.Value = (NUD_TE.Maximum < 0) ? -1 : 0; changeTrigger(null, null);
 
             // Process Scripts
-            OWScriptData = data.Skip(4 + owData.Length).Take(data.Length - 4 - owData.Length).ToArray();
+            OWScriptData = CurrentZone.Entities.ScriptData;
             if (OWScriptData.Length > 4)
             {
                 byte[] ScriptData = OWScriptData;
-                int length = BitConverter.ToInt32(ScriptData, 0);
-                Array.Resize(ref ScriptData, length); // Cap Size
+                int length = CurrentZone.Entities.ScriptLength;
 
                 RTB_OS.Lines = Scripts.getHexLines(ScriptData);
 
-                int start = BitConverter.ToInt32(ScriptData, 0xC);
-                int moves = BitConverter.ToInt32(ScriptData, 0x10);
-                int finaloffset = BitConverter.ToInt32(ScriptData, 0x14);
-                int reserved = BitConverter.ToInt32(ScriptData, 0x18);
+                int start = BitConverter.ToInt32(ScriptData, 0x8) - 4;
+                int moves = BitConverter.ToInt32(ScriptData, 0xC) - 4;
+                int finaloffset = BitConverter.ToInt32(ScriptData, 0x10) - 4;
+                int reserved = BitConverter.ToInt32(ScriptData, 0x14) - 4;
                 int compressedLength = length - start;
                 int decompressedLength = finaloffset - start;
 
@@ -264,39 +249,7 @@ namespace pk3DS
                 RTB_OWSCMD.Lines = RTB_OS.Lines = new[] {"No Data"};
         }
 
-        private byte[] setOWSData()
-        {
-            using (var s = new MemoryStream())
-            using (var bw = new BinaryWriter(s))
-            {
-                // Overworld Payload
-                bw.Write(0); // 4 Byte Length of 0 (Temporary)
-                bw.Write((byte)NUD_FurnCount.Value);
-                bw.Write((byte)NUD_NPCCount.Value);
-                bw.Write((byte)NUD_WarpCount.Value);
-                bw.Write((byte)NUD_TrigCount.Value);
-                for (int i = 0; i < NUD_FurnCount.Value; i++) bw.Write(fData[i]);
-                for (int i = 0; i < NUD_NPCCount.Value; i++) bw.Write(nData[i]);
-                for (int i = 0; i < NUD_WarpCount.Value; i++) bw.Write(wData[i]);
-                for (int i = 0; i < NUD_TrigCount.Value; i++) bw.Write(tData[i]);
-                // have to check for 00 padding
-                while (s.Length % 4 != 0) bw.Write((byte)0);
-                s.Position = 0; bw.Write((int)s.Length);
-                s.Position = s.Length - 1;
-                // Script Payload
-                byte[] scriptData = Util.StringToByteArray(RTB_OWSCMD.Text);
-                bw.Write(scriptData.Length);
-                bw.Write(scriptData); // ScriptData
-
-                return s.ToArray();
-            }
-        }
-
         // Overworld Functions
-        private const int flen = 0x14;
-        private const int nlen = 0x30;
-        private const int wlen = 0x18;
-        private const int tlen = 0x18;
         #region Enabling
         internal static void toggleEnable(NumericUpDown master, NumericUpDown slave)
         {
@@ -306,18 +259,46 @@ namespace pk3DS
         }
         private void changeFurnitureCount(object sender, EventArgs e)
         {
+            // Resize array
+            int count = (int)NUD_FurnCount.Value;
+            CurrentZone.Entities.FurnitureCount = count;
+            Array.Resize(ref CurrentZone.Entities.Furniture, count);
+            for (int i = 0; i < count; i++)
+                CurrentZone.Entities.Furniture[i] = CurrentZone.Entities.Furniture[i] ?? new Zone.ZoneEntities.EntityFurniture();
+
             toggleEnable(NUD_FurnCount, NUD_FE);
         }
         private void changeNPCCount(object sender, EventArgs e)
         {
+            // Resize array
+            int count = (int)NUD_NPCCount.Value;
+            CurrentZone.Entities.NPCCount = count;
+            Array.Resize(ref CurrentZone.Entities.NPCs, count);
+            for (int i = 0; i < count; i++)
+                CurrentZone.Entities.NPCs[i] = CurrentZone.Entities.NPCs[i] ?? new Zone.ZoneEntities.EntityNPC();
+
             toggleEnable(NUD_NPCCount, NUD_NE);
         }
         private void changeWarpCount(object sender, EventArgs e)
         {
+            // Resize array
+            int count = (int)NUD_WarpCount.Value;
+            CurrentZone.Entities.WarpCount = count;
+            Array.Resize(ref CurrentZone.Entities.Warps, count);
+            for (int i = 0; i < count; i++)
+                CurrentZone.Entities.Warps[i] = CurrentZone.Entities.Warps[i] ?? new Zone.ZoneEntities.EntityWarp();
+
             toggleEnable(NUD_WarpCount, NUD_WE);
         }
         private void changeTriggerCount(object sender, EventArgs e)
         {
+            // Resize array
+            int count = (int)NUD_TrigCount.Value;
+            CurrentZone.Entities.TriggerCount = count;
+            Array.Resize(ref CurrentZone.Entities.Triggers, count);
+            for (int i = 0; i < count; i++)
+                CurrentZone.Entities.Triggers[i] = CurrentZone.Entities.Triggers[i] ?? new Zone.ZoneEntities.EntityTrigger();
+
             toggleEnable(NUD_TrigCount, NUD_TE);
         }
         #endregion
@@ -329,14 +310,13 @@ namespace pk3DS
             // Set Old Data
             if (fEntry > 0)
             {
-                byte[] oldData = fData[fEntry];
-                fData[fEntry] = oldData;
+                // No attributes editable atm
             }
             fEntry = (int)NUD_FE.Value;
 
             // Load New Data
-            byte[] data = fData[fEntry];
-            RTB_F.Text = Util.getHexString(data);
+            var Furniture = CurrentZone.Entities.Furniture[fEntry];
+            RTB_F.Text = Util.getHexString(Furniture.Raw);
         }
         private void changeOverworld(object sender, EventArgs e)
         {
@@ -345,18 +325,32 @@ namespace pk3DS
             // Set Old Data
             if (nEntry > 0)
             {
-                byte[] oldData = nData[nEntry];
-                nData[nEntry] = oldData;
+                var n = CurrentZone.Entities.NPCs[nEntry];
+                n.ID = (int)NUD_NID.Value;
+                n.Model = (int)NUD_NModel.Value;
+                n.SpawnFlag = (int)NUD_NFlag.Value;
+                n.Script = (int)NUD_NScript.Value;
+                
+                n.FaceDirection = (int)NUD_NFace.Value;
+                n.X = (int)NUD_NX.Value;
+                n.Y = (int)NUD_NY.Value;
             }
             nEntry = (int)NUD_NE.Value;
 
             // Load New Data
-            byte[] data = nData[nEntry];
-            RTB_O.Text = Util.getHexString(data);
+            var NPC = CurrentZone.Entities.NPCs[nEntry];
 
-            ushort ID = BitConverter.ToUInt16(data, 0x4);
+            // Load new Attributes
+            NUD_NID.Value = NPC.ID;
+            NUD_NModel.Value = NPC.Model;
+            NUD_NFlag.Value = NPC.SpawnFlag;
+            NUD_NScript.Value = NPC.Script;
 
-            NUD_OID.Value = ID;
+            NUD_NFace.Value = NPC.FaceDirection;
+            NUD_NX.Value = NPC.X;
+            NUD_NY.Value = NPC.Y;
+
+            RTB_N.Text = Util.getHexString(NPC.Raw);
         }
         private void changeWarp(object sender, EventArgs e)
         {
@@ -365,24 +359,21 @@ namespace pk3DS
             // Set Old Data
             if (wEntry > 0)
             {
-                byte[] oldData = wData[wEntry];
-                wData[wEntry] = oldData;
+                CurrentZone.Entities.Warps[wEntry].DestinationMap = (int)NUD_WMap.Value;
+                CurrentZone.Entities.Warps[wEntry].DestinationTileIndex = (int)NUD_WTile.Value;
             }
             wEntry = (int)NUD_WE.Value;
 
             // Load New Data
-            byte[] data = wData[wEntry];
-            RTB_W.Text = Util.getHexString(data);
+            var Warp = CurrentZone.Entities.Warps[wEntry];
+            RTB_W.Text = Util.getHexString(Warp.Raw);
 
-            ushort Map = BitConverter.ToUInt16(data, 0x4);
-            ushort Dest = BitConverter.ToUInt16(data, 0x6);
+            // Load new Attributes
+            NUD_WMap.Value = Warp.DestinationMap;
+            NUD_WTile.Value = Warp.DestinationTileIndex;
 
             // Flavor Mods
-            string MapName = zdLocations[Map];
-            L_WarpDest.Text = MapName;
-
-            NUD_WMap.Value = Map;
-            NUD_WTile.Value = Dest;
+            L_WarpDest.Text = zdLocations[Warp.DestinationMap];
         }
         private void changeTrigger(object sender, EventArgs e)
         {
@@ -391,14 +382,13 @@ namespace pk3DS
             // Set Old Data
             if (tEntry > 0)
             {
-                byte[] oldData = tData[tEntry];
-                tData[tEntry] = oldData;
+                // No attributes editable atm
             }
             tEntry = (int)NUD_TE.Value;
 
             // Load New Data
-            byte[] data = tData[tEntry];
-            RTB_T.Text = Util.getHexString(data);
+            var Trigger = CurrentZone.Entities.Triggers[tEntry];
+            RTB_T.Text = Util.getHexString(Trigger.Raw);
         }
 
         private void B_HLCMD_Click(object sender, EventArgs e)
@@ -406,7 +396,6 @@ namespace pk3DS
             int ctr = Util.highlightText(RTB_OSP, "**", Color.Red) + Util.highlightText(RTB_MSP, "**", Color.Red) / 2;
             Util.Alert(String.Format("{0} instance{1} of \"*\" present.", ctr, ctr > 1 ? "s" : ""));
         }
-
 
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
