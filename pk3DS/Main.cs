@@ -434,13 +434,14 @@ namespace pk3DS
         private void B_Wild_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-            bool advanced = (ModifierKeys == Keys.Alt);
+            bool advanced = (ModifierKeys == Keys.Alt) || ModifierKeys == (Keys.Alt | Keys.Control);
+            bool reload = (ModifierKeys == Keys.Control) || ModifierKeys == (Keys.Alt | Keys.Control);
             new Thread(() =>
             {
                 if (advanced)
                 {
                     string[] files = { "encdata", "storytext", "mapGR", "mapMatrix" };
-                    if (files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
+                    if (reload || files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
                         fileGet(files, false);
                     Invoke((MethodInvoker)delegate { Enabled = false; });
                     {
