@@ -1164,7 +1164,7 @@ namespace pk3DS
                 byte[] OWEntityData = EntityLength.Concat(EntityCounts).Concat(OWEntities).ToArray();
 
                 // Reassemble Script portion
-                byte[] OWScriptData = ScriptData;
+                byte[] OWScriptData = Script.Write();
                 
                 byte[] finalData = OWEntityData.Concat(OWScriptData).ToArray();
 
@@ -1427,6 +1427,11 @@ namespace pk3DS
         public Script(byte[] data = null)
         {
             Raw = data ?? new byte[0];
+        }
+
+        public byte[] Write()
+        {
+            return Raw;
         }
     }
 }

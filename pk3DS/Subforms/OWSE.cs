@@ -208,11 +208,11 @@ namespace pk3DS
             NUD_UE.Value = (NUD_UE.Maximum < 0) ? -1 : 0; changeUnk(null, null);
 
             // Process Scripts
-            OWScriptData = CurrentZone.Entities.ScriptData;
+            OWScriptData = CurrentZone.Entities.Script.Raw;
             if (OWScriptData.Length > 4)
             {
                 byte[] ScriptData = OWScriptData;
-                int length = CurrentZone.Entities.ScriptLength;
+                int length = CurrentZone.Entities.Script.Raw.Length;
 
                 RTB_OS.Lines = Scripts.getHexLines(ScriptData);
 
