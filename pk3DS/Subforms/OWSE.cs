@@ -521,9 +521,19 @@ namespace pk3DS
                 PB_Map.Image = getMapImage();
         }
 
+        // User Enhancements
         private void changeNModel(object sender, EventArgs e)
         {
             L_ModelAsHex.Text = "0x"+((int)NUD_NModel.Value).ToString("X4");
+        }
+        private void dclickDestMap(object sender, EventArgs e)
+        {
+            var Tile = NUD_WTile.Value;
+            CB_LocationID.SelectedIndex = (int)NUD_WMap.Value;
+            try
+            { NUD_WE.Value = Tile; }
+            catch
+            { try { NUD_WE.Value = 0; } catch {}}
         }
 
         // Dev Dumpers

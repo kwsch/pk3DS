@@ -727,6 +727,7 @@
             this.L_WarpDest.TabIndex = 432;
             this.L_WarpDest.Text = "Dest:";
             this.L_WarpDest.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.L_WarpDest.DoubleClick += new System.EventHandler(this.dclickDestMap);
             // 
             // L_DestMap
             // 
