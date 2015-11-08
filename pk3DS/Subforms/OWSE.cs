@@ -299,9 +299,9 @@ namespace pk3DS
             // Resize array
             int count = (int)NUD_TrigCount.Value;
             CurrentZone.Entities.TriggerCount = count;
-            Array.Resize(ref CurrentZone.Entities.Triggers, count);
+            Array.Resize(ref CurrentZone.Entities.Triggers1, count);
             for (int i = 0; i < count; i++)
-                CurrentZone.Entities.Triggers[i] = CurrentZone.Entities.Triggers[i] ?? new Zone.ZoneEntities.EntityTrigger();
+                CurrentZone.Entities.Triggers1[i] = CurrentZone.Entities.Triggers1[i] ?? new Zone.ZoneEntities.EntityTrigger1();
 
             toggleEnable(NUD_TrigCount, NUD_TE, GB_T);
         }
@@ -310,9 +310,9 @@ namespace pk3DS
             // Resize array
             int count = (int)NUD_UnkCount.Value;
             CurrentZone.Entities.UnknownCount = count;
-            Array.Resize(ref CurrentZone.Entities.Unks, count);
+            Array.Resize(ref CurrentZone.Entities.Triggers2, count);
             for (int i = 0; i < count; i++)
-                CurrentZone.Entities.Unks[i] = CurrentZone.Entities.Unks[i] ?? new Zone.ZoneEntities.EntityUnk();
+                CurrentZone.Entities.Triggers2[i] = CurrentZone.Entities.Triggers2[i] ?? new Zone.ZoneEntities.EntityTrigger2();
 
             toggleEnable(NUD_UnkCount, NUD_UE, GB_U);
         }
@@ -402,7 +402,7 @@ namespace pk3DS
             tEntry = (int)NUD_TE.Value;
 
             // Load New Data
-            var Trigger = CurrentZone.Entities.Triggers[tEntry];
+            var Trigger = CurrentZone.Entities.Triggers1[tEntry];
             RTB_T.Text = Util.getHexString(Trigger.Raw);
         }
         private void changeUnk(object sender, EventArgs e)
@@ -417,7 +417,7 @@ namespace pk3DS
             uEntry = (int)NUD_UE.Value;
 
             // Load New Data
-            var Unk = CurrentZone.Entities.Unks[uEntry];
+            var Unk = CurrentZone.Entities.Triggers2[uEntry];
             RTB_U.Text = Util.getHexString(Unk.Raw);
         }
 
@@ -621,8 +621,8 @@ namespace pk3DS
                 CB_LocationID.SelectedIndex = i;
                 for (int j = 0; j < CurrentZone.Entities.TriggerCount; j++)
                 {
-                    result.Add(Util.getHexString(CurrentZone.Entities.Triggers[j].Raw));
-                    data.Add(CurrentZone.Entities.Triggers[j].Raw);
+                    result.Add(Util.getHexString(CurrentZone.Entities.Triggers1[j].Raw));
+                    data.Add(CurrentZone.Entities.Triggers1[j].Raw);
                 }
             }
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Triggers to file?") == DialogResult.Yes)
@@ -645,8 +645,8 @@ namespace pk3DS
                 CB_LocationID.SelectedIndex = i;
                 for (int j = 0; j < CurrentZone.Entities.UnknownCount; j++)
                 {
-                    result.Add(Util.getHexString(CurrentZone.Entities.Unks[j].Raw));
-                    data.Add(CurrentZone.Entities.Unks[j].Raw);
+                    result.Add(Util.getHexString(CurrentZone.Entities.Triggers2[j].Raw));
+                    data.Add(CurrentZone.Entities.Triggers2[j].Raw);
                 }
             }
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Unks to file?") == DialogResult.Yes)

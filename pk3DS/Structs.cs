@@ -1089,18 +1089,17 @@ namespace pk3DS
 
         public class ZoneEntities
         {
-            public byte[] Data; // File details unknown.
+            public byte[] Data;
 
             public Int32 Length;
             public Int32 FurnitureCount, NPCCount, WarpCount, TriggerCount, UnknownCount;
             public EntityFurniture[] Furniture;
             public EntityNPC[] NPCs;
             public EntityWarp[] Warps;
-            public EntityTrigger[] Triggers;
-            public EntityUnk[] Unks;
+            public EntityTrigger1[] Triggers1;
+            public EntityTrigger2[] Triggers2;
 
-            public Int32 ScriptLength;
-            public Byte[] ScriptData;
+            public Script Script;
 
             public ZoneEntities(byte[] data)
             {
@@ -1113,8 +1112,8 @@ namespace pk3DS
                     Furniture = new EntityFurniture[FurnitureCount = br.ReadByte()];
                     NPCs = new EntityNPC[NPCCount = br.ReadByte()];
                     Warps = new EntityWarp[WarpCount = br.ReadByte()];
-                    Triggers = new EntityTrigger[TriggerCount = br.ReadByte()];
-                    Unks = new EntityUnk[UnknownCount = br.ReadInt32()]; // not sure if there's other types or if the remaining 3 bytes are padding.
+                    Triggers1 = new EntityTrigger1[TriggerCount = br.ReadByte()];
+                    Triggers2 = new EntityTrigger2[UnknownCount = br.ReadInt32()]; // not sure if there's other types or if the remaining 3 bytes are padding.
 
                     // Load Entitites
                     for (int i = 0; i < FurnitureCount; i++)
@@ -1124,13 +1123,14 @@ namespace pk3DS
                     for (int i = 0; i < WarpCount; i++)
                         Warps[i] = new EntityWarp(br.ReadBytes(EntityWarp.Size));
                     for (int i = 0; i < TriggerCount; i++)
-                        Triggers[i] = new EntityTrigger(br.ReadBytes(EntityTrigger.Size));
+                        Triggers1[i] = new EntityTrigger1(br.ReadBytes(EntityTrigger1.Size));
                     for (int i = 0; i < UnknownCount; i++)
-                        Unks[i] = new EntityUnk(br.ReadBytes(EntityUnk.Size));
+                        Triggers2[i] = new EntityTrigger2(br.ReadBytes(EntityTrigger2.Size));
 
                     // Load Script Data
-                    ScriptLength = br.ReadInt32();
-                    ScriptData = br.ReadBytes(ScriptLength - 4);
+                    int len = br.ReadInt32();
+                    br.BaseStream.Position -= 4;
+                    Script = new Script(br.ReadBytes(len));
                 }
             }
             public byte[] Write()
@@ -1147,18 +1147,18 @@ namespace pk3DS
                 for (int i = 0; i < Warps.Length; i++)
                     Warps[i].Write().CopyTo(W, i * EntityWarp.Size);
 
-                byte[] T = new byte[Triggers.Length * EntityTrigger.Size];
-                for (int i = 0; i < Triggers.Length; i++)
-                    Triggers[i].Write().CopyTo(T, i * EntityTrigger.Size);
+                byte[] T = new byte[Triggers1.Length * EntityTrigger1.Size];
+                for (int i = 0; i < Triggers1.Length; i++)
+                    Triggers1[i].Write().CopyTo(T, i * EntityTrigger1.Size);
 
-                byte[] U = new byte[Unks.Length * EntityUnk.Size];
-                for (int i = 0; i < Triggers.Length; i++)
-                    Unks[i].Write().CopyTo(U, i * EntityUnk.Size);
+                byte[] U = new byte[Triggers2.Length * EntityTrigger2.Size];
+                for (int i = 0; i < Triggers2.Length; i++)
+                    Triggers2[i].Write().CopyTo(U, i * EntityTrigger2.Size);
 
                 // Assemble entity information
                 byte[] OWEntities = F.Concat(N).Concat(W).Concat(T).Concat(U).ToArray();
                 byte[] EntityLength = BitConverter.GetBytes(8 + OWEntities.Length);
-                byte[] EntityCounts = {(byte)Furniture.Length, (byte)NPCs.Length, (byte)Warps.Length, (byte)Triggers.Length, (byte)Unks.Length, 0, 0, 0 };
+                byte[] EntityCounts = {(byte)Furniture.Length, (byte)NPCs.Length, (byte)Warps.Length, (byte)Triggers1.Length, (byte)Triggers2.Length, 0, 0, 0 };
                 
                 // Reassemble NPC portion
                 byte[] OWEntityData = EntityLength.Concat(EntityCounts).Concat(OWEntities).ToArray();
@@ -1179,9 +1179,20 @@ namespace pk3DS
             public class EntityFurniture
             {
                 // Usable Attributes
+                public int Script { get { return BitConverter.ToUInt16(Raw, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); } }
+
+                public int U2 { get { return BitConverter.ToUInt16(Raw, 0x02); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); } }
+                public int U4 { get { return BitConverter.ToUInt16(Raw, 0x04); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x04); } }
+                public int U6 { get { return BitConverter.ToUInt16(Raw, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); } }
+
+                // Coordinates have some upper-bit usage it seems...
                 public int X { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
                 public int Y { get { return BitConverter.ToUInt16(Raw, 0x0A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0A); } }
                 // Next two bytes should be dealing with furniture width?
+                public int WX { get { return BitConverter.ToInt16(Raw, 0x0C); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0C); } }
+                public int WY { get { return BitConverter.ToInt16(Raw, 0x0E); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0E); } }
+
+                public int U10 { get { return BitConverter.ToInt32(Raw, 0x10); } set { BitConverter.GetBytes(value).CopyTo(Raw, 0x10); } }
 
                 public byte[] Raw;
                 internal static readonly byte Size = 0x14;
@@ -1204,11 +1215,34 @@ namespace pk3DS
                 public int SpawnFlag { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
                 public int Script { get { return BitConverter.ToUInt16(Raw, 0x0A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0A); } }
                 public int FaceDirection { get { return BitConverter.ToUInt16(Raw, 0x0C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); } }
-                // ??? Eyecatch/Leash Stuff.
+                public int SightRange { get { return BitConverter.ToUInt16(Raw, 0x0E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0E); } }
+
+                // XY Only
+                public int U10 { get { return BitConverter.ToUInt16(Raw, 0x10); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x10); } }
+                public int U12 { get { return BitConverter.ToUInt16(Raw, 0x12); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x12); } }
+
+                // Shorts
+                public int U14 { get { return BitConverter.ToInt16(Raw, 0x14); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); } }
+                public int U16 { get { return BitConverter.ToInt16(Raw, 0x16); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); } }
+                public int U18 { get { return BitConverter.ToInt16(Raw, 0x18); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x18); } }
+                public int U1A { get { return BitConverter.ToInt16(Raw, 0x1A); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x1A); } }
+
+                // WalkArea Leashes (?): If these are for NPCs that walk in an area, I'm not sure if there's a direction specified.
+                // Set L# to -1 to turn off.
+                public int L1 { get { return BitConverter.ToInt16(Raw, 0x1C); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x1C); } }
+                public int L2 { get { return BitConverter.ToInt16(Raw, 0x1E); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x1E); } }
+                public int L3 { get { return BitConverter.ToInt16(Raw, 0x20); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x20); } }
+                // Leash Direction? Only used when an area is specified.
+                public int LDir { get { return BitConverter.ToUInt16(Raw, 0x22); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x22); } }
+
+                // 0x24-0x25 is Unused in OR/AS, rarely 1 in XY
+                public int U24 { get { return BitConverter.ToUInt16(Raw, 0x24); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x24); } }
+                // 0x26-0x27 is Unused in OR/AS
+
+                // Highest bits for X/Y seem to be fractions of a coordinate?
                 public int X { get { return BitConverter.ToUInt16(Raw, 0x28); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x28); } }
                 public int Y { get { return BitConverter.ToUInt16(Raw, 0x2A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2A); } }
-                public int ZU { get { return BitConverter.ToUInt16(Raw, 0x2C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2C); } }
-                public int Z { get { return BitConverter.ToUInt16(Raw, 0x2E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2E); } }
+                public float Z { get { return BitConverter.ToSingle(Raw, 0x2C); } set { BitConverter.GetBytes(value).CopyTo(Raw, 0x2C); } }
 
                 public byte[] Raw;
                 internal static readonly byte Size = 0x30;
@@ -1227,6 +1261,25 @@ namespace pk3DS
                 public int DestinationMap { get { return BitConverter.ToUInt16(Raw, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00);} }
                 public int DestinationTileIndex { get { return BitConverter.ToUInt16(Raw, 0x02); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02);} }
 
+                // Not sure if these are widths or face direction
+                public int WX { get { return Raw[0x04]; } set { Raw[0x4] = (byte)value; } }
+                public int WY { get { return Raw[0x05]; } set { Raw[0x5] = (byte)value; } }
+
+                // Either 0 or 1, only in X/Y
+                public int U06 { get { return BitConverter.ToUInt16(Raw, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); } }
+                // Coordinates have some upper-bit usage it seems...
+                public int X { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
+                public int Z { get { return BitConverter.ToInt16(Raw, 0x0A); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0A); } }
+                public int Y { get { return BitConverter.ToUInt16(Raw, 0x0C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); } }
+
+                // Not sure.
+                public int U0E { get { return BitConverter.ToInt16(Raw, 0x0E); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0E); } }
+                public int U10 { get { return BitConverter.ToInt16(Raw, 0x10); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); } }
+                public int U12 { get { return BitConverter.ToInt16(Raw, 0x12); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); } }
+
+                // 0x14-0x15 Unused
+                // 0x16-0x17 Unused
+
                 public byte[] Raw;
                 internal static readonly byte Size = 0x18;
                 public EntityWarp(byte[] data = null)
@@ -1238,15 +1291,31 @@ namespace pk3DS
                     return Raw;
                 }
             }
-            public class EntityTrigger
+            public class EntityTrigger1
             {
                 // Usable Attributes
-                public int X { get { return BitConverter.ToUInt16(Raw, 0x28); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x28); } }
-                public int Y { get { return BitConverter.ToUInt16(Raw, 0x2A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2A); } }
+                public int Script { get { return BitConverter.ToUInt16(Raw, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); } }
+                public int U2 { get { return BitConverter.ToUInt16(Raw, 0x02); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); } }
+                public int Constant { get { return BitConverter.ToUInt16(Raw, 0x04); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x04); } }
+
+                // 0 or 1 for type2, 0/5-8 for type1
+                public int U6 { get { return BitConverter.ToUInt16(Raw, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); } }
+                // 0 or 1, always 0 in ORAS
+                public int U8 { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
+                
+                // 0x0A-0x0B unused
+
+                public int X { get { return BitConverter.ToUInt16(Raw, 0x0C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); } }
+                public int Y { get { return BitConverter.ToUInt16(Raw, 0x0E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0E); } }
+
+                public int U10 { get { return BitConverter.ToInt16(Raw, 0x10); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); } }
+                public int U12 { get { return BitConverter.ToInt16(Raw, 0x12); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); } }
+                public int U14 { get { return BitConverter.ToInt16(Raw, 0x14); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); } }
+                public int U16 { get { return BitConverter.ToInt16(Raw, 0x16); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); } }
 
                 public byte[] Raw;
                 internal static readonly byte Size = 0x18;
-                public EntityTrigger(byte[] data = null)
+                public EntityTrigger1(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
                 }
@@ -1255,14 +1324,14 @@ namespace pk3DS
                     return Raw;
                 }
             }
-            public class EntityUnk
+            public class EntityTrigger2
             {
                 // Usable Attributes
                 // Unknown
 
                 public byte[] Raw;
                 internal static readonly byte Size = 0x18;
-                public EntityUnk(byte[] data = null)
+                public EntityTrigger2(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
                 }
@@ -1349,6 +1418,15 @@ namespace pk3DS
             {
                 return FileData;
             }
+        }
+    }
+
+    public class Script
+    {
+        public byte[] Raw;
+        public Script(byte[] data = null)
+        {
+            Raw = data ?? new byte[0];
         }
     }
 }
