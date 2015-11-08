@@ -35,6 +35,8 @@
             this.tb_ZoneData = new System.Windows.Forms.TabPage();
             this.L_MapInfoTabData = new System.Windows.Forms.Label();
             this.tb_OWSC = new System.Windows.Forms.TabPage();
+            this.NUD_UnkCount = new System.Windows.Forms.NumericUpDown();
+            this.L_Unk = new System.Windows.Forms.Label();
             this.L_OWEntities = new System.Windows.Forms.Label();
             this.NUD_TrigCount = new System.Windows.Forms.NumericUpDown();
             this.L_TriggerCount = new System.Windows.Forms.Label();
@@ -44,26 +46,50 @@
             this.L_FurnitureCount = new System.Windows.Forms.Label();
             this.tc_OWSC = new System.Windows.Forms.TabControl();
             this.tb_Furniture = new System.Windows.Forms.TabPage();
+            this.GB_F = new System.Windows.Forms.GroupBox();
             this.RTB_F = new System.Windows.Forms.RichTextBox();
             this.NUD_FE = new System.Windows.Forms.NumericUpDown();
             this.L_FE = new System.Windows.Forms.Label();
             this.tb_Overworld = new System.Windows.Forms.TabPage();
+            this.GB_N = new System.Windows.Forms.GroupBox();
+            this.L_ModelAsHex = new System.Windows.Forms.Label();
+            this.NUD_NFlag = new System.Windows.Forms.NumericUpDown();
+            this.L_NFlag = new System.Windows.Forms.Label();
+            this.NUD_NScript = new System.Windows.Forms.NumericUpDown();
+            this.L_NScript = new System.Windows.Forms.Label();
+            this.NUD_NFace = new System.Windows.Forms.NumericUpDown();
+            this.L_NFaceDirection = new System.Windows.Forms.Label();
+            this.NUD_NY = new System.Windows.Forms.NumericUpDown();
+            this.L_NY = new System.Windows.Forms.Label();
+            this.NUD_NX = new System.Windows.Forms.NumericUpDown();
+            this.L_NX = new System.Windows.Forms.Label();
+            this.NUD_NModel = new System.Windows.Forms.NumericUpDown();
+            this.L_NModel = new System.Windows.Forms.Label();
+            this.RTB_N = new System.Windows.Forms.RichTextBox();
             this.NUD_NID = new System.Windows.Forms.NumericUpDown();
             this.L_NID = new System.Windows.Forms.Label();
             this.NUD_NE = new System.Windows.Forms.NumericUpDown();
             this.L_NE = new System.Windows.Forms.Label();
-            this.RTB_N = new System.Windows.Forms.RichTextBox();
             this.tb_Warp = new System.Windows.Forms.TabPage();
+            this.GB_W = new System.Windows.Forms.GroupBox();
+            this.RTB_W = new System.Windows.Forms.RichTextBox();
             this.L_WarpDest = new System.Windows.Forms.Label();
-            this.NUD_WTile = new System.Windows.Forms.NumericUpDown();
-            this.NUD_WMap = new System.Windows.Forms.NumericUpDown();
-            this.L_DestWarpTile = new System.Windows.Forms.Label();
             this.L_DestMap = new System.Windows.Forms.Label();
+            this.NUD_WTile = new System.Windows.Forms.NumericUpDown();
+            this.L_DestWarpTile = new System.Windows.Forms.Label();
+            this.NUD_WMap = new System.Windows.Forms.NumericUpDown();
             this.NUD_WE = new System.Windows.Forms.NumericUpDown();
             this.L_WE = new System.Windows.Forms.Label();
             this.tb_Trigger = new System.Windows.Forms.TabPage();
+            this.GB_T = new System.Windows.Forms.GroupBox();
+            this.RTB_T = new System.Windows.Forms.RichTextBox();
             this.NUD_TE = new System.Windows.Forms.NumericUpDown();
             this.L_TE = new System.Windows.Forms.Label();
+            this.tb_OUnk = new System.Windows.Forms.TabPage();
+            this.GB_U = new System.Windows.Forms.GroupBox();
+            this.RTB_U = new System.Windows.Forms.RichTextBox();
+            this.NUD_UE = new System.Windows.Forms.NumericUpDown();
+            this.L_UE = new System.Windows.Forms.Label();
             this.tb_Script = new System.Windows.Forms.TabPage();
             this.RTB_OSP = new System.Windows.Forms.RichTextBox();
             this.RTB_OS = new System.Windows.Forms.RichTextBox();
@@ -93,59 +119,54 @@
             this.RTB_Encounter = new System.Windows.Forms.RichTextBox();
             this.RTB_MapSC = new System.Windows.Forms.RichTextBox();
             this.tb_Map = new System.Windows.Forms.TabPage();
+            this.CHK_AutoDraw = new System.Windows.Forms.CheckBox();
             this.B_Redraw = new System.Windows.Forms.Button();
             this.L_Scale = new System.Windows.Forms.Label();
             this.NUD_Scale = new System.Windows.Forms.NumericUpDown();
             this.L_Flavor = new System.Windows.Forms.Label();
             this.NUD_Flavor = new System.Windows.Forms.NumericUpDown();
             this.PB_Map = new System.Windows.Forms.PictureBox();
+            this.tb_Dev = new System.Windows.Forms.TabPage();
+            this.B_DumpUnk = new System.Windows.Forms.Button();
+            this.B_DumpTrigger = new System.Windows.Forms.Button();
+            this.B_DumpWarp = new System.Windows.Forms.Button();
+            this.B_DumpNPC = new System.Windows.Forms.Button();
+            this.B_DumpFurniture = new System.Windows.Forms.Button();
             this.L_ZDPreview = new System.Windows.Forms.Label();
             this.B_HLCMD = new System.Windows.Forms.Button();
-            this.CHK_AutoDraw = new System.Windows.Forms.CheckBox();
-            this.GB_N = new System.Windows.Forms.GroupBox();
-            this.NUD_NModel = new System.Windows.Forms.NumericUpDown();
-            this.L_NModel = new System.Windows.Forms.Label();
-            this.NUD_NX = new System.Windows.Forms.NumericUpDown();
-            this.L_NX = new System.Windows.Forms.Label();
-            this.NUD_NY = new System.Windows.Forms.NumericUpDown();
-            this.L_NY = new System.Windows.Forms.Label();
-            this.NUD_NFace = new System.Windows.Forms.NumericUpDown();
-            this.L_NFaceDirection = new System.Windows.Forms.Label();
-            this.NUD_NScript = new System.Windows.Forms.NumericUpDown();
-            this.L_NScript = new System.Windows.Forms.Label();
-            this.NUD_NFlag = new System.Windows.Forms.NumericUpDown();
-            this.L_NFlag = new System.Windows.Forms.Label();
-            this.tb_OUnk = new System.Windows.Forms.TabPage();
-            this.NUD_UnkCount = new System.Windows.Forms.NumericUpDown();
-            this.L_Unk = new System.Windows.Forms.Label();
-            this.NUD_UE = new System.Windows.Forms.NumericUpDown();
-            this.L_UE = new System.Windows.Forms.Label();
-            this.L_ModelAsHex = new System.Windows.Forms.Label();
-            this.GB_F = new System.Windows.Forms.GroupBox();
-            this.GB_W = new System.Windows.Forms.GroupBox();
-            this.RTB_W = new System.Windows.Forms.RichTextBox();
-            this.GB_T = new System.Windows.Forms.GroupBox();
-            this.RTB_T = new System.Windows.Forms.RichTextBox();
-            this.GB_U = new System.Windows.Forms.GroupBox();
-            this.RTB_U = new System.Windows.Forms.RichTextBox();
+            this.B_DumpMaps = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tb_ZoneData.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_UnkCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TrigCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WarpCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FurnCount)).BeginInit();
             this.tc_OWSC.SuspendLayout();
             this.tb_Furniture.SuspendLayout();
+            this.GB_F.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FE)).BeginInit();
             this.tb_Overworld.SuspendLayout();
+            this.GB_N.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NFlag)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NScript)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NFace)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NModel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NE)).BeginInit();
             this.tb_Warp.SuspendLayout();
+            this.GB_W.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WTile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WMap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WE)).BeginInit();
             this.tb_Trigger.SuspendLayout();
+            this.GB_T.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TE)).BeginInit();
+            this.tb_OUnk.SuspendLayout();
+            this.GB_U.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_UE)).BeginInit();
             this.tb_Script.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NPCCount)).BeginInit();
             this.tb_MSC.SuspendLayout();
@@ -156,20 +177,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Scale)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Flavor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).BeginInit();
-            this.GB_N.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NModel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NFace)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NScript)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NFlag)).BeginInit();
-            this.tb_OUnk.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_UnkCount)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_UE)).BeginInit();
-            this.GB_F.SuspendLayout();
-            this.GB_W.SuspendLayout();
-            this.GB_T.SuspendLayout();
-            this.GB_U.SuspendLayout();
+            this.tb_Dev.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_LocationID
@@ -215,6 +223,7 @@
             this.tabControl1.Controls.Add(this.tb_File5);
             this.tabControl1.Controls.Add(this.tb_RAW);
             this.tabControl1.Controls.Add(this.tb_Map);
+            this.tabControl1.Controls.Add(this.tb_Dev);
             this.tabControl1.Location = new System.Drawing.Point(12, 32);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -262,6 +271,30 @@
             this.tb_OWSC.TabIndex = 1;
             this.tb_OWSC.Text = "OW & SC";
             this.tb_OWSC.UseVisualStyleBackColor = true;
+            // 
+            // NUD_UnkCount
+            // 
+            this.NUD_UnkCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_UnkCount.Location = new System.Drawing.Point(422, 108);
+            this.NUD_UnkCount.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_UnkCount.Name = "NUD_UnkCount";
+            this.NUD_UnkCount.Size = new System.Drawing.Size(53, 20);
+            this.NUD_UnkCount.TabIndex = 428;
+            this.NUD_UnkCount.ValueChanged += new System.EventHandler(this.changeUnkCount);
+            // 
+            // L_Unk
+            // 
+            this.L_Unk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Unk.Location = new System.Drawing.Point(350, 108);
+            this.L_Unk.Name = "L_Unk";
+            this.L_Unk.Size = new System.Drawing.Size(66, 15);
+            this.L_Unk.TabIndex = 429;
+            this.L_Unk.Text = "Unk:";
+            this.L_Unk.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_OWEntities
             // 
@@ -375,6 +408,16 @@
             this.tb_Furniture.Text = "Furniture";
             this.tb_Furniture.UseVisualStyleBackColor = true;
             // 
+            // GB_F
+            // 
+            this.GB_F.Controls.Add(this.RTB_F);
+            this.GB_F.Location = new System.Drawing.Point(6, 40);
+            this.GB_F.Name = "GB_F";
+            this.GB_F.Size = new System.Drawing.Size(256, 323);
+            this.GB_F.TabIndex = 437;
+            this.GB_F.TabStop = false;
+            this.GB_F.Text = "Info:";
+            // 
             // RTB_F
             // 
             this.RTB_F.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -421,6 +464,180 @@
             this.tb_Overworld.Text = "Overworld";
             this.tb_Overworld.UseVisualStyleBackColor = true;
             // 
+            // GB_N
+            // 
+            this.GB_N.Controls.Add(this.L_ModelAsHex);
+            this.GB_N.Controls.Add(this.NUD_NFlag);
+            this.GB_N.Controls.Add(this.L_NFlag);
+            this.GB_N.Controls.Add(this.NUD_NScript);
+            this.GB_N.Controls.Add(this.L_NScript);
+            this.GB_N.Controls.Add(this.NUD_NFace);
+            this.GB_N.Controls.Add(this.L_NFaceDirection);
+            this.GB_N.Controls.Add(this.NUD_NY);
+            this.GB_N.Controls.Add(this.L_NY);
+            this.GB_N.Controls.Add(this.NUD_NX);
+            this.GB_N.Controls.Add(this.L_NX);
+            this.GB_N.Controls.Add(this.NUD_NModel);
+            this.GB_N.Controls.Add(this.L_NModel);
+            this.GB_N.Controls.Add(this.RTB_N);
+            this.GB_N.Controls.Add(this.NUD_NID);
+            this.GB_N.Controls.Add(this.L_NID);
+            this.GB_N.Location = new System.Drawing.Point(6, 40);
+            this.GB_N.Name = "GB_N";
+            this.GB_N.Size = new System.Drawing.Size(256, 323);
+            this.GB_N.TabIndex = 436;
+            this.GB_N.TabStop = false;
+            this.GB_N.Text = "Info:";
+            // 
+            // L_ModelAsHex
+            // 
+            this.L_ModelAsHex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_ModelAsHex.AutoSize = true;
+            this.L_ModelAsHex.Location = new System.Drawing.Point(152, 44);
+            this.L_ModelAsHex.Name = "L_ModelAsHex";
+            this.L_ModelAsHex.Size = new System.Drawing.Size(29, 13);
+            this.L_ModelAsHex.TabIndex = 448;
+            this.L_ModelAsHex.Text = "HEX";
+            // 
+            // NUD_NFlag
+            // 
+            this.NUD_NFlag.Location = new System.Drawing.Point(93, 68);
+            this.NUD_NFlag.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_NFlag.Name = "NUD_NFlag";
+            this.NUD_NFlag.Size = new System.Drawing.Size(53, 20);
+            this.NUD_NFlag.TabIndex = 447;
+            // 
+            // L_NFlag
+            // 
+            this.L_NFlag.Location = new System.Drawing.Point(11, 68);
+            this.L_NFlag.Name = "L_NFlag";
+            this.L_NFlag.Size = new System.Drawing.Size(76, 16);
+            this.L_NFlag.TabIndex = 446;
+            this.L_NFlag.Text = "Spawn Flag:";
+            this.L_NFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_NScript
+            // 
+            this.NUD_NScript.Location = new System.Drawing.Point(93, 94);
+            this.NUD_NScript.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_NScript.Name = "NUD_NScript";
+            this.NUD_NScript.Size = new System.Drawing.Size(53, 20);
+            this.NUD_NScript.TabIndex = 445;
+            // 
+            // L_NScript
+            // 
+            this.L_NScript.Location = new System.Drawing.Point(11, 94);
+            this.L_NScript.Name = "L_NScript";
+            this.L_NScript.Size = new System.Drawing.Size(76, 16);
+            this.L_NScript.TabIndex = 444;
+            this.L_NScript.Text = "Script:";
+            this.L_NScript.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_NFace
+            // 
+            this.NUD_NFace.Location = new System.Drawing.Point(93, 154);
+            this.NUD_NFace.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_NFace.Name = "NUD_NFace";
+            this.NUD_NFace.Size = new System.Drawing.Size(53, 20);
+            this.NUD_NFace.TabIndex = 443;
+            // 
+            // L_NFaceDirection
+            // 
+            this.L_NFaceDirection.Location = new System.Drawing.Point(11, 154);
+            this.L_NFaceDirection.Name = "L_NFaceDirection";
+            this.L_NFaceDirection.Size = new System.Drawing.Size(76, 16);
+            this.L_NFaceDirection.TabIndex = 442;
+            this.L_NFaceDirection.Text = "Facing:";
+            this.L_NFaceDirection.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_NY
+            // 
+            this.NUD_NY.Location = new System.Drawing.Point(93, 206);
+            this.NUD_NY.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_NY.Name = "NUD_NY";
+            this.NUD_NY.Size = new System.Drawing.Size(53, 20);
+            this.NUD_NY.TabIndex = 441;
+            // 
+            // L_NY
+            // 
+            this.L_NY.Location = new System.Drawing.Point(11, 206);
+            this.L_NY.Name = "L_NY";
+            this.L_NY.Size = new System.Drawing.Size(76, 16);
+            this.L_NY.TabIndex = 440;
+            this.L_NY.Text = "Y Coordinate:";
+            this.L_NY.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_NX
+            // 
+            this.NUD_NX.Location = new System.Drawing.Point(93, 180);
+            this.NUD_NX.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_NX.Name = "NUD_NX";
+            this.NUD_NX.Size = new System.Drawing.Size(53, 20);
+            this.NUD_NX.TabIndex = 439;
+            // 
+            // L_NX
+            // 
+            this.L_NX.Location = new System.Drawing.Point(11, 180);
+            this.L_NX.Name = "L_NX";
+            this.L_NX.Size = new System.Drawing.Size(76, 16);
+            this.L_NX.TabIndex = 438;
+            this.L_NX.Text = "X Coordinate:";
+            this.L_NX.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_NModel
+            // 
+            this.NUD_NModel.Location = new System.Drawing.Point(93, 42);
+            this.NUD_NModel.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_NModel.Name = "NUD_NModel";
+            this.NUD_NModel.Size = new System.Drawing.Size(53, 20);
+            this.NUD_NModel.TabIndex = 437;
+            this.NUD_NModel.ValueChanged += new System.EventHandler(this.changeNModel);
+            // 
+            // L_NModel
+            // 
+            this.L_NModel.Location = new System.Drawing.Point(11, 42);
+            this.L_NModel.Name = "L_NModel";
+            this.L_NModel.Size = new System.Drawing.Size(76, 16);
+            this.L_NModel.TabIndex = 436;
+            this.L_NModel.Text = "Model:";
+            this.L_NModel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // RTB_N
+            // 
+            this.RTB_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.RTB_N.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_N.Location = new System.Drawing.Point(6, 275);
+            this.RTB_N.Name = "RTB_N";
+            this.RTB_N.ReadOnly = true;
+            this.RTB_N.Size = new System.Drawing.Size(245, 42);
+            this.RTB_N.TabIndex = 414;
+            this.RTB_N.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
+    "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
+            // 
             // NUD_NID
             // 
             this.NUD_NID.Location = new System.Drawing.Point(93, 16);
@@ -464,18 +681,6 @@
             this.L_NE.Text = "Entry:";
             this.L_NE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // RTB_N
-            // 
-            this.RTB_N.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.RTB_N.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_N.Location = new System.Drawing.Point(6, 275);
-            this.RTB_N.Name = "RTB_N";
-            this.RTB_N.ReadOnly = true;
-            this.RTB_N.Size = new System.Drawing.Size(245, 42);
-            this.RTB_N.TabIndex = 414;
-            this.RTB_N.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
-    "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
-            // 
             // tb_Warp
             // 
             this.tb_Warp.Controls.Add(this.GB_W);
@@ -488,6 +693,32 @@
             this.tb_Warp.Text = "Warp";
             this.tb_Warp.UseVisualStyleBackColor = true;
             // 
+            // GB_W
+            // 
+            this.GB_W.Controls.Add(this.RTB_W);
+            this.GB_W.Controls.Add(this.L_WarpDest);
+            this.GB_W.Controls.Add(this.L_DestMap);
+            this.GB_W.Controls.Add(this.NUD_WTile);
+            this.GB_W.Controls.Add(this.L_DestWarpTile);
+            this.GB_W.Controls.Add(this.NUD_WMap);
+            this.GB_W.Location = new System.Drawing.Point(6, 40);
+            this.GB_W.Name = "GB_W";
+            this.GB_W.Size = new System.Drawing.Size(256, 323);
+            this.GB_W.TabIndex = 438;
+            this.GB_W.TabStop = false;
+            this.GB_W.Text = "Info:";
+            // 
+            // RTB_W
+            // 
+            this.RTB_W.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_W.Location = new System.Drawing.Point(6, 275);
+            this.RTB_W.Name = "RTB_W";
+            this.RTB_W.ReadOnly = true;
+            this.RTB_W.Size = new System.Drawing.Size(245, 42);
+            this.RTB_W.TabIndex = 425;
+            this.RTB_W.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
+    "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
+            // 
             // L_WarpDest
             // 
             this.L_WarpDest.Location = new System.Drawing.Point(58, 31);
@@ -496,6 +727,15 @@
             this.L_WarpDest.TabIndex = 432;
             this.L_WarpDest.Text = "Dest:";
             this.L_WarpDest.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // L_DestMap
+            // 
+            this.L_DestMap.Location = new System.Drawing.Point(-1, 50);
+            this.L_DestMap.Name = "L_DestMap";
+            this.L_DestMap.Size = new System.Drawing.Size(120, 15);
+            this.L_DestMap.TabIndex = 428;
+            this.L_DestMap.Text = "Destination Map:";
+            this.L_DestMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_WTile
             // 
@@ -509,6 +749,15 @@
             this.NUD_WTile.Size = new System.Drawing.Size(53, 20);
             this.NUD_WTile.TabIndex = 431;
             // 
+            // L_DestWarpTile
+            // 
+            this.L_DestWarpTile.Location = new System.Drawing.Point(-1, 71);
+            this.L_DestWarpTile.Name = "L_DestWarpTile";
+            this.L_DestWarpTile.Size = new System.Drawing.Size(120, 15);
+            this.L_DestWarpTile.TabIndex = 429;
+            this.L_DestWarpTile.Text = "Destination WarpTile:";
+            this.L_DestWarpTile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // NUD_WMap
             // 
             this.NUD_WMap.Location = new System.Drawing.Point(125, 49);
@@ -520,24 +769,6 @@
             this.NUD_WMap.Name = "NUD_WMap";
             this.NUD_WMap.Size = new System.Drawing.Size(53, 20);
             this.NUD_WMap.TabIndex = 430;
-            // 
-            // L_DestWarpTile
-            // 
-            this.L_DestWarpTile.Location = new System.Drawing.Point(-1, 71);
-            this.L_DestWarpTile.Name = "L_DestWarpTile";
-            this.L_DestWarpTile.Size = new System.Drawing.Size(120, 15);
-            this.L_DestWarpTile.TabIndex = 429;
-            this.L_DestWarpTile.Text = "Destination WarpTile:";
-            this.L_DestWarpTile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_DestMap
-            // 
-            this.L_DestMap.Location = new System.Drawing.Point(-1, 50);
-            this.L_DestMap.Name = "L_DestMap";
-            this.L_DestMap.Size = new System.Drawing.Size(120, 15);
-            this.L_DestMap.TabIndex = 428;
-            this.L_DestMap.Text = "Destination Map:";
-            this.L_DestMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_WE
             // 
@@ -573,6 +804,27 @@
             this.tb_Trigger.Text = "Trigger";
             this.tb_Trigger.UseVisualStyleBackColor = true;
             // 
+            // GB_T
+            // 
+            this.GB_T.Controls.Add(this.RTB_T);
+            this.GB_T.Location = new System.Drawing.Point(6, 40);
+            this.GB_T.Name = "GB_T";
+            this.GB_T.Size = new System.Drawing.Size(256, 323);
+            this.GB_T.TabIndex = 439;
+            this.GB_T.TabStop = false;
+            this.GB_T.Text = "Info:";
+            // 
+            // RTB_T
+            // 
+            this.RTB_T.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_T.Location = new System.Drawing.Point(6, 275);
+            this.RTB_T.Name = "RTB_T";
+            this.RTB_T.ReadOnly = true;
+            this.RTB_T.Size = new System.Drawing.Size(245, 42);
+            this.RTB_T.TabIndex = 425;
+            this.RTB_T.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
+    "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
+            // 
             // NUD_TE
             // 
             this.NUD_TE.Location = new System.Drawing.Point(75, 11);
@@ -594,6 +846,62 @@
             this.L_TE.TabIndex = 426;
             this.L_TE.Text = "Entry:";
             this.L_TE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tb_OUnk
+            // 
+            this.tb_OUnk.Controls.Add(this.GB_U);
+            this.tb_OUnk.Controls.Add(this.NUD_UE);
+            this.tb_OUnk.Controls.Add(this.L_UE);
+            this.tb_OUnk.Location = new System.Drawing.Point(4, 22);
+            this.tb_OUnk.Name = "tb_OUnk";
+            this.tb_OUnk.Padding = new System.Windows.Forms.Padding(3);
+            this.tb_OUnk.Size = new System.Drawing.Size(334, 436);
+            this.tb_OUnk.TabIndex = 5;
+            this.tb_OUnk.Text = "Unk";
+            this.tb_OUnk.UseVisualStyleBackColor = true;
+            // 
+            // GB_U
+            // 
+            this.GB_U.Controls.Add(this.RTB_U);
+            this.GB_U.Location = new System.Drawing.Point(6, 40);
+            this.GB_U.Name = "GB_U";
+            this.GB_U.Size = new System.Drawing.Size(256, 323);
+            this.GB_U.TabIndex = 440;
+            this.GB_U.TabStop = false;
+            this.GB_U.Text = "Info:";
+            // 
+            // RTB_U
+            // 
+            this.RTB_U.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_U.Location = new System.Drawing.Point(6, 275);
+            this.RTB_U.Name = "RTB_U";
+            this.RTB_U.ReadOnly = true;
+            this.RTB_U.Size = new System.Drawing.Size(245, 42);
+            this.RTB_U.TabIndex = 425;
+            this.RTB_U.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
+    "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
+            // 
+            // NUD_UE
+            // 
+            this.NUD_UE.Location = new System.Drawing.Point(75, 11);
+            this.NUD_UE.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_UE.Name = "NUD_UE";
+            this.NUD_UE.Size = new System.Drawing.Size(53, 20);
+            this.NUD_UE.TabIndex = 427;
+            this.NUD_UE.ValueChanged += new System.EventHandler(this.changeUnk);
+            // 
+            // L_UE
+            // 
+            this.L_UE.Location = new System.Drawing.Point(3, 11);
+            this.L_UE.Name = "L_UE";
+            this.L_UE.Size = new System.Drawing.Size(66, 15);
+            this.L_UE.TabIndex = 428;
+            this.L_UE.Text = "Entry:";
+            this.L_UE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tb_Script
             // 
@@ -911,6 +1219,16 @@
             this.tb_Map.Text = "Map Preview";
             this.tb_Map.UseVisualStyleBackColor = true;
             // 
+            // CHK_AutoDraw
+            // 
+            this.CHK_AutoDraw.AutoSize = true;
+            this.CHK_AutoDraw.Location = new System.Drawing.Point(261, 7);
+            this.CHK_AutoDraw.Name = "CHK_AutoDraw";
+            this.CHK_AutoDraw.Size = new System.Drawing.Size(76, 17);
+            this.CHK_AutoDraw.TabIndex = 10;
+            this.CHK_AutoDraw.Text = "Auto-Draw";
+            this.CHK_AutoDraw.UseVisualStyleBackColor = true;
+            // 
             // B_Redraw
             // 
             this.B_Redraw.Location = new System.Drawing.Point(180, 4);
@@ -983,6 +1301,72 @@
             this.PB_Map.TabIndex = 2;
             this.PB_Map.TabStop = false;
             // 
+            // tb_Dev
+            // 
+            this.tb_Dev.Controls.Add(this.B_DumpMaps);
+            this.tb_Dev.Controls.Add(this.B_DumpUnk);
+            this.tb_Dev.Controls.Add(this.B_DumpTrigger);
+            this.tb_Dev.Controls.Add(this.B_DumpWarp);
+            this.tb_Dev.Controls.Add(this.B_DumpNPC);
+            this.tb_Dev.Controls.Add(this.B_DumpFurniture);
+            this.tb_Dev.Location = new System.Drawing.Point(4, 22);
+            this.tb_Dev.Name = "tb_Dev";
+            this.tb_Dev.Padding = new System.Windows.Forms.Padding(3);
+            this.tb_Dev.Size = new System.Drawing.Size(486, 471);
+            this.tb_Dev.TabIndex = 7;
+            this.tb_Dev.Text = "Dev";
+            this.tb_Dev.UseVisualStyleBackColor = true;
+            // 
+            // B_DumpUnk
+            // 
+            this.B_DumpUnk.Location = new System.Drawing.Point(6, 186);
+            this.B_DumpUnk.Name = "B_DumpUnk";
+            this.B_DumpUnk.Size = new System.Drawing.Size(89, 39);
+            this.B_DumpUnk.TabIndex = 424;
+            this.B_DumpUnk.Text = "Dump all\r\nUnk";
+            this.B_DumpUnk.UseVisualStyleBackColor = true;
+            this.B_DumpUnk.Click += new System.EventHandler(this.B_DumpUnk_Click);
+            // 
+            // B_DumpTrigger
+            // 
+            this.B_DumpTrigger.Location = new System.Drawing.Point(6, 141);
+            this.B_DumpTrigger.Name = "B_DumpTrigger";
+            this.B_DumpTrigger.Size = new System.Drawing.Size(89, 39);
+            this.B_DumpTrigger.TabIndex = 423;
+            this.B_DumpTrigger.Text = "Dump all\r\nTriggers";
+            this.B_DumpTrigger.UseVisualStyleBackColor = true;
+            this.B_DumpTrigger.Click += new System.EventHandler(this.B_DumpTrigger_Click);
+            // 
+            // B_DumpWarp
+            // 
+            this.B_DumpWarp.Location = new System.Drawing.Point(6, 96);
+            this.B_DumpWarp.Name = "B_DumpWarp";
+            this.B_DumpWarp.Size = new System.Drawing.Size(89, 39);
+            this.B_DumpWarp.TabIndex = 422;
+            this.B_DumpWarp.Text = "Dump all\r\nWarp Bytes";
+            this.B_DumpWarp.UseVisualStyleBackColor = true;
+            this.B_DumpWarp.Click += new System.EventHandler(this.B_DumpWarp_Click);
+            // 
+            // B_DumpNPC
+            // 
+            this.B_DumpNPC.Location = new System.Drawing.Point(6, 51);
+            this.B_DumpNPC.Name = "B_DumpNPC";
+            this.B_DumpNPC.Size = new System.Drawing.Size(89, 39);
+            this.B_DumpNPC.TabIndex = 421;
+            this.B_DumpNPC.Text = "Dump all\r\nNPC Bytes";
+            this.B_DumpNPC.UseVisualStyleBackColor = true;
+            this.B_DumpNPC.Click += new System.EventHandler(this.B_DumpNPC_Click);
+            // 
+            // B_DumpFurniture
+            // 
+            this.B_DumpFurniture.Location = new System.Drawing.Point(6, 6);
+            this.B_DumpFurniture.Name = "B_DumpFurniture";
+            this.B_DumpFurniture.Size = new System.Drawing.Size(89, 39);
+            this.B_DumpFurniture.TabIndex = 420;
+            this.B_DumpFurniture.Text = "Dump all\r\nFurniture Bytes";
+            this.B_DumpFurniture.UseVisualStyleBackColor = true;
+            this.B_DumpFurniture.Click += new System.EventHandler(this.B_DumpFurniture_Click);
+            // 
             // L_ZDPreview
             // 
             this.L_ZDPreview.AutoSize = true;
@@ -1002,314 +1386,15 @@
             this.B_HLCMD.UseVisualStyleBackColor = true;
             this.B_HLCMD.Click += new System.EventHandler(this.B_HLCMD_Click);
             // 
-            // CHK_AutoDraw
+            // B_DumpMaps
             // 
-            this.CHK_AutoDraw.AutoSize = true;
-            this.CHK_AutoDraw.Location = new System.Drawing.Point(261, 7);
-            this.CHK_AutoDraw.Name = "CHK_AutoDraw";
-            this.CHK_AutoDraw.Size = new System.Drawing.Size(76, 17);
-            this.CHK_AutoDraw.TabIndex = 10;
-            this.CHK_AutoDraw.Text = "Auto-Draw";
-            this.CHK_AutoDraw.UseVisualStyleBackColor = true;
-            // 
-            // GB_N
-            // 
-            this.GB_N.Controls.Add(this.L_ModelAsHex);
-            this.GB_N.Controls.Add(this.NUD_NFlag);
-            this.GB_N.Controls.Add(this.L_NFlag);
-            this.GB_N.Controls.Add(this.NUD_NScript);
-            this.GB_N.Controls.Add(this.L_NScript);
-            this.GB_N.Controls.Add(this.NUD_NFace);
-            this.GB_N.Controls.Add(this.L_NFaceDirection);
-            this.GB_N.Controls.Add(this.NUD_NY);
-            this.GB_N.Controls.Add(this.L_NY);
-            this.GB_N.Controls.Add(this.NUD_NX);
-            this.GB_N.Controls.Add(this.L_NX);
-            this.GB_N.Controls.Add(this.NUD_NModel);
-            this.GB_N.Controls.Add(this.L_NModel);
-            this.GB_N.Controls.Add(this.RTB_N);
-            this.GB_N.Controls.Add(this.NUD_NID);
-            this.GB_N.Controls.Add(this.L_NID);
-            this.GB_N.Location = new System.Drawing.Point(6, 40);
-            this.GB_N.Name = "GB_N";
-            this.GB_N.Size = new System.Drawing.Size(256, 323);
-            this.GB_N.TabIndex = 436;
-            this.GB_N.TabStop = false;
-            this.GB_N.Text = "Info:";
-            // 
-            // NUD_NModel
-            // 
-            this.NUD_NModel.Location = new System.Drawing.Point(93, 42);
-            this.NUD_NModel.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_NModel.Name = "NUD_NModel";
-            this.NUD_NModel.Size = new System.Drawing.Size(53, 20);
-            this.NUD_NModel.TabIndex = 437;
-            this.NUD_NModel.ValueChanged += new System.EventHandler(this.changeNModel);
-            // 
-            // L_NModel
-            // 
-            this.L_NModel.Location = new System.Drawing.Point(11, 42);
-            this.L_NModel.Name = "L_NModel";
-            this.L_NModel.Size = new System.Drawing.Size(76, 16);
-            this.L_NModel.TabIndex = 436;
-            this.L_NModel.Text = "Model:";
-            this.L_NModel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_NX
-            // 
-            this.NUD_NX.Location = new System.Drawing.Point(93, 180);
-            this.NUD_NX.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_NX.Name = "NUD_NX";
-            this.NUD_NX.Size = new System.Drawing.Size(53, 20);
-            this.NUD_NX.TabIndex = 439;
-            // 
-            // L_NX
-            // 
-            this.L_NX.Location = new System.Drawing.Point(11, 180);
-            this.L_NX.Name = "L_NX";
-            this.L_NX.Size = new System.Drawing.Size(76, 16);
-            this.L_NX.TabIndex = 438;
-            this.L_NX.Text = "X Coordinate:";
-            this.L_NX.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_NY
-            // 
-            this.NUD_NY.Location = new System.Drawing.Point(93, 206);
-            this.NUD_NY.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_NY.Name = "NUD_NY";
-            this.NUD_NY.Size = new System.Drawing.Size(53, 20);
-            this.NUD_NY.TabIndex = 441;
-            // 
-            // L_NY
-            // 
-            this.L_NY.Location = new System.Drawing.Point(11, 206);
-            this.L_NY.Name = "L_NY";
-            this.L_NY.Size = new System.Drawing.Size(76, 16);
-            this.L_NY.TabIndex = 440;
-            this.L_NY.Text = "Y Coordinate:";
-            this.L_NY.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_NFace
-            // 
-            this.NUD_NFace.Location = new System.Drawing.Point(93, 154);
-            this.NUD_NFace.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_NFace.Name = "NUD_NFace";
-            this.NUD_NFace.Size = new System.Drawing.Size(53, 20);
-            this.NUD_NFace.TabIndex = 443;
-            // 
-            // L_NFaceDirection
-            // 
-            this.L_NFaceDirection.Location = new System.Drawing.Point(11, 154);
-            this.L_NFaceDirection.Name = "L_NFaceDirection";
-            this.L_NFaceDirection.Size = new System.Drawing.Size(76, 16);
-            this.L_NFaceDirection.TabIndex = 442;
-            this.L_NFaceDirection.Text = "Facing:";
-            this.L_NFaceDirection.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_NScript
-            // 
-            this.NUD_NScript.Location = new System.Drawing.Point(93, 94);
-            this.NUD_NScript.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_NScript.Name = "NUD_NScript";
-            this.NUD_NScript.Size = new System.Drawing.Size(53, 20);
-            this.NUD_NScript.TabIndex = 445;
-            // 
-            // L_NScript
-            // 
-            this.L_NScript.Location = new System.Drawing.Point(11, 94);
-            this.L_NScript.Name = "L_NScript";
-            this.L_NScript.Size = new System.Drawing.Size(76, 16);
-            this.L_NScript.TabIndex = 444;
-            this.L_NScript.Text = "Script:";
-            this.L_NScript.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_NFlag
-            // 
-            this.NUD_NFlag.Location = new System.Drawing.Point(93, 68);
-            this.NUD_NFlag.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_NFlag.Name = "NUD_NFlag";
-            this.NUD_NFlag.Size = new System.Drawing.Size(53, 20);
-            this.NUD_NFlag.TabIndex = 447;
-            // 
-            // L_NFlag
-            // 
-            this.L_NFlag.Location = new System.Drawing.Point(11, 68);
-            this.L_NFlag.Name = "L_NFlag";
-            this.L_NFlag.Size = new System.Drawing.Size(76, 16);
-            this.L_NFlag.TabIndex = 446;
-            this.L_NFlag.Text = "Spawn Flag:";
-            this.L_NFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tb_OUnk
-            // 
-            this.tb_OUnk.Controls.Add(this.GB_U);
-            this.tb_OUnk.Controls.Add(this.NUD_UE);
-            this.tb_OUnk.Controls.Add(this.L_UE);
-            this.tb_OUnk.Location = new System.Drawing.Point(4, 22);
-            this.tb_OUnk.Name = "tb_OUnk";
-            this.tb_OUnk.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_OUnk.Size = new System.Drawing.Size(334, 436);
-            this.tb_OUnk.TabIndex = 5;
-            this.tb_OUnk.Text = "Unk";
-            this.tb_OUnk.UseVisualStyleBackColor = true;
-            // 
-            // NUD_UnkCount
-            // 
-            this.NUD_UnkCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_UnkCount.Location = new System.Drawing.Point(422, 108);
-            this.NUD_UnkCount.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NUD_UnkCount.Name = "NUD_UnkCount";
-            this.NUD_UnkCount.Size = new System.Drawing.Size(53, 20);
-            this.NUD_UnkCount.TabIndex = 428;
-            this.NUD_UnkCount.ValueChanged += new System.EventHandler(this.changeUnkCount);
-            // 
-            // L_Unk
-            // 
-            this.L_Unk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Unk.Location = new System.Drawing.Point(350, 108);
-            this.L_Unk.Name = "L_Unk";
-            this.L_Unk.Size = new System.Drawing.Size(66, 15);
-            this.L_Unk.TabIndex = 429;
-            this.L_Unk.Text = "Unk:";
-            this.L_Unk.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_UE
-            // 
-            this.NUD_UE.Location = new System.Drawing.Point(75, 11);
-            this.NUD_UE.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NUD_UE.Name = "NUD_UE";
-            this.NUD_UE.Size = new System.Drawing.Size(53, 20);
-            this.NUD_UE.TabIndex = 427;
-            this.NUD_UE.ValueChanged += new System.EventHandler(this.changeUnk);
-            // 
-            // L_UE
-            // 
-            this.L_UE.Location = new System.Drawing.Point(3, 11);
-            this.L_UE.Name = "L_UE";
-            this.L_UE.Size = new System.Drawing.Size(66, 15);
-            this.L_UE.TabIndex = 428;
-            this.L_UE.Text = "Entry:";
-            this.L_UE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_ModelAsHex
-            // 
-            this.L_ModelAsHex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_ModelAsHex.AutoSize = true;
-            this.L_ModelAsHex.Location = new System.Drawing.Point(152, 44);
-            this.L_ModelAsHex.Name = "L_ModelAsHex";
-            this.L_ModelAsHex.Size = new System.Drawing.Size(29, 13);
-            this.L_ModelAsHex.TabIndex = 448;
-            this.L_ModelAsHex.Text = "HEX";
-            // 
-            // GB_F
-            // 
-            this.GB_F.Controls.Add(this.RTB_F);
-            this.GB_F.Location = new System.Drawing.Point(6, 40);
-            this.GB_F.Name = "GB_F";
-            this.GB_F.Size = new System.Drawing.Size(256, 323);
-            this.GB_F.TabIndex = 437;
-            this.GB_F.TabStop = false;
-            this.GB_F.Text = "Info:";
-            // 
-            // GB_W
-            // 
-            this.GB_W.Controls.Add(this.RTB_W);
-            this.GB_W.Controls.Add(this.L_WarpDest);
-            this.GB_W.Controls.Add(this.L_DestMap);
-            this.GB_W.Controls.Add(this.NUD_WTile);
-            this.GB_W.Controls.Add(this.L_DestWarpTile);
-            this.GB_W.Controls.Add(this.NUD_WMap);
-            this.GB_W.Location = new System.Drawing.Point(6, 40);
-            this.GB_W.Name = "GB_W";
-            this.GB_W.Size = new System.Drawing.Size(256, 323);
-            this.GB_W.TabIndex = 438;
-            this.GB_W.TabStop = false;
-            this.GB_W.Text = "Info:";
-            // 
-            // RTB_W
-            // 
-            this.RTB_W.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_W.Location = new System.Drawing.Point(6, 275);
-            this.RTB_W.Name = "RTB_W";
-            this.RTB_W.ReadOnly = true;
-            this.RTB_W.Size = new System.Drawing.Size(245, 42);
-            this.RTB_W.TabIndex = 425;
-            this.RTB_W.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
-    "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
-            // 
-            // GB_T
-            // 
-            this.GB_T.Controls.Add(this.RTB_T);
-            this.GB_T.Location = new System.Drawing.Point(6, 40);
-            this.GB_T.Name = "GB_T";
-            this.GB_T.Size = new System.Drawing.Size(256, 323);
-            this.GB_T.TabIndex = 439;
-            this.GB_T.TabStop = false;
-            this.GB_T.Text = "Info:";
-            // 
-            // RTB_T
-            // 
-            this.RTB_T.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_T.Location = new System.Drawing.Point(6, 275);
-            this.RTB_T.Name = "RTB_T";
-            this.RTB_T.ReadOnly = true;
-            this.RTB_T.Size = new System.Drawing.Size(245, 42);
-            this.RTB_T.TabIndex = 425;
-            this.RTB_T.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
-    "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
-            // 
-            // GB_U
-            // 
-            this.GB_U.Controls.Add(this.RTB_U);
-            this.GB_U.Location = new System.Drawing.Point(6, 40);
-            this.GB_U.Name = "GB_U";
-            this.GB_U.Size = new System.Drawing.Size(256, 323);
-            this.GB_U.TabIndex = 440;
-            this.GB_U.TabStop = false;
-            this.GB_U.Text = "Info:";
-            // 
-            // RTB_U
-            // 
-            this.RTB_U.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_U.Location = new System.Drawing.Point(6, 275);
-            this.RTB_U.Name = "RTB_U";
-            this.RTB_U.ReadOnly = true;
-            this.RTB_U.Size = new System.Drawing.Size(245, 42);
-            this.RTB_U.TabIndex = 425;
-            this.RTB_U.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
-    "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
+            this.B_DumpMaps.Location = new System.Drawing.Point(149, 6);
+            this.B_DumpMaps.Name = "B_DumpMaps";
+            this.B_DumpMaps.Size = new System.Drawing.Size(89, 39);
+            this.B_DumpMaps.TabIndex = 425;
+            this.B_DumpMaps.Text = "Dump all Maps";
+            this.B_DumpMaps.UseVisualStyleBackColor = true;
+            this.B_DumpMaps.Click += new System.EventHandler(this.B_DumpMaps_Click);
             // 
             // OWSE
             // 
@@ -1331,21 +1416,36 @@
             this.tb_ZoneData.PerformLayout();
             this.tb_OWSC.ResumeLayout(false);
             this.tb_OWSC.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_UnkCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TrigCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WarpCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FurnCount)).EndInit();
             this.tc_OWSC.ResumeLayout(false);
             this.tb_Furniture.ResumeLayout(false);
+            this.GB_F.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FE)).EndInit();
             this.tb_Overworld.ResumeLayout(false);
+            this.GB_N.ResumeLayout(false);
+            this.GB_N.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NFlag)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NScript)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NFace)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NModel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NID)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NE)).EndInit();
             this.tb_Warp.ResumeLayout(false);
+            this.GB_W.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WTile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WMap)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WE)).EndInit();
             this.tb_Trigger.ResumeLayout(false);
+            this.GB_T.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TE)).EndInit();
+            this.tb_OUnk.ResumeLayout(false);
+            this.GB_U.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_UE)).EndInit();
             this.tb_Script.ResumeLayout(false);
             this.tb_Script.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NPCCount)).EndInit();
@@ -1361,21 +1461,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Scale)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Flavor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).EndInit();
-            this.GB_N.ResumeLayout(false);
-            this.GB_N.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NModel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NFace)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NScript)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_NFlag)).EndInit();
-            this.tb_OUnk.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_UnkCount)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_UE)).EndInit();
-            this.GB_F.ResumeLayout(false);
-            this.GB_W.ResumeLayout(false);
-            this.GB_T.ResumeLayout(false);
-            this.GB_U.ResumeLayout(false);
+            this.tb_Dev.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1483,6 +1569,13 @@
         private System.Windows.Forms.RichTextBox RTB_T;
         private System.Windows.Forms.GroupBox GB_U;
         private System.Windows.Forms.RichTextBox RTB_U;
+        private System.Windows.Forms.TabPage tb_Dev;
+        private System.Windows.Forms.Button B_DumpUnk;
+        private System.Windows.Forms.Button B_DumpTrigger;
+        private System.Windows.Forms.Button B_DumpWarp;
+        private System.Windows.Forms.Button B_DumpNPC;
+        private System.Windows.Forms.Button B_DumpFurniture;
+        private System.Windows.Forms.Button B_DumpMaps;
     }
 }
 

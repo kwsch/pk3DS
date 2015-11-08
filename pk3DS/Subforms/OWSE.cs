@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -518,11 +519,139 @@ namespace pk3DS
         {
             if (DrawMap != -1)
                 PB_Map.Image = getMapImage();
+        }
 
-            if (ModifierKeys != Keys.Control ||
-                Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all?") != DialogResult.Yes)
+        private void changeNModel(object sender, EventArgs e)
+        {
+            L_ModelAsHex.Text = "0x"+((int)NUD_NModel.Value).ToString("X4");
+        }
+
+        // Dev Dumpers
+        private void B_DumpFurniture_Click(object sender, EventArgs e)
+        {
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all Furniture?") != DialogResult.Yes)
                 return;
-            
+
+            List<string> result = new List<string>();
+            List<byte[]> data = new List<byte[]>();
+            for (int i = 0; i < CB_LocationID.Items.Count; i++)
+            {
+                CB_LocationID.SelectedIndex = i;
+                for (int j = 0; j < CurrentZone.Entities.FurnitureCount; j++)
+                {
+                    result.Add(Util.getHexString(CurrentZone.Entities.Furniture[j].Raw));
+                    data.Add(CurrentZone.Entities.Furniture[j].Raw);
+                }
+            }
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Furniture to file?") == DialogResult.Yes)
+                File.WriteAllBytes("Furniture.bin", data.SelectMany(z => z).ToArray());
+
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy Furniture to Clipboard?") == DialogResult.Yes)
+                Clipboard.SetText(string.Join(Environment.NewLine, result));
+
+            CB_LocationID.SelectedIndex = 0;
+        }
+        private void B_DumpNPC_Click(object sender, EventArgs e)
+        {
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all NPCs?") != DialogResult.Yes)
+                return;
+
+            List<string> result = new List<string>();
+            List<byte[]> data = new List<byte[]>();
+            for (int i = 0; i < CB_LocationID.Items.Count; i++)
+            {
+                CB_LocationID.SelectedIndex = i;
+                for (int j = 0; j < CurrentZone.Entities.NPCCount; j++)
+                {
+                    result.Add(Util.getHexString(CurrentZone.Entities.NPCs[j].Raw));
+                    data.Add(CurrentZone.Entities.NPCs[j].Raw);
+                }
+            }
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write NPCs to file?") == DialogResult.Yes)
+                File.WriteAllBytes("NPCs.bin", data.SelectMany(z => z).ToArray());
+
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy NPCs to Clipboard?") == DialogResult.Yes)
+                Clipboard.SetText(string.Join(Environment.NewLine, result));
+
+            CB_LocationID.SelectedIndex = 0;
+        }
+        private void B_DumpWarp_Click(object sender, EventArgs e)
+        {
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all Warps?") != DialogResult.Yes)
+                return;
+
+            List<string> result = new List<string>();
+            List<byte[]> data = new List<byte[]>();
+            for (int i = 0; i < CB_LocationID.Items.Count; i++)
+            {
+                CB_LocationID.SelectedIndex = i;
+                for (int j = 0; j < CurrentZone.Entities.WarpCount; j++)
+                {
+                    result.Add(Util.getHexString(CurrentZone.Entities.Warps[j].Raw));
+                    data.Add(CurrentZone.Entities.Warps[j].Raw);
+                }
+            }
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Warps to file?") == DialogResult.Yes)
+                File.WriteAllBytes("Warps.bin", data.SelectMany(z => z).ToArray());
+
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy Warps to Clipboard?") == DialogResult.Yes)
+                Clipboard.SetText(string.Join(Environment.NewLine, result));
+
+            CB_LocationID.SelectedIndex = 0;
+        }
+        private void B_DumpTrigger_Click(object sender, EventArgs e)
+        {
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all Triggers?") != DialogResult.Yes)
+                return;
+
+            List<string> result = new List<string>();
+            List<byte[]> data = new List<byte[]>();
+            for (int i = 0; i < CB_LocationID.Items.Count; i++)
+            {
+                CB_LocationID.SelectedIndex = i;
+                for (int j = 0; j < CurrentZone.Entities.TriggerCount; j++)
+                {
+                    result.Add(Util.getHexString(CurrentZone.Entities.Triggers[j].Raw));
+                    data.Add(CurrentZone.Entities.Triggers[j].Raw);
+                }
+            }
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Triggers to file?") == DialogResult.Yes)
+                File.WriteAllBytes("Triggers.bin", data.SelectMany(z => z).ToArray());
+
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy Triggers to Clipboard?") == DialogResult.Yes)
+                Clipboard.SetText(string.Join(Environment.NewLine, result));
+
+            CB_LocationID.SelectedIndex = 0;
+        }
+        private void B_DumpUnk_Click(object sender, EventArgs e)
+        {
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all Unks?") != DialogResult.Yes)
+                return;
+
+            List<string> result = new List<string>();
+            List<byte[]> data = new List<byte[]>();
+            for (int i = 0; i < CB_LocationID.Items.Count; i++)
+            {
+                CB_LocationID.SelectedIndex = i;
+                for (int j = 0; j < CurrentZone.Entities.UnknownCount; j++)
+                {
+                    result.Add(Util.getHexString(CurrentZone.Entities.Unks[j].Raw));
+                    data.Add(CurrentZone.Entities.Unks[j].Raw);
+                }
+            }
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Unks to file?") == DialogResult.Yes)
+                File.WriteAllBytes("Unks.bin", data.SelectMany(z => z).ToArray());
+
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy Unks to Clipboard?") == DialogResult.Yes)
+                Clipboard.SetText(string.Join(Environment.NewLine, result));
+
+            CB_LocationID.SelectedIndex = 0;
+        }
+        private void B_DumpMaps_Click(object sender, EventArgs e)
+        {
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all MapImages?") != DialogResult.Yes)
+                return;
+
             const string folder = "MapImages";
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
@@ -542,15 +671,10 @@ namespace pk3DS
                 string l = mm.EntryList.Where(t => t != 0xFFFF).Aggregate("", (current, t) => current + t.ToString("000" + " "));
                 result[i] = String.Format("{0}\t{1}\t{2}", DrawMap.ToString("000"), CB_LocationID.Items[i], l);
             }
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write parse output?") == DialogResult.Yes)
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Map parse output?") == DialogResult.Yes)
                 File.WriteAllLines("MapLocations.txt", result);
             CB_LocationID.SelectedIndex = 0;
-            Util.Alert("All images have been dumped to " + folder + ".");
-        }
-
-        private void changeNModel(object sender, EventArgs e)
-        {
-            L_ModelAsHex.Text = "0x"+((int)NUD_NModel.Value).ToString("X4");
+            Util.Alert("All Map images have been dumped to " + folder + ".");
         }
     }
 }
