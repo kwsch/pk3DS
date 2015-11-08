@@ -189,19 +189,22 @@ namespace pk3DS
         }
         private void getOWSData()
         {
-            File.WriteAllBytes("zd.bin", CurrentZone.Entities.Data);
-            RTB_F.Text = RTB_N.Text = RTB_W.Text = RTB_T.Text = string.Empty;
+            // Reset Fields a little.
+            RTB_F.Text = RTB_N.Text = RTB_W.Text = RTB_T.Text = RTB_U.Text = string.Empty;
+            fEntry = nEntry = wEntry = tEntry = uEntry = -1;
             // Set Counters
             NUD_FurnCount.Value = CurrentZone.Entities.FurnitureCount; changeFurnitureCount(null, null);
             NUD_NPCCount.Value = CurrentZone.Entities.NPCCount; changeNPCCount(null, null);
             NUD_WarpCount.Value = CurrentZone.Entities.WarpCount; changeWarpCount(null, null);
             NUD_TrigCount.Value = CurrentZone.Entities.TriggerCount; changeTriggerCount(null, null);
+            NUD_UnkCount.Value = CurrentZone.Entities.UnknownCount; changeUnkCount(null, null);
 
             // Collect/Load Data
             NUD_FE.Value = (NUD_FE.Maximum < 0) ? -1 : 0; changeFurniture(null, null);
             NUD_NE.Value = (NUD_NE.Maximum < 0) ? -1 : 0; changeOverworld(null, null);
             NUD_WE.Value = (NUD_WE.Maximum < 0) ? -1 : 0; changeWarp(null, null);
             NUD_TE.Value = (NUD_TE.Maximum < 0) ? -1 : 0; changeTrigger(null, null);
+            NUD_UE.Value = (NUD_UE.Maximum < 0) ? -1 : 0; changeUnk(null, null);
 
             // Process Scripts
             OWScriptData = CurrentZone.Entities.ScriptData;
@@ -251,10 +254,10 @@ namespace pk3DS
 
         // Overworld Functions
         #region Enabling
-        internal static void toggleEnable(NumericUpDown master, NumericUpDown slave)
+        internal static void toggleEnable(NumericUpDown master, NumericUpDown slave, GroupBox display)
         {
             slave.Maximum = master.Value - 1;
-            slave.Enabled = slave.Maximum > -1;
+            slave.Enabled = display.Visible = slave.Maximum > -1;
             slave.Minimum = (slave.Enabled) ? 0 : -1;
         }
         private void changeFurnitureCount(object sender, EventArgs e)
@@ -266,7 +269,7 @@ namespace pk3DS
             for (int i = 0; i < count; i++)
                 CurrentZone.Entities.Furniture[i] = CurrentZone.Entities.Furniture[i] ?? new Zone.ZoneEntities.EntityFurniture();
 
-            toggleEnable(NUD_FurnCount, NUD_FE);
+            toggleEnable(NUD_FurnCount, NUD_FE, GB_F);
         }
         private void changeNPCCount(object sender, EventArgs e)
         {
@@ -277,7 +280,7 @@ namespace pk3DS
             for (int i = 0; i < count; i++)
                 CurrentZone.Entities.NPCs[i] = CurrentZone.Entities.NPCs[i] ?? new Zone.ZoneEntities.EntityNPC();
 
-            toggleEnable(NUD_NPCCount, NUD_NE);
+            toggleEnable(NUD_NPCCount, NUD_NE, GB_N);
         }
         private void changeWarpCount(object sender, EventArgs e)
         {
@@ -288,7 +291,7 @@ namespace pk3DS
             for (int i = 0; i < count; i++)
                 CurrentZone.Entities.Warps[i] = CurrentZone.Entities.Warps[i] ?? new Zone.ZoneEntities.EntityWarp();
 
-            toggleEnable(NUD_WarpCount, NUD_WE);
+            toggleEnable(NUD_WarpCount, NUD_WE, GB_W);
         }
         private void changeTriggerCount(object sender, EventArgs e)
         {
@@ -299,10 +302,21 @@ namespace pk3DS
             for (int i = 0; i < count; i++)
                 CurrentZone.Entities.Triggers[i] = CurrentZone.Entities.Triggers[i] ?? new Zone.ZoneEntities.EntityTrigger();
 
-            toggleEnable(NUD_TrigCount, NUD_TE);
+            toggleEnable(NUD_TrigCount, NUD_TE, GB_T);
+        }
+        private void changeUnkCount(object sender, EventArgs e)
+        {
+            // Resize array
+            int count = (int)NUD_UnkCount.Value;
+            CurrentZone.Entities.UnknownCount = count;
+            Array.Resize(ref CurrentZone.Entities.Unks, count);
+            for (int i = 0; i < count; i++)
+                CurrentZone.Entities.Unks[i] = CurrentZone.Entities.Unks[i] ?? new Zone.ZoneEntities.EntityUnk();
+
+            toggleEnable(NUD_UnkCount, NUD_UE, GB_U);
         }
         #endregion
-        private int fEntry, nEntry, wEntry, tEntry = -1;
+        private int fEntry, nEntry, wEntry, tEntry, uEntry = -1;
         private void changeFurniture(object sender, EventArgs e)
         {
             if (NUD_FE.Value < 0) return;
@@ -389,6 +403,21 @@ namespace pk3DS
             // Load New Data
             var Trigger = CurrentZone.Entities.Triggers[tEntry];
             RTB_T.Text = Util.getHexString(Trigger.Raw);
+        }
+        private void changeUnk(object sender, EventArgs e)
+        {
+            if (NUD_UE.Value < 0) return;
+
+            // Set Old Data
+            if (uEntry > 0)
+            {
+                // No attributes editable atm
+            }
+            uEntry = (int)NUD_UE.Value;
+
+            // Load New Data
+            var Unk = CurrentZone.Entities.Unks[uEntry];
+            RTB_U.Text = Util.getHexString(Unk.Raw);
         }
 
         private void B_HLCMD_Click(object sender, EventArgs e)
@@ -517,6 +546,11 @@ namespace pk3DS
                 File.WriteAllLines("MapLocations.txt", result);
             CB_LocationID.SelectedIndex = 0;
             Util.Alert("All images have been dumped to " + folder + ".");
+        }
+
+        private void changeNModel(object sender, EventArgs e)
+        {
+            L_ModelAsHex.Text = "0x"+((int)NUD_NModel.Value).ToString("X4");
         }
     }
 }

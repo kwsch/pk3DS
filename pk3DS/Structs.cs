@@ -1092,15 +1092,16 @@ namespace pk3DS
             public byte[] Data; // File details unknown.
 
             public Int32 Length;
-            public Int32 FurnitureCount, NPCCount, WarpCount, TriggerCount;
-            public Int32 UNKNOWN;
-            public Byte[] UnknownBytes;
+            public Int32 FurnitureCount, NPCCount, WarpCount, TriggerCount, UnknownCount;
             public EntityFurniture[] Furniture;
             public EntityNPC[] NPCs;
             public EntityWarp[] Warps;
             public EntityTrigger[] Triggers;
+            public EntityUnk[] Unks;
+
             public Int32 ScriptLength;
             public Byte[] ScriptData;
+
             public ZoneEntities(byte[] data)
             {
                 Data = data;
@@ -1113,7 +1114,7 @@ namespace pk3DS
                     NPCs = new EntityNPC[NPCCount = br.ReadByte()];
                     Warps = new EntityWarp[WarpCount = br.ReadByte()];
                     Triggers = new EntityTrigger[TriggerCount = br.ReadByte()];
-                    UNKNOWN = br.ReadInt32();
+                    Unks = new EntityUnk[UnknownCount = br.ReadInt32()]; // not sure if there's other types or if the remaining 3 bytes are padding.
 
                     // Load Entitites
                     for (int i = 0; i < FurnitureCount; i++)
@@ -1122,14 +1123,10 @@ namespace pk3DS
                         NPCs[i] = new EntityNPC(br.ReadBytes(EntityNPC.Size));
                     for (int i = 0; i < WarpCount; i++)
                         Warps[i] = new EntityWarp(br.ReadBytes(EntityWarp.Size));
-                    for (int i = 0; i < TriggerCount; i++) 
+                    for (int i = 0; i < TriggerCount; i++)
                         Triggers[i] = new EntityTrigger(br.ReadBytes(EntityTrigger.Size));
-
-                    int ScriptDataOffset = Length + 4;
-
-                    UnknownBytes = (br.BaseStream.Position == ScriptDataOffset)
-                        ? new byte[0]
-                        : br.ReadBytes(ScriptDataOffset - (int)br.BaseStream.Position);
+                    for (int i = 0; i < UnknownCount; i++)
+                        Unks[i] = new EntityUnk(br.ReadBytes(EntityUnk.Size));
 
                     // Load Script Data
                     ScriptLength = br.ReadInt32();
@@ -1144,34 +1141,38 @@ namespace pk3DS
 
                 byte[] N = new byte[NPCs.Length * EntityNPC.Size];
                 for (int i = 0; i < NPCs.Length; i++)
-                    NPCs[i].Write().CopyTo(F, i * EntityNPC.Size);
+                    NPCs[i].Write().CopyTo(N, i * EntityNPC.Size);
 
                 byte[] W = new byte[Warps.Length * EntityWarp.Size];
                 for (int i = 0; i < Warps.Length; i++)
-                    Warps[i].Write().CopyTo(F, i * EntityWarp.Size);
+                    Warps[i].Write().CopyTo(W, i * EntityWarp.Size);
 
                 byte[] T = new byte[Triggers.Length * EntityTrigger.Size];
                 for (int i = 0; i < Triggers.Length; i++)
-                    Triggers[i].Write().CopyTo(F, i * EntityTrigger.Size);
+                    Triggers[i].Write().CopyTo(T, i * EntityTrigger.Size);
+
+                byte[] U = new byte[Unks.Length * EntityUnk.Size];
+                for (int i = 0; i < Triggers.Length; i++)
+                    Unks[i].Write().CopyTo(U, i * EntityUnk.Size);
 
                 // Assemble entity information
-                byte[] OWEntities = F.Concat(N).Concat(W).Concat(T).ToArray();
-                byte[] EntityCounts = {(byte)Furniture.Length, (byte)NPCs.Length, (byte)Warps.Length, (byte)Triggers.Length};
-                byte[] EntityLength = BitConverter.GetBytes(8 + OWEntities.Length + 4 + UnknownBytes.Length);
-                byte[] UNKNOWNCT = BitConverter.GetBytes(UNKNOWN);
-
+                byte[] OWEntities = F.Concat(N).Concat(W).Concat(T).Concat(U).ToArray();
+                byte[] EntityLength = BitConverter.GetBytes(8 + OWEntities.Length);
+                byte[] EntityCounts = {(byte)Furniture.Length, (byte)NPCs.Length, (byte)Warps.Length, (byte)Triggers.Length, (byte)Unks.Length, 0, 0, 0 };
+                
                 // Reassemble NPC portion
-                byte[] OWEntityData = EntityLength.Concat(EntityCounts).Concat(UNKNOWNCT).Concat(OWEntities).Concat(UnknownBytes).ToArray();
-
-                // Add padding zeroes if required (yield above section % 4 == 0)
-                if (OWEntityData.Length % 4 != 0)
-                    Array.Resize(ref OWEntityData, OWEntityData.Length + 4 - (OWEntityData.Length % 4));
+                byte[] OWEntityData = EntityLength.Concat(EntityCounts).Concat(OWEntities).ToArray();
 
                 // Reassemble Script portion
                 byte[] OWScriptData = ScriptData;
+                
+                byte[] finalData = OWEntityData.Concat(OWScriptData).ToArray();
 
-                // Return final data
-                return OWEntityData.Concat(OWScriptData).ToArray();
+                // Add padding zeroes if required (yield size % 4 == 0)
+                if (finalData.Length % 4 != 0)
+                    Array.Resize(ref finalData, finalData.Length + 4 - (finalData.Length % 4));
+
+                return finalData;
             }
 
             // Entity Classes
@@ -1246,6 +1247,22 @@ namespace pk3DS
                 public byte[] Raw;
                 internal static readonly byte Size = 0x18;
                 public EntityTrigger(byte[] data = null)
+                {
+                    Raw = data ?? new byte[Size];
+                }
+                public byte[] Write()
+                {
+                    return Raw;
+                }
+            }
+            public class EntityUnk
+            {
+                // Usable Attributes
+                // Unknown
+
+                public byte[] Raw;
+                internal static readonly byte Size = 0x18;
+                public EntityUnk(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
                 }
