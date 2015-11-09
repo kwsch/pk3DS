@@ -1344,12 +1344,15 @@ namespace pk3DS
         public class ZoneScript
         {
             public byte[] Data; // File details unknown.
+            public Script Script;
             public ZoneScript(byte[] data)
             {
                 Data = data;
+                Script = new Script(data);
             }
             public byte[] Write()
             {
+                Data = Script.Write();
                 return Data;
             }
         }
@@ -1420,15 +1423,53 @@ namespace pk3DS
             }
         }
     }
-
     public class Script
     {
+        public int Length { get { return BitConverter.ToInt32(Raw, 0x00); } }
+        public uint Magic { get { return BitConverter.ToUInt32(Raw, 0x04); } }
+        // case 0x0A0AF1E0: code = read_code_block(f); break;
+        // case 0x0A0AF1EF: debug = read_debug_block(f); break;
+        public bool Debug { get { return Magic  == 0x0A0AF1EF; } }
+
+        public ushort PtrOffset { get { return BitConverter.ToUInt16(Raw, 0x08); } }
+        public ushort PtrCount { get { return BitConverter.ToUInt16(Raw, 0x0A); } }
+
+        public int ScriptInstructionStart { get { return BitConverter.ToInt32(Raw, 0x0C); } }
+        public int ScriptMovementStart { get { return BitConverter.ToInt32(Raw, 0x10); } }
+        public int FinalOffset { get { return BitConverter.ToInt32(Raw, 0x14); } }
+        public int AllocatedMemory { get { return BitConverter.ToInt32(Raw, 0x18); } }
+
+        // Generated Attributes
+        public int CompressedLength { get { return Length - ScriptInstructionStart; } }
+        public byte[] CompressedBytes { get { return Raw.Skip(ScriptInstructionStart).ToArray(); } }
+        public int DecompressedLength { get { return FinalOffset - ScriptInstructionStart; } }
+        public uint[] DecompressedInstructions { get { return Scripts.quickDecompress(CompressedBytes, DecompressedLength/4); } }
+
+        public uint[] ScriptCommands { get { return DecompressedInstructions.Take((ScriptMovementStart - ScriptInstructionStart) / 4).ToArray(); } }
+        public uint[] MoveCommands { get { return DecompressedInstructions.Skip((ScriptMovementStart - ScriptInstructionStart) / 4).ToArray(); } }
+        public string[] ParseScript { get { return Scripts.parseScript(ScriptCommands); } }
+        public string[] ParseMoves { get { return Scripts.parseMovement(MoveCommands); } }
+
+        public string Info
+        {
+            get
+            {
+                return "Data Start: 0x" + ScriptInstructionStart.ToString("X4")
+                + Environment.NewLine + "Movement Offset: 0x" + ScriptMovementStart.ToString("X4")
+                + Environment.NewLine + "Total Used Size: 0x" + FinalOffset.ToString("X4")
+                + Environment.NewLine + "Reserved Size: 0x" + AllocatedMemory.ToString("X4")
+                + Environment.NewLine + "Compressed Len: 0x" + CompressedLength.ToString("X4")
+                + Environment.NewLine + "Decompressed Len: 0x" + DecompressedLength.ToString("X4")
+                + Environment.NewLine + "Compression Ratio: " +
+                ((DecompressedLength - CompressedLength)/(decimal)DecompressedLength).ToString("p1");
+            }
+        }
+
         public byte[] Raw;
         public Script(byte[] data = null)
         {
             Raw = data ?? new byte[0];
         }
-
         public byte[] Write()
         {
             return Raw;

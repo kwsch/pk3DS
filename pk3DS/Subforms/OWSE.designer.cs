@@ -80,12 +80,12 @@
             this.NUD_WMap = new System.Windows.Forms.NumericUpDown();
             this.NUD_WE = new System.Windows.Forms.NumericUpDown();
             this.L_WE = new System.Windows.Forms.Label();
-            this.tb_Trigger = new System.Windows.Forms.TabPage();
+            this.tb_Trigger1 = new System.Windows.Forms.TabPage();
             this.GB_T = new System.Windows.Forms.GroupBox();
             this.RTB_T = new System.Windows.Forms.RichTextBox();
             this.NUD_TE = new System.Windows.Forms.NumericUpDown();
             this.L_TE = new System.Windows.Forms.Label();
-            this.tb_OUnk = new System.Windows.Forms.TabPage();
+            this.tb_Trigger2 = new System.Windows.Forms.TabPage();
             this.GB_U = new System.Windows.Forms.GroupBox();
             this.RTB_U = new System.Windows.Forms.RichTextBox();
             this.NUD_UE = new System.Windows.Forms.NumericUpDown();
@@ -127,6 +127,11 @@
             this.NUD_Flavor = new System.Windows.Forms.NumericUpDown();
             this.PB_Map = new System.Windows.Forms.PictureBox();
             this.tb_Dev = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.RTB_CompressedScript = new System.Windows.Forms.RichTextBox();
+            this.RTB_DecompressedScript = new System.Windows.Forms.RichTextBox();
+            this.L_Comp = new System.Windows.Forms.Label();
+            this.B_DumpMaps = new System.Windows.Forms.Button();
             this.B_DumpUnk = new System.Windows.Forms.Button();
             this.B_DumpTrigger = new System.Windows.Forms.Button();
             this.B_DumpWarp = new System.Windows.Forms.Button();
@@ -134,11 +139,6 @@
             this.B_DumpFurniture = new System.Windows.Forms.Button();
             this.L_ZDPreview = new System.Windows.Forms.Label();
             this.B_HLCMD = new System.Windows.Forms.Button();
-            this.B_DumpMaps = new System.Windows.Forms.Button();
-            this.L_Comp = new System.Windows.Forms.Label();
-            this.RTB_CompressedScript = new System.Windows.Forms.RichTextBox();
-            this.RTB_DecompressedScript = new System.Windows.Forms.RichTextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tb_ZoneData.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -165,10 +165,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WTile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WMap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WE)).BeginInit();
-            this.tb_Trigger.SuspendLayout();
+            this.tb_Trigger1.SuspendLayout();
             this.GB_T.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TE)).BeginInit();
-            this.tb_OUnk.SuspendLayout();
+            this.tb_Trigger2.SuspendLayout();
             this.GB_U.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_UE)).BeginInit();
             this.tb_Script.SuspendLayout();
@@ -390,13 +390,13 @@
             this.tc_OWSC.Controls.Add(this.tb_Furniture);
             this.tc_OWSC.Controls.Add(this.tb_Overworld);
             this.tc_OWSC.Controls.Add(this.tb_Warp);
-            this.tc_OWSC.Controls.Add(this.tb_Trigger);
-            this.tc_OWSC.Controls.Add(this.tb_OUnk);
+            this.tc_OWSC.Controls.Add(this.tb_Trigger1);
+            this.tc_OWSC.Controls.Add(this.tb_Trigger2);
             this.tc_OWSC.Controls.Add(this.tb_Script);
             this.tc_OWSC.Location = new System.Drawing.Point(6, 6);
             this.tc_OWSC.Name = "tc_OWSC";
             this.tc_OWSC.SelectedIndex = 0;
-            this.tc_OWSC.Size = new System.Drawing.Size(342, 462);
+            this.tc_OWSC.Size = new System.Drawing.Size(345, 462);
             this.tc_OWSC.TabIndex = 415;
             // 
             // tb_Furniture
@@ -407,7 +407,7 @@
             this.tb_Furniture.Location = new System.Drawing.Point(4, 22);
             this.tb_Furniture.Name = "tb_Furniture";
             this.tb_Furniture.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_Furniture.Size = new System.Drawing.Size(334, 436);
+            this.tb_Furniture.Size = new System.Drawing.Size(337, 436);
             this.tb_Furniture.TabIndex = 0;
             this.tb_Furniture.Text = "Furniture";
             this.tb_Furniture.UseVisualStyleBackColor = true;
@@ -463,7 +463,7 @@
             this.tb_Overworld.Location = new System.Drawing.Point(4, 22);
             this.tb_Overworld.Name = "tb_Overworld";
             this.tb_Overworld.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_Overworld.Size = new System.Drawing.Size(334, 436);
+            this.tb_Overworld.Size = new System.Drawing.Size(337, 436);
             this.tb_Overworld.TabIndex = 1;
             this.tb_Overworld.Text = "Overworld";
             this.tb_Overworld.UseVisualStyleBackColor = true;
@@ -692,7 +692,7 @@
             this.tb_Warp.Controls.Add(this.L_WE);
             this.tb_Warp.Location = new System.Drawing.Point(4, 22);
             this.tb_Warp.Name = "tb_Warp";
-            this.tb_Warp.Size = new System.Drawing.Size(334, 436);
+            this.tb_Warp.Size = new System.Drawing.Size(337, 436);
             this.tb_Warp.TabIndex = 2;
             this.tb_Warp.Text = "Warp";
             this.tb_Warp.UseVisualStyleBackColor = true;
@@ -797,17 +797,17 @@
             this.L_WE.Text = "Entry:";
             this.L_WE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // tb_Trigger
+            // tb_Trigger1
             // 
-            this.tb_Trigger.Controls.Add(this.GB_T);
-            this.tb_Trigger.Controls.Add(this.NUD_TE);
-            this.tb_Trigger.Controls.Add(this.L_TE);
-            this.tb_Trigger.Location = new System.Drawing.Point(4, 22);
-            this.tb_Trigger.Name = "tb_Trigger";
-            this.tb_Trigger.Size = new System.Drawing.Size(334, 436);
-            this.tb_Trigger.TabIndex = 3;
-            this.tb_Trigger.Text = "Trigger";
-            this.tb_Trigger.UseVisualStyleBackColor = true;
+            this.tb_Trigger1.Controls.Add(this.GB_T);
+            this.tb_Trigger1.Controls.Add(this.NUD_TE);
+            this.tb_Trigger1.Controls.Add(this.L_TE);
+            this.tb_Trigger1.Location = new System.Drawing.Point(4, 22);
+            this.tb_Trigger1.Name = "tb_Trigger1";
+            this.tb_Trigger1.Size = new System.Drawing.Size(337, 436);
+            this.tb_Trigger1.TabIndex = 3;
+            this.tb_Trigger1.Text = "Trigger1";
+            this.tb_Trigger1.UseVisualStyleBackColor = true;
             // 
             // GB_T
             // 
@@ -852,18 +852,18 @@
             this.L_TE.Text = "Entry:";
             this.L_TE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // tb_OUnk
+            // tb_Trigger2
             // 
-            this.tb_OUnk.Controls.Add(this.GB_U);
-            this.tb_OUnk.Controls.Add(this.NUD_UE);
-            this.tb_OUnk.Controls.Add(this.L_UE);
-            this.tb_OUnk.Location = new System.Drawing.Point(4, 22);
-            this.tb_OUnk.Name = "tb_OUnk";
-            this.tb_OUnk.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_OUnk.Size = new System.Drawing.Size(334, 436);
-            this.tb_OUnk.TabIndex = 5;
-            this.tb_OUnk.Text = "Unk";
-            this.tb_OUnk.UseVisualStyleBackColor = true;
+            this.tb_Trigger2.Controls.Add(this.GB_U);
+            this.tb_Trigger2.Controls.Add(this.NUD_UE);
+            this.tb_Trigger2.Controls.Add(this.L_UE);
+            this.tb_Trigger2.Location = new System.Drawing.Point(4, 22);
+            this.tb_Trigger2.Name = "tb_Trigger2";
+            this.tb_Trigger2.Padding = new System.Windows.Forms.Padding(3);
+            this.tb_Trigger2.Size = new System.Drawing.Size(337, 436);
+            this.tb_Trigger2.TabIndex = 5;
+            this.tb_Trigger2.Text = "Trigger2";
+            this.tb_Trigger2.UseVisualStyleBackColor = true;
             // 
             // GB_U
             // 
@@ -916,9 +916,9 @@
             this.tb_Script.Controls.Add(this.RTB_OWSCMD);
             this.tb_Script.Location = new System.Drawing.Point(4, 22);
             this.tb_Script.Name = "tb_Script";
-            this.tb_Script.Size = new System.Drawing.Size(334, 436);
+            this.tb_Script.Size = new System.Drawing.Size(337, 436);
             this.tb_Script.TabIndex = 4;
-            this.tb_Script.Text = "ScriptData";
+            this.tb_Script.Text = "Script";
             this.tb_Script.UseVisualStyleBackColor = true;
             // 
             // RTB_OSP
@@ -930,7 +930,7 @@
             this.RTB_OSP.Location = new System.Drawing.Point(6, 234);
             this.RTB_OSP.Name = "RTB_OSP";
             this.RTB_OSP.ReadOnly = true;
-            this.RTB_OSP.Size = new System.Drawing.Size(328, 202);
+            this.RTB_OSP.Size = new System.Drawing.Size(331, 202);
             this.RTB_OSP.TabIndex = 425;
             this.RTB_OSP.Text = "Parse Output";
             // 
@@ -1326,6 +1326,54 @@
             this.tb_Dev.Text = "Dev";
             this.tb_Dev.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(395, 224);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.TabIndex = 430;
+            this.label1.Text = "Decompressed";
+            // 
+            // RTB_CompressedScript
+            // 
+            this.RTB_CompressedScript.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_CompressedScript.Location = new System.Drawing.Point(304, 240);
+            this.RTB_CompressedScript.Name = "RTB_CompressedScript";
+            this.RTB_CompressedScript.Size = new System.Drawing.Size(85, 225);
+            this.RTB_CompressedScript.TabIndex = 429;
+            this.RTB_CompressedScript.Text = "Script CMDs";
+            this.RTB_CompressedScript.TextChanged += new System.EventHandler(this.pasteScript);
+            // 
+            // RTB_DecompressedScript
+            // 
+            this.RTB_DecompressedScript.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_DecompressedScript.Location = new System.Drawing.Point(395, 240);
+            this.RTB_DecompressedScript.Name = "RTB_DecompressedScript";
+            this.RTB_DecompressedScript.ReadOnly = true;
+            this.RTB_DecompressedScript.Size = new System.Drawing.Size(85, 225);
+            this.RTB_DecompressedScript.TabIndex = 428;
+            this.RTB_DecompressedScript.Text = "Raw Data";
+            // 
+            // L_Comp
+            // 
+            this.L_Comp.AutoSize = true;
+            this.L_Comp.Location = new System.Drawing.Point(301, 224);
+            this.L_Comp.Name = "L_Comp";
+            this.L_Comp.Size = new System.Drawing.Size(65, 13);
+            this.L_Comp.TabIndex = 426;
+            this.L_Comp.Text = "Compressed";
+            // 
+            // B_DumpMaps
+            // 
+            this.B_DumpMaps.Location = new System.Drawing.Point(149, 6);
+            this.B_DumpMaps.Name = "B_DumpMaps";
+            this.B_DumpMaps.Size = new System.Drawing.Size(89, 39);
+            this.B_DumpMaps.TabIndex = 425;
+            this.B_DumpMaps.Text = "Dump all Maps";
+            this.B_DumpMaps.UseVisualStyleBackColor = true;
+            this.B_DumpMaps.Click += new System.EventHandler(this.B_DumpMaps_Click);
+            // 
             // B_DumpUnk
             // 
             this.B_DumpUnk.Location = new System.Drawing.Point(6, 186);
@@ -1395,54 +1443,6 @@
             this.B_HLCMD.UseVisualStyleBackColor = true;
             this.B_HLCMD.Click += new System.EventHandler(this.B_HLCMD_Click);
             // 
-            // B_DumpMaps
-            // 
-            this.B_DumpMaps.Location = new System.Drawing.Point(149, 6);
-            this.B_DumpMaps.Name = "B_DumpMaps";
-            this.B_DumpMaps.Size = new System.Drawing.Size(89, 39);
-            this.B_DumpMaps.TabIndex = 425;
-            this.B_DumpMaps.Text = "Dump all Maps";
-            this.B_DumpMaps.UseVisualStyleBackColor = true;
-            this.B_DumpMaps.Click += new System.EventHandler(this.B_DumpMaps_Click);
-            // 
-            // L_Comp
-            // 
-            this.L_Comp.AutoSize = true;
-            this.L_Comp.Location = new System.Drawing.Point(301, 224);
-            this.L_Comp.Name = "L_Comp";
-            this.L_Comp.Size = new System.Drawing.Size(65, 13);
-            this.L_Comp.TabIndex = 426;
-            this.L_Comp.Text = "Compressed";
-            // 
-            // RTB_CompressedScript
-            // 
-            this.RTB_CompressedScript.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_CompressedScript.Location = new System.Drawing.Point(304, 240);
-            this.RTB_CompressedScript.Name = "RTB_CompressedScript";
-            this.RTB_CompressedScript.Size = new System.Drawing.Size(85, 225);
-            this.RTB_CompressedScript.TabIndex = 429;
-            this.RTB_CompressedScript.Text = "Script CMDs";
-            this.RTB_CompressedScript.TextChanged += new System.EventHandler(this.pasteScript);
-            // 
-            // RTB_DecompressedScript
-            // 
-            this.RTB_DecompressedScript.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_DecompressedScript.Location = new System.Drawing.Point(395, 240);
-            this.RTB_DecompressedScript.Name = "RTB_DecompressedScript";
-            this.RTB_DecompressedScript.ReadOnly = true;
-            this.RTB_DecompressedScript.Size = new System.Drawing.Size(85, 225);
-            this.RTB_DecompressedScript.TabIndex = 428;
-            this.RTB_DecompressedScript.Text = "Raw Data";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(395, 224);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 13);
-            this.label1.TabIndex = 430;
-            this.label1.Text = "Decompressed";
-            // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1487,10 +1487,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WTile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WMap)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WE)).EndInit();
-            this.tb_Trigger.ResumeLayout(false);
+            this.tb_Trigger1.ResumeLayout(false);
             this.GB_T.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TE)).EndInit();
-            this.tb_OUnk.ResumeLayout(false);
+            this.tb_Trigger2.ResumeLayout(false);
             this.GB_U.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_UE)).EndInit();
             this.tb_Script.ResumeLayout(false);
@@ -1531,7 +1531,7 @@
         private System.Windows.Forms.TabPage tb_Overworld;
         private System.Windows.Forms.RichTextBox RTB_N;
         private System.Windows.Forms.TabPage tb_Warp;
-        private System.Windows.Forms.TabPage tb_Trigger;
+        private System.Windows.Forms.TabPage tb_Trigger1;
         private System.Windows.Forms.RichTextBox RTB_OWSC;
         private System.Windows.Forms.RichTextBox RTB_MapSC;
         private System.Windows.Forms.RichTextBox RTB_Encounter;
@@ -1606,7 +1606,7 @@
         private System.Windows.Forms.Label L_NFlag;
         private System.Windows.Forms.NumericUpDown NUD_UnkCount;
         private System.Windows.Forms.Label L_Unk;
-        private System.Windows.Forms.TabPage tb_OUnk;
+        private System.Windows.Forms.TabPage tb_Trigger2;
         private System.Windows.Forms.NumericUpDown NUD_UE;
         private System.Windows.Forms.Label L_UE;
         private System.Windows.Forms.Label L_ModelAsHex;

@@ -66,6 +66,7 @@ namespace pk3DS
         }
 
         private int entry = -1;
+        private Zone CurrentZone;
         private byte[][] locationData;
         private string[] rawLocations;
         private void CB_LocationID_SelectedIndexChanged(object sender, EventArgs e)
@@ -128,57 +129,7 @@ namespace pk3DS
             //File.WriteAllBytes(filepaths[entry], raw);
         }
 
-        private byte[] OWScriptData;
-        private Zone CurrentZone;
-
-        private void getScriptData()
-        {
-            byte[] data = locationData[2];
-            if (data.Length > 4)
-            {
-                byte[] ScriptData = data;
-                int length = BitConverter.ToInt32(ScriptData, 0);
-                Array.Resize(ref ScriptData, length); // Cap Size
-
-                RTB_MS.Lines = Scripts.getHexLines(ScriptData);
-
-                int start = BitConverter.ToInt32(ScriptData, 0xC);
-                int moves = BitConverter.ToInt32(ScriptData, 0x10);
-                int finaloffset = BitConverter.ToInt32(ScriptData, 0x14);
-                int reserved = BitConverter.ToInt32(ScriptData, 0x18);
-                int compressedLength = length - start;
-                int decompressedLength = finaloffset - start;
-
-                L_MSSCDesc.Text = "Data Start: 0x" + start.ToString("X4")
-                + Environment.NewLine + "Movement Offset: 0x" + moves.ToString("X4")
-                + Environment.NewLine + "Total Used Size: 0x" + finaloffset.ToString("X4")
-                + Environment.NewLine + "Reserved Size: 0x" + reserved.ToString("X4")
-                + Environment.NewLine + "Compressed Len: 0x" + compressedLength.ToString("X4")
-                + Environment.NewLine + "Decompressed Len: 0x" + decompressedLength.ToString("X4");
-
-                byte[] compressed = ScriptData.Skip(start).ToArray();
-                // string c = Util.getHexString(compressed);
-                uint[] decompressed = Scripts.quickDecompress(compressed, decompressedLength/4) ?? new uint[0];
-                // string d = Util.getHexString(decompressed);
-
-                RTB_MSCMD.Lines = Scripts.getHexLines(decompressed);
-
-                if (decompressedLength/4 != decompressed.Length)
-                    RTB_MSCMD.Text = RTB_MSP.Text = "DCMP FAIL";
-                else
-                {
-                    uint[] rawCMD = decompressed.Take((moves - start)/4).ToArray();
-                    string[] instructions = Scripts.parseScript(rawCMD);
-                    uint[] moveCMD = decompressed.Skip((moves - start)/4).ToArray();
-                    string[] movements = Scripts.parseMovement(moveCMD);
-                    RTB_MSP.Lines = instructions.Concat(movements).ToArray();
-                }
-                    
-            }
-            else
-                RTB_MSCMD.Lines = RTB_MS.Lines = new[] {"No Data"};
-        }
-
+        // Loading of Data
         private void getZoneData()
         {
             L_ZDPreview.Text = "Text File: " + CurrentZone.ZD.TextFile
@@ -208,49 +159,41 @@ namespace pk3DS
             NUD_UE.Value = (NUD_UE.Maximum < 0) ? -1 : 0; changeUnk(null, null);
 
             // Process Scripts
-            OWScriptData = CurrentZone.Entities.Script.Raw;
-            if (OWScriptData.Length > 4)
+            var script = CurrentZone.Entities.Script;
+            if (script.Raw.Length > 4)
             {
-                byte[] ScriptData = OWScriptData;
-                int length = CurrentZone.Entities.Script.Raw.Length;
+                RTB_OS.Lines = Scripts.getHexLines(script.Raw);
+                L_OWSCDesc.Text = script.Info;
 
-                RTB_OS.Lines = Scripts.getHexLines(ScriptData);
+                uint[] Instructions = script.DecompressedInstructions;
+                RTB_OWSCMD.Lines = Scripts.getHexLines(Instructions);
 
-                int start = BitConverter.ToInt32(ScriptData, 0xC);
-                int moves = BitConverter.ToInt32(ScriptData, 0x10);
-                int finaloffset = BitConverter.ToInt32(ScriptData, 0x14);
-                int reserved = BitConverter.ToInt32(ScriptData, 0x18);
-                int compressedLength = length - start;
-                int decompressedLength = finaloffset - start;
-
-                L_OWSCDesc.Text = "Data Start: 0x" + start.ToString("X4")
-                + Environment.NewLine + "Movement Offset: 0x" + moves.ToString("X4")
-                + Environment.NewLine + "Total Used Size: 0x" + finaloffset.ToString("X4")
-                + Environment.NewLine + "Reserved Size: 0x" + reserved.ToString("X4")
-                + Environment.NewLine + "Compressed Len: 0x" + compressedLength.ToString("X4")
-                + Environment.NewLine + "Decompressed Len: 0x" + decompressedLength.ToString("X4");
-
-                byte[] compressed = ScriptData.Skip(start).ToArray();
-                // string c = Util.getHexString(compressed);
-                uint[] decompressed = Scripts.quickDecompress(compressed, decompressedLength/4) ?? new uint[0];
-                // byte[] decompressed = Scripts.decompressScript(compressed) ?? new byte[0]; -- DEPRECATED
-                // string d = Util.getHexString(decompressed);
-
-                RTB_OWSCMD.Lines = Scripts.getHexLines(decompressed);
-
-                if (decompressedLength/4 != decompressed.Length)
+                if (script.DecompressedLength / 4 != Instructions.Length)
                     RTB_OWSCMD.Text = RTB_OSP.Text = "DCMP FAIL";
                 else
-                {
-                    uint[] rawCMD = decompressed.Take((moves - start) / 4).ToArray();
-                    string[] instructions = Scripts.parseScript(rawCMD);
-                    uint[] moveCMD = decompressed.Skip((moves - start) / 4).ToArray();
-                    string[] movements = Scripts.parseMovement(moveCMD);
-                    RTB_OSP.Lines = instructions.Concat(movements).ToArray();
-                }
+                    RTB_OSP.Lines = script.ParseScript.Concat(script.ParseMoves).ToArray();
             }
             else
                 RTB_OWSCMD.Lines = RTB_OS.Lines = new[] {"No Data"};
+        }
+        private void getScriptData()
+        {
+            var script = CurrentZone.MapScript.Script;
+            if (script.Raw.Length > 4)
+            {
+                RTB_MS.Lines = Scripts.getHexLines(script.Raw);
+                L_MSSCDesc.Text = script.Info;
+
+                uint[] Instructions = script.DecompressedInstructions;
+                RTB_MSCMD.Lines = Scripts.getHexLines(Instructions);
+
+                if (script.DecompressedLength / 4 != Instructions.Length)
+                    RTB_MSCMD.Text = RTB_OSP.Text = "DCMP FAIL";
+                else
+                    RTB_MSP.Lines = script.ParseScript.Concat(script.ParseMoves).ToArray();
+            }
+            else
+                RTB_MSCMD.Lines = RTB_OS.Lines = new[] { "No Data" };
         }
 
         // Overworld Functions
@@ -438,59 +381,10 @@ namespace pk3DS
             if (new FileInfo(path).Length < 10000000)
                 parseScriptInput(File.ReadAllBytes(path));
         }
-        internal static void parseScriptInput(byte[] OWScriptData)
+        private void parseScriptInput(byte[] data)
         {
-            string[] ret, raw, raw2;
-            if (OWScriptData.Length > 4)
-            {
-                byte[] ScriptData = OWScriptData;
-                int length = BitConverter.ToInt32(ScriptData, 0);
-                Array.Resize(ref ScriptData, length); // Cap Size
-
-                raw = Scripts.getHexLines(ScriptData);
-
-                int start = BitConverter.ToInt32(ScriptData, 0xC);
-                int moves = BitConverter.ToInt32(ScriptData, 0x10);
-                int finaloffset = BitConverter.ToInt32(ScriptData, 0x14);
-                // int reserved = BitConverter.ToInt32(ScriptData, 0x18);
-                // int compressedLength = length - start;
-                int decompressedLength = finaloffset - start;
-
-                byte[] compressed = ScriptData.Skip(start).ToArray();
-                // string c = Util.getHexString(compressed);
-                uint[] decompressed = Scripts.quickDecompress(compressed, decompressedLength / 4) ?? new uint[0];
-
-                raw2 = Scripts.getHexLines(decompressed);
-
-                if (decompressedLength / 4 != decompressed.Length)
-                    raw2 = ret = new [] {"DCMP FAIL"};
-                else
-                {
-                    uint[] rawCMD = decompressed.Take((moves - start) / 4).ToArray();
-                    string[] instructions = Scripts.parseScript(rawCMD);
-                    uint[] moveCMD = decompressed.Skip((moves - start) / 4).ToArray();
-                    string[] movements = Scripts.parseMovement(moveCMD);
-                    ret = instructions.Concat(movements).ToArray();
-                }
-            }
-            else
-                raw = raw2 = ret = new[] { "No Data" };
-
-            if (ModifierKeys == Keys.Control)
-            {
-                Clipboard.SetText(String.Join(Environment.NewLine, raw2));
-                //Util.Alert("Set cmd to clipboard.");
-            }
-            else if (ModifierKeys == Keys.Alt)
-            {
-                Clipboard.SetText(String.Join(Environment.NewLine, raw));
-                //Util.Alert("Set raw to clipboard.");
-            }
-            else
-            {
-                Clipboard.SetText(String.Join(Environment.NewLine, ret));
-                //Util.Alert("Set parse to clipboard.");
-            }
+            Script scr = new Script(data);
+            RTB_CompressedScript.Lines = Scripts.getHexLines(scr.CompressedBytes);
             System.Media.SystemSounds.Asterisk.Play();
         }
 
