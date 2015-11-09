@@ -43,9 +43,10 @@ namespace pk3DS
                 saveARC(path);
             else try {
                 CTR.LZSS.Decompress(path, Path.Combine(Path.GetDirectoryName(path), "dec_" + Path.GetFileName(path)));
-            } catch { try {
+                System.Media.SystemSounds.Asterisk.Play();
+            } catch { try { if (threads < 1)
                 new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
-            } catch { Util.Error("Unable to process file."); } }
+            } catch { Util.Error("Unable to process file."); threads = 0; } }
         }
         private void dropHover(object sender, EventArgs e)
         {
