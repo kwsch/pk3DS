@@ -135,6 +135,10 @@
             this.L_ZDPreview = new System.Windows.Forms.Label();
             this.B_HLCMD = new System.Windows.Forms.Button();
             this.B_DumpMaps = new System.Windows.Forms.Button();
+            this.L_Comp = new System.Windows.Forms.Label();
+            this.RTB_CompressedScript = new System.Windows.Forms.RichTextBox();
+            this.RTB_DecompressedScript = new System.Windows.Forms.RichTextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tb_ZoneData.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -1304,6 +1308,10 @@
             // 
             // tb_Dev
             // 
+            this.tb_Dev.Controls.Add(this.label1);
+            this.tb_Dev.Controls.Add(this.RTB_CompressedScript);
+            this.tb_Dev.Controls.Add(this.RTB_DecompressedScript);
+            this.tb_Dev.Controls.Add(this.L_Comp);
             this.tb_Dev.Controls.Add(this.B_DumpMaps);
             this.tb_Dev.Controls.Add(this.B_DumpUnk);
             this.tb_Dev.Controls.Add(this.B_DumpTrigger);
@@ -1397,6 +1405,44 @@
             this.B_DumpMaps.UseVisualStyleBackColor = true;
             this.B_DumpMaps.Click += new System.EventHandler(this.B_DumpMaps_Click);
             // 
+            // L_Comp
+            // 
+            this.L_Comp.AutoSize = true;
+            this.L_Comp.Location = new System.Drawing.Point(301, 224);
+            this.L_Comp.Name = "L_Comp";
+            this.L_Comp.Size = new System.Drawing.Size(65, 13);
+            this.L_Comp.TabIndex = 426;
+            this.L_Comp.Text = "Compressed";
+            // 
+            // RTB_CompressedScript
+            // 
+            this.RTB_CompressedScript.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_CompressedScript.Location = new System.Drawing.Point(304, 240);
+            this.RTB_CompressedScript.Name = "RTB_CompressedScript";
+            this.RTB_CompressedScript.Size = new System.Drawing.Size(85, 225);
+            this.RTB_CompressedScript.TabIndex = 429;
+            this.RTB_CompressedScript.Text = "Script CMDs";
+            this.RTB_CompressedScript.TextChanged += new System.EventHandler(this.pasteScript);
+            // 
+            // RTB_DecompressedScript
+            // 
+            this.RTB_DecompressedScript.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_DecompressedScript.Location = new System.Drawing.Point(395, 240);
+            this.RTB_DecompressedScript.Name = "RTB_DecompressedScript";
+            this.RTB_DecompressedScript.ReadOnly = true;
+            this.RTB_DecompressedScript.Size = new System.Drawing.Size(85, 225);
+            this.RTB_DecompressedScript.TabIndex = 428;
+            this.RTB_DecompressedScript.Text = "Raw Data";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(395, 224);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.TabIndex = 430;
+            this.label1.Text = "Decompressed";
+            // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1463,6 +1509,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Flavor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).EndInit();
             this.tb_Dev.ResumeLayout(false);
+            this.tb_Dev.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1577,6 +1624,10 @@
         private System.Windows.Forms.Button B_DumpNPC;
         private System.Windows.Forms.Button B_DumpFurniture;
         private System.Windows.Forms.Button B_DumpMaps;
+        private System.Windows.Forms.Label L_Comp;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RichTextBox RTB_CompressedScript;
+        private System.Windows.Forms.RichTextBox RTB_DecompressedScript;
     }
 }
 

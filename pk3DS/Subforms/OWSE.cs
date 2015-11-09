@@ -216,10 +216,10 @@ namespace pk3DS
 
                 RTB_OS.Lines = Scripts.getHexLines(ScriptData);
 
-                int start = BitConverter.ToInt32(ScriptData, 0x8) - 4;
-                int moves = BitConverter.ToInt32(ScriptData, 0xC) - 4;
-                int finaloffset = BitConverter.ToInt32(ScriptData, 0x10) - 4;
-                int reserved = BitConverter.ToInt32(ScriptData, 0x14) - 4;
+                int start = BitConverter.ToInt32(ScriptData, 0xC);
+                int moves = BitConverter.ToInt32(ScriptData, 0x10);
+                int finaloffset = BitConverter.ToInt32(ScriptData, 0x14);
+                int reserved = BitConverter.ToInt32(ScriptData, 0x18);
                 int compressedLength = length - start;
                 int decompressedLength = finaloffset - start;
 
@@ -685,6 +685,24 @@ namespace pk3DS
                 File.WriteAllLines("MapLocations.txt", result);
             CB_LocationID.SelectedIndex = 0;
             Util.Alert("All Map images have been dumped to " + folder + ".");
+        }
+
+        private void pasteScript(object sender, EventArgs e)
+        {
+            // import data as bytes
+            try
+            {
+                string text = RTB_CompressedScript.Text.Replace(Environment.NewLine, "").Replace("\n", "").Replace(" ", "");
+                byte[] data = Util.StringToByteArray(text);
+
+                byte[] dec = Scripts.decompressScript(data);
+
+                RTB_DecompressedScript.Lines = Scripts.getHexLines(dec);
+            }
+            catch
+            {
+                RTB_DecompressedScript.Text = "DECMP ERROR";
+            }
         }
     }
 }
