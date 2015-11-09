@@ -127,7 +127,7 @@
             this.NUD_Flavor = new System.Windows.Forms.NumericUpDown();
             this.PB_Map = new System.Windows.Forms.PictureBox();
             this.tb_Dev = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_DeComp = new System.Windows.Forms.Label();
             this.RTB_CompressedScript = new System.Windows.Forms.RichTextBox();
             this.RTB_DecompressedScript = new System.Windows.Forms.RichTextBox();
             this.L_Comp = new System.Windows.Forms.Label();
@@ -139,6 +139,16 @@
             this.B_DumpFurniture = new System.Windows.Forms.Button();
             this.L_ZDPreview = new System.Windows.Forms.Label();
             this.B_HLCMD = new System.Windows.Forms.Button();
+            this.NUD_NRange = new System.Windows.Forms.NumericUpDown();
+            this.L_Range = new System.Windows.Forms.Label();
+            this.TB_NDeg = new System.Windows.Forms.TextBox();
+            this.L_NDeg = new System.Windows.Forms.Label();
+            this.L_LeashInfo = new System.Windows.Forms.Label();
+            this.TB_Leash = new System.Windows.Forms.TextBox();
+            this.NUD_NMove1 = new System.Windows.Forms.NumericUpDown();
+            this.L_Move1 = new System.Windows.Forms.Label();
+            this.NUD_NMove2 = new System.Windows.Forms.NumericUpDown();
+            this.L_Move2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tb_ZoneData.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -182,6 +192,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Flavor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).BeginInit();
             this.tb_Dev.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NRange)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove2)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_LocationID
@@ -470,6 +483,16 @@
             // 
             // GB_N
             // 
+            this.GB_N.Controls.Add(this.NUD_NMove2);
+            this.GB_N.Controls.Add(this.L_Move2);
+            this.GB_N.Controls.Add(this.NUD_NMove1);
+            this.GB_N.Controls.Add(this.L_Move1);
+            this.GB_N.Controls.Add(this.TB_Leash);
+            this.GB_N.Controls.Add(this.L_LeashInfo);
+            this.GB_N.Controls.Add(this.L_NDeg);
+            this.GB_N.Controls.Add(this.TB_NDeg);
+            this.GB_N.Controls.Add(this.NUD_NRange);
+            this.GB_N.Controls.Add(this.L_Range);
             this.GB_N.Controls.Add(this.L_ModelAsHex);
             this.GB_N.Controls.Add(this.NUD_NFlag);
             this.GB_N.Controls.Add(this.L_NFlag);
@@ -488,7 +511,7 @@
             this.GB_N.Controls.Add(this.L_NID);
             this.GB_N.Location = new System.Drawing.Point(6, 40);
             this.GB_N.Name = "GB_N";
-            this.GB_N.Size = new System.Drawing.Size(256, 323);
+            this.GB_N.Size = new System.Drawing.Size(325, 323);
             this.GB_N.TabIndex = 436;
             this.GB_N.TabStop = false;
             this.GB_N.Text = "Info:";
@@ -547,7 +570,7 @@
             // 
             // NUD_NFace
             // 
-            this.NUD_NFace.Location = new System.Drawing.Point(93, 154);
+            this.NUD_NFace.Location = new System.Drawing.Point(93, 120);
             this.NUD_NFace.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -559,7 +582,7 @@
             // 
             // L_NFaceDirection
             // 
-            this.L_NFaceDirection.Location = new System.Drawing.Point(11, 154);
+            this.L_NFaceDirection.Location = new System.Drawing.Point(11, 120);
             this.L_NFaceDirection.Name = "L_NFaceDirection";
             this.L_NFaceDirection.Size = new System.Drawing.Size(76, 16);
             this.L_NFaceDirection.TabIndex = 442;
@@ -568,7 +591,7 @@
             // 
             // NUD_NY
             // 
-            this.NUD_NY.Location = new System.Drawing.Point(93, 206);
+            this.NUD_NY.Location = new System.Drawing.Point(93, 198);
             this.NUD_NY.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -580,7 +603,7 @@
             // 
             // L_NY
             // 
-            this.L_NY.Location = new System.Drawing.Point(11, 206);
+            this.L_NY.Location = new System.Drawing.Point(11, 198);
             this.L_NY.Name = "L_NY";
             this.L_NY.Size = new System.Drawing.Size(76, 16);
             this.L_NY.TabIndex = 440;
@@ -589,7 +612,7 @@
             // 
             // NUD_NX
             // 
-            this.NUD_NX.Location = new System.Drawing.Point(93, 180);
+            this.NUD_NX.Location = new System.Drawing.Point(93, 172);
             this.NUD_NX.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -601,7 +624,7 @@
             // 
             // L_NX
             // 
-            this.L_NX.Location = new System.Drawing.Point(11, 180);
+            this.L_NX.Location = new System.Drawing.Point(11, 172);
             this.L_NX.Name = "L_NX";
             this.L_NX.Size = new System.Drawing.Size(76, 16);
             this.L_NX.TabIndex = 438;
@@ -1308,7 +1331,7 @@
             // 
             // tb_Dev
             // 
-            this.tb_Dev.Controls.Add(this.label1);
+            this.tb_Dev.Controls.Add(this.L_DeComp);
             this.tb_Dev.Controls.Add(this.RTB_CompressedScript);
             this.tb_Dev.Controls.Add(this.RTB_DecompressedScript);
             this.tb_Dev.Controls.Add(this.L_Comp);
@@ -1326,14 +1349,14 @@
             this.tb_Dev.Text = "Dev";
             this.tb_Dev.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // L_DeComp
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(395, 224);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 13);
-            this.label1.TabIndex = 430;
-            this.label1.Text = "Decompressed";
+            this.L_DeComp.AutoSize = true;
+            this.L_DeComp.Location = new System.Drawing.Point(395, 224);
+            this.L_DeComp.Name = "L_DeComp";
+            this.L_DeComp.Size = new System.Drawing.Size(78, 13);
+            this.L_DeComp.TabIndex = 430;
+            this.L_DeComp.Text = "Decompressed";
             // 
             // RTB_CompressedScript
             // 
@@ -1443,6 +1466,103 @@
             this.B_HLCMD.UseVisualStyleBackColor = true;
             this.B_HLCMD.Click += new System.EventHandler(this.B_HLCMD_Click);
             // 
+            // NUD_NRange
+            // 
+            this.NUD_NRange.Location = new System.Drawing.Point(93, 146);
+            this.NUD_NRange.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_NRange.Name = "NUD_NRange";
+            this.NUD_NRange.Size = new System.Drawing.Size(53, 20);
+            this.NUD_NRange.TabIndex = 450;
+            // 
+            // L_Range
+            // 
+            this.L_Range.Location = new System.Drawing.Point(11, 146);
+            this.L_Range.Name = "L_Range";
+            this.L_Range.Size = new System.Drawing.Size(76, 16);
+            this.L_Range.TabIndex = 449;
+            this.L_Range.Text = "Sight Range:";
+            this.L_Range.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TB_NDeg
+            // 
+            this.TB_NDeg.Location = new System.Drawing.Point(93, 224);
+            this.TB_NDeg.Name = "TB_NDeg";
+            this.TB_NDeg.ReadOnly = true;
+            this.TB_NDeg.Size = new System.Drawing.Size(53, 20);
+            this.TB_NDeg.TabIndex = 437;
+            // 
+            // L_NDeg
+            // 
+            this.L_NDeg.Location = new System.Drawing.Point(11, 225);
+            this.L_NDeg.Name = "L_NDeg";
+            this.L_NDeg.Size = new System.Drawing.Size(76, 16);
+            this.L_NDeg.TabIndex = 451;
+            this.L_NDeg.Text = "Degrees (?):";
+            this.L_NDeg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_LeashInfo
+            // 
+            this.L_LeashInfo.Location = new System.Drawing.Point(11, 251);
+            this.L_LeashInfo.Name = "L_LeashInfo";
+            this.L_LeashInfo.Size = new System.Drawing.Size(76, 16);
+            this.L_LeashInfo.TabIndex = 452;
+            this.L_LeashInfo.Text = "Leash Info:";
+            this.L_LeashInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TB_Leash
+            // 
+            this.TB_Leash.Location = new System.Drawing.Point(93, 250);
+            this.TB_Leash.Name = "TB_Leash";
+            this.TB_Leash.ReadOnly = true;
+            this.TB_Leash.Size = new System.Drawing.Size(158, 20);
+            this.TB_Leash.TabIndex = 453;
+            // 
+            // NUD_NMove1
+            // 
+            this.NUD_NMove1.Location = new System.Drawing.Point(234, 120);
+            this.NUD_NMove1.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_NMove1.Name = "NUD_NMove1";
+            this.NUD_NMove1.Size = new System.Drawing.Size(53, 20);
+            this.NUD_NMove1.TabIndex = 455;
+            // 
+            // L_Move1
+            // 
+            this.L_Move1.Location = new System.Drawing.Point(152, 120);
+            this.L_Move1.Name = "L_Move1";
+            this.L_Move1.Size = new System.Drawing.Size(76, 16);
+            this.L_Move1.TabIndex = 454;
+            this.L_Move1.Text = "Move1:";
+            this.L_Move1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_NMove2
+            // 
+            this.NUD_NMove2.Location = new System.Drawing.Point(234, 146);
+            this.NUD_NMove2.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_NMove2.Name = "NUD_NMove2";
+            this.NUD_NMove2.Size = new System.Drawing.Size(53, 20);
+            this.NUD_NMove2.TabIndex = 457;
+            // 
+            // L_Move2
+            // 
+            this.L_Move2.Location = new System.Drawing.Point(152, 146);
+            this.L_Move2.Name = "L_Move2";
+            this.L_Move2.Size = new System.Drawing.Size(76, 16);
+            this.L_Move2.TabIndex = 456;
+            this.L_Move2.Text = "Move2:";
+            this.L_Move2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1510,6 +1630,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_Map)).EndInit();
             this.tb_Dev.ResumeLayout(false);
             this.tb_Dev.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NRange)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1625,9 +1748,19 @@
         private System.Windows.Forms.Button B_DumpFurniture;
         private System.Windows.Forms.Button B_DumpMaps;
         private System.Windows.Forms.Label L_Comp;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_DeComp;
         private System.Windows.Forms.RichTextBox RTB_CompressedScript;
         private System.Windows.Forms.RichTextBox RTB_DecompressedScript;
+        private System.Windows.Forms.NumericUpDown NUD_NRange;
+        private System.Windows.Forms.Label L_Range;
+        private System.Windows.Forms.TextBox TB_NDeg;
+        private System.Windows.Forms.Label L_NDeg;
+        private System.Windows.Forms.TextBox TB_Leash;
+        private System.Windows.Forms.Label L_LeashInfo;
+        private System.Windows.Forms.NumericUpDown NUD_NMove2;
+        private System.Windows.Forms.Label L_Move2;
+        private System.Windows.Forms.NumericUpDown NUD_NMove1;
+        private System.Windows.Forms.Label L_Move1;
     }
 }
 

@@ -288,10 +288,13 @@ namespace pk3DS
                 n.Model = (int)NUD_NModel.Value;
                 n.SpawnFlag = (int)NUD_NFlag.Value;
                 n.Script = (int)NUD_NScript.Value;
-                
                 n.FaceDirection = (int)NUD_NFace.Value;
+                n.SightRange = (int)NUD_NRange.Value;
                 n.X = (int)NUD_NX.Value;
                 n.Y = (int)NUD_NY.Value;
+
+                n.MovePermissions = (int)NUD_NMove1.Value;
+                n.MovePermissions2 = (int)NUD_NMove2.Value;
             }
             nEntry = (int)NUD_NE.Value;
 
@@ -303,10 +306,18 @@ namespace pk3DS
             NUD_NModel.Value = NPC.Model;
             NUD_NFlag.Value = NPC.SpawnFlag;
             NUD_NScript.Value = NPC.Script;
-
             NUD_NFace.Value = NPC.FaceDirection;
+            NUD_NRange.Value = NPC.SightRange;
             NUD_NX.Value = NPC.X;
             NUD_NY.Value = NPC.Y;
+            NUD_NMove1.Value = NPC.MovePermissions;
+            NUD_NMove2.Value = NPC.MovePermissions2;
+
+            // Uneditables
+            TB_NDeg.Text = NPC.Degrees.ToString();
+            TB_Leash.Text = (NPC.L1 == NPC.L2 && NPC.L2 == NPC.L3 && NPC.L3 == -1)
+                ? TB_Leash.Text = "No Leash!"
+                : String.Format("{0}, {1}, {2} -- {3}", NPC.L1, NPC.L2, NPC.L3, NPC.LDir);
 
             RTB_N.Text = Util.getHexString(NPC.Raw);
         }

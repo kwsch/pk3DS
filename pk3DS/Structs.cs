@@ -1224,6 +1224,7 @@ namespace pk3DS
                 // Shorts
                 public int U14 { get { return BitConverter.ToInt16(Raw, 0x14); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); } }
                 public int U16 { get { return BitConverter.ToInt16(Raw, 0x16); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); } }
+                // Negative only in X/Y... seeing behind them?
                 public int U18 { get { return BitConverter.ToInt16(Raw, 0x18); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x18); } }
                 public int U1A { get { return BitConverter.ToInt16(Raw, 0x1A); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x1A); } }
 
@@ -1242,7 +1243,9 @@ namespace pk3DS
                 // Highest bits for X/Y seem to be fractions of a coordinate?
                 public int X { get { return BitConverter.ToUInt16(Raw, 0x28); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x28); } }
                 public int Y { get { return BitConverter.ToUInt16(Raw, 0x2A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2A); } }
-                public float Z { get { return BitConverter.ToSingle(Raw, 0x2C); } set { BitConverter.GetBytes(value).CopyTo(Raw, 0x2C); } }
+
+                // -360, 360 ????
+                public float Degrees { get { return BitConverter.ToSingle(Raw, 0x2C); } set { BitConverter.GetBytes(value).CopyTo(Raw, 0x2C); } }
 
                 public byte[] Raw;
                 internal static readonly byte Size = 0x30;
