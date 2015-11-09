@@ -57,9 +57,9 @@
             this.L_DARCMini.AutoSize = true;
             this.L_DARCMini.Location = new System.Drawing.Point(9, 9);
             this.L_DARCMini.Name = "L_DARCMini";
-            this.L_DARCMini.Size = new System.Drawing.Size(145, 13);
+            this.L_DARCMini.Size = new System.Drawing.Size(294, 13);
             this.L_DARCMini.TabIndex = 1;
-            this.L_DARCMini.Text = "GARC, DARC && Mini Unpack";
+            this.L_DARCMini.Text = "GARC, DARC && Mini Unpack (CTRL to Skip Decompression)";
             // 
             // CHK_PNG
             // 

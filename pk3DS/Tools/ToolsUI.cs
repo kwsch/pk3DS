@@ -41,6 +41,11 @@ namespace pk3DS
                 openIMG(path);
             else if (sender == PB_Repack)
                 saveARC(path);
+            else try {
+                CTR.LZSS.Decompress(path, Path.Combine(Path.GetDirectoryName(path), "dec_" + Path.GetFileName(path)));
+            } catch { try {
+                new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+            } catch { Util.Error("Unable to process file."); } }
         }
         private void dropHover(object sender, EventArgs e)
         {
