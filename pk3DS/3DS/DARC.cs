@@ -13,75 +13,75 @@ namespace CTR
         public FileTableEntry[] Entries;
         public NameTableEntry[] FileNameTable;
 
-		public DARC(byte[] Data = null)
-		{
-		    if (Data == null) return;
+        public DARC(byte[] Data = null)
+        {
+            if (Data == null) return;
             using (BinaryReader br = new BinaryReader(new MemoryStream(Data)))
-			try
-			{
-				Header = new DARCHeader(br);
-				br.BaseStream.Position = Header.FileTableOffset;
-				FileTableEntry root = new FileTableEntry(br);
-				Entries = new FileTableEntry[root.DataLength];
-				Entries[0] = root;
-				for (int i = 1; i < root.DataLength; i++) Entries[i] = new FileTableEntry(br);
+            try
+            {
+                Header = new DARCHeader(br);
+                br.BaseStream.Position = Header.FileTableOffset;
+                FileTableEntry root = new FileTableEntry(br);
+                Entries = new FileTableEntry[root.DataLength];
+                Entries[0] = root;
+                for (int i = 1; i < root.DataLength; i++) Entries[i] = new FileTableEntry(br);
                 FileNameTable = new NameTableEntry[root.DataLength];
-				uint offs = 0;
-				for (int i = 0; i < root.DataLength; i++)
-				{
-				    char c; string s = String.Empty;
-				    while ((c = (char) br.ReadUInt16()) > 0) s += c;
+                uint offs = 0;
+                for (int i = 0; i < root.DataLength; i++)
+                {
+                    char c; string s = String.Empty;
+                    while ((c = (char) br.ReadUInt16()) > 0) s += c;
 
-					FileNameTable[i] = new NameTableEntry(offs, s);
-					offs += (uint)s.Length * 2 + 2;
-				}
-				br.BaseStream.Position = Header.FileDataOffset;
-				this.Data = br.ReadBytes((int)(Header.FileSize - Header.FileDataOffset));
-			}
+                    FileNameTable[i] = new NameTableEntry(offs, s);
+                    offs += (uint)s.Length * 2 + 2;
+                }
+                br.BaseStream.Position = Header.FileDataOffset;
+                this.Data = br.ReadBytes((int)(Header.FileSize - Header.FileDataOffset));
+            }
             catch (Exception)
             { br.Close(); }
-		}
+        }
 
-		public class DARCHeader
-		{
-			public DARCHeader(BinaryReader br = null)
-			{
-			    if (br == null) return;
-				Signature = new string(br.ReadChars(4));
-				if (Signature != "darc") throw new Exception(Signature);
-				Endianness = br.ReadUInt16();
-				HeaderSize = br.ReadUInt16();
-				Version = br.ReadUInt32();
-				FileSize = br.ReadUInt32();
-				FileTableOffset = br.ReadUInt32();
-				FileTableLength = br.ReadUInt32();
-				FileDataOffset = br.ReadUInt32();
-			}
-			public String Signature;
-			public UInt16 Endianness;
-			public UInt16 HeaderSize;
-			public UInt32 Version;
-			public UInt32 FileSize;
-			public UInt32 FileTableOffset;
-			public UInt32 FileTableLength;
-			public UInt32 FileDataOffset;
-		}
-		public class FileTableEntry
-		{
-			public FileTableEntry(BinaryReader br = null)
-			{
-			    if (br == null) return;
-				NameOffset = br.ReadUInt32();
-				IsFolder = (NameOffset >> 24) == 1;
-				NameOffset &= 0xFFFFFF;
-				DataOffset = br.ReadUInt32();
-				DataLength = br.ReadUInt32();
-			}
-			public UInt32 NameOffset;
-			public Boolean IsFolder;
-			public UInt32 DataOffset; // FOLDER: Parent Entry Index
+        public class DARCHeader
+        {
+            public DARCHeader(BinaryReader br = null)
+            {
+                if (br == null) return;
+                Signature = new string(br.ReadChars(4));
+                if (Signature != "darc") throw new Exception(Signature);
+                Endianness = br.ReadUInt16();
+                HeaderSize = br.ReadUInt16();
+                Version = br.ReadUInt32();
+                FileSize = br.ReadUInt32();
+                FileTableOffset = br.ReadUInt32();
+                FileTableLength = br.ReadUInt32();
+                FileDataOffset = br.ReadUInt32();
+            }
+            public String Signature;
+            public UInt16 Endianness;
+            public UInt16 HeaderSize;
+            public UInt32 Version;
+            public UInt32 FileSize;
+            public UInt32 FileTableOffset;
+            public UInt32 FileTableLength;
+            public UInt32 FileDataOffset;
+        }
+        public class FileTableEntry
+        {
+            public FileTableEntry(BinaryReader br = null)
+            {
+                if (br == null) return;
+                NameOffset = br.ReadUInt32();
+                IsFolder = (NameOffset >> 24) == 1;
+                NameOffset &= 0xFFFFFF;
+                DataOffset = br.ReadUInt32();
+                DataLength = br.ReadUInt32();
+            }
+            public UInt32 NameOffset;
+            public Boolean IsFolder;
+            public UInt32 DataOffset; // FOLDER: Parent Entry Index
             public UInt32 DataLength; // FOLDER: Next Folder Index
-		}
+        }
         public class NameTableEntry
         {
             public UInt32 NameOffset;
@@ -368,5 +368,5 @@ namespace CTR
             orig.Header.FileSize = (uint)(orig.Data.Length + orig.Header.FileDataOffset);
             return orig;
         }
-	}
+    }
 }
