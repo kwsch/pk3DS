@@ -82,7 +82,8 @@ namespace pk3DS
             }
             return db;
         }
-        // FireFly's (github.com/FireyFly) concise decompression (c->c#):
+        // FireFly's (github.com/FireyFly) concise decompression (ported c->c#):
+        // https://github.com/FireyFly/poketools/blob/e74538a5b5e5dab1e78c1cd313c55d158f37534d/src/formats/script.c#L61
         internal static uint[] quickDecompress(byte[] data, int count)
         {
             uint[] code = new uint[count];
