@@ -642,6 +642,9 @@ namespace pk3DS
         private void B_Starter_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
+                "CRO Editing currently causes crashes.", "Continue anyway?"))
+                return;
             string CRO = Path.Combine(RomFSPath, "DllPoke3Select.cro");
             string CRO2 = Path.Combine(RomFSPath, "DllField.cro");
             if (!File.Exists(CRO))
@@ -659,6 +662,9 @@ namespace pk3DS
         private void B_TypeChart_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
+                "CRO Editing currently causes crashes.", "Continue anyway?"))
+                return;
             string CRO = Path.Combine(RomFSPath, "DllBattle.cro");
             if (!File.Exists(CRO))
             {
@@ -670,6 +676,9 @@ namespace pk3DS
         private void B_Gift_Click(object sender, EventArgs e)
         {
             if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
+                "CRO Editing currently causes crashes.", "Continue anyway?"))
+                return;
             string CRO = Path.Combine(RomFSPath, "DllField.cro");
             if (!File.Exists(CRO))
             {
