@@ -454,7 +454,7 @@ namespace pk3DS
                             Thread.Sleep(200);
                     }
                     Invoke((MethodInvoker)delegate { Enabled = true; });
-                    fileSet(files, true); // keep encdata for now since it is not editable.
+                    fileSet(files);
                 }
                 else
                 {
