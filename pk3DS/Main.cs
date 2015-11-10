@@ -443,6 +443,9 @@ namespace pk3DS
                     string[] files = { "encdata", "storytext", "mapGR", "mapMatrix" };
                     if (reload || files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
                         fileGet(files, false);
+
+                    // Only want to set back encdata.
+                    files = new [] { "encdata" };
                     Invoke((MethodInvoker)delegate { Enabled = false; });
                     {
                         Invoke((Action)(() => new xytext(Directory.GetFiles("storytext")).Show()));
@@ -451,7 +454,7 @@ namespace pk3DS
                             Thread.Sleep(200);
                     }
                     Invoke((MethodInvoker)delegate { Enabled = true; });
-                    fileSet(files);
+                    fileSet(files, true); // keep encdata for now since it is not editable.
                 }
                 else
                 {
