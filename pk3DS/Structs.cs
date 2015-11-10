@@ -1244,6 +1244,9 @@ namespace pk3DS
                 public int X { get { return BitConverter.ToUInt16(Raw, 0x28); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x28); } }
                 public int Y { get { return BitConverter.ToUInt16(Raw, 0x2A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2A); } }
 
+                public decimal pX { get { return (decimal)X / 18; } }
+                public decimal pY { get { return (decimal)Y / 18; } }
+
                 // -360, 360 ????
                 public float Degrees { get { return BitConverter.ToSingle(Raw, 0x2C); } set { BitConverter.GetBytes(value).CopyTo(Raw, 0x2C); } }
 
@@ -1274,6 +1277,9 @@ namespace pk3DS
                 public int X { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
                 public int Z { get { return BitConverter.ToInt16(Raw, 0x0A); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0A); } }
                 public int Y { get { return BitConverter.ToUInt16(Raw, 0x0C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); } }
+
+                public decimal pX { get { return (decimal)X / 18; } }
+                public decimal pY { get { return (decimal)Y / 18; } }
 
                 // Not sure.
                 public int U0E { get { return BitConverter.ToInt16(Raw, 0x0E); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0E); } }

@@ -149,6 +149,14 @@
             this.L_Move1 = new System.Windows.Forms.Label();
             this.NUD_NMove2 = new System.Windows.Forms.NumericUpDown();
             this.L_Move2 = new System.Windows.Forms.Label();
+            this.L_NpX = new System.Windows.Forms.Label();
+            this.L_NpY = new System.Windows.Forms.Label();
+            this.L_WpY = new System.Windows.Forms.Label();
+            this.L_WpX = new System.Windows.Forms.Label();
+            this.NUD_WY = new System.Windows.Forms.NumericUpDown();
+            this.L_WY = new System.Windows.Forms.Label();
+            this.NUD_WX = new System.Windows.Forms.NumericUpDown();
+            this.L_WX = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tb_ZoneData.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -195,6 +203,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NRange)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_WY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_WX)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_LocationID
@@ -483,6 +493,8 @@
             // 
             // GB_N
             // 
+            this.GB_N.Controls.Add(this.L_NpY);
+            this.GB_N.Controls.Add(this.L_NpX);
             this.GB_N.Controls.Add(this.NUD_NMove2);
             this.GB_N.Controls.Add(this.L_Move2);
             this.GB_N.Controls.Add(this.NUD_NMove1);
@@ -600,6 +612,7 @@
             this.NUD_NY.Name = "NUD_NY";
             this.NUD_NY.Size = new System.Drawing.Size(53, 20);
             this.NUD_NY.TabIndex = 441;
+            this.NUD_NY.ValueChanged += new System.EventHandler(this.changeNPC_Y);
             // 
             // L_NY
             // 
@@ -621,6 +634,7 @@
             this.NUD_NX.Name = "NUD_NX";
             this.NUD_NX.Size = new System.Drawing.Size(53, 20);
             this.NUD_NX.TabIndex = 439;
+            this.NUD_NX.ValueChanged += new System.EventHandler(this.changeNPC_X);
             // 
             // L_NX
             // 
@@ -722,6 +736,12 @@
             // 
             // GB_W
             // 
+            this.GB_W.Controls.Add(this.L_WpY);
+            this.GB_W.Controls.Add(this.L_WpX);
+            this.GB_W.Controls.Add(this.NUD_WY);
+            this.GB_W.Controls.Add(this.L_WY);
+            this.GB_W.Controls.Add(this.NUD_WX);
+            this.GB_W.Controls.Add(this.L_WX);
             this.GB_W.Controls.Add(this.RTB_W);
             this.GB_W.Controls.Add(this.L_WarpDest);
             this.GB_W.Controls.Add(this.L_DestMap);
@@ -1563,6 +1583,90 @@
             this.L_Move2.Text = "Move2:";
             this.L_Move2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // L_NpX
+            // 
+            this.L_NpX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_NpX.AutoSize = true;
+            this.L_NpX.Location = new System.Drawing.Point(152, 174);
+            this.L_NpX.Name = "L_NpX";
+            this.L_NpX.Size = new System.Drawing.Size(29, 13);
+            this.L_NpX.TabIndex = 458;
+            this.L_NpX.Text = "HEX";
+            // 
+            // L_NpY
+            // 
+            this.L_NpY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_NpY.AutoSize = true;
+            this.L_NpY.Location = new System.Drawing.Point(152, 200);
+            this.L_NpY.Name = "L_NpY";
+            this.L_NpY.Size = new System.Drawing.Size(29, 13);
+            this.L_NpY.TabIndex = 459;
+            this.L_NpY.Text = "HEX";
+            // 
+            // L_WpY
+            // 
+            this.L_WpY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_WpY.AutoSize = true;
+            this.L_WpY.Location = new System.Drawing.Point(184, 191);
+            this.L_WpY.Name = "L_WpY";
+            this.L_WpY.Size = new System.Drawing.Size(29, 13);
+            this.L_WpY.TabIndex = 465;
+            this.L_WpY.Text = "HEX";
+            // 
+            // L_WpX
+            // 
+            this.L_WpX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_WpX.AutoSize = true;
+            this.L_WpX.Location = new System.Drawing.Point(184, 165);
+            this.L_WpX.Name = "L_WpX";
+            this.L_WpX.Size = new System.Drawing.Size(29, 13);
+            this.L_WpX.TabIndex = 464;
+            this.L_WpX.Text = "HEX";
+            // 
+            // NUD_WY
+            // 
+            this.NUD_WY.Location = new System.Drawing.Point(125, 189);
+            this.NUD_WY.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_WY.Name = "NUD_WY";
+            this.NUD_WY.Size = new System.Drawing.Size(53, 20);
+            this.NUD_WY.TabIndex = 463;
+            this.NUD_WY.ValueChanged += new System.EventHandler(this.changeWarp_Y);
+            // 
+            // L_WY
+            // 
+            this.L_WY.Location = new System.Drawing.Point(43, 189);
+            this.L_WY.Name = "L_WY";
+            this.L_WY.Size = new System.Drawing.Size(76, 16);
+            this.L_WY.TabIndex = 462;
+            this.L_WY.Text = "Y Coordinate:";
+            this.L_WY.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_WX
+            // 
+            this.NUD_WX.Location = new System.Drawing.Point(125, 163);
+            this.NUD_WX.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_WX.Name = "NUD_WX";
+            this.NUD_WX.Size = new System.Drawing.Size(53, 20);
+            this.NUD_WX.TabIndex = 461;
+            this.NUD_WX.ValueChanged += new System.EventHandler(this.changeWarp_X);
+            // 
+            // L_WX
+            // 
+            this.L_WX.Location = new System.Drawing.Point(43, 163);
+            this.L_WX.Name = "L_WX";
+            this.L_WX.Size = new System.Drawing.Size(76, 16);
+            this.L_WX.TabIndex = 460;
+            this.L_WX.Text = "X Coordinate:";
+            this.L_WX.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1604,6 +1708,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NE)).EndInit();
             this.tb_Warp.ResumeLayout(false);
             this.GB_W.ResumeLayout(false);
+            this.GB_W.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WTile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WMap)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WE)).EndInit();
@@ -1633,6 +1738,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NRange)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_WY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_WX)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1761,6 +1868,14 @@
         private System.Windows.Forms.Label L_Move2;
         private System.Windows.Forms.NumericUpDown NUD_NMove1;
         private System.Windows.Forms.Label L_Move1;
+        private System.Windows.Forms.Label L_NpY;
+        private System.Windows.Forms.Label L_NpX;
+        private System.Windows.Forms.Label L_WpY;
+        private System.Windows.Forms.Label L_WpX;
+        private System.Windows.Forms.NumericUpDown NUD_WY;
+        private System.Windows.Forms.Label L_WY;
+        private System.Windows.Forms.NumericUpDown NUD_WX;
+        private System.Windows.Forms.Label L_WX;
     }
 }
 

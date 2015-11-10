@@ -330,6 +330,8 @@ namespace pk3DS
             {
                 CurrentZone.Entities.Warps[wEntry].DestinationMap = (int)NUD_WMap.Value;
                 CurrentZone.Entities.Warps[wEntry].DestinationTileIndex = (int)NUD_WTile.Value;
+                CurrentZone.Entities.Warps[wEntry].X = (int)NUD_WX.Value;
+                CurrentZone.Entities.Warps[wEntry].Y = (int)NUD_WY.Value;
             }
             wEntry = (int)NUD_WE.Value;
 
@@ -340,6 +342,9 @@ namespace pk3DS
             // Load new Attributes
             NUD_WMap.Value = Warp.DestinationMap;
             NUD_WTile.Value = Warp.DestinationTileIndex;
+
+            NUD_WX.Value = Warp.X;
+            NUD_WY.Value = Warp.Y;
 
             // Flavor Mods
             L_WarpDest.Text = zdLocations[Warp.DestinationMap];
@@ -608,6 +613,24 @@ namespace pk3DS
             {
                 RTB_DecompressedScript.Text = "DECMP ERROR";
             }
+        }
+
+        // Coordinate Simplifiers
+        private void changeNPC_X(object sender, EventArgs e)
+        {
+            L_NpX.Text = (NUD_NX.Value/18).ToString();
+        }
+        private void changeNPC_Y(object sender, EventArgs e)
+        {
+            L_NpY.Text = (NUD_NY.Value / 18).ToString();
+        }
+        private void changeWarp_X(object sender, EventArgs e)
+        {
+            L_WpX.Text = (NUD_WX.Value / 18).ToString();
+        }
+        private void changeWarp_Y(object sender, EventArgs e)
+        {
+            L_WpY.Text = (NUD_WY.Value / 18).ToString();
         }
     }
 }
