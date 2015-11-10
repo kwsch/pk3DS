@@ -439,7 +439,7 @@ namespace pk3DS
             }
             Image img = mm.Preview((int)NUD_Scale.Value, (int)NUD_Flavor.Value);
             img = Util.TrimBitmap((Bitmap)img);
-            PB_Map.Size = new Size(img.Width + 2, img.Height + 2);
+            mapScale = (int)NUD_Scale.Value;
             return img;
         }
         private void B_Redraw_Click(object sender, EventArgs e)
@@ -648,6 +648,18 @@ namespace pk3DS
         private void changeWarp_Y(object sender, EventArgs e)
         {
             L_WpY.Text = (NUD_WY.Value / 18).ToString();
+        }
+
+        private int mapScale = -1;
+        private void hoverMap(object sender, MouseEventArgs e)
+        {
+            if (mapScale < 0)
+                return;
+
+            int X = e.X / (mapScale);
+            int Y = e.Y / (mapScale);
+
+            L_MapCoord.Text = String.Format("X: {0}{2}Y: {1}", X, Y, Environment.NewLine);
         }
     }
 }
