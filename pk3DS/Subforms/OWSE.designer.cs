@@ -149,14 +149,30 @@
             this.L_Move1 = new System.Windows.Forms.Label();
             this.NUD_NMove2 = new System.Windows.Forms.NumericUpDown();
             this.L_Move2 = new System.Windows.Forms.Label();
-            this.L_NpX = new System.Windows.Forms.Label();
-            this.L_NpY = new System.Windows.Forms.Label();
             this.L_WpY = new System.Windows.Forms.Label();
             this.L_WpX = new System.Windows.Forms.Label();
             this.NUD_WY = new System.Windows.Forms.NumericUpDown();
             this.L_WY = new System.Windows.Forms.Label();
             this.NUD_WX = new System.Windows.Forms.NumericUpDown();
             this.L_WX = new System.Windows.Forms.Label();
+            this.L_NpX = new System.Windows.Forms.Label();
+            this.L_NpY = new System.Windows.Forms.Label();
+            this.NUD_FY = new System.Windows.Forms.NumericUpDown();
+            this.L_FY = new System.Windows.Forms.Label();
+            this.NUD_FX = new System.Windows.Forms.NumericUpDown();
+            this.L_FX = new System.Windows.Forms.Label();
+            this.NUD_FWY = new System.Windows.Forms.NumericUpDown();
+            this.L_FWY = new System.Windows.Forms.Label();
+            this.NUD_FWX = new System.Windows.Forms.NumericUpDown();
+            this.L_FWX = new System.Windows.Forms.Label();
+            this.NUD_T1Y = new System.Windows.Forms.NumericUpDown();
+            this.L_T1Y = new System.Windows.Forms.Label();
+            this.NUD_T1X = new System.Windows.Forms.NumericUpDown();
+            this.L_T1X = new System.Windows.Forms.Label();
+            this.NUD_T2Y = new System.Windows.Forms.NumericUpDown();
+            this.L_T2Y = new System.Windows.Forms.Label();
+            this.NUD_T2X = new System.Windows.Forms.NumericUpDown();
+            this.L_T2X = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tb_ZoneData.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -205,6 +221,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FWY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FWX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_T1Y)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_T1X)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_T2Y)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_T2X)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_LocationID
@@ -437,6 +461,14 @@
             // 
             // GB_F
             // 
+            this.GB_F.Controls.Add(this.NUD_FWY);
+            this.GB_F.Controls.Add(this.L_FWY);
+            this.GB_F.Controls.Add(this.NUD_FWX);
+            this.GB_F.Controls.Add(this.L_FWX);
+            this.GB_F.Controls.Add(this.NUD_FY);
+            this.GB_F.Controls.Add(this.L_FY);
+            this.GB_F.Controls.Add(this.NUD_FX);
+            this.GB_F.Controls.Add(this.L_FX);
             this.GB_F.Controls.Add(this.RTB_F);
             this.GB_F.Location = new System.Drawing.Point(6, 40);
             this.GB_F.Name = "GB_F";
@@ -854,6 +886,10 @@
             // 
             // GB_T
             // 
+            this.GB_T.Controls.Add(this.NUD_T1Y);
+            this.GB_T.Controls.Add(this.L_T1Y);
+            this.GB_T.Controls.Add(this.NUD_T1X);
+            this.GB_T.Controls.Add(this.L_T1X);
             this.GB_T.Controls.Add(this.RTB_T);
             this.GB_T.Location = new System.Drawing.Point(6, 40);
             this.GB_T.Name = "GB_T";
@@ -910,6 +946,10 @@
             // 
             // GB_U
             // 
+            this.GB_U.Controls.Add(this.NUD_T2Y);
+            this.GB_U.Controls.Add(this.L_T2Y);
+            this.GB_U.Controls.Add(this.NUD_T2X);
+            this.GB_U.Controls.Add(this.L_T2X);
             this.GB_U.Controls.Add(this.RTB_U);
             this.GB_U.Location = new System.Drawing.Point(6, 40);
             this.GB_U.Name = "GB_U";
@@ -1583,26 +1623,6 @@
             this.L_Move2.Text = "Move2:";
             this.L_Move2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_NpX
-            // 
-            this.L_NpX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_NpX.AutoSize = true;
-            this.L_NpX.Location = new System.Drawing.Point(152, 174);
-            this.L_NpX.Name = "L_NpX";
-            this.L_NpX.Size = new System.Drawing.Size(29, 13);
-            this.L_NpX.TabIndex = 458;
-            this.L_NpX.Text = "HEX";
-            // 
-            // L_NpY
-            // 
-            this.L_NpY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_NpY.AutoSize = true;
-            this.L_NpY.Location = new System.Drawing.Point(152, 200);
-            this.L_NpY.Name = "L_NpY";
-            this.L_NpY.Size = new System.Drawing.Size(29, 13);
-            this.L_NpY.TabIndex = 459;
-            this.L_NpY.Text = "HEX";
-            // 
             // L_WpY
             // 
             this.L_WpY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1666,6 +1686,194 @@
             this.L_WX.TabIndex = 460;
             this.L_WX.Text = "X Coordinate:";
             this.L_WX.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_NpX
+            // 
+            this.L_NpX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_NpX.AutoSize = true;
+            this.L_NpX.Location = new System.Drawing.Point(152, 174);
+            this.L_NpX.Name = "L_NpX";
+            this.L_NpX.Size = new System.Drawing.Size(29, 13);
+            this.L_NpX.TabIndex = 458;
+            this.L_NpX.Text = "HEX";
+            // 
+            // L_NpY
+            // 
+            this.L_NpY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_NpY.AutoSize = true;
+            this.L_NpY.Location = new System.Drawing.Point(152, 200);
+            this.L_NpY.Name = "L_NpY";
+            this.L_NpY.Size = new System.Drawing.Size(29, 13);
+            this.L_NpY.TabIndex = 459;
+            this.L_NpY.Text = "HEX";
+            // 
+            // NUD_FY
+            // 
+            this.NUD_FY.Location = new System.Drawing.Point(125, 164);
+            this.NUD_FY.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_FY.Name = "NUD_FY";
+            this.NUD_FY.Size = new System.Drawing.Size(53, 20);
+            this.NUD_FY.TabIndex = 463;
+            // 
+            // L_FY
+            // 
+            this.L_FY.Location = new System.Drawing.Point(43, 164);
+            this.L_FY.Name = "L_FY";
+            this.L_FY.Size = new System.Drawing.Size(76, 16);
+            this.L_FY.TabIndex = 462;
+            this.L_FY.Text = "Y Coordinate:";
+            this.L_FY.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_FX
+            // 
+            this.NUD_FX.Location = new System.Drawing.Point(125, 138);
+            this.NUD_FX.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_FX.Name = "NUD_FX";
+            this.NUD_FX.Size = new System.Drawing.Size(53, 20);
+            this.NUD_FX.TabIndex = 461;
+            // 
+            // L_FX
+            // 
+            this.L_FX.Location = new System.Drawing.Point(43, 138);
+            this.L_FX.Name = "L_FX";
+            this.L_FX.Size = new System.Drawing.Size(76, 16);
+            this.L_FX.TabIndex = 460;
+            this.L_FX.Text = "X Coordinate:";
+            this.L_FX.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_FWY
+            // 
+            this.NUD_FWY.Location = new System.Drawing.Point(125, 216);
+            this.NUD_FWY.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_FWY.Name = "NUD_FWY";
+            this.NUD_FWY.Size = new System.Drawing.Size(53, 20);
+            this.NUD_FWY.TabIndex = 469;
+            // 
+            // L_FWY
+            // 
+            this.L_FWY.Location = new System.Drawing.Point(43, 216);
+            this.L_FWY.Name = "L_FWY";
+            this.L_FWY.Size = new System.Drawing.Size(76, 16);
+            this.L_FWY.TabIndex = 468;
+            this.L_FWY.Text = "FwY:";
+            this.L_FWY.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_FWX
+            // 
+            this.NUD_FWX.Location = new System.Drawing.Point(125, 190);
+            this.NUD_FWX.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_FWX.Name = "NUD_FWX";
+            this.NUD_FWX.Size = new System.Drawing.Size(53, 20);
+            this.NUD_FWX.TabIndex = 467;
+            // 
+            // L_FWX
+            // 
+            this.L_FWX.Location = new System.Drawing.Point(43, 190);
+            this.L_FWX.Name = "L_FWX";
+            this.L_FWX.Size = new System.Drawing.Size(76, 16);
+            this.L_FWX.TabIndex = 466;
+            this.L_FWX.Text = "FwX:";
+            this.L_FWX.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_T1Y
+            // 
+            this.NUD_T1Y.Location = new System.Drawing.Point(143, 164);
+            this.NUD_T1Y.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_T1Y.Name = "NUD_T1Y";
+            this.NUD_T1Y.Size = new System.Drawing.Size(53, 20);
+            this.NUD_T1Y.TabIndex = 445;
+            // 
+            // L_T1Y
+            // 
+            this.L_T1Y.Location = new System.Drawing.Point(61, 164);
+            this.L_T1Y.Name = "L_T1Y";
+            this.L_T1Y.Size = new System.Drawing.Size(76, 16);
+            this.L_T1Y.TabIndex = 444;
+            this.L_T1Y.Text = "Y Coordinate:";
+            this.L_T1Y.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_T1X
+            // 
+            this.NUD_T1X.Location = new System.Drawing.Point(143, 138);
+            this.NUD_T1X.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_T1X.Name = "NUD_T1X";
+            this.NUD_T1X.Size = new System.Drawing.Size(53, 20);
+            this.NUD_T1X.TabIndex = 443;
+            // 
+            // L_T1X
+            // 
+            this.L_T1X.Location = new System.Drawing.Point(61, 138);
+            this.L_T1X.Name = "L_T1X";
+            this.L_T1X.Size = new System.Drawing.Size(76, 16);
+            this.L_T1X.TabIndex = 442;
+            this.L_T1X.Text = "X Coordinate:";
+            this.L_T1X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_T2Y
+            // 
+            this.NUD_T2Y.Location = new System.Drawing.Point(143, 164);
+            this.NUD_T2Y.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_T2Y.Name = "NUD_T2Y";
+            this.NUD_T2Y.Size = new System.Drawing.Size(53, 20);
+            this.NUD_T2Y.TabIndex = 445;
+            // 
+            // L_T2Y
+            // 
+            this.L_T2Y.Location = new System.Drawing.Point(61, 164);
+            this.L_T2Y.Name = "L_T2Y";
+            this.L_T2Y.Size = new System.Drawing.Size(76, 16);
+            this.L_T2Y.TabIndex = 444;
+            this.L_T2Y.Text = "Y Coordinate:";
+            this.L_T2Y.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_T2X
+            // 
+            this.NUD_T2X.Location = new System.Drawing.Point(143, 138);
+            this.NUD_T2X.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_T2X.Name = "NUD_T2X";
+            this.NUD_T2X.Size = new System.Drawing.Size(53, 20);
+            this.NUD_T2X.TabIndex = 443;
+            // 
+            // L_T2X
+            // 
+            this.L_T2X.Location = new System.Drawing.Point(61, 138);
+            this.L_T2X.Name = "L_T2X";
+            this.L_T2X.Size = new System.Drawing.Size(76, 16);
+            this.L_T2X.TabIndex = 442;
+            this.L_T2X.Text = "X Coordinate:";
+            this.L_T2X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // OWSE
             // 
@@ -1740,6 +1948,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FWY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FWX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_T1Y)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_T1X)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_T2Y)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_T2X)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1868,14 +2084,30 @@
         private System.Windows.Forms.Label L_Move2;
         private System.Windows.Forms.NumericUpDown NUD_NMove1;
         private System.Windows.Forms.Label L_Move1;
-        private System.Windows.Forms.Label L_NpY;
-        private System.Windows.Forms.Label L_NpX;
         private System.Windows.Forms.Label L_WpY;
         private System.Windows.Forms.Label L_WpX;
         private System.Windows.Forms.NumericUpDown NUD_WY;
         private System.Windows.Forms.Label L_WY;
         private System.Windows.Forms.NumericUpDown NUD_WX;
         private System.Windows.Forms.Label L_WX;
+        private System.Windows.Forms.Label L_NpY;
+        private System.Windows.Forms.Label L_NpX;
+        private System.Windows.Forms.NumericUpDown NUD_FWY;
+        private System.Windows.Forms.Label L_FWY;
+        private System.Windows.Forms.NumericUpDown NUD_FWX;
+        private System.Windows.Forms.Label L_FWX;
+        private System.Windows.Forms.NumericUpDown NUD_FY;
+        private System.Windows.Forms.Label L_FY;
+        private System.Windows.Forms.NumericUpDown NUD_FX;
+        private System.Windows.Forms.Label L_FX;
+        private System.Windows.Forms.NumericUpDown NUD_T1Y;
+        private System.Windows.Forms.Label L_T1Y;
+        private System.Windows.Forms.NumericUpDown NUD_T1X;
+        private System.Windows.Forms.Label L_T1X;
+        private System.Windows.Forms.NumericUpDown NUD_T2Y;
+        private System.Windows.Forms.Label L_T2Y;
+        private System.Windows.Forms.NumericUpDown NUD_T2X;
+        private System.Windows.Forms.Label L_T2X;
     }
 }
 

@@ -268,12 +268,20 @@ namespace pk3DS
             // Set Old Data
             if (fEntry > 0)
             {
-                // No attributes editable atm
+                var f = CurrentZone.Entities.Furniture[fEntry];
+                f.X = (int)NUD_FX.Value;
+                f.Y = (int)NUD_FY.Value;
+                f.WX = (int)NUD_FWX.Value;
+                f.WY = (int)NUD_FWY.Value;
             }
             fEntry = (int)NUD_FE.Value;
 
             // Load New Data
             var Furniture = CurrentZone.Entities.Furniture[fEntry];
+            NUD_FX.Value = Furniture.X;
+            NUD_FY.Value = Furniture.Y;
+            NUD_FWX.Value = Furniture.WX;
+            NUD_FWY.Value = Furniture.WY;
             RTB_F.Text = Util.getHexString(Furniture.Raw);
         }
         private void changeOverworld(object sender, EventArgs e)
@@ -314,7 +322,7 @@ namespace pk3DS
             NUD_NMove2.Value = NPC.MovePermissions2;
 
             // Uneditables
-            TB_NDeg.Text = NPC.Degrees.ToString();
+            TB_NDeg.Text = NPC.Deg18.ToString();
             TB_Leash.Text = (NPC.L1 == NPC.L2 && NPC.L2 == NPC.L3 && NPC.L3 == -1)
                 ? TB_Leash.Text = "No Leash!"
                 : String.Format("{0}, {1}, {2} -- {3}", NPC.L1, NPC.L2, NPC.L3, NPC.LDir);
@@ -328,10 +336,11 @@ namespace pk3DS
             // Set Old Data
             if (wEntry > 0)
             {
-                CurrentZone.Entities.Warps[wEntry].DestinationMap = (int)NUD_WMap.Value;
-                CurrentZone.Entities.Warps[wEntry].DestinationTileIndex = (int)NUD_WTile.Value;
-                CurrentZone.Entities.Warps[wEntry].X = (int)NUD_WX.Value;
-                CurrentZone.Entities.Warps[wEntry].Y = (int)NUD_WY.Value;
+                var w = CurrentZone.Entities.Warps[wEntry];
+                w.DestinationMap = (int)NUD_WMap.Value;
+                w.DestinationTileIndex = (int)NUD_WTile.Value;
+                w.X = (int)NUD_WX.Value;
+                w.Y = (int)NUD_WY.Value;
             }
             wEntry = (int)NUD_WE.Value;
 
@@ -356,12 +365,16 @@ namespace pk3DS
             // Set Old Data
             if (tEntry > 0)
             {
-                // No attributes editable atm
+                var t1 = CurrentZone.Entities.Triggers1[tEntry];
+                t1.X = (int)NUD_T1X.Value;
+                t1.Y = (int)NUD_T1Y.Value;
             }
             tEntry = (int)NUD_TE.Value;
 
             // Load New Data
             var Trigger = CurrentZone.Entities.Triggers1[tEntry];
+            NUD_T1X.Value = Trigger.X;
+            NUD_T1Y.Value = Trigger.Y;
             RTB_T.Text = Util.getHexString(Trigger.Raw);
         }
         private void changeUnk(object sender, EventArgs e)
@@ -371,12 +384,16 @@ namespace pk3DS
             // Set Old Data
             if (uEntry > 0)
             {
-                // No attributes editable atm
+                var t2 = CurrentZone.Entities.Triggers1[uEntry];
+                t2.X = (int)NUD_T2X.Value;
+                t2.Y = (int)NUD_T2Y.Value;
             }
             uEntry = (int)NUD_UE.Value;
 
             // Load New Data
             var Unk = CurrentZone.Entities.Triggers2[uEntry];
+            NUD_T2X.Value = Unk.X;
+            NUD_T2Y.Value = Unk.Y;
             RTB_U.Text = Util.getHexString(Unk.Raw);
         }
 
@@ -618,11 +635,11 @@ namespace pk3DS
         // Coordinate Simplifiers
         private void changeNPC_X(object sender, EventArgs e)
         {
-            L_NpX.Text = (NUD_NX.Value/18).ToString();
+            L_NpX.Text = (NUD_NX.Value / 18).ToString("F");
         }
         private void changeNPC_Y(object sender, EventArgs e)
         {
-            L_NpY.Text = (NUD_NY.Value / 18).ToString();
+            L_NpY.Text = (NUD_NY.Value / 18).ToString("F");
         }
         private void changeWarp_X(object sender, EventArgs e)
         {

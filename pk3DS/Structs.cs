@@ -1244,12 +1244,9 @@ namespace pk3DS
                 public int X { get { return BitConverter.ToUInt16(Raw, 0x28); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x28); } }
                 public int Y { get { return BitConverter.ToUInt16(Raw, 0x2A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2A); } }
 
-                public decimal pX { get { return (decimal)X / 18; } }
-                public decimal pY { get { return (decimal)Y / 18; } }
-
                 // -360, 360 ????
                 public float Degrees { get { return BitConverter.ToSingle(Raw, 0x2C); } set { BitConverter.GetBytes(value).CopyTo(Raw, 0x2C); } }
-
+                public float Deg18 { get { return Degrees/18; } }
                 public byte[] Raw;
                 internal static readonly byte Size = 0x30;
                 public EntityNPC(byte[] data = null)
@@ -1336,7 +1333,24 @@ namespace pk3DS
             public class EntityTrigger2
             {
                 // Usable Attributes
-                // Unknown
+                public int Script { get { return BitConverter.ToUInt16(Raw, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); } }
+                public int U2 { get { return BitConverter.ToUInt16(Raw, 0x02); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); } }
+                public int Constant { get { return BitConverter.ToUInt16(Raw, 0x04); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x04); } }
+
+                // 0 or 1 for type2, 0/5-8 for type1
+                public int U6 { get { return BitConverter.ToUInt16(Raw, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); } }
+                // 0 or 1, always 0 in ORAS
+                public int U8 { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
+
+                // 0x0A-0x0B unused
+
+                public int X { get { return BitConverter.ToUInt16(Raw, 0x0C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); } }
+                public int Y { get { return BitConverter.ToUInt16(Raw, 0x0E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0E); } }
+
+                public int U10 { get { return BitConverter.ToInt16(Raw, 0x10); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); } }
+                public int U12 { get { return BitConverter.ToInt16(Raw, 0x12); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); } }
+                public int U14 { get { return BitConverter.ToInt16(Raw, 0x14); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); } }
+                public int U16 { get { return BitConverter.ToInt16(Raw, 0x16); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); } }
 
                 public byte[] Raw;
                 internal static readonly byte Size = 0x18;
