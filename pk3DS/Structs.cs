@@ -1278,9 +1278,11 @@ namespace pk3DS
                 public decimal pX { get { return (decimal)X / 18; } }
                 public decimal pY { get { return (decimal)Y / 18; } }
 
+                // Stretches RIGHT
+                public int Width { get { return BitConverter.ToInt16(Raw, 0x0E); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0E); } }
+                // Stretches DOWN
+                public int Height { get { return BitConverter.ToInt16(Raw, 0x10); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); } }
                 // Not sure.
-                public int U0E { get { return BitConverter.ToInt16(Raw, 0x0E); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0E); } }
-                public int U10 { get { return BitConverter.ToInt16(Raw, 0x10); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); } }
                 public int U12 { get { return BitConverter.ToInt16(Raw, 0x12); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); } }
 
                 // 0x14-0x15 Unused
