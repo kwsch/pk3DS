@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using pk3DS.Subforms;
 
 namespace pk3DS
 {
@@ -18,10 +19,11 @@ namespace pk3DS
             MapMatrixes = Directory.GetFiles("mapMatrix");
             MapGRs = Directory.GetFiles("mapGR");
             openQuick(Directory.GetFiles("encdata"));
-            tabControl1.SelectedIndex = 2;  // Map Script Tab
+            mapView.Show();
+            tabControl1.SelectedIndex = 1;  // Overworlds
         }
-        private string[] MapMatrixes;
-        private string[] MapGRs;
+        internal static string[] MapMatrixes;
+        internal static string[] MapGRs;
         private string[] encdatapaths;
         private string[] filepaths;
         private string[] gameLocations = Main.getText((Main.oras) ? 90 : 72);
@@ -130,14 +132,14 @@ namespace pk3DS
         }
 
         // Loading of Data
+        private MapPermView mapView = new MapPermView();
         private void getZoneData()
         {
             L_ZDPreview.Text = "Text File: " + CurrentZone.ZD.TextFile
             + Environment.NewLine + "Map File: " + CurrentZone.ZD.MapMatrix;
 
             // Fetch Map Image
-            DrawMap = CurrentZone.ZD.MapMatrix;
-            PB_Map.Image = (CHK_AutoDraw.Checked) ? getMapImage() : null;
+            mapView.drawMap(CurrentZone.ZD.MapMatrix);
         }
         private void getOWSData()
         {
@@ -420,34 +422,7 @@ namespace pk3DS
             RTB_CompressedScript.Lines = Scripts.getHexLines(scr.CompressedBytes);
             System.Media.SystemSounds.Asterisk.Play();
         }
-
-        private int DrawMap = -1;
-        private MapMatrix mm;
-        private Image getMapImage()
-        {
-            // Load MM
-            byte[][] MM = CTR.mini.unpackMini(File.ReadAllBytes(MapMatrixes[DrawMap]), "MM");
-            mm = new MapMatrix(MM[0]);
-
-            // Load GR TileMaps
-            for (int i = 0; i < mm.EntryList.Length; i++)
-            {
-                if (mm.EntryList[i] == 0xFFFF) // Mystery Zone
-                    continue;
-                byte[][] GR = CTR.mini.unpackMini(File.ReadAllBytes(MapGRs[mm.EntryList[i]]), "GR");
-                mm.Entries[i] = new MapMatrix.Entry(GR[0]);
-            }
-            Image img = mm.Preview((int)NUD_Scale.Value, (int)NUD_Flavor.Value);
-            img = Util.TrimBitmap((Bitmap)img);
-            mapScale = (int)NUD_Scale.Value;
-            return img;
-        }
-        private void B_Redraw_Click(object sender, EventArgs e)
-        {
-            if (DrawMap != -1)
-                PB_Map.Image = getMapImage();
-        }
-
+        
         // User Enhancements
         private void changeNModel(object sender, EventArgs e)
         {
@@ -584,6 +559,8 @@ namespace pk3DS
 
             CB_LocationID.SelectedIndex = 0;
         }
+
+        internal static MapMatrix mm;
         private void B_DumpMaps_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all MapImages?") != DialogResult.Yes)
@@ -596,8 +573,8 @@ namespace pk3DS
             string[] result = new string[CB_LocationID.Items.Count];
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
             {
-                DrawMap = BitConverter.ToUInt16(zonedata, 56 * i + 4);
-                Image img = getMapImage();
+                int DrawMap = BitConverter.ToUInt16(zonedata, 56 * i + 4);
+                Image img = mapView.getMapImage(crop: true);
                 using (MemoryStream ms = new MemoryStream())
                 {
                     //error will throw from here
@@ -650,16 +627,10 @@ namespace pk3DS
             L_WpY.Text = (NUD_WY.Value / 18).ToString();
         }
 
-        private int mapScale = -1;
-        private void hoverMap(object sender, MouseEventArgs e)
+        private void B_Map_Click(object sender, EventArgs e)
         {
-            if (mapScale < 0)
-                return;
-
-            int X = e.X / (mapScale);
-            int Y = e.Y / (mapScale);
-
-            L_MapCoord.Text = String.Format("X: {0}{2}Y: {1}", X, Y, Environment.NewLine);
+            if (!mapView.Visible)
+                mapView.Show();
         }
     }
 }
