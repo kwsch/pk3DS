@@ -114,6 +114,8 @@
             this.CHK_NoEV = new System.Windows.Forms.CheckBox();
             this.B_ModAll = new System.Windows.Forms.Button();
             this.GB_Randomizer = new System.Windows.Forms.GroupBox();
+            this.L_Same = new System.Windows.Forms.Label();
+            this.NUD_Egg = new System.Windows.Forms.NumericUpDown();
             this.CHK_WGuard = new System.Windows.Forms.CheckBox();
             this.CHK_Ability = new System.Windows.Forms.CheckBox();
             this.CHK_ORASTutors = new System.Windows.Forms.CheckBox();
@@ -138,8 +140,6 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
-            this.NUD_Egg = new System.Windows.Forms.NumericUpDown();
-            this.L_Same = new System.Windows.Forms.Label();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -147,10 +147,10 @@
             this.GB_Modifier.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EXP)).BeginInit();
             this.GB_Randomizer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Egg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TypePercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_StatDev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Egg)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_Species
@@ -998,8 +998,6 @@
             // CHK_EXP
             // 
             this.CHK_EXP.AutoSize = true;
-            this.CHK_EXP.Checked = true;
-            this.CHK_EXP.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_EXP.Location = new System.Drawing.Point(6, 66);
             this.CHK_EXP.Name = "CHK_EXP";
             this.CHK_EXP.Size = new System.Drawing.Size(114, 17);
@@ -1010,8 +1008,6 @@
             // CHK_Growth
             // 
             this.CHK_Growth.AutoSize = true;
-            this.CHK_Growth.Checked = true;
-            this.CHK_Growth.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_Growth.Location = new System.Drawing.Point(6, 51);
             this.CHK_Growth.Name = "CHK_Growth";
             this.CHK_Growth.Size = new System.Drawing.Size(147, 17);
@@ -1055,8 +1051,6 @@
             // CHK_LowCatch
             // 
             this.CHK_LowCatch.AutoSize = true;
-            this.CHK_LowCatch.Checked = true;
-            this.CHK_LowCatch.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_LowCatch.Location = new System.Drawing.Point(6, 36);
             this.CHK_LowCatch.Name = "CHK_LowCatch";
             this.CHK_LowCatch.Size = new System.Drawing.Size(117, 17);
@@ -1067,8 +1061,6 @@
             // CHK_NoEV
             // 
             this.CHK_NoEV.AutoSize = true;
-            this.CHK_NoEV.Checked = true;
-            this.CHK_NoEV.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_NoEV.Location = new System.Drawing.Point(6, 21);
             this.CHK_NoEV.Name = "CHK_NoEV";
             this.CHK_NoEV.Size = new System.Drawing.Size(114, 17);
@@ -1117,6 +1109,27 @@
             this.GB_Randomizer.TabIndex = 418;
             this.GB_Randomizer.TabStop = false;
             this.GB_Randomizer.Text = "Randomizer Options";
+            // 
+            // L_Same
+            // 
+            this.L_Same.AutoSize = true;
+            this.L_Same.Location = new System.Drawing.Point(201, 100);
+            this.L_Same.Name = "L_Same";
+            this.L_Same.Size = new System.Drawing.Size(48, 13);
+            this.L_Same.TabIndex = 23;
+            this.L_Same.Text = "Same(%)";
+            // 
+            // NUD_Egg
+            // 
+            this.NUD_Egg.Location = new System.Drawing.Point(252, 98);
+            this.NUD_Egg.Name = "NUD_Egg";
+            this.NUD_Egg.Size = new System.Drawing.Size(46, 20);
+            this.NUD_Egg.TabIndex = 22;
+            this.NUD_Egg.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
             // 
             // CHK_WGuard
             // 
@@ -1392,27 +1405,6 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
-            // NUD_Egg
-            // 
-            this.NUD_Egg.Location = new System.Drawing.Point(252, 98);
-            this.NUD_Egg.Name = "NUD_Egg";
-            this.NUD_Egg.Size = new System.Drawing.Size(46, 20);
-            this.NUD_Egg.TabIndex = 22;
-            this.NUD_Egg.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            // 
-            // L_Same
-            // 
-            this.L_Same.AutoSize = true;
-            this.L_Same.Location = new System.Drawing.Point(201, 100);
-            this.L_Same.Name = "L_Same";
-            this.L_Same.Size = new System.Drawing.Size(48, 13);
-            this.L_Same.TabIndex = 23;
-            this.L_Same.Text = "Same(%)";
-            // 
             // Personal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1441,10 +1433,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EXP)).EndInit();
             this.GB_Randomizer.ResumeLayout(false);
             this.GB_Randomizer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Egg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TypePercent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_StatDev)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Egg)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
