@@ -242,9 +242,10 @@ namespace pk3DS
             // 5 - ES
             // 6 - XX
             // 7 - KO
-            if (SMDH == null || SMDH.AppSettings == null) return;
             int[] AILang = { 0, 0, 1, 2, 4, 3, 5, 7 };
-            Text = "pk3DS - " + SMDH.AppInfo[AILang[Language]].ShortDescription;
+            Text = ((SMDH == null || SMDH.AppSettings == null)
+                ? "pk3DS" // nothing else
+                : "pk3DS - " + SMDH.AppInfo[AILang[Language]].ShortDescription);
         }
         private int checkGameType(string[] files)
         {
