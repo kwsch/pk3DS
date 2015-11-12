@@ -941,7 +941,7 @@ namespace pk3DS
             }
         }
 
-        public Image Preview(int Scale, int ColorShift)
+        public Bitmap Preview(int Scale, int ColorShift)
         {
             // Require the entries to be defined in order to continue.
             if (Entries.Any(entry => entry == null))
@@ -950,7 +950,7 @@ namespace pk3DS
             }
 
             // Fetch Singular Images first
-            Image[] EntryImages = new Image[Area];
+            Bitmap[] EntryImages = new Bitmap[Area];
             for (int i = 0; i < Area; i++)
                 EntryImages[i] = (Entries[i] == null)
                     ? new Bitmap(40 * Scale, 40 * Scale)
@@ -995,7 +995,7 @@ namespace pk3DS
                     return ms.ToArray();
                 }
             }
-            public Image Preview(int s, int ColorShift)
+            public Bitmap Preview(int s, int ColorShift)
             {
                 Bitmap img = new Bitmap(Width*s, Height*s);
                 for (int i = 0; i < Area; i++)

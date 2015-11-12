@@ -80,7 +80,7 @@
             // CHK_AutoDraw
             // 
             this.CHK_AutoDraw.AutoSize = true;
-            this.CHK_AutoDraw.Location = new System.Drawing.Point(267, 2);
+            this.CHK_AutoDraw.Location = new System.Drawing.Point(267, 8);
             this.CHK_AutoDraw.Name = "CHK_AutoDraw";
             this.CHK_AutoDraw.Size = new System.Drawing.Size(76, 17);
             this.CHK_AutoDraw.TabIndex = 18;

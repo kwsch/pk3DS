@@ -152,7 +152,6 @@
             this.RTB_OWSC = new System.Windows.Forms.RichTextBox();
             this.RTB_Encounter = new System.Windows.Forms.RichTextBox();
             this.RTB_MapSC = new System.Windows.Forms.RichTextBox();
-            this.tb_Map = new System.Windows.Forms.TabPage();
             this.B_Map = new System.Windows.Forms.Button();
             this.tb_Dev = new System.Windows.Forms.TabPage();
             this.L_DeComp = new System.Windows.Forms.Label();
@@ -218,7 +217,6 @@
             this.tb_Encounters.SuspendLayout();
             this.tb_File5.SuspendLayout();
             this.tb_RAW.SuspendLayout();
-            this.tb_Map.SuspendLayout();
             this.tb_Dev.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -264,7 +262,6 @@
             this.tabControl1.Controls.Add(this.tb_Encounters);
             this.tabControl1.Controls.Add(this.tb_File5);
             this.tabControl1.Controls.Add(this.tb_RAW);
-            this.tabControl1.Controls.Add(this.tb_Map);
             this.tabControl1.Controls.Add(this.tb_Dev);
             this.tabControl1.Location = new System.Drawing.Point(12, 32);
             this.tabControl1.Name = "tabControl1";
@@ -1630,22 +1627,11 @@
             this.RTB_MapSC.TabIndex = 419;
             this.RTB_MapSC.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF";
             // 
-            // tb_Map
-            // 
-            this.tb_Map.Controls.Add(this.B_Map);
-            this.tb_Map.Location = new System.Drawing.Point(4, 22);
-            this.tb_Map.Name = "tb_Map";
-            this.tb_Map.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_Map.Size = new System.Drawing.Size(486, 471);
-            this.tb_Map.TabIndex = 6;
-            this.tb_Map.Text = "Map Preview";
-            this.tb_Map.UseVisualStyleBackColor = true;
-            // 
             // B_Map
             // 
-            this.B_Map.Location = new System.Drawing.Point(145, 165);
+            this.B_Map.Location = new System.Drawing.Point(318, 5);
             this.B_Map.Name = "B_Map";
-            this.B_Map.Size = new System.Drawing.Size(190, 130);
+            this.B_Map.Size = new System.Drawing.Size(89, 23);
             this.B_Map.TabIndex = 420;
             this.B_Map.Text = "Show Map";
             this.B_Map.UseVisualStyleBackColor = true;
@@ -1793,6 +1779,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 537);
+            this.Controls.Add(this.B_Map);
             this.Controls.Add(this.B_HLCMD);
             this.Controls.Add(this.L_ZDPreview);
             this.Controls.Add(this.tabControl1);
@@ -1863,7 +1850,6 @@
             this.tb_File5.ResumeLayout(false);
             this.tb_File5.PerformLayout();
             this.tb_RAW.ResumeLayout(false);
-            this.tb_Map.ResumeLayout(false);
             this.tb_Dev.ResumeLayout(false);
             this.tb_Dev.PerformLayout();
             this.ResumeLayout(false);
@@ -1939,7 +1925,6 @@
         private System.Windows.Forms.RichTextBox RTB_OSP;
         private System.Windows.Forms.RichTextBox RTB_MSP;
         private System.Windows.Forms.Button B_HLCMD;
-        private System.Windows.Forms.TabPage tb_Map;
         private System.Windows.Forms.GroupBox GB_N;
         private System.Windows.Forms.NumericUpDown NUD_NModel;
         private System.Windows.Forms.Label L_NModel;
