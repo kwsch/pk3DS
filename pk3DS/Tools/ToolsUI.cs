@@ -13,6 +13,8 @@ namespace pk3DS
         {
             InitializeComponent();
             AllowDrop = PB_Unpack.AllowDrop = PB_Repack.AllowDrop = PB_BCLIM.AllowDrop = true;
+            DragEnter += tabMain_DragEnter;
+            DragDrop += tabMain_DragDrop;
             PB_Unpack.DragEnter += tabMain_DragEnter;
             PB_Unpack.DragDrop += tabMain_DragDrop;
             PB_Repack.DragEnter += tabMain_DragEnter;
@@ -43,6 +45,7 @@ namespace pk3DS
                 saveARC(path);
             else try {
                 CTR.LZSS.Decompress(path, Path.Combine(Path.GetDirectoryName(path), "dec_" + Path.GetFileName(path)));
+                File.Delete(path);
                 System.Media.SystemSounds.Asterisk.Play();
             } catch { try { if (threads < 1)
                 new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();

@@ -769,7 +769,7 @@ namespace pk3DS
         private void Menu_BLZ_Click(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog();
-            if (DialogResult.Yes != ofd.ShowDialog()) return;
+            if (DialogResult.OK != ofd.ShowDialog()) return;
 
             string path = ofd.FileName;
             FileInfo fi = new FileInfo(path);
@@ -784,7 +784,7 @@ namespace pk3DS
         private void Menu_LZ11_Click(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog();
-            if (DialogResult.Yes != ofd.ShowDialog()) return;
+            if (DialogResult.OK != ofd.ShowDialog()) return;
 
             string path = ofd.FileName;
             FileInfo fi = new FileInfo(path);
