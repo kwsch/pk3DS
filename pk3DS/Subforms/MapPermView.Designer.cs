@@ -162,9 +162,10 @@
             this.Controls.Add(this.NUD_Scale);
             this.Controls.Add(this.L_Flavor);
             this.Controls.Add(this.NUD_Flavor);
+            this.MinimumSize = new System.Drawing.Size(505, 505);
             this.Name = "MapPermView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "MapPermView";
+            this.Text = "Map Viewer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MapPermView_FormClosing);
             this.PAN_MAP.ResumeLayout(false);
             this.PAN_MAP.PerformLayout();

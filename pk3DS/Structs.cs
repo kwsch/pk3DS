@@ -1316,8 +1316,8 @@ namespace pk3DS
                 public int X { get { return BitConverter.ToUInt16(Raw, 0x0C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); } }
                 public int Y { get { return BitConverter.ToUInt16(Raw, 0x0E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0E); } }
 
-                public int U10 { get { return BitConverter.ToInt16(Raw, 0x10); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); } }
-                public int U12 { get { return BitConverter.ToInt16(Raw, 0x12); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); } }
+                public int Width { get { return BitConverter.ToInt16(Raw, 0x10); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); } }
+                public int Height { get { return BitConverter.ToInt16(Raw, 0x12); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); } }
                 public int U14 { get { return BitConverter.ToInt16(Raw, 0x14); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); } }
                 public int U16 { get { return BitConverter.ToInt16(Raw, 0x16); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); } }
 
@@ -1349,8 +1349,8 @@ namespace pk3DS
                 public int X { get { return BitConverter.ToUInt16(Raw, 0x0C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); } }
                 public int Y { get { return BitConverter.ToUInt16(Raw, 0x0E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0E); } }
 
-                public int U10 { get { return BitConverter.ToInt16(Raw, 0x10); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); } }
-                public int U12 { get { return BitConverter.ToInt16(Raw, 0x12); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); } }
+                public int Width { get { return BitConverter.ToInt16(Raw, 0x10); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); } }
+                public int Height { get { return BitConverter.ToInt16(Raw, 0x12); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); } }
                 public int U14 { get { return BitConverter.ToInt16(Raw, 0x14); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); } }
                 public int U16 { get { return BitConverter.ToInt16(Raw, 0x16); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); } }
 

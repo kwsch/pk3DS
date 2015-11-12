@@ -40,17 +40,51 @@ namespace pk3DS.Subforms
 
             if (entity && mapScale == 8)
             {
+                const float opacity = 0.5f;
                 // Overlay every... overworld entity
-                foreach (var f in OWSE.CurrentZone.Entities.Furniture)
-                    try { Util.LayerImage(img, Resources.F, f.X * mapScale, f.Y * mapScale, 0.8); } catch {}
-                foreach (var f in OWSE.CurrentZone.Entities.NPCs)
-                    try { Util.LayerImage(img, Resources.N, f.X * mapScale, f.Y * mapScale, 0.8); } catch {}
-                foreach (var f in OWSE.CurrentZone.Entities.Warps)
-                    try { Util.LayerImage(img, Resources.W, (int)(f.pX * mapScale), (int)(f.pY * mapScale), 0.8); } catch {}
-                foreach (var f in OWSE.CurrentZone.Entities.Triggers1)
-                    try { Util.LayerImage(img, Resources.T1, f.X * mapScale, f.Y * mapScale, 0.8); } catch {}
-                foreach (var f in OWSE.CurrentZone.Entities.Triggers2)
-                    try { Util.LayerImage(img, Resources.T2, f.X * mapScale, f.Y * mapScale, 0.8); } catch { }
+                foreach (var e in OWSE.CurrentZone.Entities.Furniture)
+                {
+                    int x = e.X;
+                    int y = e.Y;
+                    for (int sx = 0; sx < e.WX; sx++) // Stretch X
+                        for (int sy = 0; sy < e.WY; sy++) // Stretch Y
+                            try { Util.LayerImage(img, Resources.F, (x+sx)*mapScale, (y+sy)*mapScale, opacity); }
+                    catch { }
+                }
+                foreach (var e in OWSE.CurrentZone.Entities.NPCs)
+                {
+                    int x = e.X;
+                    int y = e.Y;
+                    try { Util.LayerImage(img, Resources.N, x * mapScale, y * mapScale, opacity); }
+                    catch { } 
+                }
+                foreach (var e in OWSE.CurrentZone.Entities.Warps)
+                {
+                    int x = (int)e.pX; // shifted warps look weird
+                    int y = (int)e.pY; // shifted warps look weird
+                    for (int sx = 0; sx < e.Width; sx++) // Stretch X
+                        for (int sy = 0; sy < e.Height; sy++) // Stretch Y
+                            try { Util.LayerImage(img, Resources.W, ((x+sx)*mapScale), ((y+sy)*mapScale), opacity); }
+                    catch { } 
+                }
+                foreach (var e in OWSE.CurrentZone.Entities.Triggers1)
+                {
+                    int x = e.X;
+                    int y = e.Y;
+                    for (int sx = 0; sx < e.Width; sx++) // Stretch X
+                        for (int sy = 0; sy < e.Height; sy++) // Stretch Y
+                            try { Util.LayerImage(img, Resources.T1, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
+                    catch { }
+                }
+                foreach (var e in OWSE.CurrentZone.Entities.Triggers2)
+                {
+                    int x = e.X;
+                    int y = e.Y;
+                    for (int sx = 0; sx < e.Width; sx++) // Stretch X
+                        for (int sy = 0; sy < e.Height; sy++) // Stretch Y
+                            try { Util.LayerImage(img, Resources.T2, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
+                    catch { }
+                }
             }
             if (crop)
                 img = Util.TrimBitmap((Bitmap)img);
