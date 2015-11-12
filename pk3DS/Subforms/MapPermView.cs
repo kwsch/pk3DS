@@ -19,9 +19,9 @@ namespace pk3DS.Subforms
         public void drawMap(int Map)
         {
             DrawMap = Map;
-            PB_Map.Image = (CHK_AutoDraw.Checked) ? getMapImage() : null;
+            PB_Map.Image = (CHK_AutoDraw.Checked) ? getMapImage(sliceArea: true) : null;
         }
-        public Image getMapImage(bool crop = false, bool entity = true)
+        public Bitmap getMapImage(bool crop = false, bool entity = true, bool sliceArea = false)
         {
             // Load MM
             byte[][] MM = CTR.mini.unpackMini(File.ReadAllBytes(OWSE.MapMatrixes[DrawMap]), "MM");
@@ -36,20 +36,32 @@ namespace pk3DS.Subforms
                 mm.Entries[i] = new MapMatrix.Entry(GR[0]);
             }
             mapScale = (int)NUD_Scale.Value;
-            Image img = mm.Preview(mapScale, (int)NUD_Flavor.Value);
+            Bitmap img = mm.Preview(mapScale, (int)NUD_Flavor.Value);
 
-            baseImage = (Image)img.Clone();
+            baseImage = (Bitmap)img.Clone();
+
+
+            if (sliceArea && mapScale > 3)
+            {
+                int area = (40*mapScale);
+                for (int x = 0; x < img.Width; x++)
+                    for (int y = 0; y < img.Height; y++)
+                        if ((x % area == 0) || (y % area == 0))
+                            img.SetPixel(x,y,Color.FromArgb(0x10,0xFF,0,0));
+            }
+
             if (entity && mapScale == 8)
                 img = overlayEntities(img);
+
             if (crop)
-                img = Util.TrimBitmap((Bitmap)img);
+                img = Util.TrimBitmap(img);
             OWSE.mm = mm;
             return img;
         }
 
-        internal static Image baseImage;
+        internal static Bitmap baseImage;
 
-        private Image overlayEntities(Image img)
+        private Bitmap overlayEntities(Bitmap img)
         {
             const float opacity = 0.66f;
             // Overlay every... overworld entity
@@ -131,7 +143,7 @@ namespace pk3DS.Subforms
         private void B_Redraw_Click(object sender, EventArgs e)
         {
             if (DrawMap != -1)
-                PB_Map.Image = getMapImage();
+                PB_Map.Image = getMapImage(sliceArea: true);
         }
 
         private void MapPermView_FormClosing(object sender, FormClosingEventArgs e)
