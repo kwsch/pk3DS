@@ -704,7 +704,8 @@ namespace pk3DS
                     if (mevo && p == CB_numPokemon.SelectedIndex - 1)
                     {
                         int[] megastones = GetMegaStones(trpk_pkm[p].SelectedIndex);
-                        trpk_item[p].SelectedIndex = megastones[rnd32() % megastones.Length];
+                        if (megastones.Length > 0)
+                            trpk_item[p].SelectedIndex = megastones[rnd32() % megastones.Length];
                     }
                     else if (rItem)
                         #region RandomItem

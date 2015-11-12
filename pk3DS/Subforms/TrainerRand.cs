@@ -88,9 +88,9 @@ namespace pk3DS
             GB_Tweak.Enabled = 
                 CHK_G1.Checked = CHK_G2.Checked = CHK_G3.Checked = 
                 CHK_G4.Checked = CHK_G5.Checked = CHK_G6.Checked = 
-                CHK_L.Checked = CHK_E.Checked = 
+                CHK_L.Checked = CHK_E.Checked = CHK_StoryMEvos.Checked = 
                 CHK_RandomPKM.Checked;
-            CHK_BST.Checked = false; // Off by default
+            CHK_BST.Checked = CHK_TypeTheme.Checked = CHK_GymTrainers.Checked = false; // Off by default
         }
 
         private void CHK_Level_CheckedChanged(object sender, EventArgs e)
