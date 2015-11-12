@@ -35,8 +35,8 @@
             this.CHK_RandomClass = new System.Windows.Forms.CheckBox();
             this.CHK_MaxDiffAI = new System.Windows.Forms.CheckBox();
             this.CHK_MaxDiffPKM = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.B_OK = new System.Windows.Forms.Button();
+            this.B_Cancel = new System.Windows.Forms.Button();
             this.NUD_GiftPercent = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -163,27 +163,27 @@
             this.CHK_MaxDiffPKM.Text = "Max Difficulty (Pokemon IVs)";
             this.CHK_MaxDiffPKM.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // B_OK
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(222, 320);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(50, 23);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "OK";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.B_Save_Click);
+            this.B_OK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.B_OK.Location = new System.Drawing.Point(222, 320);
+            this.B_OK.Name = "B_OK";
+            this.B_OK.Size = new System.Drawing.Size(50, 23);
+            this.B_OK.TabIndex = 14;
+            this.B_OK.Text = "OK";
+            this.B_OK.UseVisualStyleBackColor = true;
+            this.B_OK.Click += new System.EventHandler(this.B_Save_Click);
             // 
-            // button2
+            // B_Cancel
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(222, 342);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(50, 23);
-            this.button2.TabIndex = 15;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.B_Close_Click);
+            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.B_Cancel.Location = new System.Drawing.Point(222, 342);
+            this.B_Cancel.Name = "B_Cancel";
+            this.B_Cancel.Size = new System.Drawing.Size(50, 23);
+            this.B_Cancel.TabIndex = 15;
+            this.B_Cancel.Text = "Cancel";
+            this.B_Cancel.UseVisualStyleBackColor = true;
+            this.B_Cancel.Click += new System.EventHandler(this.B_Close_Click);
             // 
             // NUD_GiftPercent
             // 
@@ -537,8 +537,8 @@
             this.Controls.Add(this.NUD_Level);
             this.Controls.Add(this.CHK_Level);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.B_Cancel);
+            this.Controls.Add(this.B_OK);
             this.Controls.Add(this.CHK_RandomGift);
             this.Controls.Add(this.CHK_RandomPKM);
             this.Controls.Add(this.CHK_IgnoreSpecialClass);
@@ -574,8 +574,8 @@
         private System.Windows.Forms.CheckBox CHK_RandomClass;
         private System.Windows.Forms.CheckBox CHK_MaxDiffAI;
         private System.Windows.Forms.CheckBox CHK_MaxDiffPKM;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button B_OK;
+        private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.NumericUpDown NUD_GiftPercent;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
