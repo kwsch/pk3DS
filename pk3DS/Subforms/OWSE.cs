@@ -632,5 +632,11 @@ namespace pk3DS
             if (!mapView.Visible)
                 mapView.Show();
         }
+
+        private void closingForm(object sender, FormClosingEventArgs e)
+        {
+            // Close map view
+            mapView.Close();
+        }
     }
 }

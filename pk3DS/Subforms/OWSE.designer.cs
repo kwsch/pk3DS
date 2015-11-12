@@ -153,6 +153,7 @@
             this.RTB_Encounter = new System.Windows.Forms.RichTextBox();
             this.RTB_MapSC = new System.Windows.Forms.RichTextBox();
             this.tb_Map = new System.Windows.Forms.TabPage();
+            this.B_Map = new System.Windows.Forms.Button();
             this.tb_Dev = new System.Windows.Forms.TabPage();
             this.L_DeComp = new System.Windows.Forms.Label();
             this.RTB_CompressedScript = new System.Windows.Forms.RichTextBox();
@@ -166,7 +167,6 @@
             this.B_DumpFurniture = new System.Windows.Forms.Button();
             this.L_ZDPreview = new System.Windows.Forms.Label();
             this.B_HLCMD = new System.Windows.Forms.Button();
-            this.B_Map = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tb_ZoneData.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -1641,6 +1641,16 @@
             this.tb_Map.Text = "Map Preview";
             this.tb_Map.UseVisualStyleBackColor = true;
             // 
+            // B_Map
+            // 
+            this.B_Map.Location = new System.Drawing.Point(145, 165);
+            this.B_Map.Name = "B_Map";
+            this.B_Map.Size = new System.Drawing.Size(190, 130);
+            this.B_Map.TabIndex = 420;
+            this.B_Map.Text = "Show Map";
+            this.B_Map.UseVisualStyleBackColor = true;
+            this.B_Map.Click += new System.EventHandler(this.B_Map_Click);
+            // 
             // tb_Dev
             // 
             this.tb_Dev.Controls.Add(this.L_DeComp);
@@ -1778,16 +1788,6 @@
             this.B_HLCMD.UseVisualStyleBackColor = true;
             this.B_HLCMD.Click += new System.EventHandler(this.B_HLCMD_Click);
             // 
-            // B_Map
-            // 
-            this.B_Map.Location = new System.Drawing.Point(145, 165);
-            this.B_Map.Name = "B_Map";
-            this.B_Map.Size = new System.Drawing.Size(190, 130);
-            this.B_Map.TabIndex = 420;
-            this.B_Map.Text = "Show Map";
-            this.B_Map.UseVisualStyleBackColor = true;
-            this.B_Map.Click += new System.EventHandler(this.B_Map_Click);
-            // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1803,6 +1803,7 @@
             this.Name = "OWSE";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Overworld Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.closingForm);
             this.tabControl1.ResumeLayout(false);
             this.tb_ZoneData.ResumeLayout(false);
             this.tb_ZoneData.PerformLayout();
