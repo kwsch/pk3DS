@@ -637,6 +637,7 @@ namespace pk3DS
         {
             // Close map view
             mapView.Close();
+            mapView.Dispose();
         }
     }
 }
