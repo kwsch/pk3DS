@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using pk3DS.Properties;
 
 namespace pk3DS.Subforms
 {
@@ -20,7 +21,7 @@ namespace pk3DS.Subforms
             DrawMap = Map;
             PB_Map.Image = (CHK_AutoDraw.Checked) ? getMapImage() : null;
         }
-        public Image getMapImage(bool crop = false)
+        public Image getMapImage(bool crop = false, bool entity = true)
         {
             // Load MM
             byte[][] MM = CTR.mini.unpackMini(File.ReadAllBytes(OWSE.MapMatrixes[DrawMap]), "MM");
@@ -34,10 +35,25 @@ namespace pk3DS.Subforms
                 byte[][] GR = CTR.mini.unpackMini(File.ReadAllBytes(OWSE.MapGRs[mm.EntryList[i]]), "GR");
                 mm.Entries[i] = new MapMatrix.Entry(GR[0]);
             }
-            Image img = mm.Preview((int)NUD_Scale.Value, (int)NUD_Flavor.Value);
+            mapScale = (int)NUD_Scale.Value;
+            Image img = mm.Preview(mapScale, (int)NUD_Flavor.Value);
+
+            if (entity && mapScale == 8)
+            {
+                // Overlay every... overworld entity
+                foreach (var f in OWSE.CurrentZone.Entities.Furniture)
+                    try { Util.LayerImage(img, Resources.F, f.X * mapScale, f.Y * mapScale, 0.8); } catch {}
+                foreach (var f in OWSE.CurrentZone.Entities.NPCs)
+                    try { Util.LayerImage(img, Resources.N, f.X * mapScale, f.Y * mapScale, 0.8); } catch {}
+                foreach (var f in OWSE.CurrentZone.Entities.Warps)
+                    try { Util.LayerImage(img, Resources.W, (int)(f.pX * mapScale), (int)(f.pY * mapScale), 0.8); } catch {}
+                foreach (var f in OWSE.CurrentZone.Entities.Triggers1)
+                    try { Util.LayerImage(img, Resources.T1, f.X * mapScale, f.Y * mapScale, 0.8); } catch {}
+                foreach (var f in OWSE.CurrentZone.Entities.Triggers2)
+                    try { Util.LayerImage(img, Resources.T2, f.X * mapScale, f.Y * mapScale, 0.8); } catch { }
+            }
             if (crop)
                 img = Util.TrimBitmap((Bitmap)img);
-            mapScale = (int)NUD_Scale.Value;
             OWSE.mm = mm;
             return img;
         }
@@ -46,6 +62,9 @@ namespace pk3DS.Subforms
         private void hoverMap(object sender, MouseEventArgs e)
         {
             if (mapScale < 0)
+                return;
+
+            if (PB_Map.Image == null)
                 return;
 
             int X = e.X / (mapScale);

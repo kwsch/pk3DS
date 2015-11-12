@@ -10451,7 +10451,20 @@ namespace pk3DS.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to pk3DS - By Kaphotics
+        ///http://projectpokemon.org/
+        ///http://projectpokemon.org/forums/showthread.php?44950
+        ///
+        ///A package of Pokémon X/Y/OR/AS tools by various contributors.
+        ///
+        ///GARCTool (Backbone): Kaphotics
+        ///Text Editing (xytext): Kaphotics
+        ///Wild Editor (**WE): SciresM &amp; Kaphotics
+        ///Trainer Editor (**TE): SciresM, Kaphotics, and KazoWAR
+        ///Personal Editor: SciresM
+        ///Mega Evolution Editor (MEE): SciresM
+        ///Evolutions, Moves, Items, Maison, Title Screen Editors: Kaphotics
+        ///ExeFS Editors: Kaphotics (thanks Drayano and m [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -10486,6 +10499,16 @@ namespace pk3DS.Properties {
             get {
                 object obj = ResourceManager.GetObject("ETC1Lib", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap F {
+            get {
+                object obj = ResourceManager.GetObject("F", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -14720,6 +14743,16 @@ namespace pk3DS.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N {
+            get {
+                object obj = ResourceManager.GetObject("N", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] Nintendo {
@@ -14742,9 +14775,39 @@ namespace pk3DS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap T1 {
+            get {
+                object obj = ResourceManager.GetObject("T1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap T2 {
+            get {
+                object obj = ResourceManager.GetObject("T2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap unknown {
             get {
                 object obj = ResourceManager.GetObject("unknown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap W {
+            get {
+                object obj = ResourceManager.GetObject("W", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

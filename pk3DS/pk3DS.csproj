@@ -4749,6 +4749,21 @@
   <ItemGroup>
     <None Include="Misc\changelog.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\T2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\T1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\N.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\W.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\F.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -28,7 +28,7 @@ namespace pk3DS
         private string[] filepaths;
         private string[] gameLocations = Main.getText((Main.oras) ? 90 : 72);
         private string[] zdLocations;
-        
+
         internal static Random rand = new Random();
         internal static uint rnd32()
         {
@@ -67,8 +67,9 @@ namespace pk3DS
             NUD_WMap.Maximum = zdLocations.Length; // Cap map warp destinations to the amount of maps.
         }
 
+        internal static Zone CurrentZone;
+        internal static MapMatrix mm;
         private int entry = -1;
-        private Zone CurrentZone;
         private byte[][] locationData;
         private string[] rawLocations;
         private void CB_LocationID_SelectedIndexChanged(object sender, EventArgs e)
@@ -560,7 +561,6 @@ namespace pk3DS
             CB_LocationID.SelectedIndex = 0;
         }
 
-        internal static MapMatrix mm;
         private void B_DumpMaps_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all MapImages?") != DialogResult.Yes)
