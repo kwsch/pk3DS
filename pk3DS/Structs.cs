@@ -1224,7 +1224,7 @@ namespace pk3DS
                 // Shorts
                 public int U14 { get { return BitConverter.ToInt16(Raw, 0x14); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); } }
                 public int U16 { get { return BitConverter.ToInt16(Raw, 0x16); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); } }
-                // Negative only in X/Y... seeing behind them?
+                // Negative only in X/Y... seeing behind them? Might be projection of an interaction area.
                 public int U18 { get { return BitConverter.ToInt16(Raw, 0x18); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x18); } }
                 public int U1A { get { return BitConverter.ToInt16(Raw, 0x1A); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x1A); } }
 
