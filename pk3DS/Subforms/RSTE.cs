@@ -660,7 +660,7 @@ namespace pk3DS
                         if (rTypeTheme)
                         {
                             int tries = 0;
-                            while ((pkm.Types[0] != type && pkm.Types[1] != type) || ((mevo && p == CB_numPokemon.SelectedIndex - 1 && !megaEvos.Contains(species))))
+                            while (((pkm.Types[0] != type && pkm.Types[1] != type) || ((mevo && p == CB_numPokemon.SelectedIndex - 1 && !megaEvos.Contains(species)))) && tries < 0x10000)
                                 if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
                                     pkm = new PersonalInfo(personal[species = GetRandomMegaEvolvablePokemon(type)]);
                                 else if (rSmart) // Get a new Pokemon with a close BST
