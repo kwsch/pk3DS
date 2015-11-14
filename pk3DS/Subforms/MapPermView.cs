@@ -108,6 +108,18 @@ namespace pk3DS.Subforms
                         try { Util.LayerImage(img, Resources.T2, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
                         catch { }
             }
+
+            // Overlay map
+            {
+                int x = (int)OWSE.CurrentZone.ZD.pX2;
+                int y = (int)OWSE.CurrentZone.ZD.pY2;
+                for (int sx = 0; sx < 1; sx++) // Stretch X
+                    for (int sy = 0; sy < 1; sy++) // Stretch Y
+                        try { Util.LayerImage(img, Resources.FLY, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
+                        catch { }
+            }
+
+
             return img;
         }
 
@@ -155,7 +167,8 @@ namespace pk3DS.Subforms
 
         private void focusPanel(object sender, EventArgs e)
         {
-            PAN_MAP.Focus();
+            if (ContainsFocus)
+                PAN_MAP.Focus();
         }
     }
 }

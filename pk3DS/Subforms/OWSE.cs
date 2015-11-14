@@ -146,7 +146,9 @@ namespace pk3DS
             if (Math.Abs(CurrentZone.ZD.pX - CurrentZone.ZD.pX2) > 0.01
                 || Math.Abs(CurrentZone.ZD.pY - CurrentZone.ZD.pY2) > 0.01
                 || CurrentZone.ZD.Z != CurrentZone.ZD.Z2)
-                Util.Alert("ZD Coordinate Mismatch");
+            {
+                L_ZD.Text += Environment.NewLine + "COORDINATE MISMATCH";
+            }
 
             // Fetch Map Image
             mapView.drawMap(CurrentZone.ZD.MapMatrix);
