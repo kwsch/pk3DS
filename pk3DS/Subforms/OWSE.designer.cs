@@ -60,8 +60,6 @@
             this.L_FE = new System.Windows.Forms.Label();
             this.tb_Overworld = new System.Windows.Forms.TabPage();
             this.GB_N = new System.Windows.Forms.GroupBox();
-            this.L_NpY = new System.Windows.Forms.Label();
-            this.L_NpX = new System.Windows.Forms.Label();
             this.NUD_NMove2 = new System.Windows.Forms.NumericUpDown();
             this.L_Move2 = new System.Windows.Forms.Label();
             this.NUD_NMove1 = new System.Windows.Forms.NumericUpDown();
@@ -141,6 +139,7 @@
             this.tb_File5 = new System.Windows.Forms.TabPage();
             this.L_File5TabData = new System.Windows.Forms.Label();
             this.tb_RAW = new System.Windows.Forms.TabPage();
+            this.L_ZD = new System.Windows.Forms.Label();
             this.L_File3 = new System.Windows.Forms.Label();
             this.L_ZDMaster = new System.Windows.Forms.Label();
             this.L_File5 = new System.Windows.Forms.Label();
@@ -152,7 +151,6 @@
             this.RTB_OWSC = new System.Windows.Forms.RichTextBox();
             this.RTB_Encounter = new System.Windows.Forms.RichTextBox();
             this.RTB_MapSC = new System.Windows.Forms.RichTextBox();
-            this.B_Map = new System.Windows.Forms.Button();
             this.tb_Dev = new System.Windows.Forms.TabPage();
             this.L_DeComp = new System.Windows.Forms.Label();
             this.RTB_CompressedScript = new System.Windows.Forms.RichTextBox();
@@ -164,9 +162,10 @@
             this.B_DumpWarp = new System.Windows.Forms.Button();
             this.B_DumpNPC = new System.Windows.Forms.Button();
             this.B_DumpFurniture = new System.Windows.Forms.Button();
+            this.B_Map = new System.Windows.Forms.Button();
             this.L_ZDPreview = new System.Windows.Forms.Label();
             this.B_HLCMD = new System.Windows.Forms.Button();
-            this.L_ZD = new System.Windows.Forms.Label();
+            this.B_DumpZD = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tb_ZoneData.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -598,8 +597,6 @@
             // 
             // GB_N
             // 
-            this.GB_N.Controls.Add(this.L_NpY);
-            this.GB_N.Controls.Add(this.L_NpX);
             this.GB_N.Controls.Add(this.NUD_NMove2);
             this.GB_N.Controls.Add(this.L_Move2);
             this.GB_N.Controls.Add(this.NUD_NMove1);
@@ -632,26 +629,6 @@
             this.GB_N.TabIndex = 436;
             this.GB_N.TabStop = false;
             this.GB_N.Text = "Info:";
-            // 
-            // L_NpY
-            // 
-            this.L_NpY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_NpY.AutoSize = true;
-            this.L_NpY.Location = new System.Drawing.Point(152, 200);
-            this.L_NpY.Name = "L_NpY";
-            this.L_NpY.Size = new System.Drawing.Size(29, 13);
-            this.L_NpY.TabIndex = 459;
-            this.L_NpY.Text = "HEX";
-            // 
-            // L_NpX
-            // 
-            this.L_NpX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_NpX.AutoSize = true;
-            this.L_NpX.Location = new System.Drawing.Point(152, 174);
-            this.L_NpX.Name = "L_NpX";
-            this.L_NpX.Size = new System.Drawing.Size(29, 13);
-            this.L_NpX.TabIndex = 458;
-            this.L_NpX.Text = "HEX";
             // 
             // NUD_NMove2
             // 
@@ -834,7 +811,6 @@
             this.NUD_NY.Name = "NUD_NY";
             this.NUD_NY.Size = new System.Drawing.Size(53, 20);
             this.NUD_NY.TabIndex = 441;
-            this.NUD_NY.ValueChanged += new System.EventHandler(this.changeNPC_Y);
             // 
             // L_NY
             // 
@@ -856,7 +832,6 @@
             this.NUD_NX.Name = "NUD_NX";
             this.NUD_NX.Size = new System.Drawing.Size(53, 20);
             this.NUD_NX.TabIndex = 439;
-            this.NUD_NX.ValueChanged += new System.EventHandler(this.changeNPC_X);
             // 
             // L_NX
             // 
@@ -1523,6 +1498,16 @@
             this.tb_RAW.Text = "RAW";
             this.tb_RAW.UseVisualStyleBackColor = true;
             // 
+            // L_ZD
+            // 
+            this.L_ZD.AutoSize = true;
+            this.L_ZD.Font = new System.Drawing.Font("Courier New", 8.25F);
+            this.L_ZD.Location = new System.Drawing.Point(140, 346);
+            this.L_ZD.Name = "L_ZD";
+            this.L_ZD.Size = new System.Drawing.Size(35, 28);
+            this.L_ZD.TabIndex = 430;
+            this.L_ZD.Text = "X: ~\r\nY: ~";
+            // 
             // L_File3
             // 
             this.L_File3.Location = new System.Drawing.Point(70, 83);
@@ -1629,18 +1614,9 @@
             this.RTB_MapSC.TabIndex = 419;
             this.RTB_MapSC.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF";
             // 
-            // B_Map
-            // 
-            this.B_Map.Location = new System.Drawing.Point(318, 5);
-            this.B_Map.Name = "B_Map";
-            this.B_Map.Size = new System.Drawing.Size(89, 23);
-            this.B_Map.TabIndex = 420;
-            this.B_Map.Text = "Show Map";
-            this.B_Map.UseVisualStyleBackColor = true;
-            this.B_Map.Click += new System.EventHandler(this.B_Map_Click);
-            // 
             // tb_Dev
             // 
+            this.tb_Dev.Controls.Add(this.B_DumpZD);
             this.tb_Dev.Controls.Add(this.L_DeComp);
             this.tb_Dev.Controls.Add(this.RTB_CompressedScript);
             this.tb_Dev.Controls.Add(this.RTB_DecompressedScript);
@@ -1757,6 +1733,16 @@
             this.B_DumpFurniture.UseVisualStyleBackColor = true;
             this.B_DumpFurniture.Click += new System.EventHandler(this.B_DumpFurniture_Click);
             // 
+            // B_Map
+            // 
+            this.B_Map.Location = new System.Drawing.Point(318, 5);
+            this.B_Map.Name = "B_Map";
+            this.B_Map.Size = new System.Drawing.Size(89, 23);
+            this.B_Map.TabIndex = 420;
+            this.B_Map.Text = "Show Map";
+            this.B_Map.UseVisualStyleBackColor = true;
+            this.B_Map.Click += new System.EventHandler(this.B_Map_Click);
+            // 
             // L_ZDPreview
             // 
             this.L_ZDPreview.AutoSize = true;
@@ -1776,15 +1762,15 @@
             this.B_HLCMD.UseVisualStyleBackColor = true;
             this.B_HLCMD.Click += new System.EventHandler(this.B_HLCMD_Click);
             // 
-            // L_ZD
+            // B_DumpZD
             // 
-            this.L_ZD.AutoSize = true;
-            this.L_ZD.Font = new System.Drawing.Font("Courier New", 8.25F);
-            this.L_ZD.Location = new System.Drawing.Point(140, 346);
-            this.L_ZD.Name = "L_ZD";
-            this.L_ZD.Size = new System.Drawing.Size(35, 28);
-            this.L_ZD.TabIndex = 430;
-            this.L_ZD.Text = "X: ~\r\nY: ~";
+            this.B_DumpZD.Location = new System.Drawing.Point(149, 51);
+            this.B_DumpZD.Name = "B_DumpZD";
+            this.B_DumpZD.Size = new System.Drawing.Size(89, 39);
+            this.B_DumpZD.TabIndex = 431;
+            this.B_DumpZD.Text = "Dump all ZD";
+            this.B_DumpZD.UseVisualStyleBackColor = true;
+            this.B_DumpZD.Click += new System.EventHandler(this.B_DumpZD_Click);
             // 
             // OWSE
             // 
@@ -1991,8 +1977,6 @@
         private System.Windows.Forms.Label L_WY;
         private System.Windows.Forms.NumericUpDown NUD_WX;
         private System.Windows.Forms.Label L_WX;
-        private System.Windows.Forms.Label L_NpY;
-        private System.Windows.Forms.Label L_NpX;
         private System.Windows.Forms.NumericUpDown NUD_FWY;
         private System.Windows.Forms.Label L_FWY;
         private System.Windows.Forms.NumericUpDown NUD_FWX;
@@ -2011,6 +1995,7 @@
         private System.Windows.Forms.Label L_T2X;
         private System.Windows.Forms.Button B_Map;
         private System.Windows.Forms.Label L_ZD;
+        private System.Windows.Forms.Button B_DumpZD;
     }
 }
 

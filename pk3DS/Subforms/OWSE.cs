@@ -601,6 +601,27 @@ namespace pk3DS
             CB_LocationID.SelectedIndex = 0;
             Util.Alert("All Map images have been dumped to " + folder + ".");
         }
+        private void B_DumpZD_Click(object sender, EventArgs e)
+        {
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all ZD?") != DialogResult.Yes)
+                return;
+
+            List<string> result = new List<string>();
+            List<byte[]> data = new List<byte[]>();
+            for (int i = 0; i < CB_LocationID.Items.Count; i++)
+            {
+                CB_LocationID.SelectedIndex = i;
+                result.Add(Util.getHexString(CurrentZone.ZD.Data));
+                data.Add(CurrentZone.ZD.Data);
+            }
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write ZDs to file?") == DialogResult.Yes)
+                File.WriteAllBytes("ZDs.bin", data.SelectMany(z => z).ToArray());
+
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy ZDs to Clipboard?") == DialogResult.Yes)
+                Clipboard.SetText(string.Join(Environment.NewLine, result));
+
+            CB_LocationID.SelectedIndex = 0;
+        }
 
         private void pasteScript(object sender, EventArgs e)
         {
@@ -621,14 +642,6 @@ namespace pk3DS
         }
 
         // Coordinate Simplifiers
-        private void changeNPC_X(object sender, EventArgs e)
-        {
-            L_NpX.Text = (NUD_NX.Value / 18).ToString("F");
-        }
-        private void changeNPC_Y(object sender, EventArgs e)
-        {
-            L_NpY.Text = (NUD_NY.Value / 18).ToString("F");
-        }
         private void changeWarp_X(object sender, EventArgs e)
         {
             L_WpX.Text = (NUD_WX.Value / 18).ToString();
@@ -650,5 +663,6 @@ namespace pk3DS
             mapView.Close();
             mapView.Dispose();
         }
+
     }
 }

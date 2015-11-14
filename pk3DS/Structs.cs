@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -910,9 +911,12 @@ namespace pk3DS
         private int Area;
         public ushort[] EntryList;
         public Entry[] Entries;
-        public MapMatrix(byte[] data)
+        public Unknown[] Unknowns;
+
+        public byte[] UnkData;
+        public MapMatrix(byte[][] data)
         {
-            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+            using (BinaryReader br = new BinaryReader(new MemoryStream(data[0])))
             {
                 u0 = br.ReadUInt32();
                 Width = br.ReadUInt16();
@@ -926,6 +930,8 @@ namespace pk3DS
                 if (br.BaseStream.Position != br.BaseStream.Length)
                     uL = br.ReadUInt16();
             }
+            if (data.Length > 1)
+                parseUnk(UnkData = data[1]);
         }
         public byte[] Write()
         {
@@ -1018,6 +1024,42 @@ namespace pk3DS
                 }
                 return img;
             }
+        }
+
+        public string Unk2String()
+        {
+            return Unknowns.Aggregate("", (current, l) => current + String.Format("{0}: {1,3} {2,3} {3,3} {4,3}{5,3}", l.Direction, l.p1, l.p2, l.p3, l.p4, Environment.NewLine));
+        }
+        private void parseUnk(byte[] data)
+        {
+            List<Unknown> unk = new List<Unknown>();
+            using (var br = new BinaryReader(new MemoryStream(data)))
+            do
+            {
+                unk.Add(new Unknown {
+                    Direction = br.ReadUInt32(),
+                    _1 = br.ReadSingle(),
+                    _2 = br.ReadSingle(),
+                    _3 = br.ReadSingle(),
+                    _4 = br.ReadSingle(),
+                });
+            } while (unk.Last().Direction != 0);
+            unk.RemoveAt(unk.Count()-1);
+            Unknowns = unk.ToArray();
+        }
+
+        public class Unknown
+        {
+            public uint Direction;
+            public float _1;
+            public float _2;
+            public float _3;
+            public float _4;
+
+            public int p1 { get { return (int)_1 / 18; } }
+            public int p2 { get { return (int)_2 / 18; } }
+            public int p3 { get { return (int)_3 / 18; } }
+            public int p4 { get { return (int)_4 / 18; } }
         }
     }
     public class ZoneData

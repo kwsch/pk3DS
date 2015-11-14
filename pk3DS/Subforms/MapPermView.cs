@@ -13,7 +13,6 @@ namespace pk3DS.Subforms
             InitializeComponent();
         }
 
-        private ToolTip mapCoord = new ToolTip();
         public int mapScale = -1;
         public int DrawMap = -1;
         public void drawMap(int Map)
@@ -25,7 +24,11 @@ namespace pk3DS.Subforms
         {
             // Load MM
             byte[][] MM = CTR.mini.unpackMini(File.ReadAllBytes(OWSE.MapMatrixes[DrawMap]), "MM");
-            var mm = new MapMatrix(MM[0]);
+            var mm = OWSE.mm = new MapMatrix(MM);
+
+            // Unknown
+            if (ModifierKeys == Keys.Control)
+                Clipboard.SetText(mm.Unk2String());
 
             // Load GR TileMaps
             for (int i = 0; i < mm.EntryList.Length; i++)
@@ -39,7 +42,6 @@ namespace pk3DS.Subforms
             Bitmap img = mm.Preview(mapScale, (int)NUD_Flavor.Value);
 
             baseImage = (Bitmap)img.Clone();
-
 
             if (sliceArea && mapScale > 3)
             {
@@ -55,7 +57,7 @@ namespace pk3DS.Subforms
 
             if (crop)
                 img = Util.TrimBitmap(img);
-            OWSE.mm = mm;
+
             return img;
         }
 
@@ -109,16 +111,23 @@ namespace pk3DS.Subforms
                         catch { }
             }
 
-            // Overlay map
+            // Overlay Map Data
+            // Flyto
             {
                 int x = (int)OWSE.CurrentZone.ZD.pX2;
                 int y = (int)OWSE.CurrentZone.ZD.pY2;
                 for (int sx = 0; sx < 1; sx++) // Stretch X
                     for (int sy = 0; sy < 1; sy++) // Stretch Y
-                        try { Util.LayerImage(img, Resources.FLY, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
+                        try { Util.LayerImage(img, Resources.FLY, (x + sx) * mapScale, (y + sy) * mapScale, opacity/2); }
                         catch { }
             }
-
+            // Unknown
+            //{
+            //    using(var g = Graphics.FromImage(img))
+            //        foreach (var l in OWSE.mm.LoadLines)
+            //            try { g.DrawLine(new Pen(Color.Red, 4), l.p2 * mapScale, l.p1 * mapScale, l.p4 * mapScale, l.p3 * mapScale); } 
+            //            catch {}
+            //}
 
             return img;
         }
