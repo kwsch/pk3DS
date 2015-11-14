@@ -1036,9 +1036,18 @@ namespace pk3DS
             get { return BitConverter.ToUInt16(Data, 0x1C) >> 9; }
             set { BitConverter.GetBytes((ushort)((value << 9) | (BitConverter.ToUInt16(Data, 0x1C) & 0x1FF))).CopyTo(Data, 0x1C); }
         }
-        public int X { get { return BitConverter.ToInt32(Data, 0x2C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x2C); } }
-        public int Z { get { return BitConverter.ToInt32(Data, 0x30); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x30); } }
-        public int Y { get { return BitConverter.ToInt32(Data, 0x34); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x34); } }
+
+        private int X { get { return BitConverter.ToUInt16(Data, 0x2C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2C); } }
+        public int Z { get { return BitConverter.ToInt16(Data, 0x2E); } set { BitConverter.GetBytes((short)value).CopyTo(Data, 0x2E); } }
+        private int Y { get { return BitConverter.ToUInt16(Data, 0x30); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x30); } }
+        private int X2 { get { return BitConverter.ToUInt16(Data, 0x32); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x32); } }
+        public int Z2 { get { return BitConverter.ToInt16(Data, 0x34); } set { BitConverter.GetBytes((short)value).CopyTo(Data, 0x34); } }
+        private int Y2 { get { return BitConverter.ToUInt16(Data, 0x36); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x36); } }
+
+        public float pX { get { return (float)X / 18; } set { X = (int)(18 * value); } }
+        public float pY { get { return (float)Y / 18; } set { Y = (int)(18 * value); } }
+        public float pX2 { get { return (float)X2 / 18; } set { X2 = (int)(18 * value); } }
+        public float pY2 { get { return (float)Y2 / 18; } set { Y2 = (int)(18 * value); } }
 
         public ZoneData(byte[] data)
         {

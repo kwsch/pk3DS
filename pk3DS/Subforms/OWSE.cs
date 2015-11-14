@@ -139,6 +139,15 @@ namespace pk3DS
             L_ZDPreview.Text = "Text File: " + CurrentZone.ZD.TextFile
             + Environment.NewLine + "Map File: " + CurrentZone.ZD.MapMatrix;
 
+            L_ZD.Text = String.Format("X: {0,5}{3}Y: {1,5}{3}Z:{2,6}{3}{3}X: {4,5}{3}Y: {5,5}{3}Z:{6,6}", CurrentZone.ZD.pX, CurrentZone.ZD.pY,
+                CurrentZone.ZD.Z, Environment.NewLine, CurrentZone.ZD.pX2, CurrentZone.ZD.pY2,
+                CurrentZone.ZD.Z2);
+
+            if (Math.Abs(CurrentZone.ZD.pX - CurrentZone.ZD.pX2) > 0.01
+                || Math.Abs(CurrentZone.ZD.pY - CurrentZone.ZD.pY2) > 0.01
+                || CurrentZone.ZD.Z != CurrentZone.ZD.Z2)
+                Util.Alert("ZD Coordinate Mismatch");
+
             // Fetch Map Image
             mapView.drawMap(CurrentZone.ZD.MapMatrix);
         }

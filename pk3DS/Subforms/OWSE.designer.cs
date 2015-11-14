@@ -166,6 +166,7 @@
             this.B_DumpFurniture = new System.Windows.Forms.Button();
             this.L_ZDPreview = new System.Windows.Forms.Label();
             this.B_HLCMD = new System.Windows.Forms.Button();
+            this.L_ZD = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tb_ZoneData.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -1502,6 +1503,7 @@
             // 
             // tb_RAW
             // 
+            this.tb_RAW.Controls.Add(this.L_ZD);
             this.tb_RAW.Controls.Add(this.L_File3);
             this.tb_RAW.Controls.Add(this.L_ZDMaster);
             this.tb_RAW.Controls.Add(this.L_File5);
@@ -1774,6 +1776,16 @@
             this.B_HLCMD.UseVisualStyleBackColor = true;
             this.B_HLCMD.Click += new System.EventHandler(this.B_HLCMD_Click);
             // 
+            // L_ZD
+            // 
+            this.L_ZD.AutoSize = true;
+            this.L_ZD.Font = new System.Drawing.Font("Courier New", 8.25F);
+            this.L_ZD.Location = new System.Drawing.Point(140, 346);
+            this.L_ZD.Name = "L_ZD";
+            this.L_ZD.Size = new System.Drawing.Size(35, 28);
+            this.L_ZD.TabIndex = 430;
+            this.L_ZD.Text = "X: ~\r\nY: ~";
+            // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1850,6 +1862,7 @@
             this.tb_File5.ResumeLayout(false);
             this.tb_File5.PerformLayout();
             this.tb_RAW.ResumeLayout(false);
+            this.tb_RAW.PerformLayout();
             this.tb_Dev.ResumeLayout(false);
             this.tb_Dev.PerformLayout();
             this.ResumeLayout(false);
@@ -1997,6 +2010,7 @@
         private System.Windows.Forms.NumericUpDown NUD_T2X;
         private System.Windows.Forms.Label L_T2X;
         private System.Windows.Forms.Button B_Map;
+        private System.Windows.Forms.Label L_ZD;
     }
 }
 
