@@ -75,6 +75,7 @@
             this.PB_Map.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.PB_Map.TabIndex = 2;
             this.PB_Map.TabStop = false;
+            this.PB_Map.MouseEnter += new System.EventHandler(this.focusPanel);
             this.PB_Map.MouseMove += new System.Windows.Forms.MouseEventHandler(this.hoverMap);
             // 
             // CHK_AutoDraw

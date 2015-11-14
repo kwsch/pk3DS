@@ -152,5 +152,10 @@ namespace pk3DS.Subforms
             Hide();
             e.Cancel = true;
         }
+
+        private void focusPanel(object sender, EventArgs e)
+        {
+            PAN_MAP.Focus();
+        }
     }
 }
