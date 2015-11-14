@@ -22,12 +22,19 @@ namespace pk3DS
             mapView.Show();
             tabControl1.SelectedIndex = 1;  // Overworlds
         }
-        internal static string[] MapMatrixes;
-        internal static string[] MapGRs;
         private string[] encdatapaths;
         private string[] filepaths;
         private string[] gameLocations = Main.getText((Main.oras) ? 90 : 72);
         private string[] zdLocations;
+        private byte[][] locationData;
+        private string[] rawLocations;
+
+        // Map Viewer References
+        internal static string[] MapMatrixes;
+        internal static string[] MapGRs;
+        internal static Zone CurrentZone;
+        internal static MapMatrix mm;
+        private MapPermView mapView = new MapPermView();
 
         internal static Random rand = new Random();
         internal static uint rnd32()
@@ -66,12 +73,18 @@ namespace pk3DS
             CB_LocationID_SelectedIndexChanged(null, null);
             NUD_WMap.Maximum = zdLocations.Length; // Cap map warp destinations to the amount of maps.
         }
+        private void B_Map_Click(object sender, EventArgs e)
+        {
+            if (!mapView.Visible)
+                mapView.Show();
+        }
+        private void closingForm(object sender, FormClosingEventArgs e)
+        {
+            // Close map view
+            mapView.Close();
+            mapView.Dispose();
+        }
 
-        internal static Zone CurrentZone;
-        internal static MapMatrix mm;
-        private int entry = -1;
-        private byte[][] locationData;
-        private string[] rawLocations;
         private void CB_LocationID_SelectedIndexChanged(object sender, EventArgs e)
         {
             setEntry();
@@ -133,7 +146,6 @@ namespace pk3DS
         }
 
         // Loading of Data
-        private MapPermView mapView = new MapPermView();
         private void getZoneData()
         {
             L_ZDPreview.Text = "Text File: " + CurrentZone.ZD.TextFile
@@ -167,10 +179,10 @@ namespace pk3DS
 
             // Collect/Load Data
             NUD_FE.Value = (NUD_FE.Maximum < 0) ? -1 : 0; changeFurniture(null, null);
-            NUD_NE.Value = (NUD_NE.Maximum < 0) ? -1 : 0; changeOverworld(null, null);
+            NUD_NE.Value = (NUD_NE.Maximum < 0) ? -1 : 0; changeNPC(null, null);
             NUD_WE.Value = (NUD_WE.Maximum < 0) ? -1 : 0; changeWarp(null, null);
-            NUD_TE.Value = (NUD_TE.Maximum < 0) ? -1 : 0; changeTrigger(null, null);
-            NUD_UE.Value = (NUD_UE.Maximum < 0) ? -1 : 0; changeUnk(null, null);
+            NUD_TE.Value = (NUD_TE.Maximum < 0) ? -1 : 0; changeTrigger1(null, null);
+            NUD_UE.Value = (NUD_UE.Maximum < 0) ? -1 : 0; changeTrigger2(null, null);
 
             // Process Scripts
             var script = CurrentZone.Entities.Script;
@@ -209,8 +221,18 @@ namespace pk3DS
             else
                 RTB_MSCMD.Lines = RTB_OS.Lines = new[] { "No Data" };
         }
+        private void setZoneData()
+        {
+            
+        }
+        private void setOWSData()
+        {
+            
+        }
 
-        // Overworld Functions
+        // Overworld Viewing
+        private int entry = -1;
+        private int fEntry, nEntry, wEntry, tEntry, uEntry = -1;
         #region Enabling
         internal static void toggleEnable(NumericUpDown master, NumericUpDown slave, GroupBox display)
         {
@@ -274,23 +296,18 @@ namespace pk3DS
             toggleEnable(NUD_UnkCount, NUD_UE, GB_U);
         }
         #endregion
-        private int fEntry, nEntry, wEntry, tEntry, uEntry = -1;
+        #region Updating
         private void changeFurniture(object sender, EventArgs e)
         {
             if (NUD_FE.Value < 0) return;
-
-            // Set Old Data
-            if (fEntry > 0)
-            {
-                var f = CurrentZone.Entities.Furniture[fEntry];
-                f.X = (int)NUD_FX.Value;
-                f.Y = (int)NUD_FY.Value;
-                f.WX = (int)NUD_FWX.Value;
-                f.WY = (int)NUD_FWY.Value;
-            }
+            setFurniture();
             fEntry = (int)NUD_FE.Value;
+            getFurniture();
+        }
+        private void getFurniture()
+        {
+            if (NUD_FE.Value < 0) return;
 
-            // Load New Data
             var Furniture = CurrentZone.Entities.Furniture[fEntry];
             NUD_FX.Value = Furniture.X;
             NUD_FY.Value = Furniture.Y;
@@ -298,29 +315,28 @@ namespace pk3DS
             NUD_FWY.Value = Furniture.WY;
             RTB_F.Text = Util.getHexString(Furniture.Raw);
         }
-        private void changeOverworld(object sender, EventArgs e)
+        private void setFurniture()
+        {
+            if (NUD_FE.Value < 0) return;
+            if (fEntry <= 0) return;
+
+            var FUrniture = CurrentZone.Entities.Furniture[fEntry];
+            FUrniture.X = (int)NUD_FX.Value;
+            FUrniture.Y = (int)NUD_FY.Value;
+            FUrniture.WX = (int)NUD_FWX.Value;
+            FUrniture.WY = (int)NUD_FWY.Value;
+        }
+
+        private void changeNPC(object sender, EventArgs e)
         {
             if (NUD_NE.Value < 0) return;
-
-            // Set Old Data
-            if (nEntry > 0)
-            {
-                var n = CurrentZone.Entities.NPCs[nEntry];
-                n.ID = (int)NUD_NID.Value;
-                n.Model = (int)NUD_NModel.Value;
-                n.SpawnFlag = (int)NUD_NFlag.Value;
-                n.Script = (int)NUD_NScript.Value;
-                n.FaceDirection = (int)NUD_NFace.Value;
-                n.SightRange = (int)NUD_NRange.Value;
-                n.X = (int)NUD_NX.Value;
-                n.Y = (int)NUD_NY.Value;
-
-                n.MovePermissions = (int)NUD_NMove1.Value;
-                n.MovePermissions2 = (int)NUD_NMove2.Value;
-            }
+            setNPC();
             nEntry = (int)NUD_NE.Value;
-
-            // Load New Data
+            getNPC();
+        }
+        private void getNPC()
+        {
+            if (NUD_NE.Value < 0) return;
             var NPC = CurrentZone.Entities.NPCs[nEntry];
 
             // Load new Attributes
@@ -343,22 +359,36 @@ namespace pk3DS
 
             RTB_N.Text = Util.getHexString(NPC.Raw);
         }
+        private void setNPC()
+        {
+            if (NUD_NE.Value < 0) return;
+            if (nEntry <= 0) return;
+
+            var NPC = CurrentZone.Entities.NPCs[nEntry];
+            NPC.ID = (int)NUD_NID.Value;
+            NPC.Model = (int)NUD_NModel.Value;
+            NPC.SpawnFlag = (int)NUD_NFlag.Value;
+            NPC.Script = (int)NUD_NScript.Value;
+            NPC.FaceDirection = (int)NUD_NFace.Value;
+            NPC.SightRange = (int)NUD_NRange.Value;
+            NPC.X = (int)NUD_NX.Value;
+            NPC.Y = (int)NUD_NY.Value;
+
+            NPC.MovePermissions = (int)NUD_NMove1.Value;
+            NPC.MovePermissions2 = (int)NUD_NMove2.Value;
+        }
+
         private void changeWarp(object sender, EventArgs e)
         {
             if (NUD_WE.Value < 0) return;
-
-            // Set Old Data
-            if (wEntry > 0)
-            {
-                var w = CurrentZone.Entities.Warps[wEntry];
-                w.DestinationMap = (int)NUD_WMap.Value;
-                w.DestinationTileIndex = (int)NUD_WTile.Value;
-                w.X = (int)NUD_WX.Value;
-                w.Y = (int)NUD_WY.Value;
-            }
+            setWarp();
             wEntry = (int)NUD_WE.Value;
+            getWarp();
+        }
+        private void getWarp()
+        {
+            if (NUD_WE.Value < 0) return;
 
-            // Load New Data
             var Warp = CurrentZone.Entities.Warps[wEntry];
             RTB_W.Text = Util.getHexString(Warp.Raw);
 
@@ -372,51 +402,101 @@ namespace pk3DS
             // Flavor Mods
             L_WarpDest.Text = zdLocations[Warp.DestinationMap];
         }
-        private void changeTrigger(object sender, EventArgs e)
+        private void setWarp()
+        {
+            if (NUD_WE.Value < 0) return;
+            if (wEntry <= 0) return;
+
+            var Warp = CurrentZone.Entities.Warps[wEntry];
+            Warp.DestinationMap = (int)NUD_WMap.Value;
+            Warp.DestinationTileIndex = (int)NUD_WTile.Value;
+            Warp.X = (int)NUD_WX.Value;
+            Warp.Y = (int)NUD_WY.Value;
+        }
+
+        private void changeTrigger1(object sender, EventArgs e)
+        {
+            if (NUD_TE.Value < 0) return;
+            setTrigger1();
+            tEntry = (int)NUD_TE.Value;
+            getTrigger1();
+        }
+        private void getTrigger1()
         {
             if (NUD_TE.Value < 0) return;
 
-            // Set Old Data
-            if (tEntry > 0)
-            {
-                var t1 = CurrentZone.Entities.Triggers1[tEntry];
-                t1.X = (int)NUD_T1X.Value;
-                t1.Y = (int)NUD_T1Y.Value;
-            }
-            tEntry = (int)NUD_TE.Value;
-
-            // Load New Data
-            var Trigger = CurrentZone.Entities.Triggers1[tEntry];
-            NUD_T1X.Value = Trigger.X;
-            NUD_T1Y.Value = Trigger.Y;
-            RTB_T.Text = Util.getHexString(Trigger.Raw);
+            var Trigger1 = CurrentZone.Entities.Triggers1[tEntry];
+            NUD_T1X.Value = Trigger1.X;
+            NUD_T1Y.Value = Trigger1.Y;
+            RTB_T.Text = Util.getHexString(Trigger1.Raw);
         }
-        private void changeUnk(object sender, EventArgs e)
+        private void setTrigger1()
+        {
+            if (NUD_TE.Value < 0) return;
+            if (tEntry <= 0) return;
+
+            var Trigger1 = CurrentZone.Entities.Triggers1[tEntry];
+            Trigger1.X = (int)NUD_T1X.Value;
+            Trigger1.Y = (int)NUD_T1Y.Value;
+        }
+
+        private void changeTrigger2(object sender, EventArgs e)
+        {
+            if (NUD_UE.Value < 0) return;
+            setTrigger2();
+            uEntry = (int)NUD_UE.Value;
+            getTrigger2();
+        }
+        private void getTrigger2()
         {
             if (NUD_UE.Value < 0) return;
 
-            // Set Old Data
-            if (uEntry > 0)
-            {
-                var t2 = CurrentZone.Entities.Triggers1[uEntry];
-                t2.X = (int)NUD_T2X.Value;
-                t2.Y = (int)NUD_T2Y.Value;
-            }
-            uEntry = (int)NUD_UE.Value;
-
             // Load New Data
-            var Unk = CurrentZone.Entities.Triggers2[uEntry];
-            NUD_T2X.Value = Unk.X;
-            NUD_T2Y.Value = Unk.Y;
-            RTB_U.Text = Util.getHexString(Unk.Raw);
+            var Trigger2 = CurrentZone.Entities.Triggers2[uEntry];
+            NUD_T2X.Value = Trigger2.X;
+            NUD_T2Y.Value = Trigger2.Y;
+            RTB_U.Text = Util.getHexString(Trigger2.Raw);
+        }
+        private void setTrigger2()
+        {
+            if (NUD_UE.Value < 0) return;
+            if (uEntry <= 0) return;
+
+            var Trigger2 = CurrentZone.Entities.Triggers1[uEntry];
+            Trigger2.X = (int)NUD_T2X.Value;
+            Trigger2.Y = (int)NUD_T2Y.Value;
+        }
+        #endregion
+
+        // Overworld User Enhancements
+        private void changeNModel(object sender, EventArgs e)
+        {
+            L_ModelAsHex.Text = "0x" + ((int)NUD_NModel.Value).ToString("X4");
+        }
+        private void dclickDestMap(object sender, EventArgs e)
+        {
+            var Tile = NUD_WTile.Value;
+            CB_LocationID.SelectedIndex = (int)NUD_WMap.Value;
+            try
+            { NUD_WE.Value = Tile; }
+            catch
+            { try { NUD_WE.Value = 0; } catch { } }
+        }
+        private void changeWarp_X(object sender, EventArgs e)
+        {
+            L_WpX.Text = (NUD_WX.Value / 18).ToString();
+        }
+        private void changeWarp_Y(object sender, EventArgs e)
+        {
+            L_WpY.Text = (NUD_WY.Value / 18).ToString();
         }
 
+        // Script Handling
         private void B_HLCMD_Click(object sender, EventArgs e)
         {
             int ctr = Util.highlightText(RTB_OSP, "**", Color.Red) + Util.highlightText(RTB_MSP, "**", Color.Red) / 2;
             Util.Alert(String.Format("{0} instance{1} of \"*\" present.", ctr, ctr > 1 ? "s" : ""));
         }
-
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
@@ -434,20 +514,22 @@ namespace pk3DS
             RTB_CompressedScript.Lines = Scripts.getHexLines(scr.CompressedBytes);
             System.Media.SystemSounds.Asterisk.Play();
         }
-        
-        // User Enhancements
-        private void changeNModel(object sender, EventArgs e)
+        private void pasteScript(object sender, EventArgs e)
         {
-            L_ModelAsHex.Text = "0x"+((int)NUD_NModel.Value).ToString("X4");
-        }
-        private void dclickDestMap(object sender, EventArgs e)
-        {
-            var Tile = NUD_WTile.Value;
-            CB_LocationID.SelectedIndex = (int)NUD_WMap.Value;
+            // import data as bytes
             try
-            { NUD_WE.Value = Tile; }
+            {
+                string text = RTB_CompressedScript.Text.Replace(Environment.NewLine, "").Replace("\n", "").Replace(" ", "");
+                byte[] data = Util.StringToByteArray(text);
+
+                byte[] dec = Scripts.decompressScript(data);
+
+                RTB_DecompressedScript.Lines = Scripts.getHexLines(dec);
+            }
             catch
-            { try { NUD_WE.Value = 0; } catch {}}
+            {
+                RTB_DecompressedScript.Text = "DECMP ERROR";
+            }
         }
 
         // Dev Dumpers
@@ -571,7 +653,6 @@ namespace pk3DS
 
             CB_LocationID.SelectedIndex = 0;
         }
-
         private void B_DumpMaps_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all MapImages?") != DialogResult.Yes)
@@ -622,47 +703,5 @@ namespace pk3DS
 
             CB_LocationID.SelectedIndex = 0;
         }
-
-        private void pasteScript(object sender, EventArgs e)
-        {
-            // import data as bytes
-            try
-            {
-                string text = RTB_CompressedScript.Text.Replace(Environment.NewLine, "").Replace("\n", "").Replace(" ", "");
-                byte[] data = Util.StringToByteArray(text);
-
-                byte[] dec = Scripts.decompressScript(data);
-
-                RTB_DecompressedScript.Lines = Scripts.getHexLines(dec);
-            }
-            catch
-            {
-                RTB_DecompressedScript.Text = "DECMP ERROR";
-            }
-        }
-
-        // Coordinate Simplifiers
-        private void changeWarp_X(object sender, EventArgs e)
-        {
-            L_WpX.Text = (NUD_WX.Value / 18).ToString();
-        }
-        private void changeWarp_Y(object sender, EventArgs e)
-        {
-            L_WpY.Text = (NUD_WY.Value / 18).ToString();
-        }
-
-        private void B_Map_Click(object sender, EventArgs e)
-        {
-            if (!mapView.Visible)
-                mapView.Show();
-        }
-
-        private void closingForm(object sender, FormClosingEventArgs e)
-        {
-            // Close map view
-            mapView.Close();
-            mapView.Dispose();
-        }
-
     }
 }

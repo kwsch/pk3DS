@@ -58,7 +58,7 @@
             this.RTB_F = new System.Windows.Forms.RichTextBox();
             this.NUD_FE = new System.Windows.Forms.NumericUpDown();
             this.L_FE = new System.Windows.Forms.Label();
-            this.tb_Overworld = new System.Windows.Forms.TabPage();
+            this.tb_NPC = new System.Windows.Forms.TabPage();
             this.GB_N = new System.Windows.Forms.GroupBox();
             this.NUD_NMove2 = new System.Windows.Forms.NumericUpDown();
             this.L_Move2 = new System.Windows.Forms.Label();
@@ -152,6 +152,7 @@
             this.RTB_Encounter = new System.Windows.Forms.RichTextBox();
             this.RTB_MapSC = new System.Windows.Forms.RichTextBox();
             this.tb_Dev = new System.Windows.Forms.TabPage();
+            this.B_DumpZD = new System.Windows.Forms.Button();
             this.L_DeComp = new System.Windows.Forms.Label();
             this.RTB_CompressedScript = new System.Windows.Forms.RichTextBox();
             this.RTB_DecompressedScript = new System.Windows.Forms.RichTextBox();
@@ -165,7 +166,6 @@
             this.B_Map = new System.Windows.Forms.Button();
             this.L_ZDPreview = new System.Windows.Forms.Label();
             this.B_HLCMD = new System.Windows.Forms.Button();
-            this.B_DumpZD = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tb_ZoneData.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -181,7 +181,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FE)).BeginInit();
-            this.tb_Overworld.SuspendLayout();
+            this.tb_NPC.SuspendLayout();
             this.GB_N.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove1)).BeginInit();
@@ -423,7 +423,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tc_OWSC.Controls.Add(this.tb_Furniture);
-            this.tc_OWSC.Controls.Add(this.tb_Overworld);
+            this.tc_OWSC.Controls.Add(this.tb_NPC);
             this.tc_OWSC.Controls.Add(this.tb_Warp);
             this.tc_OWSC.Controls.Add(this.tb_Trigger1);
             this.tc_OWSC.Controls.Add(this.tb_Trigger2);
@@ -582,18 +582,18 @@
             this.L_FE.Text = "Entry:";
             this.L_FE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // tb_Overworld
+            // tb_NPC
             // 
-            this.tb_Overworld.Controls.Add(this.GB_N);
-            this.tb_Overworld.Controls.Add(this.NUD_NE);
-            this.tb_Overworld.Controls.Add(this.L_NE);
-            this.tb_Overworld.Location = new System.Drawing.Point(4, 22);
-            this.tb_Overworld.Name = "tb_Overworld";
-            this.tb_Overworld.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_Overworld.Size = new System.Drawing.Size(337, 436);
-            this.tb_Overworld.TabIndex = 1;
-            this.tb_Overworld.Text = "Overworld";
-            this.tb_Overworld.UseVisualStyleBackColor = true;
+            this.tb_NPC.Controls.Add(this.GB_N);
+            this.tb_NPC.Controls.Add(this.NUD_NE);
+            this.tb_NPC.Controls.Add(this.L_NE);
+            this.tb_NPC.Location = new System.Drawing.Point(4, 22);
+            this.tb_NPC.Name = "tb_NPC";
+            this.tb_NPC.Padding = new System.Windows.Forms.Padding(3);
+            this.tb_NPC.Size = new System.Drawing.Size(337, 436);
+            this.tb_NPC.TabIndex = 1;
+            this.tb_NPC.Text = "NPC";
+            this.tb_NPC.UseVisualStyleBackColor = true;
             // 
             // GB_N
             // 
@@ -908,7 +908,7 @@
             this.NUD_NE.Name = "NUD_NE";
             this.NUD_NE.Size = new System.Drawing.Size(53, 20);
             this.NUD_NE.TabIndex = 425;
-            this.NUD_NE.ValueChanged += new System.EventHandler(this.changeOverworld);
+            this.NUD_NE.ValueChanged += new System.EventHandler(this.changeNPC);
             // 
             // L_NE
             // 
@@ -1191,7 +1191,7 @@
             this.NUD_TE.Name = "NUD_TE";
             this.NUD_TE.Size = new System.Drawing.Size(53, 20);
             this.NUD_TE.TabIndex = 425;
-            this.NUD_TE.ValueChanged += new System.EventHandler(this.changeTrigger);
+            this.NUD_TE.ValueChanged += new System.EventHandler(this.changeTrigger1);
             // 
             // L_TE
             // 
@@ -1293,7 +1293,7 @@
             this.NUD_UE.Name = "NUD_UE";
             this.NUD_UE.Size = new System.Drawing.Size(53, 20);
             this.NUD_UE.TabIndex = 427;
-            this.NUD_UE.ValueChanged += new System.EventHandler(this.changeUnk);
+            this.NUD_UE.ValueChanged += new System.EventHandler(this.changeTrigger2);
             // 
             // L_UE
             // 
@@ -1635,6 +1635,16 @@
             this.tb_Dev.Text = "Dev";
             this.tb_Dev.UseVisualStyleBackColor = true;
             // 
+            // B_DumpZD
+            // 
+            this.B_DumpZD.Location = new System.Drawing.Point(149, 51);
+            this.B_DumpZD.Name = "B_DumpZD";
+            this.B_DumpZD.Size = new System.Drawing.Size(89, 39);
+            this.B_DumpZD.TabIndex = 431;
+            this.B_DumpZD.Text = "Dump all ZD";
+            this.B_DumpZD.UseVisualStyleBackColor = true;
+            this.B_DumpZD.Click += new System.EventHandler(this.B_DumpZD_Click);
+            // 
             // L_DeComp
             // 
             this.L_DeComp.AutoSize = true;
@@ -1762,16 +1772,6 @@
             this.B_HLCMD.UseVisualStyleBackColor = true;
             this.B_HLCMD.Click += new System.EventHandler(this.B_HLCMD_Click);
             // 
-            // B_DumpZD
-            // 
-            this.B_DumpZD.Location = new System.Drawing.Point(149, 51);
-            this.B_DumpZD.Name = "B_DumpZD";
-            this.B_DumpZD.Size = new System.Drawing.Size(89, 39);
-            this.B_DumpZD.TabIndex = 431;
-            this.B_DumpZD.Text = "Dump all ZD";
-            this.B_DumpZD.UseVisualStyleBackColor = true;
-            this.B_DumpZD.Click += new System.EventHandler(this.B_DumpZD_Click);
-            // 
             // OWSE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1806,7 +1806,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FE)).EndInit();
-            this.tb_Overworld.ResumeLayout(false);
+            this.tb_NPC.ResumeLayout(false);
             this.GB_N.ResumeLayout(false);
             this.GB_N.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NMove2)).EndInit();
@@ -1869,7 +1869,7 @@
         private System.Windows.Forms.TabPage tb_File5;
         private System.Windows.Forms.TabControl tc_OWSC;
         private System.Windows.Forms.TabPage tb_Furniture;
-        private System.Windows.Forms.TabPage tb_Overworld;
+        private System.Windows.Forms.TabPage tb_NPC;
         private System.Windows.Forms.RichTextBox RTB_N;
         private System.Windows.Forms.TabPage tb_Warp;
         private System.Windows.Forms.TabPage tb_Trigger1;

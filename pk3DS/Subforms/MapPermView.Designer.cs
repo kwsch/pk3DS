@@ -110,6 +110,11 @@
             // NUD_Scale
             // 
             this.NUD_Scale.Location = new System.Drawing.Point(143, 7);
+            this.NUD_Scale.Maximum = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
             this.NUD_Scale.Minimum = new decimal(new int[] {
             1,
             0,
@@ -119,7 +124,7 @@
             this.NUD_Scale.Size = new System.Drawing.Size(37, 20);
             this.NUD_Scale.TabIndex = 15;
             this.NUD_Scale.Value = new decimal(new int[] {
-            3,
+            8,
             0,
             0,
             0});
