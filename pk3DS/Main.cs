@@ -42,8 +42,19 @@ namespace pk3DS
             TB_Path.DragEnter += tabMain_DragEnter;
             TB_Path.DragDrop += tabMain_DragDrop;
 
+            // Load with special arguments if supplied via command line
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                int lang;
+                if (args.Length > 2 && int.TryParse(args[2], out lang))
+                    CB_Lang.SelectedIndex = lang;
+
+                string path = args[1];
+                if (path.Length > 0) openQuick(path);
+            }
             // Reload Previous Editing Files if the file exists
-            if (File.Exists("config.ini"))
+            else if (File.Exists("config.ini"))
             {
                 string[] lines = File.ReadAllLines("config.ini");
                 string path = lines[0];
