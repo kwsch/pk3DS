@@ -11,8 +11,12 @@ namespace pk3DS.Subforms
         public MapPermView()
         {
             InitializeComponent();
+            MapMatrixes = Directory.GetFiles("mapMatrix");
+            MapGRs = Directory.GetFiles("mapGR");
         }
 
+        private string[] MapMatrixes;
+        private string[] MapGRs;
         public int mapScale = -1;
         public int DrawMap = -1;
         public void drawMap(int Map)
@@ -23,7 +27,7 @@ namespace pk3DS.Subforms
         public Bitmap getMapImage(bool crop = false, bool entity = true, bool sliceArea = false)
         {
             // Load MM
-            byte[][] MM = CTR.mini.unpackMini(File.ReadAllBytes(OWSE.MapMatrixes[DrawMap]), "MM");
+            byte[][] MM = CTR.mini.unpackMini(File.ReadAllBytes(MapMatrixes[DrawMap]), "MM");
             var mm = OWSE.mm = new MapMatrix(MM);
 
             // Unknown
@@ -35,7 +39,7 @@ namespace pk3DS.Subforms
             {
                 if (mm.EntryList[i] == 0xFFFF) // Mystery Zone
                     continue;
-                byte[][] GR = CTR.mini.unpackMini(File.ReadAllBytes(OWSE.MapGRs[mm.EntryList[i]]), "GR");
+                byte[][] GR = CTR.mini.unpackMini(File.ReadAllBytes(MapGRs[mm.EntryList[i]]), "GR");
                 mm.Entries[i] = new MapMatrix.Entry(GR[0]);
             }
             mapScale = (int)NUD_Scale.Value;

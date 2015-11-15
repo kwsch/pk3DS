@@ -35,6 +35,7 @@
             this.tb_ZoneData = new System.Windows.Forms.TabPage();
             this.L_MapInfoTabData = new System.Windows.Forms.Label();
             this.tb_OWSC = new System.Windows.Forms.TabPage();
+            this.CHK_EditRAW = new System.Windows.Forms.CheckBox();
             this.NUD_UnkCount = new System.Windows.Forms.NumericUpDown();
             this.L_Unk = new System.Windows.Forms.Label();
             this.L_OWEntities = new System.Windows.Forms.Label();
@@ -105,21 +106,21 @@
             this.NUD_WE = new System.Windows.Forms.NumericUpDown();
             this.L_WE = new System.Windows.Forms.Label();
             this.tb_Trigger1 = new System.Windows.Forms.TabPage();
-            this.GB_T = new System.Windows.Forms.GroupBox();
+            this.GB_T1 = new System.Windows.Forms.GroupBox();
             this.NUD_T1Y = new System.Windows.Forms.NumericUpDown();
             this.L_T1Y = new System.Windows.Forms.Label();
             this.NUD_T1X = new System.Windows.Forms.NumericUpDown();
             this.L_T1X = new System.Windows.Forms.Label();
-            this.RTB_T = new System.Windows.Forms.RichTextBox();
+            this.RTB_T1 = new System.Windows.Forms.RichTextBox();
             this.NUD_TE = new System.Windows.Forms.NumericUpDown();
             this.L_TE = new System.Windows.Forms.Label();
             this.tb_Trigger2 = new System.Windows.Forms.TabPage();
-            this.GB_U = new System.Windows.Forms.GroupBox();
+            this.GB_T2 = new System.Windows.Forms.GroupBox();
             this.NUD_T2Y = new System.Windows.Forms.NumericUpDown();
             this.L_T2Y = new System.Windows.Forms.Label();
             this.NUD_T2X = new System.Windows.Forms.NumericUpDown();
             this.L_T2X = new System.Windows.Forms.Label();
-            this.RTB_U = new System.Windows.Forms.RichTextBox();
+            this.RTB_T2 = new System.Windows.Forms.RichTextBox();
             this.NUD_UE = new System.Windows.Forms.NumericUpDown();
             this.L_UE = new System.Windows.Forms.Label();
             this.tb_Script = new System.Windows.Forms.TabPage();
@@ -202,12 +203,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WMap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WE)).BeginInit();
             this.tb_Trigger1.SuspendLayout();
-            this.GB_T.SuspendLayout();
+            this.GB_T1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_T1Y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_T1X)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TE)).BeginInit();
             this.tb_Trigger2.SuspendLayout();
-            this.GB_U.SuspendLayout();
+            this.GB_T2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_T2Y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_T2X)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_UE)).BeginInit();
@@ -291,6 +292,7 @@
             // 
             // tb_OWSC
             // 
+            this.tb_OWSC.Controls.Add(this.CHK_EditRAW);
             this.tb_OWSC.Controls.Add(this.NUD_UnkCount);
             this.tb_OWSC.Controls.Add(this.L_Unk);
             this.tb_OWSC.Controls.Add(this.L_OWEntities);
@@ -310,6 +312,18 @@
             this.tb_OWSC.TabIndex = 1;
             this.tb_OWSC.Text = "OW & SC";
             this.tb_OWSC.UseVisualStyleBackColor = true;
+            // 
+            // CHK_EditRAW
+            // 
+            this.CHK_EditRAW.AutoSize = true;
+            this.CHK_EditRAW.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_EditRAW.Location = new System.Drawing.Point(380, 134);
+            this.CHK_EditRAW.Name = "CHK_EditRAW";
+            this.CHK_EditRAW.Size = new System.Drawing.Size(95, 17);
+            this.CHK_EditRAW.TabIndex = 430;
+            this.CHK_EditRAW.Text = "Edit Raw Data";
+            this.CHK_EditRAW.UseVisualStyleBackColor = true;
+            this.CHK_EditRAW.CheckedChanged += new System.EventHandler(this.changeRAWCheck);
             // 
             // NUD_UnkCount
             // 
@@ -437,6 +451,7 @@
             this.tc_OWSC.SelectedIndex = 0;
             this.tc_OWSC.Size = new System.Drawing.Size(345, 462);
             this.tc_OWSC.TabIndex = 415;
+            this.tc_OWSC.SelectedIndexChanged += new System.EventHandler(this.changeRAW_N);
             // 
             // tb_Furniture
             // 
@@ -558,11 +573,12 @@
             this.RTB_F.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RTB_F.Location = new System.Drawing.Point(6, 275);
             this.RTB_F.Name = "RTB_F";
-            this.RTB_F.ReadOnly = true;
             this.RTB_F.Size = new System.Drawing.Size(245, 42);
             this.RTB_F.TabIndex = 425;
             this.RTB_F.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
     "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
+            this.RTB_F.Visible = false;
+            this.RTB_F.TextChanged += new System.EventHandler(this.changeRAW_F);
             // 
             // NUD_FE
             // 
@@ -874,11 +890,11 @@
             this.RTB_N.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RTB_N.Location = new System.Drawing.Point(6, 275);
             this.RTB_N.Name = "RTB_N";
-            this.RTB_N.ReadOnly = true;
             this.RTB_N.Size = new System.Drawing.Size(245, 42);
             this.RTB_N.TabIndex = 414;
             this.RTB_N.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
     "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
+            this.RTB_N.Visible = false;
             // 
             // NUD_NID
             // 
@@ -1025,11 +1041,12 @@
             this.RTB_W.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RTB_W.Location = new System.Drawing.Point(6, 275);
             this.RTB_W.Name = "RTB_W";
-            this.RTB_W.ReadOnly = true;
             this.RTB_W.Size = new System.Drawing.Size(245, 42);
             this.RTB_W.TabIndex = 425;
             this.RTB_W.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
     "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
+            this.RTB_W.Visible = false;
+            this.RTB_W.TextChanged += new System.EventHandler(this.changeRAW_W);
             // 
             // L_WarpDest
             // 
@@ -1107,7 +1124,7 @@
             // 
             // tb_Trigger1
             // 
-            this.tb_Trigger1.Controls.Add(this.GB_T);
+            this.tb_Trigger1.Controls.Add(this.GB_T1);
             this.tb_Trigger1.Controls.Add(this.NUD_TE);
             this.tb_Trigger1.Controls.Add(this.L_TE);
             this.tb_Trigger1.Location = new System.Drawing.Point(4, 22);
@@ -1117,19 +1134,19 @@
             this.tb_Trigger1.Text = "Trigger1";
             this.tb_Trigger1.UseVisualStyleBackColor = true;
             // 
-            // GB_T
+            // GB_T1
             // 
-            this.GB_T.Controls.Add(this.NUD_T1Y);
-            this.GB_T.Controls.Add(this.L_T1Y);
-            this.GB_T.Controls.Add(this.NUD_T1X);
-            this.GB_T.Controls.Add(this.L_T1X);
-            this.GB_T.Controls.Add(this.RTB_T);
-            this.GB_T.Location = new System.Drawing.Point(6, 40);
-            this.GB_T.Name = "GB_T";
-            this.GB_T.Size = new System.Drawing.Size(256, 323);
-            this.GB_T.TabIndex = 439;
-            this.GB_T.TabStop = false;
-            this.GB_T.Text = "Info:";
+            this.GB_T1.Controls.Add(this.NUD_T1Y);
+            this.GB_T1.Controls.Add(this.L_T1Y);
+            this.GB_T1.Controls.Add(this.NUD_T1X);
+            this.GB_T1.Controls.Add(this.L_T1X);
+            this.GB_T1.Controls.Add(this.RTB_T1);
+            this.GB_T1.Location = new System.Drawing.Point(6, 40);
+            this.GB_T1.Name = "GB_T1";
+            this.GB_T1.Size = new System.Drawing.Size(256, 323);
+            this.GB_T1.TabIndex = 439;
+            this.GB_T1.TabStop = false;
+            this.GB_T1.Text = "Info:";
             // 
             // NUD_T1Y
             // 
@@ -1173,16 +1190,17 @@
             this.L_T1X.Text = "X Coordinate:";
             this.L_T1X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // RTB_T
+            // RTB_T1
             // 
-            this.RTB_T.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_T.Location = new System.Drawing.Point(6, 275);
-            this.RTB_T.Name = "RTB_T";
-            this.RTB_T.ReadOnly = true;
-            this.RTB_T.Size = new System.Drawing.Size(245, 42);
-            this.RTB_T.TabIndex = 425;
-            this.RTB_T.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
+            this.RTB_T1.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_T1.Location = new System.Drawing.Point(6, 275);
+            this.RTB_T1.Name = "RTB_T1";
+            this.RTB_T1.Size = new System.Drawing.Size(245, 42);
+            this.RTB_T1.TabIndex = 425;
+            this.RTB_T1.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
     "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
+            this.RTB_T1.Visible = false;
+            this.RTB_T1.TextChanged += new System.EventHandler(this.changeRAW_T1);
             // 
             // NUD_TE
             // 
@@ -1208,7 +1226,7 @@
             // 
             // tb_Trigger2
             // 
-            this.tb_Trigger2.Controls.Add(this.GB_U);
+            this.tb_Trigger2.Controls.Add(this.GB_T2);
             this.tb_Trigger2.Controls.Add(this.NUD_UE);
             this.tb_Trigger2.Controls.Add(this.L_UE);
             this.tb_Trigger2.Location = new System.Drawing.Point(4, 22);
@@ -1219,19 +1237,19 @@
             this.tb_Trigger2.Text = "Trigger2";
             this.tb_Trigger2.UseVisualStyleBackColor = true;
             // 
-            // GB_U
+            // GB_T2
             // 
-            this.GB_U.Controls.Add(this.NUD_T2Y);
-            this.GB_U.Controls.Add(this.L_T2Y);
-            this.GB_U.Controls.Add(this.NUD_T2X);
-            this.GB_U.Controls.Add(this.L_T2X);
-            this.GB_U.Controls.Add(this.RTB_U);
-            this.GB_U.Location = new System.Drawing.Point(6, 40);
-            this.GB_U.Name = "GB_U";
-            this.GB_U.Size = new System.Drawing.Size(256, 323);
-            this.GB_U.TabIndex = 440;
-            this.GB_U.TabStop = false;
-            this.GB_U.Text = "Info:";
+            this.GB_T2.Controls.Add(this.NUD_T2Y);
+            this.GB_T2.Controls.Add(this.L_T2Y);
+            this.GB_T2.Controls.Add(this.NUD_T2X);
+            this.GB_T2.Controls.Add(this.L_T2X);
+            this.GB_T2.Controls.Add(this.RTB_T2);
+            this.GB_T2.Location = new System.Drawing.Point(6, 40);
+            this.GB_T2.Name = "GB_T2";
+            this.GB_T2.Size = new System.Drawing.Size(256, 323);
+            this.GB_T2.TabIndex = 440;
+            this.GB_T2.TabStop = false;
+            this.GB_T2.Text = "Info:";
             // 
             // NUD_T2Y
             // 
@@ -1275,16 +1293,17 @@
             this.L_T2X.Text = "X Coordinate:";
             this.L_T2X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // RTB_U
+            // RTB_T2
             // 
-            this.RTB_U.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_U.Location = new System.Drawing.Point(6, 275);
-            this.RTB_U.Name = "RTB_U";
-            this.RTB_U.ReadOnly = true;
-            this.RTB_U.Size = new System.Drawing.Size(245, 42);
-            this.RTB_U.TabIndex = 425;
-            this.RTB_U.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
+            this.RTB_T2.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_T2.Location = new System.Drawing.Point(6, 275);
+            this.RTB_T2.Name = "RTB_T2";
+            this.RTB_T2.Size = new System.Drawing.Size(245, 42);
+            this.RTB_T2.TabIndex = 425;
+            this.RTB_T2.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
     "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
+            this.RTB_T2.Visible = false;
+            this.RTB_T2.TextChanged += new System.EventHandler(this.changeRAW_T2);
             // 
             // NUD_UE
             // 
@@ -1834,12 +1853,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WMap)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_WE)).EndInit();
             this.tb_Trigger1.ResumeLayout(false);
-            this.GB_T.ResumeLayout(false);
+            this.GB_T1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_T1Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_T1X)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TE)).EndInit();
             this.tb_Trigger2.ResumeLayout(false);
-            this.GB_U.ResumeLayout(false);
+            this.GB_T2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_T2Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_T2X)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_UE)).EndInit();
@@ -1951,10 +1970,10 @@
         private System.Windows.Forms.GroupBox GB_F;
         private System.Windows.Forms.GroupBox GB_W;
         private System.Windows.Forms.RichTextBox RTB_W;
-        private System.Windows.Forms.GroupBox GB_T;
-        private System.Windows.Forms.RichTextBox RTB_T;
-        private System.Windows.Forms.GroupBox GB_U;
-        private System.Windows.Forms.RichTextBox RTB_U;
+        private System.Windows.Forms.GroupBox GB_T1;
+        private System.Windows.Forms.RichTextBox RTB_T1;
+        private System.Windows.Forms.GroupBox GB_T2;
+        private System.Windows.Forms.RichTextBox RTB_T2;
         private System.Windows.Forms.TabPage tb_Dev;
         private System.Windows.Forms.Button B_DumpUnk;
         private System.Windows.Forms.Button B_DumpTrigger;
@@ -2001,6 +2020,7 @@
         private System.Windows.Forms.Button B_Map;
         private System.Windows.Forms.Label L_ZD;
         private System.Windows.Forms.Button B_DumpZD;
+        private System.Windows.Forms.CheckBox CHK_EditRAW;
     }
 }
 

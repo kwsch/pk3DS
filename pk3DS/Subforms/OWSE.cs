@@ -18,11 +18,7 @@ namespace pk3DS
             AllowDrop = true;
             DragEnter += tabMain_DragEnter;
             DragDrop += tabMain_DragDrop;
-
-            // Load Map Viewer assets (on form load only!)
-            MapMatrixes = Directory.GetFiles("mapMatrix");
-            MapGRs = Directory.GetFiles("mapGR");
-
+            
             // Finished
             openQuick(Directory.GetFiles("encdata"));
             mapView.Show();
@@ -40,8 +36,6 @@ namespace pk3DS
         private byte[][] locationData;
 
         // Map Viewer References
-        internal static string[] MapMatrixes;
-        internal static string[] MapGRs;
         internal static Zone CurrentZone;
         internal static MapMatrix mm;
         private MapPermView mapView = new MapPermView();
@@ -177,7 +171,7 @@ namespace pk3DS
         private void getOWSData()
         {
             // Reset Fields a little.
-            RTB_F.Text = RTB_N.Text = RTB_W.Text = RTB_T.Text = RTB_U.Text = string.Empty;
+            RTB_F.Text = RTB_N.Text = RTB_W.Text = RTB_T1.Text = RTB_T2.Text = string.Empty;
             fEntry = nEntry = wEntry = tEntry = uEntry = -1;
             // Set Counters
             NUD_FurnCount.Value = CurrentZone.Entities.FurnitureCount; changeFurnitureCount(null, null);
@@ -296,7 +290,7 @@ namespace pk3DS
             for (int i = 0; i < count; i++)
                 CurrentZone.Entities.Triggers1[i] = CurrentZone.Entities.Triggers1[i] ?? new Zone.ZoneEntities.EntityTrigger1();
 
-            toggleEnable(NUD_TrigCount, NUD_TE, GB_T);
+            toggleEnable(NUD_TrigCount, NUD_TE, GB_T1);
         }
         private void changeUnkCount(object sender, EventArgs e)
         {
@@ -307,7 +301,7 @@ namespace pk3DS
             for (int i = 0; i < count; i++)
                 CurrentZone.Entities.Triggers2[i] = CurrentZone.Entities.Triggers2[i] ?? new Zone.ZoneEntities.EntityTrigger2();
 
-            toggleEnable(NUD_UnkCount, NUD_UE, GB_U);
+            toggleEnable(NUD_UnkCount, NUD_UE, GB_T2);
         }
         #endregion
         #region Updating
@@ -442,7 +436,7 @@ namespace pk3DS
             var Trigger1 = CurrentZone.Entities.Triggers1[tEntry];
             NUD_T1X.Value = Trigger1.X;
             NUD_T1Y.Value = Trigger1.Y;
-            RTB_T.Text = Util.getHexString(Trigger1.Raw);
+            RTB_T1.Text = Util.getHexString(Trigger1.Raw);
         }
         private void setTrigger1()
         {
@@ -469,7 +463,7 @@ namespace pk3DS
             var Trigger2 = CurrentZone.Entities.Triggers2[uEntry];
             NUD_T2X.Value = Trigger2.X;
             NUD_T2Y.Value = Trigger2.Y;
-            RTB_U.Text = Util.getHexString(Trigger2.Raw);
+            RTB_T2.Text = Util.getHexString(Trigger2.Raw);
         }
         private void setTrigger2()
         {
@@ -730,6 +724,115 @@ namespace pk3DS
 
             CB_LocationID.SelectedIndex = 0;
             debugToolDumping = false;
+        }
+
+        // Raw file editing
+        private void changeRAWCheck(object sender, EventArgs e)
+        {
+            bool chk = (sender as CheckBox).Checked;
+            foreach (NumericUpDown nud in GB_F.Controls.OfType<NumericUpDown>())
+                nud.Enabled = !chk;
+            foreach (NumericUpDown nud in GB_N.Controls.OfType<NumericUpDown>())
+                nud.Enabled = !chk;
+            foreach (NumericUpDown nud in GB_W.Controls.OfType<NumericUpDown>())
+                nud.Enabled = !chk;
+            foreach (NumericUpDown nud in GB_T1.Controls.OfType<NumericUpDown>())
+                nud.Enabled = !chk;
+            foreach (NumericUpDown nud in GB_T2.Controls.OfType<NumericUpDown>())
+                nud.Enabled = !chk;
+
+            foreach (RichTextBox rtb in new[] {RTB_F, RTB_N, RTB_W, RTB_T1, RTB_T2})
+                rtb.Visible = chk;
+        }
+        private void changeRAW_F(object sender, EventArgs e)
+        {
+            if (sender as RichTextBox == null || !(sender as RichTextBox).Visible)
+                return;
+
+            try
+            {
+                byte[] data = Util.StringToByteArray((sender as RichTextBox).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
+                if (data.Length != Zone.ZoneEntities.EntityFurniture.Size)
+                    return;
+                CurrentZone.Entities.Furniture[fEntry].Raw = data;
+                getFurniture();
+            }
+            catch
+            {
+                (sender as RichTextBox).Text = Util.getHexString(CurrentZone.Entities.Furniture[fEntry].Raw);
+            }
+        }
+        private void changeRAW_N(object sender, EventArgs e)
+        {
+            if (sender as RichTextBox == null || !(sender as RichTextBox).Visible)
+                return;
+
+            try
+            {
+                byte[] data = Util.StringToByteArray((sender as RichTextBox).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
+                if (data.Length != Zone.ZoneEntities.EntityNPC.Size)
+                    return;
+                CurrentZone.Entities.NPCs[nEntry].Raw = data;
+                getNPC();
+            }
+            catch
+            {
+                (sender as RichTextBox).Text = Util.getHexString(CurrentZone.Entities.NPCs[nEntry].Raw);
+            }
+        }
+        private void changeRAW_W(object sender, EventArgs e)
+        {
+            if (sender as RichTextBox == null || !(sender as RichTextBox).Visible)
+                return;
+
+            try
+            {
+                byte[] data = Util.StringToByteArray((sender as RichTextBox).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
+                if (data.Length != Zone.ZoneEntities.EntityWarp.Size)
+                    return;
+                CurrentZone.Entities.Warps[wEntry].Raw = data;
+                getWarp();
+            }
+            catch
+            {
+                (sender as RichTextBox).Text = Util.getHexString(CurrentZone.Entities.Warps[wEntry].Raw);
+            }
+        }
+        private void changeRAW_T1(object sender, EventArgs e)
+        {
+            if (sender as RichTextBox == null || !(sender as RichTextBox).Visible)
+                return;
+
+            try
+            {
+                byte[] data = Util.StringToByteArray((sender as RichTextBox).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
+                if (data.Length != Zone.ZoneEntities.EntityTrigger1.Size)
+                    return;
+                CurrentZone.Entities.Triggers1[tEntry].Raw = data;
+                getTrigger1();
+            }
+            catch
+            {
+                (sender as RichTextBox).Text = Util.getHexString(CurrentZone.Entities.Triggers1[tEntry].Raw);
+            }
+        }
+        private void changeRAW_T2(object sender, EventArgs e)
+        {
+            if (sender as RichTextBox == null || !(sender as RichTextBox).Visible)
+                return;
+
+            try
+            {
+                byte[] data = Util.StringToByteArray((sender as RichTextBox).Text.Replace(Environment.NewLine, " ").Replace(" ",""));
+                if (data.Length != Zone.ZoneEntities.EntityTrigger2.Size)
+                    return;
+                CurrentZone.Entities.Triggers2[uEntry].Raw = data;
+                getTrigger2();
+            }
+            catch
+            {
+                (sender as RichTextBox).Text = Util.getHexString(CurrentZone.Entities.Triggers2[uEntry].Raw);
+            }
         }
     }
 }
