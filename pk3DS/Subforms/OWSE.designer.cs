@@ -31,7 +31,7 @@
             this.CB_LocationID = new System.Windows.Forms.ComboBox();
             this.L_Location = new System.Windows.Forms.Label();
             this.RTB_ZD = new System.Windows.Forms.RichTextBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tb_Zone = new System.Windows.Forms.TabControl();
             this.tb_ZoneData = new System.Windows.Forms.TabPage();
             this.L_MapInfoTabData = new System.Windows.Forms.Label();
             this.tb_OWSC = new System.Windows.Forms.TabPage();
@@ -166,7 +166,7 @@
             this.B_Map = new System.Windows.Forms.Button();
             this.L_ZDPreview = new System.Windows.Forms.Label();
             this.B_HLCMD = new System.Windows.Forms.Button();
-            this.tabControl1.SuspendLayout();
+            this.tb_Zone.SuspendLayout();
             this.tb_ZoneData.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_UnkCount)).BeginInit();
@@ -251,23 +251,23 @@
             this.RTB_ZD.TabIndex = 412;
             this.RTB_ZD.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF";
             // 
-            // tabControl1
+            // tb_Zone
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tb_Zone.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tb_ZoneData);
-            this.tabControl1.Controls.Add(this.tb_OWSC);
-            this.tabControl1.Controls.Add(this.tb_MSC);
-            this.tabControl1.Controls.Add(this.tb_Encounters);
-            this.tabControl1.Controls.Add(this.tb_File5);
-            this.tabControl1.Controls.Add(this.tb_RAW);
-            this.tabControl1.Controls.Add(this.tb_Dev);
-            this.tabControl1.Location = new System.Drawing.Point(12, 32);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(494, 497);
-            this.tabControl1.TabIndex = 417;
+            this.tb_Zone.Controls.Add(this.tb_ZoneData);
+            this.tb_Zone.Controls.Add(this.tb_OWSC);
+            this.tb_Zone.Controls.Add(this.tb_MSC);
+            this.tb_Zone.Controls.Add(this.tb_Encounters);
+            this.tb_Zone.Controls.Add(this.tb_File5);
+            this.tb_Zone.Controls.Add(this.tb_RAW);
+            this.tb_Zone.Controls.Add(this.tb_Dev);
+            this.tb_Zone.Location = new System.Drawing.Point(12, 32);
+            this.tb_Zone.Name = "tb_Zone";
+            this.tb_Zone.SelectedIndex = 0;
+            this.tb_Zone.Size = new System.Drawing.Size(494, 497);
+            this.tb_Zone.TabIndex = 417;
             // 
             // tb_ZoneData
             // 
@@ -1780,7 +1780,7 @@
             this.Controls.Add(this.B_Map);
             this.Controls.Add(this.B_HLCMD);
             this.Controls.Add(this.L_ZDPreview);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tb_Zone);
             this.Controls.Add(this.L_Location);
             this.Controls.Add(this.CB_LocationID);
             this.MaximizeBox = false;
@@ -1789,7 +1789,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Overworld Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.closingForm);
-            this.tabControl1.ResumeLayout(false);
+            this.tb_Zone.ResumeLayout(false);
             this.tb_ZoneData.ResumeLayout(false);
             this.tb_ZoneData.PerformLayout();
             this.tb_OWSC.ResumeLayout(false);
@@ -1861,7 +1861,7 @@
         private System.Windows.Forms.ComboBox CB_LocationID;
         private System.Windows.Forms.Label L_Location;
         private System.Windows.Forms.RichTextBox RTB_ZD;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tb_Zone;
         private System.Windows.Forms.TabPage tb_ZoneData;
         private System.Windows.Forms.TabPage tb_OWSC;
         private System.Windows.Forms.TabPage tb_MSC;

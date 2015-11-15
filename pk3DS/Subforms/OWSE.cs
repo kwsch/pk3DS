@@ -13,21 +13,31 @@ namespace pk3DS
         public OWSE()
         {
             InitializeComponent();
+
+            // Script Drag&Drop
             AllowDrop = true;
             DragEnter += tabMain_DragEnter;
             DragDrop += tabMain_DragDrop;
+
+            // Load Map Viewer assets (on form load only!)
             MapMatrixes = Directory.GetFiles("mapMatrix");
             MapGRs = Directory.GetFiles("mapGR");
+
+            // Finished
             openQuick(Directory.GetFiles("encdata"));
             mapView.Show();
-            tabControl1.SelectedIndex = 1;  // Overworlds
+            tb_Zone.SelectedIndex = 1;  // Show Overworlds tab
         }
-        private string[] encdatapaths;
-        private string[] filepaths;
         private string[] gameLocations = Main.getText((Main.oras) ? 90 : 72);
+        private string[] filepaths;
+        private string[] encdatapaths;
+        private byte[] masterZoneData;
+        private bool debugToolDumping;
+
+        // Generated Storage
         private string[] zdLocations;
-        private byte[][] locationData;
         private string[] rawLocations;
+        private byte[][] locationData;
 
         // Map Viewer References
         internal static string[] MapMatrixes;
@@ -36,20 +46,13 @@ namespace pk3DS
         internal static MapMatrix mm;
         private MapPermView mapView = new MapPermView();
 
-        internal static Random rand = new Random();
-        internal static uint rnd32()
-        {
-            return (uint)(rand.Next(1 << 30)) << 2 | (uint)(rand.Next(1 << 2));
-        }
-
-        private byte[] zonedata;
         private void openQuick(string[] encdata)
         {
             // Gather
             encdatapaths = encdata;
             Array.Sort(encdatapaths);
             filepaths = encdatapaths.Skip(Main.oras ? 2 : 1).Take(encdatapaths.Length - (Main.oras ? 2 : 1)).ToArray();
-            zonedata = File.ReadAllBytes(encdatapaths[0]);
+            masterZoneData = File.ReadAllBytes(encdatapaths[0]);
             zdLocations = new string[filepaths.Length];
             rawLocations = new string[filepaths.Length];
 
@@ -61,7 +64,7 @@ namespace pk3DS
                 string name = Path.GetFileNameWithoutExtension(filepaths[f]);
 
                 int LocationNum = Convert.ToInt16(name.Substring(4, name.Length - 4));
-                ZoneData zo = new ZoneData(zonedata.Skip(f * ZoneData.Size).Take(ZoneData.Size).ToArray());
+                ZoneData zo = new ZoneData(masterZoneData.Skip(f * ZoneData.Size).Take(ZoneData.Size).ToArray());
                 string LocationName = gameLocations[zo.ParentMap];
                 zdLocations[f] = (LocationNum.ToString("000") + " - " + LocationName);
                 rawLocations[f] = LocationName;
@@ -99,7 +102,7 @@ namespace pk3DS
             if (locationData == null) return;
 
             // Read master ZD table
-            byte[] zd = zonedata.Skip(ZoneData.Size * entry).Take(ZoneData.Size).ToArray();
+            byte[] zd = masterZoneData.Skip(ZoneData.Size * entry).Take(ZoneData.Size).ToArray();
             RTB_ZDMaster.Lines = Scripts.getHexLines(zd, 0x10);
 
             // Load from location Data.
@@ -124,25 +127,30 @@ namespace pk3DS
         }
         private void setEntry()
         {
-            //if (entry < 0) return;
-            //
-            //Force writeback of each overworld type
-            //changeFurniture(null, null);
-            //changeOverworld(null, null);
-            //changeWarp(null, null);
-            //changeTrigger(null, null);
-            //
-            //TODO: Reassemble the 5 files
-            //locationData[0] = locationData[0];
-            //locationData[1] = setOWSData();
-            //locationData[2] = locationData[2];
-            //locationData[3] = locationData[3];
-            //if (Main.oras)
-            //  locationData[4] = locationData[4];
-            //
-            //Package the files into the permanent package file.
-            //byte[] raw = Util.packMini(locationData, "ZO");
-            //File.WriteAllBytes(filepaths[entry], raw);
+            if (entry < 0) return;
+            if (debugToolDumping) return;
+            
+            // Set the data back into the class object
+            // Currently only the first two files.
+            setZoneData(); // File 0
+            setOWSData();
+            // setMSData();
+            // setEncounterData();
+            // if (Main.oras)
+            //     setUnknown();
+
+            // Reassemble files (don't use overall zone write for now)
+            byte[][] data = CurrentZone.Write();
+
+            // Debug Check (can stay, why not.)
+            if (!locationData.Where((t, i) => !data[i].SequenceEqual(t)).Any())
+                return;
+            
+            // Util.Alert("Zone has been edited!");
+
+            // Package the files into the permanent package file.
+            byte[] raw = CTR.mini.packMini(locationData, "ZO");
+            File.WriteAllBytes(filepaths[entry], raw);
         }
 
         // Loading of Data
@@ -223,11 +231,16 @@ namespace pk3DS
         }
         private void setZoneData()
         {
-            
+            // Nothing, ZoneData is not currently researched enough.
         }
         private void setOWSData()
         {
-            
+            // Force all entities to be written back
+            setFurniture();
+            setNPC();
+            setWarp();
+            setTrigger1();
+            setTrigger2();
         }
 
         // Overworld Viewing
@@ -538,6 +551,7 @@ namespace pk3DS
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all Furniture?") != DialogResult.Yes)
                 return;
 
+            debugToolDumping = true;
             List<string> result = new List<string>();
             List<byte[]> data = new List<byte[]>();
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
@@ -556,12 +570,14 @@ namespace pk3DS
                 Clipboard.SetText(string.Join(Environment.NewLine, result));
 
             CB_LocationID.SelectedIndex = 0;
+            debugToolDumping = false;
         }
         private void B_DumpNPC_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all NPCs?") != DialogResult.Yes)
                 return;
 
+            debugToolDumping = true;
             List<string> result = new List<string>();
             List<byte[]> data = new List<byte[]>();
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
@@ -580,12 +596,14 @@ namespace pk3DS
                 Clipboard.SetText(string.Join(Environment.NewLine, result));
 
             CB_LocationID.SelectedIndex = 0;
+            debugToolDumping = false;
         }
         private void B_DumpWarp_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all Warps?") != DialogResult.Yes)
                 return;
 
+            debugToolDumping = true;
             List<string> result = new List<string>();
             List<byte[]> data = new List<byte[]>();
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
@@ -604,12 +622,14 @@ namespace pk3DS
                 Clipboard.SetText(string.Join(Environment.NewLine, result));
 
             CB_LocationID.SelectedIndex = 0;
+            debugToolDumping = false;
         }
         private void B_DumpTrigger_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all Triggers?") != DialogResult.Yes)
                 return;
 
+            debugToolDumping = true;
             List<string> result = new List<string>();
             List<byte[]> data = new List<byte[]>();
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
@@ -628,12 +648,14 @@ namespace pk3DS
                 Clipboard.SetText(string.Join(Environment.NewLine, result));
 
             CB_LocationID.SelectedIndex = 0;
+            debugToolDumping = false;
         }
         private void B_DumpUnk_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all Unks?") != DialogResult.Yes)
                 return;
 
+            debugToolDumping = true;
             List<string> result = new List<string>();
             List<byte[]> data = new List<byte[]>();
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
@@ -652,12 +674,14 @@ namespace pk3DS
                 Clipboard.SetText(string.Join(Environment.NewLine, result));
 
             CB_LocationID.SelectedIndex = 0;
+            debugToolDumping = false;
         }
         private void B_DumpMaps_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all MapImages?") != DialogResult.Yes)
                 return;
 
+            debugToolDumping = true;
             const string folder = "MapImages";
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
@@ -665,7 +689,7 @@ namespace pk3DS
             string[] result = new string[CB_LocationID.Items.Count];
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
             {
-                int DrawMap = BitConverter.ToUInt16(zonedata, 56 * i + 4);
+                int DrawMap = BitConverter.ToUInt16(masterZoneData, 56 * i + 4);
                 Image img = mapView.getMapImage(crop: true);
                 using (MemoryStream ms = new MemoryStream())
                 {
@@ -681,12 +705,14 @@ namespace pk3DS
                 File.WriteAllLines("MapLocations.txt", result);
             CB_LocationID.SelectedIndex = 0;
             Util.Alert("All Map images have been dumped to " + folder + ".");
+            debugToolDumping = false;
         }
         private void B_DumpZD_Click(object sender, EventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all ZD?") != DialogResult.Yes)
                 return;
 
+            debugToolDumping = true;
             List<string> result = new List<string>();
             List<byte[]> data = new List<byte[]>();
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
@@ -702,6 +728,7 @@ namespace pk3DS
                 Clipboard.SetText(string.Join(Environment.NewLine, result));
 
             CB_LocationID.SelectedIndex = 0;
+            debugToolDumping = false;
         }
     }
 }
