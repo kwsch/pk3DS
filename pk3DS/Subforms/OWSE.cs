@@ -139,7 +139,7 @@ namespace pk3DS
             // if (Main.oras)
             //     setUnknown();
 
-            // Reassemble files (don't use overall zone write for now)
+            // Reassemble files
             byte[][] data = CurrentZone.Write();
 
             // Debug Check (can stay, why not.)
@@ -150,7 +150,7 @@ namespace pk3DS
             System.Media.SystemSounds.Asterisk.Play();
 
             // Package the files into the permanent package file.
-            byte[] raw = CTR.mini.packMini(locationData, "ZO");
+            byte[] raw = CTR.mini.packMini(data, "ZO");
             File.WriteAllBytes(filepaths[entry], raw);
         }
 
