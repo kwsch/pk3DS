@@ -314,6 +314,7 @@
             // NUD_UnkCount
             // 
             this.NUD_UnkCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_UnkCount.Enabled = false;
             this.NUD_UnkCount.Location = new System.Drawing.Point(422, 108);
             this.NUD_UnkCount.Maximum = new decimal(new int[] {
             255,
@@ -348,6 +349,7 @@
             // NUD_TrigCount
             // 
             this.NUD_TrigCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_TrigCount.Enabled = false;
             this.NUD_TrigCount.Location = new System.Drawing.Point(422, 88);
             this.NUD_TrigCount.Maximum = new decimal(new int[] {
             255,
@@ -372,6 +374,7 @@
             // NUD_WarpCount
             // 
             this.NUD_WarpCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_WarpCount.Enabled = false;
             this.NUD_WarpCount.Location = new System.Drawing.Point(422, 68);
             this.NUD_WarpCount.Maximum = new decimal(new int[] {
             255,
@@ -396,6 +399,7 @@
             // NUD_FurnCount
             // 
             this.NUD_FurnCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_FurnCount.Enabled = false;
             this.NUD_FurnCount.Location = new System.Drawing.Point(422, 28);
             this.NUD_FurnCount.Maximum = new decimal(new int[] {
             255,
@@ -1362,6 +1366,7 @@
             // NUD_NPCCount
             // 
             this.NUD_NPCCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_NPCCount.Enabled = false;
             this.NUD_NPCCount.Location = new System.Drawing.Point(422, 48);
             this.NUD_NPCCount.Maximum = new decimal(new int[] {
             255,
