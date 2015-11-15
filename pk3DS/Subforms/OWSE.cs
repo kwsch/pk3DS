@@ -331,7 +331,7 @@ namespace pk3DS
         private void setFurniture()
         {
             if (NUD_FE.Value < 0) return;
-            if (fEntry <= 0) return;
+            if (fEntry < 0) return;
 
             var FUrniture = CurrentZone.Entities.Furniture[fEntry];
             FUrniture.X = (int)NUD_FX.Value;
@@ -375,7 +375,7 @@ namespace pk3DS
         private void setNPC()
         {
             if (NUD_NE.Value < 0) return;
-            if (nEntry <= 0) return;
+            if (nEntry < 0) return;
 
             var NPC = CurrentZone.Entities.NPCs[nEntry];
             NPC.ID = (int)NUD_NID.Value;
@@ -418,7 +418,7 @@ namespace pk3DS
         private void setWarp()
         {
             if (NUD_WE.Value < 0) return;
-            if (wEntry <= 0) return;
+            if (wEntry < 0) return;
 
             var Warp = CurrentZone.Entities.Warps[wEntry];
             Warp.DestinationMap = (int)NUD_WMap.Value;
@@ -446,7 +446,7 @@ namespace pk3DS
         private void setTrigger1()
         {
             if (NUD_TE.Value < 0) return;
-            if (tEntry <= 0) return;
+            if (tEntry < 0) return;
 
             var Trigger1 = CurrentZone.Entities.Triggers1[tEntry];
             Trigger1.X = (int)NUD_T1X.Value;
@@ -473,7 +473,7 @@ namespace pk3DS
         private void setTrigger2()
         {
             if (NUD_UE.Value < 0) return;
-            if (uEntry <= 0) return;
+            if (uEntry < 0) return;
 
             var Trigger2 = CurrentZone.Entities.Triggers1[uEntry];
             Trigger2.X = (int)NUD_T2X.Value;
