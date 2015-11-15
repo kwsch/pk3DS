@@ -18,6 +18,8 @@ namespace pk3DS
             return seed;
         }
     }
+
+    #region Pokémon Related Classes
     public class PersonalInfo
     {
         public byte HP, ATK, DEF, SPE, SPA, SPD;
@@ -903,6 +905,9 @@ namespace pk3DS
             }
         }
     }
+    #endregion
+
+    #region Game Related Classes
     public class MapMatrix
     {
         public uint u0;
@@ -1096,6 +1101,11 @@ namespace pk3DS
             if (data.Length != Size) 
                 return;
             Data = data;
+        }
+
+        public byte[] Write()
+        {
+            return Data;
         }
     }
     public class Zone
@@ -1551,4 +1561,5 @@ namespace pk3DS
             return Raw;
         }
     }
+    #endregion
 }
