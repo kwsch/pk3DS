@@ -147,6 +147,7 @@ namespace pk3DS
                 return;
             
             // Util.Alert("Zone has been edited!");
+            System.Media.SystemSounds.Asterisk.Play();
 
             // Package the files into the permanent package file.
             byte[] raw = CTR.mini.packMini(locationData, "ZO");
