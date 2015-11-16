@@ -477,7 +477,11 @@ namespace pk3DS
         #endregion
 
         // Overworld User Enhancements
-        private void changeNModel(object sender, EventArgs e)
+        private void changeNPC_ID(object sender, EventArgs e)
+        {
+            L_NID.ForeColor = (NUD_NID.Value != NUD_NE.Value) ? Color.Red : Color.Black;
+        }
+        private void changeNPC_Model(object sender, EventArgs e)
         {
             L_ModelAsHex.Text = "0x" + ((int)NUD_NModel.Value).ToString("X4");
         }

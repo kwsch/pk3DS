@@ -328,7 +328,6 @@
             // NUD_UnkCount
             // 
             this.NUD_UnkCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_UnkCount.Enabled = false;
             this.NUD_UnkCount.Location = new System.Drawing.Point(422, 108);
             this.NUD_UnkCount.Maximum = new decimal(new int[] {
             255,
@@ -363,7 +362,6 @@
             // NUD_TrigCount
             // 
             this.NUD_TrigCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_TrigCount.Enabled = false;
             this.NUD_TrigCount.Location = new System.Drawing.Point(422, 88);
             this.NUD_TrigCount.Maximum = new decimal(new int[] {
             255,
@@ -388,7 +386,6 @@
             // NUD_WarpCount
             // 
             this.NUD_WarpCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_WarpCount.Enabled = false;
             this.NUD_WarpCount.Location = new System.Drawing.Point(422, 68);
             this.NUD_WarpCount.Maximum = new decimal(new int[] {
             255,
@@ -413,7 +410,6 @@
             // NUD_FurnCount
             // 
             this.NUD_FurnCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_FurnCount.Enabled = false;
             this.NUD_FurnCount.Location = new System.Drawing.Point(422, 28);
             this.NUD_FurnCount.Maximum = new decimal(new int[] {
             255,
@@ -451,7 +447,6 @@
             this.tc_OWSC.SelectedIndex = 0;
             this.tc_OWSC.Size = new System.Drawing.Size(345, 462);
             this.tc_OWSC.TabIndex = 415;
-            this.tc_OWSC.SelectedIndexChanged += new System.EventHandler(this.changeRAW_N);
             // 
             // tb_Furniture
             // 
@@ -873,7 +868,7 @@
             this.NUD_NModel.Name = "NUD_NModel";
             this.NUD_NModel.Size = new System.Drawing.Size(53, 20);
             this.NUD_NModel.TabIndex = 437;
-            this.NUD_NModel.ValueChanged += new System.EventHandler(this.changeNModel);
+            this.NUD_NModel.ValueChanged += new System.EventHandler(this.changeNPC_Model);
             // 
             // L_NModel
             // 
@@ -895,6 +890,7 @@
             this.RTB_N.Text = "00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA " +
     "BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF ";
             this.RTB_N.Visible = false;
+            this.RTB_N.TextChanged += new System.EventHandler(this.changeRAW_N);
             // 
             // NUD_NID
             // 
@@ -907,6 +903,7 @@
             this.NUD_NID.Name = "NUD_NID";
             this.NUD_NID.Size = new System.Drawing.Size(53, 20);
             this.NUD_NID.TabIndex = 435;
+            this.NUD_NID.ValueChanged += new System.EventHandler(this.changeNPC_ID);
             // 
             // L_NID
             // 
@@ -978,9 +975,9 @@
             this.L_WpY.AutoSize = true;
             this.L_WpY.Location = new System.Drawing.Point(184, 191);
             this.L_WpY.Name = "L_WpY";
-            this.L_WpY.Size = new System.Drawing.Size(29, 13);
+            this.L_WpY.Size = new System.Drawing.Size(31, 13);
             this.L_WpY.TabIndex = 465;
-            this.L_WpY.Text = "HEX";
+            this.L_WpY.Text = "#/18";
             // 
             // L_WpX
             // 
@@ -988,12 +985,17 @@
             this.L_WpX.AutoSize = true;
             this.L_WpX.Location = new System.Drawing.Point(184, 165);
             this.L_WpX.Name = "L_WpX";
-            this.L_WpX.Size = new System.Drawing.Size(29, 13);
+            this.L_WpX.Size = new System.Drawing.Size(31, 13);
             this.L_WpX.TabIndex = 464;
-            this.L_WpX.Text = "HEX";
+            this.L_WpX.Text = "#/18";
             // 
             // NUD_WY
             // 
+            this.NUD_WY.Increment = new decimal(new int[] {
+            18,
+            0,
+            0,
+            0});
             this.NUD_WY.Location = new System.Drawing.Point(125, 189);
             this.NUD_WY.Maximum = new decimal(new int[] {
             65535,
@@ -1016,6 +1018,11 @@
             // 
             // NUD_WX
             // 
+            this.NUD_WX.Increment = new decimal(new int[] {
+            18,
+            0,
+            0,
+            0});
             this.NUD_WX.Location = new System.Drawing.Point(125, 163);
             this.NUD_WX.Maximum = new decimal(new int[] {
             65535,
@@ -1385,7 +1392,6 @@
             // NUD_NPCCount
             // 
             this.NUD_NPCCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_NPCCount.Enabled = false;
             this.NUD_NPCCount.Location = new System.Drawing.Point(422, 48);
             this.NUD_NPCCount.Maximum = new decimal(new int[] {
             255,
