@@ -838,5 +838,41 @@ namespace pk3DS
                 (sender as RichTextBox).Text = Util.getHexString(CurrentZone.Entities.Triggers2[uEntry].Raw);
             }
         }
+
+        // RAW Resets
+        private void B_ResetOverworlds_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Reset all overworld entities?"))
+                return;
+
+            // since scripts are not editable, just reset the overworld file.
+            CurrentZone.Entities = new Zone.ZoneEntities(locationData[1]);
+            getOWSData();
+        }
+        private void B_ResetFurniture_Click(object sender, EventArgs e)
+        {
+            CurrentZone.Entities.Furniture[fEntry].OriginalData.CopyTo(CurrentZone.Entities.Furniture[fEntry].Raw, 0);
+            getFurniture();
+        }
+        private void B_ResetNPC_Click(object sender, EventArgs e)
+        {
+            CurrentZone.Entities.NPCs[nEntry].OriginalData.CopyTo(CurrentZone.Entities.NPCs[nEntry].Raw, 0);
+            getNPC();
+        }
+        private void B_ResetWarp_Click(object sender, EventArgs e)
+        {
+            CurrentZone.Entities.Warps[wEntry].OriginalData.CopyTo(CurrentZone.Entities.Warps[wEntry].Raw, 0);
+            getWarp();
+        }
+        private void B_ResetTrigger1_Click(object sender, EventArgs e)
+        {
+            CurrentZone.Entities.Triggers1[tEntry].OriginalData.CopyTo(CurrentZone.Entities.Triggers1[tEntry].Raw, 0);
+            getTrigger1();
+        }
+        private void B_ResetTrigger2_Click(object sender, EventArgs e)
+        {
+            CurrentZone.Entities.Triggers2[uEntry].OriginalData.CopyTo(CurrentZone.Entities.Triggers2[uEntry].Raw, 0);
+            getTrigger2();
+        }
     }
 }

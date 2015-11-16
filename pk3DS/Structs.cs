@@ -1256,10 +1256,12 @@ namespace pk3DS
                 public int U10 { get { return BitConverter.ToInt32(Raw, 0x10); } set { BitConverter.GetBytes(value).CopyTo(Raw, 0x10); } }
 
                 public byte[] Raw;
+                public byte[] OriginalData;
                 internal static readonly byte Size = 0x14;
                 public EntityFurniture(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
+                    OriginalData = (byte[])Raw.Clone();
                 }
                 public byte[] Write()
                 {
@@ -1308,11 +1310,14 @@ namespace pk3DS
                 // -360, 360 ????
                 public float Degrees { get { return BitConverter.ToSingle(Raw, 0x2C); } set { BitConverter.GetBytes(value).CopyTo(Raw, 0x2C); } }
                 public float Deg18 { get { return Degrees/18; } }
+
                 public byte[] Raw;
+                public byte[] OriginalData;
                 internal static readonly byte Size = 0x30;
                 public EntityNPC(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
+                    OriginalData = (byte[])Raw.Clone();
                 }
                 public byte[] Write()
                 {
@@ -1350,10 +1355,12 @@ namespace pk3DS
                 // 0x16-0x17 Unused
 
                 public byte[] Raw;
+                public byte[] OriginalData;
                 internal static readonly byte Size = 0x18;
                 public EntityWarp(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
+                    OriginalData = (byte[])Raw.Clone();
                 }
                 public byte[] Write()
                 {
@@ -1383,10 +1390,12 @@ namespace pk3DS
                 public int U16 { get { return BitConverter.ToInt16(Raw, 0x16); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); } }
 
                 public byte[] Raw;
+                public byte[] OriginalData;
                 internal static readonly byte Size = 0x18;
                 public EntityTrigger1(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
+                    OriginalData = (byte[])Raw.Clone();
                 }
                 public byte[] Write()
                 {
@@ -1416,10 +1425,12 @@ namespace pk3DS
                 public int U16 { get { return BitConverter.ToInt16(Raw, 0x16); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); } }
 
                 public byte[] Raw;
+                public byte[] OriginalData;
                 internal static readonly byte Size = 0x18;
                 public EntityTrigger2(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
+                    OriginalData = (byte[])Raw.Clone();
                 }
                 public byte[] Write()
                 {
