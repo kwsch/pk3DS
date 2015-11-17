@@ -1010,24 +1010,30 @@ namespace pk3DS
             
             public Bitmap Preview(int s, int ColorShift)
             {
-                byte[] bmpData = new byte[4 * Width * Height * s * s];
-                for (int i = 0; i < Area; i++)
-                {
-                    int X = i%40;
-                    int Y = i/40;
-                    uint colorValue = Tiles[i] == 0x01000021
-                        ? 0xFF000000
-                        : (RNG.Forward32(Tiles[i], ColorShift) | 0xFF000000);
-                    for (int x = 0; x < s * s; x++)
-                        BitConverter.GetBytes(colorValue).CopyTo(bmpData, 4 * (((Y * s + x / s) * Width * s) + (X * s + x % s)));
-                }
-
+                byte[] bmpData = BytePreview(s, ColorShift);
                 Bitmap b = new Bitmap(Width * s, Height * s, PixelFormat.Format32bppArgb);
                 BitmapData bData = b.LockBits(new Rectangle(0, 0, Width * s, Height * s), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
                 System.Runtime.InteropServices.Marshal.Copy(bmpData, 0, bData.Scan0, bmpData.Length);
                 b.UnlockBits(bData);
 
                 return b;
+            }
+            public byte[] BytePreview(int s, int ColorShift)
+            {
+                byte[] bmpData = new byte[4 * Width * Height * s * s];
+                for (int i = 0; i < Area; i++)
+                {
+                    int X = i % 40;
+                    int Y = i / 40;
+                    uint colorValue = Tiles[i] == 0x01000021
+                        ? 0xFF000000
+                        : (RNG.Forward32(Tiles[i], ColorShift) | 0xFF000000);
+
+                    byte[] pixel = BitConverter.GetBytes(colorValue);
+                    for (int x = 0; x < s * s; x++)
+                        pixel.CopyTo(bmpData, 4 * (((Y * s + x / s) * Width * s) + (X * s + x % s)));
+                }
+                return bmpData;
             }
         }
 
