@@ -183,5 +183,13 @@ namespace pk3DS.Subforms
             if (ContainsFocus)
                 PAN_MAP.Focus();
         }
+
+        private void dclickMap(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Copy image to Clipboard?"))
+                return;
+
+            Clipboard.SetImage(Util.TrimBitmap(baseImage));
+        }
     }
 }
