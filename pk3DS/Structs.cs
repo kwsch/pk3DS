@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 
@@ -1006,28 +1007,27 @@ namespace pk3DS
                     return ms.ToArray();
                 }
             }
+            
             public Bitmap Preview(int s, int ColorShift)
             {
-                Bitmap img = new Bitmap(Width*s, Height*s);
+                byte[] bmpData = new byte[4 * Width * Height * s * s];
                 for (int i = 0; i < Area; i++)
                 {
-                    Color c = Tiles[i] == 0x01000021
-                        ? Color.Black
-                        : Color.FromArgb((int) (RNG.Forward32(Tiles[i], ColorShift) | 0xFF000000));
-                    try
-                    {
-                        for (int x = 0; x < s; x++)
-                            for (int y = 0; y < s; y++)
-                            {
-                                img.SetPixel(
-                                    x + (i * s) % (img.Width),
-                                    y + ((i/Width)*s),
-                                    c);
-                            }
-                    }
-                    catch { }
+                    int X = i%40;
+                    int Y = i/40;
+                    uint colorValue = Tiles[i] == 0x01000021
+                        ? 0xFF000000
+                        : (RNG.Forward32(Tiles[i], ColorShift) | 0xFF000000);
+                    for (int x = 0; x < s * s; x++)
+                        BitConverter.GetBytes(colorValue).CopyTo(bmpData, 4 * (((Y * s + x / s) * Width * s) + (X * s + x % s)));
                 }
-                return img;
+
+                Bitmap b = new Bitmap(Width * s, Height * s, PixelFormat.Format32bppArgb);
+                BitmapData bData = b.LockBits(new Rectangle(0, 0, Width * s, Height * s), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+                System.Runtime.InteropServices.Marshal.Copy(bmpData, 0, bData.Scan0, bmpData.Length);
+                b.UnlockBits(bData);
+
+                return b;
             }
         }
 
