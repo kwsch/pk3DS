@@ -470,7 +470,7 @@ namespace pk3DS
             if (NUD_UE.Value < 0) return;
             if (uEntry < 0) return;
 
-            var Trigger2 = CurrentZone.Entities.Triggers1[uEntry];
+            var Trigger2 = CurrentZone.Entities.Triggers2[uEntry];
             Trigger2.X = (int)NUD_T2X.Value;
             Trigger2.Y = (int)NUD_T2Y.Value;
         }
