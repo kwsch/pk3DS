@@ -169,6 +169,7 @@
             this.Name = "ToolsUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Tools";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.closeForm);
             ((System.ComponentModel.ISupportInitialize)(this.PB_BCLIM)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

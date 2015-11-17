@@ -286,5 +286,11 @@ namespace pk3DS
                     File.Move(f, Path.Combine(Path.GetDirectoryName(f), Path.GetFileNameWithoutExtension(f)) + newExt);
             } catch { }
         }
+
+        private void closeForm(object sender, FormClosingEventArgs e)
+        {
+            if (threads > 0 && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Currently processing files.", "Abort?"))
+                e.Cancel = true;
+        }
     }
 }
