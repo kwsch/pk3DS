@@ -91,7 +91,7 @@ namespace pk3DS
 
                 // Determine if it is a DARC or a Mini
                 // Check if Mini first
-                string fx = CTR.mini.getIsMini(path);
+                string fx = fi.Length > 10 * (1<<20) ? null : CTR.mini.getIsMini(path); // no mini is above 10MB
                 if (fx != null) // Is Mini Packed File
                 {
                     newFolder = folderPath + "_" + fx;
