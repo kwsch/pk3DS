@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
-using pk3DS.Properties;
 
 namespace pk3DS
 {
@@ -22,7 +20,6 @@ namespace pk3DS
         private ComboBox[] forme_spec, item_spec;
         private CheckBox[] checkbox_spec;
         private PictureBox[][] picturebox_spec;
-        private List<Util.cbItem> monNames;
         private bool loaded;
         private string[][] AltForms;
         int entry = -1;
@@ -49,16 +46,10 @@ namespace pk3DS
         }
         private void Setup()
         {
-            monNames = new List<Util.cbItem>();
             List<string> temp_list = new List<string>(specieslist);
             temp_list.Sort();
-            foreach (string mon in temp_list)
-            {
-                Util.cbItem ncbi = new Util.cbItem {Text = mon, Value = Array.IndexOf(specieslist, mon)};
-                monNames.Add(ncbi);
-            }
 
-            CB_Species.DataSource = monNames;
+            CB_Species.DataSource = temp_list.Select(mon => new Util.cbItem { Text = mon, Value = Array.IndexOf(specieslist, mon) }).ToList();
 
             List<string> items = new List<string>(itemlist);
             List<string> sorted_items = new List<string>(itemlist);
@@ -122,7 +113,7 @@ namespace pk3DS
             for (int i = 0; i < 3; i++)
             {
                 checkbox_spec[i].Checked = (me.Method[i] == 1);
-                item_spec[i].SelectedValue = me.Argument[i];
+                item_spec[i].SelectedValue = (int)me.Argument[i];
                 forme_spec[i].SelectedIndex = me.Form[i];
             }
         }
