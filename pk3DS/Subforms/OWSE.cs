@@ -688,17 +688,17 @@ namespace pk3DS
             string[] result = new string[CB_LocationID.Items.Count];
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
             {
-                int DrawMap = BitConverter.ToUInt16(masterZoneData, 56 * i + 4);
+                mapView.DrawMap = i;
                 Image img = mapView.getMapImage(crop: true);
                 using (MemoryStream ms = new MemoryStream())
                 {
                     //error will throw from here
                     img.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                     byte[] data = ms.ToArray();
-                    File.WriteAllBytes(Path.Combine(folder, String.Format("{0} ({1}).png", zdLocations[i].Replace('?', '-'), DrawMap)), data);
+                    File.WriteAllBytes(Path.Combine(folder, String.Format("{0} ({1}).png", zdLocations[i].Replace('?', '-'), mapView.DrawMap)), data);
                 }
                 string l = mm.EntryList.Where(t => t != 0xFFFF).Aggregate("", (current, t) => current + t.ToString("000" + " "));
-                result[i] = String.Format("{0}\t{1}\t{2}", DrawMap.ToString("000"), CB_LocationID.Items[i], l);
+                result[i] = String.Format("{0}\t{1}\t{2}", mapView.DrawMap.ToString("000"), CB_LocationID.Items[i], l);
             }
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Map parse output?") == DialogResult.Yes)
                 File.WriteAllLines("MapLocations.txt", result);
