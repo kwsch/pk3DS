@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Media;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -77,6 +76,7 @@ namespace pk3DS
         private uint HANSgameID; // for exporting RomFS/ExeFS with correct X8 gameID
         internal static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN", "titlescreen", "mapMatrix", "mapGR" };
         private bool skipBoth;
+        internal static PersonalInfo[] SpeciesStat;
 
         // Main Form Methods
         private void L_About_Click(object sender, EventArgs e)
@@ -124,10 +124,16 @@ namespace pk3DS
                 // Gather the Text Language Strings
                 updateStatus(String.Format("GARC Get: {0} @ {1}... ", "gametext", getGARCFileName("gametext")));
                 threadGet(RomFSPath + getGARCFileName("gametext"), "gametext", true, true);
+
                 while (threads > 0) Thread.Sleep(50);
-                if (Directory.Exists("personal")) return;
-                updateStatus(String.Format("GARC Get: {0} @ {1}... ", "personal", getGARCFileName("personal")));
-                threadGet(RomFSPath + getGARCFileName("personal"), "personal", true, true);
+                if (!Directory.Exists("personal"))
+                {
+                    updateStatus(String.Format("GARC Get: {0} @ {1}... ", "personal", getGARCFileName("personal")));
+                    threadGet(RomFSPath + getGARCFileName("personal"), "personal", true, true);
+                }
+                while (threads > 0) Thread.Sleep(50);
+                // Refresh Personal Stats
+                SpeciesStat = Personal.getPersonalArray(Directory.GetFiles("personal").Last());
             }).Start();
         }
         private void Menu_Exit_Click(object sender, EventArgs e)
@@ -239,7 +245,7 @@ namespace pk3DS
                 updateGameInfo();
                 TB_Path.Select(TB_Path.TextLength, 0);
                 // Method finished.
-                SystemSounds.Asterisk.Play();
+                System.Media.SystemSounds.Asterisk.Play();
             }
         }
 
@@ -429,6 +435,9 @@ namespace pk3DS
                 string[] files = { "personal" };
                 fileGet(files, false, true);
                 Invoke((Action)(() => new Personal().ShowDialog()));
+
+                // Refresh Personal Stats
+                SpeciesStat = Personal.getPersonalArray(Directory.GetFiles("personal").Last());
                 fileSet(files, true);
             }).Start();
         }
@@ -901,14 +910,12 @@ namespace pk3DS
             threads++;
             if (Directory.Exists(outfolder)) try { Directory.Delete(outfolder, true); }
                 catch { }
-            Thread thread = new Thread(() => getGARC(infile, outfolder, PB, bypassExt));
-            thread.Start();
+            new Thread(() => getGARC(infile, outfolder, PB, bypassExt)).Start();
         }
         public void threadSet(string outfile, string infolder, bool PB = true)
         {
             threads++;
-            Thread thread = new Thread(() => setGARC(outfile, infolder, PB));
-            thread.Start();
+            new Thread(() => setGARC(outfile, infolder, PB)).Start();
         }
         public void backupGARCs(bool overwrite, params string[] g)
         {

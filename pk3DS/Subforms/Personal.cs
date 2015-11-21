@@ -22,7 +22,7 @@ namespace pk3DS
             ev_boxes = new[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
             rstat_boxes = new[] { CHK_rHP, CHK_rATK, CHK_rDEF, CHK_rSPA, CHK_rSPD, CHK_rSPE };
 
-            data = File.ReadAllBytes(paths[paths.Length - 1]); // Load last to data.
+            data = File.ReadAllBytes(paths.Last()); // Load last to data.
             Setup(); //Turn string resources into arrays
             CB_Species.SelectedIndex = 1;
         }
@@ -621,6 +621,16 @@ namespace pk3DS
             species = getPersonalEntryList(data, Main.oras, AltForms, species);
             Array.Resize(ref species, oras ? species.Length : 799);
             return species;
+        }
+
+        internal static PersonalInfo[] getPersonalArray(string Master)
+        {
+            byte[] data = File.ReadAllBytes(Master);
+            int EntryLength = Main.oras ? 0x50 : 0x40;
+            PersonalInfo[] piA = new PersonalInfo[data.Length/EntryLength];
+            for (int i = 0; i < piA.Length; i++)
+                piA[i] = new PersonalInfo(data.Skip(EntryLength*i).Take(EntryLength).ToArray());
+            return piA;
         }
     }
 }

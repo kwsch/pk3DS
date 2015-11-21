@@ -43,6 +43,7 @@
             this.NUD_Level = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_6PKM = new System.Windows.Forms.CheckBox();
             this.CHK_GymTrainers = new System.Windows.Forms.CheckBox();
             this.CHK_StoryMEvos = new System.Windows.Forms.CheckBox();
             this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
@@ -251,6 +252,7 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.CHK_6PKM);
             this.GB_Tweak.Controls.Add(this.CHK_GymTrainers);
             this.GB_Tweak.Controls.Add(this.CHK_StoryMEvos);
             this.GB_Tweak.Controls.Add(this.CHK_TypeTheme);
@@ -269,6 +271,17 @@
             this.GB_Tweak.TabIndex = 323;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Options";
+            // 
+            // CHK_6PKM
+            // 
+            this.CHK_6PKM.AutoSize = true;
+            this.CHK_6PKM.Location = new System.Drawing.Point(141, 92);
+            this.CHK_6PKM.Name = "CHK_6PKM";
+            this.CHK_6PKM.Size = new System.Drawing.Size(128, 17);
+            this.CHK_6PKM.TabIndex = 293;
+            this.CHK_6PKM.Text = "6 PKM Important TRs";
+            this.CHK_6PKM.UseVisualStyleBackColor = true;
+            this.CHK_6PKM.CheckedChanged += new System.EventHandler(this.CHK_6PKM_CheckedChanged);
             // 
             // CHK_GymTrainers
             // 
@@ -298,9 +311,9 @@
             this.CHK_TypeTheme.AutoSize = true;
             this.CHK_TypeTheme.Location = new System.Drawing.Point(8, 74);
             this.CHK_TypeTheme.Name = "CHK_TypeTheme";
-            this.CHK_TypeTheme.Size = new System.Drawing.Size(130, 17);
+            this.CHK_TypeTheme.Size = new System.Drawing.Size(127, 17);
             this.CHK_TypeTheme.TabIndex = 289;
-            this.CHK_TypeTheme.Text = "Type Theme Trainers:";
+            this.CHK_TypeTheme.Text = "Type Theme Trainers";
             this.CHK_TypeTheme.UseVisualStyleBackColor = true;
             this.CHK_TypeTheme.CheckedChanged += new System.EventHandler(this.CHK_TypeTheme_CheckedChanged);
             // 
@@ -602,5 +615,6 @@
         private System.Windows.Forms.NumericUpDown NUD_STAB;
         private System.Windows.Forms.ComboBox CB_Moves;
         private System.Windows.Forms.Label L_Moves;
+        private System.Windows.Forms.CheckBox CHK_6PKM;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -11,11 +12,8 @@ namespace pk3DS
             InitializeComponent();
             CB_Moves.SelectedIndex = 1;
             trClassnorep = new List<string>();
-            foreach (string tclass in trClass)
-            {
-                if (!trClassnorep.Contains(tclass) && !tclass.StartsWith("[~"))
-                    trClassnorep.Add(tclass);
-            }
+            foreach (string tclass in trClass.Where(tclass => !trClassnorep.Contains(tclass) && !tclass.StartsWith("[~")))
+                trClassnorep.Add(tclass);
             trClassnorep.Sort();
         }
 
@@ -65,6 +63,7 @@ namespace pk3DS
             RSTE.rDiffAI = CHK_MaxDiffAI.Checked;
             RSTE.rTypeTheme = CHK_TypeTheme.Checked;
             RSTE.rTypeGymTrainers = CHK_GymTrainers.Checked;
+            RSTE.r6PKM = CHK_6PKM.Checked;
 
             if (CHK_StoryMEvos.Checked)
             {
@@ -90,7 +89,7 @@ namespace pk3DS
                 CHK_G4.Checked = CHK_G5.Checked = CHK_G6.Checked = 
                 CHK_L.Checked = CHK_E.Checked = CHK_StoryMEvos.Checked = 
                 CHK_RandomPKM.Checked;
-            CHK_BST.Checked = CHK_TypeTheme.Checked = CHK_GymTrainers.Checked = false; // Off by default
+            CHK_BST.Checked = CHK_TypeTheme.Checked = CHK_GymTrainers.Checked = CHK_6PKM.Checked = false; // Off by default
         }
 
         private void CHK_Level_CheckedChanged(object sender, EventArgs e)
@@ -128,6 +127,14 @@ namespace pk3DS
             CHK_Damage.Checked = CHK_STAB.Checked =
             CHK_Damage.Enabled = CHK_STAB.Enabled =
             NUD_Damage.Enabled = NUD_STAB.Enabled = (CB_Moves.SelectedIndex == 1);
+
+            if (CB_Moves.SelectedIndex == 0)
+                CHK_6PKM.Checked = false;
+        }
+        private void CHK_6PKM_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_Moves.SelectedIndex == 0)
+                CHK_6PKM.Checked = false;
         }
     }
 }

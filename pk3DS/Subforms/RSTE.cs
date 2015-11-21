@@ -128,7 +128,6 @@ namespace pk3DS
         }
         bool start = true;
         bool loading = true;
-        byte[][] personal;
         int index = -1;
         #region Global Variables
         private ComboBox[] trpk_pkm, trpk_lvl, trpk_item, trpk_abil,
@@ -408,7 +407,7 @@ namespace pk3DS
         }
         private void showTeams(int i)
         {
-            if (tr == null) return;
+            if (tr == null || randomizing) return;
             if (i >= tr.Team.Length) { pba[i].Image = null; return; }
             Bitmap rawImg = Util.getSprite(tr.Team[i].Species, tr.Team[i].Form, tr.Team[i].Gender, tr.Team[i].Item);
             pba[i].Image = Util.scaleImage(rawImg, 2);
@@ -420,7 +419,6 @@ namespace pk3DS
             TB_Text2.Text = trText[index * 2 + 1];
         }
 
-
         byte[] personalData;
         ushort[] indexList;
         private void Setup()
@@ -429,9 +427,6 @@ namespace pk3DS
             string[] personalList = Directory.GetFiles("personal");
             personalData = File.ReadAllBytes(personalList[personalList.Length - 1]);
             indexList = Personal.getPersonalIndexList(personalData, Main.oras);
-            personal = new byte[personalList.Length][];
-            for (int i = 0; i < personalList.Length; i++)
-                personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
             AltForms = Personal.getFormList(personalData, Main.oras, specieslist, forms, types, itemlist);
 
             Array.Resize(ref trName, trdatapaths.Length);
@@ -521,13 +516,14 @@ namespace pk3DS
         }
 
         private bool randomizing;
-        public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand, rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB;
+        public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand, rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM;
         public static bool[] rThemedClasses = { };
         public static string[] rTags;
         public static int[] megaEvos;
         public static int[] rIgnoreClass, rEnsureMEvo;
         public static int rDMGCount, rSTABCount;
         private int[] mEvoTypes;
+        private string[] rImportant;
         private List<string> Tags = new List<string>();
         private Dictionary<string, int> TagTypes = new Dictionary<string, int>();
         public static int[] sL; // Random Species List
@@ -543,6 +539,7 @@ namespace pk3DS
         private void Randomize()
         {
             int[] banned = { 165, 621 }; // Struggle, Hyperspace Fury
+            rImportant = new string[CB_TrainerID.Items.Count];
             rTags = (Main.oras) ? GetTagsORAS() : GetTagsXY();
             mEvoTypes = GetMegaEvolvableTypes();
             List<int> GymE4Types = new List<int>();
@@ -600,6 +597,15 @@ namespace pk3DS
                 checkBox_Moves.Checked = rMove || (!rNoMove && checkBox_Moves.Checked);
                 checkBox_Item.Checked = rItem || checkBox_Item.Checked;
 
+                if (r6PKM && rImportant[i] != null) // skip the first rival battles
+                {
+                    // Copy the last slot to random pokemon
+                    int lastPKM = CB_numPokemon.SelectedIndex;
+                    CB_numPokemon.SelectedIndex = 6;
+                    for (int f = lastPKM; f < 6; f++)
+                        trpk_pkm[f].SelectedIndex = trpk_IV[lastPKM].SelectedIndex;
+                }
+
                 // Randomize Trainer Stats
                 if (rDiffAI)
                 {
@@ -650,38 +656,38 @@ namespace pk3DS
                 // Randomize Pokemon
                 for (int p = 0; p < CB_numPokemon.SelectedIndex; p++)
                 {
-                    PersonalInfo oldpkm = new PersonalInfo(personal[trpk_pkm[p].SelectedIndex]);
+                    PersonalInfo oldpkm = Main.SpeciesStat[trpk_pkm[p].SelectedIndex];
                     PersonalInfo pkm = null;
                     if (rPKM)
                     {
                         // randomize pokemon
                         int species;
-                        pkm = new PersonalInfo(personal[species = Randomizer.getRandomSpecies(ref sL, ref ctr)]);
+                        pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
                         if (rTypeTheme)
                         {
                             int tries = 0;
                             while (((pkm.Types[0] != type && pkm.Types[1] != type) || ((mevo && p == CB_numPokemon.SelectedIndex - 1 && !megaEvos.Contains(species)))) && tries < 0x10000)
                                 if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
-                                    pkm = new PersonalInfo(personal[species = GetRandomMegaEvolvablePokemon(type)]);
+                                    pkm = Main.SpeciesStat[species = GetRandomMegaEvolvablePokemon(type)];
                                 else if (rSmart) // Get a new Pokemon with a close BST
                                 {
-                                    pkm = new PersonalInfo(personal[species = Randomizer.getRandomSpecies(ref sL, ref ctr)]);
+                                    pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
                                     while (!((pkm.BST * (5 - ++tries / 722) / 6 < oldpkm.BST) && (pkm.BST * (6 + ++tries / 722) / 5) > oldpkm.BST))
                                     {
-                                        pkm = new PersonalInfo(personal[species = Randomizer.getRandomSpecies(ref sL, ref ctr)]);
+                                        pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
                                     }
                                 }
                                 else
-                                    pkm = new PersonalInfo(personal[species = Randomizer.getRandomSpecies(ref sL, ref ctr)]);
+                                    pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
                         }
                         else if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
-                            pkm = new PersonalInfo(personal[species = megaEvos[rnd32() % megaEvos.Length]]);
+                            pkm = Main.SpeciesStat[species = megaEvos[rnd32() % megaEvos.Length]];
                         else if (rSmart) // Get a new Pokemon with a close BST
                         {
                             int tries = 0;
                             while (!((pkm.BST * (5 - ++tries / 722) / 6 < oldpkm.BST) && (pkm.BST * (6 + ++tries / 722) / 5) > oldpkm.BST))
                             {
-                                pkm = new PersonalInfo(personal[species = Randomizer.getRandomSpecies(ref sL, ref ctr)]);
+                                pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
                             }
                         }
 
@@ -714,7 +720,7 @@ namespace pk3DS
                     
                     if (rMove)
                     {
-                        pkm = pkm ?? new PersonalInfo(personal[trpk_pkm[p].SelectedIndex]);
+                        pkm = pkm ?? Main.SpeciesStat[trpk_pkm[p].SelectedIndex];
                         int[] pkMoves = new int[4];
                         var moves = new[] {trpk_m1[p], trpk_m2[p], trpk_m3[p], trpk_m4[p]};
 
@@ -758,11 +764,11 @@ namespace pk3DS
         private string[] GetTagsORAS()
         {
             string[] tags = Enumerable.Repeat("", trdatapaths.Length).ToArray();
-            
+            ImportantTrainers = true;
             //Rival Battles
-            TagTrainer(tags, "RIVAL1", 1, 4, 289, 292, 295, 298, 527, 530, 674, 677, 699, 906); // Rival w/ Grass Starter
-            TagTrainer(tags, "RIVAL2", 2, 5, 290, 293, 296, 299, 528, 531, 675, 678, 700, 907); // Rival w/ Fire Starter
-            TagTrainer(tags, "RIVAL3", 3, 6, 291, 294, 297, 300, 529, 532, 676, 679, 701, 908); // Rival w/ Water Starter
+            TagTrainer(tags, "RIVAL1", 289, 292, 295, 298, 527, 530, 674, 677, 699, 906); // Rival w/ Grass Starter
+            TagTrainer(tags, "RIVAL2", 290, 293, 296, 299, 528, 531, 675, 678, 700, 907); // Rival w/ Fire Starter
+            TagTrainer(tags, "RIVAL3", 291, 294, 297, 300, 529, 532, 676, 679, 701, 908); // Rival w/ Water Starter
 
             //Aqua Admins
             TagTrainer(tags, "AQUA1", 178, 231, 266);              // Archie
@@ -797,6 +803,10 @@ namespace pk3DS
             //Zinnia
             TagTrainer(tags, "LOREKEEPER", 713, 898);
 
+            ImportantTrainers = false;
+            TagTrainer(tags, "RIVAL1", 1, 4); // Rival w/ Grass Starter
+            TagTrainer(tags, "RIVAL2", 2, 5); // Rival w/ Fire Starter
+            TagTrainer(tags, "RIVAL3", 3, 6); // Rival w/ Water Starter
             //Gym Trainers (Tagged in order of appearance on Bulbapedia's lists)
             if (rTypeGymTrainers)
             {
@@ -814,7 +824,7 @@ namespace pk3DS
         private string[] GetTagsXY()
         {
             string[] tags = Enumerable.Repeat("", trdatapaths.Length).ToArray();
-            
+            ImportantTrainers = true;
             //Rival Battles
             TagTrainer(tags, "RIVAL1", 130, 184, 329, 332, 335, 338, 341, 435, 519, 604, 575, 578, 581, 584, 587, 590, 593, 596, 599, 607); // Rival w/ Fire Starter
             TagTrainer(tags, "RIVAL2", 131, 185, 330, 333, 336, 339, 342, 436, 520, 605, 576, 579, 582, 585, 588, 591, 594, 597, 600, 608); // Rival w/ Water Starter
@@ -856,6 +866,7 @@ namespace pk3DS
             //Suspicious Trainer ???
             TagTrainer(tags, "ESSENTIA", 503, 504, 505, 511, 512, 513, 514, 515); // Emma
 
+            ImportantTrainers = false;
             //Gym Trainers (Tagged in order of appearance on Bulbapedia's lists)
             if (rTypeGymTrainers)
             {
@@ -870,6 +881,7 @@ namespace pk3DS
             }
             return tags;
         }
+        private bool ImportantTrainers;
 
         // Theme Methods
         private void TagTrainer(string[] trTags, string tag, params int[] ids)
@@ -879,6 +891,10 @@ namespace pk3DS
 
             if (!Tags.Contains(tag))
                 Tags.Add(tag);
+
+            if (!ImportantTrainers) return;
+            foreach (int id in ids)
+                rImportant[id] = tag;
         }
         private int[] GetMegaStones(int species) // This is horrible.
         {
@@ -991,10 +1007,10 @@ namespace pk3DS
             List<int> MEvoTypes = new List<int>();
             foreach (int spec in megaEvos)
             {
-                if (!MEvoTypes.Contains(personal[spec][6]))
-                    MEvoTypes.Add(personal[spec][6]);
-                if (!MEvoTypes.Contains(personal[spec][7]))
-                    MEvoTypes.Add(personal[spec][7]);
+                if (!MEvoTypes.Contains(Main.SpeciesStat[spec].Types[0]))
+                    MEvoTypes.Add(Main.SpeciesStat[spec].Types[0]);
+                if (!MEvoTypes.Contains(Main.SpeciesStat[spec].Types[1]))
+                    MEvoTypes.Add(Main.SpeciesStat[spec].Types[1]);
             }
             MEvoTypes.Sort();
             Console.WriteLine("There are " + MEvoTypes.Count + " types capable of mega evolution.");
@@ -1002,7 +1018,7 @@ namespace pk3DS
         }
         private int GetRandomMegaEvolvablePokemon(int type)
         {
-            List<int> valids = megaEvos.Where(spec => (int)personal[spec][6] == type || (int)personal[spec][7] == type).ToList();
+            List<int> valids = megaEvos.Where(spec => (int)Main.SpeciesStat[spec].Types[0] == type || (int)Main.SpeciesStat[spec].Types[1] == type).ToList();
             return valids[(int)(rnd32() % valids.Count)];
         }
 
