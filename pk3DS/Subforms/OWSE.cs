@@ -695,7 +695,7 @@ namespace pk3DS
                     //error will throw from here
                     img.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                     byte[] data = ms.ToArray();
-                    File.WriteAllBytes(Path.Combine(folder, String.Format("{0} ({1}).png", zdLocations[i].Replace('?', '-'), mapView.DrawMap)), data);
+                    File.WriteAllBytes(Path.Combine(folder, String.Format("{0} ({1}).png", zdLocations[i].Replace('?', '-'), i)), data);
                 }
                 string l = mm.EntryList.Where(t => t != 0xFFFF).Aggregate("", (current, t) => current + t.ToString("000" + " "));
                 result[i] = String.Format("{0}\t{1}\t{2}", mapView.DrawMap.ToString("000"), CB_LocationID.Items[i], l);
