@@ -512,7 +512,9 @@ namespace pk3DS
         }
 
         private bool randomizing;
-        public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rAbility, rDiffAI, rDiffIV, rClass, rGift, rItem, rDoRand, rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM;
+        public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rAbility, rDiffAI, 
+            rDiffIV, rClass, rGift, rItem, rDoRand, rRandomMegas,
+            rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM;
         public static bool[] rThemedClasses = { };
         public static string[] rTags;
         public static int[] megaEvos;
@@ -694,7 +696,7 @@ namespace pk3DS
                         if (trpk_form[p].Items.Count > 0)
                             trpk_form[p].SelectedIndex = 0;
                         // Randomize form
-                        if (trpk_form[p].Items.Count > 0 && !megaEvos.Contains(species))
+                        if (trpk_form[p].Items.Count > 0 && (!megaEvos.Contains(species) || rRandomMegas))
                             trpk_form[p].SelectedIndex = (int)(rnd32() % trpk_form[p].Items.Count);
                     }
                     if (rLevel)

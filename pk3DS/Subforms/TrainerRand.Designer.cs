@@ -64,6 +64,7 @@
             this.NUD_STAB = new System.Windows.Forms.NumericUpDown();
             this.CB_Moves = new System.Windows.Forms.ComboBox();
             this.L_Moves = new System.Windows.Forms.Label();
+            this.CHK_RandomMegaForm = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             this.GB_Tweak.SuspendLayout();
@@ -86,11 +87,11 @@
             // 
             // CHK_RandomItems
             // 
-            this.CHK_RandomItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_RandomItems.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.CHK_RandomItems.AutoSize = true;
             this.CHK_RandomItems.Checked = true;
             this.CHK_RandomItems.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomItems.Location = new System.Drawing.Point(12, 231);
+            this.CHK_RandomItems.Location = new System.Drawing.Point(12, 264);
             this.CHK_RandomItems.Name = "CHK_RandomItems";
             this.CHK_RandomItems.Size = new System.Drawing.Size(119, 17);
             this.CHK_RandomItems.TabIndex = 6;
@@ -99,11 +100,11 @@
             // 
             // CHK_RandomAbilities
             // 
-            this.CHK_RandomAbilities.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_RandomAbilities.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.CHK_RandomAbilities.AutoSize = true;
             this.CHK_RandomAbilities.Checked = true;
             this.CHK_RandomAbilities.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomAbilities.Location = new System.Drawing.Point(12, 246);
+            this.CHK_RandomAbilities.Location = new System.Drawing.Point(12, 279);
             this.CHK_RandomAbilities.Name = "CHK_RandomAbilities";
             this.CHK_RandomAbilities.Size = new System.Drawing.Size(193, 17);
             this.CHK_RandomAbilities.TabIndex = 7;
@@ -112,11 +113,11 @@
             // 
             // CHK_RandomGift
             // 
-            this.CHK_RandomGift.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_RandomGift.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.CHK_RandomGift.AutoSize = true;
             this.CHK_RandomGift.Checked = true;
             this.CHK_RandomGift.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomGift.Location = new System.Drawing.Point(12, 330);
+            this.CHK_RandomGift.Location = new System.Drawing.Point(12, 363);
             this.CHK_RandomGift.Name = "CHK_RandomGift";
             this.CHK_RandomGift.Size = new System.Drawing.Size(145, 17);
             this.CHK_RandomGift.TabIndex = 10;
@@ -126,11 +127,11 @@
             // 
             // CHK_RandomClass
             // 
-            this.CHK_RandomClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_RandomClass.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.CHK_RandomClass.AutoSize = true;
             this.CHK_RandomClass.Checked = true;
             this.CHK_RandomClass.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomClass.Location = new System.Drawing.Point(12, 284);
+            this.CHK_RandomClass.Location = new System.Drawing.Point(12, 317);
             this.CHK_RandomClass.Name = "CHK_RandomClass";
             this.CHK_RandomClass.Size = new System.Drawing.Size(141, 17);
             this.CHK_RandomClass.TabIndex = 9;
@@ -140,11 +141,11 @@
             // 
             // CHK_MaxDiffAI
             // 
-            this.CHK_MaxDiffAI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_MaxDiffAI.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.CHK_MaxDiffAI.AutoSize = true;
             this.CHK_MaxDiffAI.Checked = true;
             this.CHK_MaxDiffAI.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_MaxDiffAI.Location = new System.Drawing.Point(12, 345);
+            this.CHK_MaxDiffAI.Location = new System.Drawing.Point(12, 378);
             this.CHK_MaxDiffAI.Name = "CHK_MaxDiffAI";
             this.CHK_MaxDiffAI.Size = new System.Drawing.Size(144, 17);
             this.CHK_MaxDiffAI.TabIndex = 13;
@@ -153,11 +154,11 @@
             // 
             // CHK_MaxDiffPKM
             // 
-            this.CHK_MaxDiffPKM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_MaxDiffPKM.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.CHK_MaxDiffPKM.AutoSize = true;
             this.CHK_MaxDiffPKM.Checked = true;
             this.CHK_MaxDiffPKM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(12, 261);
+            this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(12, 294);
             this.CHK_MaxDiffPKM.Name = "CHK_MaxDiffPKM";
             this.CHK_MaxDiffPKM.Size = new System.Drawing.Size(161, 17);
             this.CHK_MaxDiffPKM.TabIndex = 8;
@@ -166,8 +167,8 @@
             // 
             // B_OK
             // 
-            this.B_OK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_OK.Location = new System.Drawing.Point(222, 320);
+            this.B_OK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.B_OK.Location = new System.Drawing.Point(222, 353);
             this.B_OK.Name = "B_OK";
             this.B_OK.Size = new System.Drawing.Size(50, 23);
             this.B_OK.TabIndex = 14;
@@ -177,8 +178,8 @@
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_Cancel.Location = new System.Drawing.Point(222, 342);
+            this.B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.B_Cancel.Location = new System.Drawing.Point(222, 375);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(50, 23);
             this.B_Cancel.TabIndex = 15;
@@ -188,8 +189,8 @@
             // 
             // NUD_GiftPercent
             // 
-            this.NUD_GiftPercent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.NUD_GiftPercent.Location = new System.Drawing.Point(157, 329);
+            this.NUD_GiftPercent.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.NUD_GiftPercent.Location = new System.Drawing.Point(157, 362);
             this.NUD_GiftPercent.Name = "NUD_GiftPercent";
             this.NUD_GiftPercent.Size = new System.Drawing.Size(43, 20);
             this.NUD_GiftPercent.TabIndex = 11;
@@ -202,9 +203,9 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(202, 331);
+            this.label1.Location = new System.Drawing.Point(202, 364);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(15, 13);
             this.label1.TabIndex = 12;
@@ -252,6 +253,9 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.GB_Tweak.Controls.Add(this.CHK_RandomMegaForm);
             this.GB_Tweak.Controls.Add(this.CHK_6PKM);
             this.GB_Tweak.Controls.Add(this.CHK_GymTrainers);
             this.GB_Tweak.Controls.Add(this.CHK_StoryMEvos);
@@ -267,27 +271,29 @@
             this.GB_Tweak.Controls.Add(this.CHK_G1);
             this.GB_Tweak.Location = new System.Drawing.Point(12, 54);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(270, 120);
+            this.GB_Tweak.Size = new System.Drawing.Size(270, 153);
             this.GB_Tweak.TabIndex = 323;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Options";
             // 
             // CHK_6PKM
             // 
+            this.CHK_6PKM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_6PKM.AutoSize = true;
-            this.CHK_6PKM.Location = new System.Drawing.Point(141, 92);
+            this.CHK_6PKM.Location = new System.Drawing.Point(141, 75);
             this.CHK_6PKM.Name = "CHK_6PKM";
-            this.CHK_6PKM.Size = new System.Drawing.Size(128, 17);
+            this.CHK_6PKM.Size = new System.Drawing.Size(111, 30);
             this.CHK_6PKM.TabIndex = 293;
-            this.CHK_6PKM.Text = "6 PKM Important TRs";
+            this.CHK_6PKM.Text = "Have 6 PKM for \r\nImportant Trainers";
             this.CHK_6PKM.UseVisualStyleBackColor = true;
             this.CHK_6PKM.CheckedChanged += new System.EventHandler(this.CHK_6PKM_CheckedChanged);
             // 
             // CHK_GymTrainers
             // 
+            this.CHK_GymTrainers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_GymTrainers.AutoSize = true;
             this.CHK_GymTrainers.Enabled = false;
-            this.CHK_GymTrainers.Location = new System.Drawing.Point(8, 92);
+            this.CHK_GymTrainers.Location = new System.Drawing.Point(9, 129);
             this.CHK_GymTrainers.Name = "CHK_GymTrainers";
             this.CHK_GymTrainers.Size = new System.Drawing.Size(124, 17);
             this.CHK_GymTrainers.TabIndex = 292;
@@ -296,10 +302,11 @@
             // 
             // CHK_StoryMEvos
             // 
+            this.CHK_StoryMEvos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_StoryMEvos.AutoSize = true;
             this.CHK_StoryMEvos.Checked = true;
             this.CHK_StoryMEvos.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_StoryMEvos.Location = new System.Drawing.Point(141, 73);
+            this.CHK_StoryMEvos.Location = new System.Drawing.Point(141, 113);
             this.CHK_StoryMEvos.Name = "CHK_StoryMEvos";
             this.CHK_StoryMEvos.Size = new System.Drawing.Size(122, 17);
             this.CHK_StoryMEvos.TabIndex = 291;
@@ -308,8 +315,9 @@
             // 
             // CHK_TypeTheme
             // 
+            this.CHK_TypeTheme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_TypeTheme.AutoSize = true;
-            this.CHK_TypeTheme.Location = new System.Drawing.Point(8, 74);
+            this.CHK_TypeTheme.Location = new System.Drawing.Point(9, 113);
             this.CHK_TypeTheme.Name = "CHK_TypeTheme";
             this.CHK_TypeTheme.Size = new System.Drawing.Size(127, 17);
             this.CHK_TypeTheme.TabIndex = 289;
@@ -425,10 +433,11 @@
             // 
             // CHK_IgnoreSpecialClass
             // 
+            this.CHK_IgnoreSpecialClass.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.CHK_IgnoreSpecialClass.AutoSize = true;
             this.CHK_IgnoreSpecialClass.Checked = true;
             this.CHK_IgnoreSpecialClass.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_IgnoreSpecialClass.Location = new System.Drawing.Point(31, 299);
+            this.CHK_IgnoreSpecialClass.Location = new System.Drawing.Point(31, 332);
             this.CHK_IgnoreSpecialClass.Name = "CHK_IgnoreSpecialClass";
             this.CHK_IgnoreSpecialClass.Size = new System.Drawing.Size(133, 17);
             this.CHK_IgnoreSpecialClass.TabIndex = 324;
@@ -437,10 +446,11 @@
             // 
             // CHK_OnlySingles
             // 
+            this.CHK_OnlySingles.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.CHK_OnlySingles.AutoSize = true;
             this.CHK_OnlySingles.Checked = true;
             this.CHK_OnlySingles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_OnlySingles.Location = new System.Drawing.Point(31, 314);
+            this.CHK_OnlySingles.Location = new System.Drawing.Point(31, 347);
             this.CHK_OnlySingles.Name = "CHK_OnlySingles";
             this.CHK_OnlySingles.Size = new System.Drawing.Size(114, 17);
             this.CHK_OnlySingles.TabIndex = 325;
@@ -449,8 +459,8 @@
             // 
             // NUD_Damage
             // 
-            this.NUD_Damage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.NUD_Damage.Location = new System.Drawing.Point(204, 198);
+            this.NUD_Damage.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.NUD_Damage.Location = new System.Drawing.Point(204, 231);
             this.NUD_Damage.Maximum = new decimal(new int[] {
             4,
             0,
@@ -467,11 +477,11 @@
             // 
             // CHK_Damage
             // 
-            this.CHK_Damage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_Damage.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.CHK_Damage.AutoSize = true;
             this.CHK_Damage.Checked = true;
             this.CHK_Damage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Damage.Location = new System.Drawing.Point(12, 201);
+            this.CHK_Damage.Location = new System.Drawing.Point(12, 234);
             this.CHK_Damage.Name = "CHK_Damage";
             this.CHK_Damage.Size = new System.Drawing.Size(192, 17);
             this.CHK_Damage.TabIndex = 327;
@@ -480,11 +490,11 @@
             // 
             // CHK_STAB
             // 
-            this.CHK_STAB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_STAB.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.CHK_STAB.AutoSize = true;
             this.CHK_STAB.Checked = true;
             this.CHK_STAB.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_STAB.Location = new System.Drawing.Point(12, 216);
+            this.CHK_STAB.Location = new System.Drawing.Point(12, 249);
             this.CHK_STAB.Name = "CHK_STAB";
             this.CHK_STAB.Size = new System.Drawing.Size(172, 17);
             this.CHK_STAB.TabIndex = 328;
@@ -493,8 +503,8 @@
             // 
             // NUD_STAB
             // 
-            this.NUD_STAB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.NUD_STAB.Location = new System.Drawing.Point(179, 218);
+            this.NUD_STAB.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.NUD_STAB.Location = new System.Drawing.Point(179, 251);
             this.NUD_STAB.Maximum = new decimal(new int[] {
             4,
             0,
@@ -511,13 +521,14 @@
             // 
             // CB_Moves
             // 
+            this.CB_Moves.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.CB_Moves.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Moves.FormattingEnabled = true;
             this.CB_Moves.Items.AddRange(new object[] {
             "Don\'t Modify",
             "Randomize All",
             "Use Levelup Only"});
-            this.CB_Moves.Location = new System.Drawing.Point(60, 179);
+            this.CB_Moves.Location = new System.Drawing.Point(60, 212);
             this.CB_Moves.Name = "CB_Moves";
             this.CB_Moves.Size = new System.Drawing.Size(121, 21);
             this.CB_Moves.TabIndex = 330;
@@ -525,18 +536,30 @@
             // 
             // L_Moves
             // 
+            this.L_Moves.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.L_Moves.AutoSize = true;
-            this.L_Moves.Location = new System.Drawing.Point(12, 182);
+            this.L_Moves.Location = new System.Drawing.Point(12, 215);
             this.L_Moves.Name = "L_Moves";
             this.L_Moves.Size = new System.Drawing.Size(42, 13);
             this.L_Moves.TabIndex = 331;
             this.L_Moves.Text = "Moves:";
             // 
+            // CHK_RandomMegaForm
+            // 
+            this.CHK_RandomMegaForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_RandomMegaForm.AutoSize = true;
+            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(9, 75);
+            this.CHK_RandomMegaForm.Name = "CHK_RandomMegaForm";
+            this.CHK_RandomMegaForm.Size = new System.Drawing.Size(103, 30);
+            this.CHK_RandomMegaForm.TabIndex = 294;
+            this.CHK_RandomMegaForm.Text = "Allow RandForm\r\nfor Mega PKM";
+            this.CHK_RandomMegaForm.UseVisualStyleBackColor = true;
+            // 
             // TrainerRand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 377);
+            this.ClientSize = new System.Drawing.Size(284, 410);
             this.Controls.Add(this.L_Moves);
             this.Controls.Add(this.CB_Moves);
             this.Controls.Add(this.CHK_OnlySingles);
@@ -616,5 +639,6 @@
         private System.Windows.Forms.ComboBox CB_Moves;
         private System.Windows.Forms.Label L_Moves;
         private System.Windows.Forms.CheckBox CHK_6PKM;
+        private System.Windows.Forms.CheckBox CHK_RandomMegaForm;
     }
 }
