@@ -172,13 +172,11 @@ namespace pk3DS
                     : species) 
                 : species;
 
-            byte[] abilities = new byte[3];
-            Array.Copy(personalData, ((Main.oras) ? 0x50 : 0x40) * species + 0x18, abilities, 0, 3);
             trpk_abil[slot].Items.Clear();
             trpk_abil[slot].Items.Add("Any (1 or 2)");
-            trpk_abil[slot].Items.Add(abilitylist[abilities[0]] + " (1)");
-            trpk_abil[slot].Items.Add(abilitylist[abilities[1]] + " (2)");
-            trpk_abil[slot].Items.Add(abilitylist[abilities[2]] + " (H)");
+            trpk_abil[slot].Items.Add(abilitylist[Main.SpeciesStat[species].Abilities[0]] + " (1)");
+            trpk_abil[slot].Items.Add(abilitylist[Main.SpeciesStat[species].Abilities[1]] + " (2)");
+            trpk_abil[slot].Items.Add(abilitylist[Main.SpeciesStat[species].Abilities[2]] + " (H)");
 
             trpk_abil[slot].SelectedIndex = previousAbility;
 
@@ -419,13 +417,11 @@ namespace pk3DS
             TB_Text2.Text = trText[index * 2 + 1];
         }
 
-        byte[] personalData;
         ushort[] indexList;
         private void Setup()
         {
             start = true;
-            string[] personalList = Directory.GetFiles("personal");
-            personalData = File.ReadAllBytes(personalList[personalList.Length - 1]);
+            byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
             indexList = Personal.getPersonalIndexList(personalData, Main.oras);
             AltForms = Personal.getFormList(personalData, Main.oras, specieslist, forms, types, itemlist);
 
