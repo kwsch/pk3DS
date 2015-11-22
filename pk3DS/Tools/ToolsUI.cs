@@ -113,6 +113,7 @@ namespace pk3DS
                     {
                         threads++;
                         bool r = CTR.GARC.garcUnpack(path, folderPath + "_g", SkipDecompression, pBar1);
+                        threads--;
                         if (r)
                             batchRenameExtension(newFolder);
                         else
@@ -144,6 +145,7 @@ namespace pk3DS
             {
                 if (!recursing)
                     Util.Error("File error:" + Environment.NewLine + path, e.ToString());
+                threads = 0;
             }
             System.Media.SystemSounds.Asterisk.Play();
         }
