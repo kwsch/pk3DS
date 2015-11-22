@@ -513,7 +513,7 @@ namespace pk3DS
 
         private bool randomizing;
         public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rAbility, rDiffAI, 
-            rDiffIV, rClass, rGift, rItem, rDoRand, rRandomMegas,
+            rDiffIV, rClass, rGift, rItem, rDoRand, rRandomMegas, rGymE4Only,
             rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM;
         public static bool[] rThemedClasses = { };
         public static string[] rTags;
@@ -648,8 +648,11 @@ namespace pk3DS
                 int itemC = itemvals.Length;
                 int ctr = 0;
 
+                // Trainer Type/Mega Evo
                 int type = GetRandomType(i);
                 bool mevo = rEnsureMEvo.Contains(i);
+                bool typerand = (rTypeTheme && !rGymE4Only) ||
+                                (rTypeTheme && (rImportant[i].Contains("GYM") || rImportant[i].Contains("ELITE") || rImportant[i].Contains("CHAMPION")));
 
                 // Randomize Pokemon
                 for (int p = 0; p < CB_numPokemon.SelectedIndex; p++)
@@ -661,7 +664,7 @@ namespace pk3DS
                         // randomize pokemon
                         int species;
                         pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
-                        if (rTypeTheme)
+                        if (typerand)
                         {
                             int tries = 0;
                             while (((pkm.Types[0] != type && pkm.Types[1] != type) || ((mevo && p == CB_numPokemon.SelectedIndex - 1 && !megaEvos.Contains(species)))) && tries < 0x10000)

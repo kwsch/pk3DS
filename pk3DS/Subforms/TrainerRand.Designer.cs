@@ -43,6 +43,7 @@
             this.NUD_Level = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_RandomMegaForm = new System.Windows.Forms.CheckBox();
             this.CHK_6PKM = new System.Windows.Forms.CheckBox();
             this.CHK_GymTrainers = new System.Windows.Forms.CheckBox();
             this.CHK_StoryMEvos = new System.Windows.Forms.CheckBox();
@@ -64,7 +65,7 @@
             this.NUD_STAB = new System.Windows.Forms.NumericUpDown();
             this.CB_Moves = new System.Windows.Forms.ComboBox();
             this.L_Moves = new System.Windows.Forms.Label();
-            this.CHK_RandomMegaForm = new System.Windows.Forms.CheckBox();
+            this.CHK_GymE4Only = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             this.GB_Tweak.SuspendLayout();
@@ -255,6 +256,7 @@
             // 
             this.GB_Tweak.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.GB_Tweak.Controls.Add(this.CHK_GymE4Only);
             this.GB_Tweak.Controls.Add(this.CHK_RandomMegaForm);
             this.GB_Tweak.Controls.Add(this.CHK_6PKM);
             this.GB_Tweak.Controls.Add(this.CHK_GymTrainers);
@@ -275,6 +277,17 @@
             this.GB_Tweak.TabIndex = 323;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Options";
+            // 
+            // CHK_RandomMegaForm
+            // 
+            this.CHK_RandomMegaForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_RandomMegaForm.AutoSize = true;
+            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(9, 75);
+            this.CHK_RandomMegaForm.Name = "CHK_RandomMegaForm";
+            this.CHK_RandomMegaForm.Size = new System.Drawing.Size(103, 30);
+            this.CHK_RandomMegaForm.TabIndex = 294;
+            this.CHK_RandomMegaForm.Text = "Allow RandForm\r\nfor Mega PKM";
+            this.CHK_RandomMegaForm.UseVisualStyleBackColor = true;
             // 
             // CHK_6PKM
             // 
@@ -544,16 +557,17 @@
             this.L_Moves.TabIndex = 331;
             this.L_Moves.Text = "Moves:";
             // 
-            // CHK_RandomMegaForm
+            // CHK_GymE4Only
             // 
-            this.CHK_RandomMegaForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CHK_RandomMegaForm.AutoSize = true;
-            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(9, 75);
-            this.CHK_RandomMegaForm.Name = "CHK_RandomMegaForm";
-            this.CHK_RandomMegaForm.Size = new System.Drawing.Size(103, 30);
-            this.CHK_RandomMegaForm.TabIndex = 294;
-            this.CHK_RandomMegaForm.Text = "Allow RandForm\r\nfor Mega PKM";
-            this.CHK_RandomMegaForm.UseVisualStyleBackColor = true;
+            this.CHK_GymE4Only.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_GymE4Only.AutoSize = true;
+            this.CHK_GymE4Only.Enabled = false;
+            this.CHK_GymE4Only.Location = new System.Drawing.Point(141, 129);
+            this.CHK_GymE4Only.Name = "CHK_GymE4Only";
+            this.CHK_GymE4Only.Size = new System.Drawing.Size(125, 17);
+            this.CHK_GymE4Only.TabIndex = 295;
+            this.CHK_GymE4Only.Text = "Theme Gym/E4 Only";
+            this.CHK_GymE4Only.UseVisualStyleBackColor = true;
             // 
             // TrainerRand
             // 
@@ -640,5 +654,6 @@
         private System.Windows.Forms.Label L_Moves;
         private System.Windows.Forms.CheckBox CHK_6PKM;
         private System.Windows.Forms.CheckBox CHK_RandomMegaForm;
+        private System.Windows.Forms.CheckBox CHK_GymE4Only;
     }
 }
