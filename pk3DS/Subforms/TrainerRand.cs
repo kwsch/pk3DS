@@ -63,7 +63,7 @@ namespace pk3DS
             RSTE.rDiffAI = CHK_MaxDiffAI.Checked;
             RSTE.rTypeTheme = CHK_TypeTheme.Checked;
             RSTE.rTypeGymTrainers = CHK_GymTrainers.Checked;
-            RSTE.rTypeGymE4Only = CHK_GymE4Only.Checked;
+            RSTE.rGymE4Only = CHK_GymE4Only.Checked;
             RSTE.r6PKM = CHK_6PKM.Checked;
             RSTE.rRandomMegas = CHK_RandomMegaForm.Checked;
 
