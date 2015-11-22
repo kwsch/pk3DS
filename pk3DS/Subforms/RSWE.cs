@@ -674,7 +674,9 @@ namespace pk3DS
         }
         private void setRandomForm(int slot, int species)
         {
-            if (species == 666 || species == 665 || species == 664) // Vivillon
+            if (CHK_MegaForm.Checked && Main.SpeciesStat[species].FormeCount > 1)
+                form[slot].Value = 31; // True Random
+            else if (species == 666 || species == 665 || species == 664) // Vivillon
                 form[slot].Value = rnd32() % 20;
             else if (species == 386) // Deoxys
                 form[slot].Value = rnd32() % 4;

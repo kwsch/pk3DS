@@ -457,7 +457,7 @@ namespace pk3DS
             int offset = br.ReadInt32() + 0x10;
             br.Close();
             byte[] filedata = File.ReadAllBytes(filepaths[f]);
-            byte[] preoffset = { };
+            byte[] preoffset;
             if (offset < filedata.Length)
             {
                 preoffset = new byte[offset];
@@ -531,34 +531,39 @@ namespace pk3DS
                     }
 
                     spec[slot].SelectedIndex = species;
-
-                    if (species == 666 || species == 665 || species == 664) // Vivillon
-                        form[slot].Value = rnd32() % 20;
-                    else if (species == 386) // Deoxys
-                        form[slot].Value = rnd32() % 4;
-                    else if (species == 201) // Unown
-                        form[slot].Value = rnd32() % 28;
-                    else if (species == 550) // Basculin
-                        form[slot].Value = rnd32() % 2;
-                    else if (species == 412 || species == 413) // Wormadam
-                        form[slot].Value = rnd32() % 3;
-                    else if (species == 422 || species == 423) // Gastrodon
-                        form[slot].Value = rnd32() % 2;
-                    else if (species == 585 || species == 586) // Sawsbuck
-                        form[slot].Value = rnd32() % 4;
-                    else if (species == 669 || species == 671) // Flabebe/Florges
-                        form[slot].Value = rnd32() % 5;
-                    else if (species == 670) // Floette
-                        form[slot].Value = rnd32() % 6;
-                    else if (species == 710 || species == 711) // Pumpkaboo
-                        form[slot].Value = rnd32() % 4;
-                    else
-                        form[slot].Value = 0;
+                    setRandomForm(slot, spec[slot].SelectedIndex);
                 }
                 B_Save_Click(sender, e);
             }
             Enabled = true;
             Util.Alert("Randomized!");
+        }
+        private void setRandomForm(int slot, int species)
+        {
+            if (CHK_MegaForm.Checked && Main.SpeciesStat[species].FormeCount > 1)
+                form[slot].Value = 31; // True Random
+            else if (species == 666 || species == 665 || species == 664) // Vivillon
+                form[slot].Value = rnd32() % 20;
+            else if (species == 386) // Deoxys
+                form[slot].Value = rnd32() % 4;
+            else if (species == 201) // Unown
+                form[slot].Value = rnd32() % 28;
+            else if (species == 550) // Basculin
+                form[slot].Value = rnd32() % 2;
+            else if (species == 412 || species == 413) // Wormadam
+                form[slot].Value = rnd32() % 3;
+            else if (species == 422 || species == 423) // Gastrodon
+                form[slot].Value = rnd32() % 2;
+            else if (species == 585 || species == 586) // Sawsbuck
+                form[slot].Value = rnd32() % 4;
+            else if (species == 669 || species == 671) // Flabebe/Florges
+                form[slot].Value = rnd32() % 5;
+            else if (species == 670) // Floette
+                form[slot].Value = rnd32() % 6;
+            else if (species == 710 || species == 711) // Pumpkaboo
+                form[slot].Value = rnd32() % 4;
+            else
+                form[slot].Value = 0;
         }
 
         private void B_Dump_Click(object sender, EventArgs e)
