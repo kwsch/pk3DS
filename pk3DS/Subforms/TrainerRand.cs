@@ -117,9 +117,9 @@ namespace pk3DS
 
         private void CHK_TypeTheme_CheckedChanged(object sender, EventArgs e)
         {
-            CHK_GymTrainers.Enabled = CHK_GymTrainers.Checked = CHK_TypeTheme.Checked;
+            CHK_GymTrainers.Enabled = CHK_GymTrainers.Checked = CHK_GymE4Only.Enabled = CHK_TypeTheme.Checked;
             if (!CHK_TypeTheme.Checked)
-                CHK_GymE4Only.Checked = false;
+                CHK_GymTrainers.Checked = CHK_GymE4Only.Checked = false;
         }
 
         private void CHK_RandomClass_CheckedChanged(object sender, EventArgs e)
