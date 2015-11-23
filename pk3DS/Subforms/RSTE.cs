@@ -598,10 +598,13 @@ namespace pk3DS
                 if (r6PKM && rImportant[i] != null) // skip the first rival battles
                 {
                     // Copy the last slot to random pokemon
-                    int lastPKM = CB_numPokemon.SelectedIndex;
+                    int lastPKM = Math.Max(CB_numPokemon.SelectedIndex - 1, 0); // 0,1-6 => 0-5 (never is 0)
                     CB_numPokemon.SelectedIndex = 6;
-                    for (int f = lastPKM; f < 6; f++)
+                    for (int f = lastPKM + 1; f < 6; f++)
+                    {
                         trpk_pkm[f].SelectedIndex = trpk_IV[lastPKM].SelectedIndex;
+                        trpk_lvl[f].SelectedIndex = Math.Min(trpk_lvl[f - 1].SelectedIndex + 1, 100);
+                    }
                 }
 
                 // Randomize Trainer Stats
