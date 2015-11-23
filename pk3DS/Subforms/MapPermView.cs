@@ -40,7 +40,7 @@ namespace pk3DS.Subforms
                 if (mm.EntryList[i] == 0xFFFF) // Mystery Zone
                     continue;
                 byte[][] GR = CTR.mini.unpackMini(File.ReadAllBytes(MapGRs[mm.EntryList[i]]), "GR");
-                mm.Entries[i] = new MapMatrix.Entry(GR[0]);
+                mm.Entries[i] = new MapMatrix.Entry(GR[0]) {coll = new MapMatrix.Collision(GR[2])};
             }
             mapScale = (int)NUD_Scale.Value;
             Bitmap img = mm.Preview(mapScale, (int)NUD_Flavor.Value);

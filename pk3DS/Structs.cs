@@ -981,6 +981,8 @@ namespace pk3DS
 
         public class Entry
         {
+            public Collision coll;
+
             public ushort Width, Height;
             private int Area;
             public uint[] Tiles; // Certain bits?
@@ -1034,6 +1036,79 @@ namespace pk3DS
                         pixel.CopyTo(bmpData, 4 * (((Y * s + x / s) * Width * s) + (X * s + x % s)));
                 }
                 return bmpData;
+            }
+        }
+        public class Collision
+        {
+            public string Magic;
+            public int termOffset;
+            public int U5D8;
+            public byte[] UnknownBytes;
+            public CollisionObject[] Map40;
+            public int[] MapInts;
+            public CollisionObject[] MapMisc;
+            public string termMagic;
+            public byte[] termData;
+            public Collision(byte[] data)
+            {
+                using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+                {
+                    Magic = new string(br.ReadChars(4)); // Magic
+                    if (Magic != "coll")
+                        return; // all other properties are null
+
+                    termOffset = br.ReadInt32();
+                    U5D8 = br.ReadInt32();
+                    UnknownBytes = br.ReadBytes(0x14);
+
+                    // Read 40 collision rectangles
+                    Map40 = new CollisionObject[40];
+                    for (int i = 0; i < Map40.Length; i++)
+                        Map40[i] = new CollisionObject(br.ReadBytes(0x10));
+
+                    // Read 32 Int32s
+                    MapInts = new int[0x20];
+                    for (int i = 0; i < MapInts.Length; i++)
+                        MapInts[i] = br.ReadInt32();
+
+                    // Read misc collision rectangles
+                    int ct = termOffset - (int)br.BaseStream.Position + 0x10;
+                    MapMisc = new CollisionObject[ct/0x10];
+                    for (int i = 0; i < MapMisc.Length; i++)
+                        MapMisc[i] = new CollisionObject(br.ReadBytes(0x10));
+
+                    // Read Term
+                    termMagic = new string(br.ReadChars(4));
+                    if (termMagic != "term")
+                        return; // all other properties are null
+
+                    // Read the rest of the data....
+                    termData = br.ReadBytes((int)(br.BaseStream.Length - br.BaseStream.Position));
+                }
+            }
+            public class CollisionObject
+            {
+                private float _0;
+                private float _1;
+                private float _2;
+                private float _3; // rarely used
+
+                // I don't even know...
+                public float F1 { get { return _0 / 2; } }
+                public float F2 { get { return _1 * 80; } }
+                public float F3 { get { return _2 / 2; } }
+                public float F4 { get { return _3; } }
+                public CollisionObject(byte[] data)
+                {
+                    _0 = BitConverter.ToSingle(data, 0x0);
+                    _1 = BitConverter.ToSingle(data, 0x4);
+                    _2 = BitConverter.ToSingle(data, 0x8);
+                    _3 = BitConverter.ToSingle(data, 0xC);
+                }
+                public override string ToString()
+                {
+                    return String.Join(", ", new[] { F1.ToString(), F2.ToString(), F3.ToString(), F4.ToString() });
+                }
             }
         }
 
