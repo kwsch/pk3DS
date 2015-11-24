@@ -232,7 +232,7 @@ namespace pk3DS
         private void CHK_TypeBias_CheckedChanged(object sender, EventArgs e)
         {
             NUD_STAB.Enabled = CHK_STAB.Checked;
-            NUD_STAB.Value = Convert.ToDecimal(CHK_STAB.Checked) * 52;
+            NUD_STAB.Value = CHK_STAB.Checked ? 52 : NUD_STAB.Minimum;
         }
 
         public void calcStats() // Debug Function
