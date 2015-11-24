@@ -655,7 +655,7 @@ namespace pk3DS
                 int type = GetRandomType(i);
                 bool mevo = rEnsureMEvo.Contains(i);
                 bool typerand = rTypeTheme && !rGymE4Only ||
-                                (rTypeTheme && (rImportant[i].Contains("GYM") || rImportant[i].Contains("ELITE") || rImportant[i].Contains("CHAMPION")));
+                                (rTypeTheme && rImportant[i] != null && (rImportant[i].Contains("GYM") || rImportant[i].Contains("ELITE") || rImportant[i].Contains("CHAMPION")));
 
                 // Randomize Pokemon
                 for (int p = 0; p < CB_numPokemon.SelectedIndex; p++)
