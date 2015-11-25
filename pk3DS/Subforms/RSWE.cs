@@ -153,6 +153,7 @@ namespace pk3DS
             "Arceus-Ice - 14",
             "Arceus-Dragon - 15",
             "Arceus-Dark - 16",
+            "Arceus-Fairy - 17",
             "",
             "Basculin-Red-Striped - 0",
             "Basculin-Blue-Striped - 1",
