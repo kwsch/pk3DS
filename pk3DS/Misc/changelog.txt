@@ -16,6 +16,13 @@ ExeFS Editors: Kaphotics (thanks Drayano and magical!)
 
 Big thanks to the ProjectPokemon community!
 
+12-02-15:
+ - Fixed: OWSE: Map Permission Dumping
+ - Fixed: Tools: Thread tracking
+ - Added: RSTE Expanding important teams to 6 Pokemon.
+ - Added: RSTE Allow random Mega (default) formes.
+ - Added: **WE: Arceus-Fairy to formes list.
+
 11-19-15:
  - Fixed: RSTE Type'd Randomization bugfix
  - Fixed: Mega Evo Editor not loading Item criteria correctly.
@@ -27,6 +34,7 @@ Big thanks to the ProjectPokemon community!
  - Added: Map PNG export on double click.
  - Added: Command line launch instructions (path, language)
 
+11-12-19: 700
 11-12-15: 650
 11-11-15: 25
 11-10-15: 60
