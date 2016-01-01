@@ -87,6 +87,12 @@
     <Compile Include="Subforms\MapPermView.Designer.cs">
       <DependentUpon>MapPermView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Shuffler.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Shuffler.Designer.cs">
+      <DependentUpon>Shuffler.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\TypeChart.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -260,6 +266,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\MapPermView.resx">
       <DependentUpon>MapPermView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Shuffler.resx">
+      <DependentUpon>Shuffler.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\TypeChart.resx">
       <DependentUpon>TypeChart.cs</DependentUpon>
