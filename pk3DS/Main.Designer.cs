@@ -75,9 +75,10 @@
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_GARCs = new System.Windows.Forms.ToolStripMenuItem();
             this.GB_CRO = new System.Windows.Forms.GroupBox();
+            this.B_Gift = new System.Windows.Forms.Button();
             this.B_TypeChart = new System.Windows.Forms.Button();
             this.B_Starter = new System.Windows.Forms.Button();
-            this.B_Gift = new System.Windows.Forms.Button();
+            this.Menu_Shuffler = new System.Windows.Forms.ToolStripMenuItem();
             this.GB_RomFS.SuspendLayout();
             this.GB_ExeFS.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -411,7 +412,8 @@
             this.Menu_Misc.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.unPackBCLIMToolStripMenuItem,
             this.Menu_BLZ,
-            this.Menu_LZ11});
+            this.Menu_LZ11,
+            this.Menu_Shuffler});
             this.Menu_Misc.Name = "Menu_Misc";
             this.Menu_Misc.Size = new System.Drawing.Size(184, 22);
             this.Menu_Misc.Text = "Misc Tools";
@@ -453,7 +455,7 @@
             // 
             this.Menu_RomFS.Enabled = false;
             this.Menu_RomFS.Name = "Menu_RomFS";
-            this.Menu_RomFS.Size = new System.Drawing.Size(152, 22);
+            this.Menu_RomFS.Size = new System.Drawing.Size(111, 22);
             this.Menu_RomFS.Text = "RomFS";
             this.Menu_RomFS.Click += new System.EventHandler(this.rebuildRomFS);
             // 
@@ -461,7 +463,7 @@
             // 
             this.Menu_ExeFS.Enabled = false;
             this.Menu_ExeFS.Name = "Menu_ExeFS";
-            this.Menu_ExeFS.Size = new System.Drawing.Size(152, 22);
+            this.Menu_ExeFS.Size = new System.Drawing.Size(111, 22);
             this.Menu_ExeFS.Text = "ExeFS";
             this.Menu_ExeFS.Click += new System.EventHandler(this.rebuildExeFS);
             // 
@@ -469,7 +471,7 @@
             // 
             this.Menu_CRO.Enabled = false;
             this.Menu_CRO.Name = "Menu_CRO";
-            this.Menu_CRO.Size = new System.Drawing.Size(152, 22);
+            this.Menu_CRO.Size = new System.Drawing.Size(111, 22);
             this.Menu_CRO.Text = "CRO";
             this.Menu_CRO.Click += new System.EventHandler(this.patchCRO_CRR);
             // 
@@ -477,7 +479,7 @@
             // 
             this.Menu_3DS.Enabled = false;
             this.Menu_3DS.Name = "Menu_3DS";
-            this.Menu_3DS.Size = new System.Drawing.Size(152, 22);
+            this.Menu_3DS.Size = new System.Drawing.Size(111, 22);
             this.Menu_3DS.Text = ".3DS";
             this.Menu_3DS.Click += new System.EventHandler(this.B_Rebuild3DS_Click);
             // 
@@ -485,7 +487,7 @@
             // 
             this.Menu_Patch.Enabled = false;
             this.Menu_Patch.Name = "Menu_Patch";
-            this.Menu_Patch.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Patch.Size = new System.Drawing.Size(111, 22);
             this.Menu_Patch.Text = "Patch";
             this.Menu_Patch.Click += new System.EventHandler(this.B_Patch_Click);
             // 
@@ -561,6 +563,16 @@
             this.GB_CRO.TabStop = false;
             this.GB_CRO.Text = "CRO Editing Tools";
             // 
+            // B_Gift
+            // 
+            this.B_Gift.Location = new System.Drawing.Point(218, 19);
+            this.B_Gift.Name = "B_Gift";
+            this.B_Gift.Size = new System.Drawing.Size(100, 23);
+            this.B_Gift.TabIndex = 2;
+            this.B_Gift.Text = "Gift Pokémon";
+            this.B_Gift.UseVisualStyleBackColor = true;
+            this.B_Gift.Click += new System.EventHandler(this.B_Gift_Click);
+            // 
             // B_TypeChart
             // 
             this.B_TypeChart.Location = new System.Drawing.Point(6, 19);
@@ -581,15 +593,13 @@
             this.B_Starter.UseVisualStyleBackColor = true;
             this.B_Starter.Click += new System.EventHandler(this.B_Starter_Click);
             // 
-            // B_Gift
+            // Menu_Shuffler
             // 
-            this.B_Gift.Location = new System.Drawing.Point(218, 19);
-            this.B_Gift.Name = "B_Gift";
-            this.B_Gift.Size = new System.Drawing.Size(100, 23);
-            this.B_Gift.TabIndex = 2;
-            this.B_Gift.Text = "Gift Pokémon";
-            this.B_Gift.UseVisualStyleBackColor = true;
-            this.B_Gift.Click += new System.EventHandler(this.B_Gift_Click);
+            this.Menu_Shuffler.Enabled = false;
+            this.Menu_Shuffler.Name = "Menu_Shuffler";
+            this.Menu_Shuffler.Size = new System.Drawing.Size(176, 22);
+            this.Menu_Shuffler.Text = "GARC Shuffler";
+            this.Menu_Shuffler.Click += new System.EventHandler(this.Menu_Shuffler_Click);
             // 
             // Main
             // 
@@ -673,5 +683,6 @@
         private System.Windows.Forms.Button B_Starter;
         private System.Windows.Forms.ToolStripMenuItem Menu_CRO;
         private System.Windows.Forms.Button B_Gift;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Shuffler;
     }
 }

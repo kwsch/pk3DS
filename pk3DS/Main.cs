@@ -208,7 +208,7 @@ namespace pk3DS
                     Util.Alert("pk3DS will function best if you keep your Game Files folder clean and free of unnecessary folders.");
 
                 // Enable buttons if applicable
-                GB_RomFS.Enabled = Menu_Restore.Enabled = GB_CRO.Enabled = Menu_CRO.Enabled = (RomFSPath != null);
+                GB_RomFS.Enabled = Menu_Restore.Enabled = GB_CRO.Enabled = Menu_CRO.Enabled = Menu_Shuffler.Enabled = (RomFSPath != null);
                 GB_ExeFS.Enabled = (RomFSPath != null && ExeFSPath != null);
                 B_MoveTutor.Enabled = oras; // Default false unless loaded
                 if (RomFSPath != null)
@@ -834,6 +834,10 @@ namespace pk3DS
         private void Menu_SMDH_Click(object sender, EventArgs e)
         {
             new Icon().ShowDialog();
+        }
+        private void Menu_Shuffler_Click(object sender, EventArgs e)
+        {
+            new Shuffler().ShowDialog();
         }
 
         // GARC Requests
