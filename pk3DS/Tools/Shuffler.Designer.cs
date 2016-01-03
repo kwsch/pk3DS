@@ -49,7 +49,7 @@
             this.CB_a.Name = "CB_a";
             this.CB_a.Size = new System.Drawing.Size(34, 21);
             this.CB_a.TabIndex = 0;
-            this.CB_a.TextChanged += new System.EventHandler(this.updateLabel);
+            this.CB_a.SelectedIndexChanged += new System.EventHandler(this.updateLabel);
             // 
             // CB_b
             // 
@@ -70,7 +70,7 @@
             this.CB_b.Name = "CB_b";
             this.CB_b.Size = new System.Drawing.Size(34, 21);
             this.CB_b.TabIndex = 1;
-            this.CB_b.TextChanged += new System.EventHandler(this.updateLabel);
+            this.CB_b.SelectedIndexChanged += new System.EventHandler(this.updateLabel);
             // 
             // CB_c
             // 
@@ -91,7 +91,7 @@
             this.CB_c.Name = "CB_c";
             this.CB_c.Size = new System.Drawing.Size(34, 21);
             this.CB_c.TabIndex = 2;
-            this.CB_c.TextChanged += new System.EventHandler(this.updateLabel);
+            this.CB_c.SelectedIndexChanged += new System.EventHandler(this.updateLabel);
             // 
             // L_a
             // 
@@ -104,9 +104,9 @@
             // 
             // L_File
             // 
-            this.L_File.Location = new System.Drawing.Point(109, 35);
+            this.L_File.Location = new System.Drawing.Point(15, 35);
             this.L_File.Name = "L_File";
-            this.L_File.Size = new System.Drawing.Size(41, 23);
+            this.L_File.Size = new System.Drawing.Size(135, 23);
             this.L_File.TabIndex = 4;
             this.L_File.Text = "FILENAME HERE";
             this.L_File.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -132,9 +132,13 @@
             this.Controls.Add(this.CB_c);
             this.Controls.Add(this.CB_b);
             this.Controls.Add(this.CB_a);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(180, 140);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(180, 140);
             this.Name = "Shuffler";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Shuffler";
             this.ResumeLayout(false);
 

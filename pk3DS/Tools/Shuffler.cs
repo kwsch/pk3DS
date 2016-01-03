@@ -28,7 +28,7 @@ namespace pk3DS
         private void updateLabel(object sender, EventArgs e)
         {
             garc = Path.Combine(Main.RomFSPath, "a", 
-                CB_a.SelectedIndex.ToString(), CB_a.SelectedIndex.ToString(), CB_a.SelectedIndex.ToString());
+                CB_a.SelectedIndex.ToString(), CB_b.SelectedIndex.ToString(), CB_c.SelectedIndex.ToString());
 
             if (File.Exists(garc))
             {
@@ -49,7 +49,7 @@ namespace pk3DS
             if (garc == null)
                 return;
 
-            string garcID = L_File.Text.Split(':')[1].Replace("\\", "");
+            string garcID = L_File.Text.Split(':')[1].Replace("\\", "").Replace(" ","");
             if (banlist.Contains(garcID))
             { Util.Alert("GARC is prevented from being shuffled."); return; }
 
