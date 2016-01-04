@@ -19,8 +19,12 @@ namespace pk3DS
 
             // Ban Models, Encounters, TitleScreen etc
             banlist = Main.oras
-                ? new[] { "a005", "a008", "a013", "a039", "a040", "a071", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086", "a152", "a195" }
-                : new[] { "a005", "a007", "a012", "a041", "a042", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086", "a087", "a165", "a218" };
+                ? new[] { "a005", "a008", "a013", "a039", "a040", "a071", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086", 
+                    "a100", "a152", 
+                    "a195" }
+                : new[] { "a005", "a007", "a012", "a041", "a042", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086", "a087", 
+                    "a101", "a165", 
+                    "a218" };
         }
         private string garc;
         private string[] banlist;
@@ -64,7 +68,8 @@ namespace pk3DS
 
             Array.Resize(ref randFiles, ctr);
 
-            if (ctr == 0) { Util.Alert("No files to shuffle...?"); return; }
+            if (ctr == 0) 
+            { Util.Alert("No files to shuffle...?"); return; }
             
             // Create backup
             string dest = "backup" + Path.DirectorySeparatorChar + String.Format("PreShuffle {0}", garcID);
