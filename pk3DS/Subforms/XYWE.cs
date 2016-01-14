@@ -541,14 +541,14 @@ namespace pk3DS
         }
         private void setRandomForm(int slot, int species)
         {
-            if (CHK_MegaForm.Checked && Main.SpeciesStat[species].FormeCount > 1)
-                form[slot].Value = 31; // True Random
+            if (CHK_MegaForm.Checked && Main.SpeciesStat[species].FormeCount > 1 && Legal.Mega_XY.Contains((ushort)species))
+                form[slot].Value = rnd32() % Main.SpeciesStat[species].FormeCount; // Slot-Random
             else if (species == 666 || species == 665 || species == 664) // Vivillon
                 form[slot].Value = rnd32() % 20;
             else if (species == 386) // Deoxys
                 form[slot].Value = rnd32() % 4;
             else if (species == 201) // Unown
-                form[slot].Value = rnd32() % 28;
+                form[slot].Value = 31;
             else if (species == 550) // Basculin
                 form[slot].Value = rnd32() % 2;
             else if (species == 412 || species == 413) // Wormadam

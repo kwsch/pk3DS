@@ -10,7 +10,6 @@ namespace pk3DS
         public RSWE()
         {
             InitializeComponent();
-            Console.WriteLine("Started RSWE");
             spec = new[] 
             {
                 CB_Grass1, CB_Grass2, CB_Grass3, CB_Grass4, CB_Grass5, CB_Grass6, CB_Grass7, CB_Grass8, CB_Grass9, CB_Grass10, CB_Grass11, CB_Grass12,
@@ -675,14 +674,14 @@ namespace pk3DS
         }
         private void setRandomForm(int slot, int species)
         {
-            if (CHK_MegaForm.Checked && Main.SpeciesStat[species].FormeCount > 1)
-                form[slot].Value = 31; // True Random
+            if (CHK_MegaForm.Checked && Main.SpeciesStat[species].FormeCount > 1 && Legal.Mega_ORAS.Contains((ushort)species))
+                form[slot].Value = rnd32() % Main.SpeciesStat[species].FormeCount; // Slot-Random
             else if (species == 666 || species == 665 || species == 664) // Vivillon
                 form[slot].Value = rnd32() % 20;
             else if (species == 386) // Deoxys
                 form[slot].Value = rnd32() % 4;
             else if (species == 201) // Unown
-                form[slot].Value = rnd32() % 28;
+                form[slot].Value = 31;
             else if (species == 550) // Basculin
                 form[slot].Value = rnd32() % 2;
             else if (species == 412 || species == 413) // Wormadam
