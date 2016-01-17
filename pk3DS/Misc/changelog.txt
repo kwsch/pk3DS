@@ -16,6 +16,10 @@ ExeFS Editors: Kaphotics (thanks Drayano and magical!)
 
 Big thanks to the ProjectPokemon community!
 
+XX-XX-16:
+ - Added: GARC Shuffler
+ - Fixed: Random Mega randomization checkbox for Wild Editors
+
 12-02-15:
  - Fixed: OWSE: Map Permission Dumping
  - Fixed: Tools: Thread tracking
