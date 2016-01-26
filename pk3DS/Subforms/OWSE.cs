@@ -24,7 +24,7 @@ namespace pk3DS
             mapView.Show();
             tb_Zone.SelectedIndex = 1;  // Show Overworlds tab
         }
-        private string[] gameLocations = Main.getText((Main.oras) ? 90 : 72);
+        private readonly string[] gameLocations = Main.getText(Main.oras ? 90 : 72);
         private string[] filepaths;
         private string[] encdatapaths;
         private byte[] masterZoneData;
@@ -38,7 +38,7 @@ namespace pk3DS
         // Map Viewer References
         internal static Zone CurrentZone;
         internal static MapMatrix mm;
-        private MapPermView mapView = new MapPermView();
+        private readonly MapPermView mapView = new MapPermView();
 
         private void openQuick(string[] encdata)
         {
@@ -60,7 +60,7 @@ namespace pk3DS
                 int LocationNum = Convert.ToInt16(name.Substring(4, name.Length - 4));
                 ZoneData zo = new ZoneData(masterZoneData.Skip(f * ZoneData.Size).Take(ZoneData.Size).ToArray());
                 string LocationName = gameLocations[zo.ParentMap];
-                zdLocations[f] = (LocationNum.ToString("000") + " - " + LocationName);
+                zdLocations[f] = LocationNum.ToString("000") + " - " + LocationName;
                 rawLocations[f] = LocationName;
             }
             
@@ -154,7 +154,7 @@ namespace pk3DS
             L_ZDPreview.Text = "Text File: " + CurrentZone.ZD.TextFile
             + Environment.NewLine + "Map File: " + CurrentZone.ZD.MapMatrix;
 
-            L_ZD.Text = String.Format("X: {0,5}{3}Y: {1,5}{3}Z:{2,6}{3}{3}X: {4,5}{3}Y: {5,5}{3}Z:{6,6}", CurrentZone.ZD.pX, CurrentZone.ZD.pY,
+            L_ZD.Text = string.Format("X: {0,5}{3}Y: {1,5}{3}Z:{2,6}{3}{3}X: {4,5}{3}Y: {5,5}{3}Z:{6,6}", CurrentZone.ZD.pX, CurrentZone.ZD.pY,
                 CurrentZone.ZD.Z, Environment.NewLine, CurrentZone.ZD.pX2, CurrentZone.ZD.pY2,
                 CurrentZone.ZD.Z2);
 
@@ -181,11 +181,11 @@ namespace pk3DS
             NUD_UnkCount.Value = CurrentZone.Entities.UnknownCount; changeUnkCount(null, null);
 
             // Collect/Load Data
-            NUD_FE.Value = (NUD_FE.Maximum < 0) ? -1 : 0; changeFurniture(null, null);
-            NUD_NE.Value = (NUD_NE.Maximum < 0) ? -1 : 0; changeNPC(null, null);
-            NUD_WE.Value = (NUD_WE.Maximum < 0) ? -1 : 0; changeWarp(null, null);
-            NUD_TE.Value = (NUD_TE.Maximum < 0) ? -1 : 0; changeTrigger1(null, null);
-            NUD_UE.Value = (NUD_UE.Maximum < 0) ? -1 : 0; changeTrigger2(null, null);
+            NUD_FE.Value = NUD_FE.Maximum < 0 ? -1 : 0; changeFurniture(null, null);
+            NUD_NE.Value = NUD_NE.Maximum < 0 ? -1 : 0; changeNPC(null, null);
+            NUD_WE.Value = NUD_WE.Maximum < 0 ? -1 : 0; changeWarp(null, null);
+            NUD_TE.Value = NUD_TE.Maximum < 0 ? -1 : 0; changeTrigger1(null, null);
+            NUD_UE.Value = NUD_UE.Maximum < 0 ? -1 : 0; changeTrigger2(null, null);
 
             // Process Scripts
             var script = CurrentZone.Entities.Script;
@@ -246,7 +246,7 @@ namespace pk3DS
         {
             slave.Maximum = master.Value - 1;
             slave.Enabled = display.Visible = slave.Maximum > -1;
-            slave.Minimum = (slave.Enabled) ? 0 : -1;
+            slave.Minimum = slave.Enabled ? 0 : -1;
         }
         private void changeFurnitureCount(object sender, EventArgs e)
         {
@@ -361,9 +361,9 @@ namespace pk3DS
 
             // Uneditables
             TB_NDeg.Text = NPC.Deg18.ToString();
-            TB_Leash.Text = (NPC.L1 == NPC.L2 && NPC.L2 == NPC.L3 && NPC.L3 == -1)
+            TB_Leash.Text = NPC.L1 == NPC.L2 && NPC.L2 == NPC.L3 && NPC.L3 == -1
                 ? TB_Leash.Text = "No Leash!"
-                : String.Format("{0}, {1}, {2} -- {3}", NPC.L1, NPC.L2, NPC.L3, NPC.LDir);
+                : $"{NPC.L1}, {NPC.L2}, {NPC.L3} -- {NPC.LDir}";
 
             RTB_N.Text = Util.getHexString(NPC.Raw);
         }
@@ -479,7 +479,7 @@ namespace pk3DS
         // Overworld User Enhancements
         private void changeNPC_ID(object sender, EventArgs e)
         {
-            L_NID.ForeColor = (NUD_NID.Value != NUD_NE.Value) ? Color.Red : Color.Black;
+            L_NID.ForeColor = NUD_NID.Value != NUD_NE.Value ? Color.Red : Color.Black;
         }
         private void changeNPC_Model(object sender, EventArgs e)
         {
@@ -507,7 +507,7 @@ namespace pk3DS
         private void B_HLCMD_Click(object sender, EventArgs e)
         {
             int ctr = Util.highlightText(RTB_OSP, "**", Color.Red) + Util.highlightText(RTB_MSP, "**", Color.Red) / 2;
-            Util.Alert(String.Format("{0} instance{1} of \"*\" present.", ctr, ctr > 1 ? "s" : ""));
+            Util.Alert($"{ctr} instance{(ctr > 1 ? "s" : "")} of \"*\" present.");
         }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -695,10 +695,10 @@ namespace pk3DS
                     //error will throw from here
                     img.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                     byte[] data = ms.ToArray();
-                    File.WriteAllBytes(Path.Combine(folder, String.Format("{0} ({1}).png", zdLocations[i].Replace('?', '-'), i)), data);
+                    File.WriteAllBytes(Path.Combine(folder, $"{zdLocations[i].Replace('?', '-')} ({i}).png"), data);
                 }
                 string l = mm.EntryList.Where(t => t != 0xFFFF).Aggregate("", (current, t) => current + t.ToString("000" + " "));
-                result[i] = String.Format("{0}\t{1}\t{2}", i.ToString("000"), CB_LocationID.Items[i], l);
+                result[i] = $"{i.ToString("000")}\t{CB_LocationID.Items[i]}\t{l}";
             }
             if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Map parse output?") == DialogResult.Yes)
                 File.WriteAllLines("MapLocations.txt", result);

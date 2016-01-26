@@ -219,7 +219,7 @@ namespace pk3DS
                     else
                         file = null;
 
-                    byte[] oldData = (file != null) ? File.ReadAllBytes(file) : null;
+                    byte[] oldData = file != null ? File.ReadAllBytes(file) : null;
                     bool r = CTR.mini.packMini2(path, fileExt, Path.Combine(parentName, fileNum + "." + fileExt));
                     if (!r)
                     {
@@ -232,7 +232,7 @@ namespace pk3DS
                         break;
 
                     byte[] newData = File.ReadAllBytes(Path.Combine(parentName, fileNum + "." + fileExt));
-                    if ((newData[2] == oldData[2]))
+                    if (newData[2] == oldData[2])
                     {
                         int newPtr = BitConverter.ToInt32(newData, 4);
                         int oldPtr = BitConverter.ToInt32(oldData, 4);
@@ -269,7 +269,7 @@ namespace pk3DS
         }
 
         // Utility
-        private Size CLIMWindow;
+        private readonly Size CLIMWindow;
         private void B_Reset_Click(object sender, EventArgs e)
         {
             PB_BCLIM.Size = CLIMWindow;

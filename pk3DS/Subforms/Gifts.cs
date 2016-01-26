@@ -32,14 +32,14 @@ namespace pk3DS
         }
         internal static string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
         private byte[] FieldData;
-        private int fieldOffset = Main.oras ? 0xF906C : 0xF805C;
-        private int fieldSize = Main.oras ? 0x24 : 0x18;
-        private int count = Main.oras ? 0x25 : 0x13;
+        private readonly int fieldOffset = Main.oras ? 0xF906C : 0xF805C;
+        private readonly int fieldSize = Main.oras ? 0x24 : 0x18;
+        private readonly int count = Main.oras ? 0x25 : 0x13;
         private Gift[] GiftData;
-        private string[] abilitylist = Main.getText((Main.oras) ? 37 : 34);
-        private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
-        private string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
-        private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
+        private readonly string[] abilitylist = Main.getText(Main.oras ? 37 : 34);
+        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveEntry();
@@ -58,7 +58,7 @@ namespace pk3DS
             for (int i = 0; i < GiftData.Length; i++)
             {
                 GiftData[i] = new Gift(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray(), Main.oras);
-                LB_Gifts.Items.Add(String.Format("{0} - {1}", i.ToString("00"), specieslist[GiftData[i].Species]));
+                LB_Gifts.Items.Add($"{i.ToString("00")} - {specieslist[GiftData[i].Species]}");
             }
             loaded = true;
             LB_Gifts.SelectedIndex = 0;

@@ -13,9 +13,10 @@ namespace pk3DS
             InitializeComponent();
             Setup();
         }
-        string[] files = Directory.GetFiles("item");
-        string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
-        string[] itemflavor = Main.getText((Main.oras) ? 117 : 99);
+
+        readonly string[] files = Directory.GetFiles("item");
+        readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        readonly string[] itemflavor = Main.getText(Main.oras ? 117 : 99);
 
         private void Setup()
         {
@@ -56,7 +57,7 @@ namespace pk3DS
 
         private void changePrice(object sender, EventArgs e)
         {
-            MT_Sell.Text = ((Math.Min(Util.ToUInt32(MT_Price) / 10, 0x7FFF)) * 10 / 2).ToString();
+            MT_Sell.Text = (Math.Min(Util.ToUInt32(MT_Price) / 10, 0x7FFF) * 10 / 2).ToString();
         }
 
         private int getItemMapOffset()
@@ -66,7 +67,7 @@ namespace pk3DS
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); return -1; }
             byte[] data = File.ReadAllBytes(files[0]);
 
-            byte[] reference = (Main.oras)
+            byte[] reference = Main.oras
                 ? new byte[] { 0x92, 0x0A, 0x06, 0x3F, 0x75, 0x02 } // ORAS (vanilla @ 47C640)
                 : new byte[] { 0x92, 0x0A, 0x06, 0x3F, 0x41, 0x02 }; // XY (vanilla @ 43DB74)
 

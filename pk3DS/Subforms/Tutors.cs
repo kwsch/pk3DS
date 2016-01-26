@@ -21,13 +21,14 @@ namespace pk3DS
             CB_Location.SelectedIndex = 0;
             Util.Alert("Changes made do not reflect ingame.", "Still needs more research.");
         }
-        string codebin;
-        string[] movelist = Main.getText((Main.oras) ? 14 : 13);
-        byte[] data;
-        byte[] entries = { 0xF, 0x11, 0x10, 0xF }; // Entries per Tutor
+
+        readonly string codebin;
+        readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        readonly byte[] data;
+        readonly byte[] entries = { 0xF, 0x11, 0x10, 0xF }; // Entries per Tutor
         private const int offset = 0x004960F8;
         int dataoffset;
-        string[] locations = { "1", "2", "3", "4" };
+        readonly string[] locations = { "1", "2", "3", "4" };
         private void getDataOffset(int index)
         {
             dataoffset = offset; // reset

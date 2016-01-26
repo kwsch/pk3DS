@@ -64,18 +64,18 @@ namespace pk3DS
                 if (path.Length > 0) openQuick(path);
             } 
             string filename = Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-            skipBoth = (filename.IndexOf("3DSkip", StringComparison.Ordinal) >= 0);
+            skipBoth = filename.IndexOf("3DSkip", StringComparison.Ordinal) >= 0;
         }
         public static bool oras;
         public static string RomFSPath;
         public static string ExeFSPath;
         public static string ExHeaderPath;
         public volatile int threads;
-        internal volatile static int Language;
+        internal static volatile int Language;
         internal static CTR.SMDH SMDH;
         private uint HANSgameID; // for exporting RomFS/ExeFS with correct X8 gameID
         internal static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN", "titlescreen", "mapMatrix", "mapGR" };
-        private bool skipBoth;
+        private readonly bool skipBoth;
         internal static PersonalInfo[] SpeciesStat;
 
         // Main Form Methods
@@ -87,8 +87,8 @@ namespace pk3DS
         {
             if (RomFSPath != null)
             {
-                string s = "Game Type: " + ((oras) ? "ORAS" : "XY") + Environment.NewLine;
-                s = allGARCs.Aggregate(s, (current, t) => current + String.Format(Environment.NewLine + "{0} - {1}", t, getGARCFileName(t)));
+                string s = "Game Type: " + (oras ? "ORAS" : "XY") + Environment.NewLine;
+                s = allGARCs.Aggregate(s, (current, t) => current + string.Format(Environment.NewLine + "{0} - {1}", t, getGARCFileName(t)));
 
                 if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, s, "Copy to Clipboard?")) return;
 
@@ -122,13 +122,13 @@ namespace pk3DS
                 // Let all other operations finish first (ie, if the user quickly switches languages on load)
                 while (threads > 0) Thread.Sleep(50);
                 // Gather the Text Language Strings
-                updateStatus(String.Format("GARC Get: {0} @ {1}... ", "gametext", getGARCFileName("gametext")));
+                updateStatus($"GARC Get: {"gametext"} @ {getGARCFileName("gametext")}... ");
                 threadGet(RomFSPath + getGARCFileName("gametext"), "gametext", true, true);
 
                 while (threads > 0) Thread.Sleep(50);
                 if (!Directory.Exists("personal"))
                 {
-                    updateStatus(String.Format("GARC Get: {0} @ {1}... ", "personal", getGARCFileName("personal")));
+                    updateStatus($"GARC Get: {"personal"} @ {getGARCFileName("personal")}... ");
                     threadGet(RomFSPath + getGARCFileName("personal"), "personal", true, true);
                 }
                 while (threads > 0) Thread.Sleep(50);
@@ -151,13 +151,13 @@ namespace pk3DS
                 if (!GB_RomFS.Enabled || skipBoth) return; // No data/threads need to be addressed if we haven't loaded anything.
 
                 // Set the GameText back as other forms may have edited it.
-                updateStatus(String.Format("GARC Get: {0} @ {1}... ", "gametext", getGARCFileName("gametext")));
+                updateStatus($"GARC Get: {"gametext"} @ {getGARCFileName("gametext")}... ");
                 threadSet(RomFSPath + getGARCFileName("gametext"), "gametext", false);
                 while (threads > 0) Thread.Sleep(100);
 
                 Thread.Sleep(200); // Small gap between beeps for faster computers.
 
-                updateStatus(String.Format("GARC Get: {0} @ {1}... ", "personal", getGARCFileName("personal")));
+                updateStatus($"GARC Get: {"personal"} @ {getGARCFileName("personal")}... ");
                 threadSet(RomFSPath + getGARCFileName("personal"), "personal", false);
                 while (threads > 0) Thread.Sleep(100);
 
@@ -208,14 +208,14 @@ namespace pk3DS
                     Util.Alert("pk3DS will function best if you keep your Game Files folder clean and free of unnecessary folders.");
 
                 // Enable buttons if applicable
-                GB_RomFS.Enabled = Menu_Restore.Enabled = GB_CRO.Enabled = Menu_CRO.Enabled = Menu_Shuffler.Enabled = (RomFSPath != null);
-                GB_ExeFS.Enabled = (RomFSPath != null && ExeFSPath != null);
+                GB_RomFS.Enabled = Menu_Restore.Enabled = GB_CRO.Enabled = Menu_CRO.Enabled = Menu_Shuffler.Enabled = RomFSPath != null;
+                GB_ExeFS.Enabled = RomFSPath != null && ExeFSPath != null;
                 B_MoveTutor.Enabled = oras; // Default false unless loaded
                 if (RomFSPath != null)
                 {
                     if (L_Game.Text == "Game Loaded: ORAS" || L_Game.Text == "Game Loaded: XY")
                     { Directory.Delete("personal", true); } // Force reloading of personal data if the game is switched.
-                    L_Game.Text = (oras) ? "Game Loaded: ORAS" : "Game Loaded: XY"; TB_Path.Text = path; 
+                    L_Game.Text = oras ? "Game Loaded: ORAS" : "Game Loaded: XY"; TB_Path.Text = path; 
                 }
                 else if (ExeFSPath != null)
                 { L_Game.Text = "ExeFS loaded - no RomFS"; TB_Path.Text = path; }
@@ -236,12 +236,12 @@ namespace pk3DS
                 Menu_RomFS.Enabled = Menu_Restore.Enabled = Menu_GARCs.Enabled = RomFSPath != null;
                 Menu_Patch.Enabled = RomFSPath != null && ExeFSPath != null;
                 Menu_3DS.Enabled = 
-                    (ExHeaderPath != null && RomFSPath != null && ExeFSPath != null);
+                    ExHeaderPath != null && RomFSPath != null && ExeFSPath != null;
 
                 // Change L_Game if RomFS and ExeFS exists to a better descriptor
-                SMDH = ExeFSPath != null ? (File.Exists(Path.Combine(ExeFSPath, "icon.bin"))) ? new CTR.SMDH(Path.Combine(ExeFSPath, "icon.bin")) : null : null;
-                HANSgameID = SMDH != null ? ((SMDH.AppSettings != null) ? SMDH.AppSettings.StreetPassID : 0) : 0;
-                L_Game.Visible = (SMDH == null && RomFSPath != null);
+                SMDH = ExeFSPath != null ? File.Exists(Path.Combine(ExeFSPath, "icon.bin")) ? new CTR.SMDH(Path.Combine(ExeFSPath, "icon.bin")) : null : null;
+                HANSgameID = SMDH != null ? (SMDH.AppSettings?.StreetPassID ?? 0) : 0;
+                L_Game.Visible = SMDH == null && RomFSPath != null;
                 updateGameInfo();
                 TB_Path.Select(TB_Path.TextLength, 0);
                 // Method finished.
@@ -260,9 +260,9 @@ namespace pk3DS
             // 6 - XX
             // 7 - KO
             int[] AILang = { 0, 0, 1, 2, 4, 3, 5, 7 };
-            Text = ((SMDH == null || SMDH.AppSettings == null)
+            Text = SMDH?.AppSettings == null
                 ? "pk3DS" // nothing else
-                : "pk3DS - " + SMDH.AppInfo[AILang[Language]].ShortDescription);
+                : "pk3DS - " + SMDH.AppInfo[AILang[Language]].ShortDescription;
         }
         private int checkGameType(string[] files)
         {
@@ -285,7 +285,7 @@ namespace pk3DS
         private bool checkIfRomFS(string path)
         {
             string[] top = Directory.GetDirectories(path);
-            FileInfo fi = new FileInfo(top[(top.Length > 1) ? 1 : 0]);
+            FileInfo fi = new FileInfo(top[top.Length > 1 ? 1 : 0]);
             // Check to see if the folder is romfs
             if (fi.Name == "a")
             {
@@ -298,7 +298,7 @@ namespace pk3DS
                     else { RomFSPath = null; oras = false; return false; }
                 }
                 else
-                    oras = (game == 1);
+                    oras = game == 1;
                 RomFSPath = path;
                 backupGARCs(false, allGARCs);
                 backupCROs(false, RomFSPath);
@@ -345,7 +345,7 @@ namespace pk3DS
             ExHeaderPath = null;
             // Input folder path should contain the ExHeader.
                 string[] files = Directory.GetFiles(path);
-                foreach (string fp in (from s in files let f = new FileInfo(s) where (f.Name.ToLower().StartsWith("exh") && f.Length == 0x800) select s))
+                foreach (string fp in from s in files let f = new FileInfo(s) where f.Name.ToLower().StartsWith("exh") && f.Length == 0x800 select s)
                 ExHeaderPath = fp;
 
             return ExHeaderPath != null;
@@ -370,7 +370,7 @@ namespace pk3DS
 
             SaveFileDialog sfd = new SaveFileDialog
             {
-                FileName = (HANSgameID != 0) ? HANSgameID.ToString("X8") + ".romfs" : "romfs.bin",
+                FileName = HANSgameID != 0 ? HANSgameID.ToString("X8") + ".romfs" : "romfs.bin",
                 Filter = "HANS RomFS|*.romfs" + "|Binary File|*.bin" + "|All Files|*.*"
             };
             sfd.FilterIndex = HANSgameID != 0 ? 0 : sfd.Filter.Length - 1;
@@ -420,8 +420,8 @@ namespace pk3DS
 
             new Thread(() =>
             {
-                bool super = (dr == DialogResult.Yes);
-                string[] files = { (super) ? "maisontrS" : "maisontrN", (super) ? "maisonpkS" : "maisonpkN" };
+                bool super = dr == DialogResult.Yes;
+                string[] files = { super ? "maisontrS" : "maisontrN", super ? "maisonpkS" : "maisonpkN" };
                 fileGet(files);
                 Invoke((Action)(() => new MaisonEditor(super).ShowDialog()));
                 fileSet(files);
@@ -574,7 +574,7 @@ namespace pk3DS
             foreach (string toEdit in files)
             {
                 string GARC = getGARCFileName(toEdit);
-                updateStatus(String.Format("GARC Get: {0} @ {1}... ", toEdit, GARC));
+                updateStatus($"GARC Get: {toEdit} @ {GARC}... ");
                 threadGet(RomFSPath + GARC, toEdit, true, skipDecompression);
                 while (threads > 0) Thread.Sleep(50);
             }
@@ -585,7 +585,7 @@ namespace pk3DS
             foreach (string toEdit in files)
             {
                 string GARC = getGARCFileName(toEdit);
-                updateStatus(String.Format("GARC Set: {0} @ {1}... ", toEdit, GARC));
+                updateStatus($"GARC Set: {toEdit} @ {GARC}... ");
                 threadSet(RomFSPath + GARC, toEdit);
                 while (threads > 0) Thread.Sleep(50);
                 if (!keep && Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
@@ -603,7 +603,7 @@ namespace pk3DS
 
             SaveFileDialog sfd = new SaveFileDialog
             {
-                FileName = (HANSgameID != 0) ? HANSgameID.ToString("X8") + ".exefs" : "exefs.bin",
+                FileName = HANSgameID != 0 ? HANSgameID.ToString("X8") + ".exefs" : "exefs.bin",
                 Filter = "HANS ExeFS|*.exefs" + "|Binary File|*.bin" + "|All Files|*.*"
             };
             sfd.FilterIndex = HANSgameID != 0 ? 0 : sfd.Filter.Length - 1;
@@ -813,19 +813,22 @@ namespace pk3DS
 
             byte[] data = File.ReadAllBytes(path);
             string predict = data[0] == 0x11 ? "compressed" : "decompressed";
-            var dr = Util.Prompt(MessageBoxButtons.YesNoCancel, String.Format("Detected {0} file. Do what?", predict),
+            var dr = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Detected {predict} file. Do what?",
                 "Yes = Decompress\nNo = Compress\nCancel = Abort");
             new Thread(() =>
             {
                 threads++; 
                 if (dr == DialogResult.Yes)
                 {
-                    CTR.LZSS.Decompress(path, path);
+                    try
+                    {
+                        CTR.LZSS.Decompress(path, Path.Combine(Directory.GetParent(path).FullName, "dec_" + Path.GetFileNameWithoutExtension(path) + ".bin"));
+                    } catch (Exception err) { Util.Alert("Tried decompression, may have worked:", err.ToString()); }
                     Util.Alert("File Decompressed!", path);
                 }
                 if (dr == DialogResult.No)
                 {
-                    CTR.LZSS.Compress(path, path);
+                    CTR.LZSS.Compress(path, Path.Combine(Directory.GetParent(path).FullName, Path.GetFileNameWithoutExtension(path).Replace("_dec", "") + ".lz"));
                     Util.Alert("File Compressed!", path);
                 }
                 threads--;
@@ -851,45 +854,45 @@ namespace pk3DS
             switch (requestedGARC)
             {
                 case "movesprite": ans = getGARCPath(0, 0, 5); break;
-                case "encdata": ans = (oras) ? getGARCPath(0, 1, 3) : getGARCPath(0, 1, 2); break;
-                case "trdata": ans = (oras) ? getGARCPath(0, 3, 6) : getGARCPath(0, 3, 8); break;
-                case "trpoke": ans = (oras) ? getGARCPath(0, 3, 8) : getGARCPath(0, 4, 0); break;
-                case "mapGR": ans = (oras) ? getGARCPath(0, 3, 9) : getGARCPath(0, 4, 1); break;
-                case "mapMatrix": ans = (oras) ? getGARCPath(0, 4, 0) : getGARCPath(0, 4, 2); break;
-                case "gametext": ans = (oras) ? getGARCPath(0, 7, 1 + lang) : getGARCPath(0, 7, 2 + lang); break;
-                case "storytext": ans = (oras) ? getGARCPath(0, 7 + ((lang + 9) / 10), (10 + (lang + 9)) % 10) : getGARCPath(0, 8, lang); break;
-                case "wallpaper": ans = (oras) ? getGARCPath(1, 0, 3) : getGARCPath(1, 0, 4); break;
-                case "titlescreen": ans = (oras) ? getGARCPath(1, 5, 2) : getGARCPath(1, 6, 5); break;
-                case "maisonpkN": ans = (oras) ? getGARCPath(1, 8, 2) : getGARCPath(2, 0, 3); break;
-                case "maisontrN": ans = (oras) ? getGARCPath(1, 8, 3) : getGARCPath(2, 0, 4); break;
-                case "maisonpkS": ans = (oras) ? getGARCPath(1, 8, 4) : getGARCPath(2, 0, 5); break;
-                case "maisontrS": ans = (oras) ? getGARCPath(1, 8, 5) : getGARCPath(2, 0, 6); break;
-                case "move": ans = (oras) ? getGARCPath(1, 8, 9) : getGARCPath(2, 1, 2); break;
-                case "eggmove": ans = (oras) ? getGARCPath(1, 9, 0) : getGARCPath(2, 1, 3); break;
-                case "levelup": ans = (oras) ? getGARCPath(1, 9, 1) : getGARCPath(2, 1, 4); break;
-                case "evolution": ans = (oras) ? getGARCPath(1, 9, 2) : getGARCPath(2, 1, 5); break;
-                case "megaevo": ans = (oras) ? getGARCPath(1, 9, 3) : getGARCPath(2, 1, 6); break;
-                case "personal": ans = (oras) ? getGARCPath(1, 9, 5) : getGARCPath(2, 1, 8); break;
-                case "item": ans = (oras) ? getGARCPath(1, 9, 7) : getGARCPath(2, 2, 0); break;
+                case "encdata": ans = oras ? getGARCPath(0, 1, 3) : getGARCPath(0, 1, 2); break;
+                case "trdata": ans = oras ? getGARCPath(0, 3, 6) : getGARCPath(0, 3, 8); break;
+                case "trpoke": ans = oras ? getGARCPath(0, 3, 8) : getGARCPath(0, 4, 0); break;
+                case "mapGR": ans = oras ? getGARCPath(0, 3, 9) : getGARCPath(0, 4, 1); break;
+                case "mapMatrix": ans = oras ? getGARCPath(0, 4, 0) : getGARCPath(0, 4, 2); break;
+                case "gametext": ans = oras ? getGARCPath(0, 7, 1 + lang) : getGARCPath(0, 7, 2 + lang); break;
+                case "storytext": ans = oras ? getGARCPath(0, 7 + (lang + 9) / 10, (10 + lang + 9) % 10) : getGARCPath(0, 8, lang); break;
+                case "wallpaper": ans = oras ? getGARCPath(1, 0, 3) : getGARCPath(1, 0, 4); break;
+                case "titlescreen": ans = oras ? getGARCPath(1, 5, 2) : getGARCPath(1, 6, 5); break;
+                case "maisonpkN": ans = oras ? getGARCPath(1, 8, 2) : getGARCPath(2, 0, 3); break;
+                case "maisontrN": ans = oras ? getGARCPath(1, 8, 3) : getGARCPath(2, 0, 4); break;
+                case "maisonpkS": ans = oras ? getGARCPath(1, 8, 4) : getGARCPath(2, 0, 5); break;
+                case "maisontrS": ans = oras ? getGARCPath(1, 8, 5) : getGARCPath(2, 0, 6); break;
+                case "move": ans = oras ? getGARCPath(1, 8, 9) : getGARCPath(2, 1, 2); break;
+                case "eggmove": ans = oras ? getGARCPath(1, 9, 0) : getGARCPath(2, 1, 3); break;
+                case "levelup": ans = oras ? getGARCPath(1, 9, 1) : getGARCPath(2, 1, 4); break;
+                case "evolution": ans = oras ? getGARCPath(1, 9, 2) : getGARCPath(2, 1, 5); break;
+                case "megaevo": ans = oras ? getGARCPath(1, 9, 3) : getGARCPath(2, 1, 6); break;
+                case "personal": ans = oras ? getGARCPath(1, 9, 5) : getGARCPath(2, 1, 8); break;
+                case "item": ans = oras ? getGARCPath(1, 9, 7) : getGARCPath(2, 2, 0); break;
             }
             return ans;
         }
         internal static string getGARCPath(int A, int B, int C)
         {
-            return String.Format("{0}a{0}{1}{0}{2}{0}{3}", Path.DirectorySeparatorChar, A, B, C);
+            return string.Format("{0}a{0}{1}{0}{2}{0}{3}", Path.DirectorySeparatorChar, A, B, C);
         }
         public bool getGARC(string infile, string outfolder, bool PB, bool bypassExt = false)
         {
             if (skipBoth && Directory.Exists(outfolder))
             {
-                updateStatus(String.Format("Skipped - Exists!"), false);
+                updateStatus("Skipped - Exists!", false);
                 threads--;
                 return true;
             }
             try
             {
-                bool success = CTR.GARC.garcUnpack(infile, outfolder, bypassExt, (PB) ? pBar1 : null, null, true, bypassExt);
-                updateStatus(String.Format(success ? "Success!" : "Failed!"), false);
+                bool success = CTR.GARC.garcUnpack(infile, outfolder, bypassExt, PB ? pBar1 : null, null, true, bypassExt);
+                updateStatus(string.Format(success ? "Success!" : "Failed!"), false);
                 threads--;
                 return success;
             }
@@ -898,13 +901,13 @@ namespace pk3DS
         public bool setGARC(string outfile, string infolder, bool PB)
         {
             if (skipBoth || (ModifierKeys == Keys.Control && Util.Prompt(MessageBoxButtons.YesNo, "Cancel writing data back to GARC?") == DialogResult.Yes))
-            { threads--; updateStatus(String.Format("Aborted!"), false); return false; }
+            { threads--; updateStatus("Aborted!", false); return false; }
 
             try
             {
-                bool success = CTR.GARC.garcPackMS(infolder, outfile, (PB) ? pBar1 : null, null, true);
+                bool success = CTR.GARC.garcPackMS(infolder, outfile, PB ? pBar1 : null, null, true);
                 threads--;
-                updateStatus(String.Format(success ? "Success!" : "Failed!"), false);
+                updateStatus(string.Format(success ? "Success!" : "Failed!"), false);
                 return success;
             }
             catch (Exception e) { Util.Error("Could not set the GARC back:", e.ToString()); threads--; return false; }
@@ -927,7 +930,8 @@ namespace pk3DS
             foreach (string s in g)
             {
                 string GARC = getGARCFileName(s);
-                string dest = "backup" + Path.DirectorySeparatorChar + s + String.Format(" ({0})", GARC.Replace(Path.DirectorySeparatorChar.ToString(), ""));
+                string dest = "backup" + Path.DirectorySeparatorChar + s +
+                              $" ({GARC.Replace(Path.DirectorySeparatorChar.ToString(), "")})";
                 if (overwrite || !File.Exists(dest))
                     File.Copy(RomFSPath + GARC, dest);
             }
@@ -938,7 +942,8 @@ namespace pk3DS
             foreach (string s in g)
             {
                 string dest = RomFSPath + getGARCFileName(s);
-                string src = "backup" + Path.DirectorySeparatorChar + s + String.Format(" ({0})", getGARCFileName(s).Replace(Path.DirectorySeparatorChar.ToString(), ""));
+                string src = "backup" + Path.DirectorySeparatorChar + s +
+                             $" ({getGARCFileName(s).Replace(Path.DirectorySeparatorChar.ToString(), "")})";
                 File.Copy(src, dest, true);
                 if (s == "personal" || s == "gametext")
                     Util.Alert("In order to restore " + s + ", restart the program. While exiting, hold the Control Key to prevent writebacks.");
@@ -963,7 +968,7 @@ namespace pk3DS
         // Update RichTextBox
         public void updateStatus(string status, bool preBreak = true)
         {
-            string newtext = ((preBreak) ? Environment.NewLine : "") + status;
+            string newtext = (preBreak ? Environment.NewLine : "") + status;
             try
             {
                 if (RTB_Status.InvokeRequired)

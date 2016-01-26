@@ -325,7 +325,7 @@ namespace CTR
                     // length not 3 or more? next byte is raw data
                     if (length < 3)
                     {
-                        outbuffer[bufferlength++] = *(instart + (readBytes++));
+                        outbuffer[bufferlength++] = *(instart + readBytes++);
                     }
                     else
                     {
@@ -434,7 +434,7 @@ namespace CTR
 
                     if (lengths[readBytes] == 1)
                     {
-                        outbuffer[bufferlength++] = *(instart + (readBytes++));
+                        outbuffer[bufferlength++] = *(instart + readBytes++);
                     }
                     else
                     {
@@ -579,8 +579,8 @@ namespace CTR
     /// </summary>
     public class NotEnoughDataException : IOException
     {
-        private long currentOutSize;
-        private long totalOutSize;
+        private readonly long currentOutSize;
+        private readonly long totalOutSize;
         /// <summary>
         /// Gets the actual number of written bytes.
         /// </summary>
@@ -597,7 +597,7 @@ namespace CTR
         /// <param name="totalOutSize">The desired number of written bytes.</param>
         public NotEnoughDataException(long currentOutSize, long totalOutSize)
             : base("Not enough data availble; 0x" + currentOutSize.ToString("X")
-                + " of " + (totalOutSize < 0 ? "???" : ("0x" + totalOutSize.ToString("X")))
+                + " of " + (totalOutSize < 0 ? "???" : "0x" + totalOutSize.ToString("X"))
                 + " bytes written.")
         {
             this.currentOutSize = currentOutSize;

@@ -33,7 +33,7 @@ namespace pk3DS
         internal static byte[] readCompressed(byte[] data, int pos)
         {
             byte[] c1 = data.Skip(pos).TakeWhile(b => b >> 7 > 0).ToArray(); // Take while >= 0x80
-            return c1.Concat(data.Skip(pos + c1.Count()).Take(1)).ToArray(); // Take another
+            return c1.Concat(data.Skip(pos + c1.Length).Take(1)).ToArray(); // Take another
         }
         internal static byte[] decompressBytes(byte[] cb)
         {
@@ -42,7 +42,7 @@ namespace pk3DS
             if ((cb[0] & 0x40) > 0) // Signed Parameter
             {
                 // Check the next bytecode
-                if (cb.Length > 1 && (cb[1] >> 7) > 0) // Many-bits-required command
+                if (cb.Length > 1 && cb[1] >> 7 > 0) // Many-bits-required command
                 {
                     // 2 Byte Signed Parameter
                     int cmd = (cb[0] & 0x3 << 14) | (cb[1] & 0x7F << 7) | cb[2]; // 16 Bits total
@@ -51,10 +51,10 @@ namespace pk3DS
                     int dev = ((cb[0] & 0x3F) - 0x40) >> 2; // Lowest 2 bits have already been used for the command
                     db = db.Concat(BitConverter.GetBytes(dev).Take(2)).ToArray(); // 16 Bits
                 }
-                else if ((cb[0] >> 7) > 0) // Signed Command
+                else if (cb[0] >> 7 > 0) // Signed Command
                 {
                     // 3 Byte Signed Parameter
-                    int cmd = ((cb[0] << 7) | cb[1]);
+                    int cmd = (cb[0] << 7) | cb[1];
                     db = db.Concat(BitConverter.GetBytes(cmd).Take(1)).ToArray(); // 8 Bits Total
 
                     int dev = ((cb[0] & 0x3F) - 0x40) >> 1; // Lowest bit has already been used for the command
@@ -67,12 +67,12 @@ namespace pk3DS
                     db = db.Concat(BitConverter.GetBytes(dev).Take(4)).ToArray(); // 32 Bits
                 }
             }
-            else if ((cb[0] >> 7) > 0) // Manybit
+            else if (cb[0] >> 7 > 0) // Manybit
             {
                 Array.Reverse(cb);
                 int cmd = 0;
                 for (int i = 0; i < cb.Length; i++)
-                    cmd |= ((cb[i] & 0x7F) << (7 * i));
+                    cmd |= (cb[i] & 0x7F) << (7 * i);
 
                 db = db.Concat(BitConverter.GetBytes((uint)cmd).Take(4)).ToArray();
             }
@@ -92,10 +92,10 @@ namespace pk3DS
                 int b = data[f++], 
                     v = b & 0x7F;
                 if (++j == 1) // sign extension possible
-                    x = (uint)(((((v >> 6) == 0 ? 1 : 0) - 1) << 6) | v); // only for bit6 being set
-                else x = ((x << 7) | (byte)v); // shift data into place
+                    x = (uint)((((v >> 6 == 0 ? 1 : 0) - 1) << 6) | v); // only for bit6 being set
+                else x = (x << 7) | (byte)v; // shift data into place
 
-                if (((b & 0x80) != 0)) continue; // more data to read
+                if ((b & 0x80) != 0) continue; // more data to read
                 code[i++] = x; j = 0; // write finalized instruction
             }
             return code;
@@ -168,9 +168,9 @@ namespace pk3DS
                 int ctr = 0;
                 while (dv != 0) // bits remaining
                 {
-                    byte bits = (byte)(((byte)dv) & 0x7F); dv >>= 7; // Take off 7 bits at a time
+                    byte bits = (byte)((byte)dv & 0x7F); dv >>= 7; // Take off 7 bits at a time
                     bitStorage |= (byte)(bits << (ctr*8)); // Write the 7 bits into storage
-                    bitStorage |= (byte)(1 << (7 + (ctr++*8))); // continue reading flag
+                    bitStorage |= (byte)(1 << (7 + ctr++*8)); // continue reading flag
                 }
                 byte[] compressedBits = BitConverter.GetBytes(bitStorage);
 
@@ -190,7 +190,7 @@ namespace pk3DS
         {
             data = data ?? new byte[0];
             // Generates an x-byte wide space separated string array; leftovers included at the end.
-            string[] s = new string[data.Length/count + ((data.Length % count > 0) ? 1 : 0)];
+            string[] s = new string[data.Length/count + (data.Length % count > 0 ? 1 : 0)];
             for (int i = 0; i < s.Length;i++)
                 s[i] = BitConverter.ToString(data.Skip(i*count).Take(count).ToArray()).Replace('-', ' ');
             return s;
@@ -250,59 +250,37 @@ namespace pk3DS
                     case 0x2E: op = "Begin"; break;
                     case 0x30: op = "Return\n"; break;
                     case 0x31: op = "CallFunc";
-                        op += String.Format("[0x{0}] ({1})",
-                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
-                                  (int)cmd[i]);
+                        op += $"[0x{(i*4 + (int)cmd[++i]).ToString("X4")}] ({(int)cmd[i]})";
                         break;
                     case 0x33: op = "$33";
-                        op += String.Format(" => 0x{0} ({1})",
-                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
-                                  (int)cmd[i]);
+                        op += $" => 0x{(i*4 + (int)cmd[++i]).ToString("X4")} ({(int)cmd[i]})";
                         break;
                     case 0x34: op = "$34";
-                        op += String.Format(" => 0x{0} ({1})",
-                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
-                                  (int)cmd[i]);
+                        op += $" => 0x{(i*4 + (int)cmd[++i]).ToString("X4")} ({(int)cmd[i]})";
                         break;
                     case 0x35: op = "Jump!=";
-                        op += String.Format(" => 0x{0} ({1})",
-                                  (i*4 + (int)cmd[++i]).ToString("X4"),
-                                  (int)cmd[i]);
+                        op += $" => 0x{(i*4 + (int)cmd[++i]).ToString("X4")} ({(int)cmd[i]})";
                         break;
                     case 0x36: op = "Jump==";
-                        op += String.Format(" => 0x{0} ({1})",
-                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
-                                  (int)cmd[i]);
+                        op += $" => 0x{(i*4 + (int)cmd[++i]).ToString("X4")} ({(int)cmd[i]})";
                         break;
                     case 0x37: op = "$37";
-                        op += String.Format(" => 0x{0} ({1})",
-                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
-                                  (int)cmd[i]);
+                        op += $" => 0x{(i*4 + (int)cmd[++i]).ToString("X4")} ({(int)cmd[i]})";
                         break;
                     case 0x38: op = "$38";
-                        op += String.Format(" => 0x{0} ({1})",
-                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
-                                  (int)cmd[i]);
+                        op += $" => 0x{(i*4 + (int)cmd[++i]).ToString("X4")} ({(int)cmd[i]})";
                         break;
                     case 0x3D: op = "$3D";
-                        op += String.Format(" => 0x{0} ({1})",
-                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
-                                  (int)cmd[i]);
+                        op += $" => 0x{(i*4 + (int)cmd[++i]).ToString("X4")} ({(int)cmd[i]})";
                         break;
                     case 0x3E: op = "$3E";
-                        op += String.Format(" => 0x{0} ({1})",
-                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
-                                  (int)cmd[i]);
+                        op += $" => 0x{(i*4 + (int)cmd[++i]).ToString("X4")} ({(int)cmd[i]})";
                         break;
                     case 0x3F: op = "$3F";
-                        op += String.Format(" => 0x{0} ({1})",
-                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
-                                  (int)cmd[i]);
+                        op += $" => 0x{(i*4 + (int)cmd[++i]).ToString("X4")} ({(int)cmd[i]})";
                         break;
                     case 0x40: op = "$40";
-                        op += String.Format(" => 0x{0} ({1})",
-                                  (i * 4 + (int)cmd[++i]).ToString("X4"),
-                                  (int)cmd[i]);
+                        op += $" => 0x{(i*4 + (int)cmd[++i]).ToString("X4")} ({(int)cmd[i]})";
                         break;
                     case 0x41: op = "$41";
                         op += eA(new[] { c >> 16 }); break;
@@ -349,9 +327,7 @@ namespace pk3DS
                     case 0x78: op = "$78";
                         op += eA(new[] { cmd[++i] }); break;
                     case 0x81: op = "Jump";
-                        op += String.Format(" => 0x{0} ({1})",
-                                  (i*4 + (int)cmd[++i]).ToString("X4"),
-                                  (int)cmd[i]);
+                        op += $" => 0x{(i*4 + (int)cmd[++i]).ToString("X4")} ({(int)cmd[i]})";
                                 break;
                     case 0x82:
                     {
@@ -365,7 +341,7 @@ namespace pk3DS
                             jump[j] = (int)cmd[++i];
                             val[j] = (int)cmd[++i];
                             op += Environment.NewLine +
-                                     String.Format("\t{2} => 0x{0} ({1})",
+                                     string.Format("\t{2} => 0x{0} ({1})",
                                         ((i-1)*4 + jump[j]).ToString("X4"),
                                         jump[j],
                                         val[j]);
@@ -373,9 +349,7 @@ namespace pk3DS
                         // Else-Default
                         int elsejump = (int)cmd[++i];
                         op += Environment.NewLine +
-                                     String.Format("\t * => 0x{0} ({1})",
-                                        (((i - 1) * 4 + elsejump).ToString("X4")),
-                                        elsejump);
+                              $"\t * => 0x{((i - 1)*4 + elsejump).ToString("X4")} ({elsejump})";
                         break;
                     }
                     case 0x87: op = "DoCommand?";
@@ -451,10 +425,10 @@ namespace pk3DS
 
                     case 0xD2: op = "BeginScript"+Environment.NewLine; break;
                     case 0x0: op = "Nop"; break;
-                    default: op = String.Format("**${0}**", (c & 0xFFFF).ToString("X2"));
+                    default: op = $"**${(c & 0xFFFF).ToString("X2")}**";
                         op += eA(new[] { c >> 16 }); break;
                 }
-                rv[used++] = String.Format("0x{2}: [{0}] {1}", (c & 0x7FF).ToString("X2"), op, offset.ToString("X4"));
+                rv[used++] = string.Format("0x{2}: [{0}] {1}", (c & 0x7FF).ToString("X2"), op, offset.ToString("X4"));
             }
             Array.Resize(ref rv, used);  // End result will cap out at lines used.
             return rv;
@@ -469,14 +443,14 @@ namespace pk3DS
         {
             string s = "";
             for (int i = 0; i < arr.Length; i++)
-                s += String.Format("0x{0}{1}", arr[i].ToString("X4"), (i+1 < arr.Length ? ", " : ""));
+                s += $"0x{arr[i].ToString("X4")}{(i + 1 < arr.Length ? ", " : "")}";
             return "("+s+")";
         }
         internal static string eF(uint[] arr)
         {
             string s = "";
             for (int i = 0; i < arr.Length; i++)  // stupid hack, Convert.ToSingle((uint)) doesn't behave.
-                s += String.Format("{0}{1}", BitConverter.ToSingle(BitConverter.GetBytes(arr[i]), 0), (i + 1 < arr.Length ? ", " : ""));
+                s += $"{BitConverter.ToSingle(BitConverter.GetBytes(arr[i]), 0)}{(i + 1 < arr.Length ? ", " : "")}";
             return "(" + s + ")";
         }
     }

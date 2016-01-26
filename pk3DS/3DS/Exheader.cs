@@ -55,15 +55,15 @@ namespace CTR
 
         public bool isPokemon()
         {
-            return (isORAS() || isXY());
+            return isORAS() || isXY();
         }
         public bool isORAS()
         {
-            return (((TitleID & 0xFFFFFFFF) >> 8) == 0x11C5) || (((TitleID & 0xFFFFFFFF) >> 8) == 0x11C4);
+            return ((TitleID & 0xFFFFFFFF) >> 8 == 0x11C5) || ((TitleID & 0xFFFFFFFF) >> 8 == 0x11C4);
         }
         public bool isXY()
         {
-            return (((TitleID & 0xFFFFFFFF) >> 8) == 0x55D) || (((TitleID & 0xFFFFFFFF) >> 8) == 0x55E);
+            return ((TitleID & 0xFFFFFFFF) >> 8 == 0x55D) || ((TitleID & 0xFFFFFFFF) >> 8 == 0x55E);
         }
         public string GetPokemonSerial()
         {

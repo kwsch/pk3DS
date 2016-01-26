@@ -17,9 +17,9 @@ namespace pk3DS
             trClassnorep.Sort();
         }
 
-        private string[] trName = Main.getText((Main.oras) ? 22 : 21);
-        private string[] trClass = Main.getText((Main.oras) ? 21 : 20);
-        private List<string> trClassnorep;
+        private string[] trName = Main.getText(Main.oras ? 22 : 21);
+        private readonly string[] trClass = Main.getText(Main.oras ? 21 : 20);
+        private readonly List<string> trClassnorep;
 
         private void B_Close_Click(object sender, EventArgs e)
         {
@@ -51,7 +51,7 @@ namespace pk3DS
             RSTE.rClass = CHK_RandomClass.Checked;
             if (RSTE.rClass)
             {
-                RSTE.rIgnoreClass = (CHK_IgnoreSpecialClass.Checked)
+                RSTE.rIgnoreClass = CHK_IgnoreSpecialClass.Checked
                     ? Main.oras
                         ? Legal.SpecialClasses_ORAS
                         : Legal.SpecialClasses_XY
@@ -70,8 +70,8 @@ namespace pk3DS
             if (CHK_StoryMEvos.Checked)
             {
                 RSTE.rEnsureMEvo = Main.oras 
-                    ? (new [] { 178, 235, 557, 583, 687, 698, 699, 700, 701, 713, 906, 907, 908, 909, 910, 911, 912, 913, 942, 944, 946 }) 
-                    : (new [] { 188, 263, 276, 277, 519, 520, 521, 526, 599, 600, 601 });
+                    ? new [] { 178, 235, 557, 583, 687, 698, 699, 700, 701, 713, 906, 907, 908, 909, 910, 911, 912, 913, 942, 944, 946 } 
+                    : new [] { 188, 263, 276, 277, 519, 520, 521, 526, 599, 600, 601 };
             }
             else
             {
@@ -103,7 +103,7 @@ namespace pk3DS
         }
         private void changeLevelPercent(object sender, EventArgs e)
         {
-            CHK_Level.Checked = (NUD_Level.Value != 0);
+            CHK_Level.Checked = NUD_Level.Value != 0;
         }
         private void CHK_RandomGift_CheckedChanged(object sender, EventArgs e)
         {
@@ -112,7 +112,7 @@ namespace pk3DS
         }
         private void changeGiftPercent(object sender, EventArgs e)
         {
-            CHK_RandomGift.Checked = (NUD_GiftPercent.Value != 0);
+            CHK_RandomGift.Checked = NUD_GiftPercent.Value != 0;
         }
 
         private void CHK_TypeTheme_CheckedChanged(object sender, EventArgs e)
@@ -132,7 +132,7 @@ namespace pk3DS
         {
             CHK_Damage.Checked = CHK_STAB.Checked =
             CHK_Damage.Enabled = CHK_STAB.Enabled =
-            NUD_Damage.Enabled = NUD_STAB.Enabled = (CB_Moves.SelectedIndex == 1);
+            NUD_Damage.Enabled = NUD_STAB.Enabled = CB_Moves.SelectedIndex == 1;
 
             if (CB_Moves.SelectedIndex == 0)
                 CHK_6PKM.Checked = false;

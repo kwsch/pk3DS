@@ -272,7 +272,7 @@ namespace CTR
                 GCHandle pInput = GCHandle.Alloc(input, GCHandleType.Pinned);
 
                 /* Marshal data around, invoke ETC1.dll for conversion, etc */
-                UInt32 size1 = 0;
+                uint size1 = 0;
                 UInt16 w = (ushort)img.Width, h = (ushort)img.Height;
 
                 ETC1.ConvertETC1(IntPtr.Zero, ref size1, IntPtr.Zero, w, h, bclim.FileFormat == 0xB); // true = etc1a4, false = etc1
@@ -317,8 +317,8 @@ namespace CTR
                             for (int j = 0; j < 8; j++)
                                 // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.
                             {
-                                int x1 = (x + ((y/8)*h))%img2.Width; // Reshift x
-                                int y1 = ((x + ((y/8)*h))/img2.Width)*8; // Reshift y
+                                int x1 = (x + y/8*h)%img2.Width; // Reshift x
+                                int y1 = (x + y/8*h)/img2.Width*8; // Reshift y
                                 img2.SetPixel(x1, y1 + j, img.GetPixel(x, y + j)); // Reswizzle
                             }
                         }
@@ -336,7 +336,7 @@ namespace CTR
                                 // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.
                             {
                                 int x1 = x%img2.Width; // Reshift x
-                                int y1 = ((x + ((y/8)*h))/img2.Width)*8; // Reshift y
+                                int y1 = (x + y/8*h)/img2.Width*8; // Reshift y
                                 img2.SetPixel(x1, y1 + j, img.GetPixel(x, y + j)); // Reswizzle
                             }
                         }
@@ -416,7 +416,7 @@ namespace CTR
                     if (c.A == 0) index = 0;
                     if (index < 0)  // If new color
                     { pcs[ctr] = c; index = ctr; ctr++; }
-                    pixelarray[i / div] |= (byte)(index);
+                    pixelarray[i / div] |= (byte)index;
                     i++;
                 }
 
@@ -448,7 +448,7 @@ namespace CTR
             int w = img.Width;
             int h = img.Height;
 
-            bool perfect = (w == h && (w != 0) && ((w & (w - 1)) == 0));
+            bool perfect = w == h && (w != 0) && ((w & (w - 1)) == 0);
             if (!perfect) // Check if square power of two, else resize
             {
                 // Square Format Checks
@@ -567,7 +567,7 @@ namespace CTR
                     alpha = (byte)(val & 0x0F);
                     return Color.FromArgb(alpha, red, red, red);
                 case 3: // LA8
-                    red = (byte)((val >> 8 & 0xFF));
+                    red = (byte)(val >> 8 & 0xFF);
                     alpha = (byte)(val & 0xFF);
                     return Color.FromArgb(alpha, red, red, red);
                 case 4: // HILO8
@@ -628,15 +628,15 @@ namespace CTR
         }        // A8
         internal static byte GetLA4(Color c)
         {
-            return (byte)((c.A / 0x11) + (c.R / 0x11) << 4);
+            return (byte)(c.A / 0x11 + c.R / 0x11 << 4);
         }       // LA4
         internal static ushort GetLA8(Color c)
         {
-            return (ushort)((c.A) + ((c.R) << 8));
+            return (ushort)(c.A + (c.R << 8));
         }     // LA8
         internal static ushort GetHILO8(Color c)
         {
-            return (ushort)((c.G) + ((c.R) << 8));
+            return (ushort)(c.G + (c.R << 8));
         }   // HILO8
         internal static ushort GetRGB565(Color c)
         {
@@ -662,10 +662,10 @@ namespace CTR
         internal static ushort GetRGBA4444(Color c)
         {
             int val = 0;
-            val += (c.A / 0x11);
-            val += ((c.B / 0x11) << 4);
-            val += ((c.G / 0x11) << 8);
-            val += ((c.R / 0x11) << 12);
+            val += c.A / 0x11;
+            val += (c.B / 0x11) << 4;
+            val += (c.G / 0x11) << 8;
+            val += (c.R / 0x11) << 12;
             return (ushort)val;
         }// RGBA4444
         internal static uint GetRGBA8888(Color c)     // RGBA8888
@@ -690,15 +690,15 @@ namespace CTR
             while (colorval > Convert8to5[i]) i++;
             return i;
         }
-        internal static UInt32 DM2X(UInt32 code)
+        internal static uint DM2X(uint code)
         {
             return C11(code >> 0);
         }
-        internal static UInt32 DM2Y(UInt32 code)
+        internal static uint DM2Y(uint code)
         {
             return C11(code >> 1);
         }
-        internal static UInt32 C11(UInt32 x)
+        internal static uint C11(uint x)
         {
             x &= 0x55555555;                  // x = -f-e -d-c -b-a -9-8 -7-6 -5-4 -3-2 -1-0
             x = (x ^ (x >> 1)) & 0x33333333; // x = --fe --dc --ba --98 --76 --54 --32 --10
@@ -716,7 +716,7 @@ namespace CTR
         /// <returns>Rounded up number.</returns>
         internal static int gcm(int n, int m)
         {
-            return ((n + m - 1) / m) * m;
+            return (n + m - 1) / m * m;
         }
         /// <summary>
         /// Next Largest Power of 2
@@ -726,12 +726,12 @@ namespace CTR
         internal static int nlpo2(int x)
         {
             x--; // comment out to always take the next biggest power of two, even if x is already a power of two
-            x |= (x >> 1);
-            x |= (x >> 2);
-            x |= (x >> 4);
-            x |= (x >> 8);
-            x |= (x >> 16);
-            return (x+1);
+            x |= x >> 1;
+            x |= x >> 2;
+            x |= x >> 4;
+            x |= x >> 8;
+            x |= x >> 16;
+            return x+1;
         }
 
         // Morton Translation
@@ -745,20 +745,20 @@ namespace CTR
         {
 	        x &= 0x0000ffff;
 	        y &= 0x0000ffff;
-	        x |= (x << 8);
-	        y |= (y << 8);
+	        x |= x << 8;
+	        y |= y << 8;
 	        x &= 0x00ff00ff;
 	        y &= 0x00ff00ff;
-	        x |= (x << 4);
-	        y |= (y << 4);
+	        x |= x << 4;
+	        y |= y << 4;
 	        x &= 0x0f0f0f0f;
 	        y &= 0x0f0f0f0f;
-	        x |= (x << 2);
-	        y |= (y << 2);
+	        x |= x << 2;
+	        y |= y << 2;
 	        x &= 0x33333333;
 	        y &= 0x33333333;
-	        x |= (x << 1);
-	        y |= (y << 1);
+	        x |= x << 1;
+	        y |= y << 1;
 	        x &= 0x55555555;
 	        y &= 0x55555555;
 	        return x | (y << 1);
@@ -772,23 +772,23 @@ namespace CTR
         internal static void d2xy(uint d, out uint x, out uint y)
         {
 	        x = d;
-	        y = (x >> 1);
+	        y = x >> 1;
 	        x &= 0x55555555;
 	        y &= 0x55555555;
-	        x |= (x >> 1);
-	        y |= (y >> 1);
+	        x |= x >> 1;
+	        y |= y >> 1;
 	        x &= 0x33333333;
 	        y &= 0x33333333;
-	        x |= (x >> 2);
-	        y |= (y >> 2);
+	        x |= x >> 2;
+	        y |= y >> 2;
 	        x &= 0x0f0f0f0f;
 	        y &= 0x0f0f0f0f;
-	        x |= (x >> 4);
-	        y |= (y >> 4);
+	        x |= x >> 4;
+	        y |= y >> 4;
 	        x &= 0x00ff00ff;
 	        y &= 0x00ff00ff;
-	        x |= (x >> 8);
-	        y |= (y >> 8);
+	        x |= x >> 8;
+	        y |= y >> 8;
 	        x &= 0x0000ffff;
 	        y &= 0x0000ffff;
         }
@@ -867,24 +867,24 @@ namespace CTR
         }
         public struct CLIM
         {
-            public UInt32 Magic;        // CLIM = 0x4D494C43
+            public uint Magic;        // CLIM = 0x4D494C43
             public UInt16 BOM;          // 0xFFFE
-            public UInt32 CLIMLength;   // HeaderLength - 14
+            public uint CLIMLength;   // HeaderLength - 14
             public int TileWidth;       // 1<<[[n]]
             public int TileHeight;      // 1<<[[n]]
-            public UInt32 totalLength;  // Total Length of file
-            public UInt32 Count;        // "1" , guessing it's just Count.
+            public uint totalLength;  // Total Length of file
+            public uint Count;        // "1" , guessing it's just Count.
 
             public char[] imag;         // imag = 0x67616D69
-            public UInt32 imagLength;   // HeaderLength - 10
+            public uint imagLength;   // HeaderLength - 10
             public UInt16 Width;        // Final Dimensions
             public UInt16 Height;       // Final Dimensions
-            public Int32 FileFormat;    // ??
-            public UInt32 dataLength;   // Pixel Data Region Length
+            public int FileFormat;    // ??
+            public uint dataLength;   // Pixel Data Region Length
 
             public byte[] Data;
 
-            public Int32 BaseSize;
+            public int BaseSize;
 
             //// Contained Data
             //public int ColorFormat;

@@ -19,19 +19,21 @@ namespace pk3DS
             Setup();
         }
         string[] files = Directory.GetFiles("move");
-        string[] types = Main.getText((Main.oras) ? 18 : 17);
-        string[] moveflavor = Main.getText((Main.oras) ? 16 : 15);
-        string[] movelist = Main.getText((Main.oras) ? 14 : 13);
-        string[] sortedmoves;
-        string[] MoveCategories = { "Status", "Physical", "Special", };
-        string[] StatCategories = { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
-        string[] TargetingTypes =
+        readonly string[] types = Main.getText(Main.oras ? 18 : 17);
+        readonly string[] moveflavor = Main.getText(Main.oras ? 16 : 15);
+        readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        readonly string[] sortedmoves;
+        readonly string[] MoveCategories = { "Status", "Physical", "Special", };
+        readonly string[] StatCategories = { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
+
+        readonly string[] TargetingTypes =
         { "Single Adjacent Ally/Foe", 
             "Any Ally", "Any Adjacent Ally", "Single Adjacent Foe", "Everyone but User", "All Foes", 
             "All Allies", "Self", "All Pokemon on Field", "Single Adjacent Foe (2)", "Entire Field", 
             "Opponent's Field", "User's Field", "Self", 
         };
-        string[] InflictionTypes =
+
+        readonly string[] InflictionTypes =
         { "None", 
             "Paralyze", "Sleep", "Freeze", "Burn", "Poison", 
             "Confusion", "Attract", "Capture", "Nightmare", "Curse", 
@@ -39,7 +41,8 @@ namespace pk3DS
             "?", "Detect", "Leech Seed", "Embargo", "Perish Song", 
             "Ingrain", 
         };
-        string[] MoveQualities =
+
+        readonly string[] MoveQualities =
         { "Only DMG", 
             "No DMG -> Inflict Status", "No DMG -> -Target/+User Stat", "No DMG | Heal User", "DMG | Inflict Status", "No DMG | STATUS | +Target Stat", 
             "DMG | -Target Stat", "DMG | +User Stat", "DMG | Absorbs DMG", "One-Hit KO", "Affects Whole Field", 
@@ -86,7 +89,7 @@ namespace pk3DS
                 NUD_HitMin.Value = data[0x7] & 0xF;
                 NUD_HitMax.Value = data[0x7] >> 4;
                 short inflictVal = BitConverter.ToInt16(data, 0x08);
-                CB_Inflict.SelectedIndex = (inflictVal < 0) ? CB_Inflict.Items.Count - 1 : inflictVal;
+                CB_Inflict.SelectedIndex = inflictVal < 0 ? CB_Inflict.Items.Count - 1 : inflictVal;
                 NUD_Inflict.Value = data[0xA];
                 NUD_0xB.Value = data[0xB]; // 0xB ~ Something to deal with skipImmunity
                 NUD_TurnMin.Value = data[0xC];
@@ -130,7 +133,7 @@ namespace pk3DS
                 data[0x03] = (byte)NUD_Power.Value;
                 data[0x04] = (byte)NUD_Accuracy.Value;
                 data[0x05] = (byte)NUD_PP.Value;
-                data[0x06] = (byte)((int)NUD_Priority.Value);
+                data[0x06] = (byte)(int)NUD_Priority.Value;
                 data[0x07] = (byte)((byte)NUD_HitMin.Value | ((byte)NUD_HitMax.Value << 4));
                 int inflictval = CB_Inflict.SelectedIndex; if (inflictval == CB_Inflict.Items.Count) inflictval = -1;
                 Array.Copy(BitConverter.GetBytes((short)inflictval), 0, data, 0x08, 2);
@@ -141,15 +144,15 @@ namespace pk3DS
                 data[0x0E] = (byte)NUD_CritStage.Value;
                 data[0x0F] = (byte)NUD_Flinch.Value;
                 Array.Copy(BitConverter.GetBytes((ushort)NUD_Effect.Value), 0, data, 0x10, 2);
-                data[0x12] = (byte)((int)NUD_Recoil.Value);
+                data[0x12] = (byte)(int)NUD_Recoil.Value;
                 data[0x13] = (byte)NUD_Heal.Value;
                 data[0x14] = (byte)CB_Targeting.SelectedIndex;
                 data[0x15] = (byte)CB_Stat1.SelectedIndex;
                 data[0x16] = (byte)CB_Stat2.SelectedIndex;
                 data[0x17] = (byte)CB_Stat3.SelectedIndex;
-                data[0x18] = (byte)((int)NUD_Stat1.Value);
-                data[0x19] = (byte)((int)NUD_Stat2.Value);
-                data[0x1A] = (byte)((int)NUD_Stat3.Value);
+                data[0x18] = (byte)(int)NUD_Stat1.Value;
+                data[0x19] = (byte)(int)NUD_Stat2.Value;
+                data[0x1A] = (byte)(int)NUD_Stat3.Value;
                 data[0x1B] = (byte)NUD_StatP1.Value;
                 data[0x1C] = (byte)NUD_StatP2.Value;
                 data[0x1D] = (byte)NUD_StatP3.Value;

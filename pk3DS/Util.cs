@@ -6,7 +6,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -15,63 +14,38 @@ namespace pk3DS
     { // Image Layering/Blending Utility
         internal static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double trans)
         {
-            Bitmap overlayImage = (Bitmap)overLayer;
-            Bitmap newImage = (Bitmap)baseLayer;
-            if (baseLayer == null) return overlayImage;
-            for (int i = 0; i < (overlayImage.Width * overlayImage.Height); i++)
+            Bitmap img = new Bitmap(baseLayer.Width, baseLayer.Height);
+            using (Graphics gr = Graphics.FromImage(img))
             {
-                Color newColor = overlayImage.GetPixel(i % (overlayImage.Width), i / (overlayImage.Width));
-                Color oldColor = newImage.GetPixel(i % (overlayImage.Width) + x, i / (overlayImage.Width) + y);
-                newColor = Color.FromArgb((int)(newColor.A * trans), newColor.R, newColor.G, newColor.B); // Apply transparency change
-                // if (newColor.A != 0) // If Pixel isn't transparent, we'll overwrite the color.
-                {
-                    // if (newColor.A < 100) 
-                    newColor = AlphaBlend(newColor, oldColor);
-                    newImage.SetPixel(
-                        i % (overlayImage.Width) + x,
-                        i / (overlayImage.Width) + y,
-                        newColor);
-                }
+                gr.DrawImage(baseLayer, new Point(0, 0));
+                Bitmap o = ChangeOpacity(overLayer, trans);
+                gr.DrawImage(o, new Rectangle(x, y, overLayer.Width, overLayer.Height));
             }
-            return newImage;
+            return img;
         }
         internal static Bitmap ChangeOpacity(Image img, double trans)
         {
-            if (img == null) return null;
-            Bitmap bmp = new Bitmap(img.Width, img.Height); // Determining Width and Height of Source Image
-            Graphics graphics = Graphics.FromImage(bmp);
-            ColorMatrix colormatrix = new ColorMatrix();
-            colormatrix.Matrix33 = (float)trans;
-            ImageAttributes imgAttribute = new ImageAttributes();
-            imgAttribute.SetColorMatrix(colormatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-            graphics.DrawImage(img, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgAttribute);
-            graphics.Dispose();   // Releasing all resource used by graphics
+            if (img == null)
+                return null;
+            if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
+                return (Bitmap)img;
+
+            Bitmap bmp = (Bitmap)img.Clone();
+            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            IntPtr ptr = bmpData.Scan0;
+
+            int len = bmp.Width * bmp.Height * 4;
+            byte[] data = new byte[len];
+
+            Marshal.Copy(ptr, data, 0, len);
+
+            for (int i = 0; i < data.Length; i += 4)
+                data[i + 3] = (byte)(data[i + 3] * trans);
+
+            Marshal.Copy(data, 0, ptr, len);
+            bmp.UnlockBits(bmpData);
+
             return bmp;
-        }
-        internal static Color AlphaBlend(Color ForeGround, Color BackGround)
-        {
-            if (ForeGround.A == 0)
-                return BackGround;
-            if (BackGround.A == 0)
-                return ForeGround;
-            if (ForeGround.A == 255)
-                return ForeGround;
-            int Alpha = Convert.ToInt32(ForeGround.A);
-            int B = Alpha * ForeGround.B + (255 - Alpha) * BackGround.B >> 8;
-            int G = Alpha * ForeGround.G + (255 - Alpha) * BackGround.G >> 8;
-            int R = Alpha * ForeGround.R + (255 - Alpha) * BackGround.R >> 8;
-            int A = ForeGround.A;
-            if (BackGround.A == 255)
-                A = 255;
-            if (A > 255)
-                A = 255;
-            if (R > 255)
-                R = 255;
-            if (G > 255)
-                G = 255;
-            if (B > 255)
-                B = 255;
-            return Color.FromArgb(Math.Abs(A), Math.Abs(R), Math.Abs(G), Math.Abs(B));
         }
         internal static Bitmap getSprite(int species, int form, int gender, int item)
         {
@@ -123,8 +97,8 @@ namespace pk3DS
         internal static FileInfo GetNewestFile(DirectoryInfo directory)
         {
             return directory.GetFiles()
-                .Union(directory.GetDirectories().Select(d => GetNewestFile(d)))
-                .OrderByDescending(f => (f == null ? DateTime.MinValue : f.LastWriteTime))
+                .Union(directory.GetDirectories().Select(GetNewestFile))
+                .OrderByDescending(f => f?.LastWriteTime ?? DateTime.MinValue)
                 .FirstOrDefault();
         }
         internal static string NormalizePath(string path)
@@ -147,7 +121,7 @@ namespace pk3DS
         internal static string[] getStringList(string f, string l)
         {
             object txt = Properties.Resources.ResourceManager.GetObject("text_" + f + "_" + l); // Fetch File, \n to list.
-            List<string> rawlist = ((string)txt).Split(new char[] { '\n' }).ToList();
+            List<string> rawlist = ((string)txt).Split('\n').ToList();
 
             string[] stringdata = new string[rawlist.Count];
             for (int i = 0; i < rawlist.Count; i++)
@@ -158,7 +132,7 @@ namespace pk3DS
         internal static string[] getSimpleStringList(string f)
         {
             object txt = Properties.Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.
-            List<string> rawlist = ((string)txt).Split(new char[] { '\n' }).ToList();
+            List<string> rawlist = ((string)txt).Split('\n').ToList();
 
             string[] stringdata = new string[rawlist.Count];
             for (int i = 0; i < rawlist.Count; i++)
@@ -194,27 +168,27 @@ namespace pk3DS
             string value = tb.Text;
             return ToUInt32(value);
         }
-        internal static int ToInt32(String value)
+        internal static int ToInt32(string value)
         {
             value = value.Replace(" ", "");
-            if (String.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 return 0;
             try
             {
-                value = value.TrimEnd(new char[] { '_' });
-                return Int32.Parse(value);
+                value = value.TrimEnd('_');
+                return int.Parse(value);
             }
             catch { return 0; }
         }
-        internal static uint ToUInt32(String value)
+        internal static uint ToUInt32(string value)
         {
             value = value.Replace(" ", "");
-            if (String.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 return 0;
             try
             {
-                value = value.TrimEnd(new char[] { '_' });
-                return UInt32.Parse(value);
+                value = value.TrimEnd('_');
+                return uint.Parse(value);
             }
             catch { return 0; }
         }
@@ -223,11 +197,11 @@ namespace pk3DS
             if (tb.Text == null)
                 return 0;
             string str = getOnlyHex(tb.Text);
-            return UInt32.Parse(str, NumberStyles.HexNumber);
+            return uint.Parse(str, NumberStyles.HexNumber);
         }
         internal static int getIndex(ComboBox cb)
         {
-            int val = 0;
+            int val;
             if (cb.SelectedValue == null)
                 return 0;
 
@@ -241,12 +215,11 @@ namespace pk3DS
         {
             if (str == null) return "0";
 
-            char c;
             string s = "";
 
-            for (int i = 0; i < str.Length; i++)
+            foreach (char t in str)
             {
-                c = str[i];
+                var c = t;
                 // filter for hex
                 if ((c < 0x0047 && c > 0x002F) || (c < 0x0067 && c > 0x0060))
                     s += c;
@@ -272,24 +245,18 @@ namespace pk3DS
         }
 
         // Form Translation
-        internal static void TranslateInterface(Control form, string lang, MenuStrip menu = null)
+        internal static void TranslateInterface(Control form, string lang)
         {
-            string FORM_NAME = form.Name;
-            Control.ControlCollection Controls = form.Controls;
-            // debug(Controls);
-            // Fetch a File
             // Check to see if a the translation file exists in the same folder as the executable
-            string externalLangPath = System.Windows.Forms.Application.StartupPath + Path.DirectorySeparatorChar + "lang_" + lang + ".txt";
+            string externalLangPath = "lang_" + lang + ".txt";
             string[] rawlist;
             if (File.Exists(externalLangPath))
                 rawlist = File.ReadAllLines(externalLangPath);
             else
             {
-                object txt;
-                txt = Properties.Resources.ResourceManager.GetObject("lang_" + lang); // Fetch File, \n to list.
+                object txt = Properties.Resources.ResourceManager.GetObject("lang_" + lang);
                 if (txt == null) return; // Translation file does not exist as a resource; abort this function and don't translate UI.
-                string[] stringSeparators = new string[] { "\r\n" }; // Resource files are notepad compatible
-                rawlist = ((string)txt).Split(stringSeparators, StringSplitOptions.None);
+                rawlist = ((string)txt).Split(new[] { "\n" }, StringSplitOptions.None);
                 rawlist = rawlist.Select(i => i.Trim()).ToArray(); // Remove trailing spaces
             }
 
@@ -298,78 +265,89 @@ namespace pk3DS
             for (int i = 0; i < rawlist.Length; i++)
             {
                 // Find our starting point
-                if (rawlist[i].Contains("! " + FORM_NAME)) // Start our data
+                if (!rawlist[i].Contains("! " + form.Name)) continue;
+
+                // Allow renaming of the Window Title
+                string[] WindowName = rawlist[i].Split(new[] { " = " }, StringSplitOptions.None);
+                if (WindowName.Length > 1) form.Text = WindowName[1];
+                // Copy our Control Names and Text to a new array for later processing.
+                for (int j = i + 1; j < rawlist.Length; j++)
                 {
-                    // Allow renaming of the Window Title
-                    string[] WindowName = Regex.Split(rawlist[i], " = ");
-                    if (WindowName.Length > 1) form.Text = WindowName[1];
-                    // Copy our Control Names and Text to a new array for later processing.
-                    for (int j = i + 1; j < rawlist.Length; j++)
-                    {
-                        if (rawlist[j].Length == 0)
-                            continue; // Skip Over Empty Lines, errhandled
-                        if (rawlist[j][0].ToString() != "-") // If line is not a comment line...
-                        {
-                            if (rawlist[j][0].ToString() == "!") // Stop if we have reached the end of translation
-                                goto rename;
-                            stringdata[itemsToRename] = rawlist[j]; // Add the entry to process later.
-                            itemsToRename++;
-                        }
-                    }
+                    if (rawlist[j].Length == 0) continue; // Skip Over Empty Lines, errhandled
+                    if (rawlist[j][0].ToString() == "-") continue; // Keep translating if line is a comment line
+                    if (rawlist[j][0].ToString() == "!") // Stop if we have reached the end of translation
+                        goto rename;
+                    stringdata[itemsToRename] = rawlist[j]; // Add the entry to process later.
+                    itemsToRename++;
                 }
             }
             return; // Not Found
 
             // Now that we have our items to rename in: Control = Text format, let's execute the changes!
-        rename:
+            rename:
             for (int i = 0; i < itemsToRename; i++)
             {
-                string[] SplitString = Regex.Split(stringdata[i], " = ");
+                string[] SplitString = stringdata[i].Split(new[] { " = " }, StringSplitOptions.None);
                 if (SplitString.Length < 2)
                     continue; // Error in Input, errhandled
                 string ctrl = SplitString[0]; // Control to change the text of...
                 string text = SplitString[1]; // Text to set Control.Text to...
-                Control[] controllist = Controls.Find(ctrl, true);
-                if (controllist.Length == 0) // If Control isn't found...
-                    try
-                    {
-                        // Menu Items can't be found with Controls.Find as they aren't Controls
-                        ToolStripDropDownItem TSI = (ToolStripDropDownItem)menu.Items[ctrl];
-                        if (TSI != null)
-                        {
-                            // We'll rename the main and child in a row.
-                            string[] ToolItems = Regex.Split(SplitString[1], " ; ");
-                            TSI.Text = ToolItems[0]; // Set parent's text first
-                            if (TSI.DropDownItems.Count != ToolItems.Length - 1)
-                                continue; // Error in Input, errhandled
-                            for (int ti = 1; ti <= TSI.DropDownItems.Count; ti++)
-                                TSI.DropDownItems[ti - 1].Text = ToolItems[ti]; // Set child text
-                        }
-                        // If not found, it is not something to rename and is thus skipped.
-                    }
-                    catch { }
-                else // Set the input control's text.
-                    controllist[0].Text = text;
+                Control[] controllist = form.Controls.Find(ctrl, true);
+                if (controllist.Length != 0) // If Control is found
+                { controllist[0].Text = text; goto next; }
+
+                // Check MenuStrips
+                foreach (MenuStrip menu in form.Controls.OfType<MenuStrip>())
+                {
+                    // Menu Items aren't in the Form's Control array. Find within the menu's Control array.
+                    ToolStripItem[] TSI = menu.Items.Find(ctrl, true);
+                    if (TSI.Length <= 0) continue;
+
+                    TSI[0].Text = text; goto next;
+                }
+                // Check ContextMenuStrips
+                foreach (ContextMenuStrip cs in FindContextMenuStrips(form.Controls.OfType<Control>()).Distinct())
+                {
+                    ToolStripItem[] TSI = cs.Items.Find(ctrl, true);
+                    if (TSI.Length <= 0) continue;
+
+                    TSI[0].Text = text; goto next;
+                }
+
+                next:;
             }
+        }
+        internal static List<ContextMenuStrip> FindContextMenuStrips(IEnumerable<Control> c)
+        {
+            List<ContextMenuStrip> cs = new List<ContextMenuStrip>();
+            foreach (Control control in c)
+            {
+                if (control.ContextMenuStrip != null)
+                    cs.Add(control.ContextMenuStrip);
+
+                else if (control.Controls.Count > 0)
+                    cs.AddRange(FindContextMenuStrips(control.Controls.OfType<Control>()));
+            }
+            return cs;
         }
 
         // Message Displays
         internal static DialogResult Error(params string[] lines)
         {
             System.Media.SystemSounds.Exclamation.Play();
-            string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
+            string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         internal static DialogResult Alert(params string[] lines)
         {
             System.Media.SystemSounds.Asterisk.Play();
-            string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
+            string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         internal static DialogResult Prompt(MessageBoxButtons btn, params string[] lines)
         {
             System.Media.SystemSounds.Question.Play();
-            string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
+            string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
 
@@ -382,11 +360,10 @@ namespace pk3DS
         internal static List<cbItem> getCBList(string textfile, string lang)
         {
             // Set up
-            List<cbItem> cbList = new List<cbItem>();
-            string[] inputCSV = Util.getSimpleStringList(textfile);
+            string[] inputCSV = getSimpleStringList(textfile);
 
             // Get Language we're fetching for
-            int index = Array.IndexOf(new string[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
+            int index = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
 
             // Set up our Temporary Storage
             string[] unsortedList = new string[inputCSV.Length - 1];
@@ -406,20 +383,16 @@ namespace pk3DS
             Array.Sort(sortedList);
 
             // Arrange the input data based on original number
-            for (int i = 0; i < sortedList.Length; i++)
+            return sortedList.Select(t => new cbItem
             {
-                cbItem ncbi = new cbItem();
-                ncbi.Text = sortedList[i];
-                ncbi.Value = indexes[Array.IndexOf(unsortedList, sortedList[i])];
-                cbList.Add(ncbi);
-            }
-            return cbList;
+                Text = t, Value = indexes[Array.IndexOf(unsortedList, t)]
+            }).ToList();
         }
         internal static List<cbItem> getCBList(string[] inStrings, params int[][] allowed)
         {
             List<cbItem> cbList = new List<cbItem>();
             if (allowed == null)
-                allowed = new int[][] { Enumerable.Range(0, inStrings.Length).ToArray() };
+                allowed = new[] { Enumerable.Range(0, inStrings.Length).ToArray() };
 
             foreach (int[] list in allowed)
             {
@@ -433,13 +406,10 @@ namespace pk3DS
                 Array.Sort(sortedChoices);
 
                 // Add the rest of the items
-                for (int i = 0; i < sortedChoices.Length; i++)
+                cbList.AddRange(sortedChoices.Select(t => new cbItem
                 {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortedChoices[i];
-                    ncbi.Value = list[Array.IndexOf(unsortedChoices, sortedChoices[i])];
-                    cbList.Add(ncbi);
-                }
+                    Text = t, Value = list[Array.IndexOf(unsortedChoices, t)]
+                }));
             }
             return cbList;
         }
@@ -463,13 +433,10 @@ namespace pk3DS
                 Array.Sort(sortedChoices);
 
                 // Add the rest of the items
-                for (int i = 0; i < sortedChoices.Length; i++)
+                cbList.AddRange(sortedChoices.Select(t => new cbItem
                 {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortedChoices[i];
-                    ncbi.Value = allowed[Array.IndexOf(unsortedChoices, sortedChoices[i])];
-                    cbList.Add(ncbi);
-                }
+                    Text = t, Value = allowed[Array.IndexOf(unsortedChoices, t)]
+                }));
             }
             return cbList;
         }
@@ -481,9 +448,11 @@ namespace pk3DS
             for (int i = 4; i > 1; i--) // add 4,3,2
             {
                 // First 3 Balls are always first
-                cbItem ncbi = new cbItem();
-                ncbi.Text = inStrings[i];
-                ncbi.Value = i;
+                cbItem ncbi = new cbItem
+                {
+                    Text = inStrings[i],
+                    Value = i
+                };
                 newlist.Add(ncbi);
             }
 
@@ -497,28 +466,27 @@ namespace pk3DS
             Array.Sort(sortedballs);
 
             // Add the rest of the balls
-            for (int i = 0; i < sortedballs.Length; i++)
+            newlist.AddRange(sortedballs.Select(t => new cbItem
             {
-                cbItem ncbi = new cbItem();
-                ncbi.Text = sortedballs[i];
-                ncbi.Value = stringVal[Array.IndexOf(ballnames, sortedballs[i])];
-                newlist.Add(ncbi);
-            }
+                Text = t, Value = stringVal[Array.IndexOf(ballnames, t)]
+            }));
             return newlist;
         }
         internal static List<cbItem> getUnsortedCBList(string textfile)
         {
             // Set up
             List<cbItem> cbList = new List<cbItem>();
-            string[] inputCSV = Util.getSimpleStringList(textfile);
+            string[] inputCSV = getSimpleStringList(textfile);
 
             // Gather our data from the input file
             for (int i = 1; i < inputCSV.Length; i++)
             {
                 string[] inputData = inputCSV[i].Split(',');
-                cbItem ncbi = new cbItem();
-                ncbi.Value = Convert.ToInt32(inputData[0]);
-                ncbi.Text = inputData[1];
+                cbItem ncbi = new cbItem
+                {
+                    Value = Convert.ToInt32(inputData[0]),
+                    Text = inputData[1]
+                };
                 cbList.Add(ncbi);
             }
             return cbList;
@@ -562,7 +530,7 @@ namespace pk3DS
                         if (br.ReadUInt32() == 0x63726164)
                             return "darc";
                     }
-                    catch { };
+                    catch { }
 
                     // check for bclim
                     try
@@ -606,8 +574,8 @@ namespace pk3DS
         }
         internal static string GuessExtension(string path, bool bypass)
         {
-            using (BinaryReader br = new BinaryReader(System.IO.File.OpenRead(path)))
-                return Util.GuessExtension(br, "bin", bypass);
+            using (BinaryReader br = new BinaryReader(File.OpenRead(path)))
+                return GuessExtension(br, "bin", bypass);
         }
         internal static uint Reverse(uint x)
         {
@@ -650,7 +618,7 @@ namespace pk3DS
         }
         internal static void resizeJagged(ref byte[][] array, int size, int lowLen)
         {
-            int oldSize = (array == null) ? 0 : array.Length;
+            int oldSize = array?.Length ?? 0;
             Array.Resize(ref array, size);
 
             // Zero fill new data
@@ -688,7 +656,7 @@ namespace pk3DS
         // http://stackoverflow.com/questions/4820212/automatically-trim-a-bitmap-to-minimum-size
         internal static Bitmap TrimBitmap(Bitmap source)
         {
-            Rectangle srcRect = default(Rectangle);
+            Rectangle srcRect;
             BitmapData data = null;
             try
             {

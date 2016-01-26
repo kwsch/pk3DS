@@ -27,7 +27,7 @@ namespace pk3DS
                     "a218" };
         }
         private string garc;
-        private string[] banlist;
+        private readonly string[] banlist;
 
         private void updateLabel(object sender, EventArgs e)
         {
@@ -36,8 +36,7 @@ namespace pk3DS
 
             if (File.Exists(garc))
             {
-                L_File.Text = String.Format("File: a\\{0}\\{1}\\{2}",
-                    CB_a.SelectedIndex, CB_b.SelectedIndex, CB_c.SelectedIndex);
+                L_File.Text = $"File: a\\{CB_a.SelectedIndex}\\{CB_b.SelectedIndex}\\{CB_c.SelectedIndex}";
                 B_Shuffle.Enabled = true;
             }
             else
@@ -72,7 +71,7 @@ namespace pk3DS
             { Util.Alert("No files to shuffle...?"); return; }
             
             // Create backup
-            string dest = "backup" + Path.DirectorySeparatorChar + String.Format("PreShuffle {0}", garcID);
+            string dest = "backup" + Path.DirectorySeparatorChar + $"PreShuffle {garcID}";
             if (!File.Exists(dest))
                 File.Copy(garc, dest);
             

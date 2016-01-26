@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -28,15 +27,15 @@ namespace pk3DS
                 "Level Up",
                 "Trade",
                 "Trade with Held Item",
-                String.Format("Trade for opposite {0}/{1}", specieslist[588], specieslist[616]), // Shelmet&Karrablast
+                $"Trade for opposite {specieslist[588]}/{specieslist[616]}", // Shelmet&Karrablast
                 "Used Item",
                 "Level Up (Attack > Defense)",
                 "Level Up (Attack = Defense)",
                 "Level Up (Attack < Defense)",
                 "Level Up (Random < 5)",
                 "Level Up (Random > 5)",
-                String.Format("Level Up ({0})", specieslist[291]), // Ninjask
-                String.Format("Level Up ({0})", specieslist[292]), // Shedinja
+                $"Level Up ({specieslist[291]})", // Ninjask
+                $"Level Up ({specieslist[292]})", // Shedinja
                 "Level Up (Beauty)",
                 "Level Up with Held Item (Male)",
                 "Level Up with Held Item (Female)",
@@ -51,7 +50,7 @@ namespace pk3DS
                 "Level Up at Cold",
                 "Level Up with 3DS Upside Down",
                 "Level Up with 50 Affection + MoveType",
-                String.Format("{0} Type in Party", typelist[16]),
+                $"{typelist[16]} Type in Party",
                 "Overworld Rain",
                 "Level Up (@) at Night",
                 "Level Up (@) at Night",
@@ -75,15 +74,17 @@ namespace pk3DS
 
             CB_Species.SelectedIndex = 0;
         }
-        private string[] files = Directory.GetFiles("evolution");
-        private ComboBox[] pb, rb, mb;
-        private PictureBox[] pic;
+        private readonly string[] files = Directory.GetFiles("evolution");
+        private readonly ComboBox[] pb;
+        private readonly ComboBox[] rb;
+        private readonly ComboBox[] mb;
+        private readonly PictureBox[] pic;
         private int entry = -1;
-        private string[] sortedspecies;
-        private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
-        private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
-        private string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
-        private string[] typelist = Main.getText((Main.oras) ? 18 : 17);
+        private readonly string[] sortedspecies;
+        private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
+        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        private readonly string[] typelist = Main.getText(Main.oras ? 18 : 17);
         bool dumping;
         private Evolutions evo = new Evolutions(new byte[0x30]);
         private void getList()
@@ -202,7 +203,7 @@ namespace pk3DS
                     // int param = pb[j].SelectedIndex;
                     int poke = rb[j].SelectedIndex;
                     if (poke > 0 && methodval > 0)
-                        result += mb[j].Text + ((pb[j].Visible) ? " [" + pb[j].Text + "]" : "") + " into " + rb[j].Text + Environment.NewLine;
+                        result += mb[j].Text + (pb[j].Visible ? " [" + pb[j].Text + "]" : "") + " into " + rb[j].Text + Environment.NewLine;
                 }
 
                 result += Environment.NewLine;
@@ -239,7 +240,7 @@ namespace pk3DS
                 1, // 34 - Gender Branch
             };
 
-            pb[op].Visible = pic[op].Visible = rb[op].Visible = (mb[op].SelectedIndex > 0);
+            pb[op].Visible = pic[op].Visible = rb[op].Visible = mb[op].SelectedIndex > 0;
 
             pb[op].Items.Clear();
             int cv = methodCase[mb[op].SelectedIndex];

@@ -28,7 +28,7 @@ namespace CTR
 {
     public class BLZCoder
     {
-        public static void main(String[] args)
+        public static void main(string[] args)
         {
             new BLZCoder(args);
         }
@@ -46,13 +46,13 @@ namespace CTR
 
         private const int BLZ_MAXIM = 0x01400000;
         private const int RAW_MAXIM = 0x00FFFFFF;
-        bool arm9;
+        readonly bool arm9;
         int new_len;
         static void EXIT(string text)
         {
             Console.Write(text);
         }
-        private ProgressBar pBar1;
+        private readonly ProgressBar pBar1;
         private void initpBar(int max)
         {
             if (pBar1.InvokeRequired)
@@ -103,7 +103,7 @@ namespace CTR
                             BLZ_Decode(args[arg]);
                         break;
                     case 1:
-                        arm9 = (args[0].Length > 3 && args[0][3] == '9');
+                        arm9 = args[0].Length > 3 && args[0][3] == '9';
                         for (arg = 1; arg < args.Length; arg++)
                             BLZ_Encode(args[arg], mode);
                         break;
@@ -112,7 +112,7 @@ namespace CTR
 
             Console.Write(Environment.NewLine + "Done" + Environment.NewLine);
         }
-        private void Save(String filename, byte[] buffer, int length)
+        private void Save(string filename, byte[] buffer, int length)
         {
             Array.Resize(ref buffer, length);
             try
@@ -124,7 +124,7 @@ namespace CTR
                 Console.Write(Environment.NewLine + "Wrote to 'blz.bin' instead." + Environment.NewLine);
             }
         }
-        private void BLZ_Decode(String filename)
+        private void BLZ_Decode(string filename)
         {
             try
             {
@@ -222,7 +222,7 @@ namespace CTR
                 }
                 else
                 {
-                    if ((pak + 1) >= pak_end)
+                    if (pak + 1 >= pak_end)
                         break;
 
                     int pos = pak_buffer[pak++] << 8;
@@ -234,7 +234,7 @@ namespace CTR
                         len = raw_end - raw;
                     }
                     pos = (pos & 0xFFF) + 3;
-                    while ((len--) > 0)
+                    while (len-- > 0)
                     {
                         int charHere = raw_buffer[raw - pos];
                         raw_buffer[raw++] = (byte)charHere;
@@ -286,7 +286,7 @@ namespace CTR
             buffer[offset + 2] = (byte)((value >> 16) & 0xFF);
             buffer[offset + 3] = (byte)((value >> 24) & 0x7F);
         }
-        private void BLZ_Encode(String filename, int mode)
+        private void BLZ_Encode(string filename, int mode)
         {
             try
             {
@@ -300,7 +300,7 @@ namespace CTR
                     Save(filename, result.buffer, result.length);
 
                 stopwatch.Stop();
-                Console.Write(Environment.NewLine + "Done, time elapsed = " + (stopwatch.ElapsedMilliseconds) + "ms" + Environment.NewLine);
+                Console.Write(Environment.NewLine + "Done, time elapsed = " + stopwatch.ElapsedMilliseconds + "ms" + Environment.NewLine);
             }
             catch (IOException e)
             { Console.Write(Environment.NewLine + "File read error" + Environment.NewLine + e + Environment.NewLine); }
@@ -315,7 +315,7 @@ namespace CTR
             int pak_tmp = 0;
             int raw_tmp = raw_len;
 
-            int pak_len = raw_len + ((raw_len + 7) / 8) + 11;
+            int pak_len = raw_len + (raw_len + 7) / 8 + 11;
             byte[] pak_buffer = new byte[pak_len];
 
             int raw_new = raw_len;
@@ -338,7 +338,7 @@ namespace CTR
                 setpBarPos(raw);
                 if ((mask = (int)((uint)mask >> BLZ_SHIFT)) == 0)
                 {
-                    pak_buffer[(flg = pak++)] = 0;
+                    pak_buffer[flg = pak++] = 0;
                     mask = BLZ_MASK;
                 }
 
@@ -358,7 +358,7 @@ namespace CTR
                                     raw_end);
                             int len_next = sl2.l;
                             pos_next = sl2.p;
-                            raw -= (len_best - 1);
+                            raw -= len_best - 1;
                             SearchPair sl3 = SEARCH(pos_post, raw_buffer, raw,
                                     raw_end);
                             int len_post = sl3.l;
@@ -369,7 +369,7 @@ namespace CTR
                                 len_next = 1;
                             if (len_post <= BLZ_THRESHOLD)
                                 len_post = 1;
-                            if ((len_best + len_next) <= (1 + len_post))
+                            if (len_best + len_next <= 1 + len_post)
                                 len_best = 1;
                         }
                     }
@@ -381,7 +381,7 @@ namespace CTR
                     raw += len_best;
                     pak_buffer[flg] |= 1;
                     pak_buffer[pak++] = (byte)((byte)((len_best - (BLZ_THRESHOLD + 1)) << 4) | ((uint)(pos_best - 3) >> 8));
-                    pak_buffer[pak++] = (byte)((pos_best - 3));
+                    pak_buffer[pak++] = (byte)(pos_best - 3);
                 }
                 else
                     pak_buffer[pak++] = raw_buffer[raw++];
@@ -459,8 +459,8 @@ namespace CTR
 
         private class SearchPair
         {
-            public int l;
-            public int p;
+            public readonly int l;
+            public readonly int p;
 
             public SearchPair(int l, int p)
             {
@@ -471,7 +471,7 @@ namespace CTR
         private SearchPair SEARCH(int p, IList<byte> raw_buffer, int raw, int raw_end)
         {
             int l = BLZ_THRESHOLD;
-            int max = (raw >= BLZ_N) ? BLZ_N : raw;
+            int max = raw >= BLZ_N ? BLZ_N : raw;
             for (int pos = 3; pos <= max; pos++)
             {
                 int len;
@@ -503,8 +503,8 @@ namespace CTR
                 length = raw_len;
             }
 
-            public byte[] buffer;
-            public int length;
+            public readonly byte[] buffer;
+            public readonly int length;
         }
         private void BLZ_Invert(byte[] buffer, int offset, int length)
         {

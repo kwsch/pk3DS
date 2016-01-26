@@ -15,14 +15,14 @@ namespace pk3DS.Subforms
             MapGRs = Directory.GetFiles("mapGR");
         }
 
-        private string[] MapMatrixes;
-        private string[] MapGRs;
+        private readonly string[] MapMatrixes;
+        private readonly string[] MapGRs;
         public int mapScale = -1;
         public int DrawMap = -1;
         public void drawMap(int Map)
         {
             DrawMap = Map;
-            PB_Map.Image = (CHK_AutoDraw.Checked) ? getMapImage(sliceArea: true) : null;
+            PB_Map.Image = CHK_AutoDraw.Checked ? getMapImage(sliceArea: true) : null;
         }
         public Bitmap getMapImage(bool crop = false, bool entity = true, bool sliceArea = false)
         {
@@ -49,7 +49,7 @@ namespace pk3DS.Subforms
 
             if (sliceArea && mapScale > 3)
             {
-                int area = (40*mapScale);
+                int area = 40*mapScale;
                 for (int x = 0; x < img.Width; x++)
                     for (int y = 0; y < img.Height; y++)
                         if ((x % area == 0) || (y % area == 0))
@@ -93,7 +93,7 @@ namespace pk3DS.Subforms
                 int y = (int)e.pY; // shifted warps look weird
                 for (int sx = 0; sx < e.Width; sx++) // Stretch X
                     for (int sy = 0; sy < e.Height; sy++) // Stretch Y
-                        try { Util.LayerImage(img, Resources.W, ((x + sx) * mapScale), ((y + sy) * mapScale), opacity); }
+                        try { Util.LayerImage(img, Resources.W, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
                         catch { }
             }
             foreach (var e in OWSE.CurrentZone.Entities.Triggers1)
@@ -145,8 +145,8 @@ namespace pk3DS.Subforms
             if (PB_Map.Image == null)
                 return;
 
-            int X = e.X / (mapScale);
-            int Y = e.Y / (mapScale);
+            int X = e.X / mapScale;
+            int Y = e.Y / mapScale;
 
             int entryX = X/40;
             int entryY = Y/40;
@@ -157,11 +157,11 @@ namespace pk3DS.Subforms
             int tile = epY * 40 + epX;
             try
             {
-                var tileVal = (OWSE.mm.Entries[entry] == null)
+                var tileVal = OWSE.mm.Entries[entry] == null
                     ? "No Tile"
                     : OWSE.mm.Entries[entry].Tiles[tile].ToString("X8");
 
-                L_MapCoord.Text = String.Format("V:0x{3}{2}X:{0,3}  Y:{1,3}", X, Y, Environment.NewLine, tileVal);
+                L_MapCoord.Text = string.Format("V:0x{3}{2}X:{0,3}  Y:{1,3}", X, Y, Environment.NewLine, tileVal);
             }
             catch { } 
         }

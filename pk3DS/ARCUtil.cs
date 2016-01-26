@@ -9,7 +9,7 @@ namespace pk3DS
     public class ARC
     {
         // Multi Type Archive Handling
-        internal static Boolean onefile = true;
+        internal static bool onefile = true;
         internal static SARC analyzeSARC(string path)
         {
             SARC sarc = new SARC
@@ -188,7 +188,7 @@ namespace pk3DS
             using (BinaryReader br = new BinaryReader(File.OpenRead(path))) {
             long len = br.BaseStream.Length;
             darc.Magic = br.ReadUInt32();
-            UInt32 m = darc.Magic;
+                uint m = darc.Magic;
             darc.HeaderOffset = 0;
             while (m != 0x63726164 && darc.HeaderOffset < len - 4)
             {
@@ -263,7 +263,7 @@ namespace pk3DS
             BinaryReader br = new BinaryReader(File.OpenRead(path));
             long len = br.BaseStream.Length;
             farc.Magic = br.ReadUInt32();
-            UInt32 m = farc.Magic;
+            uint m = farc.Magic;
             farc.HeaderOffset = 0;
             while (m != 0x43524146 && farc.HeaderOffset < len - 4) //FARC
             {
@@ -563,7 +563,7 @@ namespace pk3DS
                 if (data.SequenceEqual(donorBytes.Take(data.Length)))
                 {
                     int headerLen = data.Length + BitConverter.ToInt32(donorBytes, data.Length)*0x20;
-                    headerLen += (0x80 - headerLen%0x80);
+                    headerLen += 0x80 - headerLen%0x80;
                     data = donorBytes.Take(headerLen).ToArray();
                 }
                 else
@@ -619,7 +619,7 @@ namespace pk3DS
             for (int i = 0; i < st.StringCount; i++)
             {
                 br.BaseStream.Seek(st.offsets[i], SeekOrigin.Begin);
-                uint len = (i < st.StringCount - 1)
+                uint len = i < st.StringCount - 1
                     ? st.offsets[i + 1] - st.offsets[i] 
                     : StringDataLen + 0x40 - st.offsets[i];
                 byte[] data = br.ReadBytes((int)len);
@@ -638,15 +638,15 @@ namespace pk3DS
 
     public struct FARC
     {
-        public UInt32 Magic;
-        public UInt32 SirMagic;
-        public UInt32 SirOffset;
-        public UInt32 HeaderOffset;
-        public UInt32 MetaPointer; //from start of file
-        public UInt32 NamesOffset;
-        public UInt32 TableOffset; //from start of file
-        public UInt32 DataOffset; //from start of file
-        public UInt32 FileCount;
+        public uint Magic;
+        public uint SirMagic;
+        public uint SirOffset;
+        public uint HeaderOffset;
+        public uint MetaPointer; //from start of file
+        public uint NamesOffset;
+        public uint TableOffset; //from start of file
+        public uint DataOffset; //from start of file
+        public uint FileCount;
         public FARCFileTable Files;
 
         public string FileName;
@@ -734,7 +734,7 @@ namespace pk3DS
         public uint StringMetaLen;
         public uint StringCount;
         public List<uint> offsets;
-        public List<String> strings;
+        public List<string> strings;
 
         public string FileName;
         public string FilePath;
@@ -774,16 +774,16 @@ namespace pk3DS
 
     public struct DARC
     {
-        public UInt32 HeaderOffset; // Where is header in file?
+        public uint HeaderOffset; // Where is header in file?
 
-        public UInt32 Magic; // 0x64617263 "darc"
+        public uint Magic; // 0x64617263 "darc"
         public UInt16 BOM; // 0xFFFE
         public UInt16 HeaderLength; // HeaderLength - 0x1C
-        public UInt32 Unknown; // 0x10000000
-        public UInt32 totalLength; // Total Length of file
-        public UInt32 TableOffset; // Offset from Start of File
-        public UInt32 TableLength; // Table Length
-        public UInt32 DataOffset; // Data Offset
+        public uint Unknown; // 0x10000000
+        public uint totalLength; // Total Length of file
+        public uint TableOffset; // Offset from Start of File
+        public uint TableLength; // Table Length
+        public uint DataOffset; // Data Offset
 
         public FileTable Files;
 
@@ -811,11 +811,11 @@ namespace pk3DS
     public class CRC16
     {
         private const ushort polynomial = 0xA001;
-        private ushort[] table = new ushort[256];
+        private readonly ushort[] table = new ushort[256];
 
         public ushort ComputeChecksum(byte[] bytes)
         {
-            return bytes.Aggregate<byte, ushort>(0, (current, t) => (ushort) ((current >> 8) ^ table[(current ^ t)]));
+            return bytes.Aggregate<byte, ushort>(0, (current, t) => (ushort) ((current >> 8) ^ table[current ^ t]));
         }
 
         public byte[] ComputeChecksumBytes(byte[] bytes)

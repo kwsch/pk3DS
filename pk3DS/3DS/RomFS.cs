@@ -25,7 +25,7 @@ namespace CTR
                 uint mhlen = (uint)(fs.ReadByte() | (fs.ReadByte() << 8) | (fs.ReadByte() << 16) | (fs.ReadByte() << 24));
                 SuperBlockLen = mhlen + 0x50;
                 if (SuperBlockLen % 0x200 != 0)
-                    SuperBlockLen += (0x200 - (SuperBlockLen % 0x200));
+                    SuperBlockLen += 0x200 - SuperBlockLen % 0x200;
                 byte[] superblock = new byte[SuperBlockLen];
                 fs.Seek(0, SeekOrigin.Begin);
                 fs.Read(superblock, 0, superblock.Length);
@@ -101,7 +101,7 @@ namespace CTR
             ulong output = input;
             if (output % alignsize != 0)
             {
-                output += (alignsize - (output % alignsize));
+                output += alignsize - output % alignsize;
             }
             return output;
         }
@@ -114,9 +114,9 @@ namespace CTR
                 ivfc.Levels[i] = new IVFCLevel { BlockSize = 0x1000 };
             }
             ivfc.Levels[2].DataLength = RomfsFile.GetDataBlockLength(RomFiles, (ulong)metadata.Length);
-            ivfc.Levels[1].DataLength = (Align(ivfc.Levels[2].DataLength, ivfc.Levels[2].BlockSize) / ivfc.Levels[2].BlockSize) * 0x20; //0x20 per SHA256 hash
-            ivfc.Levels[0].DataLength = (Align(ivfc.Levels[1].DataLength, ivfc.Levels[1].BlockSize) / ivfc.Levels[1].BlockSize) * 0x20; //0x20 per SHA256 hash
-            ulong MasterHashLen = (Align(ivfc.Levels[0].DataLength, ivfc.Levels[0].BlockSize) / ivfc.Levels[0].BlockSize) * 0x20;
+            ivfc.Levels[1].DataLength = Align(ivfc.Levels[2].DataLength, ivfc.Levels[2].BlockSize) / ivfc.Levels[2].BlockSize * 0x20; //0x20 per SHA256 hash
+            ivfc.Levels[0].DataLength = Align(ivfc.Levels[1].DataLength, ivfc.Levels[1].BlockSize) / ivfc.Levels[1].BlockSize * 0x20; //0x20 per SHA256 hash
+            ulong MasterHashLen = Align(ivfc.Levels[0].DataLength, ivfc.Levels[0].BlockSize) / ivfc.Levels[0].BlockSize * 0x20;
             ulong lofs = 0;
             foreach (IVFCLevel t in ivfc.Levels)
             {
@@ -139,7 +139,7 @@ namespace CTR
                 {
                     OutFileStream.Write(BitConverter.GetBytes(t.HashOffset), 0, 0x8);
                     OutFileStream.Write(BitConverter.GetBytes(t.DataLength), 0, 0x8);
-                    OutFileStream.Write(BitConverter.GetBytes((int)(Math.Log(t.BlockSize, 2))), 0, 0x4);
+                    OutFileStream.Write(BitConverter.GetBytes((int)Math.Log(t.BlockSize, 2)), 0, 0x4);
                     OutFileStream.Write(BitConverter.GetBytes(RESERVED), 0, 0x4);
                 }
                 OutFileStream.Write(BitConverter.GetBytes(HeaderLen), 0, 0x4);
@@ -316,7 +316,7 @@ namespace CTR
             MetaData.M_DirHashTableEntry = GetHashTableEntryCount(MetaData.DirNum);
             MetaData.M_FileHashTableEntry = GetHashTableEntryCount(MetaData.FileNum);
 
-            uint MetaDataSize = (uint)Align((0x28 + MetaData.M_DirHashTableEntry * 4 + MetaData.M_DirTableLen + MetaData.M_FileHashTableEntry * 4 + MetaData.M_FileTableLen), PADDING_ALIGN);
+            uint MetaDataSize = (uint)Align(0x28 + MetaData.M_DirHashTableEntry * 4 + MetaData.M_DirTableLen + MetaData.M_FileHashTableEntry * 4 + MetaData.M_FileTableLen, PADDING_ALIGN);
             for (int i = 0; i < MetaData.M_DirHashTableEntry; i++)
                 MetaData.DirHashTable.Add(ROMFS_UNUSED_ENTRY);
 
@@ -407,7 +407,7 @@ namespace CTR
         {
             uint parent = MetaData.DirTable.DirectoryTable[index].ParentOffset;
             string Name = MetaData.DirTable.DirectoryTable[index].Name;
-            byte[] NArr = (index == 0) ? Encoding.Unicode.GetBytes("") : Encoding.Unicode.GetBytes(Name);
+            byte[] NArr = index == 0 ? Encoding.Unicode.GetBytes("") : Encoding.Unicode.GetBytes(Name);
             uint hash = CalcPathHash(parent, NArr, 0, NArr.Length);
             int ind2 = (int)(hash % MetaData.M_DirHashTableEntry);
             if (MetaData.DirHashTable[ind2] == ROMFS_UNUSED_ENTRY)
@@ -466,7 +466,7 @@ namespace CTR
             for (int i = 0; i < NameArray.Length; i += 2)
             {
                 hash = (hash >> 5) | (hash << 27);
-                hash ^= (ushort)((NameArray[start + i]) | (NameArray[start + i + 1] << 8));
+                hash ^= (ushort)(NameArray[start + i] | (NameArray[start + i + 1] << 8));
             }
             return hash;
         }
@@ -487,10 +487,10 @@ namespace CTR
                 Entry.ChildOffset = Entry.HashKeyPointer = Entry.FileOffset = ROMFS_UNUSED_ENTRY;
                 Entry.SiblingOffset = sibling;
                 Entry.FullName = Dir.FullName;
-                Entry.Name = (Entry.FullName == ROOT_DIR) ? "" : Dir.Name;
+                Entry.Name = Entry.FullName == ROOT_DIR ? "" : Dir.Name;
                 Entry.Offset = CurrentDir;
                 MetaData.DirTable.DirectoryTable.Add(Entry);
-                MetaData.DirTableLen += (CurrentDir == 0) ? 0x18 : 0x18 + (uint)Align((ulong)Dir.Name.Length * 2, 4);
+                MetaData.DirTableLen += CurrentDir == 0 ? 0x18 : 0x18 + (uint)Align((ulong)Dir.Name.Length * 2, 4);
                 // int ParentIndex = GetRomfsDirEntry(MetaData, Dir.FullName);
                 // uint poff = MetaData.DirTable.DirectoryTable[ParentIndex].Offset;
             }
@@ -610,7 +610,7 @@ namespace CTR
 
             //Padding
             while (stream.Position % PADDING_ALIGN != 0)
-                stream.Write(new byte[PADDING_ALIGN - (stream.Position % 0x10)], 0, (int)(PADDING_ALIGN - (stream.Position % 0x10)));
+                stream.Write(new byte[PADDING_ALIGN - stream.Position % 0x10], 0, (int)(PADDING_ALIGN - stream.Position % 0x10));
             //All Done.
         }
 
@@ -718,7 +718,7 @@ namespace CTR
 
             public static ulong GetDataBlockLength(RomfsFile[] files, ulong PreData)
             {
-                return (files.Length == 0) ? PreData : PreData + files[files.Length - 1].Offset + files[files.Length - 1].Size;
+                return files.Length == 0 ? PreData : PreData + files[files.Length - 1].Offset + files[files.Length - 1].Size;
             }
         }
         public class IVFCInfo
@@ -784,7 +784,7 @@ namespace CTR
             {
                 ulong output = input;
                 if (output % alignsize != 0)
-                    output += (alignsize - (output % alignsize));
+                    output += alignsize - output % alignsize;
 
                 return output;
             }

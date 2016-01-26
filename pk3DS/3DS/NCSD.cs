@@ -58,8 +58,8 @@ namespace CTR
         {
             const ulong MEDIA_UNIT_SIZE = 0x200;
             return Card2
-                ? (Align(header.OffsetSizeTable[NCCH_Array.Count - 1].Offset * NCCH.MEDIA_UNIT_SIZE
-                    + header.OffsetSizeTable[NCCH_Array.Count - 1].Size * NCCH.MEDIA_UNIT_SIZE + 0x1000, 0x10000) / MEDIA_UNIT_SIZE)
+                ? Align(header.OffsetSizeTable[NCCH_Array.Count - 1].Offset * NCCH.MEDIA_UNIT_SIZE
+                        + header.OffsetSizeTable[NCCH_Array.Count - 1].Size * NCCH.MEDIA_UNIT_SIZE + 0x1000, 0x10000) / MEDIA_UNIT_SIZE
                 : 0x00000000FFFFFFFF;
         }
         public void BuildHeader()
@@ -102,7 +102,7 @@ namespace CTR
             ulong output = input;
             if (output % alignsize != 0)
             {
-                output += (alignsize - (output % alignsize));
+                output += alignsize - output % alignsize;
             }
             return output;
         }

@@ -13,7 +13,7 @@ namespace pk3DS
         {
             InitializeComponent();
             SMDH = Main.SMDH;
-            if (SMDH == null || SMDH.AppSettings == null || SMDH.LargeIcon.Bytes == null)
+            if (SMDH?.AppSettings == null || SMDH.LargeIcon.Bytes == null)
             {
                 byte[] data = new byte[0x3C0]; // Feed a blank SMDH
                 Array.Copy(BitConverter.GetBytes(0x48444D53), data, 4); // SMDH header
@@ -174,14 +174,14 @@ namespace pk3DS
                     Image img = Image.FromStream(BitmapStream);
                     Bitmap mBitmap = new Bitmap(img);
 
-                    bool small = (img.Width == 24 && img.Height == 24);
-                    bool large = (img.Width == 48 && img.Height == 48);
+                    bool small = img.Width == 24 && img.Height == 24;
+                    bool large = img.Width == 48 && img.Height == 48;
 
                     if (!small && !large)
                         Util.Alert("Image size is not correct.",
-                            String.Format("Width: {0}\nHeight: {1}", img.Width, img.Height),
+                            $"Width: {img.Width}\nHeight: {img.Height}",
                             "Expected Dimensions (24x24 or 48x48)");
-                    if (prompt && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import image?", (small) ? "Small Icon" : "Large Icon"))
+                    if (prompt && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import image?", small ? "Small Icon" : "Large Icon"))
                         return;
                     if (small)
                         SMDH.SmallIcon.ChangeIcon(mBitmap);

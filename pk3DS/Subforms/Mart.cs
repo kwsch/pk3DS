@@ -21,11 +21,12 @@ namespace pk3DS
             foreach (string s in locations) CB_Location.Items.Add(s);
             CB_Location.SelectedIndex = 0;
         }
-        string codebin;
-        string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
-        byte[] data;
 
-        private byte[] entries = Main.oras
+        readonly string codebin;
+        readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        readonly byte[] data;
+
+        private readonly byte[] entries = Main.oras
             ? new byte[] // ORAS
             {
                 3, 10, 14, 17, 18, 19, 19, 19, 19, // General
@@ -50,9 +51,10 @@ namespace pk3DS
                 3, // Balls
             };
 
-        private int offset = Main.oras ? 0x0047AB58 : 0x0043C89E;
+        private readonly int offset = Main.oras ? 0x0047AB58 : 0x0043C89E;
         int dataoffset;
-        string[] locations = Main.oras 
+
+        readonly string[] locations = Main.oras 
             ? new[] // ORAS
             { 
                 "No Badges", "1 Badge", "2 Badges", "3 Badges", "4 Badges", "5 Badges", "6 Badges", "7 Badges", "8 Badges",

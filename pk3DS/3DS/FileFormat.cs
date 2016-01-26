@@ -80,7 +80,7 @@ namespace CTR
             // Return BaseStream position to the start.
             br.BaseStream.Position = position;
 
-            return (ext.Length > 0);
+            return ext.Length > 0;
         }
         internal static bool GuessHeaderedDARC(BinaryReader br, out string ext)
         {
@@ -102,7 +102,7 @@ namespace CTR
             // Return BaseStream position to the start.
             br.BaseStream.Position = position;
 
-            return (ext.Length > 0);
+            return ext.Length > 0;
         }
         internal static bool GuessBCLIM(BinaryReader br, out string ext)
         {
@@ -122,7 +122,7 @@ namespace CTR
             // Return BaseStream position to the start.
             br.BaseStream.Position = position;
 
-            return (ext.Length > 0);
+            return ext.Length > 0;
         }
         internal static bool GuessLZ11(BinaryReader br, out string ext)
         {
@@ -136,13 +136,13 @@ namespace CTR
                 byte[] sizeBytes = new byte[3];
                 br.Read(sizeBytes, 0, 3);
 
-                int decompressedSize = (sizeBytes[0] | sizeBytes[1] << 8 | sizeBytes[2]);
+                int decompressedSize = sizeBytes[0] | sizeBytes[1] << 8 | sizeBytes[2];
                 if (decompressedSize > br.BaseStream.Length && decompressedSize < br.BaseStream.Length * 10) // assuming 10x compression isn't feasible
                     ext = "lz"; // really weak LZ detection, at most 16MB
             }
             catch { }
             br.BaseStream.Position = position;
-            return (ext.Length > 0);
+            return ext.Length > 0;
         }
         internal static bool Guess4CHAR(BinaryReader br, out string ext)
         {

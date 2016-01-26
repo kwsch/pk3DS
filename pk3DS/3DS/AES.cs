@@ -6,9 +6,9 @@ namespace CTR
 {
     public class AesCtr
     {
-        private AesManaged Aes = new AesManaged();
-        private ICryptoTransform Encryptor;
-        private AesCounter Counter;
+        private readonly AesManaged Aes = new AesManaged();
+        private readonly ICryptoTransform Encryptor;
+        private readonly AesCounter Counter;
 
         public AesCtr(byte[] key, byte[] iv)
         {
@@ -35,7 +35,7 @@ namespace CTR
             {
                 BlockLength = inputCount - i > AesCounter.BufferSize ? AesCounter.BufferSize : inputCount - i;
                 Encryptor.TransformBlock(Counter.ManageBufferCounters(BlockLength), 0, BlockLength, outputBuffer, outputOffset + i);
-                for (int BlockWalker = i; BlockWalker < (i + BlockLength); BlockWalker += 8)
+                for (int BlockWalker = i; BlockWalker < i + BlockLength; BlockWalker += 8)
                 {
                     Array.Copy(BitConverter.GetBytes(BitConverter.ToInt64(outputBuffer, outputOffset + BlockWalker) ^ BitConverter.ToInt64(inputBuffer, inputOffset + BlockWalker)), 0, outputBuffer, outputOffset + BlockWalker, 8);
                 }
@@ -46,8 +46,8 @@ namespace CTR
     public class AesCounter
     {
         public const int BufferSize = 0x400000; //4 MB Buffer
-        private byte[] Counter = new byte[0x10];
-        private byte[] Buffer = new byte[BufferSize];
+        private readonly byte[] Counter = new byte[0x10];
+        private readonly byte[] Buffer = new byte[BufferSize];
 
         public AesCounter(ulong high, ulong low)
         {
@@ -64,7 +64,7 @@ namespace CTR
         {
             for (int i = Counter.Length - 1; i >= 0; i--)
             {
-                if ((++Counter[i]) != 0)
+                if (++Counter[i] != 0)
                     return;
             }
         }
@@ -83,14 +83,14 @@ namespace CTR
         {
             ulong uvalue = value;
             ulong swapped =
-                    ((0x00000000000000FF) & (uvalue >> 56)
-                    | (0x000000000000FF00) & (uvalue >> 40)
-                    | (0x0000000000FF0000) & (uvalue >> 24)
-                    | (0x00000000FF000000) & (uvalue >> 8)
-                    | (0x000000FF00000000) & (uvalue << 8)
-                    | (0x0000FF0000000000) & (uvalue << 24)
-                    | (0x00FF000000000000) & (uvalue << 40)
-                    | (0xFF00000000000000) & (uvalue << 56));
+                    0x00000000000000FF & (uvalue >> 56)
+                    | 0x000000000000FF00 & (uvalue >> 40)
+                    | 0x0000000000FF0000 & (uvalue >> 24)
+                    | 0x00000000FF000000 & (uvalue >> 8)
+                    | 0x000000FF00000000 & (uvalue << 8)
+                    | 0x0000FF0000000000 & (uvalue << 24)
+                    | 0x00FF000000000000 & (uvalue << 40)
+                    | 0xFF00000000000000 & (uvalue << 56);
             return swapped;
         }
     }

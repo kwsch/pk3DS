@@ -22,10 +22,11 @@ namespace pk3DS
             setupDGV();
             getList();
         }
-        string codebin;
-        string[] movelist = Main.getText((Main.oras) ? 14 : 13);
-        int offset = (Main.oras) ? 0x004A67EE : 0x00464796; // Default
-        byte[] data;
+
+        readonly string codebin;
+        readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        readonly int offset = Main.oras ? 0x004A67EE : 0x00464796; // Default
+        readonly byte[] data;
         int dataoffset;
         private void getDataOffset()
         {
@@ -127,7 +128,7 @@ namespace pk3DS
             }
 
             // Set Move Text Descriptions back into Item Text File
-            int itemFile = (Main.oras) ? 117 : 99;
+            int itemFile = Main.oras ? 117 : 99;
             string[] itemDescriptions = Main.getText(itemFile);
             string[] moveDescriptions = Main.getText(Main.oras ? 16 : 15);
             for (int i = 1 - 1; i <= 92 - 1; i++) // TM01 - TM92

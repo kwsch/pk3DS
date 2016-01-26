@@ -27,8 +27,8 @@ namespace pk3DS
             CB_Species.SelectedIndex = 1;
         }
         #region Global Variables
-        private string[] paths = Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly);
-        private string mode = (Main.oras) ? "ORAS" : "XY";
+        private readonly string[] paths = Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly);
+        private readonly string mode = Main.oras ? "ORAS" : "XY";
 
         private string[] items = { };
         private string[] moves = { };
@@ -36,16 +36,16 @@ namespace pk3DS
         private string[] abilities = { };
         private string[] forms = { };
 
-        private byte[] data = { };
+        private readonly byte[] data = { };
 
-        private ComboBox[] helditem_boxes;
-        private ComboBox[] ability_boxes;
-        private ComboBox[] typing_boxes;
-        private ComboBox[] eggGroup_boxes;
+        private readonly ComboBox[] helditem_boxes;
+        private readonly ComboBox[] ability_boxes;
+        private readonly ComboBox[] typing_boxes;
+        private readonly ComboBox[] eggGroup_boxes;
 
-        private MaskedTextBox[] byte_boxes;
-        private MaskedTextBox[] ev_boxes;
-        private CheckBox[] rstat_boxes;
+        private readonly MaskedTextBox[] byte_boxes;
+        private readonly MaskedTextBox[] ev_boxes;
+        private readonly CheckBox[] rstat_boxes;
 
         public string[] types = { };
 
@@ -67,17 +67,17 @@ namespace pk3DS
         public ushort[] tutor4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 };
 
         private string[][] AltForms;
-        int entrysize = (Main.oras) ? 0x50 : 0x40;
+        int entrysize = Main.oras ? 0x50 : 0x40;
         int entry = -1;
         #endregion
         private void Setup()
         {
-            abilities = Main.getText((Main.oras) ? 37 : 34);
-            moves = Main.getText((Main.oras) ? 14 : 13);
-            items = Main.getText((Main.oras) ? 114 : 96);
-            species = Main.getText((Main.oras) ? 98 : 80);
-            types = Main.getText((Main.oras) ? 18 : 17);
-            forms = Main.getText((Main.oras) ? 5 : 5);
+            abilities = Main.getText(Main.oras ? 37 : 34);
+            moves = Main.getText(Main.oras ? 14 : 13);
+            items = Main.getText(Main.oras ? 114 : 96);
+            species = Main.getText(Main.oras ? 98 : 80);
+            types = Main.getText(Main.oras ? 18 : 17);
+            forms = Main.getText(Main.oras ? 5 : 5);
             species[0] = "---";
             abilities[0] = items[0] = moves[0] = "";
             AltForms = getFormList(data, Main.oras, species, forms, types, items);
@@ -87,7 +87,7 @@ namespace pk3DS
             ushort[] HMs = new ushort[0];
             TMHM.getTMHMList(Main.oras, ref TMs, ref HMs);
             CLB_TMHM.Items.Clear();
-            int hmcount = (Main.oras) ? 7 : 5;
+            int hmcount = Main.oras ? 7 : 5;
 
             if (TMs.Length == 0) // No ExeFS to grab TMs from.
             {
@@ -99,9 +99,9 @@ namespace pk3DS
             else // Use TMHM moves.
             {
                 for (int i = 1; i <= 100; i++)
-                    CLB_TMHM.Items.Add(String.Format("TM{0} {1}", i.ToString("00"), moves[TMs[i - 1]]));
+                    CLB_TMHM.Items.Add($"TM{i.ToString("00")} {moves[TMs[i - 1]]}");
                 for (int i = 1; i <= hmcount; i++)
-                    CLB_TMHM.Items.Add(String.Format("HM{0} {1}", i.ToString("00"), moves[HMs[i - 1]]));
+                    CLB_TMHM.Items.Add($"HM{i.ToString("00")} {moves[HMs[i - 1]]}");
             }
             for (int i = 0; i < tutormoves.Length - 1; i++)
                 CLB_MoveTutors.Items.Add(moves[tutormoves[i]]);
@@ -141,7 +141,7 @@ namespace pk3DS
                 L_ORASTutors.Visible = true;
             }
             for (int i = 0; i < species.Length; i++)
-                CB_Species.Items.Add(String.Format("{0} - {1}", species[i], i.ToString("000")));
+                CB_Species.Items.Add($"{species[i]} - {i.ToString("000")}");
 
             foreach (ComboBox cb in helditem_boxes)
                 foreach (string it in items)
@@ -176,7 +176,7 @@ namespace pk3DS
         {
             MaskedTextBox mtb = sender as MaskedTextBox;
             int val;
-            Int32.TryParse(mtb.Text, out val);
+            int.TryParse(mtb.Text, out val);
             if (Array.IndexOf(byte_boxes, mtb) > -1 && val > 255)
                 mtb.Text = "255";
             else if (Array.IndexOf(ev_boxes, mtb) > -1 && val > 3)
@@ -230,7 +230,7 @@ namespace pk3DS
             TB_FormeSprite.Text = pkm.FormeSprite.ToString("000");
 
             TB_RawColor.Text = pkm.Color.ToString("000");
-            CB_Color.SelectedIndex = (pkm.Color & 0xF);
+            CB_Color.SelectedIndex = pkm.Color & 0xF;
 
             TB_BaseExp.Text = pkm.BaseEXP.ToString("000");
 
@@ -258,7 +258,7 @@ namespace pk3DS
             
             if (dumping) return;
             int[] specForm = getSpecies(data, Main.oras, CB_Species.SelectedIndex);
-            string filename = "_" + specForm[0] + ((CB_Species.SelectedIndex > 721) ? "_" + (specForm[1] + 1) : "");
+            string filename = "_" + specForm[0] + (CB_Species.SelectedIndex > 721 ? "_" + (specForm[1] + 1) : "");
             Bitmap rawImg = (Bitmap)Resources.ResourceManager.GetObject(filename);
             Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
             for (int x = 0; x < rawImg.Width; x++)
@@ -347,7 +347,7 @@ namespace pk3DS
             const int TMPercent = 35; // Average Learnable TMs is 35.260.
             const int TutorPercent = 2; //136 special tutor moves learnable by species in Untouched ORAS.
             const int OrasTutorPercent = 30; //10001 tutor moves learnable by 826 species in Untouched ORAS.
-            ushort[] itemlist = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+            ushort[] itemlist = Main.oras ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
             ushort[] berrylist = Legal.Pouch_Berry_XY;
             Array.Resize(ref itemlist, itemlist.Length + berrylist.Length);
             Array.Copy(berrylist, 0, itemlist, itemlist.Length - berrylist.Length, berrylist.Length);
@@ -371,7 +371,7 @@ namespace pk3DS
                 {
                     for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
                         CLB_MoveTutors.SetItemCheckState(t, rnd.Next(0, 100) < TutorPercent ? CheckState.Checked : CheckState.Unchecked);
-                    if ((Main.oras) && (CB_Species.SelectedIndex == 384 || CB_Species.SelectedIndex == 814)) //Make sure Rayquaza can learn Dragon Ascent.
+                    if (Main.oras && (CB_Species.SelectedIndex == 384 || CB_Species.SelectedIndex == 814)) //Make sure Rayquaza can learn Dragon Ascent.
                         CLB_MoveTutors.SetItemCheckState(CLB_MoveTutors.Items.Count-1, CheckState.Checked); 
                 }
                 if (Main.oras && CHK_ORASTutors.Checked)
@@ -421,9 +421,9 @@ namespace pk3DS
                 // Items
                 if (CHK_Item.Checked)
                 {
-                    CB_HeldItem1.SelectedIndex = (CB_HeldItem1.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
-                    CB_HeldItem2.SelectedIndex = (CB_HeldItem2.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
-                    CB_HeldItem3.SelectedIndex = (CB_HeldItem3.SelectedIndex > 0) ? itemlist[rnd.Next(1, itemlen)] : 0;
+                    CB_HeldItem1.SelectedIndex = CB_HeldItem1.SelectedIndex > 0 ? itemlist[rnd.Next(1, itemlen)] : 0;
+                    CB_HeldItem2.SelectedIndex = CB_HeldItem2.SelectedIndex > 0 ? itemlist[rnd.Next(1, itemlen)] : 0;
+                    CB_HeldItem3.SelectedIndex = CB_HeldItem3.SelectedIndex > 0 ? itemlist[rnd.Next(1, itemlen)] : 0;
                 }
 
                 // Type
@@ -477,15 +477,17 @@ namespace pk3DS
                 CB_Species.SelectedIndex = i; // Get new Species
                 result += "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
 
-                result += String.Format("Base Stats: {0}.{1}.{2}.{3}.{4}.{5} (BST: {6})", TB_BaseHP.Text, TB_BaseATK.Text, TB_BaseDEF.Text, TB_BaseSPA.Text, TB_BaseSPD.Text, TB_BaseSPE.Text, pkm.BST) + Environment.NewLine;
-                result += String.Format("EV Yield: {0}.{1}.{2}.{3}.{4}.{5}", TB_HPEVs.Text, TB_ATKEVs.Text, TB_DEFEVs.Text, TB_SPAEVs.Text, TB_SPDEVs.Text, TB_SPEEVs.Text) + Environment.NewLine;
-                result += String.Format("Abilities: {0} (1) | {1} (2) | {2} (H)", CB_Ability1.Text, CB_Ability2.Text, CB_Ability3.Text) + Environment.NewLine;
+                result +=
+                    $"Base Stats: {TB_BaseHP.Text}.{TB_BaseATK.Text}.{TB_BaseDEF.Text}.{TB_BaseSPA.Text}.{TB_BaseSPD.Text}.{TB_BaseSPE.Text} (BST: {pkm.BST})" + Environment.NewLine;
+                result +=
+                    $"EV Yield: {TB_HPEVs.Text}.{TB_ATKEVs.Text}.{TB_DEFEVs.Text}.{TB_SPAEVs.Text}.{TB_SPDEVs.Text}.{TB_SPEEVs.Text}" + Environment.NewLine;
+                result += $"Abilities: {CB_Ability1.Text} (1) | {CB_Ability2.Text} (2) | {CB_Ability3.Text} (H)" + Environment.NewLine;
 
-                result += String.Format(((CB_Type1.SelectedIndex != CB_Type2.SelectedIndex) ? "Type: {0} / {1}" : "Type: {0}"), CB_Type1.Text, CB_Type2.Text);
+                result += string.Format(CB_Type1.SelectedIndex != CB_Type2.SelectedIndex ? "Type: {0} / {1}" : "Type: {0}", CB_Type1.Text, CB_Type2.Text);
 
-                result += String.Format("Item 1 (50%): {0}", CB_HeldItem1.Text) + Environment.NewLine;
-                result += String.Format("Item 2 (5%): {0}", CB_HeldItem2.Text) + Environment.NewLine;
-                result += String.Format("Item 3 (1%): {0}", CB_HeldItem3.Text) + Environment.NewLine;
+                result += $"Item 1 (50%): {CB_HeldItem1.Text}" + Environment.NewLine;
+                result += $"Item 2 (5%): {CB_HeldItem2.Text}" + Environment.NewLine;
+                result += $"Item 3 (1%): {CB_HeldItem3.Text}" + Environment.NewLine;
                 // I don't want to add anything else. Should be pretty easy for anyone else to expand.
 
                 result += Environment.NewLine;
@@ -520,7 +522,7 @@ namespace pk3DS
         // Utility (Shared)
         internal static int[] getSpecies(byte[] data, bool oras, int PersonalEntry)
         {
-            int entrysize = (oras) ? 0x50 : 0x40;
+            int entrysize = oras ? 0x50 : 0x40;
             if (PersonalEntry < 722) return new[] { PersonalEntry, 0 };
 
             for (int i = 0; i < 722; i++)
@@ -540,14 +542,14 @@ namespace pk3DS
             try
             {
                 string[][] FormList = new string[722][];
-                int entrysize = (oras) ? 0x50 : 0x40;
+                int entrysize = oras ? 0x50 : 0x40;
                 int AltFormOfs = 723; //null + 721 species + 1 gap
                 for (int i = 0; i < 722; i++) //Hardcode 721 species + null
                 {
                     int FormCount = data[i * entrysize + 0x20]; // Mons with no alt forms have a FormCount of 1.
                     FormList[i] = new string[FormCount];
                     if (FormCount <= 0) continue;
-                    FormList[i][0] = (forms[i] == "") ? species[i] : forms[i];
+                    FormList[i][0] = forms[i] == "" ? species[i] : forms[i];
                     for (int j = 1; j < FormCount; j++)
                         FormList[i][j] = forms[AltFormOfs++];
                 }
@@ -570,7 +572,7 @@ namespace pk3DS
         }
         internal static string[] getPersonalEntryList(byte[] data, bool oras, string[][] AltForms, string[] species)
         {
-            int entrysize = (oras) ? 0x50 : 0x40;
+            int entrysize = oras ? 0x50 : 0x40;
             string[] result = new string[data.Length / entrysize];
             for (int i = 0; i < 722; i++)
             {
@@ -586,7 +588,7 @@ namespace pk3DS
         internal static ushort[] getPersonalIndexList(byte[] data, bool oras)
         {
             ushort[] result = new ushort[722];
-            int entrysize = (oras) ? 0x50 : 0x40;
+            int entrysize = oras ? 0x50 : 0x40;
             for (int i = 0; i < result.Length; i++)
                 result[i] = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
             return result;
@@ -611,10 +613,10 @@ namespace pk3DS
 
         internal static string[] getSpeciesIndexStrings(bool oras)
         {
-            string[] items = Main.getText((Main.oras) ? 114 : 96);
-            string[] species = Main.getText((Main.oras) ? 98 : 80);
-            string[] types = Main.getText((Main.oras) ? 18 : 17);
-            string[] forms = Main.getText((Main.oras) ? 5 : 5);
+            string[] items = Main.getText(Main.oras ? 114 : 96);
+            string[] species = Main.getText(Main.oras ? 98 : 80);
+            string[] types = Main.getText(Main.oras ? 18 : 17);
+            string[] forms = Main.getText(Main.oras ? 5 : 5);
             species[0] = "---";
             byte[] data = File.ReadAllBytes(Directory.GetFiles("personal").Last());
             string[][] AltForms = getFormList(data, Main.oras, species, forms, types, items);

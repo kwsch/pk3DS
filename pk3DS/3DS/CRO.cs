@@ -39,7 +39,7 @@ namespace CTR
             while (i++ != endIndex - 1)
             {
                 if (array[i] != pattern[fidx]) i -= fidx;
-                fidx = (array[i] == pattern[fidx]) ? ++fidx : 0;
+                fidx = array[i] == pattern[fidx] ? ++fidx : 0;
                 if (fidx == pattern.Length)
                     return i - fidx + 1;
             }
@@ -78,7 +78,7 @@ namespace CTR
                 byte[] hash = hashCRO(ref data);
                 hashes[i] = getHexString(hash).ToUpper();
             }
-            Array.Sort(hashes, String.Compare);
+            Array.Sort(hashes, string.Compare);
             // Convert Hash Strings to Bytes
             byte[][] hashData = new byte[hashes.Length][];
             for (int i = 0; i < hashes.Length; i++)
@@ -91,7 +91,8 @@ namespace CTR
 
             // A little validation...
             if (hashCount != hashData.Length)
-                throw new Exception(String.Format("Amount of input file-hashes does not equal the hash count in CRR. Expected {0}, got {1}.", hashCount, hashData.Length));
+                throw new Exception(
+                    $"Amount of input file-hashes does not equal the hash count in CRR. Expected {hashCount}, got {hashData.Length}.");
 
             string[] results = new string[hashData.Length];
             // Store Hashes in CRR
@@ -119,7 +120,8 @@ namespace CTR
             // A little validation...
             if (hashCount != CROFiles.Length)
             {
-                updateTB(TB_Progress, String.Format("Amount of input file-hashes does not equal the hash count in CRR. Expected {0}, got {1}.", hashCount, CROFiles.Length));
+                updateTB(TB_Progress,
+                    $"Amount of input file-hashes does not equal the hash count in CRR. Expected {hashCount}, got {CROFiles.Length}.");
                 updateTB(TB_Progress, "Did not modify files. Aborting.");
                 return false;
             }
@@ -149,7 +151,7 @@ namespace CTR
             }
             updateTB(TB_Progress, "Hashes computed, now sorting."); // Don't need to fiddle the ProgressBar because this should be quite quick.
             string[] hashCopy = (string[])hashes.Clone(); // Store an unsorted list for later.
-            Array.Sort(hashes, String.Compare);
+            Array.Sort(hashes, string.Compare);
             // Convert Hash Strings to Bytes
             byte[][] hashData = new byte[hashes.Length][];
             for (int i = 0; i < hashes.Length; i++)
@@ -167,7 +169,7 @@ namespace CTR
                 {
                     // CRO was updated.
                     string file = CROFiles[Array.IndexOf(hashCopy, hashes[i])];
-                    updateTB(TB_Progress, String.Format("{0} hash has been updated.", Path.GetFileName(file)));
+                    updateTB(TB_Progress, $"{Path.GetFileName(file)} hash has been updated.");
                     updatedCTR++;
                 }
             }
@@ -177,7 +179,7 @@ namespace CTR
 
             updateTB(TB_Progress,
                 updatedCTR > 0
-                    ? String.Format("{0} hashes have been updated.", updatedCTR)
+                    ? $"{updatedCTR} hashes have been updated."
                     : "CRR is fine. No modifications are necessary.");
 
             // Save File

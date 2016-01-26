@@ -14,23 +14,24 @@ namespace pk3DS
             Array.Resize(ref specieslist, 722);
             movelist[0] = specieslist[0] = itemlist[0] = "";
 
-            trFiles = Directory.GetFiles((super) ? "maisontrS" : "maisontrN");
-            pkFiles = Directory.GetFiles((super) ? "maisonpkS" : "maisonpkN");
+            trFiles = Directory.GetFiles(super ? "maisontrS" : "maisontrN");
+            pkFiles = Directory.GetFiles(super ? "maisonpkS" : "maisonpkN");
 
-            int trTXTFile = (Main.oras) ? 153 : 130;
-            trNames = Main.getText((super) ? trTXTFile : trTXTFile + 1); Array.Resize(ref trNames, trFiles.Length);
+            int trTXTFile = Main.oras ? 153 : 130;
+            trNames = Main.getText(super ? trTXTFile : trTXTFile + 1); Array.Resize(ref trNames, trFiles.Length);
 
             InitializeComponent();
             Setup();
         }
-        string[] trFiles;
-        string[] trNames;
-        string[] pkFiles;
-        string[] natures = Main.getText((Main.oras) ? 51 : 47);
-        string[] movelist = Main.getText((Main.oras) ? 14 : 13);
-        string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
-        string[] trClass = Main.getText((Main.oras) ? 21 : 20);
-        string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
+
+        readonly string[] trFiles;
+        readonly string[] trNames;
+        readonly string[] pkFiles;
+        readonly string[] natures = Main.getText(Main.oras ? 51 : 47);
+        readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
+        readonly string[] trClass = Main.getText(Main.oras ? 21 : 20);
+        readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
         int trEntry = -1;
         int pkEntry = -1;
         bool dumping;
@@ -225,20 +226,20 @@ namespace pk3DS
                 if (CB_Species.SelectedIndex > 0)
                 {
                     result += "======" + Environment.NewLine + i + " - " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
-                    result += String.Format("Held Item: {0}" + Environment.NewLine, CB_Item.Text);
-                    result += String.Format("Nature: {0}" + Environment.NewLine, CB_Nature.Text);
-                    result += String.Format("Move 1: {0}" + Environment.NewLine, CB_Move1.Text);
-                    result += String.Format("Move 2: {0}" + Environment.NewLine, CB_Move2.Text);
-                    result += String.Format("Move 3: {0}" + Environment.NewLine, CB_Move3.Text);
-                    result += String.Format("Move 4: {0}" + Environment.NewLine, CB_Move4.Text);
+                    result += string.Format("Held Item: {0}" + Environment.NewLine, CB_Item.Text);
+                    result += string.Format("Nature: {0}" + Environment.NewLine, CB_Nature.Text);
+                    result += string.Format("Move 1: {0}" + Environment.NewLine, CB_Move1.Text);
+                    result += string.Format("Move 2: {0}" + Environment.NewLine, CB_Move2.Text);
+                    result += string.Format("Move 3: {0}" + Environment.NewLine, CB_Move3.Text);
+                    result += string.Format("Move 4: {0}" + Environment.NewLine, CB_Move4.Text);
 
                     result += "EV'd in: ";
-                    result += (CHK_HP.Checked) ? "HP, " : "";
-                    result += (CHK_ATK.Checked) ? "ATK, " : "";
-                    result += (CHK_DEF.Checked) ? "DEF, " : "";
-                    result += (CHK_SpA.Checked) ? "SpA, " : "";
-                    result += (CHK_SpD.Checked) ? "SpD, " : "";
-                    result += (CHK_Spe.Checked) ? "Spe, " : "";
+                    result += CHK_HP.Checked ? "HP, " : "";
+                    result += CHK_ATK.Checked ? "ATK, " : "";
+                    result += CHK_DEF.Checked ? "DEF, " : "";
+                    result += CHK_SpA.Checked ? "SpA, " : "";
+                    result += CHK_SpD.Checked ? "SpD, " : "";
+                    result += CHK_Spe.Checked ? "Spe, " : "";
                     result += Environment.NewLine;
 
                     result += Environment.NewLine;

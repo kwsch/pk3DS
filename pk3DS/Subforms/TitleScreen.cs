@@ -9,7 +9,7 @@ namespace pk3DS
 {
     public partial class TitleScreen : Form
     {
-        private bool compressed = Main.oras;
+        private readonly bool compressed = Main.oras;
         public TitleScreen()
         {
             InitializeComponent();
@@ -40,9 +40,9 @@ namespace pk3DS
             string[] languages = (Main.oras ? new[] {"JP1"} : new string[] {}).Concat(new[] {"DE", "ES", "FR", "IT", "JP", "KO", "EN"}).ToArray();
             string[] games = Main.oras ? new[] {"OR", "AS"} : new[] {"X", "Y"};
             for (int i = 0; i < darcs.Length/2; i++)
-                CB_DARC.Items.Add(String.Format("{0} - {1}", games[0], languages[i]));
+                CB_DARC.Items.Add($"{games[0]} - {languages[i]}");
             for (int i = darcs.Length/2; i < darcs.Length; i++)
-                CB_DARC.Items.Add(String.Format("{0} - {1}", games[1], languages[i - darcs.Length/2]));
+                CB_DARC.Items.Add($"{games[1]} - {languages[i - darcs.Length/2]}");
 
             // Load darcs
             for (int i = 0; i < darcs.Length; i++)
@@ -68,10 +68,11 @@ namespace pk3DS
 
             CB_DARC.SelectedIndex = CB_DARC.Items.Count - 1; // last (english game2)
         }
-        private string[] files = Directory.GetFiles("titlescreen");
-        private CTR.DARC[] darcs = new CTR.DARC[2 * (Main.oras ? 8 : 7)];
-        private string[] usedFiles = new string[2 * (Main.oras ? 8 : 7)];
-        int[] darcFiles = Main.oras 
+        private readonly string[] files = Directory.GetFiles("titlescreen");
+        private readonly CTR.DARC[] darcs = new CTR.DARC[2 * (Main.oras ? 8 : 7)];
+        private readonly string[] usedFiles = new string[2 * (Main.oras ? 8 : 7)];
+
+        readonly int[] darcFiles = Main.oras 
             ? new[]
             {
                 1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127, 
@@ -128,7 +129,7 @@ namespace pk3DS
             // store image locally for saving if need be
             currentBytes = data;
 
-            L_Dimensions.Text = String.Format("Dimensions: {0}w && {1}h", PB_Image.Width, PB_Image.Height);
+            L_Dimensions.Text = $"Dimensions: {PB_Image.Width}w && {PB_Image.Height}h";
         }
         private byte[] currentBytes;
         private void insertFile(string path)
@@ -144,8 +145,7 @@ namespace pk3DS
                 if (img.Width != PB_Image.Width || img.Height != PB_Image.Height)
                 {
                     Util.Alert("Image sizes do not match.",
-                        String.Format("Width: {0} - {1}\nHeight: {2} - {3}",
-                            img.Width, PB_Image.Width, img.Height, PB_Image.Height));
+                        $"Width: {img.Width} - {PB_Image.Width}\nHeight: {img.Height} - {PB_Image.Height}");
                     return;
                 }
                 bclim = data;
@@ -158,8 +158,7 @@ namespace pk3DS
                     if (img.Width != PB_Image.Width || img.Height != PB_Image.Height)
                     {
                         Util.Alert("Image sizes do not match.",
-                            String.Format("Width: {0} - {1}\nHeight: {2} - {3}",
-                                img.Width, PB_Image.Width, img.Height, PB_Image.Height));
+                            $"Width: {img.Width} - {PB_Image.Width}\nHeight: {img.Height} - {PB_Image.Height}");
                         return;
                     }
                     bclim = CTR.BCLIM.IMGToBCLIM(img, '9');
@@ -192,8 +191,7 @@ namespace pk3DS
         }
         private void tabMain_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            string path = files[0]; // open first D&D
+            string path = ((string[])e.Data.GetData(DataFormats.FileDrop))[0]; // open first D&D
             insertFile(path);
         }
 

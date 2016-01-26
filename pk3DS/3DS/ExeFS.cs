@@ -16,7 +16,7 @@ namespace CTR
         {
             if (Directory.Exists(EXEFS_PATH))
             {
-                var files = (new DirectoryInfo(EXEFS_PATH)).GetFiles().Select(f => f.FullName).ToArray();
+                var files = new DirectoryInfo(EXEFS_PATH).GetFiles().Select(f => f.FullName).ToArray();
                 setData(files);
             }
             else
@@ -78,7 +78,7 @@ namespace CTR
                     uint size = (uint)fi.Length;
                     Array.Copy(BitConverter.GetBytes(offset), 0, headerData, 0x8 + i * 0x10, 0x4);
                     Array.Copy(BitConverter.GetBytes(size), 0, headerData, 0xC + i * 0x10, 0x4);
-                    offset += (0x200 - size % 0x200) + size;
+                    offset += 0x200 - size % 0x200 + size;
 
                     // Do the Bottom (Hashes)
                     byte[] hash = sha.ComputeHash(File.ReadAllBytes(files[i]));
@@ -122,7 +122,7 @@ namespace CTR
                 uint size = (uint)fi.Length;
                 Array.Copy(BitConverter.GetBytes(offset), 0, headerData, 0x8 + i * 0x10, 0x4);
                 Array.Copy(BitConverter.GetBytes(size), 0, headerData, 0xC + i * 0x10, 0x4);
-                offset += (0x200 - size % 0x200) + size;
+                offset += 0x200 - size % 0x200 + size;
 
                 // Do the Bottom (Hashes)
                 byte[] hash = sha.ComputeHash(File.ReadAllBytes(files[i]));

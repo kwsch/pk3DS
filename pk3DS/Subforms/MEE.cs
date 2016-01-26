@@ -10,18 +10,19 @@ namespace pk3DS
 {
     public partial class MEE : Form
     {
-        private string[] files = Directory.GetFiles("megaevo");
-        private string[] forms = Main.getText((Main.oras) ? 5 : 5);
-        private string[] types = Main.getText((Main.oras) ? 18 : 17);
-        private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
-        private string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
-        private byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
-        private GroupBox[] groupbox_spec;
-        private ComboBox[] forme_spec, item_spec;
-        private CheckBox[] checkbox_spec;
-        private PictureBox[][] picturebox_spec;
+        private readonly string[] files = Directory.GetFiles("megaevo");
+        private readonly string[] forms = Main.getText(Main.oras ? 5 : 5);
+        private readonly string[] types = Main.getText(Main.oras ? 18 : 17);
+        private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
+        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        private readonly byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
+        private readonly GroupBox[] groupbox_spec;
+        private readonly ComboBox[] forme_spec;
+        private readonly ComboBox[] item_spec;
+        private readonly CheckBox[] checkbox_spec;
+        private readonly PictureBox[][] picturebox_spec;
         private bool loaded;
-        private string[][] AltForms;
+        private readonly string[][] AltForms;
         int entry = -1;
 
         public MEE()            //All the initial settings
@@ -112,7 +113,7 @@ namespace pk3DS
             me = new MegaEvolutions(data);
             for (int i = 0; i < 3; i++)
             {
-                checkbox_spec[i].Checked = (me.Method[i] == 1);
+                checkbox_spec[i].Checked = me.Method[i] == 1;
                 item_spec[i].SelectedValue = (int)me.Argument[i];
                 forme_spec[i].SelectedIndex = me.Form[i];
             }
@@ -124,7 +125,7 @@ namespace pk3DS
             {
                 if (me.Method[i] > 1) 
                     return; // Shouldn't hit this.
-                me.Method[i] = (ushort)((checkbox_spec[i].Checked) ? 1 : 0);
+                me.Method[i] = (ushort)(checkbox_spec[i].Checked ? 1 : 0);
                 me.Argument[i] = (ushort)Util.getIndex(item_spec[i]);
                 me.Form[i] = (ushort)forme_spec[i].SelectedIndex;
             }
@@ -140,7 +141,7 @@ namespace pk3DS
                 if (CB.Checked)
                 {
                     UpdateImage(picturebox_spec[0][i], entry, 0, Util.getIndex(item_spec[i]), 0);
-                    UpdateImage(picturebox_spec[1][i], entry, (forme_spec[i]).SelectedIndex, Util.getIndex(item_spec[i]), 0);
+                    UpdateImage(picturebox_spec[1][i], entry, forme_spec[i].SelectedIndex, Util.getIndex(item_spec[i]), 0);
                 }
                 else
                 {
@@ -157,7 +158,7 @@ namespace pk3DS
             if (CB.Checked)
             {
                 UpdateImage(picturebox_spec[0][i], entry, 0, Util.getIndex(item_spec[i]), 0);
-                UpdateImage(picturebox_spec[1][i], entry, (forme_spec[i]).SelectedIndex, Util.getIndex(item_spec[i]), 0);
+                UpdateImage(picturebox_spec[1][i], entry, forme_spec[i].SelectedIndex, Util.getIndex(item_spec[i]), 0);
             }
             else
             {
@@ -196,7 +197,7 @@ namespace pk3DS
                 {
                     if (!checkbox_spec[j].Checked) continue;
                     if (!headered) { result += header; headered = true; }
-                    result += String.Format("Can Mega Evolve into {1} if its held item is {0}." + Environment.NewLine, itemlist[(int)item_spec[j].SelectedValue], forme_spec[j].Text);
+                    result += string.Format("Can Mega Evolve into {1} if its held item is {0}." + Environment.NewLine, itemlist[(int)item_spec[j].SelectedValue], forme_spec[j].Text);
                 }
 
                 if (headered)

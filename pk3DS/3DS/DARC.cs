@@ -29,7 +29,7 @@ namespace CTR
                 uint offs = 0;
                 for (int i = 0; i < root.DataLength; i++)
                 {
-                    char c; string s = String.Empty;
+                    char c; string s = string.Empty;
                     while ((c = (char) br.ReadUInt16()) > 0) s += c;
 
                     FileNameTable[i] = new NameTableEntry(offs, s);
@@ -57,14 +57,14 @@ namespace CTR
                 FileTableLength = br.ReadUInt32();
                 FileDataOffset = br.ReadUInt32();
             }
-            public String Signature;
+            public string Signature;
             public UInt16 Endianness;
             public UInt16 HeaderSize;
-            public UInt32 Version;
-            public UInt32 FileSize;
-            public UInt32 FileTableOffset;
-            public UInt32 FileTableLength;
-            public UInt32 FileDataOffset;
+            public uint Version;
+            public uint FileSize;
+            public uint FileTableOffset;
+            public uint FileTableLength;
+            public uint FileDataOffset;
         }
         public class FileTableEntry
         {
@@ -72,20 +72,20 @@ namespace CTR
             {
                 if (br == null) return;
                 NameOffset = br.ReadUInt32();
-                IsFolder = (NameOffset >> 24) == 1;
+                IsFolder = NameOffset >> 24 == 1;
                 NameOffset &= 0xFFFFFF;
                 DataOffset = br.ReadUInt32();
                 DataLength = br.ReadUInt32();
             }
-            public UInt32 NameOffset;
+            public uint NameOffset;
             public Boolean IsFolder;
-            public UInt32 DataOffset; // FOLDER: Parent Entry Index
-            public UInt32 DataLength; // FOLDER: Next Folder Index
+            public uint DataOffset; // FOLDER: Parent Entry Index
+            public uint DataLength; // FOLDER: Next Folder Index
         }
         public class NameTableEntry
         {
-            public UInt32 NameOffset;
-            public String FileName;
+            public uint NameOffset;
+            public string FileName;
             public NameTableEntry(uint offset, string fileName)
             {
                 NameOffset = offset;
@@ -112,7 +112,7 @@ namespace CTR
                 // Write FileTableEntries
                 foreach (FileTableEntry entry in darc.Entries)
                 {
-                    bw.Write(entry.NameOffset | ((entry.IsFolder) ? (uint)1 << 24 : 0));
+                    bw.Write(entry.NameOffset | (entry.IsFolder ? (uint)1 << 24 : 0));
                     bw.Write(entry.DataOffset);
                     bw.Write(entry.DataLength);
                 }
@@ -187,7 +187,7 @@ namespace CTR
             int darcFileCount = NameList.Count;
             int NameListOffset = darcFileCount * 0xC;
             int NameListLength = (int)(nameOffset + NameListOffset);
-            int DataOffset = (NameListLength % 4 == 0) ? NameListLength : NameListLength + (4 - NameListLength % 4);
+            int DataOffset = NameListLength % 4 == 0 ? NameListLength : NameListLength + (4 - NameListLength % 4);
             Array.Resize(ref Data, Data.Length % 4 == 0 ? Data.Length : Data.Length + 4 - Data.Length % 4);
             int FinalSize = DataOffset + Data.Length;
 

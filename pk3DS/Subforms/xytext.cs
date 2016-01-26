@@ -17,7 +17,7 @@ namespace pk3DS
                 CB_Entry.Items.Add(i.ToString());
             CB_Entry.SelectedIndex = 0;
         }
-        private string[] files;
+        private readonly string[] files;
         private int entry = -1;
         // IO
         private void B_Export_Click(object sender, EventArgs e)
@@ -91,10 +91,10 @@ namespace pk3DS
                         continue;
                 string[] brokenLine = fileText[i++ + 1].Split(new[] {" : "}, StringSplitOptions.None);
                     if (brokenLine.Length != 2)
-                    { Util.Error(String.Format("Invalid Line @ {0}, expected Text File : {1}", i, ctr)); return false; }
+                    { Util.Error($"Invalid Line @ {i}, expected Text File : {ctr}"); return false; }
                 int file = Util.ToInt32(brokenLine[1]);
                     if (file != ctr) 
-                    { Util.Error(String.Format("Invalid Line @ {0}, expected Text File : {1}", i, ctr)); return false; }
+                    { Util.Error($"Invalid Line @ {i}, expected Text File : {ctr}"); return false; }
                 i+=2; // Skip over the other header line
                 List<string> Lines = new List<string>();
                 while (i < fileText.Length && fileText[i] != "~~~~~~~~~~~~~~~")
@@ -110,7 +110,7 @@ namespace pk3DS
             // Error Check
             if (ctr != files.Length)
             { Util.Error("The amount of Text Files in the input file does not match the required for the text file.",
-                    String.Format("Received: {0}, Expected: {1}", ctr, files.Length)); return false; }
+                $"Received: {ctr}, Expected: {files.Length}"); return false; }
             if (!newlineFormatting)
             { Util.Error("The input Text Files do not have the ingame newline formatting codes (\\n,\\r,\\c).",
                       "When exporting text, do not remove newline formatting."); return false; }
@@ -324,7 +324,7 @@ namespace pk3DS
                     {
                         ushort key = baseKey;
                         uint pos = (uint)data.Position;
-                        if (lines[i] == null) lines[i] = String.Format("[~ {0}]", i);
+                        if (lines[i] == null) lines[i] = $"[~ {i}]";
                         // Get crypted line data.
                         {
                             {
@@ -391,8 +391,8 @@ namespace pk3DS
         {
             // Fetch the variable name...
             int bracket = varType.IndexOf('(');
-            string variable = (noArgs) ? varType : varType.Substring(0, bracket);
-            string[] arguments = (noArgs) ? null : varType.Substring(bracket + 1, varType.Length - bracket - 2).Split(',');
+            string variable = noArgs ? varType : varType.Substring(0, bracket);
+            string[] arguments = noArgs ? null : varType.Substring(bracket + 1, varType.Length - bracket - 2).Split(',');
 
             ushort varVal;
 
@@ -490,8 +490,8 @@ namespace pk3DS
                 {
                     if (DialogResult.Yes != Util.Prompt(
                         MessageBoxButtons.YesNo, 
-                        "Encoding Error - Please Resolve:", 
-                        String.Format("File: {3}{0}Char: {1}{0}Line:{0}{2}", Environment.NewLine, line[i+1], line, i), 
+                        "Encoding Error - Please Resolve:",
+                        string.Format("File: {3}{0}Char: {1}{0}Line:{0}{2}", Environment.NewLine, line[i+1], line, i), 
                         "Treat as literal '\\'?"))
                     throw new Exception("Invalid terminated line: " + line);
                     
@@ -510,7 +510,7 @@ namespace pk3DS
 
                 string[] split = varCMD.Split(' ');
                 string varMethod = split[0];                   // Returns VAR or WAIT or ~
-                string varType = (split.Length > 1) ? varCMD.Substring(varMethod.Length + 1) : "";    // Returns the remainder of the var command data.
+                string varType = split.Length > 1 ? varCMD.Substring(varMethod.Length + 1) : "";    // Returns the remainder of the var command data.
                 ushort varValue;
 
                 // Set up argument storage (even if it not used)
@@ -534,7 +534,7 @@ namespace pk3DS
                             }
                         case "VAR":     // Text Variable
                             {
-                                varValue = getVariableBytes(varType, ref args, (varCMD.IndexOf('(') < 0));
+                                varValue = getVariableBytes(varType, ref args, varCMD.IndexOf('(') < 0);
                                 break;
                             }
                         default: throw new Exception("Unknown variable method type!");

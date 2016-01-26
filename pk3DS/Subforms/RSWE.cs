@@ -269,12 +269,12 @@ namespace pk3DS
             for (int i = 0; i < personalList.Length; i++)
                 personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
         }
-        private ComboBox[] spec;
-        private NumericUpDown[] min;
-        private NumericUpDown[] max;
-        private NumericUpDown[] form;
+        private readonly ComboBox[] spec;
+        private readonly NumericUpDown[] min;
+        private readonly NumericUpDown[] max;
+        private readonly NumericUpDown[] form;
         string[] specieslist = { };
-        string[] formlist = { };
+        readonly string[] formlist = { };
         string[] metRS_00000 = { };
         byte[] zonedata = { };
         byte[] decStorage = { };
@@ -282,11 +282,11 @@ namespace pk3DS
         private string[] encdatapaths;
         private string[] filepaths;
 
-        byte[][] personal;
+        readonly byte[][] personal;
 
         private void RSWE_Load()
         {
-            specieslist = Main.getText((Main.oras) ? 98 : 80);
+            specieslist = Main.getText(Main.oras ? 98 : 80);
             specieslist[0] = "---";
 
             foreach (string s in formlist)
@@ -307,7 +307,7 @@ namespace pk3DS
         internal static Random rand = new Random();
         internal static uint rnd32()
         {
-            return (uint)(rand.Next(1 << 30)) << 2 | (uint)(rand.Next(1 << 2));
+            return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
         }
 
         private void openQuick(string[] encdata)
@@ -316,7 +316,7 @@ namespace pk3DS
             Array.Sort(encdatapaths);
             filepaths = new string[encdatapaths.Length - 2];
             Array.Copy(encdatapaths, 2, filepaths, 0, filepaths.Length);
-            metRS_00000 = Main.getText((Main.oras) ? 90 : 72);
+            metRS_00000 = Main.getText(Main.oras ? 90 : 72);
             zonedata = File.ReadAllBytes(encdatapaths[0]);
             decStorage = File.ReadAllBytes(encdatapaths[1]);
             LocationNames = new string[filepaths.Length];
@@ -326,8 +326,8 @@ namespace pk3DS
 
                 int LocationNum = Convert.ToInt16(name.Substring(4, name.Length - 4));
                 int indNum = LocationNum * 56 + 0x1C;
-                string LocationName = metRS_00000[zonedata[indNum] + (0x100 * (zonedata[indNum + 1] & 1))];
-                LocationNames[f] = (LocationNum.ToString("000") + " - " + LocationName);
+                string LocationName = metRS_00000[zonedata[indNum] + 0x100 * (zonedata[indNum + 1] & 1)];
+                LocationNames[f] = LocationNum.ToString("000") + " - " + LocationName;
             }
             CB_LocationID.DataSource = LocationNames;
             B_Save.Enabled = B_Dump.Enabled = B_Randomize.Enabled = true;
@@ -440,8 +440,8 @@ namespace pk3DS
         private bool needsInsertion(int mapID)
         {
             if (mapID != 535) // Hardcoded, bad, I know.
-                return (BitConverter.ToUInt32(decStorage, (mapID + 2) * 4) - BitConverter.ToUInt32(decStorage, (mapID + 1) * 4) == 0);
-            return (BitConverter.ToUInt32(decStorage, (mapID + 1) * 4) == decStorage.Length);
+                return BitConverter.ToUInt32(decStorage, (mapID + 2) * 4) - BitConverter.ToUInt32(decStorage, (mapID + 1) * 4) == 0;
+            return BitConverter.ToUInt32(decStorage, (mapID + 1) * 4) == decStorage.Length;
         }
 
         private bool hasData()
@@ -592,7 +592,7 @@ namespace pk3DS
                 // Assign Levels
                 if (CHK_Level.Checked)
                     for (int l = 0; l < max.Length; l++)
-                        min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Max(1, Math.Min(100, (int)((leveldiff) * max[l].Value)));
+                        min[l].Value = max[l].Value = max[l].Value <= 1 ? max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * max[l].Value)));
 
                 // Get a new list of Pokemon so that DexNav does not crash.
                 int[] list = new int[max.Length];
@@ -605,7 +605,7 @@ namespace pk3DS
 
                 // At most 18, but don't chew if there's only a few slots.
                 int cons = list.Count(a => a != 0);
-                int[] RandomList = new int[(cons > 18) ? (18 - (cons / 8)) : cons];
+                int[] RandomList = new int[cons > 18 ? 18 - cons / 8 : cons];
 
                 // Fill Location List
                 if (!CHK_BST.Checked)
@@ -769,7 +769,7 @@ namespace pk3DS
 
                 // Amp Levels
                 for (int l = 0; l < max.Length; l++)
-                    min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * max[l].Value)));
+                    min[l].Value = max[l].Value = max[l].Value <= 1 ? max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * max[l].Value)));
 
                 // Save Changes
                 B_Save_Click(sender, e);

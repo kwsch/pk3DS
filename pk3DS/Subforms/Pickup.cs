@@ -21,10 +21,11 @@ namespace pk3DS
             setupDGV();
             getList();
         }
-        string codebin;
-        string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
-        int offset = (Main.oras) ? 0x004872FC : 0x004455A8;
-        byte[] data;
+
+        readonly string codebin;
+        readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        readonly int offset = Main.oras ? 0x004872FC : 0x004455A8;
+        readonly byte[] data;
         int dataoffset;
         private void getDataOffset()
         {

@@ -124,28 +124,42 @@ namespace pk3DS
         internal static Random rand = new Random();
         internal static uint rnd32()
         {
-            return (uint)(rand.Next(1 << 30)) << 2 | (uint)(rand.Next(1 << 2));
+            return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
         }
         bool start = true;
         bool loading = true;
         int index = -1;
         #region Global Variables
-        private ComboBox[] trpk_pkm, trpk_lvl, trpk_item, trpk_abil,
-            trpk_m1, trpk_m2, trpk_m3, trpk_m4, trpk_IV, trpk_form, trpk_gender;
+        private readonly ComboBox[] trpk_pkm;
+
+        private readonly ComboBox[] trpk_lvl;
+
+        private readonly ComboBox[] trpk_item;
+
+        private readonly ComboBox[] trpk_abil;
+
+        private readonly ComboBox[] trpk_m1;
+        private readonly ComboBox[] trpk_m2;
+        private readonly ComboBox[] trpk_m3;
+        private readonly ComboBox[] trpk_m4;
+        private readonly ComboBox[] trpk_IV;
+        private readonly ComboBox[] trpk_form;
+        private readonly ComboBox[] trpk_gender;
+
         private PictureBox[] pba;
 
         // Top Level Functions
-        private string[] trdatapaths = Directory.GetFiles("trdata");
-        private string[] trpokepaths = Directory.GetFiles("trpoke");
-        private string[] abilitylist = Main.getText((Main.oras) ? 37 : 34);
-        private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
-        private string[] itemlist = Main.getText((Main.oras) ? 114 : 96);
-        private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
-        private string[] types = Main.getText((Main.oras) ? 18 : 17);
-        private string[] forms = Main.getText((Main.oras) ? 5 : 5);
-        private string[] trName = Main.getText((Main.oras) ? 22 : 21);
-        private string[] trClass = Main.getText((Main.oras) ? 21 : 20);
-        private string[] trText = Main.getText((Main.oras) ? 23 : 22);
+        private readonly string[] trdatapaths = Directory.GetFiles("trdata");
+        private readonly string[] trpokepaths = Directory.GetFiles("trpoke");
+        private readonly string[] abilitylist = Main.getText(Main.oras ? 37 : 34);
+        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
+        private readonly string[] types = Main.getText(Main.oras ? 18 : 17);
+        private readonly string[] forms = Main.getText(Main.oras ? 5 : 5);
+        private string[] trName = Main.getText(Main.oras ? 22 : 21);
+        private readonly string[] trClass = Main.getText(Main.oras ? 21 : 20);
+        private readonly string[] trText = Main.getText(Main.oras ? 23 : 22);
         #endregion
 
         // Ability Loading
@@ -166,8 +180,8 @@ namespace pk3DS
 
             int species = trpk_pkm[slot].SelectedIndex;
             int formnum = trpk_form[slot].SelectedIndex;
-            species = (formnum > 0) 
-                ? ((indexList[species] > 0) 
+            species = formnum > 0 
+                ? (indexList[species] > 0 
                     ? indexList[species] + formnum - 1 
                     : species) 
                 : species;
@@ -194,14 +208,14 @@ namespace pk3DS
                     trpk_gender[i].Enabled =
                     trpk_abil[i].Enabled =
                     trpk_IV[i].Enabled =
-                    trpk_lvl[i].Enabled = (i < pkm);
+                    trpk_lvl[i].Enabled = i < pkm;
 
-                    trpk_item[i].Enabled = (i < pkm) && (checkBox_Item.Checked);
+                    trpk_item[i].Enabled = (i < pkm) && checkBox_Item.Checked;
 
                     trpk_m1[i].Enabled =
                     trpk_m2[i].Enabled =
                     trpk_m3[i].Enabled =
-                    trpk_m4[i].Enabled = (i < pkm) && (checkBox_Moves.Checked);
+                    trpk_m4[i].Enabled = (i < pkm) && checkBox_Moves.Checked;
 
                     if (!trpk_pkm[i].Enabled)
                     {
@@ -258,7 +272,7 @@ namespace pk3DS
                     if (trpk_m4[i].SelectedIndex > 0) toret += " / " + trpk_m4[i].Text;
                     toret += ")";
                 }
-                toret += " IVs: All " + (Convert.ToInt32(trpk_IV[i].SelectedIndex) / 8);
+                toret += " IVs: All " + Convert.ToInt32(trpk_IV[i].SelectedIndex) / 8;
                 toret += Environment.NewLine;
             }
             toret += Environment.NewLine;
@@ -428,11 +442,11 @@ namespace pk3DS
             Array.Resize(ref trName, trdatapaths.Length);
             CB_TrainerID.Items.Clear();
             for (int i = 0; i < trdatapaths.Length; i++)
-                CB_TrainerID.Items.Add(String.Format("{1} - {0}", i.ToString("000"), trName[i] ?? "UNKNOWN"));
+                CB_TrainerID.Items.Add(string.Format("{1} - {0}", i.ToString("000"), trName[i] ?? "UNKNOWN"));
 
             CB_Trainer_Class.Items.Clear();
             for (int i = 0; i < trClass.Length; i++)
-                CB_Trainer_Class.Items.Add(String.Format("{1} - {0}", i.ToString("000"), trClass[i]));
+                CB_Trainer_Class.Items.Add(string.Format("{1} - {0}", i.ToString("000"), trClass[i]));
 
             specieslist[0] = "---";
             abilitylist[0] = itemlist[0] = movelist[0] = "";
@@ -462,7 +476,7 @@ namespace pk3DS
 
                 trpk_lvl[i].Items.Clear();
                 for (int z = 0; z <= 100; z++)
-                    trpk_lvl[i].Items.Add((z).ToString());
+                    trpk_lvl[i].Items.Add(z.ToString());
 
                 trpk_IV[i].Items.Clear();
                 for (int z = 0; z < 256; z++)
@@ -501,7 +515,7 @@ namespace pk3DS
             CB_Battle_Type.Items.Add("Triple");
             CB_Battle_Type.Items.Add("Rotation");
             CB_Battle_Type.Items.Add("Horde");
-            megaEvos = (Main.oras) 
+            megaEvos = Main.oras 
                 ? new[] { 15, 18, 80, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 380, 381, 428, 475, 531, 719, 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 } 
                 : new[] { 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 };
             
@@ -522,15 +536,15 @@ namespace pk3DS
         public static int rDMGCount, rSTABCount;
         private int[] mEvoTypes;
         private string[] rImportant;
-        private List<string> Tags = new List<string>();
-        private Dictionary<string, int> TagTypes = new Dictionary<string, int>();
+        private readonly List<string> Tags = new List<string>();
+        private readonly Dictionary<string, int> TagTypes = new Dictionary<string, int>();
         public static int[] sL; // Random Species List
         public static decimal rGiftPercent, rLevelPercent;
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             rPKM = rMove = rAbility = rDiffAI = rDiffIV = rClass = rGift = rItem = rDoRand = false; // init to false
             rGiftPercent = 0; // 0
-            (new TrainerRand()).ShowDialog(); // Open Randomizer Config to get config vals
+            new TrainerRand().ShowDialog(); // Open Randomizer Config to get config vals
             if (rDoRand)
                 Randomize();
         }
@@ -538,7 +552,7 @@ namespace pk3DS
         {
             int[] banned = { 165, 621 }; // Struggle, Hyperspace Fury
             rImportant = new string[CB_TrainerID.Items.Count];
-            rTags = (Main.oras) ? GetTagsORAS() : GetTagsXY();
+            rTags = Main.oras ? GetTagsORAS() : GetTagsXY();
             mEvoTypes = GetMegaEvolvableTypes();
             List<int> GymE4Types = new List<int>();
 
@@ -621,10 +635,10 @@ namespace pk3DS
                     && !rIgnoreClass.Contains(CB_Trainer_Class.SelectedIndex) // Current class isn't a special class
                     )
                 {
-                    int rv = (int)(rnd32() % (CB_Trainer_Class.Items.Count));
+                    int rv = (int)(rnd32() % CB_Trainer_Class.Items.Count);
                     // Ensure the Random Class isn't an exclusive class
                     while (rIgnoreClass.Contains(rv) && !trClass[rv].StartsWith("[~")) // don't allow disallowed classes
-                        rv = (int)(rnd32() % (CB_Trainer_Class.Items.Count));
+                        rv = (int)(rnd32() % CB_Trainer_Class.Items.Count);
 
                     CB_Trainer_Class.SelectedIndex = rv;
                 }
@@ -635,18 +649,18 @@ namespace pk3DS
                     ushort[] items;
                     uint rnd = rnd32() % 10;
                     if (rnd < 2) // held item
-                        items = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+                        items = Main.oras ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
                     else if (rnd < 5) // medicine
-                        items = (Main.oras) ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
+                        items = Main.oras ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
                     else // berry
                         items = Legal.Pouch_Berry_XY;
-                    CB_Prize.SelectedIndex = items[(rnd32() % items.Length)];
+                    CB_Prize.SelectedIndex = items[rnd32() % items.Length];
                 }
                 #endregion
                 else if (rGift)
                     CB_Prize.SelectedIndex = 0;
 
-                ushort[] itemvals = (Main.oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+                ushort[] itemvals = Main.oras ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
                 itemvals = itemvals.Concat(Legal.Pouch_Berry_XY).ToArray();
                 int itemC = itemvals.Length;
                 int ctr = 0;
@@ -670,13 +684,13 @@ namespace pk3DS
                         if (typerand)
                         {
                             int tries = 0;
-                            while (((pkm.Types[0] != type && pkm.Types[1] != type) || ((mevo && p == CB_numPokemon.SelectedIndex - 1 && !megaEvos.Contains(species)))) && tries < 0x10000)
+                            while (((pkm.Types[0] != type && pkm.Types[1] != type) || mevo && p == CB_numPokemon.SelectedIndex - 1 && !megaEvos.Contains(species)) && tries < 0x10000)
                                 if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
                                     pkm = Main.SpeciesStat[species = GetRandomMegaEvolvablePokemon(type)];
                                 else if (rSmart) // Get a new Pokemon with a close BST
                                 {
                                     pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
-                                    while (!((pkm.BST * (5 - ++tries / 722) / 6 < oldpkm.BST) && (pkm.BST * (6 + ++tries / 722) / 5) > oldpkm.BST))
+                                    while (!((pkm.BST * (5 - ++tries / 722) / 6 < oldpkm.BST) && pkm.BST * (6 + ++tries / 722) / 5 > oldpkm.BST))
                                     {
                                         pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
                                     }
@@ -689,7 +703,7 @@ namespace pk3DS
                         else if (rSmart) // Get a new Pokemon with a close BST
                         {
                             int tries = 0;
-                            while (!((pkm.BST * (5 - ++tries / 722) / 6 < oldpkm.BST) && (pkm.BST * (6 + ++tries / 722) / 5) > oldpkm.BST))
+                            while (!((pkm.BST * (5 - ++tries / 722) / 6 < oldpkm.BST) && pkm.BST * (6 + ++tries / 722) / 5 > oldpkm.BST))
                             {
                                 pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
                             }
@@ -719,7 +733,7 @@ namespace pk3DS
                     }
                     else if (rItem)
                         #region RandomItem
-                        trpk_item[p].SelectedIndex = itemvals[(rnd32() % itemC)];
+                        trpk_item[p].SelectedIndex = itemvals[rnd32() % itemC];
                         #endregion
                     
                     if (rMove)

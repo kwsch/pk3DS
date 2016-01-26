@@ -29,16 +29,16 @@ namespace CTR
                 {
                     string fn = Path.GetFileNameWithoutExtension(f);
                     int compressed = fn.IndexOf("dec_", StringComparison.Ordinal);
-                    int fileNumber = (compressed < 0)
-                        ? Int32.Parse(fn)
-                        : Int32.Parse(fn.Substring(compressed + 4));
+                    int fileNumber = compressed < 0
+                        ? int.Parse(fn)
+                        : int.Parse(fn.Substring(compressed + 4));
 
                     packOrder[fileNumber] = f;
                     filectr++;
                 }
                 foreach (string f in folders)
                 {
-                    packOrder[Int32.Parse(new DirectoryInfo(f).Name)] = f;
+                    packOrder[int.Parse(new DirectoryInfo(f).Name)] = f;
                     filectr += Directory.GetFiles(f).Length;
                 }
             }
@@ -92,9 +92,9 @@ namespace CTR
 
                         string fn = Path.GetFileNameWithoutExtension(packOrder[i]);
                         int compressed = fn.IndexOf("dec_", StringComparison.Ordinal);
-                        int fileNumber = (compressed < 0)
-                            ? Int32.Parse(fn)
-                            : Int32.Parse(fn.Substring(compressed + 4));
+                        int fileNumber = compressed < 0
+                            ? int.Parse(fn)
+                            : int.Parse(fn.Substring(compressed + 4));
 
                         if (compressed >= 0)
                         {
@@ -108,7 +108,7 @@ namespace CTR
 
                         // Assemble Entry
                         FileInfo fi = new FileInfo(packOrder[i]);
-                        int actualLength = (int)((fi.Length % 4 == 0) ? fi.Length : fi.Length + 4 - (fi.Length % 4));
+                        int actualLength = (int)(fi.Length % 4 == 0 ? fi.Length : fi.Length + 4 - fi.Length % 4);
                         garc.fatb.Entries[i].SubEntries[0].Start = od;
                         garc.fatb.Entries[i].SubEntries[0].End = actualLength + garc.fatb.Entries[i].SubEntries[0].Start;
                         garc.fatb.Entries[i].SubEntries[0].Length = (int)fi.Length;
@@ -119,7 +119,7 @@ namespace CTR
                         if (pBar1.InvokeRequired)
                             pBar1.Invoke((MethodInvoker)(() => pBar1.PerformStep()));
                         else { pBar1.PerformStep(); }
-                        string update = String.Format("{0:P2} - {1}/{2} - {3}", ((float)index) / ((float)filectr), index, filectr, packOrder[i]);
+                        string update = $"{(float) index/(float) filectr:P2} - {index}/{filectr} - {packOrder[i]}";
                         index++;
                         if (label.InvokeRequired)
                             label.Invoke((MethodInvoker)delegate { label.Text = update; });
@@ -135,9 +135,9 @@ namespace CTR
                             string s = f;
                             string fn = Path.GetFileNameWithoutExtension(f);
                             int compressed = fn.IndexOf("dec_", StringComparison.Ordinal);
-                            int fileNumber = (compressed < 0)
-                                ? Int32.Parse(fn)
-                                : Int32.Parse(fn.Substring(compressed + 4));
+                            int fileNumber = compressed < 0
+                                ? int.Parse(fn)
+                                : int.Parse(fn.Substring(compressed + 4));
                             garc.fatb.Entries[i].SubEntries[fileNumber].Exists = true;
 
                             if (compressed >= 0)
@@ -151,7 +151,7 @@ namespace CTR
 
                             // Assemble Entry
                             FileInfo fi = new FileInfo(s);
-                            int actualLength = (int)((fi.Length % 4 == 0) ? fi.Length : fi.Length + 4 - (fi.Length % 4));
+                            int actualLength = (int)(fi.Length % 4 == 0 ? fi.Length : fi.Length + 4 - fi.Length % 4);
                             garc.fatb.Entries[i].SubEntries[fileNumber].Start = od;
                             garc.fatb.Entries[i].SubEntries[fileNumber].End = actualLength + garc.fatb.Entries[i].SubEntries[fileNumber].Start;
                             garc.fatb.Entries[i].SubEntries[fileNumber].Length = (int)fi.Length;
@@ -162,7 +162,7 @@ namespace CTR
                             if (pBar1.InvokeRequired)
                                 pBar1.Invoke((MethodInvoker)(() => pBar1.PerformStep()));
                             else { pBar1.PerformStep(); }
-                            string update = String.Format("{0:P2} - {1}/{2} - {3}", ((float)index) / ((float)filectr), index, filectr, f);
+                            string update = $"{(float) index/(float) filectr:P2} - {index}/{filectr} - {f}";
                             index++;
                             if (label.InvokeRequired)
                                 label.Invoke((MethodInvoker)delegate { label.Text = update; });
@@ -172,7 +172,7 @@ namespace CTR
                     }
                     garc.fatb.Entries[i].Vector = (uint)v;
                 }
-                garc.fatb.HeaderSize = (0xC + op);
+                garc.fatb.HeaderSize = 0xC + op;
             }
             #endregion
 
@@ -358,7 +358,7 @@ namespace CTR
                         if (pBar1.InvokeRequired) pBar1.Invoke((MethodInvoker)(() => pBar1.PerformStep()));
                         else pBar1.PerformStep();
 
-                        string update = String.Format("{0:P2} - {1}/{2}", (filectr) / (fileCount), filectr, fileCount);
+                        string update = $"{filectr/fileCount:P2} - {filectr}/{fileCount}";
                         if (label.InvokeRequired)
                             label.Invoke((MethodInvoker)delegate { label.Text = update; });
                         else { label.Text = update; }
@@ -443,13 +443,13 @@ namespace CTR
         public struct GARCFile
         {
             public Char[] Magic; // Always GARC = 0x4E415243
-            public UInt32 HeaderSize; // Always 0x001C
+            public uint HeaderSize; // Always 0x001C
             public UInt16 Endianess; // 0xFFFE
             public UInt16 ChunkCount; // Always 0x0400 chunk count
 
-            public UInt32 DataOffset;
-            public UInt32 FileSize;
-            public UInt32 LastSize;
+            public uint DataOffset;
+            public uint FileSize;
+            public uint LastSize;
 
             public FATO fato;
             public FATB fatb;
@@ -459,7 +459,7 @@ namespace CTR
         public struct FATO
         {
             public Char[] Magic;
-            public Int32 HeaderSize;
+            public int HeaderSize;
             public UInt16 EntryCount;
             public UInt16 Padding;
 
@@ -467,36 +467,36 @@ namespace CTR
         }
         public struct FATO_Entry
         {
-            public Int32 Offset;
+            public int Offset;
         }
 
         public struct FATB
         {
             public Char[] Magic;
-            public Int32 HeaderSize;
-            public Int32 FileCount;
+            public int HeaderSize;
+            public int FileCount;
 
             public FATB_Entry[] Entries;
         }
         public struct FATB_Entry
         {
-            public UInt32 Vector;
+            public uint Vector;
             public Boolean IsFolder;
             public FATB_SubEntry[] SubEntries;
         }
         public struct FATB_SubEntry
         {
             public Boolean Exists;
-            public Int32 Start;
-            public Int32 End;
-            public Int32 Length;
+            public int Start;
+            public int End;
+            public int Length;
         }
 
         public struct FIMG
         {
             public Char[] Magic;
-            public Int32 HeaderSize;
-            public Int32 DataSize;
+            public int HeaderSize;
+            public int DataSize;
         }
     }
     #endregion

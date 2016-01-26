@@ -19,7 +19,7 @@ namespace CTR
             if (headerLength < dataStart)
                 throw new Exception("Specified Header length is too small!?");
             byte[] pack = data.Skip(dataStart).ToArray(); // pull out payload
-            byte[] newData = (new byte[headerLength].Concat(pack).ToArray()); // append payload onto new header
+            byte[] newData = new byte[headerLength].Concat(pack).ToArray(); // append payload onto new header
             Array.Copy(data, 0, newData, 0, dataStart); // copy in old header (then repoint)
 
             int diff = headerLength - dataStart; // shift pointer
@@ -242,7 +242,7 @@ namespace CTR
                 }
 
                 offsets[offsets.Length - 1] = length;
-                return (fi.Length == length) ? fx : null;
+                return fi.Length == length ? fx : null;
             }
             catch { return null; }
         }

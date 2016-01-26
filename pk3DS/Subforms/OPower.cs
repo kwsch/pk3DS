@@ -32,11 +32,11 @@ namespace pk3DS
             Util.Alert("More research is required for giving S/MAX O-Powers ingame.");
         }
 
-        private string codebin;
-        private int offset;
-        private byte[] exefsData;
-        private byte[][] powerData = new byte[65][];
-        private string[] powerFlavor = Main.getText((Main.oras) ? 165 : 141);
+        private readonly string codebin;
+        private readonly int offset;
+        private readonly byte[] exefsData;
+        private readonly byte[][] powerData = new byte[65][];
+        private readonly string[] powerFlavor = Main.getText(Main.oras ? 165 : 141);
         
         int entry = -1;
         private void changeEntry(object sender, EventArgs e)

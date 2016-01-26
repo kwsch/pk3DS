@@ -30,9 +30,9 @@ namespace CTR
                 return false;
 
             // If ExeFS and RomFS are not built, build.
-            if (!(File.Exists(EXEFS_PATH)) && Directory.Exists(EXEFS_PATH))
+            if (!File.Exists(EXEFS_PATH) && Directory.Exists(EXEFS_PATH))
                 ExeFS.set(Directory.GetFiles(EXEFS_PATH), EXEFS_PATH = "exefs.bin");
-            if (!(File.Exists(ROMFS_PATH)) && Directory.Exists(ROMFS_PATH))
+            if (!File.Exists(ROMFS_PATH) && Directory.Exists(ROMFS_PATH))
                 RomFS.BuildRomFS(ROMFS_PATH, ROMFS_PATH = "romfs.bin", TB_Progress, PB_Show);
 
             NCCH NCCH = setNCCH(EXEFS_PATH, ROMFS_PATH, EXHEADER_PATH, SERIAL_TEXT, LOGO_NAME, PB_Show, TB_Progress);
@@ -80,7 +80,7 @@ namespace CTR
             NCCH.header.ProductCode = Encoding.ASCII.GetBytes(TB_Serial);
             Array.Resize(ref NCCH.header.ProductCode, 0x10);
             NCCH.header.ExheaderHash = NCCH.exheader.GetSuperBlockHash();
-            NCCH.header.ExheaderSize = (uint)(NCCH.exheader.Data.Length);
+            NCCH.header.ExheaderSize = (uint)NCCH.exheader.Data.Length;
             Len += NCCH.header.ExheaderSize + (uint)NCCH.exheader.AccessDescriptor.Length;
             NCCH.header.Flags = new byte[0x8];
             //FLAGS
@@ -92,7 +92,7 @@ namespace CTR
             NCCH.header.LogoOffset = (uint)(Len / MEDIA_UNIT_SIZE);
             NCCH.header.LogoSize = (uint)(NCCH.logo.Length / MEDIA_UNIT_SIZE);
             Len += (uint)NCCH.logo.Length;
-            NCCH.header.PlainRegionOffset = (uint)((NCCH.plainregion.Length > 0) ? Len / MEDIA_UNIT_SIZE : 0);
+            NCCH.header.PlainRegionOffset = (uint)(NCCH.plainregion.Length > 0 ? Len / MEDIA_UNIT_SIZE : 0);
             NCCH.header.PlainRegionSize = (uint)NCCH.plainregion.Length / MEDIA_UNIT_SIZE;
             Len += (uint)NCCH.plainregion.Length;
             NCCH.header.ExefsOffset = (uint)(Len / MEDIA_UNIT_SIZE);
@@ -101,7 +101,7 @@ namespace CTR
             Len += (uint)NCCH.exefs.Data.Length;
             Len = (uint)Align(Len, 0x1000); //Romfs Start is aligned to 0x1000
             NCCH.header.RomfsOffset = (uint)(Len / MEDIA_UNIT_SIZE);
-            NCCH.header.RomfsSize = (uint)((new FileInfo(NCCH.romfs.FileName)).Length / MEDIA_UNIT_SIZE);
+            NCCH.header.RomfsSize = (uint)(new FileInfo(NCCH.romfs.FileName).Length / MEDIA_UNIT_SIZE);
             NCCH.header.RomfsSuperBlockSize = NCCH.romfs.SuperBlockLen / MEDIA_UNIT_SIZE;
             Len += NCCH.header.RomfsSize * MEDIA_UNIT_SIZE;
             NCCH.header.ExefsHash = NCCH.exefs.SuperBlockHash;
@@ -164,7 +164,7 @@ namespace CTR
             }
             NCSD.cardinfoheader = new NCSD.CardInfoHeader
             {
-                WritableAddress = (uint)(NCSD.GetWritableAddress()),
+                WritableAddress = (uint)NCSD.GetWritableAddress(),
                 CardInfoBitmask = 0,
                 CIN = new NCSD.CardInfoHeader.CardInfoNotes
                 {
@@ -209,7 +209,7 @@ namespace CTR
                 byte[] key = new byte[0x10]; //Fixed-Crypto key is all zero.
                 for (int i = 0; i < 3; i++)
                 {
-                    AesCtr aesctr = new AesCtr(key, NCSD.NCCH_Array[0].header.ProgramId, ((ulong)(i + 1)) << 56); //CTR is ProgramID, section id<<88
+                    AesCtr aesctr = new AesCtr(key, NCSD.NCCH_Array[0].header.ProgramId, (ulong)(i + 1) << 56); //CTR is ProgramID, section id<<88
                     switch (i)
                     {
                         case 0: //Exheader + AccessDesc
@@ -242,15 +242,15 @@ namespace CTR
                                     PB_Show.Value = 0;
                                     PB_Show.Step = 1;
                                 }));
-                                for (ulong j = 0; j < (RomfsLen); j += BUFFER_SIZE)
+                                for (ulong j = 0; j < RomfsLen; j += BUFFER_SIZE)
                                 {
-                                    BUFFER_SIZE = (RomfsLen - j) > 0x400000 ? 0x400000 : (uint)(RomfsLen - j);
+                                    BUFFER_SIZE = RomfsLen - j > 0x400000 ? 0x400000 : (uint)(RomfsLen - j);
                                     byte[] buf = new byte[BUFFER_SIZE];
                                     byte[] outbuf = new byte[BUFFER_SIZE];
                                     InFileStream.Read(buf, 0, (int)BUFFER_SIZE);
                                     aesctr.TransformBlock(buf, 0, (int)BUFFER_SIZE, outbuf, 0);
                                     OutFileStream.Write(outbuf, 0, (int)BUFFER_SIZE);
-                                    PB_Show.Invoke((Action)(PB_Show.PerformStep));
+                                    PB_Show.Invoke((Action)PB_Show.PerformStep);
                                 }
                             }
                             break;
@@ -273,7 +273,7 @@ namespace CTR
                 updateTB(TB_Progress, "Writing NCSD Padding...");
                 while ((ulong)OutFileStream.Position < TotalLen)
                 {
-                    int BUFFER_LEN = ((TotalLen - (ulong)OutFileStream.Position) < 0x400000) ? (int)(TotalLen - (ulong)OutFileStream.Position) : 0x400000;
+                    int BUFFER_LEN = TotalLen - (ulong)OutFileStream.Position < 0x400000 ? (int)(TotalLen - (ulong)OutFileStream.Position) : 0x400000;
                     OutFileStream.Write(Buffer, 0, BUFFER_LEN);
                 }
             }
@@ -349,7 +349,7 @@ namespace CTR
             ulong output = input;
             if (output % alignsize != 0)
             {
-                output += (alignsize - (output % alignsize));
+                output += alignsize - output % alignsize;
             }
             return output;
         }

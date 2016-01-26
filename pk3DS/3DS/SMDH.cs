@@ -63,9 +63,9 @@ namespace CTR
     // Thanks to Gericom for EveryFileExplorer's SMDH.cs as a basis for the object code (and AppSettings enumeration)
     class ApplicationInfo
     {
-        public String ShortDescription; //0x80
-        public String LongDescription; //0x100
-        public String Publisher; //0x80
+        public string ShortDescription; //0x80
+        public string LongDescription; //0x100
+        public string Publisher; //0x80
         public ApplicationInfo(BinaryReader br)
         {
             ShortDescription = Encoding.Unicode.GetString(br.ReadBytes(0x80)).TrimEnd('\0');
@@ -84,13 +84,13 @@ namespace CTR
     {
         public byte[] GameRatings; //0x10
         public RegionLockoutFlags RegionLockout;
-        public UInt32 MatchMakerID;
+        public uint MatchMakerID;
         public UInt64 MatchMakerBITID;
         public AppSettingsFlags Flags;
         public UInt16 EULAVersion;
         public UInt16 Reserved;
         public Single AnimationDefaultFrame;
-        public UInt32 StreetPassID;
+        public uint StreetPassID;
         
         public enum RegionLockoutFlags : uint
         {

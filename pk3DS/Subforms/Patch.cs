@@ -57,7 +57,7 @@ namespace pk3DS
 
             if (ctr == 0)
             { result = "Did not find the old path strings to replace."; return false; }
-            result += String.Format("Redirected {0} file paths.", ctr);
+            result += $"Redirected {ctr} file paths.";
             Directory.CreateDirectory(Directory.GetParent(outPath).Name);
             File.WriteAllText(outPath ?? path, text, Encoding.Unicode);
             return true;
@@ -79,7 +79,7 @@ namespace pk3DS
 
         private void B_PatchCIA_Click(object sender, EventArgs e)
         {
-            string patchFolder = String.Format("{0} ({1})", "Patch", (DateTime.Now).ToString("yy-MM-dd@HH-mm-ss"));
+            string patchFolder = $"{"Patch"} ({DateTime.Now.ToString("yy-MM-dd@HH-mm-ss")})";
             try
             {
                 string[] garcs = getGARCs();
@@ -96,7 +96,7 @@ namespace pk3DS
                 for (int i = 0; i < newPaths.Length; i++)
                 {
                     int posA = newPaths[i].LastIndexOf(oldA, StringComparison.Ordinal);
-                    newPaths[i] = (posA == -1) ? null : newPaths[i].Remove(posA, oldA.Length).Insert(posA, newA);
+                    newPaths[i] = posA == -1 ? null : newPaths[i].Remove(posA, oldA.Length).Insert(posA, newA);
                 }
                 string result = "";
                 string ExeFS = Directory.GetFiles(Main.ExeFSPath)[0];

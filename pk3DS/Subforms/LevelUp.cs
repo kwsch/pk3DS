@@ -33,10 +33,10 @@ namespace pk3DS
             CB_Species.DataSource = newlist;
             CB_Species.SelectedIndex = 0;
         }
-        private string[] files = Directory.GetFiles("levelup");
-        private byte[] data = File.ReadAllBytes(Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly).Last());
+        private readonly string[] files = Directory.GetFiles("levelup");
+        private readonly byte[] data = File.ReadAllBytes(Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly).Last());
         private int entry = -1;
-        private string[] movelist = Main.getText((Main.oras) ? 14 : 13);
+        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
         bool dumping;
         private void setupDGV()
         {
@@ -69,7 +69,7 @@ namespace pk3DS
             entry = Util.getIndex(CB_Species);
 
             int[] specForm = Personal.getSpecies(data, Main.oras, entry);
-            string filename = "_" + specForm[0] + ((entry > 721) ? "_" + (specForm[1] + 1) : "");
+            string filename = "_" + specForm[0] + (entry > 721 ? "_" + (specForm[1] + 1) : "");
             PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
 
             dgv.Rows.Clear();
@@ -164,7 +164,7 @@ namespace pk3DS
                 for (int j = 1; j < dgv.Rows.Count - 1; j++)
                 {
                     // Assign New Moves
-                    bool forceSTAB = (CHK_STAB.Checked && rnd.Next(0, 99) < NUD_STAB.Value);
+                    bool forceSTAB = CHK_STAB.Checked && rnd.Next(0, 99) < NUD_STAB.Value;
                     int move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
                     while ( // Move is invalid
                         (!CHK_HMs.Checked && banned.Contains(move)) // HM Moves Not Allowed
@@ -209,7 +209,7 @@ namespace pk3DS
                 CB_Species.SelectedIndex = i; // Get new Species
                 result += "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
                 for (int j = 0; j < dgv.Rows.Count - 1; j++)
-                    result += String.Format("{0} - {1}", dgv.Rows[j].Cells[0].Value, dgv.Rows[j].Cells[1].Value + Environment.NewLine);
+                    result += $"{dgv.Rows[j].Cells[0].Value} - {dgv.Rows[j].Cells[1].Value + Environment.NewLine}";
 
                 result += Environment.NewLine;
             }
@@ -266,9 +266,7 @@ namespace pk3DS
                         stab++;
                 }
             }
-            Util.Alert(String.Format("Moves Learned: {0}\r\nMost Learned: {1} @ {2}\r\nSTAB Count: {3}", 
-                movectr, max,
-                spec, stab));
+            Util.Alert($"Moves Learned: {movectr}\r\nMost Learned: {max} @ {spec}\r\nSTAB Count: {stab}");
         }
     }
 }

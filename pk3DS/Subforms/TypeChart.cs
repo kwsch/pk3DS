@@ -9,11 +9,12 @@ namespace pk3DS
     public partial class TypeChart : Form
     {
         internal static string CROPath = Path.Combine(Main.RomFSPath, "DllBattle.cro");
-        private string[] types = Main.getText((Main.oras) ? 18 : 17);
-        private int offset = Main.oras ? 0x000DB428 : 0x000D12A8;
-        private byte[] chart = new byte[0x144];
-        private byte[] CROData;
-        uint[] Colors = { 0xFF000000, 
+        private readonly string[] types = Main.getText(Main.oras ? 18 : 17);
+        private readonly int offset = Main.oras ? 0x000DB428 : 0x000D12A8;
+        private readonly byte[] chart = new byte[0x144];
+        private readonly byte[] CROData;
+
+        readonly uint[] Colors = { 0xFF000000, 
                             0, // unused
                             0xFFFF0000,
                             0, // unused
@@ -57,13 +58,13 @@ namespace pk3DS
                 // Plop into image
                 for (int x = 0; x < itemsize * itemsize; x++)
                     Buffer.BlockCopy(BitConverter.GetBytes(itemColor), 0, bmpData,
-                        ((Y * itemsize + x % itemsize) * width * 4) + ((X * itemsize + x / itemsize) * 4), 4);
+                        (Y * itemsize + x % itemsize) * width * 4 + (X * itemsize + x / itemsize) * 4, 4);
             }
             // slap on a grid
             for (int i = 0; i < width * height; i++)
-                if (i % (itemsize) == 0 || (i / (itemsize * itemsPerRow)) % (itemsize) == 0)
+                if (i % itemsize == 0 || i / (itemsize * itemsPerRow) % itemsize == 0)
                     Buffer.BlockCopy(BitConverter.GetBytes(0x17000000), 0, bmpData,
-                        ((i / (itemsize * itemsPerRow)) * width * 4) + ((i % (itemsize * itemsPerRow)) * 4), 4);
+                        i / (itemsize * itemsPerRow) * width * 4 + i % (itemsize * itemsPerRow) * 4, 4);
 
             // assemble image
             Bitmap b = new Bitmap(width, height, PixelFormat.Format32bppArgb);
@@ -85,8 +86,8 @@ namespace pk3DS
 
         private void moveMouse(object sender, MouseEventArgs e)
         {
-            int X = e.X / (32);
-            int Y = e.Y / (32);
+            int X = e.X / 32;
+            int Y = e.Y / 32;
             if (e.X == (sender as PictureBox).Width - 1 - 2) // tweak because the furthest pixel is unused for transparent effect, and 2 px are used for border
                 X -= 1;
             if (e.Y == (sender as PictureBox).Height - 1 - 2)
@@ -97,8 +98,8 @@ namespace pk3DS
         }
         private void clickMouse(object sender, MouseEventArgs e)
         {
-            int X = e.X / (32);
-            int Y = e.Y / (32);
+            int X = e.X / 32;
+            int Y = e.Y / 32;
             if (e.X == (sender as PictureBox).Width - 1 - 2) // tweak because the furthest pixel is unused for transparent effect, and 2 px are used for border
                 X -= 1;
             if (e.Y == (sender as PictureBox).Height - 1 - 2)
@@ -142,10 +143,10 @@ namespace pk3DS
         }
         private void updateLabel(int X, int Y, int value)
         {
-            L_Hover.Text = String.Format("[{0}x{1}: {2}] {4} attacking {3} {5}", X.ToString("00"), Y.ToString("00"),
+            L_Hover.Text = string.Format("[{0}x{1}: {2}] {4} attacking {3} {5}", X.ToString("00"), Y.ToString("00"),
                 value.ToString("00"), types[X], types[Y], effects[value]);
         }
-        private string[] effects =
+        private readonly string[] effects =
         {
             "has no effect!",
             "",

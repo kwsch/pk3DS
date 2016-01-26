@@ -6,7 +6,7 @@ namespace pk3DS
 {
     public partial class Starters : Form
     {
-        private byte[][] personal;
+        private readonly byte[][] personal;
         public Starters()
         {
             specieslist[0] = "---";
@@ -51,16 +51,16 @@ namespace pk3DS
         }
         internal static string CROPath = Path.Combine(Main.RomFSPath, "DllPoke3Select.cro");
         internal static string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
-        private string[] specieslist = Main.getText((Main.oras) ? 98 : 80);
-        private ComboBox[][] Choices;
-        private PictureBox[][] Previews;
-        private Label[] Labels;
-        private string[] StarterSummary = Main.oras
+        private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
+        private readonly ComboBox[][] Choices;
+        private readonly PictureBox[][] Previews;
+        private readonly Label[] Labels;
+        private readonly string[] StarterSummary = Main.oras
             ? new[] { "Gen 3 Starters", "Gen 2 Starters", "Gen 4 Starters", "Gen 5 Starters" }
             : new[] { "Gen 6 Starters", "Gen 1 Starters" };
         private byte[] Data;
         private byte[] FieldData;
-        private int Count = Main.oras ? 4 : 2;
+        private readonly int Count = Main.oras ? 4 : 2;
         private int offset;
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -129,8 +129,8 @@ namespace pk3DS
         {
             // Fetch the corresponding PictureBox to update
             string name = (sender as ComboBox).Name;
-            int group = Int32.Parse(name[4]+"") - 1;
-            int index = Int32.Parse(name[6]+"");
+            int group = int.Parse(name[4]+"") - 1;
+            int index = int.Parse(name[6]+"");
 
             int species = (sender as ComboBox).SelectedIndex;
             Previews[group][index].Image = Util.scaleImage(Util.getSprite(species, 0, 0, 0), 3);
@@ -148,7 +148,7 @@ namespace pk3DS
             for (int i = 0; i < Count; i++)
             {
                 // Get Species List
-                int gen = Int32.Parse(Labels[i].Text[4]+"");
+                int gen = int.Parse(Labels[i].Text[4]+"");
                 int[] sL = CHK_Gen.Checked
                     ? Randomizer.getSpeciesList(gen==1, gen==2, gen==3, gen==4, gen==5, gen==6, false, false, false)
                     : Randomizer.getSpeciesList(true, true, true, true, true, true, false, false, false);

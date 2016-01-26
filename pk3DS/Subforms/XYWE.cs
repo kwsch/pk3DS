@@ -275,23 +275,23 @@ namespace pk3DS
             for (int i = 0; i < personalList.Length; i++)
                 personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
         }
-        private ComboBox[] spec;
-        private NumericUpDown[] min;
-        private NumericUpDown[] max;
-        private NumericUpDown[] form;
+        private readonly ComboBox[] spec;
+        private readonly NumericUpDown[] min;
+        private readonly NumericUpDown[] max;
+        private readonly NumericUpDown[] form;
         string[] specieslist = { };
-        string[] formlist = { };
+        readonly string[] formlist = { };
         string[] metXY_00000 = { };
         byte[] zonedata = { };
         string[] LocationNames = { };
         private string[] encdatapaths;
         private string[] filepaths;
 
-        byte[][] personal;
+        readonly byte[][] personal;
 
         private void Load_XYWE()
         {
-            specieslist = Main.getText((Main.oras) ? 98 : 80);
+            specieslist = Main.getText(Main.oras ? 98 : 80);
             specieslist[0] = "---";
 
             CB_FormeList.Items.AddRange(formlist);
@@ -312,7 +312,7 @@ namespace pk3DS
             Array.Sort(encdatapaths);
             filepaths = new string[encdatapaths.Length - 1];
             Array.Copy(encdatapaths, 1, filepaths, 0, filepaths.Length);
-            metXY_00000 = Main.getText((Main.oras) ? 90 : 72);
+            metXY_00000 = Main.getText(Main.oras ? 90 : 72);
             zonedata = File.ReadAllBytes(encdatapaths[0]);
             LocationNames = new string[filepaths.Length];
             for (int f = 0; f < filepaths.Length; f++)
@@ -321,8 +321,8 @@ namespace pk3DS
 
                 int LocationNum = Convert.ToInt16(name.Substring(4, name.Length - 4));
                 int indNum = LocationNum * 56 + 0x1C;
-                string LocationName = metXY_00000[zonedata[indNum] + (0x100 * (zonedata[indNum + 1] & 1))];
-                LocationNames[f] = (LocationNum.ToString("000") + " - " + LocationName);
+                string LocationName = metXY_00000[zonedata[indNum] + 0x100 * (zonedata[indNum + 1] & 1)];
+                LocationNames[f] = LocationNum.ToString("000") + " - " + LocationName;
             }
             CB_LocationID.DataSource = LocationNames;
             B_Save.Enabled = B_Dump.Enabled = B_Randomize.Enabled = true;
@@ -489,7 +489,7 @@ namespace pk3DS
         internal static Random rand = new Random();
         internal static uint rnd32()
         {
-            return (uint)(rand.Next(1 << 30)) << 2 | (uint)(rand.Next(1 << 2));
+            return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
         }
 
         private void B_Randomize_Click(object sender, EventArgs e)
@@ -515,7 +515,7 @@ namespace pk3DS
                 // Assign Levels
                 if (CHK_Level.Checked)
                     for (int l = 0; l < max.Length; l++)
-                        min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Max(1, Math.Min(100, (int)((leveldiff) * max[l].Value)));
+                        min[l].Value = max[l].Value = max[l].Value <= 1 ? max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * max[l].Value)));
 
                 for (int slot = 0; slot < max.Length; slot++)
                 {
@@ -626,7 +626,7 @@ namespace pk3DS
 
                 // Amp Levels
                 for (int l = 0; l < max.Length; l++)
-                    min[l].Value = max[l].Value = (max[l].Value <= 1) ? max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * max[l].Value)));
+                    min[l].Value = max[l].Value = max[l].Value <= 1 ? max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * max[l].Value)));
 
                 // Save Changes
                 B_Save_Click(sender, e);
