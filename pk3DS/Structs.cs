@@ -93,10 +93,10 @@ namespace pk3DS
                 {
                     byte[][] ORASTutorData =
                         {
-                            br.ReadBytes(2), // 15
-                            br.ReadBytes(3), // 17
-                            br.ReadBytes(2), // 16
-                            br.ReadBytes(2), // 15
+                            br.ReadBytes(4), // 15
+                            br.ReadBytes(4), // 17
+                            br.ReadBytes(4), // 16
+                            br.ReadBytes(4), // 15
                         };
                     for (int i = 0; i < 4; i++)
                     {
