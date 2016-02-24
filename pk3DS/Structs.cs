@@ -155,10 +155,10 @@ namespace pk3DS
                 {
                     byte[][] ORASTutorData =
                         {
-                            new byte[2], // 15
-                            new byte[3], // 17
-                            new byte[2], // 16
-                            new byte[2], // 15
+                            new byte[4], // 15
+                            new byte[4], // 17
+                            new byte[4], // 16
+                            new byte[4], // 15
                         };
                     for (int i = 0; i < 4; i++)
                         for (int b = 0; b < ORASTutors[i].Length; b++)
