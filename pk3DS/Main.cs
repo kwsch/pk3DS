@@ -332,8 +332,17 @@ namespace pk3DS
                 return false;
 
             FileInfo fi = new FileInfo(files[0]);
-            if (!fi.Name.Contains("code")) 
-                return false;
+            if (!fi.Name.Contains("code"))
+            {
+                if (new FileInfo(files[1]).Name == "code.bin")
+                {
+                    File.Move(files[1], Path.Combine(Path.GetDirectoryName(files[1]), ".code.bin"));
+                    files = Directory.GetFiles(path);
+                    fi = new FileInfo(files[0]);
+                }
+                else
+                    return false;
+            }
             if (fi.Length % 0x200 != 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code binary.", "Decompress? File will be replaced.") == DialogResult.Yes))
                 new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
 
