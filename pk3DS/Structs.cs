@@ -777,11 +777,11 @@ namespace pk3DS
         public ushort u2;
         public byte Form;
         public byte Level;
-        public byte Gender;
-        public short Nature;
-        public byte u9, uA, uB;
+        public sbyte Ability;
+        public sbyte Nature;
+        public byte Shiny, u9, uA, uB;
         public int HeldItem;
-        public byte Ability;
+        public sbyte Gender;
         // ORAS
         public byte u11;
         public short MetLocation;
@@ -804,13 +804,14 @@ namespace pk3DS
                 u2 = br.ReadUInt16();
                 Form = br.ReadByte();
                 Level = br.ReadByte();
-                Gender = br.ReadByte();
-                Nature = br.ReadInt16();
+                Shiny = br.ReadByte();
+                Ability = br.ReadSByte();
+                Nature = br.ReadSByte();
                 u9 = br.ReadByte();
                 uA = br.ReadByte();
                 uB = br.ReadByte();
                 HeldItem = br.ReadInt32();
-                Ability = br.ReadByte();
+                Gender = br.ReadSByte();
 
                 if (ORAS)
                 {
@@ -840,13 +841,14 @@ namespace pk3DS
                 bw.Write(u2);
                 bw.Write(Form);
                 bw.Write(Level);
-                bw.Write(Gender);
+                bw.Write(Shiny);
+                bw.Write(Ability);
                 bw.Write(Nature);
                 bw.Write(u9);
                 bw.Write(uA);
                 bw.Write(uB);
                 bw.Write(HeldItem);
-                bw.Write(Ability);
+                bw.Write(Gender);
 
                 if (ORAS)
                 {

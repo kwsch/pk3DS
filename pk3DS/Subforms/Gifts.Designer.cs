@@ -40,7 +40,7 @@
             this.NUD_IV4 = new System.Windows.Forms.NumericUpDown();
             this.NUD_IV5 = new System.Windows.Forms.NumericUpDown();
             this.L_Species = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_HeldItem = new System.Windows.Forms.Label();
             this.NUD_Level = new System.Windows.Forms.NumericUpDown();
             this.L_Level = new System.Windows.Forms.Label();
             this.NUD_Form = new System.Windows.Forms.NumericUpDown();
@@ -51,6 +51,12 @@
             this.L_SPA = new System.Windows.Forms.Label();
             this.L_SPE = new System.Windows.Forms.Label();
             this.L_SPD = new System.Windows.Forms.Label();
+            this.L_Nature = new System.Windows.Forms.Label();
+            this.NUD_Nature = new System.Windows.Forms.NumericUpDown();
+            this.L_Ability = new System.Windows.Forms.Label();
+            this.NUD_Ability = new System.Windows.Forms.NumericUpDown();
+            this.L_Gender = new System.Windows.Forms.Label();
+            this.NUD_Gender = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV2)).BeginInit();
@@ -59,6 +65,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Nature)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Ability)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Gender)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -251,14 +260,14 @@
             this.L_Species.Text = "Species:";
             this.L_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label1
+            // L_HeldItem
             // 
-            this.label1.Location = new System.Drawing.Point(96, 38);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 21);
-            this.label1.TabIndex = 478;
-            this.label1.Text = "Held Item:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_HeldItem.Location = new System.Drawing.Point(96, 38);
+            this.L_HeldItem.Name = "L_HeldItem";
+            this.L_HeldItem.Size = new System.Drawing.Size(94, 21);
+            this.L_HeldItem.TabIndex = 478;
+            this.L_HeldItem.Text = "Held Item:";
+            this.L_HeldItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_Level
             // 
@@ -351,11 +360,94 @@
             this.L_SPD.Text = "SpD:";
             this.L_SPD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // L_Nature
+            // 
+            this.L_Nature.Location = new System.Drawing.Point(97, 91);
+            this.L_Nature.Name = "L_Nature";
+            this.L_Nature.Size = new System.Drawing.Size(94, 21);
+            this.L_Nature.TabIndex = 490;
+            this.L_Nature.Text = "Nature:";
+            this.L_Nature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Nature
+            // 
+            this.NUD_Nature.Location = new System.Drawing.Point(196, 91);
+            this.NUD_Nature.Maximum = new decimal(new int[] {
+            24,
+            0,
+            0,
+            0});
+            this.NUD_Nature.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.NUD_Nature.Name = "NUD_Nature";
+            this.NUD_Nature.Size = new System.Drawing.Size(34, 20);
+            this.NUD_Nature.TabIndex = 491;
+            this.NUD_Nature.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            // 
+            // L_Ability
+            // 
+            this.L_Ability.Location = new System.Drawing.Point(190, 89);
+            this.L_Ability.Name = "L_Ability";
+            this.L_Ability.Size = new System.Drawing.Size(94, 21);
+            this.L_Ability.TabIndex = 493;
+            this.L_Ability.Text = "Ability:";
+            this.L_Ability.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Ability
+            // 
+            this.NUD_Ability.Location = new System.Drawing.Point(284, 91);
+            this.NUD_Ability.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.NUD_Ability.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.NUD_Ability.Name = "NUD_Ability";
+            this.NUD_Ability.Size = new System.Drawing.Size(34, 20);
+            this.NUD_Ability.TabIndex = 492;
+            // 
+            // L_Gender
+            // 
+            this.L_Gender.Location = new System.Drawing.Point(190, 115);
+            this.L_Gender.Name = "L_Gender";
+            this.L_Gender.Size = new System.Drawing.Size(94, 21);
+            this.L_Gender.TabIndex = 495;
+            this.L_Gender.Text = "Gender:";
+            this.L_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Gender
+            // 
+            this.NUD_Gender.Location = new System.Drawing.Point(284, 117);
+            this.NUD_Gender.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.NUD_Gender.Name = "NUD_Gender";
+            this.NUD_Gender.Size = new System.Drawing.Size(34, 20);
+            this.NUD_Gender.TabIndex = 494;
+            // 
             // Gifts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(364, 304);
+            this.Controls.Add(this.L_Gender);
+            this.Controls.Add(this.NUD_Gender);
+            this.Controls.Add(this.NUD_Nature);
+            this.Controls.Add(this.LB_Gifts);
+            this.Controls.Add(this.L_Nature);
             this.Controls.Add(this.L_DEF);
             this.Controls.Add(this.L_ATK);
             this.Controls.Add(this.L_HP);
@@ -370,15 +462,16 @@
             this.Controls.Add(this.NUD_IV0);
             this.Controls.Add(this.CB_HeldItem);
             this.Controls.Add(this.CB_Species);
-            this.Controls.Add(this.LB_Gifts);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.L_Level);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_HeldItem);
             this.Controls.Add(this.L_Species);
             this.Controls.Add(this.L_SPD);
             this.Controls.Add(this.L_SPE);
             this.Controls.Add(this.L_SPA);
+            this.Controls.Add(this.L_Ability);
+            this.Controls.Add(this.NUD_Ability);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(310, 290);
@@ -393,6 +486,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Nature)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Ability)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Gender)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -411,7 +507,7 @@
         private System.Windows.Forms.NumericUpDown NUD_IV4;
         private System.Windows.Forms.NumericUpDown NUD_IV5;
         private System.Windows.Forms.Label L_Species;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_HeldItem;
         private System.Windows.Forms.NumericUpDown NUD_Level;
         private System.Windows.Forms.Label L_Level;
         private System.Windows.Forms.NumericUpDown NUD_Form;
@@ -422,7 +518,11 @@
         private System.Windows.Forms.Label L_SPA;
         private System.Windows.Forms.Label L_SPE;
         private System.Windows.Forms.Label L_SPD;
-
-
+        private System.Windows.Forms.Label L_Nature;
+        private System.Windows.Forms.NumericUpDown NUD_Nature;
+        private System.Windows.Forms.Label L_Ability;
+        private System.Windows.Forms.NumericUpDown NUD_Ability;
+        private System.Windows.Forms.Label L_Gender;
+        private System.Windows.Forms.NumericUpDown NUD_Gender;
     }
 }

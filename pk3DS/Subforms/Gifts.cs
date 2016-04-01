@@ -117,6 +117,9 @@ namespace pk3DS
             CB_HeldItem.SelectedIndex = GiftData[entry].HeldItem;
             NUD_Level.Value = GiftData[entry].Level;
             NUD_Form.Value = GiftData[entry].Form;
+            NUD_Nature.Value = GiftData[entry].Nature;
+            NUD_Ability.Value = GiftData[entry].Ability;
+            NUD_Gender.Value = GiftData[entry].Gender;
 
             NUD_IV0.Value = GiftData[entry].IVs[0];
             NUD_IV1.Value = GiftData[entry].IVs[1];
@@ -131,6 +134,9 @@ namespace pk3DS
             GiftData[entry].HeldItem = CB_HeldItem.SelectedIndex;
             GiftData[entry].Level = (byte)NUD_Level.Value;
             GiftData[entry].Form = (byte)NUD_Form.Value;
+            GiftData[entry].Nature = (sbyte)NUD_Nature.Value;
+            GiftData[entry].Ability = (sbyte)NUD_Ability.Value;
+            GiftData[entry].Gender = (sbyte)NUD_Gender.Value;
 
             GiftData[entry].IVs[0] = (sbyte)NUD_IV0.Value;
             GiftData[entry].IVs[1] = (sbyte)NUD_IV1.Value;
