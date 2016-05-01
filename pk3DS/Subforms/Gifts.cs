@@ -30,7 +30,7 @@ namespace pk3DS
 
             loadData();
         }
-        internal static string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
+        internal static readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
         private byte[] FieldData;
         private readonly int fieldOffset = Main.oras ? 0xF906C : 0xF805C;
         private readonly int fieldSize = Main.oras ? 0x24 : 0x18;
@@ -104,6 +104,8 @@ namespace pk3DS
         private bool loaded;
         private void changeIndex(object sender, EventArgs e)
         {
+            if (LB_Gifts.SelectedIndex < 0)
+                return;
             if (entry != -1) 
                 saveEntry();
             if (!loaded)
@@ -144,6 +146,49 @@ namespace pk3DS
             GiftData[entry].IVs[3] = (sbyte)NUD_IV3.Value;
             GiftData[entry].IVs[4] = (sbyte)NUD_IV4.Value;
             GiftData[entry].IVs[5] = (sbyte)NUD_IV5.Value;
+        }
+
+        private void B_RandAll_Click(object sender, EventArgs e)
+        {
+            DialogResult ync = Util.Prompt(MessageBoxButtons.YesNoCancel,
+                "Randomize by BST: Yes" + Environment.NewLine + 
+                "Randomize Randomly: No" + Environment.NewLine +
+                "Abort: Cancel");
+            if (ync != DialogResult.Yes && ync != DialogResult.No)
+                return;
+            if (ync == DialogResult.No)
+            {
+                for (int i = 0; i < LB_Gifts.Items.Count; i++)
+                {
+                    LB_Gifts.SelectedIndex = i;
+                    int species = Util.rand.Next(1, 721);
+                    CB_Species.SelectedIndex = species;
+                }
+                return;
+            }
+
+            // Randomize by BST
+            int[] sL = Randomizer.getSpeciesList(G1: true, G2: true, G3: true, G4: true, G5: true, G6: true, L: false, E: false, Shedinja: false);
+            int ctr = 0;
+            for (int i = 0; i < LB_Gifts.Items.Count; i++)
+            {
+                LB_Gifts.SelectedIndex = i;
+                int species = CB_Species.SelectedIndex;
+
+                int bst = Main.SpeciesStat[species].BST;
+                int tries = 0;
+                var pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
+                while (!((pkm.BST*(5 - ++tries/722)/6 < bst) && pkm.BST*(6 + ++tries/722)/5 > bst))
+                    pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
+
+                CB_Species.SelectedIndex = species;
+            }
+        }
+
+        private void changeSpecies(object sender, EventArgs e)
+        {
+            int index = LB_Gifts.SelectedIndex;
+            LB_Gifts.Items[index] = index.ToString("00") + " - " + CB_Species.Text;
         }
     }
 }

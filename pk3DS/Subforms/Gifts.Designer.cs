@@ -57,6 +57,7 @@
             this.NUD_Ability = new System.Windows.Forms.NumericUpDown();
             this.L_Gender = new System.Windows.Forms.Label();
             this.NUD_Gender = new System.Windows.Forms.NumericUpDown();
+            this.B_RandAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV2)).BeginInit();
@@ -73,9 +74,9 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(196, 269);
+            this.B_Cancel.Location = new System.Drawing.Point(211, 269);
             this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(75, 23);
+            this.B_Cancel.Size = new System.Drawing.Size(70, 23);
             this.B_Cancel.TabIndex = 467;
             this.B_Cancel.Text = "Cancel";
             this.B_Cancel.UseVisualStyleBackColor = true;
@@ -84,9 +85,9 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(277, 269);
+            this.B_Save.Location = new System.Drawing.Point(282, 269);
             this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(75, 23);
+            this.B_Save.Size = new System.Drawing.Size(70, 23);
             this.B_Save.TabIndex = 466;
             this.B_Save.Text = "Save";
             this.B_Save.UseVisualStyleBackColor = true;
@@ -110,6 +111,7 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(121, 21);
             this.CB_Species.TabIndex = 469;
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
             // 
             // CB_HeldItem
             // 
@@ -438,11 +440,23 @@
             this.NUD_Gender.Size = new System.Drawing.Size(34, 20);
             this.NUD_Gender.TabIndex = 494;
             // 
+            // B_RandAll
+            // 
+            this.B_RandAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_RandAll.Location = new System.Drawing.Point(128, 269);
+            this.B_RandAll.Name = "B_RandAll";
+            this.B_RandAll.Size = new System.Drawing.Size(83, 23);
+            this.B_RandAll.TabIndex = 496;
+            this.B_RandAll.Text = "Randomize All";
+            this.B_RandAll.UseVisualStyleBackColor = true;
+            this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
+            // 
             // Gifts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(364, 304);
+            this.Controls.Add(this.B_RandAll);
             this.Controls.Add(this.L_Gender);
             this.Controls.Add(this.NUD_Gender);
             this.Controls.Add(this.NUD_Nature);
@@ -524,5 +538,6 @@
         private System.Windows.Forms.NumericUpDown NUD_Ability;
         private System.Windows.Forms.Label L_Gender;
         private System.Windows.Forms.NumericUpDown NUD_Gender;
+        private System.Windows.Forms.Button B_RandAll;
     }
 }
