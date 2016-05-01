@@ -74,7 +74,7 @@ namespace pk3DS
         internal static volatile int Language;
         internal static CTR.SMDH SMDH;
         private uint HANSgameID; // for exporting RomFS/ExeFS with correct X8 gameID
-        internal static string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN", "titlescreen", "mapMatrix", "mapGR" };
+        internal static readonly string[] allGARCs = { "gametext", "storytext", "personal", "trpoke", "trdata", "evolution", "megaevo", "levelup", "eggmove", "item", "move", "maisonpkS", "maisontrS", "maisonpkN", "maisontrN", "titlescreen", "mapMatrix", "mapGR" };
         private readonly bool skipBoth;
         internal static PersonalInfo[] SpeciesStat;
 
@@ -168,7 +168,7 @@ namespace pk3DS
         }
         private void openQuick(string path)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
 
             if (!Directory.Exists(path)) // File
             {
@@ -359,6 +359,11 @@ namespace pk3DS
 
             return ExHeaderPath != null;
         }
+        private bool threadActive()
+        {
+            if (threads <= 0) return false;
+            Util.Alert("Please wait for all operations to finish first."); return true;
+        }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
@@ -373,7 +378,7 @@ namespace pk3DS
         // RomFS Subform Items
         private void rebuildRomFS(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             if (RomFSPath == null) return;
             if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild RomFS?") != DialogResult.Yes) return;
 
@@ -401,7 +406,7 @@ namespace pk3DS
         }
         private void B_GameText_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             new Thread(() =>
             {
                 string[] files = { "gametext" };
@@ -412,7 +417,7 @@ namespace pk3DS
         }
         private void B_StoryText_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             new Thread(() =>
             {
                 string[] files = { "storytext" };
@@ -423,7 +428,7 @@ namespace pk3DS
         }
         private void B_Maison_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Edit Super Maison instead of Normal Maison?", "Yes = Super, No = Normal, Cancel = Abort");
             if (dr == DialogResult.Cancel) return;
 
@@ -438,7 +443,7 @@ namespace pk3DS
         }
         private void B_Personal_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             new Thread(() =>
             {
                 string[] files = { "personal" };
@@ -452,7 +457,7 @@ namespace pk3DS
         }
         private void B_Trainer_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             new Thread(() =>
             {
                 string[] files = { "trdata", "trpoke", "move" }; // Moves required for smart randomization
@@ -463,7 +468,7 @@ namespace pk3DS
         }
         private void B_Wild_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             bool advanced = (ModifierKeys == Keys.Alt) || ModifierKeys == (Keys.Alt | Keys.Control);
             bool reload = (ModifierKeys == Keys.Control) || ModifierKeys == (Keys.Alt | Keys.Control);
             new Thread(() =>
@@ -500,7 +505,7 @@ namespace pk3DS
         }
         private void B_Evolution_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             new Thread(() =>
             {
                 string[] files = { "evolution" };
@@ -511,7 +516,7 @@ namespace pk3DS
         }
         private void B_MegaEvo_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             new Thread(() =>
             {
                 string[] files = { "megaevo" };
@@ -522,7 +527,7 @@ namespace pk3DS
         }
         private void B_Item_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             new Thread(() =>
             {
                 string[] files = { "item" };
@@ -533,7 +538,7 @@ namespace pk3DS
         }
         private void B_Move_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             new Thread(() =>
             {
                 string[] files = { "move" };
@@ -544,7 +549,7 @@ namespace pk3DS
         }
         private void B_LevelUp_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             new Thread(() =>
             {
                 string[] files = { "levelup", "move" };
@@ -555,7 +560,7 @@ namespace pk3DS
         }
         private void B_EggMove_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             new Thread(() =>
             {
                 string[] files = { "eggmove", "move" };
@@ -566,7 +571,7 @@ namespace pk3DS
         }
         private void B_TitleScreen_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             new Thread(() =>
             {
                 string[] files = { "titlescreen" };
@@ -631,52 +636,54 @@ namespace pk3DS
         }
         private void B_Pickup_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             if (ExeFSPath != null) new Pickup().Show();
         }
         private void B_TMHM_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             if (ExeFSPath != null) new TMHM().Show();
         }
         private void B_Mart_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             if (ExeFSPath != null) new Mart().Show();
         }
         private void B_MoveTutor_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             if (!oras) { Util.Alert("No Tutors for X/Y."); return; } // Already disabled button...
             if (ExeFSPath != null) new Tutors().Show();
         }
         private void B_OPower_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             if (ExeFSPath != null) new OPower().Show();
         }
 
         // CRO Subform Items
         private void patchCRO_CRR(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             if (RomFSPath == null) return;
-                new Thread(() =>
-                {
-                    threads++;
-                    CTR.CRO.rehashCRR(Path.Combine(RomFSPath, ".crr", "static.crr"), RomFSPath, true, /* true // don't patch crr for now */ false, RTB_Status, pBar1);
-                    threads--;
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Rebuilding CRO/CRR is not necessary if you patch RO.", "Continue?"))
+                return;
+            new Thread(() =>
+            {
+                threads++;
+                CTR.CRO.rehashCRR(Path.Combine(RomFSPath, ".crr", "static.crr"), RomFSPath, true, /* true // don't patch crr for now */ false, RTB_Status, pBar1);
+                threads--;
 
-                    Util.Alert("CRO's and CRR have been updated.",
-                            "If you have made any modifications, it is required that the RSA Verification check be patched on the system in order for the modified CROs to load (ie, no file redirection like NTR's layeredFS).");
-                }).Start();
+                Util.Alert("CRO's and CRR have been updated.",
+                        "If you have made any modifications, it is required that the RSA Verification check be patched on the system in order for the modified CROs to load (ie, no file redirection like NTR's layeredFS).");
+            }).Start();
 
         }
         private void B_Starter_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
-                "CRO Editing currently causes crashes.", "Continue anyway?"))
+                "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
                 return;
             string CRO = Path.Combine(RomFSPath, "DllPoke3Select.cro");
             string CRO2 = Path.Combine(RomFSPath, "DllField.cro");
@@ -694,9 +701,9 @@ namespace pk3DS
         }
         private void B_TypeChart_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
-                "CRO Editing currently causes crashes.", "Continue anyway?"))
+                "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
                 return;
             string CRO = Path.Combine(RomFSPath, "DllBattle.cro");
             if (!File.Exists(CRO))
@@ -708,9 +715,9 @@ namespace pk3DS
         }
         private void B_Gift_Click(object sender, EventArgs e)
         {
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
-                "CRO Editing currently causes crashes.", "Continue anyway?"))
+                "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
                 return;
             string CRO = Path.Combine(RomFSPath, "DllField.cro");
             if (!File.Exists(CRO))
@@ -766,7 +773,7 @@ namespace pk3DS
                 Util.Error("RomFS file count does not match the default game file count.");
                 return;
             }
-            if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+            if (threadActive()) return;
 
             SaveFileDialog sfd = new SaveFileDialog
             {
