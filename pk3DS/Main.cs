@@ -354,7 +354,7 @@ namespace pk3DS
             ExHeaderPath = null;
             // Input folder path should contain the ExHeader.
                 string[] files = Directory.GetFiles(path);
-                foreach (string fp in from s in files let f = new FileInfo(s) where f.Name.ToLower().StartsWith("exh") && f.Length == 0x800 select s)
+			foreach (string fp in from s in files let f = new FileInfo(s) where (f.Name.ToLower().StartsWith("exh") || f.Name.ToLower().StartsWith("decryptedexh")) && f.Length == 0x800 select s)
                 ExHeaderPath = fp;
 
             return ExHeaderPath != null;
