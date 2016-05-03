@@ -750,7 +750,7 @@ namespace pk3DS
         }
         private void changeRAW_F(object sender, EventArgs e)
         {
-            if (sender as RichTextBox == null || !(sender as RichTextBox).Visible)
+            if (!(sender is RichTextBox) || !(sender as RichTextBox).Visible)
                 return;
 
             try
@@ -768,7 +768,7 @@ namespace pk3DS
         }
         private void changeRAW_N(object sender, EventArgs e)
         {
-            if (sender as RichTextBox == null || !(sender as RichTextBox).Visible)
+            if (!(sender is RichTextBox) || !(sender as RichTextBox).Visible)
                 return;
 
             try
@@ -786,7 +786,7 @@ namespace pk3DS
         }
         private void changeRAW_W(object sender, EventArgs e)
         {
-            if (sender as RichTextBox == null || !(sender as RichTextBox).Visible)
+            if (!(sender is RichTextBox) || !(sender as RichTextBox).Visible)
                 return;
 
             try
@@ -804,7 +804,7 @@ namespace pk3DS
         }
         private void changeRAW_T1(object sender, EventArgs e)
         {
-            if (sender as RichTextBox == null || !(sender as RichTextBox).Visible)
+            if (!(sender is RichTextBox) || !(sender as RichTextBox).Visible)
                 return;
 
             try
@@ -822,7 +822,7 @@ namespace pk3DS
         }
         private void changeRAW_T2(object sender, EventArgs e)
         {
-            if (sender as RichTextBox == null || !(sender as RichTextBox).Visible)
+            if (!(sender is RichTextBox) || !(sender as RichTextBox).Visible)
                 return;
 
             try

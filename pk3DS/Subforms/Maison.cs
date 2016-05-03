@@ -130,12 +130,15 @@ namespace pk3DS
                 SPA = CHK_SpA.Checked,
                 SPD = CHK_SpD.Checked,
                 Nature = (byte) CB_Nature.SelectedIndex,
-                Item = (ushort) CB_Item.SelectedIndex
+                Item = (ushort) CB_Item.SelectedIndex,
+                Moves =
+                {
+                    [0] = (ushort) CB_Move1.SelectedIndex,
+                    [1] = (ushort) CB_Move2.SelectedIndex,
+                    [2] = (ushort) CB_Move3.SelectedIndex,
+                    [3] = (ushort) CB_Move4.SelectedIndex
+                }
             };
-            pkm.Moves[0] = (ushort)CB_Move1.SelectedIndex;
-            pkm.Moves[1] = (ushort)CB_Move2.SelectedIndex;
-            pkm.Moves[2] = (ushort)CB_Move3.SelectedIndex;
-            pkm.Moves[3] = (ushort)CB_Move4.SelectedIndex;
 
             byte[] data = pkm.Write();
             File.WriteAllBytes(pkFiles[pkEntry], data);
