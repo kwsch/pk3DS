@@ -30,7 +30,7 @@ namespace pk3DS
 
             loadData();
         }
-        internal static readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
+        private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
         private byte[] FieldData;
         private readonly int fieldOffset = Main.oras ? 0xF906C : 0xF805C;
         private readonly int fieldSize = Main.oras ? 0x24 : 0x18;

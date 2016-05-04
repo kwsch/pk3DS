@@ -49,8 +49,8 @@ namespace pk3DS
             Width = Main.oras ? Width : Width/2 + 2;
             loadData();
         }
-        internal static string CROPath = Path.Combine(Main.RomFSPath, "DllPoke3Select.cro");
-        internal static string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
+        private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllPoke3Select.cro");
+        private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
         private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
         private readonly ComboBox[][] Choices;
         private readonly PictureBox[][] Previews;
