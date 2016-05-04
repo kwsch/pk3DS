@@ -62,6 +62,7 @@
             this.unPackBCLIMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_BLZ = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_LZ11 = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Shuffler = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Rebuild = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_RomFS = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ExeFS = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,7 +79,7 @@
             this.B_Gift = new System.Windows.Forms.Button();
             this.B_TypeChart = new System.Windows.Forms.Button();
             this.B_Starter = new System.Windows.Forms.Button();
-            this.Menu_Shuffler = new System.Windows.Forms.ToolStripMenuItem();
+            this.B_Static = new System.Windows.Forms.Button();
             this.GB_RomFS.SuspendLayout();
             this.GB_ExeFS.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -396,7 +397,7 @@
             this.Menu_Rebuild,
             this.Menu_SMDH});
             this.Menu_Tools.Name = "Menu_Tools";
-            this.Menu_Tools.Size = new System.Drawing.Size(48, 20);
+            this.Menu_Tools.Size = new System.Drawing.Size(47, 20);
             this.Menu_Tools.Text = "Tools";
             // 
             // Menu_Restore
@@ -438,6 +439,14 @@
             this.Menu_LZ11.Size = new System.Drawing.Size(176, 22);
             this.Menu_LZ11.Text = "(de)Compress LZ11";
             this.Menu_LZ11.Click += new System.EventHandler(this.Menu_LZ11_Click);
+            // 
+            // Menu_Shuffler
+            // 
+            this.Menu_Shuffler.Enabled = false;
+            this.Menu_Shuffler.Name = "Menu_Shuffler";
+            this.Menu_Shuffler.Size = new System.Drawing.Size(176, 22);
+            this.Menu_Shuffler.Text = "GARC Shuffler";
+            this.Menu_Shuffler.Click += new System.EventHandler(this.Menu_Shuffler_Click);
             // 
             // Menu_Rebuild
             // 
@@ -552,6 +561,7 @@
             // 
             this.GB_CRO.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.GB_CRO.Controls.Add(this.B_Static);
             this.GB_CRO.Controls.Add(this.B_Gift);
             this.GB_CRO.Controls.Add(this.B_TypeChart);
             this.GB_CRO.Controls.Add(this.B_Starter);
@@ -593,13 +603,15 @@
             this.B_Starter.UseVisualStyleBackColor = true;
             this.B_Starter.Click += new System.EventHandler(this.B_Starter_Click);
             // 
-            // Menu_Shuffler
+            // B_Static
             // 
-            this.Menu_Shuffler.Enabled = false;
-            this.Menu_Shuffler.Name = "Menu_Shuffler";
-            this.Menu_Shuffler.Size = new System.Drawing.Size(176, 22);
-            this.Menu_Shuffler.Text = "GARC Shuffler";
-            this.Menu_Shuffler.Click += new System.EventHandler(this.Menu_Shuffler_Click);
+            this.B_Static.Location = new System.Drawing.Point(324, 19);
+            this.B_Static.Name = "B_Static";
+            this.B_Static.Size = new System.Drawing.Size(100, 23);
+            this.B_Static.TabIndex = 3;
+            this.B_Static.Text = "Static Encounters";
+            this.B_Static.UseVisualStyleBackColor = true;
+            this.B_Static.Click += new System.EventHandler(this.B_Static_Click);
             // 
             // Main
             // 
@@ -684,5 +696,6 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_CRO;
         private System.Windows.Forms.Button B_Gift;
         private System.Windows.Forms.ToolStripMenuItem Menu_Shuffler;
+        private System.Windows.Forms.Button B_Static;
     }
 }

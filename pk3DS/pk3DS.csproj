@@ -69,6 +69,12 @@
     <Compile Include="Randomizer.cs" />
     <Compile Include="3DS\RomFS.cs" />
     <Compile Include="Structs.cs" />
+    <Compile Include="Subforms\StaticEncounters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\StaticEncounters.Designer.cs">
+      <DependentUpon>StaticEncounters.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Gifts.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -254,6 +260,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\StaticEncounters.resx">
+      <DependentUpon>StaticEncounters.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gifts.resx">
       <DependentUpon>Gifts.cs</DependentUpon>

@@ -727,6 +727,20 @@ namespace pk3DS
             }
             new Gifts().ShowDialog();
         }
+        private void B_Static_Click(object sender, EventArgs e)
+        {
+            if (threadActive()) return;
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
+                "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
+                return;
+            string CRO = Path.Combine(RomFSPath, "DllField.cro");
+            if (!File.Exists(CRO))
+            {
+                Util.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
+                return;
+            }
+            new StaticEncounters().ShowDialog();
+        }
         private void backupCROs(bool overwrite, string path)
         {
             if (!Directory.Exists(path))
