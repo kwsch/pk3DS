@@ -106,15 +106,17 @@ namespace pk3DS
         {
             if (LB_Gifts.SelectedIndex < 0)
                 return;
-            if (entry != -1) 
-                saveEntry();
             if (!loaded)
                 return;
+            if (entry != -1) 
+                saveEntry();
             entry = LB_Gifts.SelectedIndex;
             loadEntry();
         }
         private void loadEntry()
         {
+            bool oldloaded = loaded;
+            loaded = false;
             CB_Species.SelectedIndex = GiftData[entry].Species;
             CB_HeldItem.SelectedIndex = GiftData[entry].HeldItem;
             NUD_Level.Value = GiftData[entry].Level;
@@ -129,6 +131,7 @@ namespace pk3DS
             NUD_IV3.Value = GiftData[entry].IVs[3];
             NUD_IV4.Value = GiftData[entry].IVs[4];
             NUD_IV5.Value = GiftData[entry].IVs[5];
+            loaded |= oldloaded;
         }
         private void saveEntry()
         {

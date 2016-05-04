@@ -488,7 +488,7 @@
             this.Controls.Add(this.NUD_Ability);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(310, 290);
+            this.MinimumSize = new System.Drawing.Size(380, 343);
             this.Name = "Gifts";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Gift Editor";
