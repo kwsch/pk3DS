@@ -19,7 +19,7 @@ namespace pk3DS
             InitializeComponent();
 
             specieslist[0] = "---";
-            abilitylist[0] = itemlist[0] = movelist[0] = "(None)"; // blank == -1
+            itemlist[0] = "(None)"; // blank == -1
 
             CB_Species.Items.Clear();
             foreach (string s in specieslist)
@@ -34,9 +34,7 @@ namespace pk3DS
         private readonly int fieldOffset = Main.oras ? 0xF1B20 : 0xEE478;
         private const int fieldSize = 0xC;
         private readonly int count = Main.oras ? 0x3B : 0xC;
-        private EncounterStatic[] GiftData;
-        private readonly string[] abilitylist = Main.getText(Main.oras ? 37 : 34);
-        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        private EncounterStatic[] EncounterData;
         private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
         private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
         private void B_Save_Click(object sender, EventArgs e)
@@ -52,23 +50,23 @@ namespace pk3DS
         private void loadData()
         {
             FieldData = File.ReadAllBytes(FieldPath);
-            GiftData = new EncounterStatic[count];
-            LB_Gifts.Items.Clear();
-            for (int i = 0; i < GiftData.Length; i++)
+            EncounterData = new EncounterStatic[count];
+            LB_Encounters.Items.Clear();
+            for (int i = 0; i < EncounterData.Length; i++)
             {
-                GiftData[i] = new EncounterStatic(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray());
-                LB_Gifts.Items.Add($"{i.ToString("00")} - {specieslist[GiftData[i].Species]}");
+                EncounterData[i] = new EncounterStatic(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray());
+                LB_Encounters.Items.Add($"{i.ToString("00")} - {specieslist[EncounterData[i].Species]}");
             }
             loaded = true;
-            LB_Gifts.SelectedIndex = 0;
+            LB_Encounters.SelectedIndex = 0;
         }
         private void saveData()
         {
-            for (int i = 0; i < GiftData.Length; i++)
+            for (int i = 0; i < EncounterData.Length; i++)
             {
                 int offset = fieldOffset + i*fieldSize;
                 // Write new data
-                Array.Copy(GiftData[i].Write(), 0, FieldData, offset, fieldSize);
+                Array.Copy(EncounterData[i].Write(), 0, FieldData, offset, fieldSize);
             }
             File.WriteAllBytes(FieldPath, FieldData);
         }
@@ -77,43 +75,43 @@ namespace pk3DS
         private bool loaded;
         private void changeIndex(object sender, EventArgs e)
         {
-            if (LB_Gifts.SelectedIndex < 0)
+            if (LB_Encounters.SelectedIndex < 0)
                 return;
             if (!loaded)
                 return;
             if (entry != -1) 
                 saveEntry();
-            entry = LB_Gifts.SelectedIndex;
+            entry = LB_Encounters.SelectedIndex;
             loadEntry();
         }
         private void loadEntry()
         {
             bool oldloaded = loaded;
             loaded = false;
-            CB_Species.SelectedIndex = GiftData[entry].Species;
-            CB_HeldItem.SelectedIndex = GiftData[entry].HeldItem;
-            NUD_Level.Value = GiftData[entry].Level;
-            NUD_Form.Value = GiftData[entry].Form;
-            NUD_Ability.Value = GiftData[entry].Ability;
-            NUD_Gender.Value = GiftData[entry].Gender;
+            CB_Species.SelectedIndex = EncounterData[entry].Species;
+            CB_HeldItem.SelectedIndex = EncounterData[entry].HeldItem;
+            NUD_Level.Value = EncounterData[entry].Level;
+            NUD_Form.Value = EncounterData[entry].Form;
+            NUD_Ability.Value = EncounterData[entry].Ability;
+            NUD_Gender.Value = EncounterData[entry].Gender;
 
-            CHK_NoShiny.Checked = GiftData[entry].ShinyLock;
-            CHK_3IV.Checked = GiftData[entry].IV3;
-            CHK_3IV_2.Checked = GiftData[entry].IV3_1;
+            CHK_NoShiny.Checked = EncounterData[entry].ShinyLock;
+            CHK_3IV.Checked = EncounterData[entry].IV3;
+            CHK_3IV_2.Checked = EncounterData[entry].IV3_1;
             loaded |= oldloaded;
         }
         private void saveEntry()
         {
-            GiftData[entry].Species = (ushort)CB_Species.SelectedIndex;
-            GiftData[entry].HeldItem = CB_HeldItem.SelectedIndex;
-            GiftData[entry].Level = (byte)NUD_Level.Value;
-            GiftData[entry].Form = (byte)NUD_Form.Value;
-            GiftData[entry].Ability = (sbyte)NUD_Ability.Value;
-            GiftData[entry].Gender = (sbyte)NUD_Gender.Value;
+            EncounterData[entry].Species = (ushort)CB_Species.SelectedIndex;
+            EncounterData[entry].HeldItem = CB_HeldItem.SelectedIndex;
+            EncounterData[entry].Level = (byte)NUD_Level.Value;
+            EncounterData[entry].Form = (byte)NUD_Form.Value;
+            EncounterData[entry].Ability = (sbyte)NUD_Ability.Value;
+            EncounterData[entry].Gender = (sbyte)NUD_Gender.Value;
 
-            GiftData[entry].ShinyLock = CHK_NoShiny.Checked;
-            GiftData[entry].IV3 = CHK_3IV.Checked;
-            GiftData[entry].IV3_1 = CHK_3IV_2.Checked;
+            EncounterData[entry].ShinyLock = CHK_NoShiny.Checked;
+            EncounterData[entry].IV3 = CHK_3IV.Checked;
+            EncounterData[entry].IV3_1 = CHK_3IV_2.Checked;
         }
 
         private void B_RandAll_Click(object sender, EventArgs e)
@@ -126,9 +124,9 @@ namespace pk3DS
                 return;
             if (ync == DialogResult.No)
             {
-                for (int i = 0; i < LB_Gifts.Items.Count; i++)
+                for (int i = 0; i < LB_Encounters.Items.Count; i++)
                 {
-                    LB_Gifts.SelectedIndex = i;
+                    LB_Encounters.SelectedIndex = i;
                     int species = Util.rand.Next(1, 721);
                     CB_Species.SelectedIndex = species;
                 }
@@ -138,9 +136,9 @@ namespace pk3DS
             // Randomize by BST
             int[] sL = Randomizer.getSpeciesList(G1: true, G2: true, G3: true, G4: true, G5: true, G6: true, L: false, E: false, Shedinja: false);
             int ctr = 0;
-            for (int i = 0; i < LB_Gifts.Items.Count; i++)
+            for (int i = 0; i < LB_Encounters.Items.Count; i++)
             {
-                LB_Gifts.SelectedIndex = i;
+                LB_Encounters.SelectedIndex = i;
                 int species = CB_Species.SelectedIndex;
 
                 int bst = Main.SpeciesStat[species].BST;
@@ -155,8 +153,8 @@ namespace pk3DS
 
         private void changeSpecies(object sender, EventArgs e)
         {
-            int index = LB_Gifts.SelectedIndex;
-            LB_Gifts.Items[index] = index.ToString("00") + " - " + CB_Species.Text;
+            int index = LB_Encounters.SelectedIndex;
+            LB_Encounters.Items[index] = index.ToString("00") + " - " + CB_Species.Text;
         }
     }
 }

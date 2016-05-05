@@ -30,7 +30,7 @@
         {
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
-            this.LB_Gifts = new System.Windows.Forms.ListBox();
+            this.LB_Encounters = new System.Windows.Forms.ListBox();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.L_Species = new System.Windows.Forms.Label();
             this.NUD_Level = new System.Windows.Forms.NumericUpDown();
@@ -47,7 +47,7 @@
             this.CHK_3IV = new System.Windows.Forms.CheckBox();
             this.CHK_NoShiny = new System.Windows.Forms.CheckBox();
             this.CHK_3IV_2 = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_Hint = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Ability)).BeginInit();
@@ -76,16 +76,16 @@
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
-            // LB_Gifts
+            // LB_Encounters
             // 
-            this.LB_Gifts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LB_Encounters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.LB_Gifts.FormattingEnabled = true;
-            this.LB_Gifts.Location = new System.Drawing.Point(12, 12);
-            this.LB_Gifts.Name = "LB_Gifts";
-            this.LB_Gifts.Size = new System.Drawing.Size(110, 303);
-            this.LB_Gifts.TabIndex = 468;
-            this.LB_Gifts.SelectedIndexChanged += new System.EventHandler(this.changeIndex);
+            this.LB_Encounters.FormattingEnabled = true;
+            this.LB_Encounters.Location = new System.Drawing.Point(12, 12);
+            this.LB_Encounters.Name = "LB_Encounters";
+            this.LB_Encounters.Size = new System.Drawing.Size(110, 303);
+            this.LB_Encounters.TabIndex = 468;
+            this.LB_Encounters.SelectedIndexChanged += new System.EventHandler(this.changeIndex);
             // 
             // CB_Species
             // 
@@ -242,14 +242,14 @@
             this.CHK_3IV_2.Text = "3IV_2";
             this.CHK_3IV_2.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // L_Hint
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(201, 142);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(117, 130);
-            this.label1.TabIndex = 500;
-            this.label1.Text = "Ability:\r\n0: Random\r\n1: Ability 0\r\n2: Ability 1\r\n3: Hidden\r\n\r\nGender:\r\n0: Random/" +
+            this.L_Hint.AutoSize = true;
+            this.L_Hint.Location = new System.Drawing.Point(201, 142);
+            this.L_Hint.Name = "L_Hint";
+            this.L_Hint.Size = new System.Drawing.Size(117, 130);
+            this.L_Hint.TabIndex = 500;
+            this.L_Hint.Text = "Ability:\r\n0: Random\r\n1: Ability 0\r\n2: Ability 1\r\n3: Hidden\r\n\r\nGender:\r\n0: Random/" +
     "Genderless\r\n1: Male\r\n2: Female";
             // 
             // StaticEncounters
@@ -257,14 +257,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(364, 331);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_Hint);
             this.Controls.Add(this.CHK_3IV_2);
             this.Controls.Add(this.CHK_NoShiny);
             this.Controls.Add(this.CHK_3IV);
             this.Controls.Add(this.B_RandAll);
             this.Controls.Add(this.L_Gender);
             this.Controls.Add(this.NUD_Gender);
-            this.Controls.Add(this.LB_Gifts);
+            this.Controls.Add(this.LB_Encounters);
             this.Controls.Add(this.NUD_Level);
             this.Controls.Add(this.L_Form);
             this.Controls.Add(this.NUD_Form);
@@ -296,7 +296,7 @@
 
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;
-        private System.Windows.Forms.ListBox LB_Gifts;
+        private System.Windows.Forms.ListBox LB_Encounters;
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Label L_Species;
         private System.Windows.Forms.NumericUpDown NUD_Level;
@@ -313,6 +313,6 @@
         private System.Windows.Forms.CheckBox CHK_3IV;
         private System.Windows.Forms.CheckBox CHK_NoShiny;
         private System.Windows.Forms.CheckBox CHK_3IV_2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_Hint;
     }
 }
