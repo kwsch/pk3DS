@@ -14,16 +14,16 @@ namespace pk3DS
             Setup();
         }
 
-        readonly string[] files = Directory.GetFiles("item");
-        readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
-        readonly string[] itemflavor = Main.getText(Main.oras ? 117 : 99);
+        private readonly string[] files = Directory.GetFiles("item");
+        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        private readonly string[] itemflavor = Main.getText(Main.oras ? 117 : 99);
 
         private void Setup()
         {
             foreach (string s in itemlist) CB_Item.Items.Add(s);
             CB_Item.SelectedIndex = 1;
         }
-        int entry = -1;
+        private int entry = -1;
         private Item item;
         private void changeEntry(object sender, EventArgs e)
         {

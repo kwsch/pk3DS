@@ -22,12 +22,12 @@ namespace pk3DS
             Util.Alert("Changes made do not reflect ingame.", "Still needs more research.");
         }
 
-        readonly string codebin;
-        readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
-        readonly byte[] data;
-        readonly byte[] entries = { 0xF, 0x11, 0x10, 0xF }; // Entries per Tutor
+        private readonly string codebin;
+        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        private readonly byte[] data;
+        private readonly byte[] entries = { 0xF, 0x11, 0x10, 0xF }; // Entries per Tutor
         private const int offset = 0x004960F8;
-        int dataoffset;
+        private int dataoffset;
         readonly string[] locations = { "1", "2", "3", "4" };
         private void getDataOffset(int index)
         {
@@ -58,7 +58,7 @@ namespace pk3DS
             dgv.Columns.Add(dgvMove);
         }
 
-        int entry = -1;
+        private int entry = -1;
         private void changeIndex(object sender, EventArgs e)
         {
             if (entry > -1) setList();

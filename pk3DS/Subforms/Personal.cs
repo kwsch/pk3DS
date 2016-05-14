@@ -463,7 +463,7 @@ namespace pk3DS
             CB_Species.SelectedIndex = 1;
             Util.Alert("All species modified to specification!");
         }
-        bool dumping;
+        private bool dumping;
         private void B_Dump_Click(object sender, EventArgs e)
         {
 

@@ -121,14 +121,14 @@ namespace pk3DS
             Setup();
         }
         private string[][] AltForms;
-        internal static Random rand = new Random();
+        internal static readonly Random rand = new Random();
         internal static uint rnd32()
         {
             return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
         }
-        bool start = true;
-        bool loading = true;
-        int index = -1;
+        private bool start = true;
+        private bool loading = true;
+        private int index = -1;
         #region Global Variables
         private readonly ComboBox[] trpk_pkm;
 
@@ -278,7 +278,7 @@ namespace pk3DS
             toret += Environment.NewLine;
             return toret;
         }
-        bool dumping;
+        private bool dumping;
         private void B_Dump_Click(object sender, EventArgs e)
         {
             string toret = ""; dumping = true;
@@ -431,7 +431,7 @@ namespace pk3DS
             TB_Text2.Text = trText[index * 2 + 1];
         }
 
-        ushort[] indexList;
+        private ushort[] indexList;
         private void Setup()
         {
             start = true;
@@ -529,9 +529,9 @@ namespace pk3DS
         public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rAbility, rDiffAI, 
             rDiffIV, rClass, rGift, rItem, rDoRand, rRandomMegas, rGymE4Only,
             rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM;
-        public static bool[] rThemedClasses = { };
-        public static string[] rTags;
-        public static int[] megaEvos;
+        internal static bool[] rThemedClasses = { };
+        private static string[] rTags;
+        private static int[] megaEvos;
         public static int[] rIgnoreClass, rEnsureMEvo;
         public static int rDMGCount, rSTABCount;
         private int[] mEvoTypes;
@@ -558,7 +558,7 @@ namespace pk3DS
 
             // Fetch Move Stats for more difficult randomization
             var moveData = Moves.getMoves();
-            int[] moveList = Enumerable.Range(1, movelist.Count() - 1).ToArray();
+            int[] moveList = Enumerable.Range(1, movelist.Length - 1).ToArray();
             int mctr = 0;
             Util.Shuffle(moveList);
 

@@ -72,7 +72,7 @@ namespace pk3DS
         private readonly CTR.DARC[] darcs = new CTR.DARC[2 * (Main.oras ? 8 : 7)];
         private readonly string[] usedFiles = new string[2 * (Main.oras ? 8 : 7)];
 
-        readonly int[] darcFiles = Main.oras 
+        private readonly int[] darcFiles = Main.oras 
             ? new[]
             {
                 1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127, 

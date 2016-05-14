@@ -24,17 +24,17 @@ namespace pk3DS
             Setup();
         }
 
-        readonly string[] trFiles;
-        readonly string[] trNames;
-        readonly string[] pkFiles;
-        readonly string[] natures = Main.getText(Main.oras ? 51 : 47);
-        readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
-        readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
-        readonly string[] trClass = Main.getText(Main.oras ? 21 : 20);
-        readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
-        int trEntry = -1;
-        int pkEntry = -1;
-        bool dumping;
+        private readonly string[] trFiles;
+        private readonly string[] trNames;
+        private readonly string[] pkFiles;
+        private readonly string[] natures = Main.getText(Main.oras ? 51 : 47);
+        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
+        private readonly string[] trClass = Main.getText(Main.oras ? 21 : 20);
+        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        private int trEntry = -1;
+        private int pkEntry = -1;
+        private bool dumping;
         private void Setup()
         {
             foreach (string s in trClass) CB_Class.Items.Add(s);

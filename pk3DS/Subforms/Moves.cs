@@ -18,22 +18,22 @@ namespace pk3DS
             InitializeComponent();
             Setup();
         }
-        string[] files = Directory.GetFiles("move");
-        readonly string[] types = Main.getText(Main.oras ? 18 : 17);
-        readonly string[] moveflavor = Main.getText(Main.oras ? 16 : 15);
-        readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
-        readonly string[] sortedmoves;
-        readonly string[] MoveCategories = { "Status", "Physical", "Special", };
-        readonly string[] StatCategories = { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
+        private string[] files = Directory.GetFiles("move");
+        private readonly string[] types = Main.getText(Main.oras ? 18 : 17);
+        private readonly string[] moveflavor = Main.getText(Main.oras ? 16 : 15);
+        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        private readonly string[] sortedmoves;
+        private readonly string[] MoveCategories = { "Status", "Physical", "Special", };
+        private readonly string[] StatCategories = { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
 
-        readonly string[] TargetingTypes =
+        private readonly string[] TargetingTypes =
         { "Single Adjacent Ally/Foe", 
             "Any Ally", "Any Adjacent Ally", "Single Adjacent Foe", "Everyone but User", "All Foes", 
             "All Allies", "Self", "All Pokemon on Field", "Single Adjacent Foe (2)", "Entire Field", 
             "Opponent's Field", "User's Field", "Self", 
         };
 
-        readonly string[] InflictionTypes =
+        private readonly string[] InflictionTypes =
         { "None", 
             "Paralyze", "Sleep", "Freeze", "Burn", "Poison", 
             "Confusion", "Attract", "Capture", "Nightmare", "Curse", 
@@ -42,7 +42,7 @@ namespace pk3DS
             "Ingrain", 
         };
 
-        readonly string[] MoveQualities =
+        private readonly string[] MoveQualities =
         { "Only DMG", 
             "No DMG -> Inflict Status", "No DMG -> -Target/+User Stat", "No DMG | Heal User", "DMG | Inflict Status", "No DMG | STATUS | +Target Stat", 
             "DMG | -Target Stat", "DMG | +User Stat", "DMG | Absorbs DMG", "One-Hit KO", "Affects Whole Field", 
@@ -64,7 +64,7 @@ namespace pk3DS
             files = Directory.GetFiles("move");
             CB_Move.SelectedIndex = 0;
         }
-        int entry = -1;
+        private int entry = -1;
         private void changeEntry(object sender, EventArgs e)
         {
             setEntry();

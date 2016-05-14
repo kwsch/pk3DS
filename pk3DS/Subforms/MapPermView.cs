@@ -17,7 +17,7 @@ namespace pk3DS.Subforms
 
         private readonly string[] MapMatrixes;
         private readonly string[] MapGRs;
-        public int mapScale = -1;
+        private int mapScale = -1;
         public int DrawMap = -1;
         public void drawMap(int Map)
         {

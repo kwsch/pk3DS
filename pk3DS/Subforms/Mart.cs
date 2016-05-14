@@ -22,9 +22,9 @@ namespace pk3DS
             CB_Location.SelectedIndex = 0;
         }
 
-        readonly string codebin;
-        readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
-        readonly byte[] data;
+        private readonly string codebin;
+        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        private readonly byte[] data;
 
         private readonly byte[] entries = Main.oras
             ? new byte[] // ORAS
@@ -52,7 +52,7 @@ namespace pk3DS
             };
 
         private readonly int offset = Main.oras ? 0x0047AB58 : 0x0043C89E;
-        int dataoffset;
+        private int dataoffset;
 
         readonly string[] locations = Main.oras 
             ? new[] // ORAS
@@ -108,7 +108,7 @@ namespace pk3DS
             dgv.Columns.Add(dgvItem);
         }
 
-        int entry = -1;
+        private int entry = -1;
         private void changeIndex(object sender, EventArgs e)
         {
             if (entry > -1) setList();

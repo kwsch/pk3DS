@@ -37,7 +37,7 @@ namespace pk3DS
         private readonly byte[] data = File.ReadAllBytes(Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly).Last());
         private int entry = -1;
         private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
-        bool dumping;
+        private bool dumping;
         private void setupDGV()
         {
             string[] sortedmoves = (string[])movelist.Clone();

@@ -85,7 +85,7 @@ namespace pk3DS
         private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
         private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
         private readonly string[] typelist = Main.getText(Main.oras ? 18 : 17);
-        bool dumping;
+        private bool dumping;
         private Evolutions evo = new Evolutions(new byte[0x30]);
         private void getList()
         {
@@ -122,8 +122,8 @@ namespace pk3DS
             getList();
         }
 
-        public static int[] sL; // Random Species List
-        byte[][] personal;
+        private static int[] sL; // Random Species List
+        private byte[][] personal;
         private void B_RandAll_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Randomize all resulting species?", "Evolution methods and parameters will stay the same.")) return;

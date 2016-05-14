@@ -22,11 +22,11 @@ namespace pk3DS
             getList();
         }
 
-        readonly string codebin;
-        readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
-        readonly int offset = Main.oras ? 0x004872FC : 0x004455A8;
-        readonly byte[] data;
-        int dataoffset;
+        private readonly string codebin;
+        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        private readonly int offset = Main.oras ? 0x004872FC : 0x004455A8;
+        private readonly byte[] data;
+        private int dataoffset;
         private void getDataOffset()
         {
             dataoffset = offset; // reset
@@ -58,8 +58,8 @@ namespace pk3DS
             dgvRare.Columns.Add((DataGridViewColumn)dgvMove.Clone());
         }
 
-        List<ushort> common = new List<ushort>();
-        List<ushort> rare = new List<ushort>();
+        private List<ushort> common = new List<ushort>();
+        private List<ushort> rare = new List<ushort>();
 
         private void getList()
         {

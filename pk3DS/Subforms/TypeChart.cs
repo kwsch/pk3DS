@@ -14,7 +14,7 @@ namespace pk3DS
         private readonly byte[] chart = new byte[0x144];
         private readonly byte[] CROData;
 
-        readonly uint[] Colors = { 0xFF000000, 
+        private readonly uint[] Colors = { 0xFF000000, 
                             0, // unused
                             0xFFFF0000,
                             0, // unused

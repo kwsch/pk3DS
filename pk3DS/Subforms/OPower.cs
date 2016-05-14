@@ -37,8 +37,8 @@ namespace pk3DS
         private readonly byte[] exefsData;
         private readonly byte[][] powerData = new byte[65][];
         private readonly string[] powerFlavor = Main.getText(Main.oras ? 165 : 141);
-        
-        int entry = -1;
+
+        private int entry = -1;
         private void changeEntry(object sender, EventArgs e)
         {
             setEntry();

@@ -23,7 +23,9 @@ namespace pk3DS
         private readonly PictureBox[][] picturebox_spec;
         private bool loaded;
         private readonly string[][] AltForms;
-        int entry = -1;
+        private int entry = -1;
+        private bool dumping;
+        private MegaEvolutions me;
 
         public MEE()            //All the initial settings
         {
@@ -97,8 +99,6 @@ namespace pk3DS
             entry = (int)CB_Species.SelectedValue;
             getEntry();
         }
-        bool dumping;
-        MegaEvolutions me;
         private void getEntry()
         {
             if (!loaded) return;

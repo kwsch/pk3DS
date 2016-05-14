@@ -23,11 +23,11 @@ namespace pk3DS
             getList();
         }
 
-        readonly string codebin;
-        readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
-        readonly int offset = Main.oras ? 0x004A67EE : 0x00464796; // Default
-        readonly byte[] data;
-        int dataoffset;
+        private readonly string codebin;
+        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        private readonly int offset = Main.oras ? 0x004A67EE : 0x00464796; // Default
+        private readonly byte[] data;
+        private int dataoffset;
         private void getDataOffset()
         {
             dataoffset = offset; // reset
@@ -61,8 +61,8 @@ namespace pk3DS
             dgvHM.Columns.Add((DataGridViewColumn)dgvMove.Clone());
         }
 
-        List<ushort> tms = new List<ushort>();
-        List<ushort> hms = new List<ushort>();
+        private List<ushort> tms = new List<ushort>();
+        private List<ushort> hms = new List<ushort>();
 
         private void getList()
         {
