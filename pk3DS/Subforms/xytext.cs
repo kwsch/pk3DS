@@ -153,22 +153,23 @@ namespace pk3DS
 
             // Reset settings and columns.
             dgv.AllowUserToResizeColumns = false;
-            DataGridViewColumn dgvLine = new DataGridViewTextBoxColumn();
+            DataGridViewColumn dgvLine = new DataGridViewTextBoxColumn
             {
-                dgvLine.HeaderText = "Line";
-                dgvLine.DisplayIndex = 0;
-                dgvLine.Width = 32;
-                dgvLine.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                dgvLine.ReadOnly = true;
-                dgvLine.SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
-            DataGridViewTextBoxColumn dgvText = new DataGridViewTextBoxColumn();
+                HeaderText = "Line",
+                DisplayIndex = 0,
+                Width = 32,
+                ReadOnly = true,
+                SortMode = DataGridViewColumnSortMode.NotSortable
+            };
+            dgvLine.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+            DataGridViewTextBoxColumn dgvText = new DataGridViewTextBoxColumn
             {
-                dgvText.HeaderText = "Text";
-                dgvText.DisplayIndex = 1;
-                dgvText.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                dgvText.SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
+                HeaderText = "Text",
+                DisplayIndex = 1,
+                SortMode = DataGridViewColumnSortMode.NotSortable,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            };
 
             // Re-add the columns.
             dgv.Columns.Add(dgvLine);
@@ -184,6 +185,7 @@ namespace pk3DS
                 dgv.Rows[i].Cells[1].Value = textArray[i];
             }
         }
+
         private string[] getCurrentDGLines()
         {
             // Get Line Count
@@ -205,7 +207,7 @@ namespace pk3DS
                 { 
                     if (Util.Prompt(MessageBoxButtons.YesNo,
                     "Inserting in between rows will shift all subsequent lines.", "Continue?") != DialogResult.Yes) 
-                    return; 
+                        return; 
                 }
                 // Insert new Row after current row.
                 dgv.Rows.Insert(currentRow + 1);
@@ -219,7 +221,7 @@ namespace pk3DS
             int currentRow = dgv.CurrentRow.Index;
             if (currentRow < dgv.Rows.Count - 1)
             {
-                if ((ModifierKeys != Keys.Control) && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, 
+                if (ModifierKeys != Keys.Control && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, 
                     "Deleting a row above other lines will shift all subsequent lines.", "Continue?"))
                     return;
             }
@@ -323,41 +325,38 @@ namespace pk3DS
                     try
                     {
                         ushort key = baseKey;
-                        uint pos = (uint)data.Position;
+                        uint pos = (uint) data.Position;
                         if (lines[i] == null) lines[i] = $"[~ {i}]";
                         // Get crypted line data.
+
+                        // Write each character to the data stream, with handling for special characters.
+                        for (int j = 0; j < lines[i].Length; j++)
                         {
-                            {
-                                // Write each character to the data stream, with handling for special characters.
-                                for (int j = 0; j < lines[i].Length; j++)
-                                {
-                                    ushort val = lines[i][j];
+                            ushort val = lines[i][j];
 
-                                    // Handle special text characters
-                                    // Private Use Area characters
-                                    if (val == 0x202F) val = 0xE07F;        // nbsp
-                                    else if (val == 0x2026) val = 0xE08D;   // …
-                                    else if (val == 0x2642) val = 0xE08E;   // ♂
-                                    else if (val == 0x2640) val = 0xE08F;   // ♀
+                            // Handle special text characters
+                            // Private Use Area characters
+                            if (val == 0x202F) val = 0xE07F; // nbsp
+                            else if (val == 0x2026) val = 0xE08D; // …
+                            else if (val == 0x2642) val = 0xE08E; // ♂
+                            else if (val == 0x2640) val = 0xE08F; // ♀
 
-                                    // Variables
-                                    if (val == '[' || val == '\\')          // Variable
-                                        encryptVar(bz, lines[i], ref j, ref key);
+                            // Variables
+                            if (val == '[' || val == '\\') // Variable
+                                encryptVar(bz, lines[i], ref j, ref key);
 
-                                    // Text
-                                    else bz.Write(encryptU16(val, ref key));
-                                }
-                                bz.Write(encryptU16(0, ref key)); // Add the null terminator, after encrypting it.
-                            }
-
-                            // Write the lineOffset and charCount to the header.
-                            bw.Write((uint)(pos + 0x4 + lines.Length * 8));
-                            bw.Write((uint)(data.Position - pos) / 2);
-                            if (data.Position % 4 > 0) bz.Write((ushort)0);
-
-                            // Increment the line initial key for the next line.
-                            baseKey += 0x2983;
+                            // Text
+                            else bz.Write(encryptU16(val, ref key));
                         }
+                        bz.Write(encryptU16(0, ref key)); // Add the null terminator, after encrypting it.
+
+                        // Write the lineOffset and charCount to the header.
+                        bw.Write((uint) (pos + 0x4 + lines.Length*8));
+                        bw.Write((uint) (data.Position - pos)/2);
+                        if (data.Position%4 > 0) bz.Write((ushort) 0);
+
+                        // Increment the line initial key for the next line.
+                        baseKey += 0x2983;
                     }
                     catch (Exception e) { Util.Error(e.ToString()); return null; }
                 }
@@ -376,14 +375,14 @@ namespace pk3DS
         internal static ushort encryptU16(ushort val, ref ushort key)
         {
             val = (ushort)(key ^ val);
-            key = (ushort)(((key << 3) | (key >> 13)) & 0xffff);
+            key = (ushort)(key << 3 | key >> 13);
             return val;
         }
         internal static ushort decryptU16(byte[] data, ref int offset, ref ushort val, ref ushort key)
         {
             val = (ushort)(BitConverter.ToUInt16(data, offset) ^ key);
             offset += 2;
-            key = (ushort)(((key << 3) | (key >> 13)) & 0xffff);
+            key = (ushort)(key << 3 | key >> 13);
             return val;
         }
         // Variable Handling
