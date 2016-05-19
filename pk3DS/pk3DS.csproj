@@ -242,6 +242,7 @@
       <DependentUpon>Icon.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Scripts.cs" />
+    <Compile Include="Tools\TextFile.cs" />
     <Compile Include="Tools\ToolsUI.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -985,11 +985,11 @@ namespace pk3DS
         // Text Requests
         internal static string[] getText(int file)
         {
-            return xytext.getStringsFromFile("gametext" + Path.DirectorySeparatorChar + file.ToString("000") + ".bin");
+            return TextFile.getStrings("gametext" + Path.DirectorySeparatorChar + file.ToString("000") + ".bin");
         }
         internal static bool setText(int file, string[] strings)
         {
-            byte[] data = xytext.getBytesForFile(strings);
+            byte[] data = TextFile.getBytes(strings);
             string path = "gametext" + Path.DirectorySeparatorChar + file.ToString("000") + ".bin";
             File.WriteAllBytes(path, data);
             return true;
