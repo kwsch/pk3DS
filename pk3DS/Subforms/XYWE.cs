@@ -363,6 +363,16 @@ namespace pk3DS
                 min[i].Value = data[2];
                 max[i].Value = data[3];
             }
+
+            #if DUMPER
+            int r = CB_LocationID.SelectedIndex * 56 + 0x1C;
+            int loc = zonedata[r] + 0x100 * (zonedata[r + 1] & 1);
+            byte[] edata = BitConverter.GetBytes((ushort)loc).Concat(ed).ToArray();
+
+            if (!Directory.Exists("encounter_xy"))
+                Directory.CreateDirectory("encounter_xy");
+            File.WriteAllBytes(Path.Combine("encounter_xy", loc.ToString("000") + CB_LocationID.SelectedIndex.ToString("000") + ".bin"), edata);
+            #endif
         }
         private int[] pslot(byte[] slot)
         {
