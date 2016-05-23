@@ -170,27 +170,13 @@ namespace pk3DS
         }
         internal static int ToInt32(string value)
         {
-            value = value.Replace(" ", "");
-            if (string.IsNullOrEmpty(value))
-                return 0;
-            try
-            {
-                value = value.TrimEnd('_');
-                return int.Parse(value);
-            }
-            catch { return 0; }
+            string val = value?.Replace(" ", "").Replace("_", "").Trim();
+            return string.IsNullOrWhiteSpace(val) ? 0 : int.Parse(val);
         }
         internal static uint ToUInt32(string value)
         {
-            value = value.Replace(" ", "");
-            if (string.IsNullOrEmpty(value))
-                return 0;
-            try
-            {
-                value = value.TrimEnd('_');
-                return uint.Parse(value);
-            }
-            catch { return 0; }
+            string val = value?.Replace(" ", "").Replace("_", "").Trim();
+            return string.IsNullOrWhiteSpace(val) ? 0 : uint.Parse(val);
         }
         internal static uint getHEXval(TextBox tb)
         {
