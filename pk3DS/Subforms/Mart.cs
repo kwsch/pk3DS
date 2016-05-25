@@ -134,10 +134,35 @@ namespace pk3DS
                 Array.Copy(BitConverter.GetBytes((ushort)Array.IndexOf(itemlist, dgv.Rows[i].Cells[1].Value)), 0, data, dataoffset + 2 * i, 2);
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void B_Save_Click(object sender, EventArgs e)
         {
             if (entry > -1) setList();
             File.WriteAllBytes(codebin, data);
+        }
+        private void B_Cancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+        private void B_Randomize_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Randomize mart inventories?"))
+                return;
+
+            int[] validItems = Randomizer.getRandomItemList(Main.oras);
+
+            int ctr = 0;
+            Util.Shuffle(validItems);
+
+            for (int i = 0; i < CB_Location.Items.Count; i++)
+            {
+                CB_Location.SelectedIndex = i;
+                for (int r = 0; r < dgv.Rows.Count; r++)
+                {
+                    dgv.Rows[r].Cells[1].Value = itemlist[validItems[ctr++]];
+                    if (ctr <= validItems.Length) continue;
+                    Util.Shuffle(validItems); ctr = 0;
+                }
+            }
         }
     }
 }

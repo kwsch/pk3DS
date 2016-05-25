@@ -100,10 +100,36 @@ namespace pk3DS
                 Array.Copy(BitConverter.GetBytes(rlist[i - 0x12]), 0, data, offset + 2 * i, 2);
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void B_Save_Click(object sender, EventArgs e)
         {
             setList();
             File.WriteAllBytes(codebin, data);
+        }
+        private void B_Cancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+        private void B_Randomize_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Randomize pickup lists?"))
+                return;
+
+            int[] validItems = Randomizer.getRandomItemList(Main.oras);
+
+            int ctr = 0;
+            Util.Shuffle(validItems);
+            for (int r = 0; r < dgvCommon.Rows.Count; r++)
+            {
+                dgvCommon.Rows[r].Cells[1].Value = itemlist[validItems[ctr++]];
+                if (ctr <= validItems.Length) continue;
+                Util.Shuffle(validItems); ctr = 0;
+            }
+            for (int r = 0; r < dgvRare.Rows.Count; r++)
+            {
+                dgvRare.Rows[r].Cells[1].Value = itemlist[validItems[ctr++]];
+                if (ctr <= validItems.Length) continue;
+                Util.Shuffle(validItems); ctr = 0;
+            }
         }
     }
 }

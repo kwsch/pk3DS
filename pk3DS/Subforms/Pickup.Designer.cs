@@ -34,6 +34,9 @@
             this.L_HM = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.B_Save = new System.Windows.Forms.Button();
+            this.B_Cancel = new System.Windows.Forms.Button();
+            this.B_Randomize = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCommon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRare)).BeginInit();
             this.SuspendLayout();
@@ -102,11 +105,47 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "(level-1)/10, take 2.";
             // 
+            // B_Save
+            // 
+            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Save.Location = new System.Drawing.Point(421, 331);
+            this.B_Save.Name = "B_Save";
+            this.B_Save.Size = new System.Drawing.Size(75, 23);
+            this.B_Save.TabIndex = 7;
+            this.B_Save.Text = "Save";
+            this.B_Save.UseVisualStyleBackColor = true;
+            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            // 
+            // B_Cancel
+            // 
+            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Cancel.Location = new System.Drawing.Point(340, 331);
+            this.B_Cancel.Name = "B_Cancel";
+            this.B_Cancel.Size = new System.Drawing.Size(75, 23);
+            this.B_Cancel.TabIndex = 8;
+            this.B_Cancel.Text = "Cancel";
+            this.B_Cancel.UseVisualStyleBackColor = true;
+            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            // 
+            // B_Randomize
+            // 
+            this.B_Randomize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.B_Randomize.Location = new System.Drawing.Point(9, 331);
+            this.B_Randomize.Name = "B_Randomize";
+            this.B_Randomize.Size = new System.Drawing.Size(75, 23);
+            this.B_Randomize.TabIndex = 9;
+            this.B_Randomize.Text = "Randomize";
+            this.B_Randomize.UseVisualStyleBackColor = true;
+            this.B_Randomize.Click += new System.EventHandler(this.B_Randomize_Click);
+            // 
             // Pickup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(504, 332);
+            this.ClientSize = new System.Drawing.Size(504, 361);
+            this.Controls.Add(this.B_Randomize);
+            this.Controls.Add(this.B_Cancel);
+            this.Controls.Add(this.B_Save);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.L_HM);
@@ -115,11 +154,10 @@
             this.Controls.Add(this.dgvCommon);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(520, 670);
-            this.MinimumSize = new System.Drawing.Size(520, 370);
+            this.MinimumSize = new System.Drawing.Size(520, 400);
             this.Name = "Pickup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pickup Editor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCommon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRare)).EndInit();
             this.ResumeLayout(false);
@@ -135,5 +173,8 @@
         private System.Windows.Forms.Label L_HM;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button B_Save;
+        private System.Windows.Forms.Button B_Cancel;
+        private System.Windows.Forms.Button B_Randomize;
     }
 }
