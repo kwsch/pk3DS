@@ -77,6 +77,8 @@ namespace pk3DS
             Data = File.ReadAllBytes(CROPath);
             FieldData = File.ReadAllBytes(FieldPath);
             offset = BitConverter.ToInt32(Data, 0xb8);
+            if (!Main.oras) // XY have 0x10 bytes of zeroes
+                offset += 0x10;
             for (int i = 0; i < Count; i++)
             {
                 Labels[i].Visible = true;
@@ -96,9 +98,7 @@ namespace pk3DS
         {
             for (int i = 0; i < Count; i++)
                 for (int j = 0; j < 3; j++)
-                    Array.Copy(
-                        BitConverter.GetBytes((ushort) Choices[i][j].SelectedIndex), 0, 
-                        Data, offset + (i*3 + j)*0x54, 2);
+                    Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, Data, offset + (i*3 + j)*0x54, 2);
 
             // Set the choices back
             int fieldOffset = Main.oras ? 0xF906C : 0xF805C;
@@ -172,10 +172,7 @@ namespace pk3DS
             }
 
             if (blind)
-            {
-                saveData();
-                Close();
-            }
+                B_Save.PerformClick();
         }
     }
 }
