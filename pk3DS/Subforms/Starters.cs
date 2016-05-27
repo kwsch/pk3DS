@@ -172,7 +172,10 @@ namespace pk3DS
             }
 
             if (blind)
-                B_Save.PerformClick();
+            {
+                saveData();
+                Close();
+            }
         }
     }
 }
