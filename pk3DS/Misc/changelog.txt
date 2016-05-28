@@ -16,9 +16,14 @@ ExeFS Editors: Kaphotics (thanks Drayano and magical!)
 
 Big thanks to the ProjectPokemon community!
 
-XX-XX-16:
- - Added: GARC Shuffler
+05-31-16:
+ - Added: Gift Pokemon and Static Encounter editors (CRO)
+ - Added: GARC File Shuffler - randomly reorders files in a GARC.
  - Fixed: Random Mega randomization checkbox for Wild Editors
+ - Fixed: ORAS Move tutor reading
+ - Fixed: XY Starter Editing
+ - Changed: Gift Pokemon editing now has more attributes exposed.
+ - Changed: CRO notification now hints that a solution is available :)
 
 12-02-15:
  - Fixed: OWSE: Map Permission Dumping
@@ -38,7 +43,8 @@ XX-XX-16:
  - Added: Map PNG export on double click.
  - Added: Command line launch instructions (path, language)
 
-11-12-19: 700
+12-02-15: 23300
+11-19-15: 700
 11-12-15: 650
 11-11-15: 25
 11-10-15: 60
