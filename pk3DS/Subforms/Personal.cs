@@ -455,7 +455,7 @@ namespace pk3DS
                 if (CHK_Growth.Checked)
                     CB_EXPGroup.SelectedIndex = 5;
                 if (CHK_EXP.Checked)
-                    TB_BaseExp.Text = (Convert.ToUInt16(TB_BaseExp.Text) / (100 / NUD_EXP.Value)).ToString("000");
+                    TB_BaseExp.Text = ((float)NUD_EXP.Value*(Convert.ToUInt16(TB_BaseExp.Text)/100f)).ToString("000");
 
                 if (CHK_QuickHatch.Checked)
                     TB_HatchCycles.Text = 1.ToString();

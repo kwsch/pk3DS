@@ -1000,9 +1000,9 @@
             this.CHK_EXP.AutoSize = true;
             this.CHK_EXP.Location = new System.Drawing.Point(6, 66);
             this.CHK_EXP.Name = "CHK_EXP";
-            this.CHK_EXP.Size = new System.Drawing.Size(114, 17);
+            this.CHK_EXP.Size = new System.Drawing.Size(107, 17);
             this.CHK_EXP.TabIndex = 7;
-            this.CHK_EXP.Text = "Reduce EXP Yield";
+            this.CHK_EXP.Text = "Modify EXP Yield";
             this.CHK_EXP.UseVisualStyleBackColor = true;
             // 
             // CHK_Growth
@@ -1039,6 +1039,11 @@
             // NUD_EXP
             // 
             this.NUD_EXP.Location = new System.Drawing.Point(69, 84);
+            this.NUD_EXP.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
             this.NUD_EXP.Name = "NUD_EXP";
             this.NUD_EXP.Size = new System.Drawing.Size(46, 20);
             this.NUD_EXP.TabIndex = 5;
@@ -1409,7 +1414,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(469, 417);
+            this.ClientSize = new System.Drawing.Size(469, 416);
             this.Controls.Add(this.B_Dump);
             this.Controls.Add(this.PB_MonSprite);
             this.Controls.Add(this.TC_Pokemon);
