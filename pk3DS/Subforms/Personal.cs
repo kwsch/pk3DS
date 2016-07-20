@@ -421,9 +421,9 @@ namespace pk3DS
                 // Items
                 if (CHK_Item.Checked)
                 {
-                    CB_HeldItem1.SelectedIndex = CB_HeldItem1.SelectedIndex > 0 ? itemlist[rnd.Next(1, itemlen)] : 0;
-                    CB_HeldItem2.SelectedIndex = CB_HeldItem2.SelectedIndex > 0 ? itemlist[rnd.Next(1, itemlen)] : 0;
-                    CB_HeldItem3.SelectedIndex = CB_HeldItem3.SelectedIndex > 0 ? itemlist[rnd.Next(1, itemlen)] : 0;
+                    CB_HeldItem1.SelectedIndex = itemlist[rnd.Next(1, itemlen)];
+                    CB_HeldItem2.SelectedIndex = itemlist[rnd.Next(1, itemlen)];
+                    CB_HeldItem3.SelectedIndex = itemlist[rnd.Next(1, itemlen)];
                 }
 
                 // Type
