@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -229,6 +230,72 @@ namespace pk3DS
         {
             // Save All the old text
             if (entry > -1) File.WriteAllBytes(files[entry], TextFile.getBytes(getCurrentDGLines()));
+        }
+
+        private void B_Randomize_Click(object sender, EventArgs e)
+        {
+            // gametext can be horribly broken if randomized
+            string dirname = Directory.GetParent(files[entry]).Name;
+            if (dirname == "gametext" && DialogResult.Yes !=
+                Util.Prompt(MessageBoxButtons.YesNo, "Randomizing Game Text is dangerous?", "Continue?"))
+                return;
+
+            // get if the user wants to randomize current text file or all files
+            var dr = Util.Prompt(MessageBoxButtons.YesNoCancel,
+                $"Yes: Randomize ALL{Environment.NewLine}No: Randomize current textfile{Environment.NewLine}Cancel: Abort");
+
+            if (dr == DialogResult.Cancel)
+                return;
+
+            // get if pure shuffle or smart shuffle (no shuffle if variable present)
+            var drs = Util.Prompt(MessageBoxButtons.YesNo,
+                $"Smart shuffle:{Environment.NewLine}Yes: Shuffle if no Variable present{Environment.NewLine}No: Pure random!");
+
+            if (drs == DialogResult.Cancel)
+                return;
+
+            bool all = dr == DialogResult.Yes;
+            bool smart = drs == DialogResult.Yes;
+
+            // save current
+            if (entry > -1) File.WriteAllBytes(files[entry], TextFile.getBytes(getCurrentDGLines()));
+
+            // single-entire looping
+            int start = all ? 0 : entry;
+            int end = all ? files.Length - 1 : entry;
+
+            // Gather strings
+            List<string> strings = new List<string>();
+            for (int i = start; i <= end; i++)
+            {
+                string[] data = TextFile.getStrings(files[i]);
+                strings.AddRange(smart 
+                    ? data.Where(line => !line.Contains("[")) 
+                    : data);
+            }
+
+            // Shuffle up
+            string[] pool = strings.ToArray();
+            Util.Shuffle(pool);
+
+            // Apply Text
+            int ctr = 0;
+            for (int i = start; i <= end; i++)
+            {
+                string[] data = TextFile.getStrings(files[i]);
+
+                for (int j = 0; j < data.Length; j++) // apply lines
+                    if (!smart || !data[j].Contains("["))
+                        data[j] = pool[ctr++];
+
+                byte[] file = TextFile.getBytes(data);
+                File.WriteAllBytes(files[i], file);
+            }
+
+            // Load current text file
+            setStringsDataGridView(TextFile.getStrings(files[entry]));
+
+            Util.Alert("Strings randomized!");
         }
     }
 }

@@ -35,6 +35,7 @@
             this.B_Export = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.B_Import = new System.Windows.Forms.Button();
+            this.B_Randomize = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -117,11 +118,22 @@
             this.B_Import.UseVisualStyleBackColor = true;
             this.B_Import.Click += new System.EventHandler(this.B_Import_Click);
             // 
+            // B_Randomize
+            // 
+            this.B_Randomize.Location = new System.Drawing.Point(346, 6);
+            this.B_Randomize.Name = "B_Randomize";
+            this.B_Randomize.Size = new System.Drawing.Size(70, 23);
+            this.B_Randomize.TabIndex = 11;
+            this.B_Randomize.Text = "Randomize";
+            this.B_Randomize.UseVisualStyleBackColor = true;
+            this.B_Randomize.Click += new System.EventHandler(this.B_Randomize_Click);
+            // 
             // xytext
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(634, 362);
+            this.Controls.Add(this.B_Randomize);
             this.Controls.Add(this.B_Import);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.B_Export);
@@ -149,6 +161,6 @@
         private System.Windows.Forms.Button B_Export;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button B_Import;
-
+        private System.Windows.Forms.Button B_Randomize;
     }
 }
