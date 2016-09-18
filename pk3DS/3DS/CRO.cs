@@ -214,5 +214,28 @@ namespace CTR
             // Return the fixed overall hash
             return mySHA.ComputeHash(CRO, 0, 0x80);
         }
+
+
+        public CRO(byte[] data)
+        {
+            Data = (byte[])data.Clone();
+        }
+        private readonly byte[] Data;
+        private byte[] sha2Hash
+        {
+            get
+            {
+                byte[] hashData = new byte[0x80];
+                Array.Copy(Data, hashData, 0x80);
+                return hashData;
+            }
+            set
+            {
+                if (value.Length != 0x80)
+                    throw new ArgumentOutOfRangeException(value.Length.ToString("X5"));
+                Array.Copy(value, Data, value.Length);
+            }
+        }
+        private string Magic => new string(Data.Skip(0x80).Take(4).Select(c => (char)c).ToArray());
     }
 }
