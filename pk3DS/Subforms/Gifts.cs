@@ -164,6 +164,8 @@ namespace pk3DS
                 for (int i = 0; i < LB_Gifts.Items.Count; i++)
                 {
                     LB_Gifts.SelectedIndex = i;
+                    if (CB_Species.SelectedIndex == 448)
+                        continue; // skip Lucario, battle needs to mega evolve
                     int species = Util.rand.Next(1, 721);
                     CB_Species.SelectedIndex = species;
                 }
@@ -177,6 +179,8 @@ namespace pk3DS
             {
                 LB_Gifts.SelectedIndex = i;
                 int species = CB_Species.SelectedIndex;
+                if (species == 448)
+                    continue; // skip Lucario, battle needs to mega evolve
 
                 int bst = Main.SpeciesStat[species].BST;
                 int tries = 0;
