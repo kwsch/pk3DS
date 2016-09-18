@@ -720,7 +720,7 @@ namespace pk3DS
                             trpk_form[p].SelectedIndex = (int)(rnd32() % trpk_form[p].Items.Count);
                     }
                     if (rLevel)
-                        trpk_lvl[p].SelectedIndex = Math.Max(1, Math.Min((int)(trpk_lvl[p].SelectedIndex * ((100 + rLevelPercent) / 100)), 100));
+                        trpk_lvl[p].SelectedIndex = Math.Max(1, Math.Min((int)(trpk_lvl[p].SelectedIndex * (100 + rLevelPercent) / 100), 100));
                     if (rAbility)
                         trpk_abil[p].SelectedIndex = (int)(1 + rnd32() % 3);
                     if (rDiffIV)
