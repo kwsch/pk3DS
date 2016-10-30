@@ -201,9 +201,9 @@ namespace CTR
                 #region Write GARC Headers
                 // Write GARC
                 gw.Write((uint)0x47415243); // GARC
-                gw.Write((uint)0x0000001C); // Header Length
+                gw.Write((uint)(version == VER_6 ? 0x24 : 0x1C)); // Header Length
                 gw.Write((ushort)0xFEFF);   // Endianness BOM
-                gw.Write((ushort)version);   // Version
+                gw.Write((ushort)version);  // Version
                 gw.Write((uint)0x00000004); // Section Count (4)
                 gw.Write((uint)0x00000000); // Data Offset (temp)
                 gw.Write((uint)0x00000000); // File Length (temp)
