@@ -4,7 +4,7 @@
     {
         public readonly int Index;
         public readonly string Name;
-        public TextReference(int index, string name)
+        private TextReference(int index, string name)
         {
             Index = index;
             Name = name;

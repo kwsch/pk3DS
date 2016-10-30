@@ -12,7 +12,7 @@ namespace pk3DS
         public readonly bool LanguageVariant;
         public string Reference => Path.Combine("a", A.ToString(), B.ToString(), C.ToString());
 
-        public GARCReference(int file, string name, bool lv = false)
+        private GARCReference(int file, string name, bool lv = false)
         {
             Name = name;
             FileNumber = file;

@@ -295,6 +295,7 @@ namespace pk3DS
 
                 RomFSPath = path;
                 Config = cfg;
+                TextFile.Config = cfg;
                 backupGARCs(false, Config.Files.Select(file => file.Name).ToArray());
                 backupCROs(false, RomFSPath);
                 return true;
