@@ -24,8 +24,8 @@ namespace pk3DS
         }
 
         private readonly string codebin;
-        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
-        private readonly int offset = Main.oras ? 0x004A67EE : 0x00464796; // Default
+        private readonly string[] movelist = Main.getText(Main.Config.ORAS ? 14 : 13);
+        private readonly int offset = Main.Config.ORAS ? 0x004A67EE : 0x00464796; // Default
         private readonly byte[] data;
         private int dataoffset;
         private void getDataOffset()
@@ -75,7 +75,7 @@ namespace pk3DS
                 tms.Add(BitConverter.ToUInt16(data, dataoffset + 2 * i));
             for (int i = 92; i < 92 + 5; i++)
                 hms.Add(BitConverter.ToUInt16(data, dataoffset + 2 * i));
-            if (Main.oras)
+            if (Main.Config.ORAS)
             {
                 hms.Add(BitConverter.ToUInt16(data, dataoffset + 2 * 97));
                 for (int i = 98; i < 106; i++)
@@ -114,7 +114,7 @@ namespace pk3DS
                 Array.Copy(BitConverter.GetBytes(tmlist[i]), 0, data, offset + 2 * i, 2);
             for (int i = 92; i < 92 + 5; i++)
                 Array.Copy(BitConverter.GetBytes(hmlist[i - 92]), 0, data, offset + 2 * i, 2);
-            if (Main.oras)
+            if (Main.Config.ORAS)
             {
                 Array.Copy(BitConverter.GetBytes(hmlist[5]), 0, data, offset + 2 * 97, 2);
                 for (int i = 98; i < 106; i++)
@@ -128,9 +128,9 @@ namespace pk3DS
             }
 
             // Set Move Text Descriptions back into Item Text File
-            int itemFile = Main.oras ? 117 : 99;
+            int itemFile = Main.Config.ORAS ? 117 : 99;
             string[] itemDescriptions = Main.getText(itemFile);
-            string[] moveDescriptions = Main.getText(Main.oras ? 16 : 15);
+            string[] moveDescriptions = Main.getText(Main.Config.ORAS ? 16 : 15);
             for (int i = 1 - 1; i <= 92 - 1; i++) // TM01 - TM92
                 itemDescriptions[328 + i] = moveDescriptions[tmlist[i]];
             for (int i = 93 - 1; i <= 95 - 1; i++) // TM92 - TM95
@@ -139,7 +139,7 @@ namespace pk3DS
                 itemDescriptions[690 + i - 95] = moveDescriptions[tmlist[i]];
             for (int i = 1 - 1; i <= 5 - 1; i++) // HM01 - HM05
                 itemDescriptions[420 + i] = moveDescriptions[hmlist[i]];
-            if (Main.oras)
+            if (Main.Config.ORAS)
             {
                 itemDescriptions[425] = moveDescriptions[hmlist[5]]; // HM06
                 itemDescriptions[737] = moveDescriptions[hmlist[6]]; // HM07
@@ -187,7 +187,7 @@ namespace pk3DS
                 tms.Add(BitConverter.ToUInt16(data, dataoffset + 2 * i));
             for (int i = 92; i < 92 + 5; i++)
                 hms.Add(BitConverter.ToUInt16(data, dataoffset + 2 * i));
-            if (Main.oras)
+            if (Main.Config.ORAS)
             {
                 hms.Add(BitConverter.ToUInt16(data, dataoffset + 2 * 97));
                 for (int i = 98; i < 106; i++)

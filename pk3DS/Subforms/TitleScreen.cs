@@ -9,7 +9,7 @@ namespace pk3DS
 {
     public partial class TitleScreen : Form
     {
-        private readonly bool compressed = Main.oras;
+        private readonly bool compressed = Main.Config.ORAS;
         public TitleScreen()
         {
             InitializeComponent();
@@ -37,8 +37,8 @@ namespace pk3DS
             PB_Image.ContextMenuStrip = mnu;
 
             // Set up languages
-            string[] languages = (Main.oras ? new[] {"JP1"} : new string[] {}).Concat(new[] {"DE", "ES", "FR", "IT", "JP", "KO", "EN"}).ToArray();
-            string[] games = Main.oras ? new[] {"OR", "AS"} : new[] {"X", "Y"};
+            string[] languages = (Main.Config.ORAS ? new[] {"JP1"} : new string[] {}).Concat(new[] {"DE", "ES", "FR", "IT", "JP", "KO", "EN"}).ToArray();
+            string[] games = Main.Config.ORAS ? new[] {"OR", "AS"} : new[] {"X", "Y"};
             for (int i = 0; i < darcs.Length/2; i++)
                 CB_DARC.Items.Add($"{games[0]} - {languages[i]}");
             for (int i = darcs.Length/2; i < darcs.Length; i++)
@@ -69,10 +69,10 @@ namespace pk3DS
             CB_DARC.SelectedIndex = CB_DARC.Items.Count - 1; // last (english game2)
         }
         private readonly string[] files = Directory.GetFiles("titlescreen");
-        private readonly CTR.DARC[] darcs = new CTR.DARC[2 * (Main.oras ? 8 : 7)];
-        private readonly string[] usedFiles = new string[2 * (Main.oras ? 8 : 7)];
+        private readonly CTR.DARC[] darcs = new CTR.DARC[2 * (Main.Config.ORAS ? 8 : 7)];
+        private readonly string[] usedFiles = new string[2 * (Main.Config.ORAS ? 8 : 7)];
 
-        private readonly int[] darcFiles = Main.oras 
+        private readonly int[] darcFiles = Main.Config.ORAS 
             ? new[]
             {
                 1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127, 

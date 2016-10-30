@@ -32,14 +32,14 @@ namespace pk3DS
         }
         private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
         private byte[] FieldData;
-        private readonly int fieldOffset = Main.oras ? 0xF906C : 0xF805C;
-        private readonly int fieldSize = Main.oras ? 0x24 : 0x18;
-        private readonly int count = Main.oras ? 0x25 : 0x13;
+        private readonly int fieldOffset = Main.Config.ORAS ? 0xF906C : 0xF805C;
+        private readonly int fieldSize = Main.Config.ORAS ? 0x24 : 0x18;
+        private readonly int count = Main.Config.ORAS ? 0x25 : 0x13;
         private Gift[] GiftData;
-        private readonly string[] abilitylist = Main.getText(Main.oras ? 37 : 34);
-        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
-        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
-        private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
+        private readonly string[] abilitylist = Main.getText(Main.Config.ORAS ? 37 : 34);
+        private readonly string[] movelist = Main.getText(Main.Config.ORAS ? 14 : 13);
+        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
+        private readonly string[] specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveEntry();
@@ -57,7 +57,7 @@ namespace pk3DS
             LB_Gifts.Items.Clear();
             for (int i = 0; i < GiftData.Length; i++)
             {
-                GiftData[i] = new Gift(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray(), Main.oras);
+                GiftData[i] = new Gift(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray(), Main.Config.ORAS);
                 LB_Gifts.Items.Add($"{i.ToString("00")} - {specieslist[GiftData[i].Species]}");
             }
             loaded = true;
@@ -67,7 +67,7 @@ namespace pk3DS
         {
             // Check to see if a starter has been modified right before we write data.
             bool starters = false;
-            int[] entries = Main.oras
+            int[] entries = Main.Config.ORAS
                 ? new[]
                 {
                     0, 1, 2, // Gen 3

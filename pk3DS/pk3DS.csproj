@@ -62,6 +62,8 @@
     <Compile Include="3DS\BCLIM.cs" />
     <Compile Include="Game\GameVersion.cs" />
     <Compile Include="Game\GARCReference.cs" />
+    <Compile Include="Game\TextReference.cs" />
+    <Compile Include="Game\TextVariableCode.cs" />
     <Compile Include="Misc\About.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -46,21 +46,21 @@ namespace pk3DS
             };
             Labels = new[] { L_Set1, L_Set2, L_Set3, L_Set4 };
 
-            Width = Main.oras ? Width : Width/2 + 2;
+            Width = Main.Config.ORAS ? Width : Width/2 + 2;
             loadData();
         }
         private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllPoke3Select.cro");
         private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
-        private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
+        private readonly string[] specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
         private readonly ComboBox[][] Choices;
         private readonly PictureBox[][] Previews;
         private readonly Label[] Labels;
-        private readonly string[] StarterSummary = Main.oras
+        private readonly string[] StarterSummary = Main.Config.ORAS
             ? new[] { "Gen 3 Starters", "Gen 2 Starters", "Gen 4 Starters", "Gen 5 Starters" }
             : new[] { "Gen 6 Starters", "Gen 1 Starters" };
         private byte[] Data;
         private byte[] FieldData;
-        private readonly int Count = Main.oras ? 4 : 2;
+        private readonly int Count = Main.Config.ORAS ? 4 : 2;
         private int offset;
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -77,7 +77,7 @@ namespace pk3DS
             Data = File.ReadAllBytes(CROPath);
             FieldData = File.ReadAllBytes(FieldPath);
             offset = BitConverter.ToInt32(Data, 0xb8);
-            if (!Main.oras) // XY have 0x10 bytes of zeroes
+            if (!Main.Config.ORAS) // XY have 0x10 bytes of zeroes
                 offset += 0x10;
             for (int i = 0; i < Count; i++)
             {
@@ -101,9 +101,9 @@ namespace pk3DS
                     Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, Data, offset + (i*3 + j)*0x54, 2);
 
             // Set the choices back
-            int fieldOffset = Main.oras ? 0xF906C : 0xF805C;
-            int fieldSize = Main.oras ? 0x24 : 0x18;
-            int[] entries = Main.oras
+            int fieldOffset = Main.Config.ORAS ? 0xF906C : 0xF805C;
+            int fieldSize = Main.Config.ORAS ? 0x24 : 0x18;
+            int[] entries = Main.Config.ORAS
                 ? new[]
                 {
                     0, 1, 2, // Gen 3

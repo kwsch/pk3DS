@@ -47,7 +47,7 @@ namespace pk3DS
 
         internal static int[] getRandomItemList(bool oras)
         {
-            return (Main.oras ? Items_HeldAO : Items_HeldXY).Concat(Items_Ball).ToArray();
+            return (Main.Config.ORAS ? Items_HeldAO : Items_HeldXY).Concat(Items_Ball).ToArray();
         }
         #region Random Item List
         private static readonly int[] Items_HeldXY =

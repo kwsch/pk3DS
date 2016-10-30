@@ -151,15 +151,15 @@ namespace pk3DS
         // Top Level Functions
         private readonly string[] trdatapaths = Directory.GetFiles("trdata");
         private readonly string[] trpokepaths = Directory.GetFiles("trpoke");
-        private readonly string[] abilitylist = Main.getText(Main.oras ? 37 : 34);
-        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
-        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
-        private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
-        private readonly string[] types = Main.getText(Main.oras ? 18 : 17);
-        private readonly string[] forms = Main.getText(Main.oras ? 5 : 5);
-        private string[] trName = Main.getText(Main.oras ? 22 : 21);
-        private readonly string[] trClass = Main.getText(Main.oras ? 21 : 20);
-        private readonly string[] trText = Main.getText(Main.oras ? 23 : 22);
+        private readonly string[] abilitylist = Main.getText(Main.Config.ORAS ? 37 : 34);
+        private readonly string[] movelist = Main.getText(Main.Config.ORAS ? 14 : 13);
+        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
+        private readonly string[] specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
+        private readonly string[] types = Main.getText(Main.Config.ORAS ? 18 : 17);
+        private readonly string[] forms = Main.getText(Main.Config.ORAS ? 5 : 5);
+        private string[] trName = Main.getText(Main.Config.ORAS ? 22 : 21);
+        private readonly string[] trClass = Main.getText(Main.Config.ORAS ? 21 : 20);
+        private readonly string[] trText = Main.getText(Main.Config.ORAS ? 23 : 22);
         #endregion
 
         // Ability Loading
@@ -317,7 +317,7 @@ namespace pk3DS
             tabControl1.Enabled = true;
             byte[] trdata = File.ReadAllBytes(trdatapaths[index]);
             byte[] trpoke = File.ReadAllBytes(trpokepaths[index]);
-            tr = new Trainer(trdata, trpoke, Main.oras);
+            tr = new Trainer(trdata, trpoke, Main.Config.ORAS);
 
             // Load Trainer Data
             CB_Trainer_Class.SelectedIndex = tr.Class;
@@ -436,8 +436,8 @@ namespace pk3DS
         {
             start = true;
             byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
-            indexList = Personal.getPersonalIndexList(personalData, Main.oras);
-            AltForms = Personal.getFormList(personalData, Main.oras, specieslist, forms, types, itemlist);
+            indexList = Personal.getPersonalIndexList(personalData, Main.Config.ORAS);
+            AltForms = Personal.getFormList(personalData, Main.Config.ORAS, specieslist, forms, types, itemlist);
 
             Array.Resize(ref trName, trdatapaths.Length);
             CB_TrainerID.Items.Clear();
@@ -515,7 +515,7 @@ namespace pk3DS
             CB_Battle_Type.Items.Add("Triple");
             CB_Battle_Type.Items.Add("Rotation");
             CB_Battle_Type.Items.Add("Horde");
-            megaEvos = Main.oras 
+            megaEvos = Main.Config.ORAS 
                 ? new[] { 15, 18, 80, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 380, 381, 428, 475, 531, 719, 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 } 
                 : new[] { 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 };
             
@@ -552,7 +552,7 @@ namespace pk3DS
         {
             int[] banned = { 165, 621 }; // Struggle, Hyperspace Fury
             rImportant = new string[CB_TrainerID.Items.Count];
-            rTags = Main.oras ? GetTagsORAS() : GetTagsXY();
+            rTags = Main.Config.ORAS ? GetTagsORAS() : GetTagsXY();
             mEvoTypes = GetMegaEvolvableTypes();
             List<int> GymE4Types = new List<int>();
 
@@ -649,9 +649,9 @@ namespace pk3DS
                     ushort[] items;
                     uint rnd = rnd32() % 10;
                     if (rnd < 2) // held item
-                        items = Main.oras ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+                        items = Main.Config.ORAS ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
                     else if (rnd < 5) // medicine
-                        items = Main.oras ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
+                        items = Main.Config.ORAS ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
                     else // berry
                         items = Legal.Pouch_Berry_XY;
                     CB_Prize.SelectedIndex = items[rnd32() % items.Length];
@@ -660,7 +660,7 @@ namespace pk3DS
                 else if (rGift)
                     CB_Prize.SelectedIndex = 0;
 
-                ushort[] itemvals = Main.oras ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+                ushort[] itemvals = Main.Config.ORAS ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
                 itemvals = itemvals.Concat(Legal.Pouch_Berry_XY).ToArray();
                 int itemC = itemvals.Length;
                 int ctr = 0;

@@ -24,7 +24,7 @@ namespace pk3DS
             mapView.Show();
             tb_Zone.SelectedIndex = 1;  // Show Overworlds tab
         }
-        private readonly string[] gameLocations = Main.getText(Main.oras ? 90 : 72);
+        private readonly string[] gameLocations = Main.getText(Main.Config.ORAS ? 90 : 72);
         private string[] filepaths;
         private string[] encdatapaths;
         private byte[] masterZoneData;
@@ -45,12 +45,12 @@ namespace pk3DS
             // Gather
             encdatapaths = encdata;
             Array.Sort(encdatapaths);
-            filepaths = encdatapaths.Skip(Main.oras ? 2 : 1).Take(encdatapaths.Length - (Main.oras ? 2 : 1)).ToArray();
+            filepaths = encdatapaths.Skip(Main.Config.ORAS ? 2 : 1).Take(encdatapaths.Length - (Main.Config.ORAS ? 2 : 1)).ToArray();
             masterZoneData = File.ReadAllBytes(encdatapaths[0]);
             zdLocations = new string[filepaths.Length];
             rawLocations = new string[filepaths.Length];
 
-            tb_File5.Visible = Main.oras; // 5th File is only present with OR/AS.
+            tb_File5.Visible = Main.Config.ORAS; // 5th File is only present with OR/AS.
 
             // Analyze
             for (int f = 0; f < filepaths.Length; f++)
@@ -130,7 +130,7 @@ namespace pk3DS
             setOWSData();
             // setMSData();
             // setEncounterData();
-            // if (Main.oras)
+            // if (Main.Config.ORAS)
             //     setUnknown();
 
             // Reassemble files

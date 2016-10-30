@@ -11,10 +11,10 @@ namespace pk3DS
     public partial class MEE : Form
     {
         private readonly string[] files = Directory.GetFiles("megaevo");
-        private readonly string[] forms = Main.getText(Main.oras ? 5 : 5);
-        private readonly string[] types = Main.getText(Main.oras ? 18 : 17);
-        private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
-        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        private readonly string[] forms = Main.getText(Main.Config.ORAS ? 5 : 5);
+        private readonly string[] types = Main.getText(Main.Config.ORAS ? 18 : 17);
+        private readonly string[] specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
+        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
         private readonly byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
         private readonly GroupBox[] groupbox_spec;
         private readonly ComboBox[] forme_spec;
@@ -36,7 +36,7 @@ namespace pk3DS
 
             Array.Resize(ref specieslist, 722); specieslist[0] = itemlist[0] = "";
             specieslist[32] += "♂"; specieslist[29] += "♀";
-            AltForms = Personal.getFormList(personalData, Main.oras, specieslist, forms, types, itemlist);
+            AltForms = Personal.getFormList(personalData, Main.Config.ORAS, specieslist, forms, types, itemlist);
 
             groupbox_spec = new[] { GB_MEvo1, GB_MEvo2, GB_MEvo3 };
             item_spec = new[] { CB_Item1, CB_Item2, CB_Item3 };
@@ -102,7 +102,7 @@ namespace pk3DS
         private void getEntry()
         {
             if (!loaded) return;
-            if (Main.oras && entry == 384 && !dumping) // Current Mon is Rayquaza
+            if (Main.Config.ORAS && entry == 384 && !dumping) // Current Mon is Rayquaza
                 Util.Alert("Rayquaza is special and uses a different activator for its evolution. If it knows Dragon Ascent, it can Mega Evolve", "Don't edit its evolution table if you want to keep this functionality.");
 
             byte[] data = File.ReadAllBytes(files[entry]);

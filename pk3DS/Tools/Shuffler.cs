@@ -18,7 +18,7 @@ namespace pk3DS
             CB_a.SelectedIndex = CB_b.SelectedIndex = CB_c.SelectedIndex = 0;
 
             // Ban Models, Encounters, TitleScreen etc
-            banlist = Main.oras
+            banlist = Main.Config.ORAS
                 ? new[] { "a005", "a008", "a013", "a039", "a040", "a071", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086", 
                     "a100", "a152", 
                     "a195" }

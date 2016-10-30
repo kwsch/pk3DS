@@ -28,7 +28,7 @@ namespace pk3DS
         }
         #region Global Variables
         private readonly string[] paths = Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly);
-        private readonly string mode = Main.oras ? "ORAS" : "XY";
+        private readonly string mode = Main.Config.ORAS ? "ORAS" : "XY";
 
         private string[] items = { };
         private string[] moves = { };
@@ -67,27 +67,27 @@ namespace pk3DS
         public ushort[] tutor4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 };
 
         private string[][] AltForms;
-        int entrysize = Main.oras ? 0x50 : 0x40;
+        int entrysize = Main.Config.ORAS ? 0x50 : 0x40;
         int entry = -1;
         #endregion
         private void Setup()
         {
-            abilities = Main.getText(Main.oras ? 37 : 34);
-            moves = Main.getText(Main.oras ? 14 : 13);
-            items = Main.getText(Main.oras ? 114 : 96);
-            species = Main.getText(Main.oras ? 98 : 80);
-            types = Main.getText(Main.oras ? 18 : 17);
-            forms = Main.getText(Main.oras ? 5 : 5);
+            abilities = Main.getText(Main.Config.ORAS ? 37 : 34);
+            moves = Main.getText(Main.Config.ORAS ? 14 : 13);
+            items = Main.getText(Main.Config.ORAS ? 114 : 96);
+            species = Main.getText(Main.Config.ORAS ? 98 : 80);
+            types = Main.getText(Main.Config.ORAS ? 18 : 17);
+            forms = Main.getText(Main.Config.ORAS ? 5 : 5);
             species[0] = "---";
             abilities[0] = items[0] = moves[0] = "";
-            AltForms = getFormList(data, Main.oras, species, forms, types, items);
-            species = getPersonalEntryList(data, Main.oras, AltForms, species);
+            AltForms = getFormList(data, Main.Config.ORAS, species, forms, types, items);
+            species = getPersonalEntryList(data, Main.Config.ORAS, AltForms, species);
 
             ushort[] TMs = new ushort[0];
             ushort[] HMs = new ushort[0];
-            TMHM.getTMHMList(Main.oras, ref TMs, ref HMs);
+            TMHM.getTMHMList(Main.Config.ORAS, ref TMs, ref HMs);
             CLB_TMHM.Items.Clear();
-            int hmcount = Main.oras ? 7 : 5;
+            int hmcount = Main.Config.ORAS ? 7 : 5;
 
             if (TMs.Length == 0) // No ExeFS to grab TMs from.
             {
@@ -186,7 +186,7 @@ namespace pk3DS
         private PersonalInfo pkm;
         private void readInfo()
         {
-            byte[] array = new byte[Main.oras ? 0x50 : 0x40];
+            byte[] array = new byte[Main.Config.ORAS ? 0x50 : 0x40];
             Array.Copy(data, array.Length * entry, array, 0, array.Length);
             pkm = new PersonalInfo(array);
 
@@ -257,7 +257,7 @@ namespace pk3DS
             readInfo();
             
             if (dumping) return;
-            int[] specForm = getSpecies(data, Main.oras, CB_Species.SelectedIndex);
+            int[] specForm = getSpecies(data, Main.Config.ORAS, CB_Species.SelectedIndex);
             string filename = "_" + specForm[0] + (CB_Species.SelectedIndex > 721 ? "_" + (specForm[1] + 1) : "");
             Bitmap rawImg = (Bitmap)Resources.ResourceManager.GetObject(filename);
             Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
@@ -324,7 +324,7 @@ namespace pk3DS
             for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
                 pkm.Tutors[t] = CLB_MoveTutors.GetItemChecked(t);
 
-            if (!Main.oras) return;
+            if (!Main.Config.ORAS) return;
 
             int[] len = {tutor1.Length, tutor2.Length, tutor3.Length, tutor4.Length};
             int ctr = 0;
@@ -347,7 +347,7 @@ namespace pk3DS
             const int TMPercent = 35; // Average Learnable TMs is 35.260.
             const int TutorPercent = 2; //136 special tutor moves learnable by species in Untouched ORAS.
             const int OrasTutorPercent = 30; //10001 tutor moves learnable by 826 species in Untouched ORAS.
-            ushort[] itemlist = Main.oras ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+            ushort[] itemlist = Main.Config.ORAS ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
             ushort[] berrylist = Legal.Pouch_Berry_XY;
             Array.Resize(ref itemlist, itemlist.Length + berrylist.Length);
             Array.Copy(berrylist, 0, itemlist, itemlist.Length - berrylist.Length, berrylist.Length);
@@ -371,10 +371,10 @@ namespace pk3DS
                 {
                     for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
                         CLB_MoveTutors.SetItemCheckState(t, rnd.Next(0, 100) < TutorPercent ? CheckState.Checked : CheckState.Unchecked);
-                    if (Main.oras && (CB_Species.SelectedIndex == 384 || CB_Species.SelectedIndex == 814)) //Make sure Rayquaza can learn Dragon Ascent.
+                    if (Main.Config.ORAS && (CB_Species.SelectedIndex == 384 || CB_Species.SelectedIndex == 814)) //Make sure Rayquaza can learn Dragon Ascent.
                         CLB_MoveTutors.SetItemCheckState(CLB_MoveTutors.Items.Count-1, CheckState.Checked); 
                 }
-                if (Main.oras && CHK_ORASTutors.Checked)
+                if (Main.Config.ORAS && CHK_ORASTutors.Checked)
                     for (int t = 0; t < CLB_OrasTutors.Items.Count; t++)
                         CLB_OrasTutors.SetItemCheckState(t, rnd.Next(0, 100) < OrasTutorPercent ? CheckState.Checked : CheckState.Unchecked);
 
@@ -613,14 +613,14 @@ namespace pk3DS
 
         internal static string[] getSpeciesIndexStrings(bool oras)
         {
-            string[] items = Main.getText(Main.oras ? 114 : 96);
-            string[] species = Main.getText(Main.oras ? 98 : 80);
-            string[] types = Main.getText(Main.oras ? 18 : 17);
-            string[] forms = Main.getText(Main.oras ? 5 : 5);
+            string[] items = Main.getText(Main.Config.ORAS ? 114 : 96);
+            string[] species = Main.getText(Main.Config.ORAS ? 98 : 80);
+            string[] types = Main.getText(Main.Config.ORAS ? 18 : 17);
+            string[] forms = Main.getText(Main.Config.ORAS ? 5 : 5);
             species[0] = "---";
             byte[] data = File.ReadAllBytes(Directory.GetFiles("personal").Last());
-            string[][] AltForms = getFormList(data, Main.oras, species, forms, types, items);
-            species = getPersonalEntryList(data, Main.oras, AltForms, species);
+            string[][] AltForms = getFormList(data, Main.Config.ORAS, species, forms, types, items);
+            species = getPersonalEntryList(data, Main.Config.ORAS, AltForms, species);
             Array.Resize(ref species, oras ? species.Length : 799);
             return species;
         }
@@ -628,7 +628,7 @@ namespace pk3DS
         internal static PersonalInfo[] getPersonalArray(string Master)
         {
             byte[] data = File.ReadAllBytes(Master);
-            int EntryLength = Main.oras ? 0x50 : 0x40;
+            int EntryLength = Main.Config.ORAS ? 0x50 : 0x40;
             PersonalInfo[] piA = new PersonalInfo[data.Length/EntryLength];
             for (int i = 0; i < piA.Length; i++)
                 piA[i] = new PersonalInfo(data.Skip(EntryLength*i).Take(EntryLength).ToArray());

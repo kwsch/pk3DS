@@ -23,7 +23,7 @@ namespace pk3DS
         }
 
         private readonly string codebin;
-        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        private readonly string[] movelist = Main.getText(Main.Config.ORAS ? 14 : 13);
         private readonly byte[] data;
         private readonly byte[] entries = { 0xF, 0x11, 0x10, 0xF }; // Entries per Tutor
         private const int offset = 0x004960F8;

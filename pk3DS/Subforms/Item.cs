@@ -15,8 +15,8 @@ namespace pk3DS
         }
 
         private readonly string[] files = Directory.GetFiles("item");
-        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
-        private readonly string[] itemflavor = Main.getText(Main.oras ? 117 : 99);
+        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
+        private readonly string[] itemflavor = Main.getText(Main.Config.ORAS ? 117 : 99);
 
         private void Setup()
         {
@@ -67,7 +67,7 @@ namespace pk3DS
             if (!File.Exists(exefsFiles[0]) || !Path.GetFileNameWithoutExtension(exefsFiles[0]).Contains("code")) { Util.Alert("No .code.bin detected."); return -1; }
             byte[] data = File.ReadAllBytes(exefsFiles[0]);
 
-            byte[] reference = Main.oras
+            byte[] reference = Main.Config.ORAS
                 ? new byte[] { 0x92, 0x0A, 0x06, 0x3F, 0x75, 0x02 } // ORAS (vanilla @ 47C640)
                 : new byte[] { 0x92, 0x0A, 0x06, 0x3F, 0x41, 0x02 }; // XY (vanilla @ 43DB74)
 

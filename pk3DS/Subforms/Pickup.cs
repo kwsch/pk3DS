@@ -23,8 +23,8 @@ namespace pk3DS
         }
 
         private readonly string codebin;
-        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
-        private readonly int offset = Main.oras ? 0x004872FC : 0x004455A8;
+        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
+        private readonly int offset = Main.Config.ORAS ? 0x004872FC : 0x004455A8;
         private readonly byte[] data;
         private int dataoffset;
         private void getDataOffset()
@@ -114,7 +114,7 @@ namespace pk3DS
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Randomize pickup lists?"))
                 return;
 
-            int[] validItems = Randomizer.getRandomItemList(Main.oras);
+            int[] validItems = Randomizer.getRandomItemList(Main.Config.ORAS);
 
             int ctr = 0;
             Util.Shuffle(validItems);

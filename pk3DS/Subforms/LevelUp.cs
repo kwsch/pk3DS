@@ -15,7 +15,7 @@ namespace pk3DS
         public LevelUp()
         {
             InitializeComponent();
-            string[] specieslist = Personal.getSpeciesIndexStrings(Main.oras);
+            string[] specieslist = Personal.getSpeciesIndexStrings(Main.Config.ORAS);
             specieslist[0] = movelist[0] = "";
 
             string[] sortedspecies = (string[])specieslist.Clone();
@@ -36,7 +36,7 @@ namespace pk3DS
         private readonly string[] files = Directory.GetFiles("levelup");
         private readonly byte[] data = File.ReadAllBytes(Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly).Last());
         private int entry = -1;
-        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
+        private readonly string[] movelist = Main.getText(Main.Config.ORAS ? 14 : 13);
         private bool dumping;
         private void setupDGV()
         {
@@ -68,7 +68,7 @@ namespace pk3DS
         {
             entry = Util.getIndex(CB_Species);
 
-            int[] specForm = Personal.getSpecies(data, Main.oras, entry);
+            int[] specForm = Personal.getSpecies(data, Main.Config.ORAS, entry);
             string filename = "_" + specForm[0] + (entry > 721 ? "_" + (specForm[1] + 1) : "");
             PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
 
@@ -132,7 +132,7 @@ namespace pk3DS
             ushort[] HMs = { 15, 19, 57, 70, 127, 249, 291 };
             ushort[] TMs = {};
             if (CHK_HMs.Checked && Main.ExeFSPath != null)
-                TMHM.getTMHMList(Main.oras, ref TMs, ref HMs);
+                TMHM.getTMHMList(Main.Config.ORAS, ref TMs, ref HMs);
 
             int[] banned = new int[HMs.Length];
             for (int i = 0; i < banned.Length; i++) 
@@ -170,9 +170,9 @@ namespace pk3DS
                         (!CHK_HMs.Checked && banned.Contains(move)) // HM Moves Not Allowed
                         || (forceSTAB && // STAB is required
                             !(
-                            moveTypes[move].Type == personalData[6 + (Main.oras ? 0x50 : 0x40) * species] // Type 1
+                            moveTypes[move].Type == personalData[6 + (Main.Config.ORAS ? 0x50 : 0x40) * species] // Type 1
                             ||
-                            moveTypes[move].Type == personalData[7 + (Main.oras ? 0x50 : 0x40) * species] // Type 2
+                            moveTypes[move].Type == personalData[7 + (Main.Config.ORAS ? 0x50 : 0x40) * species] // Type 2
                             )
                             )
                             )
@@ -261,8 +261,8 @@ namespace pk3DS
                         movectr--;
                         continue;
                     }
-                    if (MoveData[move].Type == personalData[6 + (Main.oras ? 0x50 : 0x40) * i] ||
-                        MoveData[move].Type == personalData[7 + (Main.oras ? 0x50 : 0x40) * i])
+                    if (MoveData[move].Type == personalData[6 + (Main.Config.ORAS ? 0x50 : 0x40) * i] ||
+                        MoveData[move].Type == personalData[7 + (Main.Config.ORAS ? 0x50 : 0x40) * i])
                         stab++;
                 }
             }

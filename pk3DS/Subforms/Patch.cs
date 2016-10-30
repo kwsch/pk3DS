@@ -14,7 +14,7 @@ namespace pk3DS
             InitializeComponent();
             RTB_GARCs.Clear();
             CHKLB_GARCs.Items.Clear();
-            foreach (string s in Main.allGARCs)
+            foreach (string s in Main.Config.Files.Select(file => file.Name))
                 CHKLB_GARCs.Items.Add(s);
 
             if (File.Exists("patch.ini"))

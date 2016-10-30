@@ -23,10 +23,10 @@ namespace pk3DS
         }
 
         private readonly string codebin;
-        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
         private readonly byte[] data;
 
-        private readonly byte[] entries = Main.oras
+        private readonly byte[] entries = Main.Config.ORAS
             ? new byte[] // ORAS
             {
                 3, 10, 14, 17, 18, 19, 19, 19, 19, // General
@@ -51,10 +51,10 @@ namespace pk3DS
                 3, // Balls
             };
 
-        private readonly int offset = Main.oras ? 0x0047AB58 : 0x0043C89E;
+        private readonly int offset = Main.Config.ORAS ? 0x0047AB58 : 0x0043C89E;
         private int dataoffset;
 
-        readonly string[] locations = Main.oras 
+        readonly string[] locations = Main.Config.ORAS
             ? new[] // ORAS
             { 
                 "No Badges", "1 Badge", "2 Badges", "3 Badges", "4 Badges", "5 Badges", "6 Badges", "7 Badges", "8 Badges",
@@ -148,7 +148,7 @@ namespace pk3DS
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Randomize mart inventories?"))
                 return;
 
-            int[] validItems = Randomizer.getRandomItemList(Main.oras);
+            int[] validItems = Randomizer.getRandomItemList(Main.Config.ORAS);
 
             int ctr = 0;
             Util.Shuffle(validItems);

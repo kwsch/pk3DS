@@ -17,7 +17,7 @@ namespace pk3DS
             trFiles = Directory.GetFiles(super ? "maisontrS" : "maisontrN");
             pkFiles = Directory.GetFiles(super ? "maisonpkS" : "maisonpkN");
 
-            int trTXTFile = Main.oras ? 153 : 130;
+            int trTXTFile = Main.Config.ORAS ? 153 : 130;
             trNames = Main.getText(super ? trTXTFile : trTXTFile + 1); Array.Resize(ref trNames, trFiles.Length);
 
             InitializeComponent();
@@ -27,11 +27,11 @@ namespace pk3DS
         private readonly string[] trFiles;
         private readonly string[] trNames;
         private readonly string[] pkFiles;
-        private readonly string[] natures = Main.getText(Main.oras ? 51 : 47);
-        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
-        private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
-        private readonly string[] trClass = Main.getText(Main.oras ? 21 : 20);
-        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
+        private readonly string[] natures = Main.getText(Main.Config.ORAS ? 51 : 47);
+        private readonly string[] movelist = Main.getText(Main.Config.ORAS ? 14 : 13);
+        private readonly string[] specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
+        private readonly string[] trClass = Main.getText(Main.Config.ORAS ? 21 : 20);
+        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
         private int trEntry = -1;
         private int pkEntry = -1;
         private bool dumping;

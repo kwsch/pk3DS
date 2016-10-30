@@ -17,8 +17,8 @@ namespace pk3DS
             trClassnorep.Sort();
         }
 
-        private string[] trName = Main.getText(Main.oras ? 22 : 21);
-        private readonly string[] trClass = Main.getText(Main.oras ? 21 : 20);
+        private string[] trName = Main.getText(Main.Config.ORAS ? 22 : 21);
+        private readonly string[] trClass = Main.getText(Main.Config.ORAS ? 21 : 20);
         private readonly List<string> trClassnorep;
 
         private void B_Close_Click(object sender, EventArgs e)
@@ -52,7 +52,7 @@ namespace pk3DS
             if (RSTE.rClass)
             {
                 RSTE.rIgnoreClass = CHK_IgnoreSpecialClass.Checked
-                    ? Main.oras
+                    ? Main.Config.ORAS
                         ? Legal.SpecialClasses_ORAS
                         : Legal.SpecialClasses_XY
                     : new int[] {};
@@ -69,7 +69,7 @@ namespace pk3DS
 
             if (CHK_StoryMEvos.Checked)
             {
-                RSTE.rEnsureMEvo = Main.oras 
+                RSTE.rEnsureMEvo = Main.Config.ORAS 
                     ? new [] { 178, 235, 557, 583, 687, 698, 699, 700, 701, 713, 906, 907, 908, 909, 910, 911, 912, 913, 942, 944, 946 } 
                     : new [] { 188, 263, 276, 277, 519, 520, 521, 526, 599, 600, 601 };
             }

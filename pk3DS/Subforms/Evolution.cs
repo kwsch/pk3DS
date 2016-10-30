@@ -81,10 +81,10 @@ namespace pk3DS
         private readonly PictureBox[] pic;
         private int entry = -1;
         private readonly string[] sortedspecies;
-        private readonly string[] specieslist = Main.getText(Main.oras ? 98 : 80);
-        private readonly string[] movelist = Main.getText(Main.oras ? 14 : 13);
-        private readonly string[] itemlist = Main.getText(Main.oras ? 114 : 96);
-        private readonly string[] typelist = Main.getText(Main.oras ? 18 : 17);
+        private readonly string[] specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
+        private readonly string[] movelist = Main.getText(Main.Config.ORAS ? 14 : 13);
+        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
+        private readonly string[] typelist = Main.getText(Main.Config.ORAS ? 18 : 17);
         private bool dumping;
         private Evolutions evo = new Evolutions(new byte[0x30]);
         private void getList()

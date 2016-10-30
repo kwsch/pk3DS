@@ -286,7 +286,7 @@ namespace pk3DS
 
         private void RSWE_Load()
         {
-            specieslist = Main.getText(Main.oras ? 98 : 80);
+            specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
             specieslist[0] = "---";
 
             foreach (string s in formlist)
@@ -316,7 +316,7 @@ namespace pk3DS
             Array.Sort(encdatapaths);
             filepaths = new string[encdatapaths.Length - 2];
             Array.Copy(encdatapaths, 2, filepaths, 0, filepaths.Length);
-            metRS_00000 = Main.getText(Main.oras ? 90 : 72);
+            metRS_00000 = Main.getText(Main.Config.ORAS ? 90 : 72);
             zonedata = File.ReadAllBytes(encdatapaths[0]);
             decStorage = File.ReadAllBytes(encdatapaths[1]);
             LocationNames = new string[filepaths.Length];
