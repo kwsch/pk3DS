@@ -38,7 +38,7 @@ namespace pk3DS
             string path = files[0]; // open first D&D
 
             if (sender == PB_Unpack)
-                openARC(path);
+                openARC(path, pBar1);
             else if (sender == PB_BCLIM)
                 openIMG(path);
             else if (sender == PB_Repack)
@@ -67,8 +67,8 @@ namespace pk3DS
             PB_BCLIM.BackgroundImage = img;
         }
 
-        private int threads;
-        private void openARC(string path, bool recursing = false)
+        internal static volatile int threads;
+        internal static void openARC(string path, ProgressBar pBar1, bool recursing = false)
         {
             string newFolder = "";
             try
@@ -101,7 +101,7 @@ namespace pk3DS
                     if (Directory.Exists(newFolder))
                     {   
                         foreach (string file in Directory.GetFiles(newFolder))
-                            openARC(file, true);
+                            openARC(file, pBar1, true);
                         batchRenameExtension(newFolder);
                     }
                 }
@@ -282,7 +282,7 @@ namespace pk3DS
             PB_BCLIM.Size = CLIMWindow;
         }
 
-        private void batchRenameExtension(string Folder)
+        private static void batchRenameExtension(string Folder)
         {
             if (!Directory.Exists(Folder)) 
                 return;

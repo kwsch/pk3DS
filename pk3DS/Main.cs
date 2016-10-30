@@ -188,6 +188,14 @@ namespace pk3DS
                 {
                     Util.Alert("RomFS unpacking not implemented.");
                 }
+                else
+                {
+                    DialogResult dr = Util.Prompt(MessageBoxButtons.YesNo, "Unpack sub-files?", "Cancel: Abort");
+                    if (dr == DialogResult.Cancel)
+                        return;
+                    bool recurse = dr == DialogResult.Yes;
+                    ToolsUI.openARC(path, pBar1, recurse);
+                }
             }
             else // Directory
             {
