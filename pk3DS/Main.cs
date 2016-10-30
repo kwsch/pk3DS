@@ -33,13 +33,17 @@ namespace pk3DS
             CB_Lang.SelectedIndex = 2;
 
             // Prepare DragDrop Functionality
-            AllowDrop = GB_RomFS.AllowDrop = TB_Path.AllowDrop = true;
+            AllowDrop = TB_Path.AllowDrop = true;
             DragEnter += tabMain_DragEnter;
             DragDrop += tabMain_DragDrop;
-            GB_RomFS.DragEnter += tabMain_DragEnter;
-            GB_RomFS.DragDrop += tabMain_DragDrop;
             TB_Path.DragEnter += tabMain_DragEnter;
             TB_Path.DragDrop += tabMain_DragDrop;
+            foreach (var t in TC_RomFS.TabPages.OfType<TabPage>())
+            {
+                t.AllowDrop = true;
+                t.DragEnter += tabMain_DragEnter;
+                t.DragDrop += tabMain_DragDrop;
+            }
 
             // Load with special arguments if supplied via command line
             string[] args = Environment.GetCommandLineArgs();
@@ -113,7 +117,8 @@ namespace pk3DS
                 Invoke((MethodInvoker)delegate { Language = CB_Lang.SelectedIndex; });
             else Language = CB_Lang.SelectedIndex;
             Menu_Options.DropDown.Close();
-            if (!GB_RomFS.Enabled) return;
+            if (!Tab_RomFS.Enabled || Config == null)
+                return;
 
             updateGameInfo();
             new Thread(() =>
@@ -133,6 +138,8 @@ namespace pk3DS
                 while (threads > 0) Thread.Sleep(50);
                 // Refresh Personal Stats
                 SpeciesStat = Personal.getPersonalArray(Directory.GetFiles("personal").Last());
+                resetStatus();
+
             }).Start();
         }
         private void Menu_Exit_Click(object sender, EventArgs e)
@@ -147,7 +154,7 @@ namespace pk3DS
             try
             {
                 if (TB_Path.Text.Length > 0) File.WriteAllLines("config.ini", new[] { TB_Path.Text, CB_Lang.SelectedIndex.ToString() });
-                if (!GB_RomFS.Enabled || skipBoth) return; // No data/threads need to be addressed if we haven't loaded anything.
+                if (!Tab_RomFS.Enabled || skipBoth) return; // No data/threads need to be addressed if we haven't loaded anything.
 
                 // Set the GameText back as other forms may have edited it.
                 updateStatus($"GARC Get: {"gametext"} @ {getGARCFileName("gametext")}... ");
@@ -201,6 +208,7 @@ namespace pk3DS
             {
                 // Check for ROMFS/EXEFS/EXHEADER
                 RomFSPath = ExeFSPath = null; // Reset
+                Config = null;
                 string[] folders = Directory.GetDirectories(path);
                 int count = folders.Length;
 
@@ -215,11 +223,11 @@ namespace pk3DS
                     Util.Alert("pk3DS will function best if you keep your Game Files folder clean and free of unnecessary folders.");
 
                 // Enable buttons if applicable
-                GB_RomFS.Enabled = Menu_Restore.Enabled = GB_CRO.Enabled = Menu_CRO.Enabled = Menu_Shuffler.Enabled = RomFSPath != null;
-                GB_ExeFS.Enabled = RomFSPath != null && ExeFSPath != null;
-                B_MoveTutor.Enabled = Config.ORAS; // Default false unless loaded
+                Tab_RomFS.Enabled = Menu_Restore.Enabled = Tab_CRO.Enabled = Menu_CRO.Enabled = Menu_Shuffler.Enabled = RomFSPath != null;
+                Tab_ExeFS.Enabled = RomFSPath != null && ExeFSPath != null;
                 if (RomFSPath != null)
                 {
+                    B_MoveTutor.Visible = Config.ORAS; // Default false unless loaded
                     string newtext = $"Game Loaded: {Config.Version}";
                     if (L_Game.Text != newtext && Directory.Exists("personal"))
                     { Directory.Delete("personal", true); } // Force reloading of personal data if the game is switched.
@@ -279,6 +287,7 @@ namespace pk3DS
                 if (files.Length > 1000)
                     return null;
                 string[] fileArr = Directory.GetFiles(Path.Combine(Directory.GetParent(files[0]).FullName, "a"), "*", SearchOption.AllDirectories);
+                var afiles = fileArr.Where(file => Path.GetFileName(file)?.Length == 1).ToArray();
                 int fileCount = fileArr.Count(file => Path.GetFileName(file)?.Length == 1);
                 return new GameConfig(fileCount);
             }
@@ -294,7 +303,7 @@ namespace pk3DS
             {
                 var cfg = checkGameType(Directory.GetFiles(path, "*", SearchOption.AllDirectories));
 
-                if (cfg == null || cfg.Files.Length == 0)
+                if (cfg?.Files == null || cfg.Files.Length == 0)
                 {
                     RomFSPath = null;
                     Config = null;
@@ -594,6 +603,7 @@ namespace pk3DS
                 updateStatus($"GARC Get: {toEdit} @ {GARC}... ");
                 threadGet(Path.Combine(RomFSPath, GARC), toEdit, true, skipDecompression);
                 while (threads > 0) Thread.Sleep(50);
+                resetStatus();
             }
         }
         private void fileSet(IEnumerable<string> files, bool keep = false)
@@ -606,6 +616,7 @@ namespace pk3DS
                 threadSet(Path.Combine(RomFSPath, GARC), toEdit);
                 while (threads > 0) Thread.Sleep(50);
                 if (!keep && Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
+                resetStatus();
             }
         }
 
@@ -980,7 +991,7 @@ namespace pk3DS
         }
 
         // Update RichTextBox
-        public void updateStatus(string status, bool preBreak = true)
+        private void updateStatus(string status, bool preBreak = true)
         {
             string newtext = (preBreak ? Environment.NewLine : "") + status;
             try
@@ -991,12 +1002,30 @@ namespace pk3DS
                         RTB_Status.AppendText(newtext);
                         RTB_Status.SelectionStart = RTB_Status.Text.Length;
                         RTB_Status.ScrollToCaret();
+                        L_Status.Text = RTB_Status.Lines.Last().Split(new[] {" @"}, StringSplitOptions.None)[0];
                     });
                 else
                 {
                     RTB_Status.AppendText(newtext);
                     RTB_Status.SelectionStart = RTB_Status.Text.Length;
                     RTB_Status.ScrollToCaret();
+                    L_Status.Text = RTB_Status.Lines.Last().Split(new[] { " @" }, StringSplitOptions.None)[0];
+                }
+            }
+            catch { }
+        }
+        private void resetStatus()
+        {
+            try
+            {
+                if (L_Status.InvokeRequired)
+                    L_Status.Invoke((MethodInvoker)delegate
+                    {
+                        L_Status.Text = "";
+                    });
+                else
+                {
+                    L_Status.Text = "";
                 }
             }
             catch { }

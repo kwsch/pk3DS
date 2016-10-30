@@ -29,23 +29,8 @@
         private void InitializeComponent()
         {
             this.TB_Path = new System.Windows.Forms.TextBox();
-            this.GB_RomFS = new System.Windows.Forms.GroupBox();
-            this.B_TitleScreen = new System.Windows.Forms.Button();
-            this.B_Maison = new System.Windows.Forms.Button();
-            this.B_EggMove = new System.Windows.Forms.Button();
-            this.B_LevelUp = new System.Windows.Forms.Button();
-            this.B_StoryText = new System.Windows.Forms.Button();
-            this.B_Item = new System.Windows.Forms.Button();
-            this.B_Move = new System.Windows.Forms.Button();
-            this.B_Evolution = new System.Windows.Forms.Button();
-            this.B_Personal = new System.Windows.Forms.Button();
-            this.B_MegaEvo = new System.Windows.Forms.Button();
-            this.B_Wild = new System.Windows.Forms.Button();
-            this.B_Trainer = new System.Windows.Forms.Button();
-            this.B_GameText = new System.Windows.Forms.Button();
             this.L_Game = new System.Windows.Forms.Label();
             this.pBar1 = new System.Windows.Forms.ProgressBar();
-            this.GB_ExeFS = new System.Windows.Forms.GroupBox();
             this.B_OPower = new System.Windows.Forms.Button();
             this.B_Pickup = new System.Windows.Forms.Button();
             this.B_Mart = new System.Windows.Forms.Button();
@@ -75,15 +60,41 @@
             this.CB_Lang = new System.Windows.Forms.ToolStripComboBox();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_GARCs = new System.Windows.Forms.ToolStripMenuItem();
-            this.GB_CRO = new System.Windows.Forms.GroupBox();
-            this.B_Gift = new System.Windows.Forms.Button();
+            this.TC_RomFS = new System.Windows.Forms.TabControl();
+            this.Tab_RomFS = new System.Windows.Forms.TabPage();
+            this.FLP_RomFS = new System.Windows.Forms.FlowLayoutPanel();
+            this.B_GameText = new System.Windows.Forms.Button();
+            this.B_Personal = new System.Windows.Forms.Button();
+            this.B_Evolution = new System.Windows.Forms.Button();
+            this.B_LevelUp = new System.Windows.Forms.Button();
+            this.B_StoryText = new System.Windows.Forms.Button();
+            this.B_Wild = new System.Windows.Forms.Button();
+            this.B_MegaEvo = new System.Windows.Forms.Button();
+            this.B_EggMove = new System.Windows.Forms.Button();
+            this.B_Trainer = new System.Windows.Forms.Button();
+            this.B_Maison = new System.Windows.Forms.Button();
+            this.B_Item = new System.Windows.Forms.Button();
+            this.B_Move = new System.Windows.Forms.Button();
+            this.B_TitleScreen = new System.Windows.Forms.Button();
+            this.Tab_ExeFS = new System.Windows.Forms.TabPage();
+            this.FLP_ExeFS = new System.Windows.Forms.FlowLayoutPanel();
+            this.Tab_CRO = new System.Windows.Forms.TabPage();
+            this.FLP_CRO = new System.Windows.Forms.FlowLayoutPanel();
             this.B_TypeChart = new System.Windows.Forms.Button();
             this.B_Starter = new System.Windows.Forms.Button();
+            this.B_Gift = new System.Windows.Forms.Button();
             this.B_Static = new System.Windows.Forms.Button();
-            this.GB_RomFS.SuspendLayout();
-            this.GB_ExeFS.SuspendLayout();
+            this.Tab_Output = new System.Windows.Forms.TabPage();
+            this.L_Status = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
-            this.GB_CRO.SuspendLayout();
+            this.TC_RomFS.SuspendLayout();
+            this.Tab_RomFS.SuspendLayout();
+            this.FLP_RomFS.SuspendLayout();
+            this.Tab_ExeFS.SuspendLayout();
+            this.FLP_ExeFS.SuspendLayout();
+            this.Tab_CRO.SuspendLayout();
+            this.FLP_CRO.SuspendLayout();
+            this.Tab_Output.SuspendLayout();
             this.SuspendLayout();
             // 
             // TB_Path
@@ -93,163 +104,8 @@
             this.TB_Path.Location = new System.Drawing.Point(158, 3);
             this.TB_Path.Name = "TB_Path";
             this.TB_Path.ReadOnly = true;
-            this.TB_Path.Size = new System.Drawing.Size(284, 20);
+            this.TB_Path.Size = new System.Drawing.Size(214, 20);
             this.TB_Path.TabIndex = 1;
-            // 
-            // GB_RomFS
-            // 
-            this.GB_RomFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.GB_RomFS.Controls.Add(this.B_TitleScreen);
-            this.GB_RomFS.Controls.Add(this.B_Maison);
-            this.GB_RomFS.Controls.Add(this.B_EggMove);
-            this.GB_RomFS.Controls.Add(this.B_LevelUp);
-            this.GB_RomFS.Controls.Add(this.B_StoryText);
-            this.GB_RomFS.Controls.Add(this.B_Item);
-            this.GB_RomFS.Controls.Add(this.B_Move);
-            this.GB_RomFS.Controls.Add(this.B_Evolution);
-            this.GB_RomFS.Controls.Add(this.B_Personal);
-            this.GB_RomFS.Controls.Add(this.B_MegaEvo);
-            this.GB_RomFS.Controls.Add(this.B_Wild);
-            this.GB_RomFS.Controls.Add(this.B_Trainer);
-            this.GB_RomFS.Controls.Add(this.B_GameText);
-            this.GB_RomFS.Enabled = false;
-            this.GB_RomFS.Location = new System.Drawing.Point(12, 30);
-            this.GB_RomFS.Name = "GB_RomFS";
-            this.GB_RomFS.Size = new System.Drawing.Size(430, 110);
-            this.GB_RomFS.TabIndex = 5;
-            this.GB_RomFS.TabStop = false;
-            this.GB_RomFS.Text = "RomFS Editing Tools";
-            // 
-            // B_TitleScreen
-            // 
-            this.B_TitleScreen.Location = new System.Drawing.Point(350, 77);
-            this.B_TitleScreen.Name = "B_TitleScreen";
-            this.B_TitleScreen.Size = new System.Drawing.Size(74, 23);
-            this.B_TitleScreen.TabIndex = 12;
-            this.B_TitleScreen.Text = "Title Screen";
-            this.B_TitleScreen.UseVisualStyleBackColor = true;
-            this.B_TitleScreen.Click += new System.EventHandler(this.B_TitleScreen_Click);
-            // 
-            // B_Maison
-            // 
-            this.B_Maison.Location = new System.Drawing.Point(92, 77);
-            this.B_Maison.Name = "B_Maison";
-            this.B_Maison.Size = new System.Drawing.Size(80, 23);
-            this.B_Maison.TabIndex = 5;
-            this.B_Maison.Text = "Maison";
-            this.B_Maison.UseVisualStyleBackColor = true;
-            this.B_Maison.Click += new System.EventHandler(this.B_Maison_Click);
-            // 
-            // B_EggMove
-            // 
-            this.B_EggMove.Location = new System.Drawing.Point(324, 48);
-            this.B_EggMove.Name = "B_EggMove";
-            this.B_EggMove.Size = new System.Drawing.Size(100, 23);
-            this.B_EggMove.TabIndex = 10;
-            this.B_EggMove.Text = "Egg Moves";
-            this.B_EggMove.UseVisualStyleBackColor = true;
-            this.B_EggMove.Click += new System.EventHandler(this.B_EggMove_Click);
-            // 
-            // B_LevelUp
-            // 
-            this.B_LevelUp.Location = new System.Drawing.Point(324, 19);
-            this.B_LevelUp.Name = "B_LevelUp";
-            this.B_LevelUp.Size = new System.Drawing.Size(100, 23);
-            this.B_LevelUp.TabIndex = 9;
-            this.B_LevelUp.Text = "Level Up Moves";
-            this.B_LevelUp.UseVisualStyleBackColor = true;
-            this.B_LevelUp.Click += new System.EventHandler(this.B_LevelUp_Click);
-            // 
-            // B_StoryText
-            // 
-            this.B_StoryText.Location = new System.Drawing.Point(6, 48);
-            this.B_StoryText.Name = "B_StoryText";
-            this.B_StoryText.Size = new System.Drawing.Size(100, 23);
-            this.B_StoryText.TabIndex = 1;
-            this.B_StoryText.Text = "Story Text";
-            this.B_StoryText.UseVisualStyleBackColor = true;
-            this.B_StoryText.Click += new System.EventHandler(this.B_StoryText_Click);
-            // 
-            // B_Item
-            // 
-            this.B_Item.Location = new System.Drawing.Point(178, 77);
-            this.B_Item.Name = "B_Item";
-            this.B_Item.Size = new System.Drawing.Size(80, 23);
-            this.B_Item.TabIndex = 8;
-            this.B_Item.Text = "Item Stats";
-            this.B_Item.UseVisualStyleBackColor = true;
-            this.B_Item.Click += new System.EventHandler(this.B_Item_Click);
-            // 
-            // B_Move
-            // 
-            this.B_Move.Location = new System.Drawing.Point(264, 77);
-            this.B_Move.Name = "B_Move";
-            this.B_Move.Size = new System.Drawing.Size(80, 23);
-            this.B_Move.TabIndex = 11;
-            this.B_Move.Text = "Move Stats";
-            this.B_Move.UseVisualStyleBackColor = true;
-            this.B_Move.Click += new System.EventHandler(this.B_Move_Click);
-            // 
-            // B_Evolution
-            // 
-            this.B_Evolution.Location = new System.Drawing.Point(218, 19);
-            this.B_Evolution.Name = "B_Evolution";
-            this.B_Evolution.Size = new System.Drawing.Size(100, 23);
-            this.B_Evolution.TabIndex = 6;
-            this.B_Evolution.Text = "Evolutions";
-            this.B_Evolution.UseVisualStyleBackColor = true;
-            this.B_Evolution.Click += new System.EventHandler(this.B_Evolution_Click);
-            // 
-            // B_Personal
-            // 
-            this.B_Personal.Location = new System.Drawing.Point(112, 19);
-            this.B_Personal.Name = "B_Personal";
-            this.B_Personal.Size = new System.Drawing.Size(100, 23);
-            this.B_Personal.TabIndex = 3;
-            this.B_Personal.Text = "Personal Stats";
-            this.B_Personal.UseVisualStyleBackColor = true;
-            this.B_Personal.Click += new System.EventHandler(this.B_Personal_Click);
-            // 
-            // B_MegaEvo
-            // 
-            this.B_MegaEvo.Location = new System.Drawing.Point(218, 48);
-            this.B_MegaEvo.Name = "B_MegaEvo";
-            this.B_MegaEvo.Size = new System.Drawing.Size(100, 23);
-            this.B_MegaEvo.TabIndex = 7;
-            this.B_MegaEvo.Text = "Mega Evolutions";
-            this.B_MegaEvo.UseVisualStyleBackColor = true;
-            this.B_MegaEvo.Click += new System.EventHandler(this.B_MegaEvo_Click);
-            // 
-            // B_Wild
-            // 
-            this.B_Wild.Location = new System.Drawing.Point(112, 48);
-            this.B_Wild.Name = "B_Wild";
-            this.B_Wild.Size = new System.Drawing.Size(100, 23);
-            this.B_Wild.TabIndex = 4;
-            this.B_Wild.Text = "Wild Encounters";
-            this.B_Wild.UseVisualStyleBackColor = true;
-            this.B_Wild.Click += new System.EventHandler(this.B_Wild_Click);
-            // 
-            // B_Trainer
-            // 
-            this.B_Trainer.Location = new System.Drawing.Point(6, 77);
-            this.B_Trainer.Name = "B_Trainer";
-            this.B_Trainer.Size = new System.Drawing.Size(80, 23);
-            this.B_Trainer.TabIndex = 2;
-            this.B_Trainer.Text = "Trainer";
-            this.B_Trainer.UseVisualStyleBackColor = true;
-            this.B_Trainer.Click += new System.EventHandler(this.B_Trainer_Click);
-            // 
-            // B_GameText
-            // 
-            this.B_GameText.Location = new System.Drawing.Point(6, 19);
-            this.B_GameText.Name = "B_GameText";
-            this.B_GameText.Size = new System.Drawing.Size(100, 23);
-            this.B_GameText.TabIndex = 0;
-            this.B_GameText.Text = "Game Text";
-            this.B_GameText.UseVisualStyleBackColor = true;
-            this.B_GameText.Click += new System.EventHandler(this.B_GameText_Click);
             // 
             // L_Game
             // 
@@ -263,35 +119,18 @@
             // 
             // pBar1
             // 
-            this.pBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.pBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pBar1.Location = new System.Drawing.Point(12, 257);
+            this.pBar1.Location = new System.Drawing.Point(12, 225);
             this.pBar1.Name = "pBar1";
-            this.pBar1.Size = new System.Drawing.Size(430, 14);
+            this.pBar1.Size = new System.Drawing.Size(360, 14);
             this.pBar1.TabIndex = 6;
-            // 
-            // GB_ExeFS
-            // 
-            this.GB_ExeFS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.GB_ExeFS.Controls.Add(this.B_OPower);
-            this.GB_ExeFS.Controls.Add(this.B_Pickup);
-            this.GB_ExeFS.Controls.Add(this.B_Mart);
-            this.GB_ExeFS.Controls.Add(this.B_MoveTutor);
-            this.GB_ExeFS.Controls.Add(this.B_TMHM);
-            this.GB_ExeFS.Enabled = false;
-            this.GB_ExeFS.Location = new System.Drawing.Point(12, 146);
-            this.GB_ExeFS.Name = "GB_ExeFS";
-            this.GB_ExeFS.Size = new System.Drawing.Size(430, 50);
-            this.GB_ExeFS.TabIndex = 6;
-            this.GB_ExeFS.TabStop = false;
-            this.GB_ExeFS.Text = "ExeFS Editing Tools";
             // 
             // B_OPower
             // 
-            this.B_OPower.Location = new System.Drawing.Point(350, 19);
+            this.B_OPower.Location = new System.Drawing.Point(109, 32);
             this.B_OPower.Name = "B_OPower";
-            this.B_OPower.Size = new System.Drawing.Size(74, 23);
+            this.B_OPower.Size = new System.Drawing.Size(100, 23);
             this.B_OPower.TabIndex = 4;
             this.B_OPower.Text = "O-Power";
             this.B_OPower.UseVisualStyleBackColor = true;
@@ -299,9 +138,9 @@
             // 
             // B_Pickup
             // 
-            this.B_Pickup.Location = new System.Drawing.Point(6, 19);
+            this.B_Pickup.Location = new System.Drawing.Point(3, 32);
             this.B_Pickup.Name = "B_Pickup";
-            this.B_Pickup.Size = new System.Drawing.Size(80, 23);
+            this.B_Pickup.Size = new System.Drawing.Size(100, 23);
             this.B_Pickup.TabIndex = 0;
             this.B_Pickup.Text = "Pickup";
             this.B_Pickup.UseVisualStyleBackColor = true;
@@ -309,9 +148,9 @@
             // 
             // B_Mart
             // 
-            this.B_Mart.Location = new System.Drawing.Point(178, 19);
+            this.B_Mart.Location = new System.Drawing.Point(215, 3);
             this.B_Mart.Name = "B_Mart";
-            this.B_Mart.Size = new System.Drawing.Size(80, 23);
+            this.B_Mart.Size = new System.Drawing.Size(100, 23);
             this.B_Mart.TabIndex = 2;
             this.B_Mart.Text = "Mart";
             this.B_Mart.UseVisualStyleBackColor = true;
@@ -319,9 +158,9 @@
             // 
             // B_MoveTutor
             // 
-            this.B_MoveTutor.Location = new System.Drawing.Point(264, 19);
+            this.B_MoveTutor.Location = new System.Drawing.Point(3, 3);
             this.B_MoveTutor.Name = "B_MoveTutor";
-            this.B_MoveTutor.Size = new System.Drawing.Size(80, 23);
+            this.B_MoveTutor.Size = new System.Drawing.Size(100, 23);
             this.B_MoveTutor.TabIndex = 3;
             this.B_MoveTutor.Text = "Move Tutor";
             this.B_MoveTutor.UseVisualStyleBackColor = true;
@@ -329,9 +168,9 @@
             // 
             // B_TMHM
             // 
-            this.B_TMHM.Location = new System.Drawing.Point(92, 19);
+            this.B_TMHM.Location = new System.Drawing.Point(109, 3);
             this.B_TMHM.Name = "B_TMHM";
-            this.B_TMHM.Size = new System.Drawing.Size(80, 23);
+            this.B_TMHM.Size = new System.Drawing.Size(100, 23);
             this.B_TMHM.TabIndex = 1;
             this.B_TMHM.Text = "TM/HM";
             this.B_TMHM.UseVisualStyleBackColor = true;
@@ -339,13 +178,11 @@
             // 
             // RTB_Status
             // 
-            this.RTB_Status.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RTB_Status.Location = new System.Drawing.Point(12, 277);
+            this.RTB_Status.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.RTB_Status.Location = new System.Drawing.Point(0, 0);
             this.RTB_Status.Name = "RTB_Status";
             this.RTB_Status.ReadOnly = true;
-            this.RTB_Status.Size = new System.Drawing.Size(430, 85);
+            this.RTB_Status.Size = new System.Drawing.Size(352, 154);
             this.RTB_Status.TabIndex = 7;
             this.RTB_Status.Text = "";
             // 
@@ -358,7 +195,7 @@
             this.Menu_Options});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(454, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(384, 24);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -557,35 +394,235 @@
             this.Menu_GARCs.Text = "About GARCs";
             this.Menu_GARCs.Click += new System.EventHandler(this.L_GARCInfo_Click);
             // 
-            // GB_CRO
+            // TC_RomFS
             // 
-            this.GB_CRO.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TC_RomFS.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.GB_CRO.Controls.Add(this.B_Static);
-            this.GB_CRO.Controls.Add(this.B_Gift);
-            this.GB_CRO.Controls.Add(this.B_TypeChart);
-            this.GB_CRO.Controls.Add(this.B_Starter);
-            this.GB_CRO.Enabled = false;
-            this.GB_CRO.Location = new System.Drawing.Point(12, 202);
-            this.GB_CRO.Name = "GB_CRO";
-            this.GB_CRO.Size = new System.Drawing.Size(430, 50);
-            this.GB_CRO.TabIndex = 7;
-            this.GB_CRO.TabStop = false;
-            this.GB_CRO.Text = "CRO Editing Tools";
+            this.TC_RomFS.Controls.Add(this.Tab_RomFS);
+            this.TC_RomFS.Controls.Add(this.Tab_ExeFS);
+            this.TC_RomFS.Controls.Add(this.Tab_CRO);
+            this.TC_RomFS.Controls.Add(this.Tab_Output);
+            this.TC_RomFS.Location = new System.Drawing.Point(12, 39);
+            this.TC_RomFS.Name = "TC_RomFS";
+            this.TC_RomFS.SelectedIndex = 0;
+            this.TC_RomFS.Size = new System.Drawing.Size(360, 180);
+            this.TC_RomFS.TabIndex = 11;
             // 
-            // B_Gift
+            // Tab_RomFS
             // 
-            this.B_Gift.Location = new System.Drawing.Point(218, 19);
-            this.B_Gift.Name = "B_Gift";
-            this.B_Gift.Size = new System.Drawing.Size(100, 23);
-            this.B_Gift.TabIndex = 2;
-            this.B_Gift.Text = "Gift Pokémon";
-            this.B_Gift.UseVisualStyleBackColor = true;
-            this.B_Gift.Click += new System.EventHandler(this.B_Gift_Click);
+            this.Tab_RomFS.Controls.Add(this.FLP_RomFS);
+            this.Tab_RomFS.Location = new System.Drawing.Point(4, 22);
+            this.Tab_RomFS.Name = "Tab_RomFS";
+            this.Tab_RomFS.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_RomFS.Size = new System.Drawing.Size(352, 154);
+            this.Tab_RomFS.TabIndex = 0;
+            this.Tab_RomFS.Text = "RomFS";
+            this.Tab_RomFS.UseVisualStyleBackColor = true;
+            // 
+            // FLP_RomFS
+            // 
+            this.FLP_RomFS.AutoScroll = true;
+            this.FLP_RomFS.Controls.Add(this.B_GameText);
+            this.FLP_RomFS.Controls.Add(this.B_StoryText);
+            this.FLP_RomFS.Controls.Add(this.B_Personal);
+            this.FLP_RomFS.Controls.Add(this.B_Evolution);
+            this.FLP_RomFS.Controls.Add(this.B_LevelUp);
+            this.FLP_RomFS.Controls.Add(this.B_Wild);
+            this.FLP_RomFS.Controls.Add(this.B_MegaEvo);
+            this.FLP_RomFS.Controls.Add(this.B_EggMove);
+            this.FLP_RomFS.Controls.Add(this.B_Trainer);
+            this.FLP_RomFS.Controls.Add(this.B_Maison);
+            this.FLP_RomFS.Controls.Add(this.B_Item);
+            this.FLP_RomFS.Controls.Add(this.B_Move);
+            this.FLP_RomFS.Controls.Add(this.B_TitleScreen);
+            this.FLP_RomFS.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FLP_RomFS.Location = new System.Drawing.Point(3, 3);
+            this.FLP_RomFS.Name = "FLP_RomFS";
+            this.FLP_RomFS.Size = new System.Drawing.Size(346, 148);
+            this.FLP_RomFS.TabIndex = 13;
+            // 
+            // B_GameText
+            // 
+            this.B_GameText.Location = new System.Drawing.Point(3, 3);
+            this.B_GameText.Name = "B_GameText";
+            this.B_GameText.Size = new System.Drawing.Size(100, 23);
+            this.B_GameText.TabIndex = 0;
+            this.B_GameText.Text = "Game Text";
+            this.B_GameText.UseVisualStyleBackColor = true;
+            this.B_GameText.Click += new System.EventHandler(this.B_GameText_Click);
+            // 
+            // B_Personal
+            // 
+            this.B_Personal.Location = new System.Drawing.Point(215, 3);
+            this.B_Personal.Name = "B_Personal";
+            this.B_Personal.Size = new System.Drawing.Size(100, 23);
+            this.B_Personal.TabIndex = 3;
+            this.B_Personal.Text = "Personal Stats";
+            this.B_Personal.UseVisualStyleBackColor = true;
+            this.B_Personal.Click += new System.EventHandler(this.B_Personal_Click);
+            // 
+            // B_Evolution
+            // 
+            this.B_Evolution.Location = new System.Drawing.Point(3, 32);
+            this.B_Evolution.Name = "B_Evolution";
+            this.B_Evolution.Size = new System.Drawing.Size(100, 23);
+            this.B_Evolution.TabIndex = 6;
+            this.B_Evolution.Text = "Evolutions";
+            this.B_Evolution.UseVisualStyleBackColor = true;
+            this.B_Evolution.Click += new System.EventHandler(this.B_Evolution_Click);
+            // 
+            // B_LevelUp
+            // 
+            this.B_LevelUp.Location = new System.Drawing.Point(109, 32);
+            this.B_LevelUp.Name = "B_LevelUp";
+            this.B_LevelUp.Size = new System.Drawing.Size(100, 23);
+            this.B_LevelUp.TabIndex = 9;
+            this.B_LevelUp.Text = "Level Up Moves";
+            this.B_LevelUp.UseVisualStyleBackColor = true;
+            this.B_LevelUp.Click += new System.EventHandler(this.B_LevelUp_Click);
+            // 
+            // B_StoryText
+            // 
+            this.B_StoryText.Location = new System.Drawing.Point(109, 3);
+            this.B_StoryText.Name = "B_StoryText";
+            this.B_StoryText.Size = new System.Drawing.Size(100, 23);
+            this.B_StoryText.TabIndex = 1;
+            this.B_StoryText.Text = "Story Text";
+            this.B_StoryText.UseVisualStyleBackColor = true;
+            this.B_StoryText.Click += new System.EventHandler(this.B_StoryText_Click);
+            // 
+            // B_Wild
+            // 
+            this.B_Wild.Location = new System.Drawing.Point(215, 32);
+            this.B_Wild.Name = "B_Wild";
+            this.B_Wild.Size = new System.Drawing.Size(100, 23);
+            this.B_Wild.TabIndex = 4;
+            this.B_Wild.Text = "Wild Encounters";
+            this.B_Wild.UseVisualStyleBackColor = true;
+            this.B_Wild.Click += new System.EventHandler(this.B_Wild_Click);
+            // 
+            // B_MegaEvo
+            // 
+            this.B_MegaEvo.Location = new System.Drawing.Point(3, 61);
+            this.B_MegaEvo.Name = "B_MegaEvo";
+            this.B_MegaEvo.Size = new System.Drawing.Size(100, 23);
+            this.B_MegaEvo.TabIndex = 7;
+            this.B_MegaEvo.Text = "Mega Evolutions";
+            this.B_MegaEvo.UseVisualStyleBackColor = true;
+            this.B_MegaEvo.Click += new System.EventHandler(this.B_MegaEvo_Click);
+            // 
+            // B_EggMove
+            // 
+            this.B_EggMove.Location = new System.Drawing.Point(109, 61);
+            this.B_EggMove.Name = "B_EggMove";
+            this.B_EggMove.Size = new System.Drawing.Size(100, 23);
+            this.B_EggMove.TabIndex = 10;
+            this.B_EggMove.Text = "Egg Moves";
+            this.B_EggMove.UseVisualStyleBackColor = true;
+            this.B_EggMove.Click += new System.EventHandler(this.B_EggMove_Click);
+            // 
+            // B_Trainer
+            // 
+            this.B_Trainer.Location = new System.Drawing.Point(215, 61);
+            this.B_Trainer.Name = "B_Trainer";
+            this.B_Trainer.Size = new System.Drawing.Size(100, 23);
+            this.B_Trainer.TabIndex = 2;
+            this.B_Trainer.Text = "Trainer";
+            this.B_Trainer.UseVisualStyleBackColor = true;
+            this.B_Trainer.Click += new System.EventHandler(this.B_Trainer_Click);
+            // 
+            // B_Maison
+            // 
+            this.B_Maison.Location = new System.Drawing.Point(3, 90);
+            this.B_Maison.Name = "B_Maison";
+            this.B_Maison.Size = new System.Drawing.Size(100, 23);
+            this.B_Maison.TabIndex = 5;
+            this.B_Maison.Text = "Maison";
+            this.B_Maison.UseVisualStyleBackColor = true;
+            this.B_Maison.Click += new System.EventHandler(this.B_Maison_Click);
+            // 
+            // B_Item
+            // 
+            this.B_Item.Location = new System.Drawing.Point(109, 90);
+            this.B_Item.Name = "B_Item";
+            this.B_Item.Size = new System.Drawing.Size(100, 23);
+            this.B_Item.TabIndex = 8;
+            this.B_Item.Text = "Item Stats";
+            this.B_Item.UseVisualStyleBackColor = true;
+            this.B_Item.Click += new System.EventHandler(this.B_Item_Click);
+            // 
+            // B_Move
+            // 
+            this.B_Move.Location = new System.Drawing.Point(215, 90);
+            this.B_Move.Name = "B_Move";
+            this.B_Move.Size = new System.Drawing.Size(100, 23);
+            this.B_Move.TabIndex = 11;
+            this.B_Move.Text = "Move Stats";
+            this.B_Move.UseVisualStyleBackColor = true;
+            this.B_Move.Click += new System.EventHandler(this.B_Move_Click);
+            // 
+            // B_TitleScreen
+            // 
+            this.B_TitleScreen.Location = new System.Drawing.Point(3, 119);
+            this.B_TitleScreen.Name = "B_TitleScreen";
+            this.B_TitleScreen.Size = new System.Drawing.Size(100, 23);
+            this.B_TitleScreen.TabIndex = 12;
+            this.B_TitleScreen.Text = "Title Screen";
+            this.B_TitleScreen.UseVisualStyleBackColor = true;
+            this.B_TitleScreen.Click += new System.EventHandler(this.B_TitleScreen_Click);
+            // 
+            // Tab_ExeFS
+            // 
+            this.Tab_ExeFS.Controls.Add(this.FLP_ExeFS);
+            this.Tab_ExeFS.Location = new System.Drawing.Point(4, 22);
+            this.Tab_ExeFS.Name = "Tab_ExeFS";
+            this.Tab_ExeFS.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_ExeFS.Size = new System.Drawing.Size(352, 154);
+            this.Tab_ExeFS.TabIndex = 1;
+            this.Tab_ExeFS.Text = "ExeFS";
+            this.Tab_ExeFS.UseVisualStyleBackColor = true;
+            // 
+            // FLP_ExeFS
+            // 
+            this.FLP_ExeFS.AutoScroll = true;
+            this.FLP_ExeFS.Controls.Add(this.B_MoveTutor);
+            this.FLP_ExeFS.Controls.Add(this.B_TMHM);
+            this.FLP_ExeFS.Controls.Add(this.B_Mart);
+            this.FLP_ExeFS.Controls.Add(this.B_Pickup);
+            this.FLP_ExeFS.Controls.Add(this.B_OPower);
+            this.FLP_ExeFS.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FLP_ExeFS.Location = new System.Drawing.Point(3, 3);
+            this.FLP_ExeFS.Name = "FLP_ExeFS";
+            this.FLP_ExeFS.Size = new System.Drawing.Size(346, 148);
+            this.FLP_ExeFS.TabIndex = 11;
+            // 
+            // Tab_CRO
+            // 
+            this.Tab_CRO.Controls.Add(this.FLP_CRO);
+            this.Tab_CRO.Location = new System.Drawing.Point(4, 22);
+            this.Tab_CRO.Name = "Tab_CRO";
+            this.Tab_CRO.Size = new System.Drawing.Size(352, 154);
+            this.Tab_CRO.TabIndex = 2;
+            this.Tab_CRO.Text = "CRO";
+            this.Tab_CRO.UseVisualStyleBackColor = true;
+            // 
+            // FLP_CRO
+            // 
+            this.FLP_CRO.Controls.Add(this.B_TypeChart);
+            this.FLP_CRO.Controls.Add(this.B_Starter);
+            this.FLP_CRO.Controls.Add(this.B_Gift);
+            this.FLP_CRO.Controls.Add(this.B_Static);
+            this.FLP_CRO.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FLP_CRO.Location = new System.Drawing.Point(0, 0);
+            this.FLP_CRO.Name = "FLP_CRO";
+            this.FLP_CRO.Padding = new System.Windows.Forms.Padding(3);
+            this.FLP_CRO.Size = new System.Drawing.Size(352, 154);
+            this.FLP_CRO.TabIndex = 1;
             // 
             // B_TypeChart
             // 
-            this.B_TypeChart.Location = new System.Drawing.Point(6, 19);
+            this.B_TypeChart.Location = new System.Drawing.Point(6, 6);
             this.B_TypeChart.Name = "B_TypeChart";
             this.B_TypeChart.Size = new System.Drawing.Size(100, 23);
             this.B_TypeChart.TabIndex = 0;
@@ -595,7 +632,7 @@
             // 
             // B_Starter
             // 
-            this.B_Starter.Location = new System.Drawing.Point(112, 19);
+            this.B_Starter.Location = new System.Drawing.Point(112, 6);
             this.B_Starter.Name = "B_Starter";
             this.B_Starter.Size = new System.Drawing.Size(100, 23);
             this.B_Starter.TabIndex = 1;
@@ -603,9 +640,19 @@
             this.B_Starter.UseVisualStyleBackColor = true;
             this.B_Starter.Click += new System.EventHandler(this.B_Starter_Click);
             // 
+            // B_Gift
+            // 
+            this.B_Gift.Location = new System.Drawing.Point(218, 6);
+            this.B_Gift.Name = "B_Gift";
+            this.B_Gift.Size = new System.Drawing.Size(100, 23);
+            this.B_Gift.TabIndex = 2;
+            this.B_Gift.Text = "Gift Pokémon";
+            this.B_Gift.UseVisualStyleBackColor = true;
+            this.B_Gift.Click += new System.EventHandler(this.B_Gift_Click);
+            // 
             // B_Static
             // 
-            this.B_Static.Location = new System.Drawing.Point(324, 19);
+            this.B_Static.Location = new System.Drawing.Point(6, 35);
             this.B_Static.Name = "B_Static";
             this.B_Static.Size = new System.Drawing.Size(100, 23);
             this.B_Static.TabIndex = 3;
@@ -613,31 +660,51 @@
             this.B_Static.UseVisualStyleBackColor = true;
             this.B_Static.Click += new System.EventHandler(this.B_Static_Click);
             // 
+            // Tab_Output
+            // 
+            this.Tab_Output.Controls.Add(this.RTB_Status);
+            this.Tab_Output.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Output.Name = "Tab_Output";
+            this.Tab_Output.Size = new System.Drawing.Size(352, 154);
+            this.Tab_Output.TabIndex = 3;
+            this.Tab_Output.Text = "Output";
+            this.Tab_Output.UseVisualStyleBackColor = true;
+            // 
+            // L_Status
+            // 
+            this.L_Status.Location = new System.Drawing.Point(203, 37);
+            this.L_Status.Name = "L_Status";
+            this.L_Status.Size = new System.Drawing.Size(163, 20);
+            this.L_Status.TabIndex = 14;
+            this.L_Status.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(454, 372);
-            this.Controls.Add(this.GB_CRO);
-            this.Controls.Add(this.RTB_Status);
-            this.Controls.Add(this.GB_ExeFS);
+            this.ClientSize = new System.Drawing.Size(384, 251);
+            this.Controls.Add(this.L_Status);
+            this.Controls.Add(this.TC_RomFS);
             this.Controls.Add(this.pBar1);
             this.Controls.Add(this.L_Game);
-            this.Controls.Add(this.GB_RomFS);
             this.Controls.Add(this.TB_Path);
             this.Controls.Add(this.menuStrip1);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(470, 555);
-            this.MinimumSize = new System.Drawing.Size(470, 264);
+            this.MinimumSize = new System.Drawing.Size(400, 290);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "pk3DS";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
-            this.GB_RomFS.ResumeLayout(false);
-            this.GB_ExeFS.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.GB_CRO.ResumeLayout(false);
+            this.TC_RomFS.ResumeLayout(false);
+            this.Tab_RomFS.ResumeLayout(false);
+            this.FLP_RomFS.ResumeLayout(false);
+            this.Tab_ExeFS.ResumeLayout(false);
+            this.FLP_ExeFS.ResumeLayout(false);
+            this.Tab_CRO.ResumeLayout(false);
+            this.FLP_CRO.ResumeLayout(false);
+            this.Tab_Output.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -646,29 +713,14 @@
         #endregion
 
         private System.Windows.Forms.TextBox TB_Path;
-        private System.Windows.Forms.GroupBox GB_RomFS;
-        private System.Windows.Forms.Button B_Trainer;
-        private System.Windows.Forms.Button B_GameText;
-        private System.Windows.Forms.Button B_Wild;
-        private System.Windows.Forms.Button B_Item;
-        private System.Windows.Forms.Button B_Move;
-        private System.Windows.Forms.Button B_Evolution;
-        private System.Windows.Forms.Button B_Personal;
-        private System.Windows.Forms.Button B_MegaEvo;
-        private System.Windows.Forms.Button B_StoryText;
         private System.Windows.Forms.Label L_Game;
         private System.Windows.Forms.ProgressBar pBar1;
-        private System.Windows.Forms.Button B_Maison;
-        private System.Windows.Forms.Button B_EggMove;
-        private System.Windows.Forms.Button B_LevelUp;
-        private System.Windows.Forms.GroupBox GB_ExeFS;
         private System.Windows.Forms.Button B_Pickup;
         private System.Windows.Forms.Button B_Mart;
         private System.Windows.Forms.Button B_MoveTutor;
         private System.Windows.Forms.Button B_TMHM;
         public System.Windows.Forms.RichTextBox RTB_Status;
         private System.Windows.Forms.Button B_OPower;
-        private System.Windows.Forms.Button B_TitleScreen;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem Menu_File;
         private System.Windows.Forms.ToolStripMenuItem Menu_Open;
@@ -690,12 +742,33 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_About;
         private System.Windows.Forms.ToolStripMenuItem Menu_GARCs;
         private System.Windows.Forms.ToolStripMenuItem Menu_SMDH;
-        private System.Windows.Forms.GroupBox GB_CRO;
-        private System.Windows.Forms.Button B_TypeChart;
-        private System.Windows.Forms.Button B_Starter;
         private System.Windows.Forms.ToolStripMenuItem Menu_CRO;
-        private System.Windows.Forms.Button B_Gift;
         private System.Windows.Forms.ToolStripMenuItem Menu_Shuffler;
+        private System.Windows.Forms.TabControl TC_RomFS;
+        private System.Windows.Forms.TabPage Tab_RomFS;
+        private System.Windows.Forms.TabPage Tab_ExeFS;
+        private System.Windows.Forms.TabPage Tab_CRO;
+        private System.Windows.Forms.FlowLayoutPanel FLP_ExeFS;
+        private System.Windows.Forms.TabPage Tab_Output;
         private System.Windows.Forms.Button B_Static;
+        private System.Windows.Forms.Button B_Gift;
+        private System.Windows.Forms.Button B_Starter;
+        private System.Windows.Forms.Button B_TypeChart;
+        private System.Windows.Forms.FlowLayoutPanel FLP_CRO;
+        private System.Windows.Forms.Button B_TitleScreen;
+        private System.Windows.Forms.Button B_Move;
+        private System.Windows.Forms.Button B_Item;
+        private System.Windows.Forms.Button B_Maison;
+        private System.Windows.Forms.Button B_Trainer;
+        private System.Windows.Forms.Button B_EggMove;
+        private System.Windows.Forms.Button B_MegaEvo;
+        private System.Windows.Forms.Button B_Wild;
+        private System.Windows.Forms.Button B_StoryText;
+        private System.Windows.Forms.Button B_LevelUp;
+        private System.Windows.Forms.Button B_Evolution;
+        private System.Windows.Forms.Button B_Personal;
+        private System.Windows.Forms.Button B_GameText;
+        private System.Windows.Forms.FlowLayoutPanel FLP_RomFS;
+        private System.Windows.Forms.Label L_Status;
     }
 }
