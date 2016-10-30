@@ -181,7 +181,8 @@ namespace pk3DS
                     var version = dr == DialogResult.Yes ? CTR.GARC.VER_6 : CTR.GARC.VER_4;
                     new Thread(() =>
                     {
-                        bool r = CTR.GARC.garcPackMS(path, folderName + ".garc", version, pBar1);
+                        string outfolder = Directory.GetParent(path).FullName;
+                        bool r = CTR.GARC.garcPackMS(path, Path.Combine(outfolder, folderName + ".garc"), version, pBar1);
                         if (!r) { Util.Alert("Packing failed."); return; }
                         // Delete path after repacking
                         if (CHK_Delete.Checked && Directory.Exists(path))
