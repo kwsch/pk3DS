@@ -60,12 +60,15 @@
     <Compile Include="3DS\CTR.cs" />
     <Compile Include="3DS\ExeFS.cs" />
     <Compile Include="3DS\BCLIM.cs" />
+    <Compile Include="Game\GameVersion.cs" />
+    <Compile Include="Game\GARCReference.cs" />
     <Compile Include="Misc\About.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Misc\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Game\GameConfig.cs" />
     <Compile Include="Randomizer.cs" />
     <Compile Include="3DS\RomFS.cs" />
     <Compile Include="Structs.cs" />

@@ -123,13 +123,13 @@ namespace pk3DS
                 while (threads > 0) Thread.Sleep(50);
                 // Gather the Text Language Strings
                 updateStatus($"GARC Get: {"gametext"} @ {getGARCFileName("gametext")}... ");
-                threadGet(RomFSPath + getGARCFileName("gametext"), "gametext", true, true);
+                threadGet(Path.Combine(RomFSPath, getGARCFileName("gametext")), "gametext", true, true);
 
                 while (threads > 0) Thread.Sleep(50);
                 if (!Directory.Exists("personal"))
                 {
                     updateStatus($"GARC Get: {"personal"} @ {getGARCFileName("personal")}... ");
-                    threadGet(RomFSPath + getGARCFileName("personal"), "personal", true, true);
+                    threadGet(Path.Combine(RomFSPath, getGARCFileName("personal")), "personal", true, true);
                 }
                 while (threads > 0) Thread.Sleep(50);
                 // Refresh Personal Stats
@@ -152,13 +152,13 @@ namespace pk3DS
 
                 // Set the GameText back as other forms may have edited it.
                 updateStatus($"GARC Get: {"gametext"} @ {getGARCFileName("gametext")}... ");
-                threadSet(RomFSPath + getGARCFileName("gametext"), "gametext", false);
+                threadSet(Path.Combine(RomFSPath, getGARCFileName("gametext")), "gametext", false);
                 while (threads > 0) Thread.Sleep(100);
 
                 Thread.Sleep(200); // Small gap between beeps for faster computers.
 
                 updateStatus($"GARC Get: {"personal"} @ {getGARCFileName("personal")}... ");
-                threadSet(RomFSPath + getGARCFileName("personal"), "personal", false);
+                threadSet(Path.Combine(RomFSPath, getGARCFileName("personal")), "personal", false);
                 while (threads > 0) Thread.Sleep(100);
 
                 if (Directory.Exists("gametext")) Directory.Delete("gametext", true);
@@ -264,23 +264,18 @@ namespace pk3DS
                 ? "pk3DS" // nothing else
                 : "pk3DS - " + SMDH.AppInfo[AILang[Language]].ShortDescription;
         }
-        private int checkGameType(string[] files)
+        private static GameConfig checkGameType(string[] files)
         {
             try
             {
                 if (files.Length > 1000)
-                    return -1;
-                int aFiles = Directory.GetFiles(Path.Combine(Directory.GetParent(files[0]).FullName, "a"), 
-                    "*", SearchOption.AllDirectories).Length;
-                if (aFiles == 271)
-                    return 0; // XY
-                if (aFiles == 299)
-                    return 1; // ORAS
-                if (aFiles == 301) // rootFiles == meh
-                    return 1;
+                    return null;
+                string[] fileArr = Directory.GetFiles(Path.Combine(Directory.GetParent(files[0]).FullName, "a"), "*", SearchOption.AllDirectories);
+                int fileCount = fileArr.Count(file => Path.GetFileName(file)?.Length == 1);
+                return new GameConfig(fileCount);
             }
             catch { }
-            return -1;
+            return null;
         }
         private bool checkIfRomFS(string path)
         {
@@ -289,17 +284,19 @@ namespace pk3DS
             // Check to see if the folder is romfs
             if (fi.Name == "a")
             {
-                int game = checkGameType(Directory.GetFiles(path, "*", SearchOption.AllDirectories));
-                if (game < 0) // Unknown
+                var cfg = checkGameType(Directory.GetFiles(path, "*", SearchOption.AllDirectories));
+
+                if (cfg == null || cfg.Files.Count == 0)
                 {
                     DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Loading Override Options:", "Yes - OR/AS" + Environment.NewLine + "No - X/Y" + Environment.NewLine + "Cancel - Abort", "Path:" + Environment.NewLine + path);
-                    if (dr == DialogResult.Yes) { oras = true; }
-                    else if (dr == DialogResult.No) { oras = false; }
+                    if (dr == DialogResult.Yes) { cfg = new GameConfig(GameVersion.ORAS); }
+                    else if (dr == DialogResult.No) { cfg = new GameConfig(GameVersion.XY); }
                     else { RomFSPath = null; oras = false; return false; }
                 }
-                else
-                    oras = game == 1;
+
                 RomFSPath = path;
+                Config = cfg;
+                oras = Config.ORAS;
                 backupGARCs(false, allGARCs);
                 backupCROs(false, RomFSPath);
                 return true;
@@ -589,7 +586,7 @@ namespace pk3DS
             {
                 string GARC = getGARCFileName(toEdit);
                 updateStatus($"GARC Get: {toEdit} @ {GARC}... ");
-                threadGet(RomFSPath + GARC, toEdit, true, skipDecompression);
+                threadGet(Path.Combine(RomFSPath, GARC), toEdit, true, skipDecompression);
                 while (threads > 0) Thread.Sleep(50);
             }
         }
@@ -600,7 +597,7 @@ namespace pk3DS
             {
                 string GARC = getGARCFileName(toEdit);
                 updateStatus($"GARC Set: {toEdit} @ {GARC}... ");
-                threadSet(RomFSPath + GARC, toEdit);
+                threadSet(Path.Combine(RomFSPath, GARC), toEdit);
                 while (threads > 0) Thread.Sleep(50);
                 if (!keep && Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
             }
@@ -782,7 +779,8 @@ namespace pk3DS
         private void B_Rebuild3DS_Click(object sender, EventArgs e)
         {
             // Ensure that the romfs paths are valid
-            if (checkGameType(Directory.GetFiles(TB_Path.Text, "*", SearchOption.AllDirectories)) >= 0)
+            string[] files = Directory.GetFiles(TB_Path.Text, "*", SearchOption.AllDirectories);
+            if (!Config.IsRebuildable(files.Length))
             {
                 Util.Error("RomFS file count does not match the default game file count.");
                 return;
@@ -874,42 +872,22 @@ namespace pk3DS
         }
 
         // GARC Requests
+        internal static GameConfig Config;
         private string getGARCFileName(string requestedGARC)
         {
-            return getGARCFileName(requestedGARC, Language);
+            var garc = Config.getGARC(requestedGARC);
+            if (garc.LanguageVariant)
+                garc = garc.getRelativeGARC(Language);
+
+            return garc.Reference;
         }
         internal static string getGARCFileName(string requestedGARC, int lang)
         {
-            string ans = "";
-            switch (requestedGARC)
-            {
-                case "movesprite": ans = getGARCPath(0, 0, 5); break;
-                case "encdata": ans = oras ? getGARCPath(0, 1, 3) : getGARCPath(0, 1, 2); break;
-                case "trdata": ans = oras ? getGARCPath(0, 3, 6) : getGARCPath(0, 3, 8); break;
-                case "trpoke": ans = oras ? getGARCPath(0, 3, 8) : getGARCPath(0, 4, 0); break;
-                case "mapGR": ans = oras ? getGARCPath(0, 3, 9) : getGARCPath(0, 4, 1); break;
-                case "mapMatrix": ans = oras ? getGARCPath(0, 4, 0) : getGARCPath(0, 4, 2); break;
-                case "gametext": ans = oras ? getGARCPath(0, 7, 1 + lang) : getGARCPath(0, 7, 2 + lang); break;
-                case "storytext": ans = oras ? getGARCPath(0, 7 + (lang + 9) / 10, (10 + lang + 9) % 10) : getGARCPath(0, 8, lang); break;
-                case "wallpaper": ans = oras ? getGARCPath(1, 0, 3) : getGARCPath(1, 0, 4); break;
-                case "titlescreen": ans = oras ? getGARCPath(1, 5, 2) : getGARCPath(1, 6, 5); break;
-                case "maisonpkN": ans = oras ? getGARCPath(1, 8, 2) : getGARCPath(2, 0, 3); break;
-                case "maisontrN": ans = oras ? getGARCPath(1, 8, 3) : getGARCPath(2, 0, 4); break;
-                case "maisonpkS": ans = oras ? getGARCPath(1, 8, 4) : getGARCPath(2, 0, 5); break;
-                case "maisontrS": ans = oras ? getGARCPath(1, 8, 5) : getGARCPath(2, 0, 6); break;
-                case "move": ans = oras ? getGARCPath(1, 8, 9) : getGARCPath(2, 1, 2); break;
-                case "eggmove": ans = oras ? getGARCPath(1, 9, 0) : getGARCPath(2, 1, 3); break;
-                case "levelup": ans = oras ? getGARCPath(1, 9, 1) : getGARCPath(2, 1, 4); break;
-                case "evolution": ans = oras ? getGARCPath(1, 9, 2) : getGARCPath(2, 1, 5); break;
-                case "megaevo": ans = oras ? getGARCPath(1, 9, 3) : getGARCPath(2, 1, 6); break;
-                case "personal": ans = oras ? getGARCPath(1, 9, 5) : getGARCPath(2, 1, 8); break;
-                case "item": ans = oras ? getGARCPath(1, 9, 7) : getGARCPath(2, 2, 0); break;
-            }
-            return ans;
-        }
-        internal static string getGARCPath(int A, int B, int C)
-        {
-            return string.Format("{0}a{0}{1}{0}{2}{0}{3}", Path.DirectorySeparatorChar, A, B, C);
+            var garc = Config.getGARC(requestedGARC);
+            if (garc.LanguageVariant)
+                garc = garc.getRelativeGARC(lang);
+
+            return garc.Reference;
         }
         public bool getGARC(string infile, string outfolder, bool PB, bool bypassExt = false)
         {
@@ -963,7 +941,7 @@ namespace pk3DS
                 string dest = "backup" + Path.DirectorySeparatorChar + s +
                               $" ({GARC.Replace(Path.DirectorySeparatorChar.ToString(), "")})";
                 if (overwrite || !File.Exists(dest))
-                    File.Copy(RomFSPath + GARC, dest);
+                    File.Copy(Path.Combine(RomFSPath, GARC), dest);
             }
         }
         public void restoreGARCs(bool oras_define, params string[] g)
@@ -971,7 +949,7 @@ namespace pk3DS
             oras = oras_define;
             foreach (string s in g)
             {
-                string dest = RomFSPath + getGARCFileName(s);
+                string dest = Path.Combine(RomFSPath, getGARCFileName(s));
                 string src = "backup" + Path.DirectorySeparatorChar + s +
                              $" ({getGARCFileName(s).Replace(Path.DirectorySeparatorChar.ToString(), "")})";
                 File.Copy(src, dest, true);
