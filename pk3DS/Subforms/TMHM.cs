@@ -24,7 +24,7 @@ namespace pk3DS
         }
 
         private readonly string codebin;
-        private readonly string[] movelist = Main.getText(Main.Config.ORAS ? 14 : 13);
+        private readonly string[] movelist = Main.getText(TextName.MoveNames);
         private readonly int offset = Main.Config.ORAS ? 0x004A67EE : 0x00464796; // Default
         private readonly byte[] data;
         private int dataoffset;
@@ -128,9 +128,8 @@ namespace pk3DS
             }
 
             // Set Move Text Descriptions back into Item Text File
-            int itemFile = Main.Config.ORAS ? 117 : 99;
-            string[] itemDescriptions = Main.getText(itemFile);
-            string[] moveDescriptions = Main.getText(Main.Config.ORAS ? 16 : 15);
+            string[] itemDescriptions = Main.getText(TextName.ItemFlavor);
+            string[] moveDescriptions = Main.getText(TextName.MoveFlavor);
             for (int i = 1 - 1; i <= 92 - 1; i++) // TM01 - TM92
                 itemDescriptions[328 + i] = moveDescriptions[tmlist[i]];
             for (int i = 93 - 1; i <= 95 - 1; i++) // TM92 - TM95
@@ -144,7 +143,7 @@ namespace pk3DS
                 itemDescriptions[425] = moveDescriptions[hmlist[5]]; // HM06
                 itemDescriptions[737] = moveDescriptions[hmlist[6]]; // HM07
             }
-            Main.setText(itemFile, itemDescriptions);
+            Main.setText(TextName.ItemFlavor, itemDescriptions);
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)

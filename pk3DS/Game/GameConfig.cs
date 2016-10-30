@@ -77,11 +77,12 @@ namespace pk3DS
         public GARCReference getGARC(string name) { return Files.FirstOrDefault(f => f.Name == name); }
         public TextVariableCode getVariableCode(string name) { return Variables.FirstOrDefault(v => v.Name == name); }
         public TextVariableCode getVariableName(int value) { return Variables.FirstOrDefault(v => v.Code == value); }
-        public TextReference getGameText(string name) { return GameText.FirstOrDefault(f => f.Name == name); }
+        public TextReference getGameText(TextName name) { return GameText.FirstOrDefault(f => f.Name == name); }
 
         public bool XY => Version == GameVersion.XY;
         public bool ORAS => Version == GameVersion.ORAS || Version == GameVersion.ORASDEMO;
         public bool SM => Version == GameVersion.SM || Version == GameVersion.SMDEMO;
+        public int MaxSpeciesID => XY || ORAS ? 722 : 802;
         public bool IsRebuildable(int fileCount)
         {
             switch (fileCount)

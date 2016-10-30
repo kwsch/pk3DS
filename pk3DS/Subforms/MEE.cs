@@ -11,10 +11,10 @@ namespace pk3DS
     public partial class MEE : Form
     {
         private readonly string[] files = Directory.GetFiles("megaevo");
-        private readonly string[] forms = Main.getText(Main.Config.ORAS ? 5 : 5);
-        private readonly string[] types = Main.getText(Main.Config.ORAS ? 18 : 17);
-        private readonly string[] specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
-        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
+        private readonly string[] forms = Main.getText(TextName.Forms);
+        private readonly string[] types = Main.getText(TextName.Types);
+        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
+        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
         private readonly byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
         private readonly GroupBox[] groupbox_spec;
         private readonly ComboBox[] forme_spec;
@@ -34,7 +34,7 @@ namespace pk3DS
             CB_Species.ValueMember = "Value";
             #region Intializations
 
-            Array.Resize(ref specieslist, 722); specieslist[0] = itemlist[0] = "";
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID); specieslist[0] = itemlist[0] = "";
             specieslist[32] += "♂"; specieslist[29] += "♀";
             AltForms = Personal.getFormList(personalData, Main.Config.ORAS, specieslist, forms, types, itemlist);
 
@@ -188,7 +188,7 @@ namespace pk3DS
             dumping = true;
             string result = "";
 
-            for (int i = 0; i < 722; i++)
+            for (int i = 0; i < Main.Config.MaxSpeciesID; i++)
             {
                 CB_Species.SelectedValue = i; // Get new Species
                 string header = "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;

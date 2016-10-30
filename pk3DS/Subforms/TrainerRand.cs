@@ -17,8 +17,8 @@ namespace pk3DS
             trClassnorep.Sort();
         }
 
-        private string[] trName = Main.getText(Main.Config.ORAS ? 22 : 21);
-        private readonly string[] trClass = Main.getText(Main.Config.ORAS ? 21 : 20);
+        private string[] trName = Main.getText(TextName.TrainerNames);
+        private readonly string[] trClass = Main.getText(TextName.TrainerClasses);
         private readonly List<string> trClassnorep;
 
         private void B_Close_Click(object sender, EventArgs e)

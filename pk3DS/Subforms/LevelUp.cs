@@ -19,13 +19,13 @@ namespace pk3DS
             specieslist[0] = movelist[0] = "";
 
             string[] sortedspecies = (string[])specieslist.Clone();
-            Array.Resize(ref sortedspecies, 722); Array.Sort(sortedspecies);
+            Array.Resize(ref sortedspecies, Main.Config.MaxSpeciesID); Array.Sort(sortedspecies);
             setupDGV();
 
             var newlist = new List<Util.cbItem>();
-            for (int i = 1; i < 722; i++) // add all species
+            for (int i = 1; i < Main.Config.MaxSpeciesID; i++) // add all species
                 newlist.Add(new Util.cbItem { Text = sortedspecies[i], Value = Array.IndexOf(specieslist, sortedspecies[i]) });
-            for (int i = 722; i < specieslist.Length; i++) // add all forms
+            for (int i = Main.Config.MaxSpeciesID; i < specieslist.Length; i++) // add all forms
                 newlist.Add(new Util.cbItem { Text = specieslist[i], Value = i });
 
             CB_Species.DisplayMember = "Text";
@@ -36,7 +36,7 @@ namespace pk3DS
         private readonly string[] files = Directory.GetFiles("levelup");
         private readonly byte[] data = File.ReadAllBytes(Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly).Last());
         private int entry = -1;
-        private readonly string[] movelist = Main.getText(Main.Config.ORAS ? 14 : 13);
+        private readonly string[] movelist = Main.getText(TextName.MoveNames);
         private bool dumping;
         private void setupDGV()
         {
@@ -245,7 +245,7 @@ namespace pk3DS
             int max = 0;
             int spec = 0;
             int stab = 0;
-            for (int i = 0; i < 722; i++)
+            for (int i = 0; i < Main.Config.MaxSpeciesID; i++)
             {
                 byte[] movedata = File.ReadAllBytes(files[i]);
                 int movecount = (movedata.Length - 4) / 4;

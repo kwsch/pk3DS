@@ -24,7 +24,7 @@ namespace pk3DS
             mapView.Show();
             tb_Zone.SelectedIndex = 1;  // Show Overworlds tab
         }
-        private readonly string[] gameLocations = Main.getText(Main.Config.ORAS ? 90 : 72);
+        private readonly string[] gameLocations = Main.getText(TextName.metlist_000000);
         private string[] filepaths;
         private string[] encdatapaths;
         private byte[] masterZoneData;

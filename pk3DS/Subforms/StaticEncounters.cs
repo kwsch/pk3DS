@@ -10,7 +10,7 @@ namespace pk3DS
         public StaticEncounters()
         {
             specieslist[0] = "---";
-            Array.Resize(ref specieslist, 722);
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
             if (!File.Exists(FieldPath))
             {
                 Util.Error("CRO does not exist! Closing.", FieldPath);
@@ -35,8 +35,8 @@ namespace pk3DS
         private const int fieldSize = 0xC;
         private readonly int count = Main.Config.ORAS ? 0x3B : 0xC;
         private EncounterStatic[] EncounterData;
-        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
-        private readonly string[] specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
+        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
+        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveEntry();
@@ -144,7 +144,7 @@ namespace pk3DS
                 int bst = Main.SpeciesStat[species].BST;
                 int tries = 0;
                 var pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
-                while (!((pkm.BST*(5 - ++tries/722)/6 < bst) && pkm.BST*(6 + ++tries/722)/5 > bst))
+                while (!((pkm.BST*(5 - ++tries/Main.Config.MaxSpeciesID)/6 < bst) && pkm.BST*(6 + ++tries/Main.Config.MaxSpeciesID)/5 > bst))
                     pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
 
                 CB_Species.SelectedIndex = species;

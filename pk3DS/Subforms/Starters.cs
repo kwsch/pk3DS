@@ -10,7 +10,7 @@ namespace pk3DS
         public Starters()
         {
             specieslist[0] = "---";
-            Array.Resize(ref specieslist, 722);
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
 
             string[] personalList = Directory.GetFiles("personal");
             personal = new byte[personalList.Length][];
@@ -51,7 +51,7 @@ namespace pk3DS
         }
         private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllPoke3Select.cro");
         private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
-        private readonly string[] specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
+        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
         private readonly ComboBox[][] Choices;
         private readonly PictureBox[][] Previews;
         private readonly Label[] Labels;

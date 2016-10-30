@@ -15,8 +15,8 @@ namespace pk3DS
         }
 
         private readonly string[] files = Directory.GetFiles("item");
-        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
-        private readonly string[] itemflavor = Main.getText(Main.Config.ORAS ? 117 : 99);
+        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
+        private readonly string[] itemflavor = Main.getText(TextName.ItemFlavor);
 
         private void Setup()
         {

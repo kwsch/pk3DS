@@ -11,14 +11,13 @@ namespace pk3DS
     {
         public MaisonEditor(bool super)
         {
-            Array.Resize(ref specieslist, 722);
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
             movelist[0] = specieslist[0] = itemlist[0] = "";
 
             trFiles = Directory.GetFiles(super ? "maisontrS" : "maisontrN");
             pkFiles = Directory.GetFiles(super ? "maisonpkS" : "maisonpkN");
-
-            int trTXTFile = Main.Config.ORAS ? 153 : 130;
-            trNames = Main.getText(super ? trTXTFile : trTXTFile + 1); Array.Resize(ref trNames, trFiles.Length);
+            
+            trNames = Main.getText(super ? TextName.SuperTrainerNames : TextName.MaisonTrainerNames); Array.Resize(ref trNames, trFiles.Length);
 
             InitializeComponent();
             Setup();
@@ -27,11 +26,11 @@ namespace pk3DS
         private readonly string[] trFiles;
         private readonly string[] trNames;
         private readonly string[] pkFiles;
-        private readonly string[] natures = Main.getText(Main.Config.ORAS ? 51 : 47);
-        private readonly string[] movelist = Main.getText(Main.Config.ORAS ? 14 : 13);
-        private readonly string[] specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
-        private readonly string[] trClass = Main.getText(Main.Config.ORAS ? 21 : 20);
-        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
+        private readonly string[] natures = Main.getText(TextName.Natures);
+        private readonly string[] movelist = Main.getText(TextName.MoveNames);
+        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
+        private readonly string[] trClass = Main.getText(TextName.TrainerClasses);
+        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
         private int trEntry = -1;
         private int pkEntry = -1;
         private bool dumping;

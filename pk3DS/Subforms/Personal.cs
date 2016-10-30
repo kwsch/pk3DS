@@ -72,12 +72,12 @@ namespace pk3DS
         #endregion
         private void Setup()
         {
-            abilities = Main.getText(Main.Config.ORAS ? 37 : 34);
-            moves = Main.getText(Main.Config.ORAS ? 14 : 13);
-            items = Main.getText(Main.Config.ORAS ? 114 : 96);
-            species = Main.getText(Main.Config.ORAS ? 98 : 80);
-            types = Main.getText(Main.Config.ORAS ? 18 : 17);
-            forms = Main.getText(Main.Config.ORAS ? 5 : 5);
+            abilities = Main.getText(TextName.AbilityNames);
+            moves = Main.getText(TextName.MoveNames);
+            items = Main.getText(TextName.ItemNames);
+            species = Main.getText(TextName.SpeciesNames);
+            types = Main.getText(TextName.Types);
+            forms = Main.getText(TextName.Forms);
             species[0] = "---";
             abilities[0] = items[0] = moves[0] = "";
             AltForms = getFormList(data, Main.Config.ORAS, species, forms, types, items);
@@ -523,9 +523,9 @@ namespace pk3DS
         internal static int[] getSpecies(byte[] data, bool oras, int PersonalEntry)
         {
             int entrysize = oras ? 0x50 : 0x40;
-            if (PersonalEntry < 722) return new[] { PersonalEntry, 0 };
+            if (PersonalEntry < Main.Config.MaxSpeciesID) return new[] { PersonalEntry, 0 };
 
-            for (int i = 0; i < 722; i++)
+            for (int i = 0; i < Main.Config.MaxSpeciesID; i++)
             {
                 int FormCount = data[i * entrysize + 0x20] - 1; // Mons with no alt forms have a FormCount of 1.
                 ushort altformpointer = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
@@ -541,10 +541,10 @@ namespace pk3DS
         {
             try
             {
-                string[][] FormList = new string[722][];
+                string[][] FormList = new string[Main.Config.MaxSpeciesID][];
                 int entrysize = oras ? 0x50 : 0x40;
                 int AltFormOfs = 723; //null + 721 species + 1 gap
-                for (int i = 0; i < 722; i++) //Hardcode 721 species + null
+                for (int i = 0; i < Main.Config.MaxSpeciesID; i++) //Hardcode 721 species + null
                 {
                     int FormCount = data[i * entrysize + 0x20]; // Mons with no alt forms have a FormCount of 1.
                     FormList[i] = new string[FormCount];
@@ -574,7 +574,7 @@ namespace pk3DS
         {
             int entrysize = oras ? 0x50 : 0x40;
             string[] result = new string[data.Length / entrysize];
-            for (int i = 0; i < 722; i++)
+            for (int i = 0; i < Main.Config.MaxSpeciesID; i++)
             {
                 result[i] = species[i];
                 if (AltForms[i].Length == 0) continue;
@@ -587,7 +587,7 @@ namespace pk3DS
         }
         internal static ushort[] getPersonalIndexList(byte[] data, bool oras)
         {
-            ushort[] result = new ushort[722];
+            ushort[] result = new ushort[Main.Config.MaxSpeciesID];
             int entrysize = oras ? 0x50 : 0x40;
             for (int i = 0; i < result.Length; i++)
                 result[i] = BitConverter.ToUInt16(data, entrysize * i + 0x1C);
@@ -613,10 +613,10 @@ namespace pk3DS
 
         internal static string[] getSpeciesIndexStrings(bool oras)
         {
-            string[] items = Main.getText(Main.Config.ORAS ? 114 : 96);
-            string[] species = Main.getText(Main.Config.ORAS ? 98 : 80);
-            string[] types = Main.getText(Main.Config.ORAS ? 18 : 17);
-            string[] forms = Main.getText(Main.Config.ORAS ? 5 : 5);
+            string[] items = Main.getText(TextName.ItemNames);
+            string[] species = Main.getText(TextName.SpeciesNames);
+            string[] types = Main.getText(TextName.Types);
+            string[] forms = Main.getText(TextName.Forms);
             species[0] = "---";
             byte[] data = File.ReadAllBytes(Directory.GetFiles("personal").Last());
             string[][] AltForms = getFormList(data, Main.Config.ORAS, species, forms, types, items);

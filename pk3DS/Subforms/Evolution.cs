@@ -16,7 +16,7 @@ namespace pk3DS
             InitializeComponent();
 
             specieslist[0] = movelist[0] = itemlist[0] = "";
-            Array.Resize(ref specieslist, 722);
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
 
             string[] evolutionMethods =
             { 
@@ -81,10 +81,10 @@ namespace pk3DS
         private readonly PictureBox[] pic;
         private int entry = -1;
         private readonly string[] sortedspecies;
-        private readonly string[] specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
-        private readonly string[] movelist = Main.getText(Main.Config.ORAS ? 14 : 13);
-        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
-        private readonly string[] typelist = Main.getText(Main.Config.ORAS ? 18 : 17);
+        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
+        private readonly string[] movelist = Main.getText(TextName.MoveNames);
+        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
+        private readonly string[] typelist = Main.getText(TextName.Types);
         private bool dumping;
         private Evolutions evo = new Evolutions(new byte[0x30]);
         private void getList()
@@ -160,7 +160,7 @@ namespace pk3DS
                         loopctr++;
 
                         // Verify it meets specifications
-                        if (newSpecies == currentSpecies && loopctr < 722*10) // no A->A evolutions
+                        if (newSpecies == currentSpecies && loopctr < Main.Config.MaxSpeciesID*10) // no A->A evolutions
                         { goto defspecies; }
                         if (rEXP) // Experience Growth Rate matches
                         {
@@ -176,7 +176,7 @@ namespace pk3DS
                         {
                             const int l = 5; // tweakable scalars
                             const int h = 6;
-                            if (!(pkm.BST * l / (h + loopctr/722) < oldpkm.BST && (pkm.BST * h + loopctr/722) / l > oldpkm.BST))
+                            if (!(pkm.BST * l / (h + loopctr/Main.Config.MaxSpeciesID) < oldpkm.BST && (pkm.BST * h + loopctr/Main.Config.MaxSpeciesID) / l > oldpkm.BST))
                             { goto defspecies; }
                         }
                         // assign random val

@@ -66,7 +66,7 @@ namespace pk3DS
             Bitmap baseImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(file);
             if (baseImage == null)
             {
-                if (species < 722)
+                if (species < Main.Config.MaxSpeciesID)
                 {
                     baseImage = LayerImage(
                         (Image)Properties.Resources.ResourceManager.GetObject("_" + species),

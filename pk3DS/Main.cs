@@ -958,14 +958,15 @@ namespace pk3DS
         }
 
         // Text Requests
-        internal static string[] getText(int file)
+        internal static string[] getText(TextName file)
         {
-            return TextFile.getStrings(Path.Combine("gametext",  $"{file.ToString("000")}.bin"));
+            string path = Path.Combine("gametext", $"{Config.getGameText(file).Index.ToString("000")}.bin");
+            return TextFile.getStrings(path);
         }
-        internal static bool setText(int file, string[] strings)
+        internal static bool setText(TextName file, string[] strings)
         {
             byte[] data = TextFile.getBytes(strings);
-            string path = Path.Combine("gametext",  $"{file.ToString("000")}.bin");
+            string path = Path.Combine("gametext", $"{Config.getGameText(file).Index.ToString("000")}.bin");
             File.WriteAllBytes(path, data);
             return true;
         }

@@ -13,7 +13,7 @@ namespace pk3DS
     {
         public RSTE()
         {
-            Array.Resize(ref specieslist, 722);
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
 
             InitializeComponent();
             // String Fetching
@@ -151,15 +151,15 @@ namespace pk3DS
         // Top Level Functions
         private readonly string[] trdatapaths = Directory.GetFiles("trdata");
         private readonly string[] trpokepaths = Directory.GetFiles("trpoke");
-        private readonly string[] abilitylist = Main.getText(Main.Config.ORAS ? 37 : 34);
-        private readonly string[] movelist = Main.getText(Main.Config.ORAS ? 14 : 13);
-        private readonly string[] itemlist = Main.getText(Main.Config.ORAS ? 114 : 96);
-        private readonly string[] specieslist = Main.getText(Main.Config.ORAS ? 98 : 80);
-        private readonly string[] types = Main.getText(Main.Config.ORAS ? 18 : 17);
-        private readonly string[] forms = Main.getText(Main.Config.ORAS ? 5 : 5);
-        private string[] trName = Main.getText(Main.Config.ORAS ? 22 : 21);
-        private readonly string[] trClass = Main.getText(Main.Config.ORAS ? 21 : 20);
-        private readonly string[] trText = Main.getText(Main.Config.ORAS ? 23 : 22);
+        private readonly string[] abilitylist = Main.getText(TextName.AbilityNames);
+        private readonly string[] movelist = Main.getText(TextName.MoveNames);
+        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
+        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
+        private readonly string[] types = Main.getText(TextName.Types);
+        private readonly string[] forms = Main.getText(TextName.Forms);
+        private string[] trName = Main.getText(TextName.TrainerNames);
+        private readonly string[] trClass = Main.getText(TextName.TrainerClasses);
+        private readonly string[] trText = Main.getText(TextName.TrainerText);
         #endregion
 
         // Ability Loading
@@ -565,7 +565,7 @@ namespace pk3DS
             if (rEnsureMEvo.Length > 0)
             {
                 if (mEvoTypes.Length < 13 && rTypeTheme)
-                { Util.Alert("There are insufficient types with at least one mega evolution to Guarantee story Mega Evos while keeping Type theming.", 
+                { Util.Alert("There are insufficient Types with at least one mega evolution to Guarantee story Mega Evos while keeping Type theming.", 
                     "Re-Randomize Personal or don't choose both options."); return; }
                 GymE4Types.AddRange(mEvoTypes);
             }
@@ -690,7 +690,7 @@ namespace pk3DS
                                 else if (rSmart) // Get a new Pokemon with a close BST
                                 {
                                     pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
-                                    while (!((pkm.BST * (5 - ++tries / 722) / 6 < oldpkm.BST) && pkm.BST * (6 + ++tries / 722) / 5 > oldpkm.BST))
+                                    while (!((pkm.BST * (5 - ++tries / Main.Config.MaxSpeciesID) / 6 < oldpkm.BST) && pkm.BST * (6 + ++tries / Main.Config.MaxSpeciesID) / 5 > oldpkm.BST))
                                     {
                                         pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
                                     }
@@ -703,7 +703,7 @@ namespace pk3DS
                         else if (rSmart) // Get a new Pokemon with a close BST
                         {
                             int tries = 0;
-                            while (!((pkm.BST * (5 - ++tries / 722) / 6 < oldpkm.BST) && pkm.BST * (6 + ++tries / 722) / 5 > oldpkm.BST))
+                            while (!((pkm.BST * (5 - ++tries / Main.Config.MaxSpeciesID) / 6 < oldpkm.BST) && pkm.BST * (6 + ++tries / Main.Config.MaxSpeciesID) / 5 > oldpkm.BST))
                             {
                                 pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
                             }
@@ -1031,7 +1031,7 @@ namespace pk3DS
                     MEvoTypes.Add(Main.SpeciesStat[spec].Types[1]);
             }
             MEvoTypes.Sort();
-            Console.WriteLine("There are " + MEvoTypes.Count + " types capable of mega evolution.");
+            Console.WriteLine("There are " + MEvoTypes.Count + " Types capable of mega evolution.");
             return MEvoTypes.ToArray();
         }
         private int GetRandomMegaEvolvablePokemon(int type)

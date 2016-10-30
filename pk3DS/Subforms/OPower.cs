@@ -36,7 +36,7 @@ namespace pk3DS
         private readonly int offset;
         private readonly byte[] exefsData;
         private readonly byte[][] powerData = new byte[65][];
-        private readonly string[] powerFlavor = Main.getText(Main.Config.ORAS ? 165 : 141);
+        private readonly string[] powerFlavor = Main.getText(TextName.OPowerFlavor);
 
         private int entry = -1;
         private void changeEntry(object sender, EventArgs e)
