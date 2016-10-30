@@ -8,12 +8,18 @@ using pk3DS;
 namespace CTR
 {
     #region GARC Class & Struct
-    public class GARC
+    public static class GARC
     {
-        internal static bool garcPackMS(string folderPath, string garcPath, ProgressBar pBar1 = null, Label label = null, bool supress = false)
+        public const ushort VER_6 = 0x0600;
+        public const ushort VER_4 = 0x0400;
+
+        public static bool garcPackMS(string folderPath, string garcPath, int version, ProgressBar pBar1 = null, Label label = null, bool supress = false)
         {
             // Check to see if our input folder exists.
             if (!new DirectoryInfo(folderPath).Exists) { Util.Error("Folder does not exist."); return false; }
+
+            if (version != VER_4 && version != VER_6)
+                throw new FormatException("Invalid GARC Version: 0x" + version.ToString("X4"));
 
             // Okay some basic proofing is done. Proceed.
             int filectr = 0;
@@ -58,12 +64,13 @@ namespace CTR
             // Set Up the GARC template.
             GARCFile garc = new GARCFile
             {
+                ContentPadToNearest = 4,
                 fato =
                 {
                     // Magic = new[] { 'O', 'T', 'A', 'F' },
                     Entries = new FATO_Entry[packOrder.Length],
-                    EntryCount = (ushort)packOrder.Length,
-                    HeaderSize = 0xC + packOrder.Length * 4,
+                    EntryCount = (ushort) packOrder.Length,
+                    HeaderSize = 0xC + packOrder.Length*4,
                     Padding = 0xFFFF
                 },
                 fatb =
@@ -73,6 +80,12 @@ namespace CTR
                     FileCount = filectr
                 }
             };
+            if (version == VER_6)
+            {
+                // Some files have larger bytes-to-pad values (ex/ 0x80 for a109)
+                // Hopefully there's no problems defining this with a constant number.
+                garc.ContentPadToNearest = 4;
+            }
 
             #region Start Reassembling the FAT* tables.
             {
@@ -190,11 +203,17 @@ namespace CTR
                 gw.Write((uint)0x47415243); // GARC
                 gw.Write((uint)0x0000001C); // Header Length
                 gw.Write((ushort)0xFEFF);   // Endianness BOM
-                gw.Write((ushort)0x0400);   // Const (4)
+                gw.Write((ushort)version);   // Version
                 gw.Write((uint)0x00000004); // Section Count (4)
                 gw.Write((uint)0x00000000); // Data Offset (temp)
                 gw.Write((uint)0x00000000); // File Length (temp)
                 gw.Write((uint)0x00000000); // Largest File Size (temp)
+
+                if (version == VER_6)
+                {
+                    gw.Write((uint)0x0);
+                    gw.Write((uint)0x0);
+                }
 
                 // Write FATO
                 gw.Write((uint)0x4641544F);     // FATO
@@ -218,6 +237,7 @@ namespace CTR
 
                 #region Write Files
                 long largestSize = 0; // Required memory to allocate to handle the largest file
+                long largestPadded = 0; // Required memory to allocate to handle the largest PADDED file (Ver6 only)
                 foreach (string e in packOrder)
                 {
                     string[] fa = Directory.Exists(e) ? Directory.GetFiles(e) : new[] { e };
@@ -225,16 +245,28 @@ namespace CTR
                     {
                         // Update largest file length if necessary
                         long len = new FileInfo(f).Length;
-                        if (len > largestSize) largestSize = len;
+                        bool largest = len > largestSize;
+                        if (largest)
+                        {
+                            largestSize = len;
+                            largestPadded = len;
+                        }
 
                         // Write to FIMB
                         using (var input = File.OpenRead(f))
                             input.CopyTo(GARCdata);
 
                         // While length is not divisible by 4, pad with FF (unused byte)
-                        while (GARCdata.Length % 4 > 0) GARCdata.WriteByte(0xFF);
+                        while (GARCdata.Length%garc.ContentPadToNearest != 0)
+                        {
+                            GARCdata.WriteByte(0xFF);
+                            if (largest)
+                                largestPadded++;
+                        }
                     }
                 }
+                garc.ContentLargestUnpadded = (uint)largestSize;
+                garc.ContentLargestPadded = (uint)largestPadded;
                 #endregion
 
                 gw.Write((uint)0x46494D42);      // FIMB
@@ -244,7 +276,18 @@ namespace CTR
                 gw.Seek(0x10, SeekOrigin.Begin);                        // Goto the start of the un-set 0 data we set earlier and set it.
                 gw.Write((uint)newGARC.Length);                         // Write Data Offset
                 gw.Write((uint)(newGARC.Length + GARCdata.Length));     // Write total GARC Length
-                gw.Write((uint)largestSize);                            // Write Largest File stat (?)
+
+                // Write Handling information
+                if (version == VER_4)
+                {
+                    gw.Write(garc.ContentLargestUnpadded);              // Write Largest File stat
+                }
+                else if (version == VER_6)
+                {
+                    gw.Write(garc.ContentLargestPadded);                // Write Largest With Padding
+                    gw.Write(garc.ContentLargestUnpadded);              // Write Largest Without Padding
+                    gw.Write(garc.ContentPadToNearest);
+                }
 
                 newGARC.Seek(0, SeekOrigin.End);    // Goto the end so we can copy the filedata after the GARC headers.
 
@@ -268,7 +311,7 @@ namespace CTR
                 catch (Exception e) { Util.Error("Packing Failed!", e.ToString()); return false; }
             }
         }
-        internal static bool garcUnpack(string garcPath, string outPath, bool skipDecompression, ProgressBar pBar1 = null, Label label = null, bool supress = false, bool bypassExt = false)
+        public static bool garcUnpack(string garcPath, string outPath, bool skipDecompression, ProgressBar pBar1 = null, Label label = null, bool supress = false, bool bypassExt = false)
         {
             if (!File.Exists(garcPath) && !supress) { Util.Alert("File does not exist"); return false; }
 
@@ -378,7 +421,7 @@ namespace CTR
             return true;
         }
 
-        internal static GARCFile unpackGARC(string path)
+        public static GARCFile unpackGARC(string path)
         {
             GARCFile garc = new GARCFile();
             using (BinaryReader br = new BinaryReader(File.OpenRead(path)))
@@ -387,12 +430,25 @@ namespace CTR
                 garc.Magic = br.ReadChars(4);
                 garc.HeaderSize = br.ReadUInt32();
                 garc.Endianess = br.ReadUInt16();
-                garc.ChunkCount = br.ReadUInt16();
-                garc.FileSize = br.ReadUInt32();
+                garc.Version = br.ReadUInt16();
+                garc.ChunkCount = br.ReadUInt32();
 
                 garc.DataOffset = br.ReadUInt32();
                 garc.FileSize = br.ReadUInt32();
-                garc.LastSize = br.ReadUInt32();
+                if (garc.Version == VER_4)
+                {
+                    garc.ContentLargestUnpadded = br.ReadUInt32();
+                }
+                else if (garc.Version == VER_6)
+                {
+                    garc.ContentLargestPadded = br.ReadUInt32();
+                    garc.ContentLargestUnpadded = br.ReadUInt32();
+                    garc.ContentPadToNearest = br.ReadUInt32();
+                }
+                else
+                    throw new FormatException("Invalid GARC Version: 0x" + garc.Version.ToString("X4"));
+                if (garc.ChunkCount != 4)
+                    throw new FormatException("Invalid GARC Chunk Count: " + garc.ChunkCount);
 
                 // FATO (File Allocation Table Offsets)
                 garc.fato.Magic = br.ReadChars(4);
@@ -442,14 +498,18 @@ namespace CTR
 
         public struct GARCFile
         {
-            public Char[] Magic; // Always GARC = 0x4E415243
+            public char[] Magic; // Always GARC = 0x4E415243
             public uint HeaderSize; // Always 0x001C
-            public UInt16 Endianess; // 0xFFFE
-            public UInt16 ChunkCount; // Always 0x0400 chunk count
+            public ushort Endianess; // 0xFFFE
+            public ushort Version; // 4: gen6, 6: gen7
+            public uint ChunkCount; // Always 0x0400 chunk count
 
             public uint DataOffset;
             public uint FileSize;
-            public uint LastSize;
+            
+            public uint ContentLargestPadded;   // Format 6 Only
+            public uint ContentLargestUnpadded;
+            public uint ContentPadToNearest;    // Format 6 Only (4 bytes is standard in VER_4, and is not stored)
 
             public FATO fato;
             public FATB fatb;
@@ -458,10 +518,10 @@ namespace CTR
 
         public struct FATO
         {
-            public Char[] Magic;
+            public char[] Magic;
             public int HeaderSize;
-            public UInt16 EntryCount;
-            public UInt16 Padding;
+            public ushort EntryCount;
+            public ushort Padding;
 
             public FATO_Entry[] Entries;
         }
@@ -472,7 +532,7 @@ namespace CTR
 
         public struct FATB
         {
-            public Char[] Magic;
+            public char[] Magic;
             public int HeaderSize;
             public int FileCount;
 
@@ -481,12 +541,12 @@ namespace CTR
         public struct FATB_Entry
         {
             public uint Vector;
-            public Boolean IsFolder;
+            public bool IsFolder;
             public FATB_SubEntry[] SubEntries;
         }
         public struct FATB_SubEntry
         {
-            public Boolean Exists;
+            public bool Exists;
             public int Start;
             public int End;
             public int Length;
@@ -494,7 +554,7 @@ namespace CTR
 
         public struct FIMG
         {
-            public Char[] Magic;
+            public char[] Magic;
             public int HeaderSize;
             public int DataSize;
         }

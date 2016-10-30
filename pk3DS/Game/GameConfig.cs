@@ -83,6 +83,7 @@ namespace pk3DS
         public bool ORAS => Version == GameVersion.ORAS || Version == GameVersion.ORASDEMO;
         public bool SM => Version == GameVersion.SM || Version == GameVersion.SMDEMO;
         public int MaxSpeciesID => XY || ORAS ? 722 : 802;
+        public int GARCVersion => XY || ORAS ? CTR.GARC.VER_4 : CTR.GARC.VER_6;
         public bool IsRebuildable(int fileCount)
         {
             switch (fileCount)

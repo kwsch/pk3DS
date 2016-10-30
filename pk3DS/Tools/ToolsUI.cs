@@ -173,9 +173,15 @@ namespace pk3DS
                 case 1: // GARC Pack
                 {
                     if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+                    DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Format Selection:",
+                        "Yes: Sun/Moon (Version 6)\nNo: XY/ORAS (Version 4)");
+                    if (dr == DialogResult.Cancel)
+                        return;
+
+                    var version = dr == DialogResult.Yes ? CTR.GARC.VER_6 : CTR.GARC.VER_4;
                     new Thread(() =>
                     {
-                        bool r = CTR.GARC.garcPackMS(path, folderName + ".garc", pBar1);
+                        bool r = CTR.GARC.garcPackMS(path, folderName + ".garc", version, pBar1);
                         if (!r) { Util.Alert("Packing failed."); return; }
                         // Delete path after repacking
                         if (CHK_Delete.Checked && Directory.Exists(path))

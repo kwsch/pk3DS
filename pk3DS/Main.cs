@@ -911,7 +911,7 @@ namespace pk3DS
 
             try
             {
-                bool success = CTR.GARC.garcPackMS(infolder, outfile, PB ? pBar1 : null, null, true);
+                bool success = CTR.GARC.garcPackMS(infolder, outfile, Config.GARCVersion, PB ? pBar1 : null, null, true);
                 threads--;
                 updateStatus(string.Format(success ? "Success!" : "Failed!"), false);
                 return success;
