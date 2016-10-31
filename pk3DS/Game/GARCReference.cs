@@ -84,6 +84,7 @@ namespace pk3DS
             new GARCReference(017, "personal"),
             new GARCReference(019, "item"),
 
+            new GARCReference(076, "zonedata"),
             new GARCReference(081, "encdata"),
 
             new GARCReference(101, "trclass"),

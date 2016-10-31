@@ -488,33 +488,43 @@ namespace pk3DS
             bool reload = (ModifierKeys == Keys.Control) || ModifierKeys == (Keys.Alt | Keys.Control);
             new Thread(() =>
             {
-                if (advanced)
+                if (Config.SM)
                 {
-                    string[] files = { "encdata", "storytext", "mapGR", "mapMatrix" };
-                    if (reload || files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
-                        fileGet(files, false);
-
-                    // Only want to set back encdata.
-                    files = new [] { "encdata" };
-                    Invoke((MethodInvoker)delegate { Enabled = false; });
-                    {
-                        Invoke((Action)(() => new xytext(Directory.GetFiles("storytext")).Show()));
-                        Invoke((Action)(() => new OWSE().Show()));
-                        while (Application.OpenForms.Count > 1)
-                            Thread.Sleep(200);
-                    }
-                    Invoke((MethodInvoker)delegate { Enabled = true; });
+                    string[] files = {"encdata", "zonedata"};
+                    fileGet(files, false);
+                    Invoke((Action)(() => new SMWE().ShowDialog()));
                     fileSet(files);
                 }
                 else
                 {
-                    string[] files = { "encdata" };
-                    fileGet(files, false);
-                    if (Config.ORAS) 
-                    { Invoke((Action)(() => new RSWE().ShowDialog())); }
-                    else if (Config.XY)
-                    { Invoke((Action)(() => new XYWE().ShowDialog())); }
-                    fileSet(files);
+                    if (advanced)
+                    {
+                        string[] files = { "encdata", "storytext", "mapGR", "mapMatrix" };
+                        if (reload || files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
+                            fileGet(files, false);
+
+                        // Only want to set back encdata.
+                        files = new[] { "encdata" };
+                        Invoke((MethodInvoker)delegate { Enabled = false; });
+                        {
+                            Invoke((Action)(() => new xytext(Directory.GetFiles("storytext")).Show()));
+                            Invoke((Action)(() => new OWSE().Show()));
+                            while (Application.OpenForms.Count > 1)
+                                Thread.Sleep(200);
+                        }
+                        Invoke((MethodInvoker)delegate { Enabled = true; });
+                        fileSet(files);
+                    }
+                    else
+                    {
+                        string[] files = { "encdata" };
+                        fileGet(files, false);
+                        if (Config.ORAS)
+                        { Invoke((Action)(() => new RSWE().ShowDialog())); }
+                        else if (Config.XY)
+                        { Invoke((Action)(() => new XYWE().ShowDialog())); }
+                        fileSet(files);
+                    }
                 }
             }).Start();
         }
