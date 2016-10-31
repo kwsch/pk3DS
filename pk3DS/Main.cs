@@ -137,7 +137,7 @@ namespace pk3DS
                 }
                 while (threads > 0) Thread.Sleep(50);
                 // Refresh Personal Stats
-                SpeciesStat = Personal.getPersonalArray(Directory.GetFiles("personal").Last());
+                SpeciesStat = new PersonalTable(File.ReadAllBytes(Directory.GetFiles("personal").Last()), Config.Version).Table;
                 resetStatus();
 
             }).Start();
@@ -463,7 +463,7 @@ namespace pk3DS
                 Invoke((Action)(() => new Personal().ShowDialog()));
 
                 // Refresh Personal Stats
-                SpeciesStat = Personal.getPersonalArray(Directory.GetFiles("personal").Last());
+                SpeciesStat = new PersonalTable(File.ReadAllBytes(Directory.GetFiles("personal").Last()), Config.Version).Table;
                 fileSet(files, true);
             }).Start();
         }

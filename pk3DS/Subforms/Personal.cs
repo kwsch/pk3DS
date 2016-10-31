@@ -186,9 +186,7 @@ namespace pk3DS
         private PersonalInfo pkm;
         private void readInfo()
         {
-            byte[] array = new byte[Main.Config.ORAS ? 0x50 : 0x40];
-            Array.Copy(data, array.Length * entry, array, 0, array.Length);
-            pkm = new PersonalInfo(array);
+            pkm = Main.SpeciesStat[entry];
 
             TB_BaseHP.Text = pkm.HP.ToString("000");
             TB_BaseATK.Text = pkm.ATK.ToString("000");
@@ -241,15 +239,15 @@ namespace pk3DS
                 CLB_TMHM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TMHM
 
             for (int i = 0; i < CLB_MoveTutors.Items.Count; i++)
-                CLB_MoveTutors.SetItemChecked(i, pkm.Tutors[i]); // Bitflags for Tutors
+                CLB_MoveTutors.SetItemChecked(i, pkm.TypeTutors[i]); // Bitflags for Tutors
 
-            if (pkm.ORASTutors[0] != null)
+            if (pkm.SpecialTutors.Length > 0)
             {
                 int[] len = { tutor1.Length, tutor2.Length, tutor3.Length, tutor4.Length };
                 int ctr = 0;
                 for (int i = 0; i < len.Length; i++)
                     for (int b = 0; b < len[i]; b++)
-                        CLB_OrasTutors.SetItemChecked(ctr++, pkm.ORASTutors[i][b]);
+                        CLB_OrasTutors.SetItemChecked(ctr++, pkm.SpecialTutors[i][b]);
             }
         }
         private void readEntry()
@@ -315,14 +313,14 @@ namespace pk3DS
             pkm.Color = (byte) (Convert.ToByte(CB_Color.SelectedIndex) | (Convert.ToByte(TB_RawColor.Text) & 0xF0));
             pkm.BaseEXP = Convert.ToUInt16(TB_BaseExp.Text);
 
-            pkm.Height = (float) Convert.ToDouble(TB_Height.Text)*100;
-            pkm.Weight = (float) Convert.ToDouble(TB_Weight.Text)*10;
+            pkm.Height = (int)Convert.ToDouble(TB_Height.Text)*100;
+            pkm.Weight = (int)Convert.ToDouble(TB_Weight.Text)*10;
 
             for (int i = 0; i < CLB_TMHM.Items.Count; i++)
                 pkm.TMHM[i] = CLB_TMHM.GetItemChecked(i);
 
             for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
-                pkm.Tutors[t] = CLB_MoveTutors.GetItemChecked(t);
+                pkm.TypeTutors[t] = CLB_MoveTutors.GetItemChecked(t);
 
             if (!Main.Config.ORAS) return;
 
@@ -330,7 +328,7 @@ namespace pk3DS
             int ctr = 0;
             for (int i = 0; i < 4; i++)
                 for (int t = 0; t < len[i]; t++)
-                    pkm.ORASTutors[i][t] = CLB_OrasTutors.GetItemChecked(ctr++);
+                    pkm.SpecialTutors[i][t] = CLB_OrasTutors.GetItemChecked(ctr++);
         }
         private void saveEntry()
         {
@@ -623,16 +621,6 @@ namespace pk3DS
             species = getPersonalEntryList(data, Main.Config.ORAS, AltForms, species);
             Array.Resize(ref species, oras ? species.Length : 799);
             return species;
-        }
-
-        internal static PersonalInfo[] getPersonalArray(string Master)
-        {
-            byte[] data = File.ReadAllBytes(Master);
-            int EntryLength = Main.Config.ORAS ? 0x50 : 0x40;
-            PersonalInfo[] piA = new PersonalInfo[data.Length/EntryLength];
-            for (int i = 0; i < piA.Length; i++)
-                piA[i] = new PersonalInfo(data.Skip(EntryLength*i).Take(EntryLength).ToArray());
-            return piA;
         }
     }
 }

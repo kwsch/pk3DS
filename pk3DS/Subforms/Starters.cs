@@ -160,11 +160,12 @@ namespace pk3DS
 
                     if (CHK_BST.Checked) // Enforce BST
                     {
-                        PersonalInfo oldpkm = new PersonalInfo(personal[BitConverter.ToUInt16(Data, offset + (i * 3 + j) * 0x54)]); // Use original species cuz why not.
-                        PersonalInfo pkm = new PersonalInfo(personal[species]);
+                        int oldSpecies = BitConverter.ToUInt16(Data, offset + (i*3 + j)*0x54);
+                        PersonalInfo oldpkm = Main.SpeciesStat[oldSpecies]; // Use original species cuz why not.
+                        PersonalInfo pkm = Main.SpeciesStat[species];
 
                         while (!(pkm.BST * 5 / 6 < oldpkm.BST && pkm.BST * 6 / 5 > oldpkm.BST))
-                        { species = Randomizer.getRandomSpecies(ref sL, ref ctr); pkm = new PersonalInfo(personal[species]); }
+                        { species = Randomizer.getRandomSpecies(ref sL, ref ctr); pkm = Main.SpeciesStat[species]; }
                     }
 
                     Choices[i][j].SelectedIndex = species;
