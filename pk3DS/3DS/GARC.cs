@@ -320,6 +320,8 @@ namespace CTR
             const string ext = "bin"; // Default Extension Name
             int fileCount = garc.fatb.FileCount;
             string format = "D" + Math.Ceiling(Math.Log10(fileCount));
+            if (outPath == "gametext")
+                format = "D3";
 
             #region Display
             // Initialize ProgressBar

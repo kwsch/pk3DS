@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace pk3DS
 {
@@ -7,7 +8,7 @@ namespace pk3DS
         private const int FILECOUNT_XY = 271;
         private const int FILECOUNT_ORASDEMO = 301;
         private const int FILECOUNT_ORAS = 299;
-        private const int FILECOUNT_SMDEMO = 238;
+        private const int FILECOUNT_SMDEMO = 239;
         private const int FILECOUNT_SM = 236; // only a guess for now
         public readonly GameVersion Version = GameVersion.Invalid;
 

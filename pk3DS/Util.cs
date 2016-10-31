@@ -50,8 +50,12 @@ namespace pk3DS
         internal static Bitmap getSprite(int species, int form, int gender, int item)
         {
             string file;
-            if (species == 0)
+            if (species == 0) // fix with SM release
             { return (Bitmap)Properties.Resources.ResourceManager.GetObject("_0"); }
+            if (species > 721) // Fix with SM
+            {
+                return (Bitmap)Properties.Resources.unknown;
+            }
             {
                 file = "_" + species;
                 if (form > 0) // Alt Form Handling

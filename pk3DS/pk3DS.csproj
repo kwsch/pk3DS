@@ -79,6 +79,12 @@
     <Compile Include="Structures\PersonalInfo\PersonalInfoSM.cs" />
     <Compile Include="Structures\PersonalInfo\PersonalInfoXY.cs" />
     <Compile Include="Structures\PersonalInfo\PersonalTable.cs" />
+    <Compile Include="Subforms\SMTE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\SMTE.Designer.cs">
+      <DependentUpon>SMTE.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\StaticEncounters.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -271,6 +277,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\SMTE.resx">
+      <DependentUpon>SMTE.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\StaticEncounters.resx">
       <DependentUpon>StaticEncounters.cs</DependentUpon>

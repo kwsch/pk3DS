@@ -474,7 +474,10 @@ namespace pk3DS
             {
                 string[] files = { "trdata", "trpoke", "move" }; // Moves required for smart randomization
                 fileGet(files);
-                Invoke((Action)(() => new RSTE().ShowDialog()));
+                if (Config.SM)
+                    Invoke((Action)(() => new SMTE().ShowDialog()));
+                else
+                    Invoke((Action)(() => new RSTE().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
