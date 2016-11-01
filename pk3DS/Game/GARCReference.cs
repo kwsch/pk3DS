@@ -74,6 +74,27 @@ namespace pk3DS
             new GARCReference(071, "gametext", true),
             new GARCReference(079, "storytext", true),
         };
+        public static readonly GARCReference[] GARCReference_SMDEMO =
+        {
+            new GARCReference(011, "move"),
+            new GARCReference(012, "eggmove"),
+            new GARCReference(013, "levelup"),
+            new GARCReference(014, "evolution"),
+            new GARCReference(015, "megaevo"),
+            new GARCReference(017, "personal"),
+            new GARCReference(019, "item"),
+
+            new GARCReference(076, "zonedata"),
+            new GARCReference(081, "encdata"),
+
+            new GARCReference(101, "trclass"),
+            new GARCReference(102, "trdata"),
+            new GARCReference(103, "trpoke"),
+                
+            // Varied
+            new GARCReference(030, "gametext", true),
+            new GARCReference(040, "storytext", true),
+        };
         public static readonly GARCReference[] GARCReference_SM =
         {
             new GARCReference(011, "move"),

@@ -67,6 +67,10 @@ namespace pk3DS
                     break;
 
                 case GameVersion.SMDEMO:
+                    Files = GARCReference.GARCReference_SMDEMO;
+                    Variables = TextVariableCode.VariableCodes_SM;
+                    GameText = TextReference.GameText_SMDEMO;
+                    break;
                 case GameVersion.SM:
                     Files = GARCReference.GARCReference_SM;
                     Variables = TextVariableCode.VariableCodes_SM;
