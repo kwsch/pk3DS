@@ -22,8 +22,8 @@ namespace pk3DS
             { 
                 "",
                 "Level Up with Friendship",
-                "Level Up at Morning",
-                "Level Up at Night",
+                "Level Up at Morning with Friendship",
+                "Level Up at Night with Friendship",
                 "Level Up",
                 "Trade",
                 "Trade with Held Item",
@@ -52,7 +52,7 @@ namespace pk3DS
                 "Level Up with 50 Affection + MoveType",
                 $"{typelist[16]} Type in Party",
                 "Overworld Rain",
-                "Level Up (@) at Night",
+                "Level Up (@) at Morning",
                 "Level Up (@) at Night",
                 "Level Up Female (SetForm 1)",
             };
