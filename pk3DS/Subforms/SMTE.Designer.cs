@@ -636,6 +636,7 @@
             this.NUD_Level.Name = "NUD_Level";
             this.NUD_Level.Size = new System.Drawing.Size(56, 20);
             this.NUD_Level.TabIndex = 1;
+            this.NUD_Level.ValueChanged += new System.EventHandler(this.updateStats);
             // 
             // flowLayoutPanel4
             // 
@@ -726,6 +727,7 @@
             this.CB_Nature.Name = "CB_Nature";
             this.CB_Nature.Size = new System.Drawing.Size(121, 21);
             this.CB_Nature.TabIndex = 2;
+            this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.updateStats);
             // 
             // flowLayoutPanel6
             // 

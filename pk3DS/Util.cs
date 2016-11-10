@@ -52,7 +52,7 @@ namespace pk3DS
             string file;
             if (species == 0) // fix with SM release
             { return (Bitmap)Properties.Resources.ResourceManager.GetObject("_0"); }
-            if (species > 721) // Fix with SM
+            if (species > 802)
             {
                 return (Bitmap)Properties.Resources.unknown;
             }

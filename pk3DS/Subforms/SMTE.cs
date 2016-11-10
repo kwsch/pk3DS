@@ -84,7 +84,6 @@ namespace pk3DS
         private void clickSet(object sender, EventArgs e)
         {
             int slot = getSlot(sender);
-            Console.WriteLine(slot);
             if (CB_Pokemon.SelectedIndex == 0)
             { Util.Alert("Can't set empty slot."); return; }
 
@@ -300,11 +299,9 @@ namespace pk3DS
 
             CB_Pokemon.SelectedIndex = spec;
             CB_Forme.SelectedIndex = form;
-            NUD_Level.Value = Math.Min(NUD_Level.Maximum, pkm.Level);
             CB_Ability.SelectedIndex = pkm.Ability;
             CB_Item.SelectedIndex = pkm.Item;
             CHK_Shiny.Checked = pkm.Shiny;
-            CB_Nature.SelectedIndex = pkm.Nature;
             CB_Gender.SelectedIndex = pkm.Gender;
 
             CB_Move1.SelectedIndex = pkm.Move1;
@@ -313,6 +310,9 @@ namespace pk3DS
             CB_Move4.SelectedIndex = pkm.Move4;
 
             updatingStats = true;
+            CB_Nature.SelectedIndex = pkm.Nature;
+            NUD_Level.Value = Math.Min(NUD_Level.Maximum, pkm.Level);
+
             TB_HPIV.Text = pkm.IV_HP.ToString();
             TB_ATKIV.Text = pkm.IV_ATK.ToString();
             TB_DEFIV.Text = pkm.IV_DEF.ToString();
@@ -552,6 +552,5 @@ namespace pk3DS
             { 1, 0, 1, 1, 1, 1 }, // Dragon
             { 1, 1, 1, 1, 1, 1 }, // Dark
         };
-
     }
 }
