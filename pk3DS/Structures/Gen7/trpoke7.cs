@@ -14,6 +14,11 @@ namespace pk3DS
                 throw new ArgumentException("Invalid trpoke7!");
         }
 
+        public trpoke7 Clone()
+        {
+            return new trpoke7(Write());
+        }
+
         public int Gender
         {
             get { return Data[0] & 0x3; }

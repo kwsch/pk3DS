@@ -87,13 +87,18 @@
         };
         public static readonly TextReference[] GameText_SM =
         {
+            new TextReference(035, TextName.ItemFlavor),
             new TextReference(036, TextName.ItemNames),
             new TextReference(055, TextName.SpeciesNames),
             new TextReference(067, TextName.metlist_000000),
             new TextReference(087, TextName.Natures),
             new TextReference(096, TextName.AbilityNames),
+            new TextReference(104, TextName.TrainerText),
+            new TextReference(105, TextName.TrainerNames),
+            new TextReference(106, TextName.TrainerClasses),
+            new TextReference(107, TextName.Types),
             new TextReference(113, TextName.MoveNames),
-            new TextReference(114, TextName.Forms),
+            new TextReference(114, TextName.Forms)
         };
     }
 }

@@ -47,7 +47,7 @@ namespace pk3DS
 
             return bmp;
         }
-        internal static Bitmap getSprite(int species, int form, int gender, int item)
+        internal static Bitmap getSprite(int species, int form, int gender, int item, bool shiny = false)
         {
             string file;
             if (species == 0) // fix with SM release
@@ -79,6 +79,11 @@ namespace pk3DS
                 }
                 else
                     baseImage = Properties.Resources.unknown;
+            }
+            if (shiny)
+            {
+                // Add shiny star to top left of image.
+                baseImage = Util.LayerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
             }
             if (item > 0)
             {

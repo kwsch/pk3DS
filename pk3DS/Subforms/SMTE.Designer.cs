@@ -900,6 +900,7 @@
             this.TB_HPIV.Size = new System.Drawing.Size(22, 20);
             this.TB_HPIV.TabIndex = 46;
             this.TB_HPIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_HPIV.TextChanged += new System.EventHandler(this.updateStats);
             // 
             // TB_HPEV
             // 
@@ -911,6 +912,7 @@
             this.TB_HPEV.Size = new System.Drawing.Size(28, 20);
             this.TB_HPEV.TabIndex = 47;
             this.TB_HPEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_HPEV.TextChanged += new System.EventHandler(this.updateStats);
             // 
             // Stat_HP
             // 
@@ -958,6 +960,7 @@
             this.TB_ATKIV.Size = new System.Drawing.Size(22, 20);
             this.TB_ATKIV.TabIndex = 47;
             this.TB_ATKIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_ATKIV.TextChanged += new System.EventHandler(this.updateStats);
             // 
             // TB_ATKEV
             // 
@@ -969,6 +972,7 @@
             this.TB_ATKEV.Size = new System.Drawing.Size(28, 20);
             this.TB_ATKEV.TabIndex = 48;
             this.TB_ATKEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_ATKEV.TextChanged += new System.EventHandler(this.updateStats);
             // 
             // Stat_ATK
             // 
@@ -1016,6 +1020,7 @@
             this.TB_DEFIV.Size = new System.Drawing.Size(22, 20);
             this.TB_DEFIV.TabIndex = 48;
             this.TB_DEFIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_DEFIV.TextChanged += new System.EventHandler(this.updateStats);
             // 
             // TB_DEFEV
             // 
@@ -1027,6 +1032,7 @@
             this.TB_DEFEV.Size = new System.Drawing.Size(28, 20);
             this.TB_DEFEV.TabIndex = 49;
             this.TB_DEFEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_DEFEV.TextChanged += new System.EventHandler(this.updateStats);
             // 
             // Stat_DEF
             // 
@@ -1074,6 +1080,7 @@
             this.TB_SPAIV.Size = new System.Drawing.Size(22, 20);
             this.TB_SPAIV.TabIndex = 49;
             this.TB_SPAIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPAIV.TextChanged += new System.EventHandler(this.updateStats);
             // 
             // TB_SPAEV
             // 
@@ -1085,6 +1092,7 @@
             this.TB_SPAEV.Size = new System.Drawing.Size(28, 20);
             this.TB_SPAEV.TabIndex = 50;
             this.TB_SPAEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPAEV.TextChanged += new System.EventHandler(this.updateStats);
             // 
             // Stat_SPA
             // 
@@ -1132,6 +1140,7 @@
             this.TB_SPDIV.Size = new System.Drawing.Size(22, 20);
             this.TB_SPDIV.TabIndex = 5;
             this.TB_SPDIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPDIV.TextChanged += new System.EventHandler(this.updateStats);
             // 
             // TB_SPDEV
             // 
@@ -1143,6 +1152,7 @@
             this.TB_SPDEV.Size = new System.Drawing.Size(28, 20);
             this.TB_SPDEV.TabIndex = 11;
             this.TB_SPDEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPDEV.TextChanged += new System.EventHandler(this.updateStats);
             // 
             // Stat_SPD
             // 
@@ -1190,6 +1200,7 @@
             this.TB_SPEIV.Size = new System.Drawing.Size(22, 20);
             this.TB_SPEIV.TabIndex = 51;
             this.TB_SPEIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPEIV.TextChanged += new System.EventHandler(this.updateStats);
             // 
             // TB_SPEEV
             // 
@@ -1201,6 +1212,7 @@
             this.TB_SPEEV.Size = new System.Drawing.Size(28, 20);
             this.TB_SPEEV.TabIndex = 52;
             this.TB_SPEEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPEEV.TextChanged += new System.EventHandler(this.updateStats);
             // 
             // Stat_SPE
             // 
@@ -1293,6 +1305,7 @@
             this.CB_HPType.Name = "CB_HPType";
             this.CB_HPType.Size = new System.Drawing.Size(70, 21);
             this.CB_HPType.TabIndex = 44;
+            this.CB_HPType.SelectedIndexChanged += new System.EventHandler(this.updateHPType);
             // 
             // Tab_Moves
             // 
@@ -1410,6 +1423,7 @@
             // 
             // textBox3
             // 
+            this.textBox3.Enabled = false;
             this.textBox3.Location = new System.Drawing.Point(52, 111);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(255, 20);
@@ -1417,6 +1431,7 @@
             // 
             // textBox2
             // 
+            this.textBox2.Enabled = false;
             this.textBox2.Location = new System.Drawing.Point(52, 91);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(255, 20);
@@ -1424,6 +1439,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.Enabled = false;
             this.textBox1.Location = new System.Drawing.Point(52, 71);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(255, 20);
@@ -1469,6 +1485,7 @@
             this.NUD_NumPoke.Name = "NUD_NumPoke";
             this.NUD_NumPoke.Size = new System.Drawing.Size(47, 20);
             this.NUD_NumPoke.TabIndex = 0;
+            this.NUD_NumPoke.ValueChanged += new System.EventHandler(this.updateNumPokemon);
             // 
             // SMTE
             // 

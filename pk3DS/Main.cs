@@ -481,6 +481,7 @@ namespace pk3DS
         private void B_Trainer_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
+            new SMTE().ShowDialog();
             new Thread(() =>
             {
                 string[] files = { "trdata", "trpoke", "move" }; // Moves required for smart randomization

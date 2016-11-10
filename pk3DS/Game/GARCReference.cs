@@ -105,12 +105,13 @@ namespace pk3DS
             new GARCReference(017, "personal"),
             new GARCReference(019, "item"),
 
-            new GARCReference(076, "zonedata"),
-            new GARCReference(081, "encdata"),
+            new GARCReference(077, "zonedata"),
+            new GARCReference(083, "encdata"),
+            new GARCReference(091, "worlddata"),
 
-            new GARCReference(101, "trclass"),
-            new GARCReference(102, "trdata"),
-            new GARCReference(103, "trpoke"),
+            new GARCReference(104, "trclass"),
+            new GARCReference(105, "trdata"),
+            new GARCReference(106, "trpoke"),
                 
             // Varied
             new GARCReference(030, "gametext", true),
