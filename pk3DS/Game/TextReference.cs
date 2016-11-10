@@ -76,7 +76,7 @@
             new TextReference(021, TextName.ItemNames),
             new TextReference(026, TextName.SpeciesNames),
             new TextReference(030, TextName.metlist_000000),
-            new TextReference(044, TextName.Forms), // Testing.
+            new TextReference(044, TextName.Forms),
             new TextReference(044, TextName.Natures),
             new TextReference(046, TextName.AbilityNames),
             new TextReference(049, TextName.TrainerText),
@@ -87,18 +87,13 @@
         };
         public static readonly TextReference[] GameText_SM =
         {
-            new TextReference(020, TextName.ItemFlavor),
-            new TextReference(021, TextName.ItemNames),
-            new TextReference(026, TextName.SpeciesNames),
-            new TextReference(030, TextName.metlist_000000),
-            new TextReference(044, TextName.Forms), // Testing.
-            new TextReference(044, TextName.Natures),
-            new TextReference(046, TextName.AbilityNames),
-            new TextReference(049, TextName.TrainerText),
-            new TextReference(050, TextName.TrainerNames),
-            new TextReference(051, TextName.TrainerClasses),
-            new TextReference(052, TextName.Types),
-            new TextReference(055, TextName.MoveNames),
+            new TextReference(036, TextName.ItemNames),
+            new TextReference(055, TextName.SpeciesNames),
+            new TextReference(067, TextName.metlist_000000),
+            new TextReference(087, TextName.Natures),
+            new TextReference(096, TextName.AbilityNames),
+            new TextReference(113, TextName.MoveNames),
+            new TextReference(114, TextName.Forms),
         };
     }
 }

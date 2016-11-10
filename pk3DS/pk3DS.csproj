@@ -74,6 +74,8 @@
     <Compile Include="Randomizer.cs" />
     <Compile Include="3DS\RomFS.cs" />
     <Compile Include="Structs.cs" />
+    <Compile Include="Structures\Gen7\trdata7.cs" />
+    <Compile Include="Structures\Gen7\trpoke7.cs" />
     <Compile Include="Structures\PersonalInfo\PersonalInfo.cs" />
     <Compile Include="Structures\PersonalInfo\PersonalInfoORAS.cs" />
     <Compile Include="Structures\PersonalInfo\PersonalInfoSM.cs" />
@@ -4808,7 +4810,15 @@
   <ItemGroup>
     <None Include="Resources\img\FLY.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\img\slotDel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\slotSet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\slotView.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

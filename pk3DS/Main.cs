@@ -120,6 +120,15 @@ namespace pk3DS
             if (!Tab_RomFS.Enabled || Config == null)
                 return;
 
+            if ((Config.XY || Config.ORAS) && Language > 7)
+            {
+                Util.Alert("Language not available for games. Defaulting to English.");
+                if (InvokeRequired)
+                    Invoke((MethodInvoker)delegate { CB_Lang.SelectedIndex = 2; });
+                else CB_Lang.SelectedIndex = 2;
+                return; // set event re-triggers this method
+            }
+
             updateGameInfo();
             new Thread(() =>
             {
@@ -273,9 +282,11 @@ namespace pk3DS
             // 3 - DE
             // 4 - IT
             // 5 - ES
-            // 6 - XX
+            // 6 - CHS
             // 7 - KO
-            int[] AILang = { 0, 0, 1, 2, 4, 3, 5, 7 };
+            // 8 - 
+            // 11 - CHT
+            int[] AILang = { 0, 0, 1, 2, 4, 3, 5, 7, 8, 9, 6, 11 };
             Text = SMDH?.AppSettings == null
                 ? "pk3DS" // nothing else
                 : "pk3DS - " + SMDH.AppInfo[AILang[Language]].ShortDescription;

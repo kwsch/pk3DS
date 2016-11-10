@@ -64,10 +64,10 @@
             this.Tab_RomFS = new System.Windows.Forms.TabPage();
             this.FLP_RomFS = new System.Windows.Forms.FlowLayoutPanel();
             this.B_GameText = new System.Windows.Forms.Button();
+            this.B_StoryText = new System.Windows.Forms.Button();
             this.B_Personal = new System.Windows.Forms.Button();
             this.B_Evolution = new System.Windows.Forms.Button();
             this.B_LevelUp = new System.Windows.Forms.Button();
-            this.B_StoryText = new System.Windows.Forms.Button();
             this.B_Wild = new System.Windows.Forms.Button();
             this.B_MegaEvo = new System.Windows.Forms.Button();
             this.B_EggMove = new System.Windows.Forms.Button();
@@ -359,7 +359,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_Lang});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(146, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_Lang
@@ -373,7 +373,9 @@
             "Italiano",
             "Deutsch",
             "Español",
-            "한국"});
+            "한국",
+            "汉字简化方案",
+            "漢字簡化方案"});
             this.CB_Lang.Name = "CB_Lang";
             this.CB_Lang.Size = new System.Drawing.Size(121, 23);
             this.CB_Lang.SelectedIndexChanged += new System.EventHandler(this.changeLanguage);
@@ -383,14 +385,14 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(146, 22);
+            this.Menu_About.Size = new System.Drawing.Size(152, 22);
             this.Menu_About.Text = "A&bout pk3DS";
             this.Menu_About.Click += new System.EventHandler(this.L_About_Click);
             // 
             // Menu_GARCs
             // 
             this.Menu_GARCs.Name = "Menu_GARCs";
-            this.Menu_GARCs.Size = new System.Drawing.Size(146, 22);
+            this.Menu_GARCs.Size = new System.Drawing.Size(152, 22);
             this.Menu_GARCs.Text = "About GARCs";
             this.Menu_GARCs.Click += new System.EventHandler(this.L_GARCInfo_Click);
             // 
@@ -452,6 +454,16 @@
             this.B_GameText.UseVisualStyleBackColor = true;
             this.B_GameText.Click += new System.EventHandler(this.B_GameText_Click);
             // 
+            // B_StoryText
+            // 
+            this.B_StoryText.Location = new System.Drawing.Point(109, 3);
+            this.B_StoryText.Name = "B_StoryText";
+            this.B_StoryText.Size = new System.Drawing.Size(100, 23);
+            this.B_StoryText.TabIndex = 1;
+            this.B_StoryText.Text = "Story Text";
+            this.B_StoryText.UseVisualStyleBackColor = true;
+            this.B_StoryText.Click += new System.EventHandler(this.B_StoryText_Click);
+            // 
             // B_Personal
             // 
             this.B_Personal.Location = new System.Drawing.Point(215, 3);
@@ -481,16 +493,6 @@
             this.B_LevelUp.Text = "Level Up Moves";
             this.B_LevelUp.UseVisualStyleBackColor = true;
             this.B_LevelUp.Click += new System.EventHandler(this.B_LevelUp_Click);
-            // 
-            // B_StoryText
-            // 
-            this.B_StoryText.Location = new System.Drawing.Point(109, 3);
-            this.B_StoryText.Name = "B_StoryText";
-            this.B_StoryText.Size = new System.Drawing.Size(100, 23);
-            this.B_StoryText.TabIndex = 1;
-            this.B_StoryText.Text = "Story Text";
-            this.B_StoryText.UseVisualStyleBackColor = true;
-            this.B_StoryText.Click += new System.EventHandler(this.B_StoryText_Click);
             // 
             // B_Wild
             // 
