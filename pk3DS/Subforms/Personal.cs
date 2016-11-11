@@ -44,7 +44,7 @@ namespace pk3DS
         private readonly ComboBox[] eggGroup_boxes;
 
         private readonly MaskedTextBox[] byte_boxes;
-        private readonly MaskedTextBox[] ev_boxes;
+        private readonly TextBox[] ev_boxes;
         private readonly CheckBox[] rstat_boxes;
 
         public string[] types = { };
@@ -194,6 +194,7 @@ namespace pk3DS
             TB_BaseSPE.Text = pkm.SPE.ToString("000");
             TB_BaseSPA.Text = pkm.SPA.ToString("000");
             TB_BaseSPD.Text = pkm.SPD.ToString("000");
+
             TB_HPEVs.Text = pkm.EV_HP.ToString("0");
             TB_ATKEVs.Text = pkm.EV_ATK.ToString("0");
             TB_DEFEVs.Text = pkm.EV_DEF.ToString("0");
@@ -231,6 +232,7 @@ namespace pk3DS
             CB_Color.SelectedIndex = pkm.Color & 0xF;
 
             TB_BaseExp.Text = pkm.BaseEXP.ToString("000");
+            TB_BST.Text = pkm.BST.ToString("000");
 
             TB_Height.Text = (pkm.Height / 100).ToString("00.0");
             TB_Weight.Text = (pkm.Weight / 10).ToString("000.0");
@@ -281,12 +283,12 @@ namespace pk3DS
             pkm.SPA = Convert.ToByte(TB_BaseSPA.Text);
             pkm.SPD = Convert.ToByte(TB_BaseSPD.Text);
 
-            pkm.EV_HP = Convert.ToByte(TB_HPEVs.Text);
-            pkm.EV_ATK = Convert.ToByte(TB_ATKEVs.Text);
-            pkm.EV_DEF = Convert.ToByte(TB_DEFEVs.Text);
-            pkm.EV_SPE = Convert.ToByte(TB_SPEEVs.Text);
-            pkm.EV_SPA = Convert.ToByte(TB_SPAEVs.Text);
-            pkm.EV_SPD = Convert.ToByte(TB_SPDEVs.Text);
+            //pkm.EV_HP = Convert.ToByte(TB_HPEVs.Text);
+            //pkm.EV_ATK = Convert.ToByte(TB_ATKEVs.Text);
+            //pkm.EV_DEF = Convert.ToByte(TB_DEFEVs.Text);
+            //pkm.EV_SPE = Convert.ToByte(TB_SPEEVs.Text);
+            //pkm.EV_SPA = Convert.ToByte(TB_SPAEVs.Text);
+            //pkm.EV_SPD = Convert.ToByte(TB_SPDEVs.Text);
 
             pkm.CatchRate = Convert.ToByte(TB_CatchRate.Text);
             pkm.EvoStage = Convert.ToByte(TB_Stage.Text);
@@ -313,8 +315,8 @@ namespace pk3DS
             pkm.Color = (byte) (Convert.ToByte(CB_Color.SelectedIndex) | (Convert.ToByte(TB_RawColor.Text) & 0xF0));
             pkm.BaseEXP = Convert.ToUInt16(TB_BaseExp.Text);
 
-            pkm.Height = (int)Convert.ToDouble(TB_Height.Text)*100;
-            pkm.Weight = (int)Convert.ToDouble(TB_Weight.Text)*10;
+            //pkm.Height = (int)Convert.ToDouble(TB_Height.Text)*100;
+            //pkm.Weight = (int)Convert.ToDouble(TB_Weight.Text)*10;
 
             for (int i = 0; i < CLB_TMHM.Items.Count; i++)
                 pkm.TMHM[i] = CLB_TMHM.GetItemChecked(i);
@@ -473,7 +475,7 @@ namespace pk3DS
             for (int i = 0; i < CB_Species.Items.Count; i++)
             {
                 CB_Species.SelectedIndex = i; // Get new Species
-                result += "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
+                result += "======" + Environment.NewLine + entry + " - " + CB_Species.Text + " (Stage: " + TB_Stage.Text + ")" + Environment.NewLine + "======" + Environment.NewLine;
 
                 result +=
                     $"Base Stats: {TB_BaseHP.Text}.{TB_BaseATK.Text}.{TB_BaseDEF.Text}.{TB_BaseSPA.Text}.{TB_BaseSPD.Text}.{TB_BaseSPE.Text} (BST: {pkm.BST})" + Environment.NewLine;
@@ -481,12 +483,20 @@ namespace pk3DS
                     $"EV Yield: {TB_HPEVs.Text}.{TB_ATKEVs.Text}.{TB_DEFEVs.Text}.{TB_SPAEVs.Text}.{TB_SPDEVs.Text}.{TB_SPEEVs.Text}" + Environment.NewLine;
                 result += $"Abilities: {CB_Ability1.Text} (1) | {CB_Ability2.Text} (2) | {CB_Ability3.Text} (H)" + Environment.NewLine;
 
-                result += string.Format(CB_Type1.SelectedIndex != CB_Type2.SelectedIndex ? "Type: {0} / {1}" : "Type: {0}", CB_Type1.Text, CB_Type2.Text);
+                result += string.Format(CB_Type1.SelectedIndex != CB_Type2.SelectedIndex ? "Type: {0} / {1}" : "Type: {0}", CB_Type1.Text, CB_Type2.Text) + Environment.NewLine;
 
                 result += $"Item 1 (50%): {CB_HeldItem1.Text}" + Environment.NewLine;
                 result += $"Item 2 (5%): {CB_HeldItem2.Text}" + Environment.NewLine;
                 result += $"Item 3 (1%): {CB_HeldItem3.Text}" + Environment.NewLine;
                 // I don't want to add anything else. Should be pretty easy for anyone else to expand.
+
+                result += $"EXP Group: {CB_EXPGroup.Text}" + Environment.NewLine;
+
+                result += string.Format(CB_EggGroup1.SelectedIndex != CB_EggGroup2.SelectedIndex ? "Egg Group: {0} / {1}" : "Egg Group: {0}", CB_EggGroup1.Text, CB_EggGroup2.Text) + Environment.NewLine;
+
+                result += $"Hatch Cycles: {TB_HatchCycles.Text}" + Environment.NewLine;
+
+                result += String.Format("Height: {0} m, Weight: {1} kg, Color: {2}", TB_Height.Text, TB_Weight.Text, CB_Color.Text) + Environment.NewLine;
 
                 result += Environment.NewLine;
             }
