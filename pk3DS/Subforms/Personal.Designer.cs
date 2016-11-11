@@ -32,6 +32,8 @@
             this.L_Species_Precursor = new System.Windows.Forms.Label();
             this.TC_Pokemon = new System.Windows.Forms.TabControl();
             this.TP_General = new System.Windows.Forms.TabPage();
+            this.TB_BST = new System.Windows.Forms.TextBox();
+            this.L_BST = new System.Windows.Forms.Label();
             this.TB_RawColor = new System.Windows.Forms.TextBox();
             this.TB_CatchRate = new System.Windows.Forms.MaskedTextBox();
             this.TB_Stage = new System.Windows.Forms.TextBox();
@@ -47,8 +49,8 @@
             this.CB_EXPGroup = new System.Windows.Forms.ComboBox();
             this.L_Color = new System.Windows.Forms.Label();
             this.L_EXPGrowth = new System.Windows.Forms.Label();
-            this.TB_Weight = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Height = new System.Windows.Forms.MaskedTextBox();
+            this.TB_Weight = new System.Windows.Forms.TextBox();
+            this.TB_Height = new System.Windows.Forms.TextBox();
             this.L_Weight = new System.Windows.Forms.Label();
             this.L_Height = new System.Windows.Forms.Label();
             this.CB_Ability3 = new System.Windows.Forms.ComboBox();
@@ -76,12 +78,12 @@
             this.CB_Type2 = new System.Windows.Forms.ComboBox();
             this.CB_Type1 = new System.Windows.Forms.ComboBox();
             this.L_Type = new System.Windows.Forms.Label();
-            this.TB_SPEEVs = new System.Windows.Forms.MaskedTextBox();
-            this.TB_SPDEVs = new System.Windows.Forms.MaskedTextBox();
-            this.TB_SPAEVs = new System.Windows.Forms.MaskedTextBox();
-            this.TB_DEFEVs = new System.Windows.Forms.MaskedTextBox();
-            this.TB_ATKEVs = new System.Windows.Forms.MaskedTextBox();
-            this.TB_HPEVs = new System.Windows.Forms.MaskedTextBox();
+            this.TB_SPEEVs = new System.Windows.Forms.TextBox();
+            this.TB_SPDEVs = new System.Windows.Forms.TextBox();
+            this.TB_SPAEVs = new System.Windows.Forms.TextBox();
+            this.TB_DEFEVs = new System.Windows.Forms.TextBox();
+            this.TB_ATKEVs = new System.Windows.Forms.TextBox();
+            this.TB_HPEVs = new System.Windows.Forms.TextBox();
             this.TB_BaseSPE = new System.Windows.Forms.MaskedTextBox();
             this.TB_BaseSPD = new System.Windows.Forms.MaskedTextBox();
             this.TB_BaseSPA = new System.Windows.Forms.MaskedTextBox();
@@ -188,6 +190,8 @@
             // 
             // TP_General
             // 
+            this.TP_General.Controls.Add(this.TB_BST);
+            this.TP_General.Controls.Add(this.L_BST);
             this.TP_General.Controls.Add(this.TB_RawColor);
             this.TP_General.Controls.Add(this.TB_CatchRate);
             this.TP_General.Controls.Add(this.TB_Stage);
@@ -260,6 +264,26 @@
             this.TP_General.Text = "General Info";
             this.TP_General.UseVisualStyleBackColor = true;
             // 
+            // TB_BST
+            // 
+            this.TB_BST.Location = new System.Drawing.Point(387, 27);
+            this.TB_BST.Name = "TB_BST";
+            this.TB_BST.ReadOnly = true;
+            this.TB_BST.Size = new System.Drawing.Size(31, 20);
+            this.TB_BST.TabIndex = 90;
+            this.TB_BST.Text = "___";
+            this.TB_BST.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_BST
+            // 
+            this.L_BST.AutoSize = true;
+            this.L_BST.Location = new System.Drawing.Point(355, 30);
+            this.L_BST.Name = "L_BST";
+            this.L_BST.Size = new System.Drawing.Size(31, 13);
+            this.L_BST.TabIndex = 89;
+            this.L_BST.Text = "BST:";
+            this.L_BST.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // TB_RawColor
             // 
             this.TB_RawColor.Location = new System.Drawing.Point(236, 211);
@@ -267,12 +291,13 @@
             this.TB_RawColor.ReadOnly = true;
             this.TB_RawColor.Size = new System.Drawing.Size(30, 20);
             this.TB_RawColor.TabIndex = 88;
+            this.TB_RawColor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_RawColor.Visible = false;
             // 
             // TB_CatchRate
             // 
             this.TB_CatchRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_CatchRate.Location = new System.Drawing.Point(387, 49);
+            this.TB_CatchRate.Location = new System.Drawing.Point(387, 51);
             this.TB_CatchRate.Mask = "000";
             this.TB_CatchRate.Name = "TB_CatchRate";
             this.TB_CatchRate.Size = new System.Drawing.Size(31, 20);
@@ -287,6 +312,7 @@
             this.TB_Stage.ReadOnly = true;
             this.TB_Stage.Size = new System.Drawing.Size(30, 20);
             this.TB_Stage.TabIndex = 86;
+            this.TB_Stage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // L_Stage
             // 
@@ -323,6 +349,7 @@
             this.TB_FormeCount.ReadOnly = true;
             this.TB_FormeCount.Size = new System.Drawing.Size(30, 20);
             this.TB_FormeCount.TabIndex = 82;
+            this.TB_FormeCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // L_FormesCount
             // 
@@ -341,6 +368,7 @@
             this.TB_FormeSprite.ReadOnly = true;
             this.TB_FormeSprite.Size = new System.Drawing.Size(30, 20);
             this.TB_FormeSprite.TabIndex = 80;
+            this.TB_FormeSprite.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // L_FormeSprite
             // 
@@ -355,7 +383,7 @@
             // L_CatchRate
             // 
             this.L_CatchRate.AutoSize = true;
-            this.L_CatchRate.Location = new System.Drawing.Point(322, 52);
+            this.L_CatchRate.Location = new System.Drawing.Point(322, 54);
             this.L_CatchRate.Name = "L_CatchRate";
             this.L_CatchRate.Size = new System.Drawing.Size(64, 13);
             this.L_CatchRate.TabIndex = 77;
@@ -376,9 +404,9 @@
             this.CB_EXPGroup.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_EXPGroup.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_EXPGroup.FormattingEnabled = true;
-            this.CB_EXPGroup.Location = new System.Drawing.Point(91, 210);
+            this.CB_EXPGroup.Location = new System.Drawing.Point(80, 210);
             this.CB_EXPGroup.Name = "CB_EXPGroup";
-            this.CB_EXPGroup.Size = new System.Drawing.Size(101, 21);
+            this.CB_EXPGroup.Size = new System.Drawing.Size(112, 21);
             this.CB_EXPGroup.TabIndex = 75;
             // 
             // L_Color
@@ -393,7 +421,7 @@
             // L_EXPGrowth
             // 
             this.L_EXPGrowth.AutoSize = true;
-            this.L_EXPGrowth.Location = new System.Drawing.Point(27, 214);
+            this.L_EXPGrowth.Location = new System.Drawing.Point(16, 214);
             this.L_EXPGrowth.Name = "L_EXPGrowth";
             this.L_EXPGrowth.Size = new System.Drawing.Size(63, 13);
             this.L_EXPGrowth.TabIndex = 73;
@@ -403,8 +431,9 @@
             // 
             this.TB_Weight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_Weight.Location = new System.Drawing.Point(235, 296);
-            this.TB_Weight.Mask = "000.0";
+            this.TB_Weight.Text = "___._";			
             this.TB_Weight.Name = "TB_Weight";
+            this.TB_Weight.ReadOnly = true;
             this.TB_Weight.Size = new System.Drawing.Size(31, 20);
             this.TB_Weight.TabIndex = 72;
             this.TB_Weight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -413,8 +442,9 @@
             // 
             this.TB_Height.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_Height.Location = new System.Drawing.Point(94, 296);
-            this.TB_Height.Mask = "00.0";
+            this.TB_Height.Text = "__._";			
             this.TB_Height.Name = "TB_Height";
+            this.TB_Height.ReadOnly = true;
             this.TB_Height.Size = new System.Drawing.Size(31, 20);
             this.TB_Height.TabIndex = 71;
             this.TB_Height.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -492,7 +522,7 @@
             // L_EggGroup
             // 
             this.L_EggGroup.AutoSize = true;
-            this.L_EggGroup.Location = new System.Drawing.Point(228, 161);
+            this.L_EggGroup.Location = new System.Drawing.Point(230, 161);
             this.L_EggGroup.Name = "L_EggGroup";
             this.L_EggGroup.Size = new System.Drawing.Size(66, 13);
             this.L_EggGroup.TabIndex = 63;
@@ -662,9 +692,9 @@
             this.CB_Type2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Type2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Type2.FormattingEnabled = true;
-            this.CB_Type2.Location = new System.Drawing.Point(71, 184);
+            this.CB_Type2.Location = new System.Drawing.Point(63, 184);
             this.CB_Type2.Name = "CB_Type2";
-            this.CB_Type2.Size = new System.Drawing.Size(121, 21);
+            this.CB_Type2.Size = new System.Drawing.Size(129, 21);
             this.CB_Type2.TabIndex = 45;
             // 
             // CB_Type1
@@ -672,15 +702,15 @@
             this.CB_Type1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Type1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Type1.FormattingEnabled = true;
-            this.CB_Type1.Location = new System.Drawing.Point(71, 158);
+            this.CB_Type1.Location = new System.Drawing.Point(63, 158);
             this.CB_Type1.Name = "CB_Type1";
-            this.CB_Type1.Size = new System.Drawing.Size(121, 21);
+            this.CB_Type1.Size = new System.Drawing.Size(129, 21);
             this.CB_Type1.TabIndex = 44;
             // 
             // L_Type
             // 
             this.L_Type.AutoSize = true;
-            this.L_Type.Location = new System.Drawing.Point(23, 161);
+            this.L_Type.Location = new System.Drawing.Point(16, 161);
             this.L_Type.Name = "L_Type";
             this.L_Type.Size = new System.Drawing.Size(47, 13);
             this.L_Type.TabIndex = 43;
@@ -690,8 +720,9 @@
             // 
             this.TB_SPEEVs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_SPEEVs.Location = new System.Drawing.Point(273, 51);
-            this.TB_SPEEVs.Mask = "0";
+            this.TB_SPEEVs.Text = "_";
             this.TB_SPEEVs.Name = "TB_SPEEVs";
+            this.TB_SPEEVs.ReadOnly = true;
             this.TB_SPEEVs.Size = new System.Drawing.Size(31, 20);
             this.TB_SPEEVs.TabIndex = 42;
             this.TB_SPEEVs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -701,8 +732,9 @@
             // 
             this.TB_SPDEVs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_SPDEVs.Location = new System.Drawing.Point(234, 51);
-            this.TB_SPDEVs.Mask = "0";
+            this.TB_SPDEVs.Text = "_";
             this.TB_SPDEVs.Name = "TB_SPDEVs";
+            this.TB_SPDEVs.ReadOnly = true;
             this.TB_SPDEVs.Size = new System.Drawing.Size(31, 20);
             this.TB_SPDEVs.TabIndex = 41;
             this.TB_SPDEVs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -712,8 +744,9 @@
             // 
             this.TB_SPAEVs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_SPAEVs.Location = new System.Drawing.Point(195, 51);
-            this.TB_SPAEVs.Mask = "0";
+            this.TB_SPAEVs.Text = "_";
             this.TB_SPAEVs.Name = "TB_SPAEVs";
+            this.TB_SPAEVs.ReadOnly = true;
             this.TB_SPAEVs.Size = new System.Drawing.Size(31, 20);
             this.TB_SPAEVs.TabIndex = 40;
             this.TB_SPAEVs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -723,8 +756,9 @@
             // 
             this.TB_DEFEVs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_DEFEVs.Location = new System.Drawing.Point(157, 51);
-            this.TB_DEFEVs.Mask = "0";
+            this.TB_DEFEVs.Text = "_";
             this.TB_DEFEVs.Name = "TB_DEFEVs";
+            this.TB_DEFEVs.ReadOnly = true;
             this.TB_DEFEVs.Size = new System.Drawing.Size(31, 20);
             this.TB_DEFEVs.TabIndex = 39;
             this.TB_DEFEVs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -734,8 +768,9 @@
             // 
             this.TB_ATKEVs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_ATKEVs.Location = new System.Drawing.Point(119, 51);
-            this.TB_ATKEVs.Mask = "0";
+            this.TB_ATKEVs.Text = "_";
             this.TB_ATKEVs.Name = "TB_ATKEVs";
+            this.TB_ATKEVs.ReadOnly = true;
             this.TB_ATKEVs.Size = new System.Drawing.Size(31, 20);
             this.TB_ATKEVs.TabIndex = 38;
             this.TB_ATKEVs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -745,8 +780,9 @@
             // 
             this.TB_HPEVs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_HPEVs.Location = new System.Drawing.Point(80, 51);
-            this.TB_HPEVs.Mask = "0";
+            this.TB_HPEVs.Text = "_";
             this.TB_HPEVs.Name = "TB_HPEVs";
+            this.TB_HPEVs.ReadOnly = true;
             this.TB_HPEVs.Size = new System.Drawing.Size(31, 20);
             this.TB_HPEVs.TabIndex = 37;
             this.TB_HPEVs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -875,7 +911,7 @@
             // L_EVYield
             // 
             this.L_EVYield.AutoSize = true;
-            this.L_EVYield.Location = new System.Drawing.Point(29, 54);
+            this.L_EVYield.Location = new System.Drawing.Point(16, 54);
             this.L_EVYield.Name = "L_EVYield";
             this.L_EVYield.Size = new System.Drawing.Size(50, 13);
             this.L_EVYield.TabIndex = 2;
@@ -884,7 +920,7 @@
             // L_BaseStats
             // 
             this.L_BaseStats.AutoSize = true;
-            this.L_BaseStats.Location = new System.Drawing.Point(18, 30);
+            this.L_BaseStats.Location = new System.Drawing.Point(16, 30);
             this.L_BaseStats.Name = "L_BaseStats";
             this.L_BaseStats.Size = new System.Drawing.Size(61, 13);
             this.L_BaseStats.TabIndex = 1;
@@ -1414,7 +1450,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(469, 416);
+            this.ClientSize = new System.Drawing.Size(469, 417);
             this.Controls.Add(this.B_Dump);
             this.Controls.Add(this.PB_MonSprite);
             this.Controls.Add(this.TC_Pokemon);
@@ -1454,12 +1490,12 @@
         private System.Windows.Forms.TabControl TC_Pokemon;
         private System.Windows.Forms.TabPage TP_General;
         private System.Windows.Forms.TabPage TP_MoveTutors;
-        private System.Windows.Forms.MaskedTextBox TB_SPEEVs;
-        private System.Windows.Forms.MaskedTextBox TB_SPDEVs;
-        private System.Windows.Forms.MaskedTextBox TB_SPAEVs;
-        private System.Windows.Forms.MaskedTextBox TB_DEFEVs;
-        private System.Windows.Forms.MaskedTextBox TB_ATKEVs;
-        private System.Windows.Forms.MaskedTextBox TB_HPEVs;
+        private System.Windows.Forms.TextBox TB_SPEEVs;
+        private System.Windows.Forms.TextBox TB_SPDEVs;
+        private System.Windows.Forms.TextBox TB_SPAEVs;
+        private System.Windows.Forms.TextBox TB_DEFEVs;
+        private System.Windows.Forms.TextBox TB_ATKEVs;
+        private System.Windows.Forms.TextBox TB_HPEVs;
         private System.Windows.Forms.MaskedTextBox TB_BaseSPE;
         private System.Windows.Forms.MaskedTextBox TB_BaseSPD;
         private System.Windows.Forms.MaskedTextBox TB_BaseSPA;
@@ -1484,8 +1520,8 @@
         private System.Windows.Forms.Label L_Item50;
         private System.Windows.Forms.ComboBox CB_HeldItem3;
         private System.Windows.Forms.ComboBox CB_HeldItem2;
-        private System.Windows.Forms.MaskedTextBox TB_Weight;
-        private System.Windows.Forms.MaskedTextBox TB_Height;
+        private System.Windows.Forms.TextBox TB_Weight;
+        private System.Windows.Forms.TextBox TB_Height;
         private System.Windows.Forms.Label L_Weight;
         private System.Windows.Forms.Label L_Height;
         private System.Windows.Forms.ComboBox CB_Ability3;
@@ -1518,6 +1554,8 @@
         private System.Windows.Forms.Label L_Stage;
         private System.Windows.Forms.MaskedTextBox TB_CatchRate;
         private System.Windows.Forms.TextBox TB_RawColor;
+        private System.Windows.Forms.Label L_BST;
+		private System.Windows.Forms.TextBox TB_BST;
         private System.Windows.Forms.CheckedListBox CLB_TMHM;
         private System.Windows.Forms.CheckedListBox CLB_OrasTutors;
         private System.Windows.Forms.CheckedListBox CLB_MoveTutors;

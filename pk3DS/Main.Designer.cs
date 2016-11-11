@@ -234,7 +234,7 @@
             this.Menu_Rebuild,
             this.Menu_SMDH});
             this.Menu_Tools.Name = "Menu_Tools";
-            this.Menu_Tools.Size = new System.Drawing.Size(47, 20);
+            this.Menu_Tools.Size = new System.Drawing.Size(48, 20);
             this.Menu_Tools.Text = "Tools";
             // 
             // Menu_Restore
@@ -359,7 +359,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_Lang});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(146, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_Lang
@@ -385,14 +385,14 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(152, 22);
+            this.Menu_About.Size = new System.Drawing.Size(146, 22);
             this.Menu_About.Text = "A&bout pk3DS";
             this.Menu_About.Click += new System.EventHandler(this.L_About_Click);
             // 
             // Menu_GARCs
             // 
             this.Menu_GARCs.Name = "Menu_GARCs";
-            this.Menu_GARCs.Size = new System.Drawing.Size(152, 22);
+            this.Menu_GARCs.Size = new System.Drawing.Size(146, 22);
             this.Menu_GARCs.Text = "About GARCs";
             this.Menu_GARCs.Click += new System.EventHandler(this.L_GARCInfo_Click);
             // 
@@ -568,7 +568,7 @@
             // 
             this.B_TitleScreen.Location = new System.Drawing.Point(3, 119);
             this.B_TitleScreen.Name = "B_TitleScreen";
-            this.B_TitleScreen.Size = new System.Drawing.Size(100, 23);
+            this.B_TitleScreen.Size = new System.Drawing.Size(312, 23);
             this.B_TitleScreen.TabIndex = 12;
             this.B_TitleScreen.Text = "Title Screen";
             this.B_TitleScreen.UseVisualStyleBackColor = true;
@@ -684,7 +684,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 251);
+            this.ClientSize = new System.Drawing.Size(384, 252);
             this.Controls.Add(this.L_Status);
             this.Controls.Add(this.TC_RomFS);
             this.Controls.Add(this.pBar1);
