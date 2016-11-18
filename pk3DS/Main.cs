@@ -236,7 +236,7 @@ namespace pk3DS
                 Tab_ExeFS.Enabled = RomFSPath != null && ExeFSPath != null;
                 if (RomFSPath != null)
                 {
-                    B_MoveTutor.Visible = Config.ORAS; // Default false unless loaded
+                    toggleSubEditors();
                     string newtext = $"Game Loaded: {Config.Version}";
                     if (L_Game.Text != newtext && Directory.Exists("personal"))
                     { Directory.Delete("personal", true); } // Force reloading of personal data if the game is switched.
@@ -274,6 +274,17 @@ namespace pk3DS
             }
         }
 
+        private void toggleSubEditors()
+        {
+            switch (Config.Generation)
+            {
+                case 6:
+                    B_MoveTutor.Visible = Config.ORAS; // Default false unless loaded
+                    break;
+                case 7:
+                    break;
+            }
+        }
         private void updateGameInfo()
         {
             // 0 - JP
@@ -471,7 +482,15 @@ namespace pk3DS
             {
                 string[] files = { "personal" };
                 fileGet(files, false, true);
-                Invoke((Action)(() => new PersonalEditor6().ShowDialog()));
+                switch (Config.Generation)
+                {
+                    case 6:
+                        Invoke((Action)(() => new PersonalEditor6().ShowDialog()));
+                        break;
+                    case 7:
+                        Invoke((Action)(() => new PersonalEditor7().ShowDialog()));
+                        break;
+                }
 
                 // Refresh Personal Stats
                 SpeciesStat = new PersonalTable(File.ReadAllBytes(Directory.GetFiles("personal").Last()), Config.Version).Table;
@@ -680,7 +699,16 @@ namespace pk3DS
         private void B_TMHM_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
-            if (ExeFSPath != null) new TMHMEditor6().Show();
+            if (ExeFSPath != null)
+                switch (Config.Generation)
+                {
+                    case 6:
+                        new TMHMEditor6().Show();
+                        break;
+                    case 7:
+                        new TMEditor7().Show();
+                        break;
+                }
         }
         private void B_Mart_Click(object sender, EventArgs e)
         {
