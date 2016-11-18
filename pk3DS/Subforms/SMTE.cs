@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -429,7 +428,7 @@ namespace pk3DS
             Trainers[index].NumPokemon = (int) (NUD_NumPoke.Value);
         }
 
-        private static bool updatingStats = false;
+        private static bool updatingStats;
 
         private void updateStats(object sender, EventArgs e)
         {
@@ -518,7 +517,7 @@ namespace pk3DS
             if (updatingStats)
                 return;
             var tb_iv = new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV };
-            int[] newIVs = setHPIVs(CB_HPType.SelectedIndex, tb_iv.Select(tb => Util.ToInt32(tb)).ToArray());
+            int[] newIVs = setHPIVs(CB_HPType.SelectedIndex, tb_iv.Select(Util.ToInt32).ToArray());
             updatingStats = true;
             TB_HPIV.Text = newIVs[0].ToString();
             TB_ATKIV.Text = newIVs[1].ToString();
@@ -534,7 +533,8 @@ namespace pk3DS
                 ivs[i] = (ivs[i] & 0x1E) + hpivs[type, i];
             return ivs;
         }
-        public static readonly int[,] hpivs = {
+
+        private static readonly int[,] hpivs = {
             { 1, 1, 0, 0, 0, 0 }, // Fighting
             { 0, 0, 0, 0, 0, 1 }, // Flying
             { 1, 1, 0, 0, 0, 1 }, // Poison
@@ -552,5 +552,14 @@ namespace pk3DS
             { 1, 0, 1, 1, 1, 1 }, // Dragon
             { 1, 1, 1, 1, 1, 1 }, // Dark
         };
+
+        private void B_HighAttack_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void B_CurrentAttack_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

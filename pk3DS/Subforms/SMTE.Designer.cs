@@ -1331,6 +1331,7 @@
             this.B_CurrentAttack.TabIndex = 449;
             this.B_CurrentAttack.Text = "Current Level Levelups";
             this.B_CurrentAttack.UseVisualStyleBackColor = true;
+            this.B_CurrentAttack.Click += new System.EventHandler(this.B_CurrentAttack_Click);
             // 
             // B_HighAttack
             // 
@@ -1341,6 +1342,7 @@
             this.B_HighAttack.TabIndex = 448;
             this.B_HighAttack.Text = "High Attacking Levelups";
             this.B_HighAttack.UseVisualStyleBackColor = true;
+            this.B_HighAttack.Click += new System.EventHandler(this.B_HighAttack_Click);
             // 
             // GB_Moves
             // 
