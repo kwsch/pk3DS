@@ -134,13 +134,13 @@ namespace pk3DS
             CHK_Damage.Enabled = CHK_STAB.Enabled =
             NUD_Damage.Enabled = NUD_STAB.Enabled = CB_Moves.SelectedIndex == 1;
 
-            if (CB_Moves.SelectedIndex == 0)
-                CHK_6PKM.Checked = false;
+            //if (CB_Moves.SelectedIndex == 0)
+            //    CHK_6PKM.Checked = false;
         }
         private void CHK_6PKM_CheckedChanged(object sender, EventArgs e)
         {
-            if (CB_Moves.SelectedIndex == 0)
-                CHK_6PKM.Checked = false;
+            //if (CB_Moves.SelectedIndex == 0)
+            //    CHK_6PKM.Checked = false;
         }
     }
 }
