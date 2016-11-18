@@ -1,6 +1,6 @@
 ﻿namespace pk3DS
 {
-    partial class xytext
+    partial class TextEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -142,7 +142,7 @@
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.CB_Entry);
             this.MinimumSize = new System.Drawing.Size(400, 300);
-            this.Name = "xytext";
+            this.Name = "TextEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Text Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.xytext_FormClosing);

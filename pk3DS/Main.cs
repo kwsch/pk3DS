@@ -434,7 +434,7 @@ namespace pk3DS
             {
                 string[] files = { "gametext" };
                 fileGet(files, false, true);
-                Invoke((Action)(() => new xytext(Directory.GetFiles("gametext")).ShowDialog()));
+                Invoke((Action)(() => new TextEditor(Directory.GetFiles("gametext")).ShowDialog()));
                 fileSet(files, true);
             }).Start();
         }
@@ -445,7 +445,7 @@ namespace pk3DS
             {
                 string[] files = { "storytext" };
                 fileGet(files);
-                Invoke((Action)(() => new xytext(Directory.GetFiles("storytext")).ShowDialog()));
+                Invoke((Action)(() => new TextEditor(Directory.GetFiles("storytext")).ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -460,7 +460,7 @@ namespace pk3DS
                 bool super = dr == DialogResult.Yes;
                 string[] files = { super ? "maisontrS" : "maisontrN", super ? "maisonpkS" : "maisonpkN" };
                 fileGet(files);
-                Invoke((Action)(() => new MaisonEditor(super).ShowDialog()));
+                Invoke((Action)(() => new MaisonEditor6(super).ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -471,7 +471,7 @@ namespace pk3DS
             {
                 string[] files = { "personal" };
                 fileGet(files, false, true);
-                Invoke((Action)(() => new Personal().ShowDialog()));
+                Invoke((Action)(() => new PersonalEditor6().ShowDialog()));
 
                 // Refresh Personal Stats
                 SpeciesStat = new PersonalTable(File.ReadAllBytes(Directory.GetFiles("personal").Last()), Config.Version).Table;
@@ -518,7 +518,7 @@ namespace pk3DS
                         files = new[] { "encdata" };
                         Invoke((MethodInvoker)delegate { Enabled = false; });
                         {
-                            Invoke((Action)(() => new xytext(Directory.GetFiles("storytext")).Show()));
+                            Invoke((Action)(() => new TextEditor(Directory.GetFiles("storytext")).Show()));
                             Invoke((Action)(() => new OWSE().Show()));
                             while (Application.OpenForms.Count > 1)
                                 Thread.Sleep(200);
@@ -546,7 +546,7 @@ namespace pk3DS
             {
                 string[] files = { "evolution" };
                 fileGet(files);
-                Invoke((Action)(() => new Evolution().ShowDialog()));
+                Invoke((Action)(() => new EvolutionEditor6().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -557,7 +557,7 @@ namespace pk3DS
             {
                 string[] files = { "megaevo" };
                 fileGet(files);
-                Invoke((Action)(() => new MEE().ShowDialog()));
+                Invoke((Action)(() => new MegaEvoEditor6().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -568,7 +568,7 @@ namespace pk3DS
             {
                 string[] files = { "item" };
                 fileGet(files);
-                Invoke((Action)(() => new ItemEditor().ShowDialog()));
+                Invoke((Action)(() => new ItemEditor6().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -579,7 +579,7 @@ namespace pk3DS
             {
                 string[] files = { "move" };
                 fileGet(files);
-                Invoke((Action)(() => new Moves().ShowDialog()));
+                Invoke((Action)(() => new MoveEditor6().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -590,7 +590,7 @@ namespace pk3DS
             {
                 string[] files = { "levelup", "move" };
                 fileGet(files);
-                Invoke((Action)(() => new LevelUp().ShowDialog()));
+                Invoke((Action)(() => new LevelUpEditor6().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -612,7 +612,7 @@ namespace pk3DS
             {
                 string[] files = { "titlescreen" };
                 fileGet(files); // Compressed files exist, handled in the other form since there's so many
-                Invoke((Action)(() => new TitleScreen().ShowDialog()));
+                Invoke((Action)(() => new TitleScreenEditor6().ShowDialog()));
                 fileSet(files);
             }).Start();
         }
@@ -675,23 +675,23 @@ namespace pk3DS
         private void B_Pickup_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
-            if (ExeFSPath != null) new Pickup().Show();
+            if (ExeFSPath != null) new PickupEditor6().Show();
         }
         private void B_TMHM_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
-            if (ExeFSPath != null) new TMHM().Show();
+            if (ExeFSPath != null) new TMHMEditor6().Show();
         }
         private void B_Mart_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
-            if (ExeFSPath != null) new Mart().Show();
+            if (ExeFSPath != null) new MartEditor6().Show();
         }
         private void B_MoveTutor_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
             if (Config.XY) { Util.Alert("No Tutors for X/Y."); return; } // Already disabled button...
-            if (ExeFSPath != null) new Tutors().Show();
+            if (ExeFSPath != null) new TutorEditor6().Show();
         }
         private void B_OPower_Click(object sender, EventArgs e)
         {
@@ -735,7 +735,7 @@ namespace pk3DS
                 Util.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
                 return;
             }
-            new Starters().ShowDialog();
+            new StarterEditor6().ShowDialog();
         }
         private void B_TypeChart_Click(object sender, EventArgs e)
         {
@@ -749,7 +749,7 @@ namespace pk3DS
                 Util.Error("File Missing!", "DllBattle.cro was not found in your RomFS folder!");
                 return;
             }
-            new TypeChart().ShowDialog();
+            new TypeChart6().ShowDialog();
         }
         private void B_Gift_Click(object sender, EventArgs e)
         {
@@ -763,7 +763,7 @@ namespace pk3DS
                 Util.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
                 return;
             }
-            new Gifts().ShowDialog();
+            new GiftEditor6().ShowDialog();
         }
         private void B_Static_Click(object sender, EventArgs e)
         {
@@ -777,7 +777,7 @@ namespace pk3DS
                 Util.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
                 return;
             }
-            new StaticEncounters().ShowDialog();
+            new StaticEncounterEditor6().ShowDialog();
         }
         private void backupCROs(bool overwrite, string path)
         {

@@ -171,7 +171,7 @@ namespace pk3DS
         private void refreshSpeciesAbility(object sender, EventArgs e)
         {
             int i = Array.IndexOf(trpk_pkm, sender as ComboBox);
-            Personal.setForms(trpk_pkm[i].SelectedIndex, trpk_form[i], AltForms);
+            PersonalEditor6.setForms(trpk_pkm[i].SelectedIndex, trpk_form[i], AltForms);
             refreshPKMSlotAbility(i);
         }
         private void refreshPKMSlotAbility(int slot)
@@ -340,7 +340,7 @@ namespace pk3DS
                 trpk_IV[i].SelectedIndex = tr.Team[i].IVs;
                 trpk_lvl[i].SelectedIndex = tr.Team[i].Level;
                 trpk_pkm[i].SelectedIndex = tr.Team[i].Species;
-                Personal.setForms(tr.Team[i].Species, trpk_form[i], AltForms);
+                PersonalEditor6.setForms(tr.Team[i].Species, trpk_form[i], AltForms);
                 trpk_form[i].SelectedIndex = tr.Team[i].Form % trpk_form[i].Items.Count; // stupid X/Y buggy edge cases (220 / 222)
                 refreshPKMSlotAbility(i); // Repopulate Abilities
 
@@ -436,8 +436,8 @@ namespace pk3DS
         {
             start = true;
             byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
-            indexList = Personal.getPersonalIndexList(personalData, Main.Config.ORAS);
-            AltForms = Personal.getFormList(personalData, Main.Config.ORAS, specieslist, forms, types, itemlist);
+            indexList = PersonalEditor6.getPersonalIndexList(personalData, Main.Config.ORAS);
+            AltForms = PersonalEditor6.getFormList(personalData, Main.Config.ORAS, specieslist, forms, types, itemlist);
 
             Array.Resize(ref trName, trdatapaths.Length);
             CB_TrainerID.Items.Clear();
@@ -557,7 +557,7 @@ namespace pk3DS
             List<int> GymE4Types = new List<int>();
 
             // Fetch Move Stats for more difficult randomization
-            var moveData = Moves.getMoves();
+            var moveData = MoveEditor6.getMoves();
             int[] moveList = Enumerable.Range(1, movelist.Length - 1).ToArray();
             int mctr = 0;
             Util.Shuffle(moveList);

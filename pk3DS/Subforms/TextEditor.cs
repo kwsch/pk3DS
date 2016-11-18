@@ -7,9 +7,9 @@ using System.Windows.Forms;
 
 namespace pk3DS
 {
-    public partial class xytext : Form
+    public partial class TextEditor : Form
     {
-        public xytext(string[] infiles)
+        public TextEditor(string[] infiles)
         {
             InitializeComponent();
             files = infiles;
