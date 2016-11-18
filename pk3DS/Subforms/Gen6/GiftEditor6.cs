@@ -35,7 +35,7 @@ namespace pk3DS
         private readonly int fieldOffset = Main.Config.ORAS ? 0xF906C : 0xF805C;
         private readonly int fieldSize = Main.Config.ORAS ? 0x24 : 0x18;
         private readonly int count = Main.Config.ORAS ? 0x25 : 0x13;
-        private Gift[] GiftData;
+        private EncounterGift6[] GiftData;
         private readonly string[] abilitylist = Main.getText(TextName.AbilityNames);
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
         private readonly string[] itemlist = Main.getText(TextName.ItemNames);
@@ -53,11 +53,11 @@ namespace pk3DS
         private void loadData()
         {
             FieldData = File.ReadAllBytes(FieldPath);
-            GiftData = new Gift[count];
+            GiftData = new EncounterGift6[count];
             LB_Gifts.Items.Clear();
             for (int i = 0; i < GiftData.Length; i++)
             {
-                GiftData[i] = new Gift(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray(), Main.Config.ORAS);
+                GiftData[i] = new EncounterGift6(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray(), Main.Config.ORAS);
                 LB_Gifts.Items.Add($"{i.ToString("00")} - {specieslist[GiftData[i].Species]}");
             }
             loaded = true;

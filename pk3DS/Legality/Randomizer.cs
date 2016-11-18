@@ -2,7 +2,7 @@
 
 namespace pk3DS
 {
-    public class Randomizer
+    public static class Randomizer
     {
         internal static int getRandomSpecies(ref int[] list, ref int ctr)
         {

@@ -601,7 +601,7 @@ namespace pk3DS
             {
                 string[] files = { "eggmove", "move" };
                 fileGet(files);
-                Invoke((Action)(() => new EggMove().ShowDialog()));
+                Invoke((Action)(() => new EggMoveEditor6().ShowDialog()));
                 fileSet(files);
             }).Start();
         }

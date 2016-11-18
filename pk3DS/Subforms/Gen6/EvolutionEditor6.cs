@@ -86,21 +86,21 @@ namespace pk3DS
         private readonly string[] itemlist = Main.getText(TextName.ItemNames);
         private readonly string[] typelist = Main.getText(TextName.Types);
         private bool dumping;
-        private Evolutions evo = new Evolutions(new byte[0x30]);
+        private EvolutionSet evo = new EvolutionSet6(new byte[0x30]);
         private void getList()
         {
             entry = Array.IndexOf(specieslist, CB_Species.Text);
             byte[] input = File.ReadAllBytes(files[entry]);
             if (input.Length != 0x30) return; // error
-            evo = new Evolutions(input);
+            evo = new EvolutionSet6(input);
 
-            for (int i = 0; i < evo.Method.Length; i++)
+            for (int i = 0; i < evo.PossibleEvolutions.Length; i++)
             {
-                if (evo.Method[i] > 34) return; // Invalid!
+                if (evo.PossibleEvolutions[i].Method > 34) return; // Invalid!
 
-                mb[i].SelectedIndex = evo.Method[i]; // Which will trigger the params cb to reload the valid params list
-                pb[i].SelectedIndex = evo.Criteria[i];
-                rb[i].SelectedIndex = evo.Species[i];
+                mb[i].SelectedIndex = evo.PossibleEvolutions[i].Method; // Which will trigger the params cb to reload the valid params list
+                pb[i].SelectedIndex = evo.PossibleEvolutions[i].Argument;
+                rb[i].SelectedIndex = evo.PossibleEvolutions[i].Species;
             }
         }
         private void setList()
@@ -109,9 +109,9 @@ namespace pk3DS
 
             for (int i = 0; i < 8; i++)
             {
-                evo.Method[i] = (ushort)mb[i].SelectedIndex;
-                evo.Criteria[i] = (ushort)pb[i].SelectedIndex;
-                evo.Species[i] = (ushort)rb[i].SelectedIndex;
+                evo.PossibleEvolutions[i].Method = mb[i].SelectedIndex;
+                evo.PossibleEvolutions[i].Argument = pb[i].SelectedIndex;
+                evo.PossibleEvolutions[i].Species = rb[i].SelectedIndex;
             }
             File.WriteAllBytes(files[entry], evo.Write());
         }

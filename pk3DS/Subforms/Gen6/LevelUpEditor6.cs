@@ -63,7 +63,7 @@ namespace pk3DS
             dgv.Columns.Add(dgvMove);
         }
 
-        private Learnset pkm;
+        private Learnset6 pkm;
         private void getList()
         {
             entry = Util.getIndex(CB_Species);
@@ -75,7 +75,7 @@ namespace pk3DS
             dgv.Rows.Clear();
             byte[] input = File.ReadAllBytes(files[entry]);
             if (input.Length <= 4) { File.WriteAllBytes(files[entry], BitConverter.GetBytes(-1)); return; }
-            pkm = new Learnset(input);
+            pkm = new Learnset6(input);
 
             dgv.Rows.Add(pkm.Count);
 
@@ -91,8 +91,8 @@ namespace pk3DS
         private void setList()
         {
             if (entry < 1 || dumping) return;
-            List<short> moves = new List<short>();
-            List<short> levels = new List<short>();
+            List<int> moves = new List<int>();
+            List<int> levels = new List<int>();
             for (int i = 0; i < dgv.Rows.Count - 1; i++)
             {
                 int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[1].Value);
@@ -101,7 +101,7 @@ namespace pk3DS
                 moves.Add((short)move);
                 string level = (dgv.Rows[i].Cells[0].Value ?? 0).ToString();
                 short lv;
-                Int16.TryParse(level, out lv);
+                short.TryParse(level, out lv);
                 if (lv > 100) lv = 100;
                 else if (lv == 0) lv = 1;
                 levels.Add(lv);

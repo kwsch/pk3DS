@@ -53,7 +53,7 @@ namespace pk3DS
             dgv.Columns.Add(dgvMove);
         }
 
-        private EggMoves pkm = new EggMoves(new byte[0]);
+        private EggMoves pkm = new EggMoves6(new byte[0]);
         private void getList()
         {
             entry = Util.getIndex(CB_Species);
@@ -65,7 +65,7 @@ namespace pk3DS
             dgv.Rows.Clear();
             byte[] input = File.ReadAllBytes(files[entry]);
             if (input.Length == 0) return;
-            pkm = new EggMoves(input);
+            pkm = new EggMoves6(input);
             if (pkm.Count < 1) { File.WriteAllBytes(files[entry], new byte[0]); return; }
             dgv.Rows.Add(pkm.Count);
 
@@ -78,11 +78,11 @@ namespace pk3DS
         private void setList()
         {
             if (entry < 1 || dumping) return;
-            List<ushort> moves = new List<ushort>();
+            List<int> moves = new List<int>();
             for (int i = 0; i < dgv.Rows.Count - 1; i++)
             {
                 int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[0].Value);
-                if (move > 0 && !moves.Contains((ushort)move)) moves.Add((ushort)move);
+                if (move > 0 && !moves.Contains((ushort)move)) moves.Add(move);
             }
             pkm.Moves = moves.ToArray();
 

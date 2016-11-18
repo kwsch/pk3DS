@@ -300,7 +300,7 @@ namespace pk3DS
         }
 
         // Change Read/Write
-        private Trainer tr;
+        private trdata6 tr;
         private void changeTrainerIndex(object sender, EventArgs e)
         {
             if (!dumping && index > -1) writeFile();
@@ -317,7 +317,7 @@ namespace pk3DS
             tabControl1.Enabled = true;
             byte[] trdata = File.ReadAllBytes(trdatapaths[index]);
             byte[] trpoke = File.ReadAllBytes(trpokepaths[index]);
-            tr = new Trainer(trdata, trpoke, Main.Config.ORAS);
+            tr = new trdata6(trdata, trpoke, Main.Config.ORAS);
 
             // Load Trainer Data
             CB_Trainer_Class.SelectedIndex = tr.Class;
@@ -388,7 +388,7 @@ namespace pk3DS
             for (int i = 0; i < tr.NumPokemon; i++)
             {
                 if (tr.Team[i] == null)
-                    tr.Team[i] = new Trainer.Pokemon(new byte[100], false, false); // Initialize with zeroes
+                    tr.Team[i] = new trdata6.Pokemon(new byte[100], false, false); // Initialize with zeroes
                 tr.Team[i].IVs = (byte)trpk_IV[i].SelectedIndex;
                 tr.Team[i].Ability = trpk_abil[i].SelectedIndex;
                 tr.Team[i].Gender = trpk_gender[i].SelectedIndex;

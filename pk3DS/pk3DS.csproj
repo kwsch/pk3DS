@@ -71,44 +71,51 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="Game\GameConfig.cs" />
-    <Compile Include="Randomizer.cs" />
+    <Compile Include="Legality\Randomizer.cs" />
     <Compile Include="3DS\RomFS.cs" />
     <Compile Include="Structs.cs" />
+    <Compile Include="Structures\Gen6\EncounterStatic6.cs" />
+    <Compile Include="Structures\Gen6\Item6.cs" />
+    <Compile Include="Structures\Gen6\Maison6.cs" />
+    <Compile Include="Structures\Gen6\MegaEvolution6.cs" />
+    <Compile Include="Structures\Gen6\Move6.cs" />
+    <Compile Include="Structures\Gen6\trdata6.cs" />
     <Compile Include="Structures\Gen7\trdata7.cs" />
     <Compile Include="Structures\Gen7\trpoke7.cs" />
+    <Compile Include="Structures\Learnset.cs" />
     <Compile Include="Structures\PersonalInfo\PersonalInfo.cs" />
     <Compile Include="Structures\PersonalInfo\PersonalInfoORAS.cs" />
     <Compile Include="Structures\PersonalInfo\PersonalInfoSM.cs" />
     <Compile Include="Structures\PersonalInfo\PersonalInfoXY.cs" />
     <Compile Include="Structures\PersonalInfo\PersonalTable.cs" />
-    <Compile Include="Subforms\SMTE.cs">
+    <Compile Include="Subforms\Gen7\SMTE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\SMTE.Designer.cs">
+    <Compile Include="Subforms\Gen7\SMTE.Designer.cs">
       <DependentUpon>SMTE.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\SMWE.cs">
+    <Compile Include="Subforms\Gen7\SMWE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\SMWE.designer.cs">
+    <Compile Include="Subforms\Gen7\SMWE.designer.cs">
       <DependentUpon>SMWE.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\StaticEncounters.cs">
+    <Compile Include="Subforms\Gen6\StaticEncounterEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\StaticEncounters.Designer.cs">
-      <DependentUpon>StaticEncounters.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\StaticEncounterEditor6.Designer.cs">
+      <DependentUpon>StaticEncounterEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Gifts.cs">
+    <Compile Include="Subforms\Gen6\GiftEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Gifts.Designer.cs">
-      <DependentUpon>Gifts.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\GiftEditor6.Designer.cs">
+      <DependentUpon>GiftEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\MapPermView.cs">
+    <Compile Include="Subforms\Gen6\Experimental\MapPermView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\MapPermView.Designer.cs">
+    <Compile Include="Subforms\Gen6\Experimental\MapPermView.Designer.cs">
       <DependentUpon>MapPermView.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Shuffler.cs">
@@ -117,146 +124,146 @@
     <Compile Include="Tools\Shuffler.Designer.cs">
       <DependentUpon>Shuffler.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\TypeChart.cs">
+    <Compile Include="Subforms\Gen6\TypeChart6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\TypeChart.Designer.cs">
-      <DependentUpon>TypeChart.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\TypeChart6.Designer.cs">
+      <DependentUpon>TypeChart6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Starters.cs">
+    <Compile Include="Subforms\Gen6\StarterEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Starters.Designer.cs">
-      <DependentUpon>Starters.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\StarterEditor6.Designer.cs">
+      <DependentUpon>StarterEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Patch.cs">
+    <Compile Include="Misc\Patch.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Patch.Designer.cs">
+    <Compile Include="Misc\Patch.Designer.cs">
       <DependentUpon>Patch.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\TitleScreen.cs">
+    <Compile Include="Subforms\Gen6\TitleScreenEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\TitleScreen.Designer.cs">
-      <DependentUpon>TitleScreen.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\TitleScreenEditor6.Designer.cs">
+      <DependentUpon>TitleScreenEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\RSWE.cs">
+    <Compile Include="Subforms\Gen6\RSWE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\RSWE.designer.cs">
+    <Compile Include="Subforms\Gen6\RSWE.designer.cs">
       <DependentUpon>RSWE.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\OPower.cs">
+    <Compile Include="Subforms\Gen6\OPower.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\OPower.Designer.cs">
+    <Compile Include="Subforms\Gen6\OPower.Designer.cs">
       <DependentUpon>OPower.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Item.cs">
+    <Compile Include="Subforms\Gen6\ItemEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Item.Designer.cs">
-      <DependentUpon>Item.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\ItemEditor6.Designer.cs">
+      <DependentUpon>ItemEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Pickup.cs">
+    <Compile Include="Subforms\Gen6\PickupEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Pickup.Designer.cs">
-      <DependentUpon>Pickup.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\PickupEditor6.Designer.cs">
+      <DependentUpon>PickupEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\TMHM.cs">
+    <Compile Include="Subforms\Gen6\TMHMEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\TMHM.Designer.cs">
-      <DependentUpon>TMHM.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\TMHMEditor6.Designer.cs">
+      <DependentUpon>TMHMEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Tutors.cs">
+    <Compile Include="Subforms\Gen6\TutorEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Tutors.Designer.cs">
-      <DependentUpon>Tutors.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\TutorEditor6.Designer.cs">
+      <DependentUpon>TutorEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Mart.cs">
+    <Compile Include="Subforms\Gen6\MartEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Mart.Designer.cs">
-      <DependentUpon>Mart.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\MartEditor6.Designer.cs">
+      <DependentUpon>MartEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Maison.cs">
+    <Compile Include="Subforms\Gen6\MaisonEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Maison.Designer.cs">
-      <DependentUpon>Maison.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\MaisonEditor6.Designer.cs">
+      <DependentUpon>MaisonEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\MEE.cs">
+    <Compile Include="Subforms\Gen6\MegaEvoEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\MEE.Designer.cs">
-      <DependentUpon>MEE.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\MegaEvoEditor6.Designer.cs">
+      <DependentUpon>MegaEvoEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Moves.cs">
+    <Compile Include="Subforms\Gen6\MoveEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Moves.Designer.cs">
-      <DependentUpon>Moves.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\MoveEditor6.Designer.cs">
+      <DependentUpon>MoveEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Evolution.cs">
+    <Compile Include="Subforms\Gen6\EvolutionEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Evolution.Designer.cs">
-      <DependentUpon>Evolution.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\EvolutionEditor6.Designer.cs">
+      <DependentUpon>EvolutionEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\LevelUp.cs">
+    <Compile Include="Subforms\Gen6\LevelUpEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\LevelUp.Designer.cs">
-      <DependentUpon>LevelUp.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\LevelUpEditor6.Designer.cs">
+      <DependentUpon>LevelUpEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\EggMove.cs">
+    <Compile Include="Subforms\Gen6\EggMoveEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\EggMove.Designer.cs">
-      <DependentUpon>EggMove.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\EggMoveEditor6.Designer.cs">
+      <DependentUpon>EggMoveEditor6.cs</DependentUpon>
     </Compile>
     <Compile Include="3DS\GARC.cs" />
-    <Compile Include="Legal.cs" />
+    <Compile Include="Legality\Legal.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Personal.cs">
+    <Compile Include="Subforms\Gen6\PersonalEditor6.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Personal.Designer.cs">
-      <DependentUpon>Personal.cs</DependentUpon>
+    <Compile Include="Subforms\Gen6\PersonalEditor6.Designer.cs">
+      <DependentUpon>PersonalEditor6.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Subforms\OWSE.cs">
+    <Compile Include="Subforms\Gen6\Experimental\OWSE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\OWSE.designer.cs">
+    <Compile Include="Subforms\Gen6\Experimental\OWSE.designer.cs">
       <DependentUpon>OWSE.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\TrainerRand.cs">
+    <Compile Include="Subforms\Gen6\TrainerRand.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\TrainerRand.Designer.cs">
+    <Compile Include="Subforms\Gen6\TrainerRand.Designer.cs">
       <DependentUpon>TrainerRand.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\RSTE.cs">
+    <Compile Include="Subforms\Gen6\RSTE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\RSTE.Designer.cs">
+    <Compile Include="Subforms\Gen6\RSTE.Designer.cs">
       <DependentUpon>RSTE.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\XYWE.cs">
+    <Compile Include="Subforms\Gen6\XYWE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\XYWE.designer.cs">
+    <Compile Include="Subforms\Gen6\XYWE.designer.cs">
       <DependentUpon>XYWE.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Icon.cs">
@@ -274,11 +281,11 @@
       <DependentUpon>ToolsUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Util.cs" />
-    <Compile Include="Subforms\xytext.cs">
+    <Compile Include="Subforms\TextEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\xytext.Designer.cs">
-      <DependentUpon>xytext.cs</DependentUpon>
+    <Compile Include="Subforms\TextEditor.Designer.cs">
+      <DependentUpon>TextEditor.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
@@ -286,80 +293,80 @@
     <EmbeddedResource Include="Misc\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\SMTE.resx">
+    <EmbeddedResource Include="Subforms\Gen7\SMTE.resx">
       <DependentUpon>SMTE.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\SMWE.resx">
+    <EmbeddedResource Include="Subforms\Gen7\SMWE.resx">
       <DependentUpon>SMWE.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\StaticEncounters.resx">
-      <DependentUpon>StaticEncounters.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\StaticEncounterEditor6.resx">
+      <DependentUpon>StaticEncounterEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\Gifts.resx">
-      <DependentUpon>Gifts.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\GiftEditor6.resx">
+      <DependentUpon>GiftEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\MapPermView.resx">
+    <EmbeddedResource Include="Subforms\Gen6\Experimental\MapPermView.resx">
       <DependentUpon>MapPermView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Shuffler.resx">
       <DependentUpon>Shuffler.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\TypeChart.resx">
-      <DependentUpon>TypeChart.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\TypeChart6.resx">
+      <DependentUpon>TypeChart6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\Starters.resx">
-      <DependentUpon>Starters.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\StarterEditor6.resx">
+      <DependentUpon>StarterEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\Patch.resx">
+    <EmbeddedResource Include="Misc\Patch.resx">
       <DependentUpon>Patch.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\TitleScreen.resx">
-      <DependentUpon>TitleScreen.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\TitleScreenEditor6.resx">
+      <DependentUpon>TitleScreenEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\RSWE.resx">
+    <EmbeddedResource Include="Subforms\Gen6\RSWE.resx">
       <DependentUpon>RSWE.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\OPower.resx">
+    <EmbeddedResource Include="Subforms\Gen6\OPower.resx">
       <DependentUpon>OPower.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\Item.resx">
-      <DependentUpon>Item.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\ItemEditor6.resx">
+      <DependentUpon>ItemEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\Pickup.resx">
-      <DependentUpon>Pickup.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\PickupEditor6.resx">
+      <DependentUpon>PickupEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\TMHM.resx">
-      <DependentUpon>TMHM.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\TMHMEditor6.resx">
+      <DependentUpon>TMHMEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\TrainerRand.resx">
+    <EmbeddedResource Include="Subforms\Gen6\TrainerRand.resx">
       <DependentUpon>TrainerRand.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\Tutors.resx">
-      <DependentUpon>Tutors.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\TutorEditor6.resx">
+      <DependentUpon>TutorEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\Maison.resx">
-      <DependentUpon>Maison.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\MaisonEditor6.resx">
+      <DependentUpon>MaisonEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\Mart.resx">
-      <DependentUpon>Mart.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\MartEditor6.resx">
+      <DependentUpon>MartEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\MEE.resx">
-      <DependentUpon>MEE.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\MegaEvoEditor6.resx">
+      <DependentUpon>MegaEvoEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\Moves.resx">
-      <DependentUpon>Moves.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\MoveEditor6.resx">
+      <DependentUpon>MoveEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\Evolution.resx">
-      <DependentUpon>Evolution.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\EvolutionEditor6.resx">
+      <DependentUpon>EvolutionEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\LevelUp.resx">
-      <DependentUpon>LevelUp.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\LevelUpEditor6.resx">
+      <DependentUpon>LevelUpEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\EggMove.resx">
-      <DependentUpon>EggMove.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\EggMoveEditor6.resx">
+      <DependentUpon>EggMoveEditor6.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\Personal.resx">
-      <DependentUpon>Personal.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\Gen6\PersonalEditor6.resx">
+      <DependentUpon>PersonalEditor6.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -371,16 +378,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Subforms\RSTE.resx">
+    <EmbeddedResource Include="Subforms\Gen6\RSTE.resx">
       <DependentUpon>RSTE.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\OWSE.resx">
+    <EmbeddedResource Include="Subforms\Gen6\Experimental\OWSE.resx">
       <DependentUpon>OWSE.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\xytext.resx">
-      <DependentUpon>xytext.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\TextEditor.resx">
+      <DependentUpon>TextEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\XYWE.resx">
+    <EmbeddedResource Include="Subforms\Gen6\XYWE.resx">
       <DependentUpon>XYWE.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Icon.resx">
@@ -4949,6 +4956,7 @@
     <None Include="Resources\img\Pokemon Sprites\26-1.png" />
     <Content Include="Resources\img\rare_icon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

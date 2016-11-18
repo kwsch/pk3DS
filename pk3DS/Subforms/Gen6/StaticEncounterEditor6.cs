@@ -34,7 +34,7 @@ namespace pk3DS
         private readonly int fieldOffset = Main.Config.ORAS ? 0xF1B20 : 0xEE478;
         private const int fieldSize = 0xC;
         private readonly int count = Main.Config.ORAS ? 0x3B : 0xC;
-        private EncounterStatic[] EncounterData;
+        private EncounterStatic6[] EncounterData;
         private readonly string[] itemlist = Main.getText(TextName.ItemNames);
         private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
         private void B_Save_Click(object sender, EventArgs e)
@@ -50,11 +50,11 @@ namespace pk3DS
         private void loadData()
         {
             FieldData = File.ReadAllBytes(FieldPath);
-            EncounterData = new EncounterStatic[count];
+            EncounterData = new EncounterStatic6[count];
             LB_Encounters.Items.Clear();
             for (int i = 0; i < EncounterData.Length; i++)
             {
-                EncounterData[i] = new EncounterStatic(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray());
+                EncounterData[i] = new EncounterStatic6(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray());
                 LB_Encounters.Items.Add($"{i.ToString("00")} - {specieslist[EncounterData[i].Species]}");
             }
             loaded = true;

@@ -69,7 +69,7 @@ namespace pk3DS
 
             // Get
             LB_Choices.Items.Clear();
-            Maison.Trainer tr = new Maison.Trainer(File.ReadAllBytes(trFiles[trEntry]));
+            Maison6.Trainer tr = new Maison6.Trainer(File.ReadAllBytes(trFiles[trEntry]));
 
             CB_Class.SelectedIndex = tr.Class;
             GB_Trainer.Enabled = tr.Count > 0;
@@ -81,7 +81,7 @@ namespace pk3DS
         {
             if (trEntry < 0 || !GB_Trainer.Enabled || dumping) return;
             // Gather
-            Maison.Trainer tr = new Maison.Trainer
+            Maison6.Trainer tr = new Maison6.Trainer
             {
                 Class = (ushort) CB_Class.SelectedIndex,
                 Count = (ushort) LB_Choices.Items.Count
@@ -95,7 +95,7 @@ namespace pk3DS
         private void getPokemon()
         {
             if (pkEntry < 0 || dumping) return;
-            Maison.Pokemon pkm = new Maison.Pokemon(File.ReadAllBytes(pkFiles[pkEntry]));
+            Maison6.Pokemon pkm = new Maison6.Pokemon(File.ReadAllBytes(pkFiles[pkEntry]));
 
             // Get
             CB_Move1.SelectedIndex = pkm.Moves[0];
@@ -119,7 +119,7 @@ namespace pk3DS
             if (pkEntry < 0 || dumping) return;
 
             // Each File is 16 Bytes.
-            Maison.Pokemon pkm = new Maison.Pokemon(File.ReadAllBytes(pkFiles[pkEntry]))
+            Maison6.Pokemon pkm = new Maison6.Pokemon(File.ReadAllBytes(pkFiles[pkEntry]))
             {
                 Species = (ushort) CB_Species.SelectedIndex,
                 HP = CHK_HP.Checked,
