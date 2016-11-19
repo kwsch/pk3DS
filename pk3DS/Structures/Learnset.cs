@@ -59,7 +59,7 @@ namespace pk3DS
     }
     public class Learnset7 : Learnset
     {
-        private Learnset7(byte[] data)
+        public Learnset7(byte[] data)
         {
             if (data.Length < 4 || data.Length % 4 != 0)
             { Count = 0; Levels = new int[0]; Moves = new int[0]; return; }

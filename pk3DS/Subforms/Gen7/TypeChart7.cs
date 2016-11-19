@@ -1,42 +1,49 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 
 namespace pk3DS
 {
-    public partial class TypeChart6 : Form
+    public partial class TypeChart7 : Form
     {
-        private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllBattle.cro");
-        private readonly string[] types = Main.getText(TextName.Types);
         private readonly int offset = Main.Config.ORAS ? 0x000DB428 : 0x000D12A8;
         private readonly byte[] chart = new byte[TypeCount * TypeCount];
-        private readonly byte[] CROData;
+        private readonly byte[] exefs;
+        private readonly string[] types = Main.getText(TextName.Types);
         private const int TypeCount = 18;
         private const int TypeWidth = 32;
 
-        public TypeChart6()
+        public TypeChart7()
         {
-            if (!File.Exists(CROPath))
-            {
-                Util.Error("CRO does not exist! Closing.", CROPath);
-                Close();
-            }
             InitializeComponent();
+            if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); Close(); }
+            string[] files = Directory.GetFiles(Main.ExeFSPath);
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
+            exefs = File.ReadAllBytes(files[0]);
+            if (exefs.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
+            offset = Util.IndexOfBytes(exefs, Signature, 0x500000, 0) + Signature.Length;
 
-            CROData = File.ReadAllBytes(CROPath);
-            Array.Copy(CROData, offset, chart, 0, chart.Length);
-
+            Array.Copy(exefs, offset, chart, 0, chart.Length);
             populateChart();
         }
+        private readonly byte[] Signature =
+        {
+            0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
+            0xC3, 0x00, 0x00, 0x00, 0xCB, 0x00, 0x00, 0x00, 0xD3, 0x00, 0x00, 0x00, 0xDB, 0x00, 0x00, 0x00,
+            0xF3, 0x00, 0x00, 0x00, 0xFB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
+            0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
+        };
 
         private void populateChart()
         {
-            PB_Chart.Image = TypeChart.getGrid(TypeCount, TypeCount, chart);
+            PB_Chart.Image = TypeChart.getGrid(TypeWidth, TypeCount, chart);
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            Array.Copy(chart, 0, CROData, offset, chart.Length);
-            File.WriteAllBytes(CROPath, CROData);
+            chart.CopyTo(exefs, offset);
+            File.WriteAllBytes(Main.ExeFSPath, exefs);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -53,7 +60,7 @@ namespace pk3DS
             if (e.Y == (sender as PictureBox).Height - 1 - 2)
                 Y -= 1;
 
-            int index = Y * TypeCount + X;
+            int index = Y*TypeCount + X;
             updateLabel(X, Y, chart[index]);
         }
         private void clickMouse(object sender, MouseEventArgs e)

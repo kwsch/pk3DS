@@ -295,7 +295,7 @@ namespace pk3DS
                     break;
                 case 7:
                     romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Wild, B_Trainer};
-                    exefs = new Control[] {B_TMHM};
+                    exefs = new Control[] {B_TMHM, B_TypeChart};
                     cro = new Control[] {new Label {Text = "No editors available."}};
                     break;
                 default:
@@ -790,16 +790,26 @@ namespace pk3DS
         private void B_TypeChart_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
-                "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
-                return;
-            string CRO = Path.Combine(RomFSPath, "DllBattle.cro");
-            if (!File.Exists(CRO))
+
+            switch (Config.Generation)
             {
-                Util.Error("File Missing!", "DllBattle.cro was not found in your RomFS folder!");
-                return;
+                case 6:
+                    if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
+                        "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
+                        return;
+                    string CRO = Path.Combine(RomFSPath, "DllBattle.cro");
+                    if (!File.Exists(CRO))
+                    {
+                        Util.Error("File Missing!", "DllBattle.cro was not found in your RomFS folder!");
+                        return;
+                    }
+                    new TypeChart6().ShowDialog();
+                    break;
+                case 7:
+                    new TypeChart7().ShowDialog();
+                    break;
+
             }
-            new TypeChart6().ShowDialog();
         }
         private void B_Gift_Click(object sender, EventArgs e)
         {
