@@ -175,8 +175,8 @@ namespace pk3DS
 
             TB_BaseExp.Text = pkm.BaseEXP.ToString("000");
 
-            TB_Height.Text = (pkm.Height / 100).ToString("00.00");
-            TB_Weight.Text = (pkm.Weight / 10).ToString("000.0");
+            TB_Height.Text = ((decimal)pkm.Height / 100).ToString("00.00");
+            TB_Weight.Text = ((decimal)pkm.Weight / 10).ToString("000.0");
 
             for (int i = 0; i < CLB_TMHM.Items.Count; i++)
                 CLB_TMHM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TMHM
