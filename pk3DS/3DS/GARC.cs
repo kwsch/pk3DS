@@ -425,8 +425,16 @@ namespace CTR
 
         public static GARCFile unpackGARC(string path)
         {
+            return unpackGARC(File.OpenRead(path));
+        }
+        private static GARCFile unpackGARC(byte[] data)
+        {
+            return unpackGARC(new MemoryStream(data));
+        }
+        private static GARCFile unpackGARC(Stream stream)
+        {
             GARCFile garc = new GARCFile();
-            using (BinaryReader br = new BinaryReader(File.OpenRead(path)))
+            using (BinaryReader br = new BinaryReader(stream))
             {
                 // GARC Header
                 garc.Magic = br.ReadChars(4);
@@ -496,6 +504,30 @@ namespace CTR
                 // Oftentimes too large to toss into a byte array. Fetch as needed with a BinaryReader.
             }
             return garc;
+        }
+
+        public class MemGARC
+        {
+            private GARCFile garc;
+            private readonly byte[] Data;
+            public int FileCount => garc.fato.EntryCount;
+
+            public MemGARC(byte[] data)
+            {
+                Data = data;
+                garc = unpackGARC(data);
+            }
+            public byte[] getFile(int file, int subfile = 0)
+            {
+                var Entry = garc.fatb.Entries[file];
+                var SubEntry = Entry.SubEntries[subfile];
+                if (!SubEntry.Exists)
+                    throw new ArgumentException("SubFile does not exist.");
+                var offset = SubEntry.Start + garc.DataOffset;
+                byte[] data = new byte[SubEntry.Length];
+                Array.Copy(Data, offset, data, 0, data.Length);
+                return data;
+            }
         }
 
         public struct GARCFile

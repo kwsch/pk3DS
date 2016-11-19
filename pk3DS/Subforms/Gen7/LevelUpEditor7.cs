@@ -15,7 +15,9 @@ namespace pk3DS
         public LevelUpEditor7()
         {
             InitializeComponent();
-            string[] specieslist = PersonalEditor6.getSpeciesIndexStrings(Main.Config.ORAS);
+            string[] species = Main.getText(TextName.SpeciesNames);
+            string[][] AltForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
+            string[] specieslist = Main.Config.Personal.getPersonalEntryList(AltForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
             specieslist[0] = movelist[0] = "";
 
             string[] sortedspecies = (string[])specieslist.Clone();
@@ -38,6 +40,7 @@ namespace pk3DS
         private int entry = -1;
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
         private bool dumping;
+        private readonly int[] baseForms, formVal;
         private void setupDGV()
         {
             string[] sortedmoves = (string[])movelist.Clone();
@@ -67,8 +70,11 @@ namespace pk3DS
         private void getList()
         {
             entry = Util.getIndex(CB_Species);
-
-            int[] specForm = PersonalEditor6.getSpecies(data, Main.Config.ORAS, entry);
+            int s = baseForms[entry];
+            int f = formVal[entry];
+            if (entry <= Main.Config.MaxSpeciesID)
+                s = entry;
+            int[] specForm = { s, f };
             string filename = "_" + specForm[0] + (entry > Main.Config.MaxSpeciesID ? "_" + (specForm[1] + 1) : "");
             PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
 
@@ -128,22 +134,17 @@ namespace pk3DS
 
             int[] firstMoves = { 1, 40, 52, 55, 64, 71, 84, 98, 122, 141 };
             // Pound, Poison Sting, Ember, Water Gun, Peck, Absorb, Thunder Shock, Quick Attack, Lick, Leech Life
-
-            ushort[] HMs = { 15, 19, 57, 70, 127, 249, 291 };
+            
             ushort[] TMs = {};
             if (CHK_HMs.Checked && Main.ExeFSPath != null)
-                TMHMEditor6.getTMHMList(Main.Config.ORAS, ref TMs, ref HMs);
+                TMEditor7.getTMHMList(ref TMs);
 
-            int[] banned = new int[HMs.Length];
-            for (int i = 0; i < banned.Length; i++) 
-                banned[i] = HMs[i];
-            banned = banned.Concat(new[] { 165, 621 }).ToArray(); // Struggle, Hyperspace Fury
+            int[] banned = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(); // Struggle, Hyperspace Fury, Dark Void
 
             // Move Stats
             Move[] moveTypes = MoveEditor6.getMoves();
 
             // Personal Stats
-            byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
 
             // Set up Randomized Moves
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
@@ -166,17 +167,10 @@ namespace pk3DS
                     // Assign New Moves
                     bool forceSTAB = CHK_STAB.Checked && rnd.Next(0, 99) < NUD_STAB.Value;
                     int move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
-                    while ( // Move is invalid
-                        (!CHK_HMs.Checked && banned.Contains(move)) // HM Moves Not Allowed
-                        || (forceSTAB && // STAB is required
-                            !(
-                            moveTypes[move].Type == personalData[6 + (Main.Config.ORAS ? 0x50 : 0x40) * species] // Type 1
-                            ||
-                            moveTypes[move].Type == personalData[7 + (Main.Config.ORAS ? 0x50 : 0x40) * species] // Type 2
-                            )
-                            )
-                            )
-                            { move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr); }
+
+                    while (banned.Contains(move) /* Invalid */
+                        || (forceSTAB && !Main.SpeciesStat[species].Types.Contains(moveTypes[move].Type))) // STAB is required
+                        move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
 
                     // Assign Move
                     dgv.Rows[j].Cells[1].Value = movelist[move];
@@ -238,9 +232,6 @@ namespace pk3DS
         public void calcStats() // Debug Function
         {
             Move[] MoveData = MoveEditor6.getMoves();
-
-            byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
-
             int movectr = 0;
             int max = 0;
             int spec = 0;
@@ -261,8 +252,7 @@ namespace pk3DS
                         movectr--;
                         continue;
                     }
-                    if (MoveData[move].Type == personalData[6 + (Main.Config.ORAS ? 0x50 : 0x40) * i] ||
-                        MoveData[move].Type == personalData[7 + (Main.Config.ORAS ? 0x50 : 0x40) * i])
+                    if (Main.SpeciesStat[i].Types.Contains(MoveData[move].Type))
                         stab++;
                 }
             }

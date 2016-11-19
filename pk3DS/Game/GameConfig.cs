@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.IO;
 using System.Linq;
+using CTR;
 
 namespace pk3DS
 {
@@ -78,17 +79,48 @@ namespace pk3DS
                     break;
             }
         }
+        public void Initialize(string romFSpath, string exeFSpath, int lang)
+        {
+            RomFS = romFSpath;
+            ExeFS = exeFSpath;
+            Language = lang;
+        }
+
+        public void InitializePersonal()
+        {
+            var pG = getROMFSFile("personal");
+            Personal = new PersonalTable(pG.getFile(pG.FileCount - 1), Version);
+        }
+
+        private GARC.MemGARC getROMFSFile(string file)
+        {
+            string path = Path.Combine(RomFS, getGARC(file).Reference);
+            return new GARC.MemGARC(File.ReadAllBytes(path));
+        }
+
+        private string RomFS, ExeFS;
 
         public GARCReference getGARC(string name) { return Files.FirstOrDefault(f => f.Name == name); }
         public TextVariableCode getVariableCode(string name) { return Variables.FirstOrDefault(v => v.Name == name); }
         public TextVariableCode getVariableName(int value) { return Variables.FirstOrDefault(v => v.Code == value); }
         public TextReference getGameText(TextName name) { return GameText.FirstOrDefault(f => f.Name == name); }
 
+        public string getGARCFileName(string requestedGARC)
+        {
+            var garc = getGARC(requestedGARC);
+            if (garc.LanguageVariant)
+                garc = garc.getRelativeGARC(Language);
+
+            return garc.Reference;
+        }
+
+        public int Language { get; set; }
+        public PersonalTable Personal;
         public bool XY => Version == GameVersion.XY;
         public bool ORAS => Version == GameVersion.ORAS || Version == GameVersion.ORASDEMO;
         public bool SM => Version == GameVersion.SM || Version == GameVersion.SMDEMO;
         public int MaxSpeciesID => XY || ORAS ? 722 : 802;
-        public int GARCVersion => XY || ORAS ? CTR.GARC.VER_4 : CTR.GARC.VER_6;
+        public int GARCVersion => XY || ORAS ? GARC.VER_4 : GARC.VER_6;
         public int Generation
         {
             get

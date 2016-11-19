@@ -79,7 +79,7 @@ namespace pk3DS
         internal static CTR.SMDH SMDH;
         private uint HANSgameID; // for exporting RomFS/ExeFS with correct X8 gameID
         private readonly bool skipBoth;
-        internal static PersonalInfo[] SpeciesStat;
+        public static PersonalInfo[] SpeciesStat => Config.Personal.Table;
 
         // Main Form Methods
         private void L_About_Click(object sender, EventArgs e)
@@ -91,7 +91,7 @@ namespace pk3DS
             if (RomFSPath != null)
             {
                 string s = "Game Type: " + Config.Version + Environment.NewLine;
-                s = Config.Files.Select(file => file.Name).Aggregate(s, (current, t) => current + string.Format(Environment.NewLine + "{0} - {1}", t, getGARCFileName(t)));
+                s = Config.Files.Select(file => file.Name).Aggregate(s, (current, t) => current + string.Format(Environment.NewLine + "{0} - {1}", t, Config.getGARCFileName(t)));
 
                 if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, s, "Copy to Clipboard?")) return;
 
@@ -116,6 +116,8 @@ namespace pk3DS
             if (InvokeRequired)
                 Invoke((MethodInvoker)delegate { Language = CB_Lang.SelectedIndex; });
             else Language = CB_Lang.SelectedIndex;
+            if (Config != null)
+                Config.Language = Language;
             Menu_Options.DropDown.Close();
             if (!Tab_RomFS.Enabled || Config == null)
                 return;
@@ -135,18 +137,18 @@ namespace pk3DS
                 // Let all other operations finish first (ie, if the user quickly switches languages on load)
                 while (threads > 0) Thread.Sleep(50);
                 // Gather the Text Language Strings
-                updateStatus($"GARC Get: {"gametext"} @ {getGARCFileName("gametext")}... ");
-                threadGet(Path.Combine(RomFSPath, getGARCFileName("gametext")), "gametext", true, true);
+                updateStatus($"GARC Get: {"gametext"} @ {Config.getGARCFileName("gametext")}... ");
+                threadGet(Path.Combine(RomFSPath, Config.getGARCFileName("gametext")), "gametext", true, true);
 
                 while (threads > 0) Thread.Sleep(50);
                 if (!Directory.Exists("personal"))
                 {
-                    updateStatus($"GARC Get: {"personal"} @ {getGARCFileName("personal")}... ");
-                    threadGet(Path.Combine(RomFSPath, getGARCFileName("personal")), "personal", true, true);
+                    updateStatus($"GARC Get: {"personal"} @ {Config.getGARCFileName("personal")}... ");
+                    threadGet(Path.Combine(RomFSPath, Config.getGARCFileName("personal")), "personal", true, true);
                 }
                 while (threads > 0) Thread.Sleep(50);
                 // Refresh Personal Stats
-                SpeciesStat = new PersonalTable(File.ReadAllBytes(Directory.GetFiles("personal").Last()), Config.Version).Table;
+                Config.InitializePersonal();
                 resetStatus();
 
             }).Start();
@@ -166,14 +168,14 @@ namespace pk3DS
                 if (!Tab_RomFS.Enabled || skipBoth) return; // No data/threads need to be addressed if we haven't loaded anything.
 
                 // Set the GameText back as other forms may have edited it.
-                updateStatus($"GARC Get: {"gametext"} @ {getGARCFileName("gametext")}... ");
-                threadSet(Path.Combine(RomFSPath, getGARCFileName("gametext")), "gametext", false);
+                updateStatus($"GARC Get: {"gametext"} @ {Config.getGARCFileName("gametext")}... ");
+                threadSet(Path.Combine(RomFSPath, Config.getGARCFileName("gametext")), "gametext", false);
                 while (threads > 0) Thread.Sleep(100);
 
                 Thread.Sleep(200); // Small gap between beeps for faster computers.
 
-                updateStatus($"GARC Get: {"personal"} @ {getGARCFileName("personal")}... ");
-                threadSet(Path.Combine(RomFSPath, getGARCFileName("personal")), "personal", false);
+                updateStatus($"GARC Get: {"personal"} @ {Config.getGARCFileName("personal")}... ");
+                threadSet(Path.Combine(RomFSPath, Config.getGARCFileName("personal")), "personal", false);
                 while (threads > 0) Thread.Sleep(100);
 
                 if (Directory.Exists("gametext")) Directory.Delete("gametext", true);
@@ -269,6 +271,7 @@ namespace pk3DS
                 L_Game.Visible = SMDH == null && RomFSPath != null;
                 updateGameInfo();
                 TB_Path.Select(TB_Path.TextLength, 0);
+                Config.Initialize(RomFSPath, ExeFSPath, Language);
                 // Method finished.
                 System.Media.SystemSounds.Asterisk.Play();
             }
@@ -294,7 +297,7 @@ namespace pk3DS
                     B_MoveTutor.Visible = Config.ORAS; // Default false unless loaded
                     break;
                 case 7:
-                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Wild, B_Trainer};
+                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Wild, B_Trainer, B_LevelUp};
                     exefs = new Control[] {B_TMHM, B_TypeChart};
                     cro = new Control[] {new Label {Text = "No editors available."}};
                     break;
@@ -515,7 +518,7 @@ namespace pk3DS
                 }
 
                 // Refresh Personal Stats
-                SpeciesStat = new PersonalTable(File.ReadAllBytes(Directory.GetFiles("personal").Last()), Config.Version).Table;
+                Config.InitializePersonal();
                 fileSet(files, true);
             }).Start();
         }
@@ -631,7 +634,15 @@ namespace pk3DS
             {
                 string[] files = { "levelup", "move" };
                 fileGet(files);
-                Invoke((Action)(() => new LevelUpEditor6().ShowDialog()));
+                switch (Config.Generation)
+                {
+                    case 6:
+                        Invoke((Action)(() => new LevelUpEditor6().ShowDialog()));
+                        break;
+                    case 7:
+                        Invoke((Action)(() => new LevelUpEditor7().ShowDialog()));
+                        break;
+                }
                 fileSet(files);
             }).Start();
         }
@@ -664,7 +675,7 @@ namespace pk3DS
             if (skipGet || skipBoth) return;
             foreach (string toEdit in files)
             {
-                string GARC = getGARCFileName(toEdit);
+                string GARC = Config.getGARCFileName(toEdit);
                 updateStatus($"GARC Get: {toEdit} @ {GARC}... ");
                 threadGet(Path.Combine(RomFSPath, GARC), toEdit, true, skipDecompression);
                 while (threads > 0) Thread.Sleep(50);
@@ -676,7 +687,7 @@ namespace pk3DS
             if (skipBoth) return;
             foreach (string toEdit in files)
             {
-                string GARC = getGARCFileName(toEdit);
+                string GARC = Config.getGARCFileName(toEdit);
                 updateStatus($"GARC Set: {toEdit} @ {GARC}... ");
                 threadSet(Path.Combine(RomFSPath, GARC), toEdit);
                 while (threads > 0) Thread.Sleep(50);
@@ -973,14 +984,6 @@ namespace pk3DS
         }
 
         // GARC Requests
-        private static string getGARCFileName(string requestedGARC)
-        {
-            var garc = Config.getGARC(requestedGARC);
-            if (garc.LanguageVariant)
-                garc = garc.getRelativeGARC(Language);
-
-            return garc.Reference;
-        }
         internal static string getGARCFileName(string requestedGARC, int lang)
         {
             var garc = Config.getGARC(requestedGARC);
@@ -1039,7 +1042,7 @@ namespace pk3DS
             if (!Directory.Exists("backup")) Directory.CreateDirectory("backup");
             foreach (string s in g)
             {
-                string GARC = getGARCFileName(s);
+                string GARC = Config.getGARCFileName(s);
                 string dest = "backup" + Path.DirectorySeparatorChar + s +
                               $" ({GARC.Replace(Path.DirectorySeparatorChar.ToString(), "")})";
                 if (overwrite || !File.Exists(dest))
@@ -1050,9 +1053,9 @@ namespace pk3DS
         {
             foreach (string s in g)
             {
-                string dest = Path.Combine(RomFSPath, getGARCFileName(s));
+                string dest = Path.Combine(RomFSPath, Config.getGARCFileName(s));
                 string src = "backup" + Path.DirectorySeparatorChar + s +
-                             $" ({getGARCFileName(s).Replace(Path.DirectorySeparatorChar.ToString(), "")})";
+                             $" ({Config.getGARCFileName(s).Replace(Path.DirectorySeparatorChar.ToString(), "")})";
                 File.Copy(src, dest, true);
                 if (s == "personal" || s == "gametext")
                     Util.Alert("In order to restore " + s + ", restart the program. While exiting, hold the Control Key to prevent writebacks.");
