@@ -276,14 +276,36 @@ namespace pk3DS
 
         private void toggleSubEditors()
         {
+            // Hide all buttons
+            foreach (var f in from TabPage t in TC_RomFS.TabPages from f in t.Controls.OfType<FlowLayoutPanel>() select f)
+                for (int i = f.Controls.Count - 1; i >= 0; i--)
+                    f.Controls.Remove(f.Controls[i]);
+
+            B_MoveTutor.Visible = Config.ORAS; // Default false unless loaded
+
+            Control[] romfs, exefs, cro;
+
             switch (Config.Generation)
             {
                 case 6:
+                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Maison, B_Item, B_Move, B_TitleScreen};
+                    exefs = new Control[] {B_MoveTutor, B_TMHM, B_Mart, B_Pickup, B_OPower};
+                    cro = new Control[] {B_TypeChart, B_Starter, B_Gift, B_Static};
                     B_MoveTutor.Visible = Config.ORAS; // Default false unless loaded
                     break;
                 case 7:
+                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Wild, B_Trainer};
+                    exefs = new Control[] {B_TMHM};
+                    cro = new Control[] {new Label {Text = "No editors available."}};
+                    break;
+                default:
+                    romfs = exefs = cro = new Control[] {new Label {Text = "No editors available."}};
                     break;
             }
+
+            FLP_RomFS.Controls.AddRange(romfs);
+            FLP_ExeFS.Controls.AddRange(exefs);
+            FLP_CRO.Controls.AddRange(cro);
         }
         private void updateGameInfo()
         {
