@@ -233,7 +233,7 @@ namespace pk3DS
                 // New Methods
                 1, // 28 - Dark Type Party
                 6, // 29 - Affection + MoveType
-                1, // 30 - Dark Type
+                1, // 30 - UpsideDown 3DS
                 1, // 31 - Overworld Rain
                 1, // 32 - Level @ Day
                 1, // 33 - Level @ Night
