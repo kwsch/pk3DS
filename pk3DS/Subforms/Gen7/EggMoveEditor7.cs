@@ -23,14 +23,17 @@ namespace pk3DS
             setupDGV();
 
             var newlist = new List<Util.cbItem>();
-            for (int i = 0; i < specieslist.Length; i++) // add all species & forms
-                newlist.Add(new Util.cbItem { Text = specieslist[i] + $" ({i})", Value = i });
+            for (int i = 0; i < species.Length; i++) // add all species & forms
+                newlist.Add(new Util.cbItem { Text = species[i] + $" ({i})", Value = i });
+            newlist = newlist.OrderBy(item => item.Text).ToList();
+            for (int i = species.Length; i < files.Length; i++)
+                newlist.Add(new Util.cbItem { Text = $"{i.ToString("0000")} - Extra", Value = i });
+            NUD_FormTable.Maximum = files.Length;
 
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
-            CB_Species.DataSource = newlist.OrderBy(item => item.Text).ToList();
+            CB_Species.DataSource = newlist;
 
-            NUD_FormTable.Maximum = files.Length;
 
             CB_Species.SelectedIndex = 0;
         }
@@ -60,10 +63,11 @@ namespace pk3DS
         private void getList()
         {
             entry = Util.getIndex(CB_Species);
-            int s = baseForms[entry];
-            int f = formVal[entry];
+            int s = 0, f = 0;
             if (entry <= Main.Config.MaxSpeciesID)
+            {
                 s = entry;
+            }
             int[] specForm = { s, f };
             string filename = "_" + specForm[0] + (entry > Main.Config.MaxSpeciesID ? "_" + (specForm[1] + 1) : "");
             PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
@@ -176,6 +180,12 @@ namespace pk3DS
         {
             setList();
         }
+
+        private void B_Goto_Click(object sender, EventArgs e)
+        {
+            CB_Species.SelectedValue = (int)NUD_FormTable.Value;
+        }
+
         private void calcStats()
         {
             Move[] MoveData = MoveEditor6.getMoves();

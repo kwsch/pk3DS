@@ -43,6 +43,7 @@
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.NUD_FormTable = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
+            this.B_Goto = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Moves)).BeginInit();
@@ -210,7 +211,7 @@
             // 
             this.NUD_FormTable.Location = new System.Drawing.Point(305, 41);
             this.NUD_FormTable.Name = "NUD_FormTable";
-            this.NUD_FormTable.Size = new System.Drawing.Size(52, 20);
+            this.NUD_FormTable.Size = new System.Drawing.Size(47, 20);
             this.NUD_FormTable.TabIndex = 92;
             // 
             // label1
@@ -222,11 +223,22 @@
             this.label1.TabIndex = 93;
             this.label1.Text = "FormTableReference";
             // 
+            // B_Goto
+            // 
+            this.B_Goto.Location = new System.Drawing.Point(356, 41);
+            this.B_Goto.Name = "B_Goto";
+            this.B_Goto.Size = new System.Drawing.Size(39, 24);
+            this.B_Goto.TabIndex = 94;
+            this.B_Goto.Text = "goto";
+            this.B_Goto.UseVisualStyleBackColor = true;
+            this.B_Goto.Click += new System.EventHandler(this.B_Goto_Click);
+            // 
             // EggMoveEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 412);
+            this.Controls.Add(this.B_Goto);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.NUD_FormTable);
             this.Controls.Add(this.PB_MonSprite);
@@ -271,5 +283,6 @@
         private System.Windows.Forms.PictureBox PB_MonSprite;
         private System.Windows.Forms.NumericUpDown NUD_FormTable;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button B_Goto;
     }
 }
