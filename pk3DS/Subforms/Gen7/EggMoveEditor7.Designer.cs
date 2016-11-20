@@ -40,13 +40,15 @@
             this.L_STAB = new System.Windows.Forms.Label();
             this.NUD_STAB = new System.Windows.Forms.NumericUpDown();
             this.CHK_STAB = new System.Windows.Forms.CheckBox();
-            this.CHK_HMs = new System.Windows.Forms.CheckBox();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
+            this.NUD_FormTable = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Moves)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_STAB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FormTable)).BeginInit();
             this.SuspendLayout();
             // 
             // dgv
@@ -84,7 +86,7 @@
             // 
             // B_RandAll
             // 
-            this.B_RandAll.Location = new System.Drawing.Point(300, 10);
+            this.B_RandAll.Location = new System.Drawing.Point(300, 377);
             this.B_RandAll.Name = "B_RandAll";
             this.B_RandAll.Size = new System.Drawing.Size(95, 23);
             this.B_RandAll.TabIndex = 4;
@@ -94,11 +96,11 @@
             // 
             // B_Dump
             // 
-            this.B_Dump.Location = new System.Drawing.Point(248, 10);
+            this.B_Dump.Location = new System.Drawing.Point(300, 155);
             this.B_Dump.Name = "B_Dump";
-            this.B_Dump.Size = new System.Drawing.Size(46, 23);
+            this.B_Dump.Size = new System.Drawing.Size(95, 23);
             this.B_Dump.TabIndex = 5;
-            this.B_Dump.Text = "Dump";
+            this.B_Dump.Text = "Dump All";
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
@@ -112,10 +114,9 @@
             this.groupBox1.Controls.Add(this.L_STAB);
             this.groupBox1.Controls.Add(this.NUD_STAB);
             this.groupBox1.Controls.Add(this.CHK_STAB);
-            this.groupBox1.Controls.Add(this.CHK_HMs);
-            this.groupBox1.Location = new System.Drawing.Point(300, 39);
+            this.groupBox1.Location = new System.Drawing.Point(300, 184);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(95, 362);
+            this.groupBox1.Size = new System.Drawing.Size(95, 187);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
@@ -197,16 +198,6 @@
             this.CHK_STAB.Text = "Bias by Type";
             this.CHK_STAB.UseVisualStyleBackColor = true;
             // 
-            // CHK_HMs
-            // 
-            this.CHK_HMs.AutoSize = true;
-            this.CHK_HMs.Location = new System.Drawing.Point(5, 19);
-            this.CHK_HMs.Name = "CHK_HMs";
-            this.CHK_HMs.Size = new System.Drawing.Size(76, 17);
-            this.CHK_HMs.TabIndex = 0;
-            this.CHK_HMs.Text = "Allow HMs";
-            this.CHK_HMs.UseVisualStyleBackColor = true;
-            // 
             // PB_MonSprite
             // 
             this.PB_MonSprite.Location = new System.Drawing.Point(193, 5);
@@ -215,11 +206,29 @@
             this.PB_MonSprite.TabIndex = 91;
             this.PB_MonSprite.TabStop = false;
             // 
-            // EggMove
+            // NUD_FormTable
+            // 
+            this.NUD_FormTable.Location = new System.Drawing.Point(305, 41);
+            this.NUD_FormTable.Name = "NUD_FormTable";
+            this.NUD_FormTable.Size = new System.Drawing.Size(52, 20);
+            this.NUD_FormTable.TabIndex = 92;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(272, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(107, 13);
+            this.label1.TabIndex = 93;
+            this.label1.Text = "FormTableReference";
+            // 
+            // EggMoveEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 412);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.NUD_FormTable);
             this.Controls.Add(this.PB_MonSprite);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.B_Dump);
@@ -229,7 +238,7 @@
             this.Controls.Add(this.dgv);
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(322, 450);
-            this.Name = "EggMove";
+            this.Name = "EggMoveEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Egg Move Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
@@ -239,6 +248,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Moves)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_STAB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FormTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -258,7 +268,8 @@
         private System.Windows.Forms.Label L_STAB;
         private System.Windows.Forms.NumericUpDown NUD_STAB;
         private System.Windows.Forms.CheckBox CHK_STAB;
-        private System.Windows.Forms.CheckBox CHK_HMs;
         private System.Windows.Forms.PictureBox PB_MonSprite;
+        private System.Windows.Forms.NumericUpDown NUD_FormTable;
+        private System.Windows.Forms.Label label1;
     }
 }

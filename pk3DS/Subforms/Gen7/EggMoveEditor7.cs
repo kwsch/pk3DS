@@ -19,24 +19,22 @@ namespace pk3DS
             string[][] AltForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
             string[] specieslist = Main.Config.Personal.getPersonalEntryList(AltForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
             specieslist[0] = movelist[0] = "";
-
-            string[] sortedspecies = (string[])specieslist.Clone();
-            Array.Resize(ref sortedspecies, Main.Config.MaxSpeciesID + 1); Array.Sort(sortedspecies);
+            
             setupDGV();
 
             var newlist = new List<Util.cbItem>();
-            for (int i = 1; i <= Main.Config.MaxSpeciesID; i++) // add all species
-                newlist.Add(new Util.cbItem { Text = sortedspecies[i], Value = Array.IndexOf(specieslist, sortedspecies[i]) });
-            for (int i = Main.Config.MaxSpeciesID + 1; i < specieslist.Length; i++) // add all forms
-                newlist.Add(new Util.cbItem { Text = specieslist[i], Value = i });
+            for (int i = 0; i < specieslist.Length; i++) // add all species & forms
+                newlist.Add(new Util.cbItem { Text = specieslist[i] + $" ({i})", Value = i });
 
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
-            CB_Species.DataSource = newlist;
+            CB_Species.DataSource = newlist.OrderBy(item => item.Text).ToList();
+
+            NUD_FormTable.Maximum = files.Length;
+
             CB_Species.SelectedIndex = 0;
         }
         private readonly string[] files = Directory.GetFiles("eggmove");
-        private readonly byte[] data = File.ReadAllBytes(Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly).Last());
         private int entry = -1;
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
         private bool dumping;
@@ -72,8 +70,8 @@ namespace pk3DS
 
             dgv.Rows.Clear();
             byte[] input = File.ReadAllBytes(files[entry]);
-            if (input.Length == 0) return;
             pkm = new EggMoves7(input);
+            NUD_FormTable.Value = pkm.FormTableIndex;
             if (pkm.Count < 1) { File.WriteAllBytes(files[entry], new byte[0]); return; }
             dgv.Rows.Add(pkm.Count);
 

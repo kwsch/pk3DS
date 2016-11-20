@@ -36,7 +36,6 @@ namespace pk3DS
             CB_Species.SelectedIndex = 0;
         }
         private readonly string[] files = Directory.GetFiles("levelup");
-        private readonly byte[] data = File.ReadAllBytes(Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly).Last());
         private int entry = -1;
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
         private bool dumping;
