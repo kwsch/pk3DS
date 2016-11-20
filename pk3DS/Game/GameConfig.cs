@@ -42,12 +42,10 @@ namespace pk3DS
                 return;
 
             Version = game;
-            getGameData(game);
         }
         public GameConfig(GameVersion game)
         {
             Version = game;
-            getGameData(game);
         }
 
         private void getGameData(GameVersion game)
@@ -72,8 +70,12 @@ namespace pk3DS
                     Variables = TextVariableCode.VariableCodes_SM;
                     GameText = TextReference.GameText_SMDEMO;
                     break;
+                case GameVersion.SN:
+                case GameVersion.MN:
                 case GameVersion.SM:
-                    Files = GARCReference.GARCReference_SM;
+                    Files = GARCReference.GARCReference_SN;
+                    if (new FileInfo(Path.Combine(RomFS, getGARCFileName("encdata"))).Length == 0)
+                        Files = GARCReference.GARCReference_MN;
                     Variables = TextVariableCode.VariableCodes_SM;
                     GameText = TextReference.GameText_SM;
                     break;
@@ -84,6 +86,7 @@ namespace pk3DS
             RomFS = romFSpath;
             ExeFS = exeFSpath;
             Language = lang;
+            getGameData(Version);
         }
 
         public void InitializePersonal()

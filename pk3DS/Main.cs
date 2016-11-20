@@ -254,6 +254,9 @@ namespace pk3DS
                     // Trigger Data Loading
                     if (RTB_Status.Text.Length > 0) RTB_Status.Clear();
                     updateStatus("Data found! Loading persistent data for subforms...", false);
+                    Config.Initialize(RomFSPath, ExeFSPath, Language);
+                    backupGARCs(false, Config.Files.Select(file => file.Name).ToArray());
+                    backupCROs(false, RomFSPath);
                     changeLanguage(null, null);
                 }
 
@@ -271,7 +274,6 @@ namespace pk3DS
                 L_Game.Visible = SMDH == null && RomFSPath != null;
                 updateGameInfo();
                 TB_Path.Select(TB_Path.TextLength, 0);
-                Config.Initialize(RomFSPath, ExeFSPath, Language);
                 // Method finished.
                 System.Media.SystemSounds.Asterisk.Play();
             }
@@ -350,7 +352,7 @@ namespace pk3DS
             {
                 var cfg = checkGameType(Directory.GetFiles(path, "*", SearchOption.AllDirectories));
 
-                if (cfg?.Files == null || cfg.Files.Length == 0)
+                if (cfg == null)
                 {
                     RomFSPath = null;
                     Config = null;
@@ -360,8 +362,6 @@ namespace pk3DS
                 RomFSPath = path;
                 Config = cfg;
                 TextFile.Config = cfg;
-                backupGARCs(false, Config.Files.Select(file => file.Name).ToArray());
-                backupCROs(false, RomFSPath);
                 return true;
             }
             RomFSPath = null;

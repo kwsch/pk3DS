@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 
 namespace pk3DS
 {
@@ -95,7 +96,7 @@ namespace pk3DS
             new GARCReference(030, "gametext", true),
             new GARCReference(040, "storytext", true),
         };
-        public static readonly GARCReference[] GARCReference_SM =
+        private static readonly GARCReference[] GARCReference_SM =
         {
             new GARCReference(011, "move"),
             new GARCReference(012, "eggmove"),
@@ -106,7 +107,6 @@ namespace pk3DS
             new GARCReference(019, "item"),
 
             new GARCReference(077, "zonedata"),
-            new GARCReference(083, "encdata"),
             new GARCReference(091, "worlddata"),
 
             new GARCReference(104, "trclass"),
@@ -117,5 +117,14 @@ namespace pk3DS
             new GARCReference(030, "gametext", true),
             new GARCReference(040, "storytext", true),
         };
+
+        public static readonly GARCReference[] GARCReference_SN = GARCReference_SM.Concat(
+            new[] {
+              new GARCReference(082, "encdata"),
+            }).ToArray();
+        public static readonly GARCReference[] GARCReference_MN = GARCReference_SM.Concat(
+            new[] {
+              new GARCReference(083, "encdata"),
+            }).ToArray();
     }
 }
