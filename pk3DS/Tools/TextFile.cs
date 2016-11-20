@@ -76,7 +76,8 @@ namespace pk3DS
                 LineInfo[] lines = LineOffsets;
                 for (int i = 0; i < lines.Length; i++)
                 {
-                    byte[] EncryptedLineData = Data.Skip(lines[i].Offset).Take(lines[i].Length * 2).ToArray();
+                    byte[] EncryptedLineData = new byte[lines[i].Length * 2];
+                    Array.Copy(Data, lines[i].Offset, EncryptedLineData, 0, EncryptedLineData.Length);
                     byte[] DecryptedLineData = cryptLineData(EncryptedLineData, key);
                     result[i] = getLineString(DecryptedLineData);
                     key += KEY_ADVANCE;
