@@ -21,12 +21,14 @@ namespace pk3DS
             specieslist[0] = movelist[0] = "";
 
             string[] sortedspecies = (string[])specieslist.Clone();
-            Array.Resize(ref sortedspecies, Main.Config.MaxSpeciesID); Array.Sort(sortedspecies);
+            Array.Resize(ref sortedspecies, Main.Config.MaxSpeciesID + 1); Array.Sort(sortedspecies);
             setupDGV();
 
             var newlist = new List<Util.cbItem>();
-            for (int i = 1; i < Main.Config.MaxSpeciesID; i++) // add all species
+            for (int i = 1; i <= Main.Config.MaxSpeciesID; i++) // add all species
                 newlist.Add(new Util.cbItem { Text = sortedspecies[i], Value = Array.IndexOf(specieslist, sortedspecies[i]) });
+            for (int i = Main.Config.MaxSpeciesID + 1; i < specieslist.Length; i++) // add all forms
+                newlist.Add(new Util.cbItem { Text = specieslist[i], Value = i });
 
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
