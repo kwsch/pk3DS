@@ -291,13 +291,13 @@ namespace pk3DS
             switch (Config.Generation)
             {
                 case 6:
-                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Maison, B_Item, B_Move, B_TitleScreen};
+                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Item, B_Move, B_Maison, B_TitleScreen};
                     exefs = new Control[] {B_MoveTutor, B_TMHM, B_Mart, B_Pickup, B_OPower};
                     cro = new Control[] {B_TypeChart, B_Starter, B_Gift, B_Static};
                     B_MoveTutor.Visible = Config.ORAS; // Default false unless loaded
                     break;
                 case 7:
-                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Wild, B_Trainer, B_LevelUp, B_EggMove};
+                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Item, B_Move, };
                     exefs = new Control[] {B_TMHM, B_TypeChart};
                     cro = new Control[] {new Label {Text = "No editors available."}};
                     break;
@@ -612,7 +612,15 @@ namespace pk3DS
             {
                 string[] files = { "item" };
                 fileGet(files);
-                Invoke((Action)(() => new ItemEditor6().ShowDialog()));
+                switch (Config.Generation)
+                {
+                    case 6:
+                        Invoke((Action)(() => new ItemEditor6().ShowDialog()));
+                        break;
+                    case 7:
+                        Invoke((Action)(() => new ItemEditor7().ShowDialog()));
+                        break;
+                }
                 fileSet(files);
             }).Start();
         }
@@ -623,6 +631,15 @@ namespace pk3DS
             {
                 string[] files = { "move" };
                 fileGet(files);
+                switch (Config.Generation)
+                {
+                    case 6:
+                        Invoke((Action)(() => new MoveEditor6().ShowDialog()));
+                        break;
+                    case 7:
+                        Invoke((Action)(() => new MoveEditor7().ShowDialog()));
+                        break;
+                }
                 Invoke((Action)(() => new MoveEditor6().ShowDialog()));
                 fileSet(files);
             }).Start();
