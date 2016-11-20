@@ -302,7 +302,7 @@
             this.CB_Trainer_Class.FormattingEnabled = true;
             this.CB_Trainer_Class.Location = new System.Drawing.Point(93, 26);
             this.CB_Trainer_Class.Name = "CB_Trainer_Class";
-            this.CB_Trainer_Class.Size = new System.Drawing.Size(116, 21);
+            this.CB_Trainer_Class.Size = new System.Drawing.Size(161, 21);
             this.CB_Trainer_Class.TabIndex = 48;
             // 
             // L_Item_4
@@ -392,11 +392,12 @@
             // L_numPokemon
             // 
             this.L_numPokemon.AutoSize = true;
-            this.L_numPokemon.Location = new System.Drawing.Point(214, 28);
+            this.L_numPokemon.Location = new System.Drawing.Point(214, 8);
             this.L_numPokemon.Name = "L_numPokemon";
             this.L_numPokemon.Size = new System.Drawing.Size(40, 13);
             this.L_numPokemon.TabIndex = 22;
             this.L_numPokemon.Text = "#PKM:";
+            this.L_numPokemon.Visible = false;
             // 
             // label4
             // 
@@ -1480,7 +1481,7 @@
             // 
             // NUD_NumPoke
             // 
-            this.NUD_NumPoke.Location = new System.Drawing.Point(260, 26);
+            this.NUD_NumPoke.Location = new System.Drawing.Point(260, 6);
             this.NUD_NumPoke.Maximum = new decimal(new int[] {
             6,
             0,
@@ -1489,6 +1490,7 @@
             this.NUD_NumPoke.Name = "NUD_NumPoke";
             this.NUD_NumPoke.Size = new System.Drawing.Size(47, 20);
             this.NUD_NumPoke.TabIndex = 0;
+            this.NUD_NumPoke.Visible = false;
             this.NUD_NumPoke.ValueChanged += new System.EventHandler(this.updateNumPokemon);
             // 
             // SMTE
