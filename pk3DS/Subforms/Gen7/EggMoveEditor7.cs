@@ -56,7 +56,7 @@ namespace pk3DS
             dgv.Columns.Add(dgvMove);
         }
 
-        private EggMoves pkm = new EggMoves6(new byte[0]);
+        private EggMoves pkm = new EggMoves7(new byte[0]);
         private void getList()
         {
             entry = Util.getIndex(CB_Species);
@@ -71,7 +71,7 @@ namespace pk3DS
             dgv.Rows.Clear();
             byte[] input = File.ReadAllBytes(files[entry]);
             if (input.Length == 0) return;
-            pkm = new EggMoves6(input);
+            pkm = new EggMoves7(input);
             if (pkm.Count < 1) { File.WriteAllBytes(files[entry], new byte[0]); return; }
             dgv.Rows.Add(pkm.Count);
 
@@ -139,11 +139,11 @@ namespace pk3DS
                         move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
 
                     // Assign Move
-                    dgv.Rows[j].Cells[1].Value = movelist[move];
+                    dgv.Rows[j].Cells[0].Value = movelist[move];
                 }
             }
             CB_Species.SelectedIndex = 0;
-            Util.Alert("All Pokemon's Level Up Moves have been randomized!");
+            Util.Alert("All Pokemon's Egg Up Moves have been randomized!");
         }
         private void B_Dump_Click(object sender, EventArgs e)
         {
@@ -198,7 +198,7 @@ namespace pk3DS
                         stab++;
                 }
             }
-            Util.Alert($"Moves Learned: {movectr}\r\nMost Learned: {max} @ {spec}\r\nSTAB Count: {stab}");
+            Util.Alert($"Egg Moves: {movectr}\r\nMost Moves: {max} @ {spec}\r\nSTAB Count: {stab}");
         }
     }
 }

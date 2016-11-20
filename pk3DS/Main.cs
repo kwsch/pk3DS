@@ -297,7 +297,7 @@ namespace pk3DS
                     B_MoveTutor.Visible = Config.ORAS; // Default false unless loaded
                     break;
                 case 7:
-                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Wild, B_Trainer, B_LevelUp};
+                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Wild, B_Trainer, B_LevelUp, B_EggMove};
                     exefs = new Control[] {B_TMHM, B_TypeChart};
                     cro = new Control[] {new Label {Text = "No editors available."}};
                     break;
@@ -653,7 +653,15 @@ namespace pk3DS
             {
                 string[] files = { "eggmove", "move" };
                 fileGet(files);
-                Invoke((Action)(() => new EggMoveEditor6().ShowDialog()));
+                switch (Config.Generation)
+                {
+                    case 6:
+                        Invoke((Action)(() => new EggMoveEditor6().ShowDialog()));
+                        break;
+                    case 7:
+                        Invoke((Action)(() => new EggMoveEditor7().ShowDialog()));
+                        break;
+                }
                 fileSet(files);
             }).Start();
         }

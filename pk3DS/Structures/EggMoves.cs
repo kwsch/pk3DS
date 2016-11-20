@@ -47,7 +47,7 @@ namespace pk3DS
     }
     public class EggMoves7 : EggMoves
     {
-        private EggMoves7(byte[] data)
+        public EggMoves7(byte[] data)
         {
             if (data.Length < 2 || data.Length % 2 != 0)
             { Count = 0; Moves = new int[0]; return; }
