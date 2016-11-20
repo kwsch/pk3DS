@@ -93,6 +93,12 @@
     <Compile Include="Structures\PersonalInfo\PersonalInfoSM.cs" />
     <Compile Include="Structures\PersonalInfo\PersonalInfoXY.cs" />
     <Compile Include="Structures\PersonalInfo\PersonalTable.cs" />
+    <Compile Include="Subforms\Gen7\EggMoveEditor7.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Gen7\EggMoveEditor7.Designer.cs">
+      <DependentUpon>EggMoveEditor7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Gen7\LevelUpEditor7.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -321,6 +327,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Gen7\EggMoveEditor7.resx">
+      <DependentUpon>EggMoveEditor7.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\LevelUpEditor7.resx">
       <DependentUpon>LevelUpEditor7.cs</DependentUpon>

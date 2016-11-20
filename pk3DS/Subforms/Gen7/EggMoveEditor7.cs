@@ -10,9 +10,9 @@ using pk3DS.Properties;
 
 namespace pk3DS
 {
-    public partial class LevelUpEditor7 : Form
+    public partial class EggMoveEditor7 : Form
     {
-        public LevelUpEditor7()
+        public EggMoveEditor7()
         {
             InitializeComponent();
             string[] species = Main.getText(TextName.SpeciesNames);
@@ -27,15 +27,13 @@ namespace pk3DS
             var newlist = new List<Util.cbItem>();
             for (int i = 1; i < Main.Config.MaxSpeciesID; i++) // add all species
                 newlist.Add(new Util.cbItem { Text = sortedspecies[i], Value = Array.IndexOf(specieslist, sortedspecies[i]) });
-            for (int i = Main.Config.MaxSpeciesID; i < specieslist.Length; i++) // add all forms
-                newlist.Add(new Util.cbItem { Text = specieslist[i], Value = i });
 
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
             CB_Species.DataSource = newlist;
             CB_Species.SelectedIndex = 0;
         }
-        private readonly string[] files = Directory.GetFiles("levelup");
+        private readonly string[] files = Directory.GetFiles("eggmove");
         private readonly byte[] data = File.ReadAllBytes(Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly).Last());
         private int entry = -1;
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
@@ -45,28 +43,20 @@ namespace pk3DS
         {
             string[] sortedmoves = (string[])movelist.Clone();
             Array.Sort(sortedmoves);
-            DataGridViewColumn dgvLevel = new DataGridViewTextBoxColumn();
-            {
-                dgvLevel.HeaderText = "Level";
-                dgvLevel.DisplayIndex = 0;
-                dgvLevel.Width = 45;
-                dgvLevel.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            }
             DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
             {
                 dgvMove.HeaderText = "Move";
-                dgvMove.DisplayIndex = 1;
+                dgvMove.DisplayIndex = 0;
                 for (int i = 0; i < movelist.Length; i++)
                     dgvMove.Items.Add(sortedmoves[i]); // add only the Names
 
                 dgvMove.Width = 135;
                 dgvMove.FlatStyle = FlatStyle.Flat;
             }
-            dgv.Columns.Add(dgvLevel);
             dgv.Columns.Add(dgvMove);
         }
 
-        private Learnset pkm;
+        private EggMoves pkm = new EggMoves6(new byte[0]);
         private void getList()
         {
             entry = Util.getIndex(CB_Species);
@@ -80,17 +70,14 @@ namespace pk3DS
 
             dgv.Rows.Clear();
             byte[] input = File.ReadAllBytes(files[entry]);
-            if (input.Length <= 4) { File.WriteAllBytes(files[entry], BitConverter.GetBytes(-1)); return; }
-            pkm = new Learnset7(input);
-
+            if (input.Length == 0) return;
+            pkm = new EggMoves6(input);
+            if (pkm.Count < 1) { File.WriteAllBytes(files[entry], new byte[0]); return; }
             dgv.Rows.Add(pkm.Count);
 
             // Fill Entries
             for (int i = 0; i < pkm.Count; i++)
-            {
-                dgv.Rows[i].Cells[0].Value = pkm.Levels[i];
-                dgv.Rows[i].Cells[1].Value = movelist[pkm.Moves[i]];
-            }
+                dgv.Rows[i].Cells[0].Value = movelist[pkm.Moves[i]];
 
             dgv.CancelEdit();
         }
@@ -98,22 +85,13 @@ namespace pk3DS
         {
             if (entry < 1 || dumping) return;
             List<int> moves = new List<int>();
-            List<int> levels = new List<int>();
             for (int i = 0; i < dgv.Rows.Count - 1; i++)
             {
-                int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[1].Value);
-                if (move < 1) continue;
-
-                moves.Add((short)move);
-                string level = (dgv.Rows[i].Cells[0].Value ?? 0).ToString();
-                short lv;
-                short.TryParse(level, out lv);
-                if (lv > 100) lv = 100;
-                else if (lv == 0) lv = 1;
-                levels.Add(lv);
+                int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[0].Value);
+                if (move > 0 && !moves.Contains((ushort)move)) moves.Add(move);
             }
             pkm.Moves = moves.ToArray();
-            pkm.Levels = levels.ToArray();
+
             File.WriteAllBytes(files[entry], pkm.Write());
         }
 
@@ -125,21 +103,18 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            // ORAS: 10682 moves learned on levelup/birth. 
-            // 5593 are STAB. 52.3% are STAB. 
-            // Steelix learns the most @ 25 (so many level 1)!
-            // Move relearner ingame does not behave properly if the count exceeds 25:
-            // https://twitter.com/Drayano60/status/630044237883666433
+            /*
+             * 3111 Egg Moves Learned by 290 Species (10.73 avg)
+             * 18 is the most
+             * 1000 moves learned were STAB (32.1%)
+             */
             Random rnd = new Random();
 
-            int[] firstMoves = { 1, 40, 52, 55, 64, 71, 84, 98, 122, 141 };
-            // Pound, Poison Sting, Ember, Water Gun, Peck, Absorb, Thunder Shock, Quick Attack, Lick, Leech Life
-            
             int[] banned = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(); // Struggle, Hyperspace Fury, Dark Void
 
             // Move Stats
             Move[] moveTypes = MoveEditor6.getMoves();
-
+            
             // Set up Randomized Moves
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
@@ -152,10 +127,7 @@ namespace pk3DS
                 int species = Util.getIndex(CB_Species);
                 if (CHK_Expand.Checked && (int)NUD_Moves.Value > count)
                     dgv.Rows.AddCopies(count, (int)NUD_Moves.Value - count);
-
-                // Default First Move
-                dgv.Rows[0].Cells[0].Value = 1;
-                dgv.Rows[0].Cells[1].Value = movelist[firstMoves[rnd.Next(0, firstMoves.Length)]];
+                
                 for (int j = 1; j < dgv.Rows.Count - 1; j++)
                 {
                     // Assign New Moves
@@ -168,18 +140,6 @@ namespace pk3DS
 
                     // Assign Move
                     dgv.Rows[j].Cells[1].Value = movelist[move];
-                    // Assign Level
-                    if (j >= count)
-                    {
-                        string level = (dgv.Rows[count - 1].Cells[0].Value ?? 0).ToString();
-                        ushort lv;
-                        UInt16.TryParse(level, out lv);
-                        if (lv > 100) lv = 100;
-                        else if (lv == 0) lv = 1;
-                        dgv.Rows[j].Cells[0].Value = lv + (j - count) + 1;
-                    }
-                    if (CHK_Spread.Checked)
-                        dgv.Rows[j].Cells[0].Value = (j * (NUD_Level.Value / (dgv.Rows.Count - 1))).ToString();
                 }
             }
             CB_Species.SelectedIndex = 0;
@@ -197,11 +157,11 @@ namespace pk3DS
                 CB_Species.SelectedIndex = i; // Get new Species
                 result += "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
                 for (int j = 0; j < dgv.Rows.Count - 1; j++)
-                    result += $"{dgv.Rows[j].Cells[0].Value} - {dgv.Rows[j].Cells[1].Value + Environment.NewLine}";
+                    result += dgv.Rows[j].Cells[0].Value + Environment.NewLine;
 
                 result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog {FileName = "Level Up Moves.txt", Filter = "Text File|*.txt"};
+            SaveFileDialog sfd = new SaveFileDialog {FileName = "Egg Moves.txt", Filter = "Text File|*.txt"};
 
             SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -216,14 +176,7 @@ namespace pk3DS
         {
             setList();
         }
-
-        private void CHK_TypeBias_CheckedChanged(object sender, EventArgs e)
-        {
-            NUD_STAB.Enabled = CHK_STAB.Checked;
-            NUD_STAB.Value = CHK_STAB.Checked ? 52 : NUD_STAB.Minimum;
-        }
-
-        public void calcStats() // Debug Function
+        private void calcStats()
         {
             Move[] MoveData = MoveEditor6.getMoves();
             int movectr = 0;
@@ -233,19 +186,14 @@ namespace pk3DS
             for (int i = 0; i < Main.Config.MaxSpeciesID; i++)
             {
                 byte[] movedata = File.ReadAllBytes(files[i]);
-                int movecount = (movedata.Length - 4) / 4;
+                int movecount = BitConverter.ToUInt16(movedata, 2);
                 if (movecount == 65535)
                     continue;
                 movectr += movecount; // Average Moves
                 if (max < movecount) { max = movecount; spec = i; } // Max Moves (and species)
-                for (int m = 0; m < movedata.Length / 4; m++)
+                for (int m = 0; m < movecount; m++)
                 {
-                    int move = BitConverter.ToUInt16(movedata, m*4);
-                    if (move == 65535)
-                    {
-                        movectr--;
-                        continue;
-                    }
+                    int move = BitConverter.ToUInt16(movedata, m * 2 + 4);
                     if (Main.SpeciesStat[i].Types.Contains(MoveData[move].Type))
                         stab++;
                 }
