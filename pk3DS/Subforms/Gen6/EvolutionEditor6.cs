@@ -86,12 +86,12 @@ namespace pk3DS
         private readonly string[] itemlist = Main.getText(TextName.ItemNames);
         private readonly string[] typelist = Main.getText(TextName.Types);
         private bool dumping;
-        private EvolutionSet evo = new EvolutionSet6(new byte[0x30]);
+        private EvolutionSet evo = new EvolutionSet6(new byte[EvolutionSet6.SIZE]);
         private void getList()
         {
             entry = Array.IndexOf(specieslist, CB_Species.Text);
             byte[] input = File.ReadAllBytes(files[entry]);
-            if (input.Length != 0x30) return; // error
+            if (input.Length != EvolutionSet6.SIZE) return; // error
             evo = new EvolutionSet6(input);
 
             for (int i = 0; i < evo.PossibleEvolutions.Length; i++)

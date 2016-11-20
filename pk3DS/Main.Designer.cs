@@ -86,6 +86,7 @@
             this.B_Static = new System.Windows.Forms.Button();
             this.Tab_Output = new System.Windows.Forms.TabPage();
             this.L_Status = new System.Windows.Forms.Label();
+            this.B_OWSE = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.TC_RomFS.SuspendLayout();
             this.Tab_RomFS.SuspendLayout();
@@ -359,7 +360,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_Lang});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(146, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_Lang
@@ -385,14 +386,14 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(152, 22);
+            this.Menu_About.Size = new System.Drawing.Size(146, 22);
             this.Menu_About.Text = "A&bout pk3DS";
             this.Menu_About.Click += new System.EventHandler(this.L_About_Click);
             // 
             // Menu_GARCs
             // 
             this.Menu_GARCs.Name = "Menu_GARCs";
-            this.Menu_GARCs.Size = new System.Drawing.Size(152, 22);
+            this.Menu_GARCs.Size = new System.Drawing.Size(146, 22);
             this.Menu_GARCs.Text = "About GARCs";
             this.Menu_GARCs.Click += new System.EventHandler(this.L_GARCInfo_Click);
             // 
@@ -438,6 +439,7 @@
             this.FLP_RomFS.Controls.Add(this.B_Item);
             this.FLP_RomFS.Controls.Add(this.B_Move);
             this.FLP_RomFS.Controls.Add(this.B_TitleScreen);
+            this.FLP_RomFS.Controls.Add(this.B_OWSE);
             this.FLP_RomFS.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_RomFS.Location = new System.Drawing.Point(3, 3);
             this.FLP_RomFS.Name = "FLP_RomFS";
@@ -680,6 +682,16 @@
             this.L_Status.TabIndex = 14;
             this.L_Status.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // B_OWSE
+            // 
+            this.B_OWSE.Location = new System.Drawing.Point(109, 119);
+            this.B_OWSE.Name = "B_OWSE";
+            this.B_OWSE.Size = new System.Drawing.Size(100, 23);
+            this.B_OWSE.TabIndex = 13;
+            this.B_OWSE.Text = "Title Screen";
+            this.B_OWSE.UseVisualStyleBackColor = true;
+            this.B_OWSE.Click += new System.EventHandler(this.B_OWSE_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -772,5 +784,6 @@
         private System.Windows.Forms.Button B_GameText;
         private System.Windows.Forms.FlowLayoutPanel FLP_RomFS;
         private System.Windows.Forms.Label L_Status;
+        private System.Windows.Forms.Button B_OWSE;
     }
 }

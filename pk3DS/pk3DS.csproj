@@ -99,6 +99,12 @@
     <Compile Include="Subforms\Gen7\EggMoveEditor7.Designer.cs">
       <DependentUpon>EggMoveEditor7.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Gen7\EvolutionEditor7.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Gen7\EvolutionEditor7.Designer.cs">
+      <DependentUpon>EvolutionEditor7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Gen7\ItemEditor7.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +116,12 @@
     </Compile>
     <Compile Include="Subforms\Gen7\LevelUpEditor7.Designer.cs">
       <DependentUpon>LevelUpEditor7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Gen7\MegaEvoEditor7.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Gen7\MegaEvoEditor7.Designer.cs">
+      <DependentUpon>MegaEvoEditor7.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Gen7\MoveEditor7.cs">
       <SubType>Form</SubType>
@@ -343,11 +355,17 @@
     <EmbeddedResource Include="Subforms\Gen7\EggMoveEditor7.resx">
       <DependentUpon>EggMoveEditor7.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Gen7\EvolutionEditor7.resx">
+      <DependentUpon>EvolutionEditor7.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\ItemEditor7.resx">
       <DependentUpon>ItemEditor7.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\LevelUpEditor7.resx">
       <DependentUpon>LevelUpEditor7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Gen7\MegaEvoEditor7.resx">
+      <DependentUpon>MegaEvoEditor7.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\MoveEditor7.resx">
       <DependentUpon>MoveEditor7.cs</DependentUpon>

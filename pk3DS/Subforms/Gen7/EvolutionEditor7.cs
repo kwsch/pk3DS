@@ -16,7 +16,9 @@ namespace pk3DS
             InitializeComponent();
 
             specieslist[0] = movelist[0] = itemlist[0] = "";
-            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
+            string[][] AltForms = Main.Config.Personal.getFormList(specieslist, Main.Config.MaxSpeciesID);
+            specieslist = Main.Config.Personal.getPersonalEntryList(AltForms, specieslist, Main.Config.MaxSpeciesID, out baseForms, out formVal);
 
             string[] evolutionMethods =
             { 
@@ -65,10 +67,12 @@ namespace pk3DS
             mb = new[] { CB_M1, CB_M2, CB_M3, CB_M4, CB_M5, CB_M6, CB_M7, CB_M8 };
             pb = new[] { CB_P1, CB_P2, CB_P3, CB_P4, CB_P5, CB_P6, CB_P7, CB_P8 };
             rb = new[] { CB_I1, CB_I2, CB_I3, CB_I4, CB_I5, CB_I6, CB_I7, CB_I8 };
+            fb = new[] { NUD_F1, NUD_F2, NUD_F3, NUD_F4, NUD_F5, NUD_F6, NUD_F7, NUD_F8 };
+            lb = new[] { NUD_L1, NUD_L2, NUD_L3, NUD_L4, NUD_L5, NUD_L6, NUD_L7, NUD_L8 };
             pic = new[] { PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7, PB_8 };
 
-            foreach (ComboBox cb in mb) { foreach (string s in evolutionMethods) cb.Items.Add(s); }
-            foreach (ComboBox cb in rb) { foreach (string s in specieslist) cb.Items.Add(s); }
+            foreach (ComboBox cb in mb) { cb.Items.AddRange(evolutionMethods); }
+            foreach (ComboBox cb in rb) { cb.Items.AddRange(specieslist.Take(Main.Config.MaxSpeciesID+1).ToArray()); }
 
             sortedspecies = (string[])specieslist.Clone();
             Array.Sort(sortedspecies);
@@ -80,9 +84,8 @@ namespace pk3DS
             CB_Species.SelectedIndex = 0;
         }
         private readonly string[] files = Directory.GetFiles("evolution");
-        private readonly ComboBox[] pb;
-        private readonly ComboBox[] rb;
-        private readonly ComboBox[] mb;
+        private readonly ComboBox[] pb, mb, rb;
+        private readonly NumericUpDown[] fb, lb;
         private readonly PictureBox[] pic;
         private int entry = -1;
         private readonly string[] sortedspecies;
@@ -90,22 +93,28 @@ namespace pk3DS
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
         private readonly string[] itemlist = Main.getText(TextName.ItemNames);
         private readonly string[] typelist = Main.getText(TextName.Types);
-        private bool dumping;
-        private EvolutionSet evo = new EvolutionSet6(new byte[0x30]);
+        private bool dumping, loading;
+        private readonly int[] baseForms, formVal;
+        private EvolutionSet evo = new EvolutionSet7(new byte[EvolutionSet7.SIZE]);
         private void getList()
         {
             entry = Array.IndexOf(specieslist, CB_Species.Text);
             byte[] input = File.ReadAllBytes(files[entry]);
-            if (input.Length != 0x30) return; // error
-            evo = new EvolutionSet6(input);
+            if (input.Length != EvolutionSet7.SIZE) return; // error
+            evo = new EvolutionSet7(input);
 
             for (int i = 0; i < evo.PossibleEvolutions.Length; i++)
             {
-                if (evo.PossibleEvolutions[i].Method > 34) return; // Invalid!
+                if (evo.PossibleEvolutions[i].Method > 39) return; // Invalid!
 
+                loading = true;
+                fb[i].Value = evo.PossibleEvolutions[i].Form;
+                lb[i].Value = evo.PossibleEvolutions[i].Level;
                 mb[i].SelectedIndex = evo.PossibleEvolutions[i].Method; // Which will trigger the params cb to reload the valid params list
                 pb[i].SelectedIndex = evo.PossibleEvolutions[i].Argument;
-                rb[i].SelectedIndex = evo.PossibleEvolutions[i].Species;
+                rb[i].SelectedIndex = evo.PossibleEvolutions[i].Species; // Triggers sprite to reload
+                loading = false;
+                changeInto(rb[i], null); // refresh sprite
             }
         }
         private void setList()
@@ -114,9 +123,11 @@ namespace pk3DS
 
             for (int i = 0; i < 8; i++)
             {
+                evo.PossibleEvolutions[i].Species = rb[i].SelectedIndex;
                 evo.PossibleEvolutions[i].Method = mb[i].SelectedIndex;
                 evo.PossibleEvolutions[i].Argument = pb[i].SelectedIndex;
-                evo.PossibleEvolutions[i].Species = rb[i].SelectedIndex;
+                evo.PossibleEvolutions[i].Form = (sbyte)fb[i].Value;
+                evo.PossibleEvolutions[i].Level = (int)lb[i].Value;
             }
             File.WriteAllBytes(files[entry], evo.Write());
         }
@@ -128,7 +139,6 @@ namespace pk3DS
         }
 
         private static int[] sL; // Random Species List
-        private byte[][] personal;
         private void B_RandAll_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Randomize all resulting species?", "Evolution methods and parameters will stay the same.")) return;
@@ -137,14 +147,6 @@ namespace pk3DS
             bool rBST = CHK_BST.Checked;
             bool rEXP = CHK_Exp.Checked;
             bool rType = CHK_Type.Checked;
-            if (rBST || rEXP || rType)
-            {
-                // initialize personal data
-                string[] personalList = Directory.GetFiles("personal");
-                personal = new byte[personalList.Length][];
-                for (int i = 0; i < personalList.Length; i++)
-                    personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
-            }
             int ctr = 0;
             sL = Randomizer.RandomSpeciesList;
 
@@ -200,7 +202,7 @@ namespace pk3DS
             string result = "";
             for (int i = 0; i < CB_Species.Items.Count; i++)
             {
-                CB_Species.SelectedIndex = i; // Get new Species
+                CB_Species.Text = specieslist[i]; // Get new Species
                 result += "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
                 for (int j = 0; j < 8; j++)
                 {
@@ -208,7 +210,18 @@ namespace pk3DS
                     // int param = pb[j].SelectedIndex;
                     int poke = rb[j].SelectedIndex;
                     if (poke > 0 && methodval > 0)
-                        result += mb[j].Text + (pb[j].Visible ? " [" + pb[j].Text + "]" : "") + " into " + rb[j].Text + Environment.NewLine;
+                    {
+                        string species = rb[j].Text;
+                        int bf = formVal[entry];
+                        string param = pb[j].Visible ? " [" + pb[j].Text + "]" : "";
+                        if (lb[j].Value > 0)
+                            param += $"@ level {lb[j].Value}";
+                        string method = mb[j].Text;
+                        int f = fb[j].Value == -1 ? bf : (int)fb[j].Value;
+                        string form = f == 0 ? "" : "-" + f;
+
+                        result += $"{method} {param} into {species}{form}".Replace("  ", " ") + Environment.NewLine;
+                    }
                 }
 
                 result += Environment.NewLine;
@@ -244,10 +257,11 @@ namespace pk3DS
                 1, // 33 - Level @ Night
                 1, // 34 - Gender Branch
                 1, // 35 - UNUSED
-                1, 1, 1, // Version Specific
+                7, 7, 7, // Version Specific
+                1,
             };
 
-            pb[op].Visible = pic[op].Visible = rb[op].Visible = mb[op].SelectedIndex > 0;
+            pb[op].Visible = pic[op].Visible = rb[op].Visible = fb[op].Visible = lb[op].Visible = mb[op].SelectedIndex > 0;
 
             pb[op].Items.Clear();
             int cv = methodCase[mb[op].SelectedIndex];
@@ -256,7 +270,7 @@ namespace pk3DS
                 case 0: // No Parameter Required
                     { pb[op].Visible = false; pb[op].Items.Add(""); break; }
                 case 1: // Level
-                    { for (int i = 0; i <= 100; i++) pb[op].Items.Add(i.ToString()); break; }
+                    { pb[op].Visible = false; pb[op].Items.Add(""); break; }
                 case 2: // Items
                     {  foreach (string t in itemlist) pb[op].Items.Add(t); break; }
                 case 3: // Moves
@@ -267,12 +281,22 @@ namespace pk3DS
                     { for (int i = 0; i <= 255; i++) pb[op].Items.Add(i.ToString()); break; }
                 case 6:
                     { foreach (string t in typelist) pb[op].Items.Add(t); break; }
+                case 7: // Version
+                    { for (int i = 0; i <= 255; i++) pb[op].Items.Add(i.ToString()); break; }
             }
             pb[op].SelectedIndex = 0;
         }
         private void changeInto(object sender, EventArgs e)
         {
-            pic[Array.IndexOf(rb, sender as ComboBox)].Image = (Bitmap)Resources.ResourceManager.GetObject("_" + Array.IndexOf(specieslist, (sender as ComboBox).Text));
+            if (loading || dumping)
+                return;
+            int index = sender is ComboBox ? Array.IndexOf(rb, sender) : Array.IndexOf(fb, sender);
+            int species = Array.IndexOf(specieslist, rb[index].Text);
+            int form = (int)fb[index].Value;
+            if (form == -1)
+                form = baseForms[species];
+            
+            pic[index].Image = Util.getSprite(species, form, 0, 0);
         }
     }
 }

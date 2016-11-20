@@ -34,16 +34,16 @@ namespace pk3DS
             CB_Species.ValueMember = "Value";
             #region Intializations
 
-            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             specieslist[0] = itemlist[0] = "";
             specieslist[32] += "♂"; specieslist[29] += "♀";
             AltForms = Main.Config.Personal.getFormList(specieslist, Main.Config.MaxSpeciesID);
 
-            groupbox_spec = new[] { GB_MEvo1, GB_MEvo2, GB_MEvo3 };
-            item_spec = new[] { CB_Item1, CB_Item2, CB_Item3 };
-            forme_spec = new[] { CB_Forme1, CB_Forme2, CB_Forme3 };
-            checkbox_spec = new[] { CHK_MEvo1, CHK_MEvo2, CHK_MEvo3 };
-            picturebox_spec = new[] { new[] { PB_S1, PB_S2, PB_S3 }, new[] { PB_M1, PB_M2, PB_M3 } };
+            groupbox_spec = new[] { GB_MEvo1, GB_MEvo2 };
+            item_spec = new[] { CB_Item1, CB_Item2 };
+            forme_spec = new[] { CB_Forme1, CB_Forme2 };
+            checkbox_spec = new[] { CHK_MEvo1, CHK_MEvo2 };
+            picturebox_spec = new[] { new[] { PB_S1, PB_S2 }, new[] { PB_M1, PB_M2 } };
             #endregion
             Setup();
             CB_Species.SelectedIndex = 0;
@@ -112,7 +112,7 @@ namespace pk3DS
                 PersonalEditor6.setForms(entry, CB, AltForms);
 
             me = new MegaEvolutions(data);
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 checkbox_spec[i].Checked = me.Method[i] == 1;
                 item_spec[i].SelectedValue = (int)me.Argument[i];
@@ -122,7 +122,7 @@ namespace pk3DS
         private void setEntry()
         {
             if (entry < 1 || entry == 384) return; // Don't edit invalid / Rayquaza.
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 if (me.Method[i] > 1) 
                     return; // Shouldn't hit this.
@@ -194,7 +194,7 @@ namespace pk3DS
                 CB_Species.SelectedValue = i; // Get new Species
                 string header = "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
                 bool headered = false;
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < 2; j++)
                 {
                     if (!checkbox_spec[j].Checked) continue;
                     if (!headered) { result += header; headered = true; }

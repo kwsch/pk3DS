@@ -291,7 +291,7 @@ namespace pk3DS
             switch (Config.Generation)
             {
                 case 6:
-                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Item, B_Move, B_Maison, B_TitleScreen};
+                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Item, B_Move, B_Maison, B_TitleScreen, B_OWSE};
                     exefs = new Control[] {B_MoveTutor, B_TMHM, B_Mart, B_Pickup, B_OPower};
                     cro = new Control[] {B_TypeChart, B_Starter, B_Gift, B_Static};
                     B_MoveTutor.Visible = Config.ORAS; // Default false unless loaded
@@ -539,49 +539,50 @@ namespace pk3DS
         private void B_Wild_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
-            bool advanced = (ModifierKeys == Keys.Alt) || ModifierKeys == (Keys.Alt | Keys.Control);
-            bool reload = (ModifierKeys == Keys.Control) || ModifierKeys == (Keys.Alt | Keys.Control);
             new Thread(() =>
             {
-                if (Config.SM)
+                string[] files;
+                Action action;
+                switch (Config.Generation)
                 {
-                    string[] files = {"encdata", "zonedata"};
-                    fileGet(files, false);
-                    Invoke((Action)(() => new SMWE().ShowDialog()));
-                    fileSet(files);
-                }
-                else
-                {
-                    if (advanced)
-                    {
-                        string[] files = { "encdata", "storytext", "mapGR", "mapMatrix" };
-                        if (reload || files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
-                            fileGet(files, false);
-
-                        // Only want to set back encdata.
+                    case 6:
                         files = new[] { "encdata" };
-                        Invoke((MethodInvoker)delegate { Enabled = false; });
-                        {
-                            Invoke((Action)(() => new TextEditor(Directory.GetFiles("storytext")).Show()));
-                            Invoke((Action)(() => new OWSE().Show()));
-                            while (Application.OpenForms.Count > 1)
-                                Thread.Sleep(200);
-                        }
-                        Invoke((MethodInvoker)delegate { Enabled = true; });
-                        fileSet(files);
-                    }
-                    else
-                    {
-                        string[] files = { "encdata" };
-                        fileGet(files, false);
                         if (Config.ORAS)
-                        { Invoke((Action)(() => new RSWE().ShowDialog())); }
+                            action = () => new RSWE().ShowDialog();
                         else if (Config.XY)
-                        { Invoke((Action)(() => new XYWE().ShowDialog())); }
-                        fileSet(files);
-                    }
+                            action = () => new XYWE().ShowDialog();
+                        else return;
+                        break;
+                    case 7:
+                        files = new [] { "encdata", "zonedata" };
+                        action = () => new SMWE().ShowDialog();
+                        break;
+                    default:
+                        return;
                 }
+                fileGet(files, false);
+                Invoke(action);
+                fileSet(files);
             }).Start();
+        }
+        private void B_OWSE_Click(object sender, EventArgs e)
+        {
+            bool reload = (ModifierKeys == Keys.Control) || ModifierKeys == (Keys.Alt | Keys.Control);
+            string[] files = { "encdata", "storytext", "mapGR", "mapMatrix" };
+            if (reload || files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
+                fileGet(files, false);
+
+            // Only want to set back encdata.
+            files = new[] { "encdata" };
+            Invoke((MethodInvoker)delegate { Enabled = false; });
+            {
+                Invoke((Action)(() => new TextEditor(Directory.GetFiles("storytext")).Show()));
+                Invoke((Action)(() => new OWSE().Show()));
+                while (Application.OpenForms.Count > 1)
+                    Thread.Sleep(200);
+            }
+            Invoke((MethodInvoker)delegate { Enabled = true; });
+            fileSet(files);
         }
         private void B_Evolution_Click(object sender, EventArgs e)
         {
@@ -590,7 +591,15 @@ namespace pk3DS
             {
                 string[] files = { "evolution" };
                 fileGet(files);
-                Invoke((Action)(() => new EvolutionEditor6().ShowDialog()));
+                switch (Config.Generation)
+                {
+                    case 6:
+                        Invoke((Action)(() => new EvolutionEditor6().ShowDialog()));
+                        break;
+                    case 7:
+                        Invoke((Action)(() => new EvolutionEditor7().ShowDialog()));
+                        break;
+                }
                 fileSet(files);
             }).Start();
         }
@@ -601,6 +610,15 @@ namespace pk3DS
             {
                 string[] files = { "megaevo" };
                 fileGet(files);
+                switch (Config.Generation)
+                {
+                    case 6:
+                        Invoke((Action)(() => new MegaEvoEditor6().ShowDialog()));
+                        break;
+                    case 7:
+                        Invoke((Action)(() => new MegaEvoEditor7().ShowDialog()));
+                        break;
+                }
                 Invoke((Action)(() => new MegaEvoEditor6().ShowDialog()));
                 fileSet(files);
             }).Start();
