@@ -76,6 +76,7 @@
             this.B_Item = new System.Windows.Forms.Button();
             this.B_Move = new System.Windows.Forms.Button();
             this.B_TitleScreen = new System.Windows.Forms.Button();
+            this.B_OWSE = new System.Windows.Forms.Button();
             this.Tab_ExeFS = new System.Windows.Forms.TabPage();
             this.FLP_ExeFS = new System.Windows.Forms.FlowLayoutPanel();
             this.Tab_CRO = new System.Windows.Forms.TabPage();
@@ -86,7 +87,6 @@
             this.B_Static = new System.Windows.Forms.Button();
             this.Tab_Output = new System.Windows.Forms.TabPage();
             this.L_Status = new System.Windows.Forms.Label();
-            this.B_OWSE = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.TC_RomFS.SuspendLayout();
             this.Tab_RomFS.SuspendLayout();
@@ -576,6 +576,16 @@
             this.B_TitleScreen.UseVisualStyleBackColor = true;
             this.B_TitleScreen.Click += new System.EventHandler(this.B_TitleScreen_Click);
             // 
+            // B_OWSE
+            // 
+            this.B_OWSE.Location = new System.Drawing.Point(109, 119);
+            this.B_OWSE.Name = "B_OWSE";
+            this.B_OWSE.Size = new System.Drawing.Size(100, 23);
+            this.B_OWSE.TabIndex = 13;
+            this.B_OWSE.Text = "OWSE [Dev]";
+            this.B_OWSE.UseVisualStyleBackColor = true;
+            this.B_OWSE.Click += new System.EventHandler(this.B_OWSE_Click);
+            // 
             // Tab_ExeFS
             // 
             this.Tab_ExeFS.Controls.Add(this.FLP_ExeFS);
@@ -681,16 +691,6 @@
             this.L_Status.Size = new System.Drawing.Size(163, 20);
             this.L_Status.TabIndex = 14;
             this.L_Status.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // B_OWSE
-            // 
-            this.B_OWSE.Location = new System.Drawing.Point(109, 119);
-            this.B_OWSE.Name = "B_OWSE";
-            this.B_OWSE.Size = new System.Drawing.Size(100, 23);
-            this.B_OWSE.TabIndex = 13;
-            this.B_OWSE.Text = "Title Screen";
-            this.B_OWSE.UseVisualStyleBackColor = true;
-            this.B_OWSE.Click += new System.EventHandler(this.B_OWSE_Click);
             // 
             // Main
             // 
