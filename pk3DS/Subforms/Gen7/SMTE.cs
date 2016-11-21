@@ -260,7 +260,6 @@ namespace pk3DS
             index = 0;
             pkm = new trpoke7();
             populateFieldsTP7(pkm);
-            SystemSounds.Asterisk.Play();
         }
 
         private void changeTrainerIndex(object sender, EventArgs e)

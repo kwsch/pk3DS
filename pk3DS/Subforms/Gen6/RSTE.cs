@@ -519,7 +519,6 @@ namespace pk3DS
             CB_TrainerID.SelectedIndex = 1;
             start = false;
             readFile();
-            SystemSounds.Asterisk.Play();
         }
 
         private bool randomizing;
