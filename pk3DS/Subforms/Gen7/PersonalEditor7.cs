@@ -246,8 +246,10 @@ namespace pk3DS
             pkm.Color = (byte) (Convert.ToByte(CB_Color.SelectedIndex) | (Convert.ToByte(TB_RawColor.Text) & 0xF0));
             pkm.BaseEXP = Convert.ToUInt16(TB_BaseExp.Text);
 
-            pkm.Height = (int)Convert.ToDouble(TB_Height.Text)*100;
-            pkm.Weight = (int)Convert.ToDouble(TB_Weight.Text)*10;
+            decimal h; decimal.TryParse(TB_Height.Text, out h);
+            decimal w; decimal.TryParse(TB_Weight.Text, out w);
+            pkm.Height = (int)(h * 100);
+            pkm.Weight = (int)(w * 10);
 
             for (int i = 0; i < CLB_TMHM.Items.Count; i++)
                 pkm.TMHM[i] = CLB_TMHM.GetItemChecked(i);
