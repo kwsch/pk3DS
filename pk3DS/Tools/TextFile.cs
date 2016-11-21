@@ -98,7 +98,7 @@ namespace pk3DS
                 int bytesUsed = 0;
                 for (int i = 0; i < lines.Length; i++)
                 {
-                    string text = value[i].Trim(); // ReSharper disable once RedundantLogicalConditionalExpressionOperand
+                    string text = (value[i] ?? "").Trim(); // ReSharper disable once RedundantLogicalConditionalExpressionOperand
                     if (text.Length == 0 && SETEMPTYTEXT)
                         text = $"[~ {i}]";
                     byte[] DecryptedLineData = getLineData(text);
