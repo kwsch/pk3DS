@@ -422,7 +422,7 @@ namespace pk3DS
                 string[][] files = Config.GameTextStrings;
                 Invoke((Action)(() => new TextEditor(files, "gametext").ShowDialog()));
                 g.Files = files.Select(TextFile.getBytes).ToArray();
-                Config.GARCGameText.Save();
+                g.Save();
             }).Start();
         }
         private void B_StoryText_Click(object sender, EventArgs e)
@@ -446,10 +446,16 @@ namespace pk3DS
             new Thread(() =>
             {
                 bool super = dr == DialogResult.Yes;
-                string[] files = { super ? "maisontrS" : "maisontrN", super ? "maisonpkS" : "maisonpkN" };
-                fileGet(files);
-                Invoke((Action)(() => new MaisonEditor6(super).ShowDialog()));
-                fileSet(files);
+                string c = super ? "S" : "N";
+                var trdata = Config.getGARCData("maisontr"+c);
+                var trpoke = Config.getGARCData("maisonpk"+c);
+                byte[][] trd = trdata.Files;
+                byte[][] trp = trpoke.Files;
+                Invoke((Action)(() => new MaisonEditor6(trd, trp, super).ShowDialog()));
+                trdata.Files = trd;
+                trpoke.Files = trp;
+                trdata.Save();
+                trpoke.Save();
             }).Start();
         }
         private void B_Personal_Click(object sender, EventArgs e)
@@ -480,13 +486,28 @@ namespace pk3DS
             if (threadActive()) return;
             new Thread(() =>
             {
-                string[] files = { "trdata", "trpoke", "move" }; // Moves required for smart randomization
-                fileGet(files);
-                if (Config.SM)
-                    Invoke((Action)(() => new SMTE().ShowDialog()));
-                else
-                    Invoke((Action)(() => new RSTE().ShowDialog()));
-                fileSet(files);
+                var trclass = Config.getGARCData("trclass");
+                var trdata = Config.getGARCData("trdata");
+                var trpoke = Config.getGARCData("trpoke");
+                byte[][] trc = trclass.Files;
+                byte[][] trd = trdata.Files;
+                byte[][] trp = trpoke.Files;
+
+                switch (Config.Generation)
+                {
+                    case 6:
+                        Invoke((Action)(() => new RSTE(trc, trd, trp).ShowDialog()));
+                        break;
+                    case 7:
+                        Invoke((Action)(() => new SMTE(trc, trd, trp).ShowDialog()));
+                        break;
+                }
+                trclass.Files = trc;
+                trdata.Files = trd;
+                trpoke.Files = trp;
+                trclass.Save();
+                trdata.Save();
+                trpoke.Save();
             }).Start();
         }
         private void B_Wild_Click(object sender, EventArgs e)
@@ -549,18 +570,19 @@ namespace pk3DS
             if (threadActive()) return;
             new Thread(() =>
             {
-                string[] files = { "evolution" };
-                fileGet(files);
+                var g = Config.getGARCData("evolution");
+                byte[][] d = g.Files;
                 switch (Config.Generation)
                 {
                     case 6:
-                        Invoke((Action)(() => new EvolutionEditor6().ShowDialog()));
+                        Invoke((Action)(() => new EvolutionEditor6(d).ShowDialog()));
                         break;
                     case 7:
-                        Invoke((Action)(() => new EvolutionEditor7().ShowDialog()));
+                        Invoke((Action)(() => new EvolutionEditor7(d).ShowDialog()));
                         break;
                 }
-                fileSet(files);
+                g.Files = d;
+                g.Save();
             }).Start();
         }
         private void B_MegaEvo_Click(object sender, EventArgs e)
@@ -568,19 +590,19 @@ namespace pk3DS
             if (threadActive()) return;
             new Thread(() =>
             {
-                string[] files = { "megaevo" };
-                fileGet(files);
+                var g = Config.getGARCData("megaevo");
+                byte[][] d = g.Files;
                 switch (Config.Generation)
                 {
                     case 6:
-                        Invoke((Action)(() => new MegaEvoEditor6().ShowDialog()));
+                        Invoke((Action)(() => new MegaEvoEditor6(d).ShowDialog()));
                         break;
                     case 7:
-                        Invoke((Action)(() => new MegaEvoEditor7().ShowDialog()));
+                        Invoke((Action)(() => new MegaEvoEditor7(d).ShowDialog()));
                         break;
                 }
-                Invoke((Action)(() => new MegaEvoEditor6().ShowDialog()));
-                fileSet(files);
+                g.Files = d;
+                g.Save();
             }).Start();
         }
         private void B_Item_Click(object sender, EventArgs e)
@@ -588,18 +610,19 @@ namespace pk3DS
             if (threadActive()) return;
             new Thread(() =>
             {
-                string[] files = { "item" };
-                fileGet(files);
+                var g = Config.getGARCData("item");
+                byte[][] d = g.Files;
                 switch (Config.Generation)
                 {
                     case 6:
-                        Invoke((Action)(() => new ItemEditor6().ShowDialog()));
+                        Invoke((Action)(() => new ItemEditor6(d).ShowDialog()));
                         break;
                     case 7:
-                        Invoke((Action)(() => new ItemEditor7().ShowDialog()));
+                        Invoke((Action)(() => new ItemEditor7(d).ShowDialog()));
                         break;
                 }
-                fileSet(files);
+                g.Files = d;
+                g.Save();
             }).Start();
         }
         private void B_Move_Click(object sender, EventArgs e)

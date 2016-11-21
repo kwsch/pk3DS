@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
-using pk3DS.Properties;
 
 namespace pk3DS
 {
     public partial class EvolutionEditor7 : Form
     {
-        public EvolutionEditor7()
+        public EvolutionEditor7(byte[][] infiles)
         {
+            files = infiles;
             InitializeComponent();
 
             specieslist[0] = movelist[0] = itemlist[0] = "";
@@ -83,7 +82,7 @@ namespace pk3DS
 
             CB_Species.SelectedIndex = 0;
         }
-        private readonly string[] files = Directory.GetFiles("evolution");
+        private readonly byte[][] files;
         private readonly ComboBox[] pb, mb, rb;
         private readonly NumericUpDown[] fb, lb;
         private readonly PictureBox[] pic;
@@ -99,7 +98,7 @@ namespace pk3DS
         private void getList()
         {
             entry = Array.IndexOf(specieslist, CB_Species.Text);
-            byte[] input = File.ReadAllBytes(files[entry]);
+            byte[] input = files[entry];
             if (input.Length != EvolutionSet7.SIZE) return; // error
             evo = new EvolutionSet7(input);
 
@@ -129,7 +128,7 @@ namespace pk3DS
                 evo.PossibleEvolutions[i].Form = (sbyte)fb[i].Value;
                 evo.PossibleEvolutions[i].Level = (int)lb[i].Value;
             }
-            File.WriteAllBytes(files[entry], evo.Write());
+            files[entry] = evo.Write();
         }
 
         private void changeEntry(object sender, EventArgs e)

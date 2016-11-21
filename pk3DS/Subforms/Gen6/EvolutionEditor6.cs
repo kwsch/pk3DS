@@ -11,8 +11,9 @@ namespace pk3DS
 {
     public partial class EvolutionEditor6 : Form
     {
-        public EvolutionEditor6()
+        public EvolutionEditor6(byte[][] infiles)
         {
+            files = infiles;
             InitializeComponent();
 
             specieslist[0] = movelist[0] = itemlist[0] = "";
@@ -74,7 +75,7 @@ namespace pk3DS
 
             CB_Species.SelectedIndex = 0;
         }
-        private readonly string[] files = Directory.GetFiles("evolution");
+        private readonly byte[][] files;
         private readonly ComboBox[] pb;
         private readonly ComboBox[] rb;
         private readonly ComboBox[] mb;
@@ -90,7 +91,7 @@ namespace pk3DS
         private void getList()
         {
             entry = Array.IndexOf(specieslist, CB_Species.Text);
-            byte[] input = File.ReadAllBytes(files[entry]);
+            byte[] input = files[entry];
             if (input.Length != EvolutionSet6.SIZE) return; // error
             evo = new EvolutionSet6(input);
 
@@ -113,7 +114,7 @@ namespace pk3DS
                 evo.PossibleEvolutions[i].Argument = pb[i].SelectedIndex;
                 evo.PossibleEvolutions[i].Species = rb[i].SelectedIndex;
             }
-            File.WriteAllBytes(files[entry], evo.Write());
+            files[entry] = evo.Write();
         }
 
         private void changeEntry(object sender, EventArgs e)

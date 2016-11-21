@@ -11,8 +11,11 @@ namespace pk3DS
 {
     public partial class RSTE : Form
     {
-        public RSTE()
+        public RSTE(byte[][] trc, byte[][] trd, byte[][] trp)
         {
+            trclass = trc;
+            trdata = trd;
+            trpoke = trp;
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
 
             InitializeComponent();
@@ -131,17 +134,10 @@ namespace pk3DS
         private int index = -1;
         #region Global Variables
         private readonly ComboBox[] trpk_pkm;
-
         private readonly ComboBox[] trpk_lvl;
-
         private readonly ComboBox[] trpk_item;
-
         private readonly ComboBox[] trpk_abil;
-
-        private readonly ComboBox[] trpk_m1;
-        private readonly ComboBox[] trpk_m2;
-        private readonly ComboBox[] trpk_m3;
-        private readonly ComboBox[] trpk_m4;
+        private readonly ComboBox[] trpk_m1, trpk_m2, trpk_m3, trpk_m4;
         private readonly ComboBox[] trpk_IV;
         private readonly ComboBox[] trpk_form;
         private readonly ComboBox[] trpk_gender;
@@ -149,8 +145,9 @@ namespace pk3DS
         private PictureBox[] pba;
 
         // Top Level Functions
-        private readonly string[] trdatapaths = Directory.GetFiles("trdata");
-        private readonly string[] trpokepaths = Directory.GetFiles("trpoke");
+        private readonly byte[][] trclass;
+        private readonly byte[][] trdata;
+        private readonly byte[][] trpoke;
         private readonly string[] abilitylist = Main.getText(TextName.AbilityNames);
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
         private readonly string[] itemlist = Main.getText(TextName.ItemNames);
@@ -315,9 +312,9 @@ namespace pk3DS
             if (index == 0) return;
 
             tabControl1.Enabled = true;
-            byte[] trdata = File.ReadAllBytes(trdatapaths[index]);
-            byte[] trpoke = File.ReadAllBytes(trpokepaths[index]);
-            tr = new trdata6(trdata, trpoke, Main.Config.ORAS);
+            byte[] trd = trdata[index];
+            byte[] trp = trpoke[index];
+            tr = new trdata6(trd, trp, Main.Config.ORAS);
 
             // Load Trainer Data
             CB_Trainer_Class.SelectedIndex = tr.Class;
@@ -402,10 +399,10 @@ namespace pk3DS
                 tr.Team[i].Moves[2] = (ushort)trpk_m3[i].SelectedIndex;
                 tr.Team[i].Moves[3] = (ushort)trpk_m4[i].SelectedIndex;
             }
-            byte[] trdata = tr.Write();
-            File.WriteAllBytes(trdatapaths[index], trdata);
-            byte[] trpoke = tr.WriteTeam();
-            File.WriteAllBytes(trpokepaths[index], trpoke);
+            byte[] trd = tr.Write();
+            trdata[index] = trd;
+            byte[] trp = tr.WriteTeam();
+            trpoke[index] = trp;
         }
 
         // Image Displays
@@ -439,9 +436,9 @@ namespace pk3DS
             indexList = PersonalEditor6.getPersonalIndexList(personalData, Main.Config.ORAS);
             AltForms = PersonalEditor6.getFormList(personalData, Main.Config.ORAS, specieslist, forms, types, itemlist);
 
-            Array.Resize(ref trName, trdatapaths.Length);
+            Array.Resize(ref trName, trdata.Length);
             CB_TrainerID.Items.Clear();
-            for (int i = 0; i < trdatapaths.Length; i++)
+            for (int i = 0; i < trdata.Length; i++)
                 CB_TrainerID.Items.Add(string.Format("{1} - {0}", i.ToString("000"), trName[i] ?? "UNKNOWN"));
 
             CB_Trainer_Class.Items.Clear();
@@ -781,7 +778,7 @@ namespace pk3DS
 
         private string[] GetTagsORAS()
         {
-            string[] tags = Enumerable.Repeat("", trdatapaths.Length).ToArray();
+            string[] tags = Enumerable.Repeat("", trdata.Length).ToArray();
             ImportantTrainers = true;
             //Rival Battles
             TagTrainer(tags, "RIVAL1", 289, 292, 295, 298, 527, 530, 674, 677, 699, 906); // Rival w/ Grass Starter
@@ -841,7 +838,7 @@ namespace pk3DS
         }
         private string[] GetTagsXY()
         {
-            string[] tags = Enumerable.Repeat("", trdatapaths.Length).ToArray();
+            string[] tags = Enumerable.Repeat("", trdata.Length).ToArray();
             ImportantTrainers = true;
             //Rival Battles
             TagTrainer(tags, "RIVAL1", 130, 184, 329, 332, 335, 338, 341, 435, 519, 604, 575, 578, 581, 584, 587, 590, 593, 596, 599, 607); // Rival w/ Fire Starter

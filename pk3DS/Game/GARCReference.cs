@@ -29,6 +29,7 @@ namespace pk3DS
             new GARCReference(005, "movesprite"),
             new GARCReference(012, "encdata"),
             new GARCReference(038, "trdata"),
+            new GARCReference(039, "trclass"),
             new GARCReference(040, "trpoke"),
             new GARCReference(041, "mapGR"),
             new GARCReference(042, "mapMatrix"),
@@ -54,6 +55,7 @@ namespace pk3DS
         {
             new GARCReference(013, "encdata"),
             new GARCReference(036, "trdata"),
+            new GARCReference(037, "trclass"),
             new GARCReference(038, "trpoke"),
             new GARCReference(039, "mapGR"),
             new GARCReference(040, "mapMatrix"),

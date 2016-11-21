@@ -10,7 +10,7 @@ namespace pk3DS
 {
     public partial class MegaEvoEditor7 : Form
     {
-        private readonly string[] files = Directory.GetFiles("megaevo");
+        private readonly byte[][] files;
         private readonly string[] forms = Main.getText(TextName.Forms);
         private readonly string[] types = Main.getText(TextName.Types);
         private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
@@ -27,8 +27,9 @@ namespace pk3DS
         private bool dumping;
         private MegaEvolutions me;
 
-        public MegaEvoEditor7() // All the initial settings
+        public MegaEvoEditor7(byte[][] infiles) // All the initial settings
         {
+            files = infiles;
             InitializeComponent();
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
@@ -106,7 +107,7 @@ namespace pk3DS
             if (Main.Config.ORAS && entry == 384 && !dumping) // Current Mon is Rayquaza
                 Util.Alert("Rayquaza is special and uses a different activator for its evolution. If it knows Dragon Ascent, it can Mega Evolve", "Don't edit its evolution table if you want to keep this functionality.");
 
-            byte[] data = File.ReadAllBytes(files[entry]);
+            byte[] data = files[entry];
 
             foreach (ComboBox CB in forme_spec)
                 PersonalEditor6.setForms(entry, CB, AltForms);
@@ -130,7 +131,7 @@ namespace pk3DS
                 me.Argument[i] = (ushort)Util.getIndex(item_spec[i]);
                 me.Form[i] = (ushort)forme_spec[i].SelectedIndex;
             }
-            File.WriteAllBytes(files[entry], me.Write());
+            files[entry] = me.Write();
         }
 
         private void Update_PBs(object sender, EventArgs e)

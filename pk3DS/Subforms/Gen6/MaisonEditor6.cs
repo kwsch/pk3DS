@@ -9,13 +9,12 @@ namespace pk3DS
 {
     public partial class MaisonEditor6 : Form
     {
-        public MaisonEditor6(bool super)
+        public MaisonEditor6(byte[][] trd, byte[][] trp, bool super)
         {
+            trFiles = trd;
+            pkFiles = trp;
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
             movelist[0] = specieslist[0] = itemlist[0] = "";
-
-            trFiles = Directory.GetFiles(super ? "maisontrS" : "maisontrN");
-            pkFiles = Directory.GetFiles(super ? "maisonpkS" : "maisonpkN");
             
             trNames = Main.getText(super ? TextName.SuperTrainerNames : TextName.MaisonTrainerNames); Array.Resize(ref trNames, trFiles.Length);
 
@@ -23,9 +22,9 @@ namespace pk3DS
             Setup();
         }
 
-        private readonly string[] trFiles;
+        private readonly byte[][] trFiles;
         private readonly string[] trNames;
-        private readonly string[] pkFiles;
+        private readonly byte[][] pkFiles;
         private readonly string[] natures = Main.getText(TextName.Natures);
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
         private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
@@ -69,7 +68,7 @@ namespace pk3DS
 
             // Get
             LB_Choices.Items.Clear();
-            Maison6.Trainer tr = new Maison6.Trainer(File.ReadAllBytes(trFiles[trEntry]));
+            Maison6.Trainer tr = new Maison6.Trainer(trFiles[trEntry]);
 
             CB_Class.SelectedIndex = tr.Class;
             GB_Trainer.Enabled = tr.Count > 0;
@@ -90,12 +89,12 @@ namespace pk3DS
             for (int i = 0; i < tr.Count; i++)
                 tr.Choices[i] = Convert.ToUInt16(LB_Choices.Items[i].ToString());
             Array.Sort(tr.Choices);
-            File.WriteAllBytes(trFiles[trEntry], tr.Write());
+            trFiles[trEntry] = tr.Write();
         }
         private void getPokemon()
         {
             if (pkEntry < 0 || dumping) return;
-            Maison6.Pokemon pkm = new Maison6.Pokemon(File.ReadAllBytes(pkFiles[pkEntry]));
+            Maison6.Pokemon pkm = new Maison6.Pokemon(pkFiles[pkEntry]);
 
             // Get
             CB_Move1.SelectedIndex = pkm.Moves[0];
@@ -119,7 +118,7 @@ namespace pk3DS
             if (pkEntry < 0 || dumping) return;
 
             // Each File is 16 Bytes.
-            Maison6.Pokemon pkm = new Maison6.Pokemon(File.ReadAllBytes(pkFiles[pkEntry]))
+            Maison6.Pokemon pkm = new Maison6.Pokemon(pkFiles[pkEntry])
             {
                 Species = (ushort) CB_Species.SelectedIndex,
                 HP = CHK_HP.Checked,
@@ -140,7 +139,7 @@ namespace pk3DS
             };
 
             byte[] data = pkm.Write();
-            File.WriteAllBytes(pkFiles[pkEntry], data);
+            pkFiles[pkEntry] = data;
         }
 
         private void changeSpecies(object sender, EventArgs e)

@@ -20,8 +20,7 @@ namespace pk3DS
         private int index = -1;
         private PictureBox[] pba;
 
-        private readonly string[] trdatapaths = Directory.GetFiles("trdata");
-        private readonly string[] trpokepaths = Directory.GetFiles("trpoke");
+        private readonly byte[][] trclass, trdata, trpoke;
         private readonly string[] abilitylist = Main.getText(TextName.AbilityNames);
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
         private readonly string[] itemlist = Main.getText(TextName.ItemNames);
@@ -33,14 +32,17 @@ namespace pk3DS
         private readonly string[] trClass = Main.getText(TextName.TrainerClasses);
         private readonly string[] trText = Main.getText(TextName.TrainerText);
 
-        public SMTE()
+        public SMTE(byte[][] trc, byte[][] trd, byte[][] trp)
         {
+            trclass = trc;
+            trdata = trd;
+            trpoke = trp;
             InitializeComponent();
 
             mnuView.Click += clickView;
             mnuSet.Click += clickSet;
             mnuDelete.Click += clickDelete;
-            Trainers = new trdata7[trdatapaths.Length];
+            Trainers = new trdata7[trdata.Length];
             Setup();
             foreach (var pb in pba)
                 pb.Click += clickSlot;
@@ -172,9 +174,9 @@ namespace pk3DS
         {
             AltForms = forms.Select(f => Enumerable.Range(0, 100).Select(i => i.ToString()).ToArray()).ToArray();
 
-            Array.Resize(ref trName, trdatapaths.Length);
+            Array.Resize(ref trName, trdata.Length);
             CB_TrainerID.Items.Clear();
-            for (int i = 0; i < trdatapaths.Length; i++)
+            for (int i = 0; i < trdata.Length; i++)
                 CB_TrainerID.Items.Add(string.Format("{1} - {0}", i.ToString("000"), trName[i] ?? "UNKNOWN"));
 
             CB_Trainer_Class.Items.Clear();
@@ -183,9 +185,9 @@ namespace pk3DS
 
             Trainers[0] = new trdata7();
 
-            for (int i = 1; i < trdatapaths.Length; i++)
+            for (int i = 1; i < trdata.Length; i++)
             {
-                Trainers[i] = new trdata7(File.ReadAllBytes(trdatapaths[i]), File.ReadAllBytes(trpokepaths[i]))
+                Trainers[i] = new trdata7(trdata[i], trpoke[i])
                 {
                     Name = trName[i],
                     ID = i
@@ -272,11 +274,11 @@ namespace pk3DS
                 return;
             var tr = Trainers[index];
             prepareTR7(tr);
-            byte[] trdata;
-            byte[] trpoke;
-            tr.Write(out trdata, out trpoke);
-            File.WriteAllBytes(trdatapaths[index], trdata);
-            File.WriteAllBytes(trpokepaths[index], trpoke);
+            byte[] trd;
+            byte[] trp;
+            tr.Write(out trd, out trp);
+            trdata[index] = trd;
+            trpoke[index] = trp;
             trName[index] = TB_TrainerName.Text;
         }
         private void loadEntry()

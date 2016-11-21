@@ -6,15 +6,16 @@ namespace pk3DS
 {
     public partial class ItemEditor7 : Form
     {
-        public ItemEditor7()
+        public ItemEditor7(byte[][] infiles)
         {
+            files = infiles;
             itemlist[0] = "";
 
             InitializeComponent();
             Setup();
         }
 
-        private readonly string[] files = Directory.GetFiles("item");
+        private readonly byte[][] files;
         private readonly string[] itemlist = Main.getText(TextName.ItemNames);
         private readonly string[] itemflavor = Main.getText(TextName.ItemFlavor);
 
@@ -35,7 +36,7 @@ namespace pk3DS
         private void getEntry()
         {
             if (entry < 1) return;
-            item = new Item(File.ReadAllBytes(files[entry]));
+            item = new Item(files[entry]);
 
             RTB.Text = itemflavor[entry].Replace("\\n", Environment.NewLine);
             MT_Price.Text = item.BuyPrice.ToString();
@@ -48,7 +49,7 @@ namespace pk3DS
             item.Price = (ushort)(Util.ToInt32(MT_Price)/10);
             item.UseEffect = (byte)(int)NUD_UseEffect.Value;
 
-            File.WriteAllBytes(files[entry], item.Write());
+            files[entry] = item.Write();
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {
