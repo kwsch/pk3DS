@@ -87,30 +87,81 @@ namespace pk3DS
             ExeFS = exeFSpath;
             Language = lang;
             getGameData(Version);
+            InitializeAll();
         }
-
+        public void InitializeAll()
+        {
+            InitializePersonal();
+            InitializeLearnset();
+            InitializeGameText();
+            InitializeMoves();
+        }
         public void InitializePersonal()
         {
-            var pG = getROMFSFile("personal");
-            Personal = new PersonalTable(pG.getFile(pG.FileCount - 1), Version);
+            GARCPersonal = getGARCData("personal");
+            Personal = new PersonalTable(GARCPersonal.getFile(GARCPersonal.FileCount - 1), Version);
+        }
+        public void InitializeLearnset()
+        {
+            GARCLearnsets = getGARCData("levelup");
+            switch (Generation)
+            {
+                case 6:
+                    Learnsets = GARCLearnsets.Files.Select(file => new Learnset6(file)).ToArray();
+                    break;
+                case 7:
+                    Learnsets = GARCLearnsets.Files.Select(file => new Learnset7(file)).ToArray();
+                    break;
+            }
+        }
+        public void InitializeGameText()
+        {
+            GARCGameText = getGARCData("gametext");
+            GameTextStrings = GARCGameText.Files.Select(file => new TextFile(file).Lines).ToArray();
+        }
+        public void InitializeMoves()
+        {
+            GARCMoves = getGARCData("move");
+            switch (Generation)
+            {
+                case 6:
+                    if (XY)
+                        Moves = GARCMoves.Files.Select(file => new Move(file)).ToArray();
+                    if (ORAS)
+                        Moves = mini.unpackMini(GARCMoves.getFile(0), "WD").Select(file => new Move(file)).ToArray();
+                    break;
+                case 7:
+                    Moves = mini.unpackMini(GARCMoves.getFile(0), "WD").Select(file => new Move(file)).ToArray();
+                    break;
+            }
+        }
+        public GARCFile getGARCData(string file)
+        {
+            return new GARCFile(getMemGARC(file), getGARCReference(file), getGARCPath(file));
+        }
+        private string getGARCPath(string file)
+        {
+            var gr = getGARCReference(file);
+            gr = gr.LanguageVariant ? gr.getRelativeGARC(Language, gr.Name) : gr;
+            string subloc = gr.Reference;
+            return Path.Combine(RomFS, subloc);
         }
 
-        private GARC.MemGARC getROMFSFile(string file)
+        private GARC.MemGARC getMemGARC(string file)
         {
-            string path = Path.Combine(RomFS, getGARC(file).Reference);
-            return new GARC.MemGARC(File.ReadAllBytes(path));
+            return new GARC.MemGARC(File.ReadAllBytes(getGARCPath(file)));
         }
 
         private string RomFS, ExeFS;
 
-        public GARCReference getGARC(string name) { return Files.FirstOrDefault(f => f.Name == name); }
+        public GARCReference getGARCReference(string name) { return Files.FirstOrDefault(f => f.Name == name); }
         public TextVariableCode getVariableCode(string name) { return Variables.FirstOrDefault(v => v.Name == name); }
         public TextVariableCode getVariableName(int value) { return Variables.FirstOrDefault(v => v.Code == value); }
         public TextReference getGameText(TextName name) { return GameText.FirstOrDefault(f => f.Name == name); }
 
         public string getGARCFileName(string requestedGARC)
         {
-            var garc = getGARC(requestedGARC);
+            var garc = getGARCReference(requestedGARC);
             if (garc.LanguageVariant)
                 garc = garc.getRelativeGARC(Language);
 
@@ -118,7 +169,13 @@ namespace pk3DS
         }
 
         public int Language { get; set; }
-        public PersonalTable Personal;
+
+        public GARCFile GARCPersonal, GARCLearnsets, GARCMoves, GARCGameText;
+        public PersonalTable Personal { get; private set; }
+        public Learnset[] Learnsets { get; private set; }
+        public string[][] GameTextStrings { get; private set; }
+        public Move[] Moves { get; private set; }
+
         public bool XY => Version == GameVersion.XY;
         public bool ORAS => Version == GameVersion.ORAS || Version == GameVersion.ORASDEMO;
         public bool SM => Version == GameVersion.SM || Version == GameVersion.SMDEMO;

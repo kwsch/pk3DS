@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
@@ -11,7 +10,7 @@ namespace pk3DS
 {
     public partial class PersonalEditor6 : Form
     {
-        public PersonalEditor6()
+        public PersonalEditor6(byte[][] infiles)
         {
             InitializeComponent();
             helditem_boxes = new[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
@@ -21,22 +20,29 @@ namespace pk3DS
             byte_boxes = new[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate };
             ev_boxes = new[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
             rstat_boxes = new[] { CHK_rHP, CHK_rATK, CHK_rDEF, CHK_rSPA, CHK_rSPD, CHK_rSPE };
+            files = infiles;
 
-            data = File.ReadAllBytes(paths.Last()); // Load last to data.
+            abilities = Main.getText(TextName.AbilityNames);
+            moves = Main.getText(TextName.MoveNames);
+            items = Main.getText(TextName.ItemNames);
+            species = Main.getText(TextName.SpeciesNames);
+            types = Main.getText(TextName.Types);
+            species[0] = "---";
+            abilities[0] = items[0] = moves[0] = "";
+            string[][] AltForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
+            species = Main.Config.Personal.getPersonalEntryList(AltForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
+
             Setup(); //Turn string resources into arrays
             CB_Species.SelectedIndex = 1;
         }
         #region Global Variables
-        private readonly string[] paths = Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly);
         private readonly string mode = Main.Config.ORAS ? "ORAS" : "XY";
+        private readonly byte[][] files;
 
         private string[] items = { };
         private string[] moves = { };
         private string[] species = { };
         private string[] abilities = { };
-        private string[] forms = { };
-
-        private readonly byte[] data = { };
 
         private readonly ComboBox[] helditem_boxes;
         private readonly ComboBox[] ability_boxes;
@@ -66,23 +72,11 @@ namespace pk3DS
         public ushort[] tutor3 = { 20, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 314, 264, 351, 352 };
         public ushort[] tutor4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 };
 
-        private string[][] AltForms;
-        int entrysize = Main.Config.ORAS ? 0x50 : 0x40;
+        private readonly int[] baseForms, formVal;
         int entry = -1;
         #endregion
         private void Setup()
         {
-            abilities = Main.getText(TextName.AbilityNames);
-            moves = Main.getText(TextName.MoveNames);
-            items = Main.getText(TextName.ItemNames);
-            species = Main.getText(TextName.SpeciesNames);
-            types = Main.getText(TextName.Types);
-            forms = Main.getText(TextName.Forms);
-            species[0] = "---";
-            abilities[0] = items[0] = moves[0] = "";
-            AltForms = getFormList(data, Main.Config.ORAS, species, forms, types, items);
-            species = getPersonalEntryList(data, Main.Config.ORAS, AltForms, species);
-
             ushort[] TMs = new ushort[0];
             ushort[] HMs = new ushort[0];
             TMHMEditor6.getTMHMList(Main.Config.ORAS, ref TMs, ref HMs);
@@ -255,7 +249,11 @@ namespace pk3DS
             readInfo();
             
             if (dumping) return;
-            int[] specForm = getSpecies(data, Main.Config.ORAS, CB_Species.SelectedIndex);
+            int s = baseForms[entry];
+            int f = formVal[entry];
+            if (entry <= Main.Config.MaxSpeciesID)
+                s = entry;
+            int[] specForm = { s, f };
             string filename = "_" + specForm[0] + (CB_Species.SelectedIndex > 721 ? "_" + (specForm[1] + 1) : "");
             Bitmap rawImg = (Bitmap)Resources.ResourceManager.GetObject(filename);
             Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
@@ -334,9 +332,7 @@ namespace pk3DS
         {
             savePersonal();
             byte[] edits = pkm.Write();
-            File.WriteAllBytes(paths[entry], edits);
-            Array.Copy(edits, 0, data, entry * edits.Length, edits.Length);
-            File.WriteAllBytes(paths[paths.Length - 1], data);
+            files[entry] = edits;
         }
 
         private void B_Randomize_Click(object sender, EventArgs e)
@@ -607,20 +603,6 @@ namespace pk3DS
                 cb.Enabled = true;
             }
             cb.SelectedIndex = 0;
-        }
-
-        internal static string[] getSpeciesIndexStrings(bool oras)
-        {
-            string[] items = Main.getText(TextName.ItemNames);
-            string[] species = Main.getText(TextName.SpeciesNames);
-            string[] types = Main.getText(TextName.Types);
-            string[] forms = Main.getText(TextName.Forms);
-            species[0] = "---";
-            byte[] data = File.ReadAllBytes(Directory.GetFiles("personal").Last());
-            string[][] AltForms = getFormList(data, Main.Config.ORAS, species, forms, types, items);
-            species = getPersonalEntryList(data, Main.Config.ORAS, AltForms, species);
-            Array.Resize(ref species, oras ? species.Length : 799);
-            return species;
         }
     }
 }

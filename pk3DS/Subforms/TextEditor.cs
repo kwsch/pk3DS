@@ -9,16 +9,19 @@ namespace pk3DS
 {
     public partial class TextEditor : Form
     {
-        public TextEditor(string[] infiles)
+        public TextEditor(string[][] infiles, string mode)
         {
             InitializeComponent();
             files = infiles;
+            Mode = mode;
             for (int i = 0; i < files.Length; i++)
                 CB_Entry.Items.Add(i.ToString());
             CB_Entry.SelectedIndex = 0;
         }
-        private readonly string[] files;
+        private readonly string[][] files;
+        private readonly string Mode;
         private int entry = -1;
+
         // IO
         private void B_Export_Click(object sender, EventArgs e)
         {
@@ -54,7 +57,7 @@ namespace pk3DS
                     for (int i = 0; i < files.Length; i++)
                     {
                         // Get Strings for the File
-                        string[] data = TextFile.getStrings(files[i]);
+                        string[] data = files[i];
                         // Append the File Header
                         tw.WriteLine("~~~~~~~~~~~~~~~");
                         tw.WriteLine("Text File : " + i);
@@ -117,7 +120,7 @@ namespace pk3DS
 
             // All Text Lines received. Store all back.
             for (int i = 0; i < files.Length; i++)
-                try { File.WriteAllBytes(files[i], TextFile.getBytes(textLines[i])); }
+                try { files[i] = textLines[i]; }
                 catch (Exception e) { Util.Error($"The input Text File (# {i}) failed to convert:", e.ToString()); return false; }
             return true;
         }
@@ -128,18 +131,16 @@ namespace pk3DS
             {
                 try
                 { 
-                    byte[] bin = TextFile.getBytes(getCurrentDGLines());
-                    File.WriteAllBytes(files[entry], bin);
+                    files[entry] = getCurrentDGLines();
                 }
                 catch (Exception ex) { Util.Error(ex.ToString()); }
             }
 
             // Reset
             entry = CB_Entry.SelectedIndex;
-            string file = files[entry];
-            string[] data = TextFile.getStrings(file);
-            setStringsDataGridView(data);
+            setStringsDataGridView(files[entry]);
         }
+
         // Main Handling
         private void setStringsDataGridView(string[] textArray)
         {
@@ -229,14 +230,13 @@ namespace pk3DS
         private void xytext_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Save All the old text
-            if (entry > -1) File.WriteAllBytes(files[entry], TextFile.getBytes(getCurrentDGLines()));
+            if (entry > -1) files[entry] = getCurrentDGLines();
         }
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             // gametext can be horribly broken if randomized
-            string dirname = Directory.GetParent(files[entry]).Name;
-            if (dirname == "gametext" && DialogResult.Yes !=
+            if (Mode == "gametext" && DialogResult.Yes !=
                 Util.Prompt(MessageBoxButtons.YesNo, "Randomizing Game Text is dangerous?", "Continue?"))
                 return;
 
@@ -258,7 +258,8 @@ namespace pk3DS
             bool smart = drs == DialogResult.Yes;
 
             // save current
-            if (entry > -1) File.WriteAllBytes(files[entry], TextFile.getBytes(getCurrentDGLines()));
+            if (entry > -1)
+                files[entry] = getCurrentDGLines();
 
             // single-entire looping
             int start = all ? 0 : entry;
@@ -268,7 +269,7 @@ namespace pk3DS
             List<string> strings = new List<string>();
             for (int i = start; i <= end; i++)
             {
-                string[] data = TextFile.getStrings(files[i]);
+                string[] data = files[i];
                 strings.AddRange(smart 
                     ? data.Where(line => !line.Contains("[")) 
                     : data);
@@ -282,18 +283,17 @@ namespace pk3DS
             int ctr = 0;
             for (int i = start; i <= end; i++)
             {
-                string[] data = TextFile.getStrings(files[i]);
+                string[] data = files[i];
 
                 for (int j = 0; j < data.Length; j++) // apply lines
                     if (!smart || !data[j].Contains("["))
                         data[j] = pool[ctr++];
-
-                byte[] file = TextFile.getBytes(data);
-                File.WriteAllBytes(files[i], file);
+                
+                files[i] = data;
             }
 
             // Load current text file
-            setStringsDataGridView(TextFile.getStrings(files[entry]));
+            setStringsDataGridView(files[entry]);
 
             Util.Alert("Strings randomized!");
         }

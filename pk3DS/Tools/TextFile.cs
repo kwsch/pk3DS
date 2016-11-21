@@ -46,7 +46,7 @@ namespace pk3DS
                     result[i] = new LineInfo
                     {
                         Offset = BitConverter.ToInt32(Data, i * 8 + sdo + 4) + sdo,
-                        Length = BitConverter.ToInt32(Data, i * 8 + sdo + 8)
+                        Length = BitConverter.ToInt16(Data, i * 8 + sdo + 8)
                     };
                 return result;
             }
@@ -319,9 +319,8 @@ namespace pk3DS
         }
         
         // Exposed Methods
-        internal static string[] getStrings(string path)
+        internal static string[] getStrings(byte[] data)
         {
-            byte[] data = File.ReadAllBytes(path);
             TextFile t;
             try { t = new TextFile(data); } catch { return null; }
             return t.Lines;

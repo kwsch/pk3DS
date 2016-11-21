@@ -15,7 +15,10 @@ namespace pk3DS
         public LevelUpEditor6()
         {
             InitializeComponent();
-            string[] specieslist = PersonalEditor6.getSpeciesIndexStrings(Main.Config.ORAS);
+            string[] species = Main.getText(TextName.SpeciesNames);
+            string[][] AltForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
+            int[] baseForm, formVal;
+            string[] specieslist = Main.Config.Personal.getPersonalEntryList(AltForms, species, Main.Config.MaxSpeciesID, out baseForm, out formVal);
             specieslist[0] = movelist[0] = "";
 
             string[] sortedspecies = (string[])specieslist.Clone();

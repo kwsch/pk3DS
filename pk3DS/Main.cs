@@ -29,9 +29,6 @@ namespace pk3DS
             // Initialize the Main Form
             InitializeComponent();
 
-            // Set the Current Language to English
-            CB_Lang.SelectedIndex = 2;
-
             // Prepare DragDrop Functionality
             AllowDrop = TB_Path.AllowDrop = true;
             DragEnter += tabMain_DragEnter;
@@ -45,29 +42,14 @@ namespace pk3DS
                 t.DragDrop += tabMain_DragDrop;
             }
 
-            // Load with special arguments if supplied via command line
-            string[] args = Environment.GetCommandLineArgs();
-            if (args.Length > 1)
-            {
-                int lang;
-                if (args.Length > 2 && int.TryParse(args[2], out lang))
-                    CB_Lang.SelectedIndex = lang;
-
-                string path = args[1];
-                if (path.Length > 0) openQuick(path);
-            }
             // Reload Previous Editing Files if the file exists
-            else if (File.Exists("config.ini"))
-            {
-                string[] lines = File.ReadAllLines("config.ini");
-                string path = lines[0];
-                int lang;
-                if (lines.Length > 1 && int.TryParse(lines[1], out lang)) 
-                    CB_Lang.SelectedIndex = lang;
-                if (Directory.Exists("personal") && !skipBoth) { Directory.Delete("personal", true); } // Clear data on form load.
-                if (path.Length > 0) openQuick(path);
-            } 
-            string filename = Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+
+            CB_Lang.SelectedIndex = Properties.Settings.Default.Language;
+            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.GamePath))
+                openQuick(Properties.Settings.Default.GamePath);
+
+            string[] args = Environment.GetCommandLineArgs();
+            string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0])?.ToLower() : "";
             skipBoth = filename.IndexOf("3DSkip", StringComparison.Ordinal) >= 0;
         }
         internal static GameConfig Config;
@@ -132,26 +114,9 @@ namespace pk3DS
             }
 
             updateGameInfo();
-            new Thread(() =>
-            {
-                // Let all other operations finish first (ie, if the user quickly switches languages on load)
-                while (threads > 0) Thread.Sleep(50);
-                // Gather the Text Language Strings
-                updateStatus($"GARC Get: {"gametext"} @ {Config.getGARCFileName("gametext")}... ");
-                threadGet(Path.Combine(RomFSPath, Config.getGARCFileName("gametext")), "gametext", true, true);
-
-                while (threads > 0) Thread.Sleep(50);
-                if (!Directory.Exists("personal"))
-                {
-                    updateStatus($"GARC Get: {"personal"} @ {Config.getGARCFileName("personal")}... ");
-                    threadGet(Path.Combine(RomFSPath, Config.getGARCFileName("personal")), "personal", true, true);
-                }
-                while (threads > 0) Thread.Sleep(50);
-                // Refresh Personal Stats
-                Config.InitializePersonal();
-                resetStatus();
-
-            }).Start();
+            Config.InitializeGameText();
+            Properties.Settings.Default.Language = Language;
+            Properties.Settings.Default.Save();
         }
         private void Menu_Exit_Click(object sender, EventArgs e)
         {
@@ -159,30 +124,13 @@ namespace pk3DS
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {
-            while (threads > 0) { Util.Alert("Please wait for all operations to finish first."); }
-
-            updateStatus(Environment.NewLine + Environment.NewLine + "Saving data and closing the program...");
-            try
-            {
-                if (TB_Path.Text.Length > 0) File.WriteAllLines("config.ini", new[] { TB_Path.Text, CB_Lang.SelectedIndex.ToString() });
-                if (!Tab_RomFS.Enabled || skipBoth) return; // No data/threads need to be addressed if we haven't loaded anything.
-
-                // Set the GameText back as other forms may have edited it.
-                updateStatus($"GARC Get: {"gametext"} @ {Config.getGARCFileName("gametext")}... ");
-                threadSet(Path.Combine(RomFSPath, Config.getGARCFileName("gametext")), "gametext", false);
-                while (threads > 0) Thread.Sleep(100);
-
-                Thread.Sleep(200); // Small gap between beeps for faster computers.
-
-                updateStatus($"GARC Get: {"personal"} @ {Config.getGARCFileName("personal")}... ");
-                threadSet(Path.Combine(RomFSPath, Config.getGARCFileName("personal")), "personal", false);
-                while (threads > 0) Thread.Sleep(100);
-
-                if (Directory.Exists("gametext")) Directory.Delete("gametext", true);
-                if (Directory.Exists("personal")) Directory.Delete("personal", true);
-            }
-            catch { }
+            var g = Config.GARCGameText;
+            string[][] files = Config.GameTextStrings;
+            Invoke((Action)(() => new TextEditor(files, "gametext").ShowDialog()));
+            g.Files = files.Select(TextFile.getBytes).ToArray();
+            g.Save();
         }
+
         private void openQuick(string path)
         {
             if (threadActive()) return;
@@ -257,7 +205,6 @@ namespace pk3DS
                     Config.Initialize(RomFSPath, ExeFSPath, Language);
                     backupGARCs(false, Config.Files.Select(file => file.Name).ToArray());
                     backupCROs(false, RomFSPath);
-                    changeLanguage(null, null);
                 }
 
                 // Enable Rebuilding options if all files have been found
@@ -276,6 +223,9 @@ namespace pk3DS
                 TB_Path.Select(TB_Path.TextLength, 0);
                 // Method finished.
                 System.Media.SystemSounds.Asterisk.Play();
+                resetStatus();
+                Properties.Settings.Default.GamePath = path;
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -468,10 +418,11 @@ namespace pk3DS
             if (threadActive()) return;
             new Thread(() =>
             {
-                string[] files = { "gametext" };
-                fileGet(files, false, true);
-                Invoke((Action)(() => new TextEditor(Directory.GetFiles("gametext")).ShowDialog()));
-                fileSet(files, true);
+                var g = Config.GARCGameText;
+                string[][] files = Config.GameTextStrings;
+                Invoke((Action)(() => new TextEditor(files, "gametext").ShowDialog()));
+                g.Files = files.Select(TextFile.getBytes).ToArray();
+                Config.GARCGameText.Save();
             }).Start();
         }
         private void B_StoryText_Click(object sender, EventArgs e)
@@ -479,10 +430,11 @@ namespace pk3DS
             if (threadActive()) return;
             new Thread(() =>
             {
-                string[] files = { "storytext" };
-                fileGet(files);
-                Invoke((Action)(() => new TextEditor(Directory.GetFiles("storytext")).ShowDialog()));
-                fileSet(files);
+                var g = Config.getGARCData("storytext");
+                string[][] files = g.Files.Select(file => new TextFile(file).Lines).ToArray();
+                Invoke((Action)(() => new TextEditor(files, "storytext").ShowDialog()));
+                g.Files = files.Select(TextFile.getBytes).ToArray();
+                g.Save();
             }).Start();
         }
         private void B_Maison_Click(object sender, EventArgs e)
@@ -505,21 +457,22 @@ namespace pk3DS
             if (threadActive()) return;
             new Thread(() =>
             {
-                string[] files = { "personal" };
-                fileGet(files, false, true);
+                byte[][] d = Config.GARCPersonal.Files;
                 switch (Config.Generation)
                 {
                     case 6:
-                        Invoke((Action)(() => new PersonalEditor6().ShowDialog()));
+                        Invoke((Action)(() => new PersonalEditor6(d).ShowDialog()));
                         break;
                     case 7:
-                        Invoke((Action)(() => new PersonalEditor7().ShowDialog()));
+                        Invoke((Action)(() => new PersonalEditor7(d).ShowDialog()));
                         break;
                 }
-
-                // Refresh Personal Stats
+                // Set Master Table back
+                for (int i = 0; i < d.Length - 1; i++)
+                    d[i].CopyTo(d[d.Length-1], i * d[i].Length);
+                Config.GARCPersonal.Save();
                 Config.InitializePersonal();
-                fileSet(files, true);
+
             }).Start();
         }
         private void B_Trainer_Click(object sender, EventArgs e)
@@ -567,22 +520,29 @@ namespace pk3DS
         }
         private void B_OWSE_Click(object sender, EventArgs e)
         {
-            bool reload = (ModifierKeys == Keys.Control) || ModifierKeys == (Keys.Alt | Keys.Control);
-            string[] files = { "encdata", "storytext", "mapGR", "mapMatrix" };
-            if (reload || files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
-                fileGet(files, false);
-
-            // Only want to set back encdata.
-            files = new[] { "encdata" };
-            Invoke((MethodInvoker)delegate { Enabled = false; });
+            if (threadActive()) return;
+            new Thread(() =>
             {
-                Invoke((Action)(() => new TextEditor(Directory.GetFiles("storytext")).Show()));
-                Invoke((Action)(() => new OWSE().Show()));
-                while (Application.OpenForms.Count > 1)
-                    Thread.Sleep(200);
-            }
-            Invoke((MethodInvoker)delegate { Enabled = true; });
-            fileSet(files);
+                bool reload = (ModifierKeys == Keys.Control) || ModifierKeys == (Keys.Alt | Keys.Control);
+                string[] files = {"encdata", "storytext", "mapGR", "mapMatrix"};
+                if (reload || files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
+                    fileGet(files, false);
+
+                // Only want to set back encdata.
+                files = new[] {"encdata"};
+                Invoke((MethodInvoker) delegate { Enabled = false; });
+                {
+                    var g = Config.getGARCData("storytext");
+                    string[][] tfiles = g.Files.Select(file => new TextFile(file).Lines).ToArray();
+                    Invoke((Action)(() => new TextEditor(tfiles, "storytext").ShowDialog()));
+                    while (Application.OpenForms.Count > 1)
+                        Thread.Sleep(200);
+                    g.Files = tfiles.Select(TextFile.getBytes).ToArray();
+                    g.Save();
+                }
+                Invoke((MethodInvoker) delegate { Enabled = true; });
+                fileSet(files);
+            }).Start();
         }
         private void B_Evolution_Click(object sender, EventArgs e)
         {
@@ -1029,7 +989,7 @@ namespace pk3DS
         // GARC Requests
         internal static string getGARCFileName(string requestedGARC, int lang)
         {
-            var garc = Config.getGARC(requestedGARC);
+            var garc = Config.getGARCReference(requestedGARC);
             if (garc.LanguageVariant)
                 garc = garc.getRelativeGARC(lang);
 
@@ -1109,14 +1069,11 @@ namespace pk3DS
         // Text Requests
         internal static string[] getText(TextName file)
         {
-            string path = Path.Combine("gametext", $"{Config.getGameText(file).Index.ToString("000")}.bin");
-            return TextFile.getStrings(path);
+            return Config.GameTextStrings[Config.getGameText(file).Index];
         }
         internal static bool setText(TextName file, string[] strings)
         {
-            byte[] data = TextFile.getBytes(strings);
-            string path = Path.Combine("gametext", $"{Config.getGameText(file).Index.ToString("000")}.bin");
-            File.WriteAllBytes(path, data);
+            Config.GameTextStrings[Config.getGameText(file).Index] = strings;
             return true;
         }
 

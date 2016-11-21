@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
@@ -11,7 +10,7 @@ namespace pk3DS
 {
     public partial class PersonalEditor7 : Form
     {
-        public PersonalEditor7()
+        public PersonalEditor7(byte[][] infiles)
         {
             InitializeComponent();
             helditem_boxes = new[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
@@ -21,19 +20,18 @@ namespace pk3DS
             byte_boxes = new[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate };
             ev_boxes = new[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
             rstat_boxes = new[] { CHK_rHP, CHK_rATK, CHK_rDEF, CHK_rSPA, CHK_rSPD, CHK_rSPE };
-
-            data = File.ReadAllBytes(paths.Last()); // Load last to data.
-            Personal = new PersonalTable(data, GameVersion.SM);
+            files = infiles;
+            
             species[0] = "---";
             abilities[0] = items[0] = moves[0] = "";
-            AltForms = Personal.getFormList(species, Main.Config.MaxSpeciesID);
-            entryNames = Personal.getPersonalEntryList(AltForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
+            var altForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
+            entryNames = Main.Config.Personal.getPersonalEntryList(altForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
 
             Setup();
             CB_Species.SelectedIndex = 1;
         }
         #region Global Variables
-        private readonly string[] paths = Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly);
+        private readonly byte[][] files;
 
         private readonly string[] items = Main.getText(TextName.ItemNames);
         private readonly string[] moves = Main.getText(TextName.MoveNames);
@@ -41,8 +39,7 @@ namespace pk3DS
         private readonly string[] abilities = Main.getText(TextName.AbilityNames);
         private readonly string[] forms = Main.getText(TextName.Forms);
         private readonly string[] types = Main.getText(TextName.Types);
-
-        private readonly byte[] data;
+        
         private readonly string[] entryNames;
 
         private readonly ComboBox[] helditem_boxes;
@@ -59,9 +56,7 @@ namespace pk3DS
         private readonly string[] colors = { "Red", "Blue", "Yellow", "Green", "Black", "Brown", "Purple", "Gray", "White", "Pink" };
         private readonly ushort[] tutormoves = { 338, 307, 308, 520, 519, 518, 434, 620 };
 
-        private readonly PersonalTable Personal;
-        private string[][] AltForms;
-        private int[] baseForms, formVal;
+        private readonly int[] baseForms, formVal;
         int entry = -1;
         #endregion
         private void Setup()
@@ -264,9 +259,7 @@ namespace pk3DS
         {
             savePersonal();
             byte[] edits = pkm.Write();
-            File.WriteAllBytes(paths[entry], edits);
-            Array.Copy(edits, 0, data, entry * edits.Length, edits.Length);
-            File.WriteAllBytes(paths[paths.Length - 1], data);
+            files[entry] = edits;
         }
 
         private void B_Randomize_Click(object sender, EventArgs e)
