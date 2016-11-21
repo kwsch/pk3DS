@@ -6,9 +6,9 @@ namespace pk3DS
 {
     public partial class MoveEditor7 : Form
     {
-        public MoveEditor7()
+        public MoveEditor7(byte[][] infiles)
         {
-            CTR.mini.unpackMini(Directory.GetFiles("move")[0], "WD");
+            files = infiles;
 
             movelist[0] = "";
             sortedmoves = (string[])movelist.Clone();
@@ -17,7 +17,7 @@ namespace pk3DS
             InitializeComponent();
             Setup();
         }
-        private string[] files = Directory.GetFiles("move");
+        private byte[][] files;
         private readonly string[] types = Main.getText(TextName.Types);
         private readonly string[] moveflavor = Main.getText(TextName.MoveFlavor);
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
@@ -60,7 +60,6 @@ namespace pk3DS
             CB_Inflict.Items.Add("Special");
 
             CB_Move.Items.RemoveAt(0);
-            files = Directory.GetFiles("move");
             CB_Move.SelectedIndex = 0;
         }
         private int entry = -1;
@@ -73,7 +72,7 @@ namespace pk3DS
         private void getEntry()
         {
             if (entry < 1) return;
-            byte[] data = File.ReadAllBytes(files[entry]);
+            byte[] data = files[entry];
             {
                 string flavor = moveflavor[entry].Replace("\\n", Environment.NewLine);
                 RTB.Text = flavor;
@@ -124,7 +123,7 @@ namespace pk3DS
         private void setEntry()
         {
             if (entry < 1) return;
-            byte[] data = File.ReadAllBytes(files[entry]);
+            byte[] data = files[entry];
             {
                 data[0x00] = (byte)CB_Type.SelectedIndex;
                 data[0x01] = (byte)CB_Quality.SelectedIndex;
@@ -160,14 +159,11 @@ namespace pk3DS
                 data[0x21] = (byte)NUD_0x21.Value;
                 // end, the other bytes aren't used.
             }
-            File.WriteAllBytes(files[entry], data);
+            files[entry] = data;
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setEntry();
-
-            if (Main.Config.ORAS)
-                CTR.mini.packMini("move", "WD", "0", ".bin");
         }
 
         private void B_RandAll_Click(object sender, EventArgs e)
@@ -188,20 +184,6 @@ namespace pk3DS
                     CB_Type.SelectedIndex = rnd.Next(0, 18);
             }
             Util.Alert("Moves have been randomized!");
-        }
-
-        internal static Move[] getMoves()
-        {
-            CTR.mini.unpackMini(Directory.GetFiles("move")[0], "WD");
-            string[] f2 = Directory.GetFiles("move");
-            Move[] moves = new Move[f2.Length];
-            for (int i = 0; i < f2.Length; i++)
-                moves[i] = new Move(File.ReadAllBytes(f2[i]));
-
-            if (Main.Config.ORAS)
-                CTR.mini.packMini("move", "WD", "0", ".bin");
-
-            return moves;
         }
     }
 }

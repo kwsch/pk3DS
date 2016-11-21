@@ -12,9 +12,10 @@ namespace pk3DS
 {
     public partial class LevelUpEditor7 : Form
     {
-        public LevelUpEditor7()
+        public LevelUpEditor7(byte[][] infiles)
         {
             InitializeComponent();
+            files = infiles;
             string[] species = Main.getText(TextName.SpeciesNames);
             string[][] AltForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
             string[] specieslist = Main.Config.Personal.getPersonalEntryList(AltForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
@@ -35,7 +36,8 @@ namespace pk3DS
             CB_Species.DataSource = newlist;
             CB_Species.SelectedIndex = 0;
         }
-        private readonly string[] files = Directory.GetFiles("levelup");
+
+        private readonly byte[][] files;
         private int entry = -1;
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
         private bool dumping;
@@ -78,8 +80,8 @@ namespace pk3DS
             PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
 
             dgv.Rows.Clear();
-            byte[] input = File.ReadAllBytes(files[entry]);
-            if (input.Length <= 4) { File.WriteAllBytes(files[entry], BitConverter.GetBytes(-1)); return; }
+            byte[] input = files[entry];
+            if (input.Length <= 4) { files[entry] = BitConverter.GetBytes(-1); return; }
             pkm = new Learnset7(input);
 
             dgv.Rows.Add(pkm.Count);
@@ -113,7 +115,7 @@ namespace pk3DS
             }
             pkm.Moves = moves.ToArray();
             pkm.Levels = levels.ToArray();
-            File.WriteAllBytes(files[entry], pkm.Write());
+            files[entry] = pkm.Write();
         }
 
         private void changeEntry(object sender, EventArgs e)
@@ -137,7 +139,7 @@ namespace pk3DS
             int[] banned = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(); // Struggle, Hyperspace Fury, Dark Void
 
             // Move Stats
-            Move[] moveTypes = MoveEditor6.getMoves();
+            Move[] moveTypes = Main.Config.Moves;
 
             // Set up Randomized Moves
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
@@ -224,14 +226,14 @@ namespace pk3DS
 
         public void calcStats() // Debug Function
         {
-            Move[] MoveData = MoveEditor6.getMoves();
+            Move[] MoveData = Main.Config.Moves;
             int movectr = 0;
             int max = 0;
             int spec = 0;
             int stab = 0;
             for (int i = 0; i < Main.Config.MaxSpeciesID; i++)
             {
-                byte[] movedata = File.ReadAllBytes(files[i]);
+                byte[] movedata = files[i];
                 int movecount = (movedata.Length - 4) / 4;
                 if (movecount == 65535)
                     continue;

@@ -137,7 +137,9 @@ namespace pk3DS
         }
         public GARCFile getGARCData(string file)
         {
-            return new GARCFile(getMemGARC(file), getGARCReference(file), getGARCPath(file));
+            var gr = getGARCReference(file);
+            gr = gr.LanguageVariant ? gr.getRelativeGARC(Language, gr.Name) : gr;
+            return new GARCFile(getMemGARC(file), gr, getGARCPath(file));
         }
         private string getGARCPath(string file)
         {

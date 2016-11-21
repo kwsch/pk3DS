@@ -12,9 +12,10 @@ namespace pk3DS
 {
     public partial class EggMoveEditor6 : Form
     {
-        public EggMoveEditor6()
+        public EggMoveEditor6(byte[][] infiles)
         {
             InitializeComponent();
+            files = infiles;
             string[] specieslist = Main.getText(TextName.SpeciesNames);
             specieslist[0] = movelist[0] = "";
 
@@ -31,7 +32,7 @@ namespace pk3DS
             CB_Species.DataSource = newlist;
             CB_Species.SelectedIndex = 0;
         }
-        private readonly string[] files = Directory.GetFiles("eggmove");
+        private readonly byte[][] files;
         private readonly byte[] data = File.ReadAllBytes(Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly).Last());
         private int entry = -1;
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
@@ -63,10 +64,10 @@ namespace pk3DS
             PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
 
             dgv.Rows.Clear();
-            byte[] input = File.ReadAllBytes(files[entry]);
+            byte[] input = files[entry];
             if (input.Length == 0) return;
             pkm = new EggMoves6(input);
-            if (pkm.Count < 1) { File.WriteAllBytes(files[entry], new byte[0]); return; }
+            if (pkm.Count < 1) { files[entry] = new byte[0]; return; }
             dgv.Rows.Add(pkm.Count);
 
             // Fill Entries
@@ -86,7 +87,7 @@ namespace pk3DS
             }
             pkm.Moves = moves.ToArray();
 
-            File.WriteAllBytes(files[entry], pkm.Write());
+            files[entry] = pkm.Write();
         }
 
         private void changeEntry(object sender, EventArgs e)
@@ -115,7 +116,7 @@ namespace pk3DS
             banned = banned.Concat(new[] { 165, 621 }).ToArray(); // Struggle, Hyperspace Fury
 
             // Move Stats
-            Move[] moveTypes = MoveEditor6.getMoves();
+            Move[] moveTypes = Main.Config.Moves;
 
             // Personal Stats
             byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
@@ -193,7 +194,7 @@ namespace pk3DS
         }
         private void calcStats()
         {
-            Move[] MoveData = MoveEditor6.getMoves();
+            Move[] MoveData = Main.Config.Moves;
 
             byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
 
@@ -204,7 +205,7 @@ namespace pk3DS
             int species = 0;
             for (int i = 0; i < Main.Config.MaxSpeciesID; i++)
             {
-                byte[] movedata = File.ReadAllBytes(files[i]);
+                byte[] movedata = files[i];
                 if (movedata.Length <= 2) continue;
                 int movecount = BitConverter.ToUInt16(movedata, 0);
                 if (movecount == 65535 || movecount < 0)

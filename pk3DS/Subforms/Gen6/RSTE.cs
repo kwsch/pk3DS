@@ -557,7 +557,7 @@ namespace pk3DS
             List<int> GymE4Types = new List<int>();
 
             // Fetch Move Stats for more difficult randomization
-            var moveData = MoveEditor6.getMoves();
+            var moveData = Main.Config.Moves;
             int[] moveList = Enumerable.Range(1, movelist.Length - 1).ToArray();
             int mctr = 0;
             Util.Shuffle(moveList);

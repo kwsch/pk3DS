@@ -607,19 +607,23 @@ namespace pk3DS
             if (threadActive()) return;
             new Thread(() =>
             {
-                string[] files = { "move" };
-                fileGet(files);
+                var g = Config.GARCMoves;
+                byte[][] Moves;
                 switch (Config.Generation)
                 {
                     case 6:
-                        Invoke((Action)(() => new MoveEditor6().ShowDialog()));
+                        bool mini = Config.ORAS;
+                        Moves = mini ? CTR.mini.unpackMini(g.getFile(0), "WD") : g.Files;
+                        Invoke((Action)(() => new MoveEditor6(Moves).ShowDialog()));
+                        g.Files = mini ? new[] { CTR.mini.packMini(Moves, "WD") } : Moves;
                         break;
                     case 7:
-                        Invoke((Action)(() => new MoveEditor7().ShowDialog()));
+                        Moves = CTR.mini.unpackMini(g.getFile(0), "WD");
+                        Invoke((Action)(() => new MoveEditor7(Moves).ShowDialog()));
+                        g.Files = new[] {CTR.mini.packMini(Moves, "WD")};
                         break;
                 }
-                Invoke((Action)(() => new MoveEditor6().ShowDialog()));
-                fileSet(files);
+                g.Save();
             }).Start();
         }
         private void B_LevelUp_Click(object sender, EventArgs e)
@@ -627,18 +631,19 @@ namespace pk3DS
             if (threadActive()) return;
             new Thread(() =>
             {
-                string[] files = { "levelup", "move" };
-                fileGet(files);
+                var g = Config.getGARCData("levelup");
+                byte[][] d = g.Files;
                 switch (Config.Generation)
                 {
                     case 6:
-                        Invoke((Action)(() => new LevelUpEditor6().ShowDialog()));
+                        Invoke((Action)(() => new LevelUpEditor6(d).ShowDialog()));
                         break;
                     case 7:
-                        Invoke((Action)(() => new LevelUpEditor7().ShowDialog()));
+                        Invoke((Action)(() => new LevelUpEditor7(d).ShowDialog()));
                         break;
                 }
-                fileSet(files);
+                g.Files = d;
+                g.Save();
             }).Start();
         }
         private void B_EggMove_Click(object sender, EventArgs e)
@@ -646,18 +651,19 @@ namespace pk3DS
             if (threadActive()) return;
             new Thread(() =>
             {
-                string[] files = { "eggmove", "move" };
-                fileGet(files);
+                var g = Config.getGARCData("eggmove");
+                byte[][] d = g.Files;
                 switch (Config.Generation)
                 {
                     case 6:
-                        Invoke((Action)(() => new EggMoveEditor6().ShowDialog()));
+                        Invoke((Action)(() => new EggMoveEditor6(d).ShowDialog()));
                         break;
                     case 7:
-                        Invoke((Action)(() => new EggMoveEditor7().ShowDialog()));
+                        Invoke((Action)(() => new EggMoveEditor7(d).ShowDialog()));
                         break;
                 }
-                fileSet(files);
+                g.Files = d;
+                g.Save();
             }).Start();
         }
         private void B_TitleScreen_Click(object sender, EventArgs e)
