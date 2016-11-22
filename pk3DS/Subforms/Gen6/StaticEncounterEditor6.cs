@@ -134,7 +134,7 @@ namespace pk3DS
             }
 
             // Randomize by BST
-            int[] sL = Randomizer.getSpeciesList(G1: true, G2: true, G3: true, G4: true, G5: true, G6: true, L: false, E: false, Shedinja: false);
+            int[] sL = Randomizer.getSpeciesList(G1: true, G2: true, G3: true, G4: true, G5: true, G6: true, G7:false, L: false, E: false, Shedinja: false);
             int ctr = 0;
             for (int i = 0; i < LB_Encounters.Items.Count; i++)
             {

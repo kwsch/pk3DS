@@ -12,7 +12,7 @@ namespace pk3DS
         }
         internal static readonly int[] RandomSpeciesList = Enumerable.Range(1, 721).ToArray();
 
-        internal static int[] getSpeciesList(bool G1, bool G2, bool G3, bool G4, bool G5, bool G6, bool L, bool E, bool Shedinja = true)
+        internal static int[] getSpeciesList(bool G1, bool G2, bool G3, bool G4, bool G5, bool G6, bool G7, bool L, bool E, bool Shedinja = true)
         {
             int[] sL = new int[0];
 
@@ -41,6 +41,10 @@ namespace pk3DS
             if (G6) sL = sL.Concat(Enumerable.Range(650, 66)).ToArray();
             if (G6 && L) sL = sL.Concat(Enumerable.Range(716, 3)).ToArray(); // 
             if (G6 && E) sL = sL.Concat(Enumerable.Range(719, 3)).ToArray(); // 
+            // Gen 7
+            if (G7) sL = sL.Concat(Enumerable.Range(722, 67)).ToArray();
+            if (G7 && L) sL = sL.Concat(Enumerable.Range(785, 16)).ToArray(); // Tapus, Legends, UBs
+            if (G7 && E) sL = sL.Concat(Enumerable.Range(801, 2)).ToArray(); // Magearna, Marshadow
 
             return sL.Length == 0 ? RandomSpeciesList : sL;
         }

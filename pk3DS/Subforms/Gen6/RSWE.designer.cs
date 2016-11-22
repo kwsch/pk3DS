@@ -35,6 +35,7 @@
             this.CB_FormeList = new System.Windows.Forms.ComboBox();
             this.TabPage_Horde = new System.Windows.Forms.TabPage();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_MegaForm = new System.Windows.Forms.CheckBox();
             this.L_RandOpt = new System.Windows.Forms.Label();
             this.CHK_BST = new System.Windows.Forms.CheckBox();
             this.CHK_E = new System.Windows.Forms.CheckBox();
@@ -387,7 +388,6 @@
             this.TabControl_EncounterData = new System.Windows.Forms.TabControl();
             this.B_Dump = new System.Windows.Forms.Button();
             this.B_Randomize = new System.Windows.Forms.Button();
-            this.CHK_MegaForm = new System.Windows.Forms.CheckBox();
             this.TabPage_Horde.SuspendLayout();
             this.GB_Tweak.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelAmp)).BeginInit();
@@ -864,6 +864,16 @@
             this.GB_Tweak.TabIndex = 322;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Tweaks";
+            // 
+            // CHK_MegaForm
+            // 
+            this.CHK_MegaForm.AutoSize = true;
+            this.CHK_MegaForm.Location = new System.Drawing.Point(152, 97);
+            this.CHK_MegaForm.Name = "CHK_MegaForm";
+            this.CHK_MegaForm.Size = new System.Drawing.Size(127, 17);
+            this.CHK_MegaForm.TabIndex = 295;
+            this.CHK_MegaForm.Text = "Random Mega Forms";
+            this.CHK_MegaForm.UseVisualStyleBackColor = true;
             // 
             // L_RandOpt
             // 
@@ -26167,21 +26177,11 @@
             this.B_Randomize.UseVisualStyleBackColor = true;
             this.B_Randomize.Click += new System.EventHandler(this.B_Randomize_Click);
             // 
-            // CHK_MegaForm
-            // 
-            this.CHK_MegaForm.AutoSize = true;
-            this.CHK_MegaForm.Location = new System.Drawing.Point(152, 97);
-            this.CHK_MegaForm.Name = "CHK_MegaForm";
-            this.CHK_MegaForm.Size = new System.Drawing.Size(127, 17);
-            this.CHK_MegaForm.TabIndex = 295;
-            this.CHK_MegaForm.Text = "Random Mega Forms";
-            this.CHK_MegaForm.UseVisualStyleBackColor = true;
-            // 
             // RSWE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(948, 416);
+            this.ClientSize = new System.Drawing.Size(948, 415);
             this.Controls.Add(this.B_Randomize);
             this.Controls.Add(this.B_Dump);
             this.Controls.Add(this.L_FormList);

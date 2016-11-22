@@ -204,7 +204,7 @@ namespace pk3DS
             {
                 ctrl.Enabled = true;
             }
-            B_Randomize.Enabled = false; // TODO: Randomization
+            B_Randomize.Enabled = true; // Randomization: complete
 
 
             CB_LocationID.SelectedIndex = 0;
@@ -561,6 +561,113 @@ namespace pk3DS
                     sb.Append($" (Forme {Forme})");
                 return sb.ToString();
             }
+        }
+
+        private void modifyLevels(object sender, EventArgs e)
+        {
+            // Disable Interface while modifying
+            Enabled = false;
+
+            // Calculate % diff we will apply to each level
+            decimal leveldiff = (100 + NUD_LevelAmp.Value) / 100;
+
+            // Cycle through each location to modify levels
+            foreach (var Map in Areas)
+            {
+                foreach (var Table in Map.Tables)
+                {
+                    Table.MinLevel = Math.Max(1, Math.Min(100, (int)(leveldiff * Table.MinLevel)));
+                    Table.MaxLevel = Math.Max(1, Math.Min(100, (int)(leveldiff * Table.MaxLevel)));
+                    Table.Write();
+                }
+            }
+            // Enable Interface... modification complete.
+            Enabled = true;
+
+            updatePanel(sender, e);
+        }
+
+        internal static Random rand = new Random();
+        internal static uint rnd32()
+        {
+            return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
+        }
+
+
+        // Randomization
+        private void B_Randomize_Click(object sender, EventArgs e)
+        {
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings @ Horde Tab.") != DialogResult.Yes) return;
+
+            Enabled = false;
+
+            // Calculate % diff we will apply to each level
+            decimal leveldiff = (100 + NUD_LevelAmp.Value) / 100;
+
+            // Nonrepeating List Start
+            int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked,
+                CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, CHK_G7.Checked, CHK_L.Checked, CHK_E.Checked);
+
+            int ctr = 0;
+
+            foreach (var Map in Areas)
+            {
+                foreach (var Table in Map.Tables)
+                {
+                    if (CHK_Level.Checked)
+                    {
+                        Table.MinLevel = Math.Max(1, Math.Min(100, (int)(leveldiff * Table.MinLevel)));
+                        Table.MaxLevel = Math.Max(1, Math.Min(100, (int)(leveldiff * Table.MaxLevel)));
+                    }
+
+                    foreach (var EncounterSet in Table.Encounters)
+                    {
+                        foreach (var encounter in EncounterSet)
+                        {
+                            if (encounter.Species != 0) // Only modify slots that're used.
+                            {
+                                if (!CHK_BST.Checked)
+                                    encounter.Species = (uint) Randomizer.getRandomSpecies(ref sL, ref ctr);
+                                else
+                                {
+                                    var old_ind = Main.SpeciesStat[encounter.Species].FormeIndex((int)encounter.Species, (int)encounter.Forme);
+                                    int oldBST = Main.SpeciesStat[old_ind].BST;
+
+                                    int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
+                                    int newBST = Main.SpeciesStat[species].BST;
+                                    while (!(newBST*4/5 < oldBST && newBST*6/5 > oldBST))
+                                    {
+                                        species = Randomizer.getRandomSpecies(ref sL, ref ctr);
+                                        newBST = Main.SpeciesStat[species].BST;;
+                                    }
+                                    encounter.Species = (uint)species;
+                                }
+                                encounter.Forme = (uint)GetRandomForme((int)encounter.Species);
+                            }
+                        }
+                    }
+
+                    Table.Write();
+                }
+            }
+            updatePanel(sender, e);
+            Enabled = true;
+            Util.Alert("Randomized!");
+        }
+
+        public int GetRandomForme(int species)
+        {
+            if (Main.SpeciesStat[species].FormeCount > 1)
+            {
+                if (Legal.Mega_ORAS.Contains((ushort)species))
+                    if (CHK_MegaForm.Checked)
+                        return (int) rnd32()%Main.SpeciesStat[species].FormeCount; // Slot-Random
+                    else
+                        return 0;
+                return (int)rnd32() % Main.SpeciesStat[species].FormeCount; // Slot-Random
+
+            }
+            return 0;
         }
     }
 }
