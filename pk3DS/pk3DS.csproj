@@ -4915,6 +4915,9 @@
     <None Include="Resources\img\slotView.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Game\empty.png" />
+    <Content Include="Resources\img\Pokemon Sprites\empty.png" />
+    <Content Include="Resources\img\sun.png" />
     <None Include="Resources\img\Pokemon Sprites\20-1.png" />
     <None Include="Resources\img\Pokemon Sprites\19-1.png" />
     <None Include="Resources\img\Pokemon Sprites\_.png" />
@@ -5042,6 +5045,7 @@
     <None Include="Resources\img\Pokemon Sprites\28-1.png" />
     <None Include="Resources\img\Pokemon Sprites\27-1.png" />
     <None Include="Resources\img\Pokemon Sprites\26-1.png" />
+    <Content Include="Resources\img\moon.png" />
     <Content Include="Resources\img\rare_icon.png" />
   </ItemGroup>
   <ItemGroup />

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Security.Permissions;
@@ -15,10 +17,13 @@ namespace pk3DS
         public SMWE()
         {
             InitializeComponent();
-            for (int i = 0; i < 8; i++)
-            {
-                CB_SlotType.Items.Add($"Slot Type {i+1}");
-            }
+
+            PB_DayIcon.Image = Properties.Resources.sun;
+            PB_NightIcon.Image = Properties.Resources.moon;
+            PB_DayIcon.SizeMode = PictureBoxSizeMode.CenterImage;
+            PB_NightIcon.SizeMode = PictureBoxSizeMode.CenterImage;
+
+            font = L_Location.Font;
 
             speciesList[0] = "(None)";
             for (int i = 0; i < locationList.Length; i++)
@@ -41,14 +46,76 @@ namespace pk3DS
 
 
             nup_spec = new[]
-            {NUP_Forme1, NUP_Forme2, NUP_Forme3, NUP_Forme4, NUP_Forme5, NUP_Forme6, NUP_Forme7, NUP_Forme8, NUP_Forme9, NUP_Forme10};
+            {
+                new []
+                {
+                    NUP_Forme1, NUP_Forme2, NUP_Forme3, NUP_Forme4, NUP_Forme5, NUP_Forme6, NUP_Forme7, NUP_Forme8,
+                    NUP_Forme9, NUP_Forme10
+                },
+                new []
+                {
+                    NUP_Forme11, NUP_Forme12, NUP_Forme13, NUP_Forme14, NUP_Forme15, NUP_Forme16, NUP_Forme17, NUP_Forme18,
+                    NUP_Forme19, NUP_Forme20
+                },
+                new []
+                {
+                    NUP_Forme21, NUP_Forme22, NUP_Forme23, NUP_Forme24, NUP_Forme25, NUP_Forme26, NUP_Forme27, NUP_Forme28,
+                    NUP_Forme29, NUP_Forme30
+                },
+                new []
+                {
+                    NUP_Forme31, NUP_Forme32, NUP_Forme33, NUP_Forme34, NUP_Forme35, NUP_Forme36, NUP_Forme37, NUP_Forme38,
+                    NUP_Forme39, NUP_Forme40
+                },
+                new []
+                {
+                    NUP_Forme41, NUP_Forme42, NUP_Forme43, NUP_Forme44, NUP_Forme45, NUP_Forme46, NUP_Forme47, NUP_Forme48,
+                    NUP_Forme49, NUP_Forme50
+                },
+                new []
+                {
+                    NUP_Forme51, NUP_Forme52, NUP_Forme53, NUP_Forme54, NUP_Forme55, NUP_Forme56, NUP_Forme57, NUP_Forme58,
+                    NUP_Forme59, NUP_Forme60
+                },
+                new []
+                {
+                    NUP_Forme61, NUP_Forme62, NUP_Forme63, NUP_Forme64, NUP_Forme65, NUP_Forme66, NUP_Forme67, NUP_Forme68,
+                    NUP_Forme69, NUP_Forme70
+                },
+                new []
+                {
+                    NUP_Forme71, NUP_Forme72, NUP_Forme73, NUP_Forme74, NUP_Forme75, NUP_Forme76, NUP_Forme77, NUP_Forme78,
+                    NUP_Forme79, NUP_Forme80
+                },
+                new[]
+                {
+                    NUP_WeatherForme1, NUP_WeatherForme2, NUP_WeatherForme3, NUP_WeatherForme4, NUP_WeatherForme5, NUP_WeatherForme6
+                }
+            };
             cb_spec = new[]
-            {CB_Enc1, CB_Enc2, CB_Enc3, CB_Enc4, CB_Enc5, CB_Enc6, CB_Enc7, CB_Enc8, CB_Enc9, CB_Enc10};
+            {
+                new[] {CB_Enc1, CB_Enc2, CB_Enc3, CB_Enc4, CB_Enc5, CB_Enc6, CB_Enc7, CB_Enc8, CB_Enc9, CB_Enc10},
+                new[]
+                {CB_Enc11, CB_Enc12, CB_Enc13, CB_Enc14, CB_Enc15, CB_Enc16, CB_Enc17, CB_Enc18, CB_Enc19, CB_Enc20},
+                new[]
+                {CB_Enc21, CB_Enc22, CB_Enc23, CB_Enc24, CB_Enc25, CB_Enc26, CB_Enc27, CB_Enc28, CB_Enc29, CB_Enc30},
+                new[]
+                {CB_Enc31, CB_Enc32, CB_Enc33, CB_Enc34, CB_Enc35, CB_Enc36, CB_Enc37, CB_Enc38, CB_Enc39, CB_Enc40},
+                new[]
+                {CB_Enc41, CB_Enc42, CB_Enc43, CB_Enc44, CB_Enc45, CB_Enc46, CB_Enc47, CB_Enc48, CB_Enc49, CB_Enc50},
+                new[]
+                {CB_Enc51, CB_Enc52, CB_Enc53, CB_Enc54, CB_Enc55, CB_Enc56, CB_Enc57, CB_Enc58, CB_Enc59, CB_Enc60},
+                new[]
+                {CB_Enc61, CB_Enc62, CB_Enc63, CB_Enc64, CB_Enc65, CB_Enc66, CB_Enc67, CB_Enc68, CB_Enc69, CB_Enc70},
+                new[]
+                {CB_Enc71, CB_Enc72, CB_Enc73, CB_Enc74, CB_Enc75, CB_Enc76, CB_Enc77, CB_Enc78, CB_Enc79, CB_Enc80},
+                new[]{CB_WeatherEnc1, CB_WeatherEnc2, CB_WeatherEnc3, CB_WeatherEnc4, CB_WeatherEnc5, CB_WeatherEnc6}
+            };
             rate_spec = new[]
             {L_Rate1, L_Rate2, L_Rate3, L_Rate4, L_Rate5, L_Rate6, L_Rate7, L_Rate8, L_Rate9, L_Rate10};
 
-            foreach (var cb in cb_spec) { cb.Items.AddRange(speciesList); cb.SelectedIndex = 0; cb.SelectedIndexChanged += updateSpeciesForm; }
-            foreach (var nup in nup_spec) { nup.ValueChanged += updateSpeciesForm; }
+            foreach (var cb_l in cb_spec) foreach (var cb in cb_l) { cb.Items.AddRange(speciesList); cb.SelectedIndex = 0; cb.SelectedIndexChanged += updateSpeciesForm; }
+            foreach (var nup_l in nup_spec) foreach (var nup in nup_l) { nup.ValueChanged += updateSpeciesForm; }
             foreach (var l in rate_spec)
                 l.Text = "0%";
 
@@ -86,8 +153,10 @@ namespace pk3DS
         public static byte[] zoneData;
         public static byte[] worldData;
 
-        private readonly NumericUpDown[] nup_spec;
-        private readonly ComboBox[] cb_spec;
+        public static Font font;
+
+        private readonly NumericUpDown[][] nup_spec;
+        private readonly ComboBox[][] cb_spec;
         private readonly Label[] rate_spec;
 
         private bool loadingdata;
@@ -161,9 +230,17 @@ namespace pk3DS
         {
             loadingdata = true;
             CB_TableID.Items.Clear();
-            CB_TableID.Items.AddRange(Enumerable.Range(1, Math.Max(Areas[CB_LocationID.SelectedIndex].Tables.Count, 1)).Select(i => i.ToString()).ToArray());
+            if (Areas[CB_LocationID.SelectedIndex].HasTables)
+            {
+                for (int i = 0; i < Areas[CB_LocationID.SelectedIndex].Tables.Count; i += 2)
+                {
+                    CB_TableID.Items.Add($"{(i / 2) + 1} (Day)");
+                    CB_TableID.Items.Add($"{(i / 2) + 1} (Night)");
+                }
+            }
+            else
+                CB_TableID.Items.Add("(None)");
             CB_TableID.SelectedIndex = 0;
-            CB_SlotType.SelectedIndex = 0;
             loadingdata = false;
             updatePanel(sender, e);
         }
@@ -180,19 +257,26 @@ namespace pk3DS
                 loadingdata = false;
                 return;
             }
-            if (sender != CB_SlotType)
-                CurrentTable = new EncounterTable(Map.Tables[CB_TableID.SelectedIndex].Data);
+            CurrentTable = new EncounterTable(Map.Tables[CB_TableID.SelectedIndex].Data);
             NUP_Min.Value = CurrentTable.MinLevel;
             NUP_Max.Minimum = CurrentTable.MinLevel;
             NUP_Max.Value = CurrentTable.MaxLevel;
-            var Slots = CurrentTable.Encounters[CB_SlotType.SelectedIndex];
-            for (int i = 0; i < Slots.Length; i++)
+            for (int slot = 0; slot < CurrentTable.Encounters.Length; slot++)
+            for (int i = 0; i < CurrentTable.Encounters[slot].Length; i++)
             {
+                var sl = CurrentTable.Encounters[slot];
+                if (slot == 8)
+                    sl = CurrentTable.AdditionalSOS;
                 rate_spec[i].Text = $"{CurrentTable.Rates[i]}%";
-                cb_spec[i].SelectedIndex = (int)Slots[i].Species;
-                nup_spec[i].Value = (int) Slots[i].Forme;
+                cb_spec[slot][i].SelectedIndex = (int)sl[i].Species;
+                nup_spec[slot][i].Value = (int)sl[i].Forme;
             }
             loadingdata = false;
+
+            int base_id = CB_TableID.SelectedIndex/2;
+            base_id *= 2;
+            PB_DayTable.Image = Map.Tables[base_id].GetTableImg();
+            PB_NightTable.Image = Map.Tables[base_id + 1].GetTableImg();
         }
 
         private void updateMinMax(object sender, EventArgs e)
@@ -217,18 +301,65 @@ namespace pk3DS
         {
             if (loadingdata)
                 return;
-                
+
+            var cur_pb = CB_LocationID.SelectedIndex%2 == 0 ? PB_DayTable : PB_NightTable;
+            var cur_img = cur_pb.Image;
             if (sender is ComboBox)
             {
-                int slotid = Array.FindIndex(cb_spec, cb => cb == (ComboBox)sender);
-                CurrentTable.Encounters[CB_SlotType.SelectedIndex][slotid].Species = (uint)cb_spec[slotid].SelectedIndex;
+                int slot = 0;
+                foreach (var cb_l in cb_spec)
+                {
+                    int slotid = Array.FindIndex(cb_l, cb => cb == (ComboBox)sender);
+                    if (slotid >= 0)
+                    {
+                        if (slot == 8)
+                            CurrentTable.AdditionalSOS[slotid].Species = (uint) cb_l[slotid].SelectedIndex;
+                        CurrentTable.Encounters[slot][slotid].Species = (uint) cb_l[slotid].SelectedIndex;
+                        using (var g = Graphics.FromImage(cur_img))
+                        {
+                            var pnt = new Point(40*slotid, 30*(slotid + 1));
+                            if (slot == 8)
+                                pnt = new Point(40*slotid + 60, 270);
+                            g.SetClip(new Rectangle(pnt.X, pnt.Y, 40, 30), CombineMode.Replace);
+                            g.Clear(Color.Transparent);
+
+                            var enc = CurrentTable.Encounters[slot][slotid];
+                            g.DrawImage(enc.Species == 0 ? Properties.Resources.empty : Util.getSprite((int)enc.Species, (int)enc.Forme, 0, 0), pnt);
+                        }
+                    }
+                    slot++;
+                }
+
             }
                 
             if (sender is NumericUpDown)
             {
-                int slotid = Array.FindIndex(nup_spec, nup => nup == (NumericUpDown)sender);
-                CurrentTable.Encounters[CB_SlotType.SelectedIndex][slotid].Forme = (uint)nup_spec[slotid].Value;
+                int slot = 0;
+                foreach (var nup_l in nup_spec)
+                {
+                    int slotid = Array.FindIndex(nup_l, nup => nup == (NumericUpDown)sender);
+                    if (slotid >= 0)
+                    {
+                        if (slot == 8)
+                            CurrentTable.AdditionalSOS[slotid].Forme = (uint) nup_l[slotid].Value;
+                        CurrentTable.Encounters[slot][slotid].Forme = (uint) nup_l[slotid].Value;
+                        using (var g = Graphics.FromImage(cur_img))
+                        {
+                            var pnt = new Point(40 * slotid, 30 * (slotid + 1));
+                            if (slot == 8)
+                                pnt = new Point(40 * slotid + 60, 270);
+                            g.SetClip(new Rectangle(pnt.X, pnt.Y, 40, 30), CombineMode.Replace);
+                            g.Clear(Color.Transparent);
+
+                            var enc = CurrentTable.Encounters[slot][slotid];
+                            g.DrawImage(enc.Species == 0 ? Properties.Resources.empty : Util.getSprite((int)enc.Species, (int)enc.Forme, 0, 0), pnt);
+                        }
+                    }
+                    slot++;
+                }
             }
+
+            cur_pb.Image = cur_img;
         }
 
         private void B_Save_Click(object sender, EventArgs e)
@@ -315,12 +446,12 @@ namespace pk3DS
             public EncounterTable(byte[] t)
             {
                 Rates = new int[10];
-                Encounters = new Encounter[8][];
+                Encounters = new Encounter[9][];
                 MinLevel = t[0];
                 MaxLevel = t[1];
                 for (int i = 0; i < Rates.Length; i++)
                     Rates[i] = t[2 + i];
-                for (int i = 0; i < Encounters.Length; i++)
+                for (int i = 0; i < Encounters.Length - 1; i++)
                 {
                     Encounters[i] = new Encounter[10];
                     var ofs = 0xC + i * 4 * Encounters[i].Length;
@@ -334,6 +465,7 @@ namespace pk3DS
                 {
                     AdditionalSOS[i] = new Encounter(BitConverter.ToUInt32(t, 0x14C + 4 * i));
                 }
+                Encounters[8] = AdditionalSOS;
                 Data = (byte[])t.Clone();
             }
 
@@ -342,7 +474,7 @@ namespace pk3DS
                 Data[0] = (byte)MinLevel;
                 Data[1] = (byte)MaxLevel;
                 // TODO: Rate Editing?
-                for (int i = 0; i < Encounters.Length; i++)
+                for (int i = 0; i < Encounters.Length - 1; i++)
                 {
                     var ofs = 0xC + i * 4 * Encounters[i].Length;
                     for (int j = 0; j < Encounters[i].Length; j++)
@@ -357,7 +489,7 @@ namespace pk3DS
             public override string ToString()
             {
                 var sb = new StringBuilder();
-                for (int i = 0; i < Encounters.Length; i++)
+                for (int i = 0; i < Encounters.Length - 1; i++)
                 {
                     var tn = "Encounters";
                     if (i != 0)
@@ -382,6 +514,23 @@ namespace pk3DS
                 sb.AppendLine(string.Join(", ", AdditionalSOS.Select(e => e.RawValue).Distinct().Select(e => new Encounter(e)).Select(e => e.ToString())));
 
                 return sb.ToString();
+            }
+
+            public Bitmap GetTableImg()
+            {
+                var img = new Bitmap(10*40, 10*30);
+                using (var g = Graphics.FromImage(img))
+                {
+                    for (int i = 0; i < Encounters.Length - 1; i++)
+                        for (int j = 0; j < Encounters[i].Length; j++)
+                            g.DrawImage((Encounters[i][j].Species == 0 ? Properties.Resources.empty : Util.getSprite((int)Encounters[i][j].Species, (int)Encounters[i][j].Forme, 0, 0)), new Point(40 * j, 30 * (i+1)));
+                    for (int i = 0; i < Rates.Length; i++)
+                        g.DrawString($"{Rates[i]}%", font, Brushes.Black, new PointF(40 * i + 10, 10));
+                    g.DrawString("Weather: ", font, Brushes.Black, new PointF(10, 280));
+                    for (int i = 0; i < AdditionalSOS.Length; i++)
+                        g.DrawImage((AdditionalSOS[i].Species == 0 ? Properties.Resources.empty : Util.getSprite((int)AdditionalSOS[i].Species, (int)AdditionalSOS[i].Forme, 0, 0)), new Point(40*i + 60, 270));
+                }
+                return img;
             }
         }
 
