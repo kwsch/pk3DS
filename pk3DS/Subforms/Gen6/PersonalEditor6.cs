@@ -225,6 +225,7 @@ namespace pk3DS
             CB_Color.SelectedIndex = pkm.Color & 0xF;
 
             TB_BaseExp.Text = pkm.BaseEXP.ToString("000");
+            TB_BST.Text = pkm.BST.ToString("000");
 
             TB_Height.Text = ((decimal)pkm.Height / 100).ToString("00.00");
             TB_Weight.Text = ((decimal)pkm.Weight / 10).ToString("000.0");
@@ -313,8 +314,8 @@ namespace pk3DS
 
             decimal h; decimal.TryParse(TB_Height.Text, out h);
             decimal w; decimal.TryParse(TB_Weight.Text, out w);
-            pkm.Height = (int)(h*100);
-            pkm.Weight = (int)(w*10);
+            pkm.Height = (int)(h * 100);
+            pkm.Weight = (int)(w * 10);
 
             for (int i = 0; i < CLB_TMHM.Items.Count; i++)
                 pkm.TMHM[i] = CLB_TMHM.GetItemChecked(i);

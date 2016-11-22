@@ -63,17 +63,17 @@ namespace pk3DS
         {
             ushort[] TMs = new ushort[0];
             TMEditor7.getTMHMList(ref TMs);
-            CLB_TMHM.Items.Clear();
+            CLB_TM.Items.Clear();
 
             if (TMs.Length == 0) // No ExeFS to grab TMs from.
             {
                 for (int i = 1; i <= 100; i++)
-                    CLB_TMHM.Items.Add("TM" + i.ToString("00"));
+                    CLB_TM.Items.Add("TM" + i.ToString("00"));
             }
-            else // Use TMHM moves.
+            else // Use TM moves.
             {
                 for (int i = 1; i <= 100; i++)
-                    CLB_TMHM.Items.Add($"TM{i.ToString("00")} {moves[TMs[i - 1]]}");
+                    CLB_TM.Items.Add($"TM{i.ToString("00")} {moves[TMs[i - 1]]}");
             }
             foreach (ushort m in tutormoves)
                 CLB_MoveTutors.Items.Add(moves[m]);
@@ -169,12 +169,13 @@ namespace pk3DS
             CB_Color.SelectedIndex = pkm.Color & 0xF;
 
             TB_BaseExp.Text = pkm.BaseEXP.ToString("000");
+            TB_BST.Text = pkm.BST.ToString("000");
 
             TB_Height.Text = ((decimal)pkm.Height / 100).ToString("00.00");
             TB_Weight.Text = ((decimal)pkm.Weight / 10).ToString("000.0");
 
-            for (int i = 0; i < CLB_TMHM.Items.Count; i++)
-                CLB_TMHM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TMHM
+            for (int i = 0; i < CLB_TM.Items.Count; i++)
+                CLB_TM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TM
 
             for (int i = 0; i < CLB_MoveTutors.Items.Count; i++)
                 CLB_MoveTutors.SetItemChecked(i, pkm.TypeTutors[i]); // Bitflags for Tutors
@@ -251,8 +252,8 @@ namespace pk3DS
             pkm.Height = (int)(h * 100);
             pkm.Weight = (int)(w * 10);
 
-            for (int i = 0; i < CLB_TMHM.Items.Count; i++)
-                pkm.TMHM[i] = CLB_TMHM.GetItemChecked(i);
+            for (int i = 0; i < CLB_TM.Items.Count; i++)
+                pkm.TMHM[i] = CLB_TM.GetItemChecked(i);
 
             for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
                 pkm.TypeTutors[t] = CLB_MoveTutors.GetItemChecked(t);
@@ -285,10 +286,10 @@ namespace pk3DS
                 // Fiddle with TM Learnsets
                 if (CHK_TM.Checked)
                     for (int t = 0; t < 100; t++)
-                        CLB_TMHM.SetItemCheckState(t, rnd.Next(0, 100) < TMPercent ? CheckState.Checked : CheckState.Unchecked);
+                        CLB_TM.SetItemCheckState(t, rnd.Next(0, 100) < TMPercent ? CheckState.Checked : CheckState.Unchecked);
                 if (CHK_HM.Checked)
-                    for (int t = 100; t < CLB_TMHM.Items.Count;t++)
-                        CLB_TMHM.SetItemCheckState(t, rnd.Next(0, 100) < TMPercent ? CheckState.Checked : CheckState.Unchecked);
+                    for (int t = 100; t < CLB_TM.Items.Count;t++)
+                        CLB_TM.SetItemCheckState(t, rnd.Next(0, 100) < TMPercent ? CheckState.Checked : CheckState.Unchecked);
                 if (CHK_Tutors.Checked)
                 {
                     for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
