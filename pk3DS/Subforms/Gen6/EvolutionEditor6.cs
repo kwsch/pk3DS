@@ -43,7 +43,7 @@ namespace pk3DS
                 "Level Up with Held Item (Day)",
                 "Level Up with Held Item (Night)",
                 "Level Up with Move",
-                "Level up with Party",
+                "Level Up with Party",
                 "Level Up Male",
                 "Level Up Female",
                 "Level Up at Electric",
