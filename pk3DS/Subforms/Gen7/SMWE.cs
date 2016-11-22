@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Windows.Forms;
 
@@ -23,6 +24,22 @@ namespace pk3DS
             for (int i = 0; i < locationList.Length; i++)
                 locationList[i] = locationList[i].Replace("\r", "");
 
+            var metSM_00000 = locationList;
+
+            var metSM_00000_good = (string[])metSM_00000.Clone();
+            for (int i = 0; i < metSM_00000.Length; i += 2)
+            {
+                var nextLoc = metSM_00000[i + 1];
+                if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
+                    metSM_00000_good[i] += $" ({nextLoc})";
+                if (i > 0 && !string.IsNullOrWhiteSpace(metSM_00000_good[i]) && metSM_00000_good.Take(i - 1).Contains(metSM_00000_good[i]))
+                    metSM_00000_good[i] += $" ({metSM_00000_good.Take(i - 1).Count(s => s == metSM_00000_good[i]) + 1})";
+            }
+            metSM_00000_good.CopyTo(metSM_00000, 0);
+
+            metSM_00000.CopyTo(locationList, 0);
+
+
             nup_spec = new[]
             {NUP_Forme1, NUP_Forme2, NUP_Forme3, NUP_Forme4, NUP_Forme5, NUP_Forme6, NUP_Forme7, NUP_Forme8, NUP_Forme9, NUP_Forme10};
             cb_spec = new[]
@@ -35,16 +52,39 @@ namespace pk3DS
             foreach (var l in rate_spec)
                 l.Text = "0%";
 
+            worldData = File.ReadAllBytes(zdpaths[0]); // 1.bin
             zoneData = File.ReadAllBytes(zdpaths[1]); // dec_0.bin
+            Zones = new Zone[zoneData.Length / 0x54];
+
+            var Worlds = wdpaths.Select(f => mini.unpackMini(File.ReadAllBytes(f), "WD")[0]).ToArray();
+            for (int i = 0; i < Zones.Length; i++)
+            {
+                Zones[i] = new Zone(i);
+                Zones[i].WorldIndex = BitConverter.ToUInt16(worldData, i * 0x2);
+                var World = Worlds[Zones[i].WorldIndex];
+                var mappingOffset = BitConverter.ToInt32(World, 0x8);
+                for (var ofs = mappingOffset; ofs < World.Length; ofs += 4)
+                {
+                    if (BitConverter.ToUInt16(World, ofs) == i)
+                    {
+                        Zones[i].AreaIndex = BitConverter.ToUInt16(World, ofs + 2);
+                        break;
+                    }
+                }
+            }
+
             LoadData("encdata");
         }
 
-        private Map[] Maps;
+        private Area[] Areas;
+        private Zone[] Zones;
 
         public static readonly string[] speciesList = Main.getText(TextName.SpeciesNames);
         public static readonly string[] locationList = Main.getText(TextName.metlist_000000);
         public static readonly string[] zdpaths = Directory.GetFiles("zonedata");
+        public static readonly string[] wdpaths = Directory.GetFiles("worlddata");
         public static byte[] zoneData;
+        public static byte[] worldData;
 
         private readonly NumericUpDown[] nup_spec;
         private readonly ComboBox[] cb_spec;
@@ -58,41 +98,45 @@ namespace pk3DS
         {
             loadingdata = true;
             var files = (new DirectoryInfo(dir).GetFiles());
-            var NumMaps = files.Length/11;
-            Maps = new Map[NumMaps];
-            var numNames = new Dictionary<string, int>();
-            for (int i = 0; i < NumMaps; i++)
+            var numAreas = files.Length / 11;
+            Areas = new Area[numAreas];
+            for (int i = 0; i < numAreas; i++)
             {
-                Maps[i] = new Map();
-                Maps[i].Name = locationList[BitConverter.ToUInt32(zoneData, 0x1C+i*0x54)];
-                if (numNames.ContainsKey(Maps[i].Name))
+                Areas[i] = new Area();
+                Areas[i].FullPath = files[9 + 11 * i].FullName;
+                Areas[i].Zones = Zones.Where(z => z.AreaIndex == i).ToArray();
+                var md = File.ReadAllBytes(Areas[i].FullPath);
+                if (md.Length > 0)
                 {
-                    numNames[Maps[i].Name] += 1;
-                    Maps[i].Name += $" ({numNames[Maps[i].Name]})";
-                }
-                else
-                    numNames[Maps[i].Name] = 1;
-                Maps[i].Name = $"{i.ToString("000")} - {Maps[i].Name}";
-                Maps[i].FullPath = files[9 + 11*i].FullName;
-                byte[][] Tables = mini.unpackMini(File.ReadAllBytes(Maps[i].FullPath), "EA");
-                Maps[i].HasTables = Tables.Any(t => t.Length > 0);
-                if (Maps[i].HasTables)
-                {
-                    foreach (var Table in Tables)
+                    byte[][] Tables = mini.unpackMini(md, "EA");
+                    Areas[i].HasTables = Tables.Any(t => t.Length > 0);
+                    if (Areas[i].HasTables)
                     {
-                        Maps[i].Tables.Add(new EncounterTable(Table));
+                        foreach (var Table in Tables)
+                        {
+                            var DayTable = Table.Skip(4).Take(0x164).ToArray();
+                            var NightTable = Table.Skip(0x168).ToArray();
+                            Areas[i].Tables.Add(new EncounterTable(DayTable));
+                            Areas[i].Tables.Add(new EncounterTable(NightTable));
+                        }
                     }
                 }
+                else
+                {
+                    Areas[i].HasTables = false;
+                }
             }
+            Areas = Areas.OrderBy(a => a.Zones[0].Name).ToArray();
 
             CB_LocationID.Items.Clear();
-            CB_LocationID.Items.AddRange(Maps.Select(m => m.Name).ToArray());
+            CB_LocationID.Items.AddRange(Areas.Select(a => a.Name).ToArray());
 
             foreach (Control ctrl in Controls)
             {
                 ctrl.Enabled = true;
             }
             B_Randomize.Enabled = false; // TODO: Randomization
+
 
             CB_LocationID.SelectedIndex = 0;
             loadingdata = false;
@@ -107,7 +151,7 @@ namespace pk3DS
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return;
                 var sb = new StringBuilder();
-                foreach (var Map in Maps)
+                foreach (var Map in Areas)
                     sb.Append(Map.ToString());
                 File.WriteAllText(sfd.FileName, sb.ToString());
             }
@@ -117,7 +161,7 @@ namespace pk3DS
         {
             loadingdata = true;
             CB_TableID.Items.Clear();
-            CB_TableID.Items.AddRange(Enumerable.Range(1, Math.Max(Maps[CB_LocationID.SelectedIndex].Tables.Count, 1)).Select(i => i.ToString()).ToArray());
+            CB_TableID.Items.AddRange(Enumerable.Range(1, Math.Max(Areas[CB_LocationID.SelectedIndex].Tables.Count, 1)).Select(i => i.ToString()).ToArray());
             CB_TableID.SelectedIndex = 0;
             CB_SlotType.SelectedIndex = 0;
             loadingdata = false;
@@ -129,7 +173,7 @@ namespace pk3DS
             if (loadingdata)
                 return;
             loadingdata = true;
-            var Map = Maps[CB_LocationID.SelectedIndex];
+            var Map = Areas[CB_LocationID.SelectedIndex];
             GB_Encounters.Enabled = Map.HasTables;
             if (!Map.HasTables)
             {
@@ -190,154 +234,184 @@ namespace pk3DS
         private void B_Save_Click(object sender, EventArgs e)
         {
             CurrentTable.Write();
-            Maps[CB_LocationID.SelectedIndex].Tables[CB_TableID.SelectedIndex] = CurrentTable;
+            Areas[CB_LocationID.SelectedIndex].Tables[CB_TableID.SelectedIndex] = CurrentTable;
         }
 
         private void B_Export_Click(object sender, EventArgs e)
         {
             B_Save_Click(sender, e);
 
-            foreach (var Map in Maps)
+            foreach (var Map in Areas)
             {
-                var packed = mini.packMini(Map.Tables.Select(t => t.Data).ToArray(), "EA");
+                byte[][] tabs = new byte[Map.Tables.Count / 2][];
+                for (int i = 0; i < Map.Tables.Count; i += 2)
+                {
+                    tabs[i] = new byte[4].Concat(Map.Tables[i].Data).Concat(Map.Tables[i + 1].Data).ToArray();
+                }
+                var packed = mini.packMini(tabs, "EA");
                 File.WriteAllBytes(Map.FullPath, packed);
             }
             MessageBox.Show("Exported all tables!");
         }
-    }
 
-    internal class Map
-    {
-        public string Name;
-        public string FullPath;
-        public bool HasTables;
-        public List<EncounterTable> Tables;
-
-        public Map()
+        internal class Area
         {
-            Tables = new List<EncounterTable>();
-        }
+            public string Name => string.Join(" / ", Zones.Select(z => z.Name));
+            public string FullPath;
+            public bool HasTables;
+            public List<EncounterTable> Tables;
+            public Zone[] Zones;
 
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-            sb.AppendLine("==========");
-            sb.AppendLine($"Map: {Name}");
-            sb.AppendLine($"Tables: {Tables.Count}");
-            for (int i = 0; i < Tables.Count; i++)
+            public Area()
             {
-                sb.AppendLine($"Table {i+1}:");
-                sb.AppendLine(Tables[i].ToString());
+                Tables = new List<EncounterTable>();
             }
-            sb.AppendLine("==========");
-            return sb.ToString();
-        }
-    }
 
-    internal class EncounterTable
-    {
-        public int MinLevel;
-        public int MaxLevel;
-        public int[] Rates;
-        public Encounter[][] Encounters;
-
-        public byte[] Data;
-
-        public EncounterTable(byte[] t)
-        {
-            // Tables are stored twice. Validate. Throw error if I need more research
-            for (var ofs = 0; ofs < 0x150; ofs += 4)
+            public override string ToString()
             {
-                if (BitConverter.ToUInt32(t, ofs) != BitConverter.ToUInt32(t, 0x164+ofs))
-                    throw new ArgumentException("Mismatched duplicate table. More research is needed. Contact SciresM at ProjectPokemon.org.");
-            }
-            Rates = new int[10];
-            Encounters = new Encounter[8][];
-            MinLevel = t[4];
-            MaxLevel = t[5];
-            for (int i = 0; i < Rates.Length; i++)
-                Rates[i] = t[6 + i];
-            for (int i = 0; i < Encounters.Length; i++)
-            {
-                Encounters[i] = new Encounter[10];
-                var ofs = 0x10 + i*4*Encounters[i].Length;
-                for (int j = 0; j < Encounters[i].Length; j++)
+                var sb = new StringBuilder();
+                sb.AppendLine("==========");
+                sb.AppendLine($"Map: {Name}");
+                sb.AppendLine($"Tables: {Tables.Count / 2}");
+                for (int i = 0; i < Tables.Count / 2; i++)
                 {
-                    Encounters[i][j] = new Encounter(BitConverter.ToUInt32(t, ofs + 4 * j));
+                    sb.AppendLine($"Table {(i + 1)} (Day):");
+                    sb.AppendLine(Tables[i * 2].ToString());
+                    sb.AppendLine($"Table {(i + 1)} (Night):");
+                    sb.AppendLine(Tables[i * 2 + 1].ToString());
                 }
+                sb.AppendLine("==========");
+                return sb.ToString();
             }
-            Data = (byte[])t.Clone();
         }
 
-        public void Write()
+        internal class Zone
         {
-            Data[4] = (byte) MinLevel;
-            Data[5] = (byte) MaxLevel;
-            // TODO: Rate Editing?
-            for (int i = 0; i < Encounters.Length; i++)
+            private byte[] Data;
+            public int index;
+
+            public int WorldIndex;
+            public int AreaIndex;
+            public string Name => $"{index.ToString("000")} - {locationList[BitConverter.ToUInt32(Data, 0x1C)]}";
+
+            public Zone(int i)
             {
-                var ofs = 0x10 + i*4*Encounters[i].Length;
-                for (int j = 0; j < Encounters[i].Length; j++)
-                {
-                    BitConverter.GetBytes(Encounters[i][j].RawValue).CopyTo(Data, ofs + 4*j);
-                }
+                Data = new byte[0x54];
+                Array.Copy(zoneData, i * 0x54, Data, 0, 0x54);
+                index = i;
             }
-            // Duplicate table.
-            Array.Copy(Data, 0, Data, 0x164, 0x150);
         }
 
-        public override string ToString()
+        internal class EncounterTable
         {
-            var sb = new StringBuilder();
-            for (int i = 0; i < Encounters.Length; i++)
+            public int MinLevel;
+            public int MaxLevel;
+            public int[] Rates;
+            public Encounter[][] Encounters;
+            public Encounter[] AdditionalSOS;
+
+            public byte[] Data;
+
+            public EncounterTable(byte[] t)
             {
-                sb.Append($"Slot Type {i + 1} (Levels {MinLevel}-{MaxLevel}): ");
-                var specToRate = new Dictionary<uint, int>();
-                var distincts = new List<Encounter>();
-                for(int j = 0; j < Encounters[i].Length; j++)
+                Rates = new int[10];
+                Encounters = new Encounter[8][];
+                MinLevel = t[0];
+                MaxLevel = t[1];
+                for (int i = 0; i < Rates.Length; i++)
+                    Rates[i] = t[2 + i];
+                for (int i = 0; i < Encounters.Length; i++)
                 {
-                    var encounter = Encounters[i][j];
-                    if (!specToRate.ContainsKey(encounter.RawValue))
+                    Encounters[i] = new Encounter[10];
+                    var ofs = 0xC + i * 4 * Encounters[i].Length;
+                    for (int j = 0; j < Encounters[i].Length; j++)
                     {
-                        specToRate[encounter.RawValue] = 0;
-                        distincts.Add(encounter);
+                        Encounters[i][j] = new Encounter(BitConverter.ToUInt32(t, ofs + 4 * j));
                     }
-                    specToRate[encounter.RawValue] += Rates[j];
                 }
-                distincts = distincts.OrderBy(e => specToRate[e.RawValue]).Reverse().ToList();
-                sb.AppendLine(string.Join(", ", distincts.Select(e => $"{e.ToString()} ({specToRate[e.RawValue]}%)")));
+                AdditionalSOS = new Encounter[6];
+                for (var i = 0; i < AdditionalSOS.Length; i++)
+                {
+                    AdditionalSOS[i] = new Encounter(BitConverter.ToUInt32(t, 0x14C + 4 * i));
+                }
+                Data = (byte[])t.Clone();
             }
 
-            return sb.ToString();
+            public void Write()
+            {
+                Data[0] = (byte)MinLevel;
+                Data[1] = (byte)MaxLevel;
+                // TODO: Rate Editing?
+                for (int i = 0; i < Encounters.Length; i++)
+                {
+                    var ofs = 0xC + i * 4 * Encounters[i].Length;
+                    for (int j = 0; j < Encounters[i].Length; j++)
+                    {
+                        BitConverter.GetBytes(Encounters[i][j].RawValue).CopyTo(Data, ofs + 4 * j);
+                    }
+                }
+                for (int i = 0; i < AdditionalSOS.Length; i++)
+                    BitConverter.GetBytes(AdditionalSOS[i].RawValue).CopyTo(Data, 0x14C + 4 * i);
+            }
+
+            public override string ToString()
+            {
+                var sb = new StringBuilder();
+                for (int i = 0; i < Encounters.Length; i++)
+                {
+                    var tn = "Encounters";
+                    if (i != 0)
+                        tn = "SOS Slot " + (i);
+                    sb.Append($"{tn} (Levels {MinLevel}-{MaxLevel}): ");
+                    var specToRate = new Dictionary<uint, int>();
+                    var distincts = new List<Encounter>();
+                    for (int j = 0; j < Encounters[i].Length; j++)
+                    {
+                        var encounter = Encounters[i][j];
+                        if (!specToRate.ContainsKey(encounter.RawValue))
+                        {
+                            specToRate[encounter.RawValue] = 0;
+                            distincts.Add(encounter);
+                        }
+                        specToRate[encounter.RawValue] += Rates[j];
+                    }
+                    distincts = distincts.OrderBy(e => specToRate[e.RawValue]).Reverse().ToList();
+                    sb.AppendLine(string.Join(", ", distincts.Select(e => $"{e.ToString()} ({specToRate[e.RawValue]}%)")));
+                }
+                sb.Append("Additional SOS encounters: ");
+                sb.AppendLine(string.Join(", ", AdditionalSOS.Select(e => e.RawValue).Distinct().Select(e => new Encounter(e)).Select(e => e.ToString())));
+
+                return sb.ToString();
+            }
         }
-    }
 
-    internal class Encounter
-    {
-        public uint Species;
-        public uint Forme;
-
-        public uint RawValue => Species | (Forme << 11);
-
-        public Encounter()
+        internal class Encounter
         {
-            Species = 0;
-            Forme = 0;
-        }
+            public uint Species;
+            public uint Forme;
 
-        public Encounter(uint val)
-        {
-            Species = val & 0x7FF;
-            Forme = (val >> 11) & 0x1F;
-        }
+            public uint RawValue => Species | (Forme << 11);
 
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-            sb.Append(SMWE.speciesList[Species]);
-            if (Forme != 0)
-                sb.Append($" (Forme {Forme})");
-            return sb.ToString();
+            public Encounter()
+            {
+                Species = 0;
+                Forme = 0;
+            }
+
+            public Encounter(uint val)
+            {
+                Species = val & 0x7FF;
+                Forme = (val >> 11) & 0x1F;
+            }
+
+            public override string ToString()
+            {
+                var sb = new StringBuilder();
+                sb.Append(speciesList[Species]);
+                if (Forme != 0)
+                    sb.Append($" (Forme {Forme})");
+                return sb.ToString();
+            }
         }
     }
 }

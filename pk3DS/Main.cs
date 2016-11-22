@@ -124,6 +124,7 @@ namespace pk3DS
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {
+            if (Config == null) return;
             var g = Config.GARCGameText;
             string[][] files = Config.GameTextStrings;
             Invoke((Action)(() => new TextEditor(files, "gametext").ShowDialog()));
@@ -528,7 +529,7 @@ namespace pk3DS
                         else return;
                         break;
                     case 7:
-                        files = new [] { "encdata", "zonedata" };
+                        files = new [] { "encdata", "zonedata", "worlddata" };
                         action = () => new SMWE().ShowDialog();
                         break;
                     default:
