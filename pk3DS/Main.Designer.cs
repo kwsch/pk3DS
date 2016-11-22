@@ -235,7 +235,7 @@
             this.Menu_Rebuild,
             this.Menu_SMDH});
             this.Menu_Tools.Name = "Menu_Tools";
-            this.Menu_Tools.Size = new System.Drawing.Size(47, 20);
+            this.Menu_Tools.Size = new System.Drawing.Size(48, 20);
             this.Menu_Tools.Text = "Tools";
             // 
             // Menu_Restore
@@ -696,7 +696,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 251);
+            this.ClientSize = new System.Drawing.Size(384, 252);
             this.Controls.Add(this.L_Status);
             this.Controls.Add(this.TC_RomFS);
             this.Controls.Add(this.pBar1);

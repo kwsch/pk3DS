@@ -63,17 +63,17 @@ namespace pk3DS
         {
             ushort[] TMs = new ushort[0];
             TMEditor7.getTMHMList(ref TMs);
-            CLB_TMHM.Items.Clear();
+            CLB_TM.Items.Clear();
 
             if (TMs.Length == 0) // No ExeFS to grab TMs from.
             {
                 for (int i = 1; i <= 100; i++)
-                    CLB_TMHM.Items.Add("TM" + i.ToString("00"));
+                    CLB_TM.Items.Add("TM" + i.ToString("00"));
             }
-            else // Use TMHM moves.
+            else // Use TM moves.
             {
                 for (int i = 1; i <= 100; i++)
-                    CLB_TMHM.Items.Add($"TM{i.ToString("00")} {moves[TMs[i - 1]]}");
+                    CLB_TM.Items.Add($"TM{i.ToString("00")} {moves[TMs[i - 1]]}");
             }
             foreach (ushort m in tutormoves)
                 CLB_MoveTutors.Items.Add(moves[m]);
@@ -169,12 +169,13 @@ namespace pk3DS
             CB_Color.SelectedIndex = pkm.Color & 0xF;
 
             TB_BaseExp.Text = pkm.BaseEXP.ToString("000");
+            TB_BST.Text = pkm.BST.ToString("000");
 
             TB_Height.Text = ((decimal)pkm.Height / 100).ToString("00.00");
             TB_Weight.Text = ((decimal)pkm.Weight / 10).ToString("000.0");
 
-            for (int i = 0; i < CLB_TMHM.Items.Count; i++)
-                CLB_TMHM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TMHM
+            for (int i = 0; i < CLB_TM.Items.Count; i++)
+                CLB_TM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TM
 
             for (int i = 0; i < CLB_MoveTutors.Items.Count; i++)
                 CLB_MoveTutors.SetItemChecked(i, pkm.TypeTutors[i]); // Bitflags for Tutors
@@ -251,8 +252,8 @@ namespace pk3DS
             pkm.Height = (int)(h * 100);
             pkm.Weight = (int)(w * 10);
 
-            for (int i = 0; i < CLB_TMHM.Items.Count; i++)
-                pkm.TMHM[i] = CLB_TMHM.GetItemChecked(i);
+            for (int i = 0; i < CLB_TM.Items.Count; i++)
+                pkm.TMHM[i] = CLB_TM.GetItemChecked(i);
 
             for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
                 pkm.TypeTutors[t] = CLB_MoveTutors.GetItemChecked(t);
@@ -285,10 +286,10 @@ namespace pk3DS
                 // Fiddle with TM Learnsets
                 if (CHK_TM.Checked)
                     for (int t = 0; t < 100; t++)
-                        CLB_TMHM.SetItemCheckState(t, rnd.Next(0, 100) < TMPercent ? CheckState.Checked : CheckState.Unchecked);
+                        CLB_TM.SetItemCheckState(t, rnd.Next(0, 100) < TMPercent ? CheckState.Checked : CheckState.Unchecked);
                 if (CHK_HM.Checked)
-                    for (int t = 100; t < CLB_TMHM.Items.Count;t++)
-                        CLB_TMHM.SetItemCheckState(t, rnd.Next(0, 100) < TMPercent ? CheckState.Checked : CheckState.Unchecked);
+                    for (int t = 100; t < CLB_TM.Items.Count;t++)
+                        CLB_TM.SetItemCheckState(t, rnd.Next(0, 100) < TMPercent ? CheckState.Checked : CheckState.Unchecked);
                 if (CHK_Tutors.Checked)
                 {
                     for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
@@ -394,7 +395,7 @@ namespace pk3DS
             for (int i = 0; i < CB_Species.Items.Count; i++)
             {
                 CB_Species.SelectedIndex = i; // Get new Species
-                result += "======" + Environment.NewLine + entry + " " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
+                result += "======" + Environment.NewLine + entry + " - " + CB_Species.Text + " (Stage: " + TB_Stage.Text + ")" + Environment.NewLine + "======" + Environment.NewLine;
 
                 result +=
                     $"Base Stats: {TB_BaseHP.Text}.{TB_BaseATK.Text}.{TB_BaseDEF.Text}.{TB_BaseSPA.Text}.{TB_BaseSPD.Text}.{TB_BaseSPE.Text} (BST: {pkm.BST})" + Environment.NewLine;
@@ -402,12 +403,20 @@ namespace pk3DS
                     $"EV Yield: {TB_HPEVs.Text}.{TB_ATKEVs.Text}.{TB_DEFEVs.Text}.{TB_SPAEVs.Text}.{TB_SPDEVs.Text}.{TB_SPEEVs.Text}" + Environment.NewLine;
                 result += $"Abilities: {CB_Ability1.Text} (1) | {CB_Ability2.Text} (2) | {CB_Ability3.Text} (H)" + Environment.NewLine;
 
-                result += string.Format(CB_Type1.SelectedIndex != CB_Type2.SelectedIndex ? "Type: {0} / {1}" : "Type: {0}", CB_Type1.Text, CB_Type2.Text);
+                result += string.Format(CB_Type1.SelectedIndex != CB_Type2.SelectedIndex ? "Type: {0} / {1}" : "Type: {0}", CB_Type1.Text, CB_Type2.Text) + Environment.NewLine;
 
                 result += $"Item 1 (50%): {CB_HeldItem1.Text}" + Environment.NewLine;
                 result += $"Item 2 (5%): {CB_HeldItem2.Text}" + Environment.NewLine;
                 result += $"Item 3 (1%): {CB_HeldItem3.Text}" + Environment.NewLine;
                 // I don't want to add anything else. Should be pretty easy for anyone else to expand.
+
+                result += $"EXP Group: {CB_EXPGroup.Text}" + Environment.NewLine;
+
+                result += string.Format(CB_EggGroup1.SelectedIndex != CB_EggGroup2.SelectedIndex ? "Egg Group: {0} / {1}" : "Egg Group: {0}", CB_EggGroup1.Text, CB_EggGroup2.Text) + Environment.NewLine;
+
+                result += $"Hatch Cycles: {TB_HatchCycles.Text}" + Environment.NewLine;
+
+                result += String.Format("Height: {0} m, Weight: {1} kg, Color: {2}", TB_Height.Text, TB_Weight.Text, CB_Color.Text) + Environment.NewLine;
 
                 result += Environment.NewLine;
             }
