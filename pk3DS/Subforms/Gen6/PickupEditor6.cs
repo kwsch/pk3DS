@@ -114,7 +114,7 @@ namespace pk3DS
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Randomize pickup lists?"))
                 return;
 
-            int[] validItems = Randomizer.getRandomItemList(Main.Config.ORAS);
+            int[] validItems = Randomizer.getRandomItemList();
 
             int ctr = 0;
             Util.Shuffle(validItems);

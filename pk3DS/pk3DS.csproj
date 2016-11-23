@@ -118,6 +118,12 @@
     <Compile Include="Subforms\Gen7\LevelUpEditor7.Designer.cs">
       <DependentUpon>LevelUpEditor7.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Gen7\MartEditor7.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Gen7\MartEditor7.Designer.cs">
+      <DependentUpon>MartEditor7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Gen7\MegaEvoEditor7.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -364,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\LevelUpEditor7.resx">
       <DependentUpon>LevelUpEditor7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Gen7\MartEditor7.resx">
+      <DependentUpon>MartEditor7.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\MegaEvoEditor7.resx">
       <DependentUpon>MegaEvoEditor7.cs</DependentUpon>

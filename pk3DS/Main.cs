@@ -252,7 +252,7 @@ namespace pk3DS
                 case 7:
                     romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Item, B_Move, };
                     exefs = new Control[] {B_TMHM, B_TypeChart};
-                    cro = new Control[] {new Label {Text = "No editors available."}};
+                    cro = new Control[] {B_Mart};
                     break;
                 default:
                     romfs = exefs = cro = new Control[] {new Label {Text = "No editors available."}};
@@ -779,7 +779,16 @@ namespace pk3DS
         private void B_Mart_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
-            if (ExeFSPath != null) new MartEditor6().Show();
+            switch (Config.Generation)
+            {
+                case 6:
+                    if (ExeFSPath != null) new MartEditor6().Show();
+                    break;
+
+                case 7:
+                    if (RomFSPath != null) new MartEditor7().Show();
+                    break;
+            }
         }
         private void B_MoveTutor_Click(object sender, EventArgs e)
         {
