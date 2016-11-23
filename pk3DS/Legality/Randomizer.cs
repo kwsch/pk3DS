@@ -52,11 +52,11 @@ namespace pk3DS
         internal static int[] getRandomItemList()
         {
             if (Main.Config.ORAS)
-                return Items_HeldAO.Concat(Items_Ball).ToArray();
+                return Items_HeldAO.Concat(Items_Ball).Where(i => i != 0).ToArray();
             if (Main.Config.XY)
-                return Items_HeldXY.Concat(Items_Ball).ToArray();
+                return Items_HeldXY.Concat(Items_Ball).Where(i => i != 0).ToArray();
             if (Main.Config.SM)
-                return HeldItemsBuy_SM.Select(i => (int)i).Concat(Items_Ball).ToArray();
+                return HeldItemsBuy_SM.Select(i => (int)i).Concat(Items_Ball).Where(i => i != 0).ToArray();
             return new int[0];
         }
         #region Random Item List
