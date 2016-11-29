@@ -16,7 +16,7 @@ namespace pk3DS
         private const ushort KEY_TEXTCLEAR = 0xBE01;
         private const ushort KEY_TEXTWAIT = 0xBE02;
         private const ushort KEY_TEXTNULL = 0xBDFF;
-        private const bool SETEMPTYTEXT = true;
+        private const bool SETEMPTYTEXT = false;
         private static readonly byte[] emptyTextFile = { 0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00 };
 
         public TextFile(byte[] data = null)
@@ -98,7 +98,7 @@ namespace pk3DS
                 int bytesUsed = 0;
                 for (int i = 0; i < lines.Length; i++)
                 {
-                    string text = (value[i] ?? "").Trim(); // ReSharper disable once RedundantLogicalConditionalExpressionOperand
+                    string text = (value[i] ?? "").Trim();
                     if (text.Length == 0 && SETEMPTYTEXT)
                         text = $"[~ {i}]";
                     byte[] DecryptedLineData = getLineData(text);
