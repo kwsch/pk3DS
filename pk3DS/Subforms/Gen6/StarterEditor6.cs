@@ -10,11 +10,7 @@ namespace pk3DS
         {
             specieslist[0] = "---";
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
-
-            string[] personalList = Directory.GetFiles("personal");
-            var personal = new byte[personalList.Length][];
-            for (int i = 0; i < personalList.Length; i++)
-                personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
+            
             if (!File.Exists(CROPath))
             {
                 Util.Error("CRO does not exist! Closing.", CROPath);

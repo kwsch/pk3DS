@@ -15,7 +15,6 @@ namespace pk3DS
         private readonly string[] types = Main.getText(TextName.Types);
         private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
         private readonly string[] itemlist = Main.getText(TextName.ItemNames);
-        private readonly byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
         private readonly GroupBox[] groupbox_spec;
         private readonly ComboBox[] forme_spec;
         private readonly ComboBox[] item_spec;
