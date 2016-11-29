@@ -168,7 +168,7 @@ namespace pk3DS
         private void refreshSpeciesAbility(object sender, EventArgs e)
         {
             int i = Array.IndexOf(trpk_pkm, sender as ComboBox);
-            PersonalEditor6.setForms(trpk_pkm[i].SelectedIndex, trpk_form[i], AltForms);
+            FormUtil.setForms(trpk_pkm[i].SelectedIndex, trpk_form[i], AltForms);
             refreshPKMSlotAbility(i);
         }
         private void refreshPKMSlotAbility(int slot)
@@ -177,17 +177,14 @@ namespace pk3DS
 
             int species = trpk_pkm[slot].SelectedIndex;
             int formnum = trpk_form[slot].SelectedIndex;
-            species = formnum > 0 
-                ? (indexList[species] > 0 
-                    ? indexList[species] + formnum - 1 
-                    : species) 
-                : species;
+
+            int entry = Main.Config.Personal.getFormeIndex(species, formnum);
 
             trpk_abil[slot].Items.Clear();
             trpk_abil[slot].Items.Add("Any (1 or 2)");
-            trpk_abil[slot].Items.Add(abilitylist[Main.SpeciesStat[species].Abilities[0]] + " (1)");
-            trpk_abil[slot].Items.Add(abilitylist[Main.SpeciesStat[species].Abilities[1]] + " (2)");
-            trpk_abil[slot].Items.Add(abilitylist[Main.SpeciesStat[species].Abilities[2]] + " (H)");
+            trpk_abil[slot].Items.Add(abilitylist[Main.SpeciesStat[entry].Abilities[0]] + " (1)");
+            trpk_abil[slot].Items.Add(abilitylist[Main.SpeciesStat[entry].Abilities[1]] + " (2)");
+            trpk_abil[slot].Items.Add(abilitylist[Main.SpeciesStat[entry].Abilities[2]] + " (H)");
 
             trpk_abil[slot].SelectedIndex = previousAbility;
 
@@ -337,7 +334,7 @@ namespace pk3DS
                 trpk_IV[i].SelectedIndex = tr.Team[i].IVs;
                 trpk_lvl[i].SelectedIndex = tr.Team[i].Level;
                 trpk_pkm[i].SelectedIndex = tr.Team[i].Species;
-                PersonalEditor6.setForms(tr.Team[i].Species, trpk_form[i], AltForms);
+                FormUtil.setForms(tr.Team[i].Species, trpk_form[i], AltForms);
                 trpk_form[i].SelectedIndex = tr.Team[i].Form % trpk_form[i].Items.Count; // stupid X/Y buggy edge cases (220 / 222)
                 refreshPKMSlotAbility(i); // Repopulate Abilities
 
@@ -427,14 +424,12 @@ namespace pk3DS
             TB_Text1.Text = trText[index * 2];
             TB_Text2.Text = trText[index * 2 + 1];
         }
-
-        private ushort[] indexList;
+        
         private void Setup()
         {
             start = true;
-            byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
-            indexList = PersonalEditor6.getPersonalIndexList(personalData, Main.Config.ORAS);
-            AltForms = PersonalEditor6.getFormList(personalData, Main.Config.ORAS, specieslist, forms, types, itemlist);
+            string[] species = Main.getText(TextName.SpeciesNames);
+            AltForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
 
             Array.Resize(ref trName, trdata.Length);
             CB_TrainerID.Items.Clear();

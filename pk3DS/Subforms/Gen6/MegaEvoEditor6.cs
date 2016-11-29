@@ -15,7 +15,6 @@ namespace pk3DS
         private readonly string[] types = Main.getText(TextName.Types);
         private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
         private readonly string[] itemlist = Main.getText(TextName.ItemNames);
-        private readonly byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
         private readonly GroupBox[] groupbox_spec;
         private readonly ComboBox[] forme_spec;
         private readonly ComboBox[] item_spec;
@@ -37,7 +36,7 @@ namespace pk3DS
 
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID); specieslist[0] = itemlist[0] = "";
             specieslist[32] += "♂"; specieslist[29] += "♀";
-            AltForms = PersonalEditor6.getFormList(personalData, Main.Config.ORAS, specieslist, forms, types, itemlist);
+            AltForms = Main.Config.Personal.getFormList(specieslist, Main.Config.MaxSpeciesID);
 
             groupbox_spec = new[] { GB_MEvo1, GB_MEvo2, GB_MEvo3 };
             item_spec = new[] { CB_Item1, CB_Item2, CB_Item3 };
@@ -109,7 +108,7 @@ namespace pk3DS
             byte[] data = files[entry];
 
             foreach (ComboBox CB in forme_spec)
-                PersonalEditor6.setForms(entry, CB, AltForms);
+                FormUtil.setForms(entry, CB, AltForms);
 
             me = new MegaEvolutions(data);
             for (int i = 0; i < 3; i++)

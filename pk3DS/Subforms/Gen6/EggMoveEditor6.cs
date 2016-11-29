@@ -33,7 +33,6 @@ namespace pk3DS
             CB_Species.SelectedIndex = 0;
         }
         private readonly byte[][] files;
-        private readonly byte[] data = File.ReadAllBytes(Directory.GetFiles("personal", "*.*", SearchOption.TopDirectoryOnly).Last());
         private int entry = -1;
         private readonly string[] movelist = Main.getText(TextName.MoveNames);
         private bool dumping;
@@ -59,7 +58,7 @@ namespace pk3DS
         {
             entry = Util.getIndex(CB_Species);
 
-            int[] specForm = PersonalEditor6.getSpecies(data, Main.Config.ORAS, entry);
+            int[] specForm = Main.Config.Personal.getSpeciesForm(entry);
             string filename = "_" + specForm[0] + (entry > 721 ? "_" + (specForm[1] + 1) : "");
             PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
 
@@ -119,7 +118,6 @@ namespace pk3DS
             Move[] moveTypes = Main.Config.Moves;
 
             // Personal Stats
-            byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
 
             // Set up Randomized Moves
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
@@ -143,12 +141,7 @@ namespace pk3DS
                     while ( // Move is invalid
                         (!CHK_HMs.Checked && banned.Contains(move)) // HM Moves Not Allowed
                         || (forceSTAB && // STAB is required
-                            !(
-                                moveTypes[move].Type == personalData[6 + (Main.Config.ORAS ? 0x50 : 0x40) * species] // Type 1
-                                ||
-                                moveTypes[move].Type == personalData[7 + (Main.Config.ORAS ? 0x50 : 0x40) * species] // Type 2
-                                )
-                            )
+                            !Main.Config.Personal[species].Types.Contains(moveTypes[move].Type))
                         )
                     {
                         move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
@@ -195,9 +188,7 @@ namespace pk3DS
         private void calcStats()
         {
             Move[] MoveData = Main.Config.Moves;
-
-            byte[] personalData = File.ReadAllBytes(Directory.GetFiles("personal").Last());
-
+            
             int movectr = 0;
             int max = 0;
             int spec = 0;
@@ -221,8 +212,7 @@ namespace pk3DS
                         movectr--;
                         continue;
                     }
-                    if (MoveData[move].Type == personalData[6 + (Main.Config.ORAS ? 0x50 : 0x40) * i] ||
-                        MoveData[move].Type == personalData[7 + (Main.Config.ORAS ? 0x50 : 0x40) * i])
+                    if (Main.Config.Personal[species].Types.Contains(MoveData[move].Type))
                         stab++;
                 }
             }

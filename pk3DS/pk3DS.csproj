@@ -76,6 +76,7 @@
     <Compile Include="Game\GameConfig.cs" />
     <Compile Include="Legality\Randomizer.cs" />
     <Compile Include="3DS\RomFS.cs" />
+    <Compile Include="Subforms\FormUtil.cs" />
     <Compile Include="Subforms\Gen6\Experimental\OWSEStructs.cs" />
     <Compile Include="Structures\EggMoves.cs" />
     <Compile Include="Structures\Gen6\EncounterGift6.cs" />

@@ -110,7 +110,7 @@ namespace pk3DS
             byte[] data = files[entry];
 
             foreach (ComboBox CB in forme_spec)
-                PersonalEditor6.setForms(entry, CB, AltForms);
+                FormUtil.setForms(entry, CB, AltForms);
 
             me = new MegaEvolutions(data);
             for (int i = 0; i < 2; i++)

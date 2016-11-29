@@ -127,7 +127,6 @@ namespace pk3DS
             if (Config == null) return;
             var g = Config.GARCGameText;
             string[][] files = Config.GameTextStrings;
-            Invoke((Action)(() => new TextEditor(files, "gametext").ShowDialog()));
             g.Files = files.Select(TextFile.getBytes).ToArray();
             g.Save();
         }

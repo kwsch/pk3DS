@@ -263,11 +263,6 @@ namespace pk3DS
             };
             RSWE_Load();
             openQuick(Directory.GetFiles("encdata"));
-
-            string[] personalList = Directory.GetFiles("personal");
-            personal = new byte[personalList.Length][];
-            for (int i = 0; i < personalList.Length; i++)
-                personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
         }
         private readonly ComboBox[] spec;
         private readonly NumericUpDown[] min;
@@ -281,8 +276,6 @@ namespace pk3DS
         string[] LocationNames = { };
         private string[] encdatapaths;
         private string[] filepaths;
-
-        readonly byte[][] personal;
 
         private void RSWE_Load()
         {
@@ -638,14 +631,14 @@ namespace pk3DS
                     int oldBST = 0;
                     for (int s = 0; s < max.Length; s++)
                         if (spec[s].SelectedIndex > 0)
-                        { oldBST = personal[spec[s + 2].SelectedIndex].Take(6).Sum(b => (ushort)b); break; }
+                        { oldBST = Main.Config.Personal[spec[s + 2].SelectedIndex].BST; break; }
 
                     for (int z = 0; z < RandomList.Length; z++)
                     {
                         int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
-                        int newBST = personal[species].Take(6).Sum(b => (ushort)b);
+                        int newBST = Main.Config.Personal[species].BST;
                         while (!(newBST * 4 / 5 < oldBST && newBST * 6 / 5 > oldBST))
-                        { species = sL[rand.Next(1, sL.Length)]; newBST = personal[species].Take(6).Sum(b => (ushort)b); }
+                        { species = sL[rand.Next(1, sL.Length)]; newBST = Main.Config.Personal[species].BST; }
                         RandomList[z] = species;
                     }
                 }

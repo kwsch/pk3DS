@@ -124,7 +124,6 @@ namespace pk3DS
         }
 
         private static int[] sL; // Random Species List
-        private byte[][] personal;
         private void B_RandAll_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Randomize all resulting species?", "Evolution methods and parameters will stay the same.")) return;
@@ -133,14 +132,6 @@ namespace pk3DS
             bool rBST = CHK_BST.Checked;
             bool rEXP = CHK_Exp.Checked;
             bool rType = CHK_Type.Checked;
-            if (rBST || rEXP || rType)
-            {
-                // initialize personal data
-                string[] personalList = Directory.GetFiles("personal");
-                personal = new byte[personalList.Length][];
-                for (int i = 0; i < personalList.Length; i++)
-                    personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
-            }
             int ctr = 0;
             sL = Randomizer.RandomSpeciesList;
 

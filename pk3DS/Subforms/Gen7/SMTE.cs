@@ -150,7 +150,7 @@ namespace pk3DS
             if (index < 0)
                 return;
             pkm.Species = (ushort)CB_Pokemon.SelectedIndex;
-            PersonalEditor6.setForms(CB_Pokemon.SelectedIndex, CB_Forme, AltForms);
+            FormUtil.setForms(CB_Pokemon.SelectedIndex, CB_Forme, AltForms);
             refreshPKMSlotAbility();
         }
         private void refreshPKMSlotAbility()

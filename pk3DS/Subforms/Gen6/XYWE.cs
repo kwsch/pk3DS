@@ -269,11 +269,6 @@ namespace pk3DS
             };
             Load_XYWE();
             openQuick(Directory.GetFiles("encdata"));
-
-            string[] personalList = Directory.GetFiles("personal");
-            personal = new byte[personalList.Length][];
-            for (int i = 0; i < personalList.Length; i++)
-                personal[i] = File.ReadAllBytes("personal" + Path.DirectorySeparatorChar + i.ToString("000") + ".bin");
         }
         private readonly ComboBox[] spec;
         private readonly NumericUpDown[] min;
@@ -286,8 +281,6 @@ namespace pk3DS
         string[] LocationNames = { };
         private string[] encdatapaths;
         private string[] filepaths;
-
-        readonly byte[][] personal;
 
         private void Load_XYWE()
         {
@@ -535,10 +528,10 @@ namespace pk3DS
 
                     if (CHK_BST.Checked)
                     {
-                        int oldBST = personal[spec[slot].SelectedIndex].Take(6).Sum(b => (ushort)b);
-                        int newBST = personal[species].Take(6).Sum(b => (ushort)b);
+                        int oldBST = Main.Config.Personal[spec[slot].SelectedIndex].BST;
+                        int newBST = Main.Config.Personal[species].BST;
                         while (!(newBST * 4 / 5 < oldBST && newBST * 6 / 5 > oldBST))
-                        { species = sL[rand.Next(1, sL.Length)]; newBST = personal[species].Take(6).Sum(b => (ushort)b); }
+                        { species = sL[rand.Next(1, sL.Length)]; newBST = Main.Config.Personal[species].BST; }
                     }
 
                     spec[slot].SelectedIndex = species;

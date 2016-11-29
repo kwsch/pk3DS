@@ -124,5 +124,21 @@ namespace pk3DS
             }
             return result;
         }
+        public int[] getSpeciesForm(int PersonalEntry)
+        {
+            if (PersonalEntry < Main.Config.MaxSpeciesID) return new[] { PersonalEntry, 0 };
+
+            for (int i = 0; i < Main.Config.MaxSpeciesID; i++)
+            {
+                int FormCount = this[i].FormeCount - 1; // Mons with no alt forms have a FormCount of 1.
+                var altformpointer = this[i].FormStatsIndex;
+                if (altformpointer <= 0) continue;
+                for (int j = 0; j < FormCount; j++)
+                    if (altformpointer + j == PersonalEntry)
+                        return new[] { i, j };
+            }
+
+            return new[] { -1, -1 };
+        }
     }
 }
