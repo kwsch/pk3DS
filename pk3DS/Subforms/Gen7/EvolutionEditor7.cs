@@ -38,8 +38,8 @@ namespace pk3DS
                 $"Level Up ({specieslist[291]})", // Ninjask
                 $"Level Up ({specieslist[292]})", // Shedinja
                 "Level Up (Beauty)",
-                "Level Up with Held Item (Male)",
-                "Level Up with Held Item (Female)",
+                "Used Item (Male)", // Kirlia->Gallade
+                "Used Item (Female)", // Snorunt->Froslass
                 "Level Up with Held Item (Day)",
                 "Level Up with Held Item (Night)",
                 "Level Up with Move",
