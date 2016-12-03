@@ -253,6 +253,13 @@ namespace CTR
             using (FileStream inStream = File.Open(infile, FileMode.Open),
                              outStream = File.Create(outfile))
             {
+                if (inStream.Length == 0) // empty file 'compression' to lzss container
+                {
+                    byte[] blank = {0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+                    outStream.Write(blank, 0, blank.Length);
+                    return blank.Length;
+                }
+
                 return Compress(inStream, inStream.Length, outStream, true);
             }
         }
