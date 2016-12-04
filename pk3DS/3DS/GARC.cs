@@ -506,12 +506,14 @@ namespace CTR
             return garc;
         }
 
-        public static MemGARC packGARC(byte[][] data, int version)
+        public static MemGARC packGARC(byte[][] data, int version, int contentpadnearest)
         {
+            if (contentpadnearest < 0)
+                contentpadnearest = 4;
             // Set Up the GARC template.
             GARCFile garc = new GARCFile
             {
-                ContentPadToNearest = 4,
+                ContentPadToNearest = (uint)contentpadnearest,
                 fato =
                 {
                     // Magic = new[] { 'O', 'T', 'A', 'F' },
@@ -703,7 +705,7 @@ namespace CTR
                     if (value == null || value.Length != FileCount)
                         throw new ArgumentException();
 
-                    var ng = packGARC(value, garc.Version);
+                    var ng = packGARC(value, garc.Version, (int)garc.ContentPadToNearest);
                     garc = ng.garc;
                     Data = ng.Data;
                 }
@@ -815,7 +817,7 @@ namespace CTR
                     data[i] = Storage[i].Save();
                 }
 
-                var ng = packGARC(data, garc.Version);
+                var ng = packGARC(data, garc.Version, (int)garc.ContentPadToNearest);
                 garc = ng.garc;
                 Data = ng.Data;
                 return Data;
