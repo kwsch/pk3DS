@@ -54,7 +54,7 @@ namespace pk3DS
         private readonly string[] eggGroups = { "---", "Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon", "Undiscovered" };
         private readonly string[] EXPGroups = { "Medium-Fast", "Erratic", "Fluctuating", "Medium-Slow", "Fast", "Slow" };
         private readonly string[] colors = { "Red", "Blue", "Yellow", "Green", "Black", "Brown", "Purple", "Gray", "White", "Pink" };
-        private readonly ushort[] tutormoves = { 338, 307, 308, 520, 519, 518, 434, 620 };
+        private readonly ushort[] tutormoves = { 520, 519, 518, 338, 307, 308, 434, 620 };
 
         private readonly int[] baseForms, formVal;
         int entry = -1;
