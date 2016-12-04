@@ -16,7 +16,7 @@ namespace pk3DS
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
             if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
-            offset = Util.IndexOfBytes(data, Signature, 0x500000, 0) + 8;
+            offset = Util.IndexOfBytes(data, Signature, 0x400000, 0) + Signature.Length;
             codebin = files[0];
             movelist[0] = "";
             setupDGV();
@@ -119,7 +119,7 @@ namespace pk3DS
             string[] files = Directory.GetFiles(Main.ExeFSPath);
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) return;
             byte[] data = File.ReadAllBytes(files[0]);
-            int dataoffset = Util.IndexOfBytes(data, Signature, 0x500000, 0) + 8;
+            int dataoffset = Util.IndexOfBytes(data, Signature, 0x400000, 0) + Signature.Length;
             if (data.Length % 0x200 != 0) return;
 
             List<ushort> tms = new List<ushort>();

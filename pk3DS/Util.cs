@@ -592,16 +592,15 @@ namespace pk3DS
         // Find Code off of Reference
         internal static int IndexOfBytes(byte[] array, byte[] pattern, int startIndex, int count)
         {
-            int i = startIndex;
-            int endIndex = count > 0 ? startIndex + count : array.Length;
-            int fidx = 0;
-
-            while (i++ != endIndex - 1)
+            int len = pattern.Length;
+            int endIndex = count > 0 ? startIndex + count + 1 : array.Length;
+            for (int i = startIndex; i < endIndex; i++)
             {
-                if (array[i] != pattern[fidx]) i -= fidx;
-                fidx = (array[i] == pattern[fidx]) ? ++fidx : 0;
-                if (fidx == pattern.Length)
-                    return i - fidx + 1;
+                for (int j = 0; j < len; j++)
+                    if (pattern[j] != array[i + j])
+                        goto next_i;
+                return i;
+                next_i:;
             }
             return -1;
         }
