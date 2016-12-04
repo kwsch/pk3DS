@@ -665,7 +665,7 @@ namespace CTR
 
         public class MemGARC
         {
-            private GARCFile garc;
+            internal GARCFile garc;
             internal byte[] Data;
             public int FileCount => garc.fato.EntryCount;
 
@@ -707,6 +707,118 @@ namespace CTR
                     garc = ng.garc;
                     Data = ng.Data;
                 }
+            }
+        }
+
+        /// <summary>
+        /// GARC Class that is heavier on OOP to allow for compression tracking for faster edits
+        /// </summary>
+        public class lzGARC
+        {
+            private GARCFile garc;
+            private byte[] Data;
+            public int FileCount => garc.fato.EntryCount;
+
+            public lzGARC(byte[] data)
+            {
+                Data = data;
+                garc = unpackGARC(data);
+                Storage = new GARCEntry[FileCount];
+            }
+
+            private readonly GARCEntry[] Storage;
+            private class GARCEntry
+            {
+                public bool Accessed;
+                public bool Saved;
+                public byte[] Data;
+                public readonly bool WasCompressed;
+
+                public GARCEntry() { }
+                public GARCEntry(byte[] data)
+                {
+                    Data = data;
+                    Accessed = true;
+
+                    if (data.Length == 0)
+                        return;
+
+                    if (data[0] != 0x11)
+                        return;
+
+                    try
+                    {
+                        MemoryStream newMS = new MemoryStream();
+                        LZSS.Decompress(new MemoryStream(data), data.Length, newMS);
+                        Data = newMS.ToArray();
+                        WasCompressed = true;
+                    }
+                    catch { }
+                }
+
+                public byte[] Save()
+                {
+                    if (!WasCompressed)
+                        return Data;
+
+                    MemoryStream newMS = new MemoryStream();
+                    LZSS.Compress(new MemoryStream(Data), Data.Length, newMS, original:true);
+                    return newMS.ToArray();
+                }
+            }
+
+            private byte[] getFile(int file, int subfile = 0)
+            {
+                var Entry = garc.fatb.Entries[file];
+                var SubEntry = Entry.SubEntries[subfile];
+                if (!SubEntry.Exists)
+                    throw new ArgumentException("SubFile does not exist.");
+                var offset = SubEntry.Start + garc.DataOffset;
+                byte[] data = new byte[SubEntry.Length];
+                Array.Copy(Data, offset, data, 0, data.Length);
+                return data;
+            }
+            public byte[] this[int file]
+            {
+                get
+                {
+                    if (file > FileCount)
+                        throw new ArgumentException();
+
+                    if (Storage[file] == null)
+                        Storage[file] = new GARCEntry(getFile(file, 0));
+                    return Storage[file].Data;
+                }
+                set
+                {
+                    if (Storage[file] == null)
+                        Storage[file] = new GARCEntry(value);
+                    Storage[file].Data = value;
+                    Storage[file].Saved = true;
+                }
+            }
+            public byte[] Save()
+            {
+                byte[][] data = new byte[FileCount][];
+                for (int i = 0; i < data.Length; i++)
+                {
+                    if (Storage[i] == null || !Storage[i].Accessed)
+                    {
+                        data[i] = getFile(i, 0);
+                        continue;
+                    }
+                    if (!Storage[i].Saved)
+                    {
+                        data[i] = Storage[i].Data;
+                        continue;
+                    }
+                    data[i] = Storage[i].Save();
+                }
+
+                var ng = packGARC(data, garc.Version);
+                garc = ng.garc;
+                Data = ng.Data;
+                return Data;
             }
         }
 
