@@ -328,17 +328,18 @@ namespace pk3DS
         {
             B_Save_Click(sender, e);
 
+            Directory.CreateDirectory("encdata");
             foreach (var Map in Areas)
             {
                 byte[][] tabs = new byte[Map.Tables.Count / 2][];
                 for (int i = 0; i < Map.Tables.Count; i += 2)
                 {
-                    tabs[i] = new byte[4].Concat(Map.Tables[i].Data).Concat(Map.Tables[i + 1].Data).ToArray();
+                    tabs[i/2] = new byte[4].Concat(Map.Tables[i].Data).Concat(Map.Tables[i + 1].Data).ToArray();
                 }
                 var packed = mini.packMini(tabs, "EA");
-                encdata[Map.FileNumber] = packed;
+                File.WriteAllBytes(Path.Combine("encdata", Map.FileNumber.ToString()), packed);
             }
-            MessageBox.Show("Exported all tables!");
+            Util.Alert("Exported all tables!");
         }
 
         private class Area
