@@ -606,6 +606,7 @@ namespace pk3DS
 
                     Table.Write();
                 }
+                encdata[Map.FileNumber] = getMapData(Map.Tables);
             }
             updatePanel(sender, e);
             Enabled = true;
