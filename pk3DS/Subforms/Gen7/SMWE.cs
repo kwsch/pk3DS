@@ -486,6 +486,7 @@ namespace pk3DS
                 var img = new Bitmap(10*40, 10*30);
                 using (var g = Graphics.FromImage(img))
                 {
+                    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
                     for (int i = 0; i < Encounters.Length - 1; i++)
                         for (int j = 0; j < Encounters[i].Length; j++)
                             g.DrawImage((Encounters[i][j].Species == 0 ? Properties.Resources.empty : Util.getSprite((int)Encounters[i][j].Species, (int)Encounters[i][j].Forme, 0, 0)), new Point(40 * j, 30 * (i+1)));
