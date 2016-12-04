@@ -135,6 +135,12 @@ namespace pk3DS
                     break;
             }
         }
+        public lzGARCFile getlzGARCData(string file)
+        {
+            var gr = getGARCReference(file);
+            gr = gr.LanguageVariant ? gr.getRelativeGARC(Language, gr.Name) : gr;
+            return new lzGARCFile(getlzGARC(file), gr, getGARCPath(file));
+        }
         public GARCFile getGARCData(string file)
         {
             var gr = getGARCReference(file);
@@ -152,6 +158,10 @@ namespace pk3DS
         private GARC.MemGARC getMemGARC(string file)
         {
             return new GARC.MemGARC(File.ReadAllBytes(getGARCPath(file)));
+        }
+        private GARC.lzGARC getlzGARC(string file)
+        {
+            return new GARC.lzGARC(File.ReadAllBytes(getGARCPath(file)));
         }
 
         private string RomFS, ExeFS;

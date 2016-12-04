@@ -28,4 +28,29 @@ namespace pk3DS
             Console.WriteLine($"Wrote {Reference.Name} to {Reference.Reference}");
         }
     }
+    public class lzGARCFile
+    {
+        private readonly GARC.lzGARC GARC;
+        private readonly GARCReference Reference;
+        private readonly string Path;
+
+        public lzGARCFile(GARC.lzGARC g, GARCReference r, string p)
+        {
+            GARC = g;
+            Reference = r;
+            Path = p;
+        }
+        
+        public int FileCount => GARC.FileCount;
+        public byte[] this[int file]
+        {
+            get { return GARC[file]; }
+            set { GARC[file] = value; }
+        }
+        public void Save()
+        {
+            File.WriteAllBytes(Path, GARC.Save());
+            Console.WriteLine($"Wrote {Reference.Name} to {Reference.Reference}");
+        }
+    }
 }
