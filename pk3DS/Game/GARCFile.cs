@@ -42,6 +42,23 @@ namespace pk3DS
         }
         
         public int FileCount => GARC.FileCount;
+
+        public byte[][] Files
+        {
+            get
+            {
+                byte[][] data = new byte[FileCount][];
+                for (int i = 0; i < data.Length; i ++)
+                    data[i] = GARC[i];
+                return data;
+            }
+            set
+            {
+                for (int i = 0; i < value.Length; i++)
+                    GARC[i] = value[i];
+            }
+        }
+
         public byte[] this[int file]
         {
             get { return GARC[file]; }

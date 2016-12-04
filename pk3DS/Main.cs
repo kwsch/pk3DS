@@ -526,17 +526,23 @@ namespace pk3DS
                         else if (Config.XY)
                             action = () => new XYWE().ShowDialog();
                         else return;
+
+                        fileGet(files, false);
+                        Invoke(action);
+                        fileSet(files);
                         break;
                     case 7:
                         files = new [] { "encdata", "zonedata", "worlddata" };
-                        action = () => new SMWE().ShowDialog();
+                        var ed = Config.getlzGARCData(files[0]);
+                        var zd = Config.getlzGARCData(files[1]);
+                        var wd = Config.getlzGARCData(files[2]);
+                        action = () => new SMWE(ed, zd, wd).ShowDialog();
+                        Invoke(action);
+                        ed.Save();
                         break;
                     default:
                         return;
                 }
-                fileGet(files, false);
-                Invoke(action);
-                fileSet(files);
             }).Start();
         }
         private void B_OWSE_Click(object sender, EventArgs e)
