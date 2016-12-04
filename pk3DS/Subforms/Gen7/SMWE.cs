@@ -321,7 +321,11 @@ namespace pk3DS
         private void B_Save_Click(object sender, EventArgs e)
         {
             CurrentTable.Write();
-            Areas[CB_LocationID.SelectedIndex].Tables[CB_TableID.SelectedIndex] = CurrentTable;
+            var area = Areas[CB_LocationID.SelectedIndex];
+            area.Tables[CB_TableID.SelectedIndex] = CurrentTable;
+
+            // Set data back to GARC
+            encdata[area.FileNumber] = getMapData(area.Tables);
         }
 
         private void B_Export_Click(object sender, EventArgs e)
@@ -331,15 +335,19 @@ namespace pk3DS
             Directory.CreateDirectory("encdata");
             foreach (var Map in Areas)
             {
-                byte[][] tabs = new byte[Map.Tables.Count / 2][];
-                for (int i = 0; i < Map.Tables.Count; i += 2)
-                {
-                    tabs[i/2] = new byte[4].Concat(Map.Tables[i].Data).Concat(Map.Tables[i + 1].Data).ToArray();
-                }
-                var packed = mini.packMini(tabs, "EA");
+                var packed = getMapData(Map.Tables);
                 File.WriteAllBytes(Path.Combine("encdata", Map.FileNumber.ToString()), packed);
             }
             Util.Alert("Exported all tables!");
+        }
+        private byte[] getMapData(List<EncounterTable> tables)
+        {
+            byte[][] tabs = new byte[tables.Count/2][];
+            for (int i = 0; i < tables.Count; i += 2)
+            {
+                tabs[i / 2] = new byte[4].Concat(tables[i].Data).Concat(tables[i + 1].Data).ToArray();
+            }
+            return mini.packMini(tabs, "EA");
         }
 
         private class Area
