@@ -4925,7 +4925,6 @@
     <None Include="Resources\img\slotView.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Game\empty.png" />
     <Content Include="Resources\img\Pokemon Sprites\empty.png" />
     <Content Include="Resources\img\sun.png" />
     <None Include="Resources\img\Pokemon Sprites\20-1.png" />
