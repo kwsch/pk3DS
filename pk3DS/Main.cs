@@ -252,6 +252,9 @@ namespace pk3DS
                     romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Item, B_Move, };
                     exefs = new Control[] {B_TMHM, B_TypeChart};
                     cro = new Control[] {B_Mart};
+
+                    if (Config.Version != GameVersion.SMDEMO)
+                        romfs = romfs.Concat(new[] {B_Static}).ToArray();
                     break;
                 default:
                     romfs = exefs = cro = new Control[] {new Label {Text = "No editors available."}};
@@ -898,6 +901,21 @@ namespace pk3DS
         private void B_Static_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
+
+            if (Config.Generation == 7)
+            {
+                new Thread(() =>
+                {
+                    var esg = Config.getGARCData("encounterstatic");
+                    byte[][] es = esg.Files;
+                    
+                    Invoke((Action)(() => new StaticEncounterEditor7(es).ShowDialog()));
+                    esg.Files = es;
+                    esg.Save();
+                }).Start();
+                return;
+            }
+
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
                 "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
                 return;
