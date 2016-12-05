@@ -30,6 +30,7 @@
         {
             this.TC_Tabs = new System.Windows.Forms.TabControl();
             this.Tab_Gifts = new System.Windows.Forms.TabPage();
+            this.B_Starters = new System.Windows.Forms.Button();
             this.CB_GHeldItem = new System.Windows.Forms.ComboBox();
             this.L_GHeldItem = new System.Windows.Forms.Label();
             this.CB_GSpecies = new System.Windows.Forms.ComboBox();
@@ -88,6 +89,7 @@
             // 
             // Tab_Gifts
             // 
+            this.Tab_Gifts.Controls.Add(this.B_Starters);
             this.Tab_Gifts.Controls.Add(this.CB_GHeldItem);
             this.Tab_Gifts.Controls.Add(this.L_GHeldItem);
             this.Tab_Gifts.Controls.Add(this.CB_GSpecies);
@@ -103,6 +105,16 @@
             this.Tab_Gifts.TabIndex = 2;
             this.Tab_Gifts.Text = "Gifts";
             this.Tab_Gifts.UseVisualStyleBackColor = true;
+            // 
+            // B_Starters
+            // 
+            this.B_Starters.Location = new System.Drawing.Point(262, 295);
+            this.B_Starters.Name = "B_Starters";
+            this.B_Starters.Size = new System.Drawing.Size(122, 23);
+            this.B_Starters.TabIndex = 9;
+            this.B_Starters.Text = "Randomize Starters";
+            this.B_Starters.UseVisualStyleBackColor = true;
+            this.B_Starters.Click += new System.EventHandler(this.B_Starters_Click);
             // 
             // CB_GHeldItem
             // 
@@ -503,5 +515,6 @@
         private System.Windows.Forms.Label L_TLevel;
         private System.Windows.Forms.Label L_TSpecies;
         private System.Windows.Forms.NumericUpDown NUD_TLevel;
+        private System.Windows.Forms.Button B_Starters;
     }
 }

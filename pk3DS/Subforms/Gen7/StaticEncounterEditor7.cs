@@ -235,5 +235,42 @@ namespace pk3DS
                 LB_Trade.Items[tEntry] = getEntryText(entry, tEntry);
             }
         }
+
+        private void B_Starters_Click(object sender, EventArgs e)
+        {
+            bool blind = DialogResult.Yes ==
+                         Util.Prompt(MessageBoxButtons.YesNo, "Hide randomization, save, and close?",
+                             "If you want the Starters to be a surprise :)");
+            if (blind)
+                Hide();
+            
+            setGift();
+
+            int[] sL = Randomizer.getSpeciesList(true, true, true, true, true, true, false, false, false);
+            int ctr = 0;
+            // Assign Species
+            for (int j = 0; j < 3; j++)
+            {
+                int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
+
+                if (true) // Enforce BST
+                {
+                    int oldSpecies = Gifts[j].Species;
+                    PersonalInfo oldpkm = Main.SpeciesStat[oldSpecies]; // Use original species cuz why not.
+                    PersonalInfo pkm = Main.SpeciesStat[species];
+
+                    while (!(pkm.BST * 5 / 6 < oldpkm.BST && pkm.BST * 6 / 5 > oldpkm.BST))
+                    { species = Randomizer.getRandomSpecies(ref sL, ref ctr); pkm = Main.SpeciesStat[species]; }
+                }
+
+                Gifts[j].Species = species;
+            }
+
+            if (blind)
+            {
+                saveData();
+                Close();
+            }
+        }
     }
 }
