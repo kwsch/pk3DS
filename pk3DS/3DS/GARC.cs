@@ -804,17 +804,10 @@ namespace CTR
                 byte[][] data = new byte[FileCount][];
                 for (int i = 0; i < data.Length; i++)
                 {
-                    if (Storage[i] == null || !Storage[i].Accessed)
-                    {
+                    if (Storage[i] == null || !Storage[i].Saved) // retrieve original
                         data[i] = getFile(i, 0);
-                        continue;
-                    }
-                    if (!Storage[i].Saved)
-                    {
-                        data[i] = Storage[i].Data;
-                        continue;
-                    }
-                    data[i] = Storage[i].Save();
+                    else // use modified
+                        data[i] = Storage[i].Save();
                 }
 
                 var ng = packGARC(data, garc.Version, (int)garc.ContentPadToNearest);
