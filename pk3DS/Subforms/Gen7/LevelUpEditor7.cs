@@ -110,7 +110,6 @@ namespace pk3DS
                 short lv;
                 short.TryParse(level, out lv);
                 if (lv > 100) lv = 100;
-                else if (lv == 0) lv = 1;
                 levels.Add(lv);
             }
             pkm.Moves = moves.ToArray();
@@ -176,7 +175,6 @@ namespace pk3DS
                         ushort lv;
                         UInt16.TryParse(level, out lv);
                         if (lv > 100) lv = 100;
-                        else if (lv == 0) lv = 1;
                         dgv.Rows[j].Cells[0].Value = lv + (j - count) + 1;
                     }
                     if (CHK_Spread.Checked)
