@@ -3041,7 +3041,6 @@
             this.Controls.Add(this.CB_LocationID);
             this.Name = "SMWE";
             this.Text = "Sun Moon Wilds Editor";
-            this.Load += new System.EventHandler(this.SMWE_Load);
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Min)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Max)).EndInit();
             this.GB_Encounters.ResumeLayout(false);
