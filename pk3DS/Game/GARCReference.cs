@@ -114,6 +114,8 @@ namespace pk3DS
             new GARCReference(104, "trclass"),
             new GARCReference(105, "trdata"),
             new GARCReference(106, "trpoke"),
+
+            new GARCReference(155, "encounterstatic"),
                 
             // Varied
             new GARCReference(030, "gametext", true),
