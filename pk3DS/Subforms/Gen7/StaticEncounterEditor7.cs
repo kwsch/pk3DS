@@ -14,6 +14,8 @@ namespace pk3DS
         private readonly string[] itemlist = Main.getText(TextName.ItemNames);
         private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
         private readonly string[] natures = Main.getText(TextName.Natures);
+        private readonly string[] types = Main.getText(TextName.Types);
+        private readonly int[] oldStarters;
 
         public StaticEncounterEditor7(byte[][] infiles)
         {
@@ -31,6 +33,7 @@ namespace pk3DS
                     Gifts[i/EncounterGift7.SIZE] = new EncounterGift7(entry);
                 }
             }
+            oldStarters = Gifts.Take(3).Select(gift => gift.Species).ToArray();
 
             // File 1: Encounters
             {
@@ -104,6 +107,13 @@ namespace pk3DS
             files[0] = Gifts.SelectMany(file => file.Data).ToArray();
             files[1] = Encounters.SelectMany(file => file.Data).ToArray();
             files[4] = Trades.SelectMany(file => file.Data).ToArray();
+
+            if (Gifts.Take(3).Select(gift => gift.Species).SequenceEqual(oldStarters))
+                return;
+
+            var dr = Util.Prompt(MessageBoxButtons.YesNo, "Starters have been changed. Update text references?");
+            if (dr == DialogResult.Yes)
+                updateStarterText();
         }
 
         private string getEntryText(int species, int entry)
@@ -253,13 +263,13 @@ namespace pk3DS
             {
                 int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
 
+                int oldSpecies = Gifts[j].Species;
                 if (true) // Enforce BST
                 {
-                    int oldSpecies = Gifts[j].Species;
                     PersonalInfo oldpkm = Main.SpeciesStat[oldSpecies]; // Use original species cuz why not.
                     PersonalInfo pkm = Main.SpeciesStat[species];
 
-                    while (!(pkm.BST * 5 / 6 < oldpkm.BST && pkm.BST * 6 / 5 > oldpkm.BST))
+                    while (!(pkm.BST * 10 / 11 < oldpkm.BST && pkm.BST * 11 / 10 > oldpkm.BST))
                     { species = Randomizer.getRandomSpecies(ref sL, ref ctr); pkm = Main.SpeciesStat[species]; }
                 }
 
@@ -270,6 +280,42 @@ namespace pk3DS
             {
                 saveData();
                 Close();
+            }
+        }
+
+        private void updateStarterText()
+        {
+            var gr = Main.Config.getGARCReference("storytext");
+            for (int i = 0; i < 10; i++)
+            {
+                // get Story Text
+                var sr = gr.getRelativeGARC(i, gr.Name);
+                var s = Main.Config.getGARCByReference(sr);
+                byte[][] storytextdata = s.Files;
+
+                string[] storyText = TextFile.getStrings(storytextdata[41]);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    int oldSpecies = oldStarters[j];
+                    int species = Gifts[j].Species;
+                    // Replace Story Text
+                    string line = storyText[1 + j];
+                    // Replace Species
+                    line = line.Replace(specieslist[oldSpecies], specieslist[species]);
+
+                    int oldIndex = Main.Config.Personal.getFormeIndex(oldSpecies, Gifts[j].Form);
+                    int oldtype0 = Main.Config.Personal[oldIndex].Types[0];
+
+                    int newIndex = Main.Config.Personal.getFormeIndex(species, Gifts[j].Form);
+                    int newtype0 = Main.Config.Personal[newIndex].Types[0];
+                    line = line.Replace(types[oldtype0], types[newtype0]);
+
+                    storyText[1 + j] = line;
+                }
+                storytextdata[41] = TextFile.getBytes(storyText);
+                s.Files = storytextdata;
+                s.Save();
             }
         }
     }
