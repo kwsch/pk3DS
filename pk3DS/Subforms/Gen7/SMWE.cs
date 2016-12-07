@@ -624,65 +624,15 @@ namespace pk3DS
 
         private void CopySOS_Click(object sender, EventArgs e)
         {
-            CB_Enc11.SelectedIndex = CB_Enc21.SelectedIndex = CB_Enc31.SelectedIndex = CB_Enc41.SelectedIndex =
-            CB_Enc51.SelectedIndex = CB_Enc61.SelectedIndex = CB_Enc71.SelectedIndex = CB_Enc1.SelectedIndex;
-
-            NUP_Forme11.Value = NUP_Forme21.Value = NUP_Forme31.Value = NUP_Forme41.Value =
-            NUP_Forme51.Value = NUP_Forme61.Value = NUP_Forme71.Value = NUP_Forme1.Value;
-
-            CB_Enc12.SelectedIndex = CB_Enc22.SelectedIndex = CB_Enc32.SelectedIndex = CB_Enc42.SelectedIndex =
-            CB_Enc52.SelectedIndex = CB_Enc62.SelectedIndex = CB_Enc72.SelectedIndex = CB_Enc2.SelectedIndex;
-
-            NUP_Forme12.Value = NUP_Forme22.Value = NUP_Forme32.Value = NUP_Forme42.Value =
-            NUP_Forme52.Value = NUP_Forme62.Value = NUP_Forme72.Value = NUP_Forme2.Value;
-
-            CB_Enc13.SelectedIndex = CB_Enc23.SelectedIndex = CB_Enc33.SelectedIndex = CB_Enc43.SelectedIndex =
-            CB_Enc53.SelectedIndex = CB_Enc63.SelectedIndex = CB_Enc73.SelectedIndex = CB_Enc3.SelectedIndex;
-
-            NUP_Forme13.Value = NUP_Forme23.Value = NUP_Forme33.Value = NUP_Forme43.Value =
-            NUP_Forme53.Value = NUP_Forme63.Value = NUP_Forme73.Value = NUP_Forme3.Value;
-
-            CB_Enc14.SelectedIndex = CB_Enc24.SelectedIndex = CB_Enc34.SelectedIndex = CB_Enc44.SelectedIndex =
-            CB_Enc54.SelectedIndex = CB_Enc64.SelectedIndex = CB_Enc74.SelectedIndex = CB_Enc4.SelectedIndex;
-
-            NUP_Forme14.Value = NUP_Forme24.Value = NUP_Forme34.Value = NUP_Forme44.Value =
-            NUP_Forme54.Value = NUP_Forme64.Value = NUP_Forme74.Value = NUP_Forme4.Value;
-
-            CB_Enc15.SelectedIndex = CB_Enc25.SelectedIndex = CB_Enc35.SelectedIndex = CB_Enc45.SelectedIndex =
-            CB_Enc55.SelectedIndex = CB_Enc65.SelectedIndex = CB_Enc75.SelectedIndex = CB_Enc5.SelectedIndex;
-
-            NUP_Forme15.Value = NUP_Forme25.Value = NUP_Forme35.Value = NUP_Forme45.Value =
-            NUP_Forme55.Value = NUP_Forme65.Value = NUP_Forme75.Value = NUP_Forme5.Value;
-
-            CB_Enc16.SelectedIndex = CB_Enc26.SelectedIndex = CB_Enc36.SelectedIndex = CB_Enc46.SelectedIndex =
-            CB_Enc56.SelectedIndex = CB_Enc66.SelectedIndex = CB_Enc76.SelectedIndex = CB_Enc6.SelectedIndex;
-
-            NUP_Forme16.Value = NUP_Forme26.Value = NUP_Forme36.Value = NUP_Forme46.Value =
-            NUP_Forme56.Value = NUP_Forme66.Value = NUP_Forme76.Value = NUP_Forme6.Value;
-
-            CB_Enc17.SelectedIndex = CB_Enc27.SelectedIndex = CB_Enc37.SelectedIndex = CB_Enc47.SelectedIndex =
-            CB_Enc57.SelectedIndex = CB_Enc67.SelectedIndex = CB_Enc77.SelectedIndex = CB_Enc7.SelectedIndex;
-
-            NUP_Forme17.Value = NUP_Forme27.Value = NUP_Forme37.Value = NUP_Forme47.Value =
-            NUP_Forme57.Value = NUP_Forme67.Value = NUP_Forme77.Value = NUP_Forme7.Value;
-
-            CB_Enc18.SelectedIndex = CB_Enc28.SelectedIndex = CB_Enc38.SelectedIndex = CB_Enc48.SelectedIndex =
-            CB_Enc58.SelectedIndex = CB_Enc68.SelectedIndex = CB_Enc78.SelectedIndex = CB_Enc8.SelectedIndex;
-
-            NUP_Forme18.Value = NUP_Forme28.Value = NUP_Forme38.Value = NUP_Forme48.Value =
-            NUP_Forme58.Value = NUP_Forme68.Value = NUP_Forme78.Value = NUP_Forme8.Value;
-
-            CB_Enc19.SelectedIndex = CB_Enc29.SelectedIndex = CB_Enc39.SelectedIndex = CB_Enc49.SelectedIndex =
-            CB_Enc59.SelectedIndex = CB_Enc69.SelectedIndex = CB_Enc79.SelectedIndex = CB_Enc9.SelectedIndex;
-
-            NUP_Forme19.Value = NUP_Forme29.Value = NUP_Forme39.Value = NUP_Forme49.Value =
-            NUP_Forme59.Value = NUP_Forme69.Value = NUP_Forme79.Value = NUP_Forme9.Value;
-
-            CB_Enc20.SelectedIndex = CB_Enc30.SelectedIndex = CB_Enc40.SelectedIndex = CB_Enc50.SelectedIndex =
-            CB_Enc60.SelectedIndex = CB_Enc70.SelectedIndex = CB_Enc80.SelectedIndex = CB_Enc10.SelectedIndex;
-
-            NUP_Forme20.Value = NUP_Forme30.Value = NUP_Forme40.Value = NUP_Forme50.Value =
-            NUP_Forme60.Value = NUP_Forme70.Value = NUP_Forme80.Value = NUP_Forme10.Value;
+            // first table is copied to all other tables except weather (last)
+            for (int i = 1; i < nup_spec.Length - 1; i++)
+            {
+                for (int s = 0; s < nup_spec[i].Length; s++) // slot copy
+                {
+                    nup_spec[i][s].Value = nup_spec[0][s].Value;
+                    cb_spec[i][s].SelectedIndex = cb_spec[0][s].SelectedIndex;
+                }
+            }
         }
     }
 }
