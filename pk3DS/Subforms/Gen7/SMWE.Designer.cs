@@ -253,6 +253,7 @@
             this.L_Rate1 = new System.Windows.Forms.Label();
             this.CB_TableID = new System.Windows.Forms.ComboBox();
             this.B_Export = new System.Windows.Forms.Button();
+            this.CopySOS = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Min)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Max)).BeginInit();
             this.GB_Encounters.SuspendLayout();
@@ -384,7 +385,7 @@
             // B_Save
             // 
             this.B_Save.Enabled = false;
-            this.B_Save.Location = new System.Drawing.Point(671, 11);
+            this.B_Save.Location = new System.Drawing.Point(558, 11);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(135, 23);
             this.B_Save.TabIndex = 418;
@@ -3008,11 +3009,23 @@
             this.B_Export.UseVisualStyleBackColor = true;
             this.B_Export.Click += new System.EventHandler(this.B_Export_Click);
             // 
+            // CopySOS
+            // 
+            this.CopySOS.Enabled = false;
+            this.CopySOS.Location = new System.Drawing.Point(698, 11);
+            this.CopySOS.Name = "CopySOS";
+            this.CopySOS.Size = new System.Drawing.Size(109, 23);
+            this.CopySOS.TabIndex = 433;
+            this.CopySOS.Text = "Copy Initials to SOS";
+            this.CopySOS.UseVisualStyleBackColor = true;
+            this.CopySOS.Click += new System.EventHandler(this.CopySOS_Click);
+            // 
             // SMWE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1161, 612);
+            this.Controls.Add(this.CopySOS);
             this.Controls.Add(this.B_Export);
             this.Controls.Add(this.CB_TableID);
             this.Controls.Add(this.GB_Encounters);
@@ -3357,5 +3370,6 @@
         private System.Windows.Forms.Button B_LevelPlus;
         private System.Windows.Forms.NumericUpDown NUD_LevelAmp;
         private System.Windows.Forms.CheckBox CHK_Level;
+        private System.Windows.Forms.Button CopySOS;
     }
 }
