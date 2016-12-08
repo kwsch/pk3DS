@@ -225,22 +225,15 @@ namespace pk3DS
             pkm.CatchRate = Convert.ToByte(TB_CatchRate.Text);
             pkm.EvoStage = Convert.ToByte(TB_Stage.Text);
 
-            pkm.Types[0] = (byte) CB_Type1.SelectedIndex;
-            pkm.Types[1] = (byte) CB_Type2.SelectedIndex;
-            pkm.Items[0] = (ushort) CB_HeldItem1.SelectedIndex;
-            pkm.Items[1] = (ushort) CB_HeldItem2.SelectedIndex;
-            pkm.Items[2] = (ushort) CB_HeldItem3.SelectedIndex;
+            pkm.Types = new[] {CB_Type1.SelectedIndex, CB_Type2.SelectedIndex};
+            pkm.Items = new[] {CB_HeldItem1.SelectedIndex, CB_HeldItem2.SelectedIndex, CB_HeldItem3.SelectedIndex};
 
             pkm.Gender = Convert.ToByte(TB_Gender.Text);
             pkm.HatchCycles = Convert.ToByte(TB_HatchCycles.Text);
             pkm.BaseFriendship = Convert.ToByte(TB_Friendship.Text);
             pkm.EXPGrowth = (byte) CB_EXPGroup.SelectedIndex;
-            pkm.EggGroups[0] = (byte) CB_EggGroup1.SelectedIndex;
-            pkm.EggGroups[1] = (byte) CB_EggGroup2.SelectedIndex;
-
-            pkm.Abilities[0] = (byte) CB_Ability1.SelectedIndex;
-            pkm.Abilities[1] = (byte) CB_Ability2.SelectedIndex;
-            pkm.Abilities[2] = (byte) CB_Ability3.SelectedIndex;
+            pkm.EggGroups = new[] {CB_EggGroup1.SelectedIndex, CB_EggGroup2.SelectedIndex};
+            pkm.Abilities = new[] {CB_Ability1.SelectedIndex, CB_Ability2.SelectedIndex, CB_Ability3.SelectedIndex};
 
             pkm.FormeSprite = Convert.ToUInt16(TB_FormeSprite.Text);
             pkm.FormeCount = Convert.ToByte(TB_FormeCount.Text);
