@@ -55,12 +55,12 @@ namespace pk3DS
             11, // Route 8
             3, // Paniola
             10, // Malie TMs
-            6, // Unused
+            6, // Mount Hokulani
             10, // Seafolk TM
             6, // KoniKoni TM
             4, // KoniKoni Jewelry
             5, // Thrifty 1
-            7, // Thrifyt 2
+            7, // Thrifty 2
             1, // Thrifty 3 (Souvenir)
         };
         private readonly string[] locations =
@@ -75,12 +75,12 @@ namespace pk3DS
             "Route 8",
             "Paniola",
             "Malie TMs",
-            "Unused",
+            "Mount Hokulani",
             "Seafolk TM",
             "KoniKoni TM",
             "KoniKoni Jewelry",
             "Thrifty 1",
-            "Thrifyt 2",
+            "Thrifty 2",
             "Thrifty 3 (Souvenir)"
         };
 

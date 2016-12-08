@@ -141,11 +141,16 @@ namespace pk3DS
             gr = gr.LanguageVariant ? gr.getRelativeGARC(Language, gr.Name) : gr;
             return new lzGARCFile(getlzGARC(file), gr, getGARCPath(file));
         }
-        public GARCFile getGARCData(string file)
+        public GARCFile getGARCData(string file, bool skipRelative = false)
         {
             var gr = getGARCReference(file);
-            gr = gr.LanguageVariant ? gr.getRelativeGARC(Language, gr.Name) : gr;
-            return new GARCFile(getMemGARC(file), gr, getGARCPath(file));
+            if (gr.LanguageVariant && !skipRelative)
+                gr = gr.getRelativeGARC(Language, gr.Name);
+            return getGARCByReference(gr);
+        }
+        public GARCFile getGARCByReference(GARCReference gr)
+        {
+            return new GARCFile(getMemGARC(gr.Name), gr, getGARCPath(gr.Name));
         }
         private string getGARCPath(string file)
         {
