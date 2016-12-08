@@ -43,7 +43,6 @@ namespace pk3DS
 
             metSM_00000.CopyTo(locationList, 0);
 
-
             nup_spec = new[]
             {
                 new [] { NUP_Forme1, NUP_Forme2, NUP_Forme3, NUP_Forme4, NUP_Forme5, NUP_Forme6, NUP_Forme7, NUP_Forme8, NUP_Forme9, NUP_Forme10 },
@@ -258,61 +257,38 @@ namespace pk3DS
             if (loadingdata)
                 return;
 
-            var cur_pb = CB_LocationID.SelectedIndex%2 == 0 ? PB_DayTable : PB_NightTable;
+            var cur_pb = CB_TableID.SelectedIndex%2 == 0 ? PB_DayTable : PB_NightTable;
             var cur_img = cur_pb.Image;
-            if (sender is ComboBox)
+            
+            object[][] source = sender is NumericUpDown ? (object[][])nup_spec : cb_spec;
+            int table = Array.FindIndex(source, t => t.Contains(sender));
+            int slot = Array.IndexOf(source[table], sender);
+
+            var cb_l = cb_spec[table];
+            var nup_l = nup_spec[table];
+            if (table == 8)
             {
-                int slot = 0;
-                foreach (var cb_l in cb_spec)
-                {
-                    int slotid = Array.FindIndex(cb_l, cb => cb == (ComboBox)sender);
-                    if (slotid >= 0)
-                    {
-                        if (slot == 8)
-                            CurrentTable.AdditionalSOS[slotid].Species = (uint) cb_l[slotid].SelectedIndex;
-                        CurrentTable.Encounters[slot][slotid].Species = (uint) cb_l[slotid].SelectedIndex;
-                        using (var g = Graphics.FromImage(cur_img))
-                        {
-                            var pnt = new Point(40*slotid, 30*(slotid + 1));
-                            if (slot == 8)
-                                pnt = new Point(40*slotid + 60, 270);
-                            g.SetClip(new Rectangle(pnt.X, pnt.Y, 40, 30), CombineMode.Replace);
-                            g.Clear(Color.Transparent);
-
-                            var enc = CurrentTable.Encounters[slot][slotid];
-                            g.DrawImage(enc.Species == 0 ? Properties.Resources.empty : Util.getSprite((int)enc.Species, (int)enc.Forme, 0, 0), pnt);
-                        }
-                    }
-                    slot++;
-                }
-
+                CurrentTable.AdditionalSOS[slot].Species = (uint)cb_l[slot].SelectedIndex;
+                CurrentTable.AdditionalSOS[slot].Forme = (uint)nup_l[slot].Value;
             }
-                
-            if (sender is NumericUpDown)
-            {
-                int slot = 0;
-                foreach (var nup_l in nup_spec)
-                {
-                    int slotid = Array.FindIndex(nup_l, nup => nup == (NumericUpDown)sender);
-                    if (slotid >= 0)
-                    {
-                        if (slot == 8)
-                            CurrentTable.AdditionalSOS[slotid].Forme = (uint) nup_l[slotid].Value;
-                        CurrentTable.Encounters[slot][slotid].Forme = (uint) nup_l[slotid].Value;
-                        using (var g = Graphics.FromImage(cur_img))
-                        {
-                            var pnt = new Point(40 * slotid, 30 * (slotid + 1));
-                            if (slot == 8)
-                                pnt = new Point(40 * slotid + 60, 270);
-                            g.SetClip(new Rectangle(pnt.X, pnt.Y, 40, 30), CombineMode.Replace);
-                            g.Clear(Color.Transparent);
+            CurrentTable.Encounters[table][slot].Species = (uint)cb_l[slot].SelectedIndex;
+            CurrentTable.Encounters[table][slot].Forme = (uint)nup_l[slot].Value;
 
-                            var enc = CurrentTable.Encounters[slot][slotid];
-                            g.DrawImage(enc.Species == 0 ? Properties.Resources.empty : Util.getSprite((int)enc.Species, (int)enc.Forme, 0, 0), pnt);
-                        }
-                    }
-                    slot++;
+            using (var g = Graphics.FromImage(cur_img))
+            {
+                int x = 40*slot;
+                int y = 30*(table + 1);
+                if (table == 8)
+                {
+                    x = 40*slot + 60;
+                    y = 270;
                 }
+                var pnt = new Point(x, y);
+                g.SetClip(new Rectangle(pnt.X, pnt.Y, 40, 30), CombineMode.Replace);
+                g.Clear(Color.Transparent);
+
+                var enc = CurrentTable.Encounters[table][slot];
+                g.DrawImage(enc.Species == 0 ? Properties.Resources.empty : Util.getSprite((int)enc.Species, (int)enc.Forme, 0, 0), pnt);
             }
 
             cur_pb.Image = cur_img;
@@ -620,6 +596,21 @@ namespace pk3DS
             if (!Legal.Mega_ORAS.Contains((ushort) species) || CHK_MegaForm.Checked)
                 return (uint) (Util.rnd32()%Main.SpeciesStat[species].FormeCount); // Slot-Random
             return 0;
+        }
+
+        private void CopySOS_Click(object sender, EventArgs e)
+        {
+            // first table is copied to all other tables except weather (last)
+            for (int i = 1; i < nup_spec.Length - 1; i++)
+            {
+                for (int s = 0; s < nup_spec[i].Length; s++) // slot copy
+                {
+                    nup_spec[i][s].Value = nup_spec[0][s].Value;
+                    cb_spec[i][s].SelectedIndex = cb_spec[0][s].SelectedIndex;
+                }
+            }
+
+            System.Media.SystemSounds.Asterisk.Play();
         }
     }
 }
