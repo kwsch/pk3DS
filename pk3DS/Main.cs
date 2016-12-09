@@ -315,6 +315,7 @@ namespace pk3DS
                 RomFSPath = path;
                 Config = cfg;
                 TextFile.Config = cfg;
+                Randomizer.MaxSpeciesID = cfg.MaxSpeciesID;
                 return true;
             }
             RomFSPath = null;

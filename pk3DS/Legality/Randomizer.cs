@@ -10,7 +10,31 @@ namespace pk3DS
             int species = list[ctr++]; ctr %= list.Length;
             return species;
         }
-        internal static readonly int[] RandomSpeciesList = Enumerable.Range(1, 721).ToArray();
+        internal static int MaxSpeciesID = 721;
+        internal static int[] RandomSpeciesList => Enumerable.Range(1, MaxSpeciesID).ToArray();
+        internal static int getRandomSpecies(ref int[] sL, ref int ctr, int oldSpecies, bool BST, PersonalInfo[] stats = null)
+        {
+            int species = getRandomSpecies(ref sL, ref ctr);
+            if (!BST || stats == null)
+                return species;
+
+            PersonalInfo oldpkm = stats[oldSpecies];
+            PersonalInfo pkm = stats[species];
+
+            // Stat Deviation: increasing 10% increments if no suitable match found in entire list
+            int a = 11;
+            const int c = 10;
+            
+            int iter = 0;
+            while (!(pkm.BST * c/a < oldpkm.BST && pkm.BST * a/c > oldpkm.BST))
+            {
+                species = getRandomSpecies(ref sL, ref ctr);
+                pkm = Main.SpeciesStat[species];
+                if (++iter % sL.Length == 0)
+                    a++;
+            }
+            return species;
+        }
 
         internal static int[] getSpeciesList(bool G1, bool G2, bool G3, bool G4, bool G5, bool G6, bool G7, bool L, bool E, bool Shedinja = true)
         {
