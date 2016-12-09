@@ -28,7 +28,7 @@ namespace pk3DS
         private void B_Save_Click(object sender, EventArgs e)
         {
             RSTE.rPKM = CHK_RandomPKM.Checked;
-            RSTE.sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, CHK_L.Checked, CHK_E.Checked, ModifierKeys == Keys.Control);
+            RSTE.sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, false, CHK_L.Checked, CHK_E.Checked, ModifierKeys == Keys.Control);
             RSTE.rSmart = CHK_BST.Checked;
             RSTE.rLevel = CHK_Level.Checked;
             RSTE.rLevelPercent = NUD_Level.Value;
