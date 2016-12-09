@@ -220,5 +220,26 @@ namespace pk3DS
             695, 696, 697, 698, 699, 700, 701, 702, 703,
             719,
         };
+
+        internal static readonly int[] AlolanOriginForms =
+        {
+            019, // Rattata
+            020, // Raticate
+            025, // Pikachu (Cosplay not transferrable)
+            026, // Raichu
+            027, // Sandshrew
+            028, // Sandslash
+            037, // Vulpix
+            038, // Ninetails
+            050, // Diglett
+            051, // Dugtrio
+            052, // Meowth
+            053, // Persian
+            074, // Geodude
+            075, // Graveler
+            076, // Golem
+            088, // Grimer
+            089, // Muk
+        };
     }
 }

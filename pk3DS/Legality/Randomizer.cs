@@ -72,6 +72,18 @@ namespace pk3DS
 
             return sL.Length == 0 ? RandomSpeciesList : sL;
         }
+        internal static int GetRandomForme(int species, bool mega, bool alola, PersonalInfo[] stats = null)
+        {
+            if (stats == null)
+                return 0;
+            if (stats[species].FormeCount <= 1)
+                return 0;
+            if (alola && Legal.AlolanOriginForms.Contains(species))
+                return (int)(Util.rnd32()%2);
+            if (!Legal.Mega_ORAS.Contains((ushort)species) || mega)
+                return (int)(Util.rnd32() % stats[species].FormeCount); // Slot-Random
+            return 0;
+        }
 
         internal static int[] getRandomItemList()
         {
