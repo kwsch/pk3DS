@@ -57,8 +57,8 @@ namespace pk3DS
             {
                 if (value?.Length != 3) return;
                 BitConverter.GetBytes((short)value[0]).CopyTo(Data, 0xC);
-                BitConverter.GetBytes((short)value[0]).CopyTo(Data, 0xE);
-                BitConverter.GetBytes((short)value[0]).CopyTo(Data, 0x10);
+                BitConverter.GetBytes((short)value[1]).CopyTo(Data, 0xE);
+                BitConverter.GetBytes((short)value[2]).CopyTo(Data, 0x10);
             }
         }
         public override int Gender { get { return Data[0x12]; } set { Data[0x12] = (byte)value; } }
@@ -80,7 +80,7 @@ namespace pk3DS
             get { return new int[] { Data[0x18], Data[0x19], Data[0x1A] }; }
             set
             {
-                if (value?.Length != 2) return;
+                if (value?.Length != 3) return;
                 Data[0x18] = (byte)value[0];
                 Data[0x19] = (byte)value[1];
                 Data[0x1A] = (byte)value[2];
