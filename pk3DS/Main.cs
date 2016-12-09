@@ -479,6 +479,8 @@ namespace pk3DS
                 // Set Master Table back
                 for (int i = 0; i < d.Length - 1; i++)
                     d[i].CopyTo(d[d.Length-1], i * d[i].Length);
+
+                Config.GARCPersonal.Files = d;
                 Config.GARCPersonal.Save();
                 Config.InitializePersonal();
 
