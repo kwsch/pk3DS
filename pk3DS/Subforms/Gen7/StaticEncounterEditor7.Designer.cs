@@ -61,6 +61,31 @@
             this.NUD_TLevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Trade = new System.Windows.Forms.ListBox();
             this.B_Save = new System.Windows.Forms.Button();
+            this.GB_EMoves = new System.Windows.Forms.GroupBox();
+            this.CB_EMove0 = new System.Windows.Forms.ComboBox();
+            this.CB_EMove1 = new System.Windows.Forms.ComboBox();
+            this.CB_EMove2 = new System.Windows.Forms.ComboBox();
+            this.CB_EMove3 = new System.Windows.Forms.ComboBox();
+            this.NUD_TID = new System.Windows.Forms.NumericUpDown();
+            this.L_TID = new System.Windows.Forms.Label();
+            this.L_TTID = new System.Windows.Forms.Label();
+            this.CB_TRequest = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.Tab_Randomizer = new System.Windows.Forms.TabPage();
+            this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_G7 = new System.Windows.Forms.CheckBox();
+            this.L_RandOpt = new System.Windows.Forms.Label();
+            this.CHK_BST = new System.Windows.Forms.CheckBox();
+            this.CHK_E = new System.Windows.Forms.CheckBox();
+            this.CHK_L = new System.Windows.Forms.CheckBox();
+            this.CHK_G6 = new System.Windows.Forms.CheckBox();
+            this.CHK_G5 = new System.Windows.Forms.CheckBox();
+            this.CHK_G4 = new System.Windows.Forms.CheckBox();
+            this.CHK_G3 = new System.Windows.Forms.CheckBox();
+            this.CHK_G2 = new System.Windows.Forms.CheckBox();
+            this.CHK_G1 = new System.Windows.Forms.CheckBox();
+            this.B_RandAll = new System.Windows.Forms.Button();
+            this.B_Cancel = new System.Windows.Forms.Button();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).BeginInit();
@@ -71,6 +96,10 @@
             this.Tab_Trades.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TLevel)).BeginInit();
+            this.GB_EMoves.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TID)).BeginInit();
+            this.Tab_Randomizer.SuspendLayout();
+            this.GB_Tweak.SuspendLayout();
             this.SuspendLayout();
             // 
             // TC_Tabs
@@ -81,6 +110,7 @@
             this.TC_Tabs.Controls.Add(this.Tab_Gifts);
             this.TC_Tabs.Controls.Add(this.Tab_Encounters);
             this.TC_Tabs.Controls.Add(this.Tab_Trades);
+            this.TC_Tabs.Controls.Add(this.Tab_Randomizer);
             this.TC_Tabs.Location = new System.Drawing.Point(12, 12);
             this.TC_Tabs.Name = "TC_Tabs";
             this.TC_Tabs.SelectedIndex = 0;
@@ -89,7 +119,6 @@
             // 
             // Tab_Gifts
             // 
-            this.Tab_Gifts.Controls.Add(this.B_Starters);
             this.Tab_Gifts.Controls.Add(this.CB_GHeldItem);
             this.Tab_Gifts.Controls.Add(this.L_GHeldItem);
             this.Tab_Gifts.Controls.Add(this.CB_GSpecies);
@@ -108,7 +137,7 @@
             // 
             // B_Starters
             // 
-            this.B_Starters.Location = new System.Drawing.Point(262, 295);
+            this.B_Starters.Location = new System.Drawing.Point(132, 272);
             this.B_Starters.Name = "B_Starters";
             this.B_Starters.Size = new System.Drawing.Size(122, 23);
             this.B_Starters.TabIndex = 9;
@@ -119,14 +148,14 @@
             // CB_GHeldItem
             // 
             this.CB_GHeldItem.FormattingEnabled = true;
-            this.CB_GHeldItem.Location = new System.Drawing.Point(230, 91);
+            this.CB_GHeldItem.Location = new System.Drawing.Point(230, 87);
             this.CB_GHeldItem.Name = "CB_GHeldItem";
             this.CB_GHeldItem.Size = new System.Drawing.Size(121, 21);
             this.CB_GHeldItem.TabIndex = 8;
             // 
             // L_GHeldItem
             // 
-            this.L_GHeldItem.Location = new System.Drawing.Point(124, 89);
+            this.L_GHeldItem.Location = new System.Drawing.Point(124, 85);
             this.L_GHeldItem.Name = "L_GHeldItem";
             this.L_GHeldItem.Size = new System.Drawing.Size(100, 23);
             this.L_GHeldItem.TabIndex = 7;
@@ -216,6 +245,7 @@
             // 
             // Tab_Encounters
             // 
+            this.Tab_Encounters.Controls.Add(this.GB_EMoves);
             this.Tab_Encounters.Controls.Add(this.CB_EHeldItem);
             this.Tab_Encounters.Controls.Add(this.L_EHeldItem);
             this.Tab_Encounters.Controls.Add(this.CB_ESpecies);
@@ -236,14 +266,14 @@
             // CB_EHeldItem
             // 
             this.CB_EHeldItem.FormattingEnabled = true;
-            this.CB_EHeldItem.Location = new System.Drawing.Point(230, 91);
+            this.CB_EHeldItem.Location = new System.Drawing.Point(230, 87);
             this.CB_EHeldItem.Name = "CB_EHeldItem";
             this.CB_EHeldItem.Size = new System.Drawing.Size(121, 21);
             this.CB_EHeldItem.TabIndex = 16;
             // 
             // L_EHeldItem
             // 
-            this.L_EHeldItem.Location = new System.Drawing.Point(124, 89);
+            this.L_EHeldItem.Location = new System.Drawing.Point(124, 85);
             this.L_EHeldItem.Name = "L_EHeldItem";
             this.L_EHeldItem.Size = new System.Drawing.Size(100, 23);
             this.L_EHeldItem.TabIndex = 15;
@@ -333,6 +363,11 @@
             // 
             // Tab_Trades
             // 
+            this.Tab_Trades.Controls.Add(this.CB_TRequest);
+            this.Tab_Trades.Controls.Add(this.label1);
+            this.Tab_Trades.Controls.Add(this.L_TTID);
+            this.Tab_Trades.Controls.Add(this.L_TID);
+            this.Tab_Trades.Controls.Add(this.NUD_TID);
             this.Tab_Trades.Controls.Add(this.CB_THeldItem);
             this.Tab_Trades.Controls.Add(this.L_THeldItem);
             this.Tab_Trades.Controls.Add(this.CB_TSpecies);
@@ -353,14 +388,14 @@
             // CB_THeldItem
             // 
             this.CB_THeldItem.FormattingEnabled = true;
-            this.CB_THeldItem.Location = new System.Drawing.Point(230, 91);
+            this.CB_THeldItem.Location = new System.Drawing.Point(230, 87);
             this.CB_THeldItem.Name = "CB_THeldItem";
             this.CB_THeldItem.Size = new System.Drawing.Size(121, 21);
             this.CB_THeldItem.TabIndex = 24;
             // 
             // L_THeldItem
             // 
-            this.L_THeldItem.Location = new System.Drawing.Point(124, 89);
+            this.L_THeldItem.Location = new System.Drawing.Point(124, 85);
             this.L_THeldItem.Name = "L_THeldItem";
             this.L_THeldItem.Size = new System.Drawing.Size(100, 23);
             this.L_THeldItem.TabIndex = 23;
@@ -458,11 +493,291 @@
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
+            // GB_EMoves
+            // 
+            this.GB_EMoves.Controls.Add(this.CB_EMove3);
+            this.GB_EMoves.Controls.Add(this.CB_EMove2);
+            this.GB_EMoves.Controls.Add(this.CB_EMove1);
+            this.GB_EMoves.Controls.Add(this.CB_EMove0);
+            this.GB_EMoves.Location = new System.Drawing.Point(218, 114);
+            this.GB_EMoves.Name = "GB_EMoves";
+            this.GB_EMoves.Size = new System.Drawing.Size(133, 112);
+            this.GB_EMoves.TabIndex = 17;
+            this.GB_EMoves.TabStop = false;
+            this.GB_EMoves.Text = "Moves";
+            // 
+            // CB_EMove0
+            // 
+            this.CB_EMove0.FormattingEnabled = true;
+            this.CB_EMove0.Location = new System.Drawing.Point(6, 19);
+            this.CB_EMove0.Name = "CB_EMove0";
+            this.CB_EMove0.Size = new System.Drawing.Size(121, 21);
+            this.CB_EMove0.TabIndex = 17;
+            // 
+            // CB_EMove1
+            // 
+            this.CB_EMove1.FormattingEnabled = true;
+            this.CB_EMove1.Location = new System.Drawing.Point(6, 41);
+            this.CB_EMove1.Name = "CB_EMove1";
+            this.CB_EMove1.Size = new System.Drawing.Size(121, 21);
+            this.CB_EMove1.TabIndex = 18;
+            // 
+            // CB_EMove2
+            // 
+            this.CB_EMove2.FormattingEnabled = true;
+            this.CB_EMove2.Location = new System.Drawing.Point(6, 63);
+            this.CB_EMove2.Name = "CB_EMove2";
+            this.CB_EMove2.Size = new System.Drawing.Size(121, 21);
+            this.CB_EMove2.TabIndex = 19;
+            // 
+            // CB_EMove3
+            // 
+            this.CB_EMove3.FormattingEnabled = true;
+            this.CB_EMove3.Location = new System.Drawing.Point(6, 85);
+            this.CB_EMove3.Name = "CB_EMove3";
+            this.CB_EMove3.Size = new System.Drawing.Size(121, 21);
+            this.CB_EMove3.TabIndex = 20;
+            // 
+            // NUD_TID
+            // 
+            this.NUD_TID.Location = new System.Drawing.Point(180, 111);
+            this.NUD_TID.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
+            this.NUD_TID.Name = "NUD_TID";
+            this.NUD_TID.Size = new System.Drawing.Size(82, 20);
+            this.NUD_TID.TabIndex = 25;
+            this.NUD_TID.Value = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
+            this.NUD_TID.ValueChanged += new System.EventHandler(this.changeTID);
+            // 
+            // L_TID
+            // 
+            this.L_TID.Location = new System.Drawing.Point(124, 108);
+            this.L_TID.Name = "L_TID";
+            this.L_TID.Size = new System.Drawing.Size(50, 23);
+            this.L_TID.TabIndex = 26;
+            this.L_TID.Text = "ID:";
+            this.L_TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_TTID
+            // 
+            this.L_TTID.AutoSize = true;
+            this.L_TTID.Location = new System.Drawing.Point(268, 113);
+            this.L_TTID.Name = "L_TTID";
+            this.L_TTID.Size = new System.Drawing.Size(28, 13);
+            this.L_TTID.TabIndex = 27;
+            this.L_TTID.Text = "TID:";
+            this.L_TTID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // CB_TRequest
+            // 
+            this.CB_TRequest.FormattingEnabled = true;
+            this.CB_TRequest.Location = new System.Drawing.Point(230, 137);
+            this.CB_TRequest.Name = "CB_TRequest";
+            this.CB_TRequest.Size = new System.Drawing.Size(121, 21);
+            this.CB_TRequest.TabIndex = 29;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(124, 135);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.TabIndex = 28;
+            this.label1.Text = "Request Species:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // Tab_Randomizer
+            // 
+            this.Tab_Randomizer.Controls.Add(this.B_RandAll);
+            this.Tab_Randomizer.Controls.Add(this.GB_Tweak);
+            this.Tab_Randomizer.Controls.Add(this.B_Starters);
+            this.Tab_Randomizer.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Randomizer.Name = "Tab_Randomizer";
+            this.Tab_Randomizer.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Randomizer.Size = new System.Drawing.Size(387, 321);
+            this.Tab_Randomizer.TabIndex = 3;
+            this.Tab_Randomizer.Text = "Randomizer";
+            this.Tab_Randomizer.UseVisualStyleBackColor = true;
+            // 
+            // GB_Tweak
+            // 
+            this.GB_Tweak.Controls.Add(this.CHK_G7);
+            this.GB_Tweak.Controls.Add(this.L_RandOpt);
+            this.GB_Tweak.Controls.Add(this.CHK_BST);
+            this.GB_Tweak.Controls.Add(this.CHK_E);
+            this.GB_Tweak.Controls.Add(this.CHK_L);
+            this.GB_Tweak.Controls.Add(this.CHK_G6);
+            this.GB_Tweak.Controls.Add(this.CHK_G5);
+            this.GB_Tweak.Controls.Add(this.CHK_G4);
+            this.GB_Tweak.Controls.Add(this.CHK_G3);
+            this.GB_Tweak.Controls.Add(this.CHK_G2);
+            this.GB_Tweak.Controls.Add(this.CHK_G1);
+            this.GB_Tweak.Location = new System.Drawing.Point(52, 100);
+            this.GB_Tweak.Name = "GB_Tweak";
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 100);
+            this.GB_Tweak.TabIndex = 508;
+            this.GB_Tweak.TabStop = false;
+            this.GB_Tweak.Text = "Extra Randomization Tweaks";
+            // 
+            // CHK_G7
+            // 
+            this.CHK_G7.AutoSize = true;
+            this.CHK_G7.Checked = true;
+            this.CHK_G7.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_G7.Location = new System.Drawing.Point(9, 79);
+            this.CHK_G7.Name = "CHK_G7";
+            this.CHK_G7.Size = new System.Drawing.Size(55, 17);
+            this.CHK_G7.TabIndex = 296;
+            this.CHK_G7.Text = "Gen 7";
+            this.CHK_G7.UseVisualStyleBackColor = true;
+            // 
+            // L_RandOpt
+            // 
+            this.L_RandOpt.AutoSize = true;
+            this.L_RandOpt.Location = new System.Drawing.Point(6, 16);
+            this.L_RandOpt.Name = "L_RandOpt";
+            this.L_RandOpt.Size = new System.Drawing.Size(105, 13);
+            this.L_RandOpt.TabIndex = 294;
+            this.L_RandOpt.Text = "Randomizer Options:";
+            // 
+            // CHK_BST
+            // 
+            this.CHK_BST.AutoSize = true;
+            this.CHK_BST.Checked = true;
+            this.CHK_BST.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_BST.Location = new System.Drawing.Point(128, 64);
+            this.CHK_BST.Name = "CHK_BST";
+            this.CHK_BST.Size = new System.Drawing.Size(117, 17);
+            this.CHK_BST.TabIndex = 288;
+            this.CHK_BST.Text = "Randomize by BST";
+            this.CHK_BST.UseVisualStyleBackColor = true;
+            // 
+            // CHK_E
+            // 
+            this.CHK_E.AutoSize = true;
+            this.CHK_E.Location = new System.Drawing.Point(128, 49);
+            this.CHK_E.Name = "CHK_E";
+            this.CHK_E.Size = new System.Drawing.Size(98, 17);
+            this.CHK_E.TabIndex = 287;
+            this.CHK_E.Text = "Event Legends";
+            this.CHK_E.UseVisualStyleBackColor = true;
+            // 
+            // CHK_L
+            // 
+            this.CHK_L.AutoSize = true;
+            this.CHK_L.Checked = true;
+            this.CHK_L.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_L.Location = new System.Drawing.Point(128, 34);
+            this.CHK_L.Name = "CHK_L";
+            this.CHK_L.Size = new System.Drawing.Size(98, 17);
+            this.CHK_L.TabIndex = 286;
+            this.CHK_L.Text = "Game Legends";
+            this.CHK_L.UseVisualStyleBackColor = true;
+            // 
+            // CHK_G6
+            // 
+            this.CHK_G6.AutoSize = true;
+            this.CHK_G6.Checked = true;
+            this.CHK_G6.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_G6.Location = new System.Drawing.Point(67, 64);
+            this.CHK_G6.Name = "CHK_G6";
+            this.CHK_G6.Size = new System.Drawing.Size(55, 17);
+            this.CHK_G6.TabIndex = 285;
+            this.CHK_G6.Text = "Gen 6";
+            this.CHK_G6.UseVisualStyleBackColor = true;
+            // 
+            // CHK_G5
+            // 
+            this.CHK_G5.AutoSize = true;
+            this.CHK_G5.Checked = true;
+            this.CHK_G5.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_G5.Location = new System.Drawing.Point(67, 49);
+            this.CHK_G5.Name = "CHK_G5";
+            this.CHK_G5.Size = new System.Drawing.Size(55, 17);
+            this.CHK_G5.TabIndex = 284;
+            this.CHK_G5.Text = "Gen 5";
+            this.CHK_G5.UseVisualStyleBackColor = true;
+            // 
+            // CHK_G4
+            // 
+            this.CHK_G4.AutoSize = true;
+            this.CHK_G4.Checked = true;
+            this.CHK_G4.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_G4.Location = new System.Drawing.Point(67, 34);
+            this.CHK_G4.Name = "CHK_G4";
+            this.CHK_G4.Size = new System.Drawing.Size(55, 17);
+            this.CHK_G4.TabIndex = 283;
+            this.CHK_G4.Text = "Gen 4";
+            this.CHK_G4.UseVisualStyleBackColor = true;
+            // 
+            // CHK_G3
+            // 
+            this.CHK_G3.AutoSize = true;
+            this.CHK_G3.Checked = true;
+            this.CHK_G3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_G3.Location = new System.Drawing.Point(9, 64);
+            this.CHK_G3.Name = "CHK_G3";
+            this.CHK_G3.Size = new System.Drawing.Size(55, 17);
+            this.CHK_G3.TabIndex = 282;
+            this.CHK_G3.Text = "Gen 3";
+            this.CHK_G3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_G2
+            // 
+            this.CHK_G2.AutoSize = true;
+            this.CHK_G2.Checked = true;
+            this.CHK_G2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_G2.Location = new System.Drawing.Point(9, 49);
+            this.CHK_G2.Name = "CHK_G2";
+            this.CHK_G2.Size = new System.Drawing.Size(55, 17);
+            this.CHK_G2.TabIndex = 281;
+            this.CHK_G2.Text = "Gen 2";
+            this.CHK_G2.UseVisualStyleBackColor = true;
+            // 
+            // CHK_G1
+            // 
+            this.CHK_G1.AutoSize = true;
+            this.CHK_G1.Checked = true;
+            this.CHK_G1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_G1.Location = new System.Drawing.Point(9, 34);
+            this.CHK_G1.Name = "CHK_G1";
+            this.CHK_G1.Size = new System.Drawing.Size(55, 17);
+            this.CHK_G1.TabIndex = 280;
+            this.CHK_G1.Text = "Gen 1";
+            this.CHK_G1.UseVisualStyleBackColor = true;
+            // 
+            // B_RandAll
+            // 
+            this.B_RandAll.Location = new System.Drawing.Point(132, 243);
+            this.B_RandAll.Name = "B_RandAll";
+            this.B_RandAll.Size = new System.Drawing.Size(122, 23);
+            this.B_RandAll.TabIndex = 509;
+            this.B_RandAll.Text = "Randomize All";
+            this.B_RandAll.UseVisualStyleBackColor = true;
+            this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
+            // 
+            // B_Cancel
+            // 
+            this.B_Cancel.Location = new System.Drawing.Point(247, 365);
+            this.B_Cancel.Name = "B_Cancel";
+            this.B_Cancel.Size = new System.Drawing.Size(75, 23);
+            this.B_Cancel.TabIndex = 2;
+            this.B_Cancel.Text = "Cancel";
+            this.B_Cancel.UseVisualStyleBackColor = true;
+            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            // 
             // StaticEncounterEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(419, 395);
+            this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.TC_Tabs);
             this.Name = "StaticEncounterEditor7";
@@ -475,8 +790,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ELevel)).EndInit();
             this.Tab_Trades.ResumeLayout(false);
+            this.Tab_Trades.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TLevel)).EndInit();
+            this.GB_EMoves.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TID)).EndInit();
+            this.Tab_Randomizer.ResumeLayout(false);
+            this.GB_Tweak.ResumeLayout(false);
+            this.GB_Tweak.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -516,5 +837,30 @@
         private System.Windows.Forms.Label L_TSpecies;
         private System.Windows.Forms.NumericUpDown NUD_TLevel;
         private System.Windows.Forms.Button B_Starters;
+        private System.Windows.Forms.GroupBox GB_EMoves;
+        private System.Windows.Forms.ComboBox CB_EMove3;
+        private System.Windows.Forms.ComboBox CB_EMove2;
+        private System.Windows.Forms.ComboBox CB_EMove1;
+        private System.Windows.Forms.ComboBox CB_EMove0;
+        private System.Windows.Forms.NumericUpDown NUD_TID;
+        private System.Windows.Forms.Label L_TID;
+        private System.Windows.Forms.Label L_TTID;
+        private System.Windows.Forms.ComboBox CB_TRequest;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TabPage Tab_Randomizer;
+        private System.Windows.Forms.GroupBox GB_Tweak;
+        private System.Windows.Forms.CheckBox CHK_G7;
+        private System.Windows.Forms.Label L_RandOpt;
+        private System.Windows.Forms.CheckBox CHK_BST;
+        private System.Windows.Forms.CheckBox CHK_E;
+        private System.Windows.Forms.CheckBox CHK_L;
+        private System.Windows.Forms.CheckBox CHK_G6;
+        private System.Windows.Forms.CheckBox CHK_G5;
+        private System.Windows.Forms.CheckBox CHK_G4;
+        private System.Windows.Forms.CheckBox CHK_G3;
+        private System.Windows.Forms.CheckBox CHK_G2;
+        private System.Windows.Forms.CheckBox CHK_G1;
+        private System.Windows.Forms.Button B_RandAll;
+        private System.Windows.Forms.Button B_Cancel;
     }
 }

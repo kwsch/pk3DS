@@ -40,6 +40,7 @@ namespace pk3DS
         public int Gender { get { return Data[0xE]; } set { Data[0xE] = (byte)value; } }
         public int TID { get { return BitConverter.ToUInt16(Data, 0x10); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10); } }
         public int SID { get { return BitConverter.ToUInt16(Data, 0x12); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x12); } }
+        public uint ID { get { return BitConverter.ToUInt32(Data, 0x10); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10); } }
         public override int HeldItem
         {
             get
@@ -55,5 +56,11 @@ namespace pk3DS
             }
         }
         public int trGender { get { return Data[0x1A]; } set { Data[0x1A] = (byte)value; } }
+        
+        public int TradeRequestSpecies
+        {
+            get { return BitConverter.ToUInt16(Data, 0x2C); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2C); }
+        }
     }
 }

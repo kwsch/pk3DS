@@ -45,10 +45,10 @@ namespace pk3DS
             {
                 return new int[]
                 {
-                        BitConverter.ToUInt16(Data, 0xC),
-                        BitConverter.ToUInt16(Data, 0xE),
-                        BitConverter.ToUInt16(Data, 0x10),
-                        BitConverter.ToUInt16(Data, 0x12),
+                    BitConverter.ToUInt16(Data, 0xC),
+                    BitConverter.ToUInt16(Data, 0xE),
+                    BitConverter.ToUInt16(Data, 0x10),
+                    BitConverter.ToUInt16(Data, 0x12),
                 };
             }
             set
