@@ -39,7 +39,7 @@ namespace pk3DS
             const int c = 10;
             
             int iter = 1;
-            bool valid = !(pkm.BST*c/a < oldpkm.BST && pkm.BST*a/c > oldpkm.BST);
+            bool valid = pkm.BST*c/a < oldpkm.BST && pkm.BST*a/c > oldpkm.BST;
             if (Type > -1) valid &= pkm.Types.Any(type => type == Type);
 
             while (!valid)
@@ -50,7 +50,7 @@ namespace pk3DS
                     a++;
 
                 // Check Satisfaction
-                valid = !(pkm.BST*c/a < oldpkm.BST && pkm.BST*a/c > oldpkm.BST);
+                valid = pkm.BST*c/a < oldpkm.BST && pkm.BST*a/c > oldpkm.BST;
                 if (Type > -1) valid &= pkm.Types.Any(type => type == Type);
             }
             return species;
