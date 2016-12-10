@@ -128,8 +128,8 @@ namespace pk3DS
             // ORAS: 10682 moves learned on levelup/birth. 
             // 5593 are STAB. 52.3% are STAB. 
             // Steelix learns the most @ 25 (so many level 1)!
-            // Move relearner ingame does not behave properly if the count exceeds 25:
-            // https://twitter.com/Drayano60/status/630044237883666433
+            // Move relearner ingame glitch fixed (52 tested), but keep below 75:
+            // https://twitter.com/Drayano60/status/807297858244411397
             Random rnd = new Random();
 
             int[] firstMoves = { 1, 40, 52, 55, 64, 71, 84, 98, 122, 141 };

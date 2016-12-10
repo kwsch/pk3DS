@@ -144,7 +144,7 @@
             this.NUD_Moves.Enabled = false;
             this.NUD_Moves.Location = new System.Drawing.Point(53, 128);
             this.NUD_Moves.Maximum = new decimal(new int[] {
-            25,
+            75,
             0,
             0,
             0});
@@ -272,7 +272,7 @@
             this.PB_MonSprite.TabIndex = 90;
             this.PB_MonSprite.TabStop = false;
             // 
-            // LevelUp
+            // LevelUpEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -286,7 +286,7 @@
             this.Controls.Add(this.dgv);
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(322, 450);
-            this.Name = "LevelUpEditor6";
+            this.Name = "LevelUpEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Level Up Move Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
