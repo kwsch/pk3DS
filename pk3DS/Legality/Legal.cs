@@ -241,5 +241,10 @@ namespace pk3DS
             088, // Grimer
             089, // Muk
         };
+        internal static readonly int[] EvolveToAlolanForms = new[]
+        {
+            103, // Exeggutor
+            105, // Marowak
+        }.Concat(AlolanOriginForms).ToArray();
     }
 }

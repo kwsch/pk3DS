@@ -78,7 +78,7 @@ namespace pk3DS
                 return 0;
             if (stats[species].FormeCount <= 1)
                 return 0;
-            if (alola && Legal.AlolanOriginForms.Contains(species))
+            if (alola && Legal.EvolveToAlolanForms.Contains(species))
                 return (int)(Util.rnd32()%2);
             if (!Legal.Mega_ORAS.Contains((ushort)species) || mega)
                 return (int)(Util.rnd32() % stats[species].FormeCount); // Slot-Random
