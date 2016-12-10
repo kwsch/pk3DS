@@ -448,6 +448,7 @@ namespace CTR
                 if (garc.Version == VER_4)
                 {
                     garc.ContentLargestUnpadded = br.ReadUInt32();
+                    garc.ContentPadToNearest = 4;
                 }
                 else if (garc.Version == VER_6)
                 {
