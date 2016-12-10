@@ -85,7 +85,7 @@ namespace pk3DS
         private void clickSet(object sender, EventArgs e)
         {
             int slot = getSlot(sender);
-            if (CB_Pokemon.SelectedIndex == 0)
+            if (CB_Species.SelectedIndex == 0)
             { Util.Alert("Can't set empty slot."); return; }
 
             var pk = prepareTP7();
@@ -149,15 +149,15 @@ namespace pk3DS
         {
             if (index < 0)
                 return;
-            pkm.Species = (ushort)CB_Pokemon.SelectedIndex;
-            FormUtil.setForms(CB_Pokemon.SelectedIndex, CB_Forme, AltForms);
+            pkm.Species = (ushort)CB_Species.SelectedIndex;
+            FormUtil.setForms(CB_Species.SelectedIndex, CB_Forme, AltForms);
             refreshPKMSlotAbility();
         }
         private void refreshPKMSlotAbility()
         {
             int previousAbility = CB_Ability.SelectedIndex;
 
-            int species = CB_Pokemon.SelectedIndex;
+            int species = CB_Species.SelectedIndex;
             int formnum = CB_Forme.SelectedIndex;
             species = Main.SpeciesStat[species].FormeIndex(species, formnum);
 
@@ -198,9 +198,9 @@ namespace pk3DS
             abilitylist[0] = itemlist[0] = movelist[0] = "(None)";
             pba = new[] { PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6 };
             
-            CB_Pokemon.Items.Clear();
+            CB_Species.Items.Clear();
             foreach (string s in specieslist)
-                CB_Pokemon.Items.Add(s);
+                CB_Species.Items.Add(s);
 
             CB_Move1.Items.Clear();
             CB_Move2.Items.Clear();
@@ -232,7 +232,7 @@ namespace pk3DS
 
             CB_Forme.Items.Add("");
 
-            CB_Pokemon.SelectedIndex = 0;
+            CB_Species.SelectedIndex = 0;
             CB_Item_1.Items.Clear();
             CB_Item_2.Items.Clear();
             CB_Item_3.Items.Clear();
@@ -266,6 +266,8 @@ namespace pk3DS
         {
             saveEntry();
             loadEntry();
+            if (TC_trdata.SelectedIndex == TC_trdata.TabCount - 1) // last
+                TC_trdata.SelectedIndex = 0;
         }
         private void saveEntry()
         {
@@ -297,7 +299,7 @@ namespace pk3DS
 
             int spec = pkm.Species, form = pkm.Form;
 
-            CB_Pokemon.SelectedIndex = spec;
+            CB_Species.SelectedIndex = spec;
             CB_Forme.SelectedIndex = form;
             CB_Ability.SelectedIndex = pkm.Ability;
             CB_Item.SelectedIndex = pkm.Item;
@@ -332,7 +334,7 @@ namespace pk3DS
         private trpoke7 prepareTP7()
         {
             var pk = pkm.Clone();
-            pk.Species = CB_Pokemon.SelectedIndex;
+            pk.Species = CB_Species.SelectedIndex;
             pk.Form = CB_Forme.SelectedIndex;
             pk.Level = (byte)NUD_Level.Value;
             pk.Ability = CB_Ability.SelectedIndex;
@@ -459,7 +461,7 @@ namespace pk3DS
                 updatingStats = false;
             }
 
-            int species = CB_Pokemon.SelectedIndex;
+            int species = CB_Species.SelectedIndex;
             species = Main.SpeciesStat[species].FormeIndex(species, CB_Forme.SelectedIndex);
             var p = Main.SpeciesStat[species];
             int level = (int)NUD_Level.Value;
@@ -559,11 +561,11 @@ namespace pk3DS
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-
+            Util.Alert("Not yet implemented.");
         }
         private void B_HighAttack_Click(object sender, EventArgs e)
         {
-            pkm.Species = CB_Pokemon.SelectedIndex;
+            pkm.Species = CB_Species.SelectedIndex;
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
             var moves = getHighAttacks(pkm);
@@ -573,9 +575,10 @@ namespace pk3DS
         {
             setMoves(new int[0]);
         }
+
         private void B_CurrentAttack_Click(object sender, EventArgs e)
         {
-            pkm.Species = CB_Pokemon.SelectedIndex;
+            pkm.Species = CB_Species.SelectedIndex;
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
             var moves = getCurrentAttacks(pkm);
