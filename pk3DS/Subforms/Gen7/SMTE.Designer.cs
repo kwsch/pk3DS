@@ -149,6 +149,7 @@
             this.L_TrainerName = new System.Windows.Forms.Label();
             this.TB_TrainerName = new System.Windows.Forms.TextBox();
             this.NUD_NumPoke = new System.Windows.Forms.NumericUpDown();
+            this.B_Clear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -498,6 +499,7 @@
             this.B_Randomize.TabIndex = 447;
             this.B_Randomize.Text = "Randomize All";
             this.B_Randomize.UseVisualStyleBackColor = true;
+            this.B_Randomize.Click += new System.EventHandler(this.B_Randomize_Click);
             // 
             // B_Dump
             // 
@@ -1312,6 +1314,7 @@
             // 
             // Tab_Moves
             // 
+            this.Tab_Moves.Controls.Add(this.B_Clear);
             this.Tab_Moves.Controls.Add(this.B_CurrentAttack);
             this.Tab_Moves.Controls.Add(this.B_HighAttack);
             this.Tab_Moves.Controls.Add(this.GB_Moves);
@@ -1325,7 +1328,6 @@
             // 
             // B_CurrentAttack
             // 
-            this.B_CurrentAttack.Enabled = false;
             this.B_CurrentAttack.Location = new System.Drawing.Point(16, 26);
             this.B_CurrentAttack.Name = "B_CurrentAttack";
             this.B_CurrentAttack.Size = new System.Drawing.Size(93, 40);
@@ -1336,7 +1338,6 @@
             // 
             // B_HighAttack
             // 
-            this.B_HighAttack.Enabled = false;
             this.B_HighAttack.Location = new System.Drawing.Point(115, 26);
             this.B_HighAttack.Name = "B_HighAttack";
             this.B_HighAttack.Size = new System.Drawing.Size(93, 40);
@@ -1492,6 +1493,16 @@
             this.NUD_NumPoke.TabIndex = 0;
             this.NUD_NumPoke.Visible = false;
             this.NUD_NumPoke.ValueChanged += new System.EventHandler(this.updateNumPokemon);
+            // 
+            // B_Clear
+            // 
+            this.B_Clear.Location = new System.Drawing.Point(75, 3);
+            this.B_Clear.Name = "B_Clear";
+            this.B_Clear.Size = new System.Drawing.Size(75, 23);
+            this.B_Clear.TabIndex = 450;
+            this.B_Clear.Text = "Clear";
+            this.B_Clear.UseVisualStyleBackColor = true;
+            this.B_Clear.Click += new System.EventHandler(this.B_Clear_Click);
             // 
             // SMTE
             // 
@@ -1685,6 +1696,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuView;
         private System.Windows.Forms.ToolStripMenuItem mnuSet;
         private System.Windows.Forms.ToolStripMenuItem mnuDelete;
+        private System.Windows.Forms.Button B_Clear;
     }
 }
 

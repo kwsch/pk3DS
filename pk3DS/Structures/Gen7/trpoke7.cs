@@ -50,14 +50,14 @@ namespace pk3DS
         public bool Shiny { get { return ((IV32 >> 30) & 1) == 1; } set { IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); } }
 
         public int Level { get { return Data[0xE]; } set { Data[0xE] = (byte)value; } }
-        public ushort Species { get { return BitConverter.ToUInt16(Data, 0x10); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x10); } }
+        public int Species { get { return BitConverter.ToUInt16(Data, 0x10); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10); } }
         public int Form { get { return Data[0x12]; } set { Data[0x12] = (byte)value; } }
 
-        public ushort Item { get { return BitConverter.ToUInt16(Data, 0x14); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x14); } }
-        public ushort Move1 { get { return BitConverter.ToUInt16(Data, 0x18); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x18); } }
-        public ushort Move2 { get { return BitConverter.ToUInt16(Data, 0x1A); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1A); } }
-        public ushort Move3 { get { return BitConverter.ToUInt16(Data, 0x1C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1C); } }
-        public ushort Move4 { get { return BitConverter.ToUInt16(Data, 0x1E); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1E); } }
+        public int Item { get { return BitConverter.ToUInt16(Data, 0x14); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x14); } }
+        public int Move1 { get { return BitConverter.ToUInt16(Data, 0x18); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x18); } }
+        public int Move2 { get { return BitConverter.ToUInt16(Data, 0x1A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1A); } }
+        public int Move3 { get { return BitConverter.ToUInt16(Data, 0x1C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1C); } }
+        public int Move4 { get { return BitConverter.ToUInt16(Data, 0x1E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E); } }
 
         public int[] IVs
         {
@@ -79,7 +79,7 @@ namespace pk3DS
                 EV_SPA = value[3]; EV_SPD = value[4]; EV_SPE = value[5];
             }
         }
-        public ushort[] Moves
+        public int[] Moves
         {
             get { return new[] { Move1, Move2, Move3, Move4 }; }
             set { if (value?.Length != 4) return; Move1 = value[0]; Move2 = value[1]; Move3 = value[2]; Move4 = value[3]; }

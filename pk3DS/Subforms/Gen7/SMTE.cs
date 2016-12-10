@@ -332,19 +332,19 @@ namespace pk3DS
         private trpoke7 prepareTP7()
         {
             var pk = pkm.Clone();
-            pk.Species = (ushort)CB_Pokemon.SelectedIndex;
+            pk.Species = CB_Pokemon.SelectedIndex;
             pk.Form = CB_Forme.SelectedIndex;
             pk.Level = (byte)NUD_Level.Value;
             pk.Ability = CB_Ability.SelectedIndex;
-            pk.Item = (ushort) CB_Item.SelectedIndex;
+            pk.Item = CB_Item.SelectedIndex;
             pk.Shiny = CHK_Shiny.Checked;
             pk.Nature = CB_Nature.SelectedIndex;
             pk.Gender = CB_Gender.SelectedIndex;
 
-            pk.Move1 = (ushort)CB_Move1.SelectedIndex;
-            pk.Move2 = (ushort)CB_Move2.SelectedIndex;
-            pk.Move3 = (ushort)CB_Move3.SelectedIndex;
-            pk.Move4 = (ushort)CB_Move4.SelectedIndex;
+            pk.Move1 = CB_Move1.SelectedIndex;
+            pk.Move2 = CB_Move2.SelectedIndex;
+            pk.Move3 = CB_Move3.SelectedIndex;
+            pk.Move4 = CB_Move4.SelectedIndex;
 
             pk.IV_HP = Util.ToInt32(TB_HPIV);
             pk.IV_ATK = Util.ToInt32(TB_ATKIV);
@@ -373,6 +373,18 @@ namespace pk3DS
         {
             tr.TrainerClass = (byte)CB_Trainer_Class.SelectedIndex;
             tr.NumPokemon = (byte)NUD_NumPoke.Value;
+        }
+        private static int[] getHighAttacks(trpoke7 pk)
+        {
+            int i = Main.Config.Personal.getFormeIndex(pk.Species, pk.Form);
+            var learnset = Main.Config.Learnsets[i];
+            return learnset.Moves.OrderByDescending(move => Main.Config.Moves[move].Power).Take(4).ToArray();
+        }
+        private static int[] getCurrentAttacks(trpoke7 pk)
+        {
+            int i = Main.Config.Personal.getFormeIndex(pk.Species, pk.Form);
+            var learnset = Main.Config.Learnsets[i];
+            return learnset.getMoves(pk.Level);
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -454,21 +466,12 @@ namespace pk3DS
             int Nature = CB_Nature.SelectedIndex;
 
             ushort[] Stats = new ushort[6];
-            Stats[0] =
-                (ushort)
-                    (p.HP == 1
-                        ? 1
-                        : (Util.ToInt32(TB_HPIV.Text) + 2 * p.HP + Util.ToInt32(TB_HPEV.Text) / 4 + 100) * level / 100 + 10);
-            Stats[1] =
-                (ushort)((Util.ToInt32(TB_ATKIV.Text) + 2 * p.ATK + Util.ToInt32(TB_ATKEV.Text) / 4) * level / 100 + 5);
-            Stats[2] =
-                (ushort)((Util.ToInt32(TB_DEFIV.Text) + 2 * p.DEF + Util.ToInt32(TB_DEFEV.Text) / 4) * level / 100 + 5);
-            Stats[4] =
-                (ushort)((Util.ToInt32(TB_SPAIV.Text) + 2 * p.SPA + Util.ToInt32(TB_SPAEV.Text) / 4) * level / 100 + 5);
-            Stats[5] =
-                (ushort)((Util.ToInt32(TB_SPDIV.Text) + 2 * p.SPD + Util.ToInt32(TB_SPDEV.Text) / 4) * level / 100 + 5);
-            Stats[3] =
-                (ushort)((Util.ToInt32(TB_SPEIV.Text) + 2 * p.SPE + Util.ToInt32(TB_SPEEV.Text) / 4) * level / 100 + 5);
+            Stats[0] = (ushort)(p.HP == 1 ? 1 : (Util.ToInt32(TB_HPIV.Text) + 2 * p.HP + Util.ToInt32(TB_HPEV.Text) / 4 + 100) * level / 100 + 10);
+            Stats[1] = (ushort)((Util.ToInt32(TB_ATKIV.Text) + 2 * p.ATK + Util.ToInt32(TB_ATKEV.Text) / 4) * level / 100 + 5);
+            Stats[2] = (ushort)((Util.ToInt32(TB_DEFIV.Text) + 2 * p.DEF + Util.ToInt32(TB_DEFEV.Text) / 4) * level / 100 + 5);
+            Stats[4] = (ushort)((Util.ToInt32(TB_SPAIV.Text) + 2 * p.SPA + Util.ToInt32(TB_SPAEV.Text) / 4) * level / 100 + 5);
+            Stats[5] = (ushort)((Util.ToInt32(TB_SPDIV.Text) + 2 * p.SPD + Util.ToInt32(TB_SPDEV.Text) / 4) * level / 100 + 5);
+            Stats[3] = (ushort)((Util.ToInt32(TB_SPEIV.Text) + 2 * p.SPE + Util.ToInt32(TB_SPEEV.Text) / 4) * level / 100 + 5);
 
             // Account for nature
             int incr = Nature / 5 + 1;
@@ -488,8 +491,8 @@ namespace pk3DS
             Stat_SPD.Text = Stats[5].ToString();
             Stat_SPE.Text = Stats[3].ToString();
 
-            TB_IVTotal.Text = tb_iv.Select(tb => Util.ToInt32(tb)).Sum().ToString();
-            TB_EVTotal.Text = tb_ev.Select(tb => Util.ToInt32(tb)).Sum().ToString();
+            TB_IVTotal.Text = tb_iv.Select(Util.ToInt32).Sum().ToString();
+            TB_EVTotal.Text = tb_ev.Select(Util.ToInt32).Sum().ToString();
 
             // Recolor the Stat Labels based on boosted stats.
             {
@@ -554,13 +557,36 @@ namespace pk3DS
             { 1, 1, 1, 1, 1, 1 }, // Dark
         };
 
-        private void B_HighAttack_Click(object sender, EventArgs e)
+        private void B_Randomize_Click(object sender, EventArgs e)
         {
 
         }
+        private void B_HighAttack_Click(object sender, EventArgs e)
+        {
+            pkm.Species = CB_Pokemon.SelectedIndex;
+            pkm.Level = (int)NUD_Level.Value;
+            pkm.Form = CB_Forme.SelectedIndex;
+            var moves = getHighAttacks(pkm);
+            setMoves(moves);
+        }
+        private void B_Clear_Click(object sender, EventArgs e)
+        {
+            setMoves(new int[0]);
+        }
         private void B_CurrentAttack_Click(object sender, EventArgs e)
         {
-
+            pkm.Species = CB_Pokemon.SelectedIndex;
+            pkm.Level = (int)NUD_Level.Value;
+            pkm.Form = CB_Forme.SelectedIndex;
+            var moves = getCurrentAttacks(pkm);
+            setMoves(moves);
+        }
+        private void setMoves(int[] moves)
+        {
+            Array.Resize(ref moves, 4);
+            var mcb = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
+            for (int i = 0; i < moves.Length; i++)
+                mcb[i].SelectedIndex = moves[i];
         }
     }
 }
