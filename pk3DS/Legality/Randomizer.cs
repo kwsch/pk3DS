@@ -2,8 +2,21 @@
 
 namespace pk3DS
 {
-    public static class Randomizer
+    public class Randomizer
     {
+        public PersonalInfo[] Stats { private get; set; }
+        public bool BST;
+        private int[] SpeciesList;
+        private int ctr;
+        public Randomizer(bool G1, bool G2, bool G3, bool G4, bool G5, bool G6, bool G7, bool L, bool E, bool Shedinja = true)
+        {
+            SpeciesList = getSpeciesList(G1, G2, G3, G4, G5, G6, G7, L, E, Shedinja);
+        }
+        public int getRandomSpecies(int oldSpecies, int Type = -1)
+        {
+            return getRandomSpecies(ref SpeciesList, ref ctr, oldSpecies, BST, Stats, Type);
+        }
+
         internal static int getRandomSpecies(ref int[] list, ref int ctr)
         {
             if (ctr == 0) { Util.Shuffle(list); }
@@ -12,7 +25,7 @@ namespace pk3DS
         }
         internal static int MaxSpeciesID = 721;
         internal static int[] RandomSpeciesList => Enumerable.Range(1, MaxSpeciesID).ToArray();
-        internal static int getRandomSpecies(ref int[] sL, ref int ctr, int oldSpecies, bool BST, PersonalInfo[] stats = null)
+        internal static int getRandomSpecies(ref int[] sL, ref int ctr, int oldSpecies, bool BST, PersonalInfo[] stats = null, int Type = -1)
         {
             int species = getRandomSpecies(ref sL, ref ctr);
             if (!BST || stats == null)
@@ -25,13 +38,20 @@ namespace pk3DS
             int a = 11;
             const int c = 10;
             
-            int iter = 0;
-            while (!(pkm.BST * c/a < oldpkm.BST && pkm.BST * a/c > oldpkm.BST))
+            int iter = 1;
+            bool valid = !(pkm.BST*c/a < oldpkm.BST && pkm.BST*a/c > oldpkm.BST);
+            if (Type > -1) valid &= pkm.Types.Any(type => type == Type);
+
+            while (!valid)
             {
                 species = getRandomSpecies(ref sL, ref ctr);
                 pkm = Main.SpeciesStat[species];
                 if (++iter % sL.Length == 0)
                     a++;
+
+                // Check Satisfaction
+                valid = !(pkm.BST*c/a < oldpkm.BST && pkm.BST*a/c > oldpkm.BST);
+                if (Type > -1) valid &= pkm.Types.Any(type => type == Type);
             }
             return species;
         }
@@ -195,5 +215,51 @@ namespace pk3DS
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
         internal static readonly ushort[] HeldItemsBuy_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Medicine_SM).ToArray();
         #endregion
+
+        internal static int[] getRandomMoves(int[] Types, Move[] moveData, bool rDMG, int rDMGCount, bool rSTAB, int rSTABCount)
+        {
+            int maxmove = Main.Config.XY ? 617 
+                : Main.Config.ORAS ? 620 
+                : 718; // SM
+            maxmove += 1;
+            int[] moves = new int[4];
+            int loopctr = 0;
+            const int maxLoop = 666;
+
+            getMoves:
+            switch (Main.Config.Generation)
+            {
+                case 6:
+                    for (int i = 0; i < 4; i++)
+                        moves[i] = (int)(Util.rnd32() % maxmove);
+                    break;
+                    
+                case 7:
+                    int m = 0;
+                    while (m != 4)
+                    {
+                        moves[m] = (int)(Util.rnd32() % maxmove);
+                        if (!Legal.Z_Moves.Contains(moves[m]))
+                            m++; // Valid
+                    }
+                    break;
+
+                default:
+                    return moves;
+            }
+            if (loopctr++ < maxLoop || ScreenMoves(moves, Types, moveData, rDMG, rDMGCount, rSTAB, rSTABCount))
+                return moves;
+            goto getMoves;
+        }
+
+        private static bool ScreenMoves(int[] moves, int[] Types, Move[] moveData, bool rDMG, int rDMGCount, bool rSTAB, int rSTABCount)
+        {
+            if (rDMG && rDMGCount > moves.Count(move => moveData[move].Category != 0))
+                return false;
+            if (rSTAB && rSTABCount > moves.Count(move => Types.Contains(moveData[move].Type)))
+                return false;
+
+            return true;
+        }
     }
 }

@@ -12,11 +12,6 @@ namespace pk3DS
     {
         private readonly trdata7[] Trainers;
         private string[][] AltForms;
-        private static readonly Random rand = new Random();
-        internal static uint rnd32()
-        {
-            return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
-        }
         private int index = -1;
         private PictureBox[] pba;
 
@@ -48,6 +43,7 @@ namespace pk3DS
                 pb.Click += clickSlot;
 
             CB_TrainerID.SelectedIndex = 0;
+            CB_Moves.SelectedIndex = 0;
         }
 
         private int getSlot(object sender)
@@ -380,13 +376,17 @@ namespace pk3DS
         {
             int i = Main.Config.Personal.getFormeIndex(pk.Species, pk.Form);
             var learnset = Main.Config.Learnsets[i];
-            return learnset.Moves.OrderByDescending(move => Main.Config.Moves[move].Power).Take(4).ToArray();
+            var moves = learnset.Moves.OrderByDescending(move => Main.Config.Moves[move].Power).Distinct().Take(4).ToArray();
+            Array.Resize(ref moves, 4);
+            return moves;
         }
         private static int[] getCurrentAttacks(trpoke7 pk)
         {
             int i = Main.Config.Personal.getFormeIndex(pk.Species, pk.Form);
             var learnset = Main.Config.Learnsets[i];
-            return learnset.getMoves(pk.Level);
+            var moves = learnset.getMoves(pk.Level).Distinct().Take(4).ToArray();
+            Array.Resize(ref moves, 4);
+            return moves;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -561,7 +561,88 @@ namespace pk3DS
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            Util.Alert("Not yet implemented.");
+            Randomizer rnd = new Randomizer(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, 
+                CHK_G6.Checked, CHK_G7.Checked, CHK_L.Checked, CHK_E.Checked, Shedinja: true)
+            {
+                BST = CHK_BST.Checked,
+                Stats = Main.SpeciesStat
+            };
+
+            var items = Randomizer.getRandomItemList();
+            foreach (var tr in Trainers)
+            {
+                if (tr.Pokemon.Count == 0)
+                    continue;
+                // Trainer Properties
+                if (CHK_OnlyDoubles.Checked)
+                { }
+                else if (CHK_OnlySingles.Checked)
+                { }
+
+                if (CHK_RandomGift.Checked && Util.rnd32() < NUD_GiftPercent.Value)
+                { }
+
+                if (CHK_RandomClass.Checked)
+                {
+                    if (CHK_IgnoreSpecialClass.Checked)
+                    { }
+                    else
+                    { }
+                }
+
+                if (tr.NumPokemon < NUD_RMin.Value)
+                {
+                    var avgBST = (int)tr.Pokemon.Average(pk => Main.SpeciesStat[pk.Species].BST);
+                    var pinfo = Main.SpeciesStat.OrderBy(pk => Math.Abs(avgBST - pk.BST)).First();
+                    int avgSpec = Array.IndexOf(Main.SpeciesStat, pinfo);
+                    for (int p = tr.NumPokemon; p < NUD_RMin.Value; p++)
+                        tr.Pokemon.Add(new trpoke7 {Species = rnd.getRandomSpecies(avgSpec)});
+                    tr.NumPokemon = (int)NUD_RMin.Value;
+                }
+                if (tr.NumPokemon > NUD_RMax.Value)
+                {
+                    tr.Pokemon.RemoveRange((int)NUD_RMax.Value, (int)(tr.NumPokemon - NUD_RMax.Value));
+                    tr.NumPokemon = (int)NUD_RMax.Value;
+                }
+
+                // PKM Properties
+                foreach (var pk in tr.Pokemon)
+                {
+                    if (CHK_RandomPKM.Checked)
+                    {
+                        int Type = CHK_TypeTheme.Checked ? (int)Util.rnd32()%17 : -1;
+                        pk.Species = rnd.getRandomSpecies(pk.Species, Type);
+                        pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
+                    }
+                    if (CHK_Level.Checked)
+                        pk.Level = (int)(pk.Level*(100 + NUD_LevelBoost.Value))/100;
+                    if (CHK_RandomShiny.Checked)
+                        pk.Shiny = Util.rand.Next(0, 100 + 1) < NUD_Shiny.Value;
+                    if (CHK_RandomItems.Checked)
+                        pk.Item = items[Util.rnd32()%items.Length];
+                    if (CHK_RandomAbilities.Checked)
+                        pk.Ability = (int)Util.rnd32()%4;
+                    if (CHK_MaxDiffPKM.Checked)
+                        pk.IVs = new[] {31, 31, 31, 31, 31, 31};
+
+                    switch (CB_Moves.SelectedIndex)
+                    {
+                        case 1: // Random
+                            pk.Moves = Randomizer.getRandomMoves(
+                                Main.Config.Personal.getFormeEntry(pk.Species, pk.Form).Types,
+                                Main.Config.Moves,
+                                CHK_Damage.Checked, (int)NUD_Damage.Value,
+                                CHK_STAB.Checked, (int)NUD_STAB.Value);
+                            break;
+                        case 2: // Current LevelUp
+                            pk.Moves = getCurrentAttacks(pk);
+                            break;
+                        case 3: // High Attacks
+                            pk.Moves = getHighAttacks(pk);
+                            break;
+                    }
+                }
+            }
         }
         private void B_HighAttack_Click(object sender, EventArgs e)
         {
@@ -586,9 +667,8 @@ namespace pk3DS
         }
         private void setMoves(int[] moves)
         {
-            Array.Resize(ref moves, 4);
             var mcb = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
-            for (int i = 0; i < moves.Length; i++)
+            for (int i = 0; i < mcb.Length; i++)
                 mcb[i].SelectedIndex = moves[i];
         }
     }

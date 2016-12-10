@@ -191,9 +191,7 @@
             this.L_MaxPKM = new System.Windows.Forms.Label();
             this.NUD_RMin = new System.Windows.Forms.NumericUpDown();
             this.NUD_RMax = new System.Windows.Forms.NumericUpDown();
-            this.CHK_GymE4Only = new System.Windows.Forms.CheckBox();
             this.CHK_RandomMegaForm = new System.Windows.Forms.CheckBox();
-            this.CHK_GymTrainers = new System.Windows.Forms.CheckBox();
             this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
             this.CHK_OnlySingles = new System.Windows.Forms.CheckBox();
             this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
@@ -466,10 +464,11 @@
             // 
             // PB_Team1
             // 
+            this.PB_Team1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team1.ContextMenuStrip = this.mnuVSD;
             this.PB_Team1.Location = new System.Drawing.Point(53, 244);
             this.PB_Team1.Name = "PB_Team1";
-            this.PB_Team1.Size = new System.Drawing.Size(80, 60);
+            this.PB_Team1.Size = new System.Drawing.Size(82, 62);
             this.PB_Team1.TabIndex = 444;
             this.PB_Team1.TabStop = false;
             // 
@@ -502,52 +501,56 @@
             // 
             // PB_Team2
             // 
+            this.PB_Team2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team2.ContextMenuStrip = this.mnuVSD;
             this.PB_Team2.Location = new System.Drawing.Point(139, 244);
             this.PB_Team2.Name = "PB_Team2";
-            this.PB_Team2.Size = new System.Drawing.Size(80, 60);
+            this.PB_Team2.Size = new System.Drawing.Size(82, 62);
             this.PB_Team2.TabIndex = 443;
             this.PB_Team2.TabStop = false;
             // 
             // PB_Team3
             // 
+            this.PB_Team3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team3.ContextMenuStrip = this.mnuVSD;
             this.PB_Team3.Location = new System.Drawing.Point(225, 244);
             this.PB_Team3.Name = "PB_Team3";
-            this.PB_Team3.Size = new System.Drawing.Size(80, 60);
+            this.PB_Team3.Size = new System.Drawing.Size(82, 62);
             this.PB_Team3.TabIndex = 442;
             this.PB_Team3.TabStop = false;
             // 
             // PB_Team4
             // 
+            this.PB_Team4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team4.ContextMenuStrip = this.mnuVSD;
             this.PB_Team4.Location = new System.Drawing.Point(311, 244);
             this.PB_Team4.Name = "PB_Team4";
-            this.PB_Team4.Size = new System.Drawing.Size(80, 60);
+            this.PB_Team4.Size = new System.Drawing.Size(82, 62);
             this.PB_Team4.TabIndex = 441;
             this.PB_Team4.TabStop = false;
             // 
             // PB_Team5
             // 
+            this.PB_Team5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team5.ContextMenuStrip = this.mnuVSD;
             this.PB_Team5.Location = new System.Drawing.Point(397, 244);
             this.PB_Team5.Name = "PB_Team5";
-            this.PB_Team5.Size = new System.Drawing.Size(80, 60);
+            this.PB_Team5.Size = new System.Drawing.Size(82, 62);
             this.PB_Team5.TabIndex = 440;
             this.PB_Team5.TabStop = false;
             // 
             // PB_Team6
             // 
+            this.PB_Team6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team6.ContextMenuStrip = this.mnuVSD;
             this.PB_Team6.Location = new System.Drawing.Point(483, 244);
             this.PB_Team6.Name = "PB_Team6";
-            this.PB_Team6.Size = new System.Drawing.Size(80, 60);
+            this.PB_Team6.Size = new System.Drawing.Size(82, 62);
             this.PB_Team6.TabIndex = 439;
             this.PB_Team6.TabStop = false;
             // 
             // B_Randomize
             // 
-            this.B_Randomize.Enabled = false;
             this.B_Randomize.Location = new System.Drawing.Point(61, 3);
             this.B_Randomize.Name = "B_Randomize";
             this.B_Randomize.Size = new System.Drawing.Size(93, 23);
@@ -1907,7 +1910,8 @@
             this.CB_Moves.Items.AddRange(new object[] {
             "Don\'t Modify",
             "Randomize All",
-            "Use Levelup Only"});
+            "Use Levelup Only",
+            "High Powered Attacks"});
             this.CB_Moves.Location = new System.Drawing.Point(54, 6);
             this.CB_Moves.Name = "CB_Moves";
             this.CB_Moves.Size = new System.Drawing.Size(121, 21);
@@ -2024,9 +2028,7 @@
             this.Tab_Trainer1.Controls.Add(this.L_MaxPKM);
             this.Tab_Trainer1.Controls.Add(this.NUD_RMin);
             this.Tab_Trainer1.Controls.Add(this.NUD_RMax);
-            this.Tab_Trainer1.Controls.Add(this.CHK_GymE4Only);
             this.Tab_Trainer1.Controls.Add(this.CHK_RandomMegaForm);
-            this.Tab_Trainer1.Controls.Add(this.CHK_GymTrainers);
             this.Tab_Trainer1.Controls.Add(this.CHK_TypeTheme);
             this.Tab_Trainer1.Controls.Add(this.CHK_OnlySingles);
             this.Tab_Trainer1.Controls.Add(this.CHK_IgnoreSpecialClass);
@@ -2144,22 +2146,10 @@
             this.NUD_RMax.Size = new System.Drawing.Size(40, 20);
             this.NUD_RMax.TabIndex = 335;
             this.NUD_RMax.Value = new decimal(new int[] {
-            1,
+            6,
             0,
             0,
             0});
-            // 
-            // CHK_GymE4Only
-            // 
-            this.CHK_GymE4Only.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CHK_GymE4Only.AutoSize = true;
-            this.CHK_GymE4Only.Enabled = false;
-            this.CHK_GymE4Only.Location = new System.Drawing.Point(6, 95);
-            this.CHK_GymE4Only.Name = "CHK_GymE4Only";
-            this.CHK_GymE4Only.Size = new System.Drawing.Size(124, 17);
-            this.CHK_GymE4Only.TabIndex = 334;
-            this.CHK_GymE4Only.Text = "Theme Trial/E4 Only";
-            this.CHK_GymE4Only.UseVisualStyleBackColor = true;
             // 
             // CHK_RandomMegaForm
             // 
@@ -2172,23 +2162,11 @@
             this.CHK_RandomMegaForm.Text = "Allow RandForm\r\nfor Mega PKM";
             this.CHK_RandomMegaForm.UseVisualStyleBackColor = true;
             // 
-            // CHK_GymTrainers
-            // 
-            this.CHK_GymTrainers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CHK_GymTrainers.AutoSize = true;
-            this.CHK_GymTrainers.Enabled = false;
-            this.CHK_GymTrainers.Location = new System.Drawing.Point(6, 81);
-            this.CHK_GymTrainers.Name = "CHK_GymTrainers";
-            this.CHK_GymTrainers.Size = new System.Drawing.Size(124, 17);
-            this.CHK_GymTrainers.TabIndex = 331;
-            this.CHK_GymTrainers.Text = "Theme Gym Trainers";
-            this.CHK_GymTrainers.UseVisualStyleBackColor = true;
-            // 
             // CHK_TypeTheme
             // 
             this.CHK_TypeTheme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_TypeTheme.AutoSize = true;
-            this.CHK_TypeTheme.Location = new System.Drawing.Point(6, 67);
+            this.CHK_TypeTheme.Location = new System.Drawing.Point(6, 80);
             this.CHK_TypeTheme.Name = "CHK_TypeTheme";
             this.CHK_TypeTheme.Size = new System.Drawing.Size(127, 17);
             this.CHK_TypeTheme.TabIndex = 329;
@@ -2446,9 +2424,7 @@
         private System.Windows.Forms.CheckBox CHK_IgnoreSpecialClass;
         private System.Windows.Forms.CheckBox CHK_OnlySingles;
         private System.Windows.Forms.CheckBox CHK_TypeTheme;
-        private System.Windows.Forms.CheckBox CHK_GymTrainers;
         private System.Windows.Forms.CheckBox CHK_RandomMegaForm;
-        private System.Windows.Forms.CheckBox CHK_GymE4Only;
         private System.Windows.Forms.NumericUpDown NUD_RMax;
         private System.Windows.Forms.NumericUpDown NUD_RMin;
         private System.Windows.Forms.Label L_MaxPKM;
@@ -2460,10 +2436,8 @@
         private System.Windows.Forms.TabPage Tab_Trainer1;
         private System.Windows.Forms.CheckBox CHK_STAB;
         private System.Windows.Forms.CheckBox CHK_RandomItems;
-        private System.Windows.Forms.CheckBox CHK_Damage;
         private System.Windows.Forms.NumericUpDown NUD_STAB;
         private System.Windows.Forms.CheckBox CHK_RandomAbilities;
-        private System.Windows.Forms.NumericUpDown NUD_Damage;
         private System.Windows.Forms.CheckBox CHK_MaxDiffPKM;
         private System.Windows.Forms.ComboBox CB_Moves;
         private System.Windows.Forms.Label L_Moves;
@@ -2488,6 +2462,8 @@
         private System.Windows.Forms.Label L_ShinyPCT;
         private System.Windows.Forms.TabPage Tab_PKM1;
         private System.Windows.Forms.TabControl TC_rand;
+        private System.Windows.Forms.CheckBox CHK_Damage;
+        private System.Windows.Forms.NumericUpDown NUD_Damage;
     }
 }
 
