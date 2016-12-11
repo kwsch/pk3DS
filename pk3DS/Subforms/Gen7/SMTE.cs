@@ -577,6 +577,7 @@ namespace pk3DS
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
+            CB_TrainerID.SelectedIndex = 0;
             Randomizer rnd = new Randomizer(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, 
                 CHK_G6.Checked, CHK_G7.Checked, CHK_L.Checked, CHK_E.Checked, Shedinja: true)
             {
@@ -602,10 +603,15 @@ namespace pk3DS
                 if (tr.NumPokemon < NUD_RMin.Value)
                 {
                     var avgBST = (int)tr.Pokemon.Average(pk => Main.SpeciesStat[pk.Species].BST);
+                    int avgLevel = (int)tr.Pokemon.Average(pk => pk.Level);
                     var pinfo = Main.SpeciesStat.OrderBy(pk => Math.Abs(avgBST - pk.BST)).First();
                     int avgSpec = Array.IndexOf(Main.SpeciesStat, pinfo);
                     for (int p = tr.NumPokemon; p < NUD_RMin.Value; p++)
-                        tr.Pokemon.Add(new trpoke7 {Species = rnd.getRandomSpecies(avgSpec)});
+                        tr.Pokemon.Add(new trpoke7
+                        {
+                            Species = rnd.getRandomSpecies(avgSpec),
+                            Level = avgLevel,
+                        });
                     tr.NumPokemon = (int)NUD_RMin.Value;
                 }
                 if (tr.NumPokemon > NUD_RMax.Value)
@@ -653,6 +659,7 @@ namespace pk3DS
                     }
                 }
             }
+            Util.Alert("Randomized!");
         }
         private void B_HighAttack_Click(object sender, EventArgs e)
         {
