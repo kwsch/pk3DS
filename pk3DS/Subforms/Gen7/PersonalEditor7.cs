@@ -85,6 +85,13 @@ namespace pk3DS
                 foreach (string it in items)
                     cb.Items.Add(it);
 
+            foreach (string it in items)
+                CB_ZItem.Items.Add(it);
+            foreach (string m in moves)
+                CB_ZBaseMove.Items.Add(m);
+            foreach (string m in moves)
+                CB_ZMove.Items.Add(m);
+
             foreach (ComboBox cb in ability_boxes)
                 foreach (string ab in abilities)
                     cb.Items.Add(ab);
@@ -179,6 +186,14 @@ namespace pk3DS
 
             for (int i = 0; i < CLB_MoveTutors.Items.Count; i++)
                 CLB_MoveTutors.SetItemChecked(i, pkm.TypeTutors[i]); // Bitflags for Tutors
+
+            if (Main.Config.SM)
+            {
+                PersonalInfoSM sm = (PersonalInfoSM) pkm;
+                CB_ZItem.SelectedIndex = sm.SpecialZ_Item;
+                CB_ZBaseMove.SelectedIndex = sm.SpecialZ_BaseMove;
+                CB_ZMove.SelectedIndex = sm.SpecialZ_ZMove;
+            }
         }
         private void readEntry()
         {
@@ -250,6 +265,14 @@ namespace pk3DS
 
             for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
                 pkm.TypeTutors[t] = CLB_MoveTutors.GetItemChecked(t);
+
+            if (Main.Config.SM)
+            {
+                PersonalInfoSM sm = (PersonalInfoSM)pkm;
+                sm.SpecialZ_Item = CB_ZItem.SelectedIndex;
+                sm.SpecialZ_BaseMove = CB_ZBaseMove.SelectedIndex;
+                sm.SpecialZ_ZMove = CB_ZMove.SelectedIndex;
+            }
         }
         private void saveEntry()
         {
@@ -390,13 +413,14 @@ namespace pk3DS
                 CB_Species.SelectedIndex = i; // Get new Species
                 result += "======" + Environment.NewLine + entry + " - " + CB_Species.Text + " (Stage: " + TB_Stage.Text + ")" + Environment.NewLine + "======" + Environment.NewLine;
 
-                result +=
-                    $"Base Stats: {TB_BaseHP.Text}.{TB_BaseATK.Text}.{TB_BaseDEF.Text}.{TB_BaseSPA.Text}.{TB_BaseSPD.Text}.{TB_BaseSPE.Text} (BST: {pkm.BST})" + Environment.NewLine;
-                result +=
-                    $"EV Yield: {TB_HPEVs.Text}.{TB_ATKEVs.Text}.{TB_DEFEVs.Text}.{TB_SPAEVs.Text}.{TB_SPDEVs.Text}.{TB_SPEEVs.Text}" + Environment.NewLine;
+                result += $"Base Stats: {TB_BaseHP.Text}.{TB_BaseATK.Text}.{TB_BaseDEF.Text}.{TB_BaseSPA.Text}.{TB_BaseSPD.Text}.{TB_BaseSPE.Text} (BST: {pkm.BST})" + Environment.NewLine;
+                result += $"EV Yield: {TB_HPEVs.Text}.{TB_ATKEVs.Text}.{TB_DEFEVs.Text}.{TB_SPAEVs.Text}.{TB_SPDEVs.Text}.{TB_SPEEVs.Text}" + Environment.NewLine;
                 result += $"Abilities: {CB_Ability1.Text} (1) | {CB_Ability2.Text} (2) | {CB_Ability3.Text} (H)" + Environment.NewLine;
 
-                result += string.Format(CB_Type1.SelectedIndex != CB_Type2.SelectedIndex ? "Type: {0} / {1}" : "Type: {0}", CB_Type1.Text, CB_Type2.Text) + Environment.NewLine;
+                if (CB_Type1.SelectedIndex == CB_Type2.SelectedIndex)
+                    result += $"Type: {CB_Type1.Text} / {CB_Type2.Text}" + Environment.NewLine;
+                else
+                    result += $"Type: {CB_Type1.Text}" + Environment.NewLine;
 
                 result += $"Item 1 (50%): {CB_HeldItem1.Text}" + Environment.NewLine;
                 result += $"Item 2 (5%): {CB_HeldItem2.Text}" + Environment.NewLine;
@@ -408,8 +432,10 @@ namespace pk3DS
                 result += string.Format(CB_EggGroup1.SelectedIndex != CB_EggGroup2.SelectedIndex ? "Egg Group: {0} / {1}" : "Egg Group: {0}", CB_EggGroup1.Text, CB_EggGroup2.Text) + Environment.NewLine;
 
                 result += $"Hatch Cycles: {TB_HatchCycles.Text}" + Environment.NewLine;
+                result += $"Height: {TB_Height.Text} m, Weight: {TB_Weight.Text} kg, Color: {CB_Color.Text}" + Environment.NewLine;
 
-                result += String.Format("Height: {0} m, Weight: {1} kg, Color: {2}", TB_Height.Text, TB_Weight.Text, CB_Color.Text) + Environment.NewLine;
+                if (CB_ZBaseMove.SelectedIndex > 0)
+                    result += $"{CB_ZBaseMove.Text} + {CB_ZItem.Text} => {CB_ZMove.Text}" + Environment.NewLine;
 
                 result += Environment.NewLine;
             }
