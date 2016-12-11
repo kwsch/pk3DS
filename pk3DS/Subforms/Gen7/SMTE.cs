@@ -264,12 +264,16 @@ namespace pk3DS
                 return;
             var tr = Trainers[index];
             prepareTR7(tr);
+            saveData(tr, index);
+            trName[index] = TB_TrainerName.Text;
+        }
+        private void saveData(trdata7 tr, int i)
+        {
             byte[] trd;
             byte[] trp;
             tr.Write(out trd, out trp);
-            trdata[index] = trd;
-            trpoke[index] = trp;
-            trName[index] = TB_TrainerName.Text;
+            trdata[i] = trd;
+            trpoke[i] = trp;
         }
         private void loadEntry()
         {
@@ -586,8 +590,11 @@ namespace pk3DS
             };
 
             var items = Randomizer.getRandomItemList();
-            foreach (var tr in Trainers.Where(tr => tr.Pokemon.Count != 0))
+            for (int i = 0; i < Trainers.Length; i++)
             {
+                var tr = Trainers[i];
+                if (tr.Pokemon.Count == 0)
+                    continue;
                 // Trainer Properties
                 if (CHK_RandomClass.Checked)
                 {
@@ -658,6 +665,7 @@ namespace pk3DS
                             break;
                     }
                 }
+                saveData(tr, i);
             }
             Util.Alert("Randomized!");
         }
