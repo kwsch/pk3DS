@@ -233,24 +233,17 @@ namespace pk3DS
             CB_Item_2.Items.Clear();
             CB_Item_3.Items.Clear();
             CB_Item_4.Items.Clear();
-            CB_Prize.Items.Clear();
             foreach (string s in itemlist)
             {
                 CB_Item_1.Items.Add(s);
                 CB_Item_2.Items.Add(s);
                 CB_Item_3.Items.Add(s);
                 CB_Item_4.Items.Add(s);
-                CB_Prize.Items.Add(s);
             }
 
             CB_Money.Items.Clear();
             for (int i = 0; i < 256; i++)
             { CB_Money.Items.Add(i.ToString()); }
-
-            CB_Battle_Type.Items.Clear();
-            CB_Battle_Type.Items.Add("Single");
-            CB_Battle_Type.Items.Add("Double");
-            CB_Battle_Type.Items.Add("Royal");
 
             CB_TrainerID.SelectedIndex = 0;
             index = 0;
@@ -283,11 +276,14 @@ namespace pk3DS
             index = CB_TrainerID.SelectedIndex;
             var tr = Trainers[index];
 
+            loading = true;
             TB_TrainerName.Text = trName[index];
 
             populateFieldsTD7(tr);
+            loading = false;
         }
 
+        private bool loading;
         private trpoke7 pkm;
         private void populateFieldsTP7(trpoke7 pk)
         {
@@ -365,12 +361,26 @@ namespace pk3DS
             // Load Trainer Data
             CB_Trainer_Class.SelectedIndex = tr.TrainerClass;
             NUD_NumPoke.Value = tr.NumPokemon;
+            CB_Item_1.SelectedIndex = tr.Item1;
+            CB_Item_2.SelectedIndex = tr.Item2;
+            CB_Item_3.SelectedIndex = tr.Item3;
+            CB_Item_4.SelectedIndex = tr.Item4;
+            CB_Money.SelectedIndex = tr.Money;
+            NUD_AI.Value = tr.AI;
+            CHK_Flag.Checked = tr.Flag;
             populateTeam(tr);
         }
         private void prepareTR7(trdata7 tr)
         {
             tr.TrainerClass = (byte)CB_Trainer_Class.SelectedIndex;
             tr.NumPokemon = (byte)NUD_NumPoke.Value;
+            tr.Item1 = CB_Item_1.SelectedIndex;
+            tr.Item2 = CB_Item_2.SelectedIndex;
+            tr.Item3 = CB_Item_3.SelectedIndex;
+            tr.Item4 = CB_Item_4.SelectedIndex;
+            tr.Money = CB_Money.SelectedIndex;
+            tr.AI = (int)NUD_AI.Value;
+            tr.Flag = CHK_Flag.Checked;
         }
         private static int[] getHighAttacks(trpoke7 pk)
         {
@@ -441,6 +451,12 @@ namespace pk3DS
             if (index < 0)
                 return;
             Trainers[index].NumPokemon = (int) (NUD_NumPoke.Value);
+        }
+        private void updateTrainerName(object sender, EventArgs e)
+        {
+            if (loading)
+                return;
+            CB_TrainerID.Items[index] = $"{TB_TrainerName.Text} - {index:000}";
         }
 
         private static bool updatingStats;
@@ -569,25 +585,18 @@ namespace pk3DS
             };
 
             var items = Randomizer.getRandomItemList();
-            foreach (var tr in Trainers)
+            foreach (var tr in Trainers.Where(tr => tr.Pokemon.Count != 0))
             {
-                if (tr.Pokemon.Count == 0)
-                    continue;
                 // Trainer Properties
-                if (CHK_OnlyDoubles.Checked)
-                { }
-                else if (CHK_OnlySingles.Checked)
-                { }
-
-                if (CHK_RandomGift.Checked && Util.rnd32() < NUD_GiftPercent.Value)
-                { }
-
                 if (CHK_RandomClass.Checked)
                 {
-                    if (CHK_IgnoreSpecialClass.Checked)
-                    { }
-                    else
-                    { }
+                    int rv;
+                    do
+                    {
+                        rv = (int) (Util.rnd32()%CB_Trainer_Class.Items.Count);
+                    } while (/*trClass[rv].StartsWith("[~") || */(Legal.SpecialClasses_SM.Contains(rv) && !CHK_IgnoreSpecialClass.Checked));
+                    // don't allow disallowed classes
+                    tr.TrainerClass = (byte) rv;
                 }
 
                 if (tr.NumPokemon < NUD_RMin.Value)
@@ -613,6 +622,7 @@ namespace pk3DS
                         int Type = CHK_TypeTheme.Checked ? (int)Util.rnd32()%17 : -1;
                         pk.Species = rnd.getRandomSpecies(pk.Species, Type);
                         pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
+                        pk.Gender = 0; // Random Gender
                     }
                     if (CHK_Level.Checked)
                         pk.Level = (int)(pk.Level*(100 + NUD_LevelBoost.Value))/100;
@@ -652,11 +662,6 @@ namespace pk3DS
             var moves = getHighAttacks(pkm);
             setMoves(moves);
         }
-        private void B_Clear_Click(object sender, EventArgs e)
-        {
-            setMoves(new int[0]);
-        }
-
         private void B_CurrentAttack_Click(object sender, EventArgs e)
         {
             pkm.Species = CB_Species.SelectedIndex;
@@ -665,11 +670,52 @@ namespace pk3DS
             var moves = getCurrentAttacks(pkm);
             setMoves(moves);
         }
+        private void B_Clear_Click(object sender, EventArgs e)
+        {
+            setMoves(new int[4]);
+        }
         private void setMoves(int[] moves)
         {
             var mcb = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
             for (int i = 0; i < mcb.Length; i++)
                 mcb[i].SelectedIndex = moves[i];
+        }
+
+        // Randomization UI
+        private void CB_Moves_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CHK_Damage.Visible = CHK_STAB.Visible = NUD_Damage.Visible = NUD_STAB.Visible = CB_Moves.SelectedIndex == 1; // Randomized
+        }
+        private void CHK_Damage_CheckedChanged(object sender, EventArgs e)
+        {
+            NUD_Damage.Enabled = CHK_Damage.Checked;
+        }
+        private void CHK_STAB_CheckedChanged(object sender, EventArgs e)
+        {
+            NUD_STAB.Enabled = CHK_STAB.Checked;
+        }
+        private void CHK_RandomPKM_CheckedChanged(object sender, EventArgs e)
+        {
+            CHK_BST.Visible = CHK_RandomPKM.Checked;
+            if (CHK_RandomPKM.Checked)
+                return;
+            foreach (CheckBox c in new[] { CHK_G1, CHK_G2, CHK_G3, CHK_G4, CHK_G5, CHK_G6, CHK_G7, CHK_L, CHK_E })
+            {
+                c.Visible = false;
+                c.Checked = true;
+            }
+        }
+        private void CHK_RandomClass_CheckedChanged(object sender, EventArgs e)
+        {
+            CHK_IgnoreSpecialClass.Visible = CHK_RandomClass.Checked;
+        }
+        private void CHK_RandomShiny_CheckedChanged(object sender, EventArgs e)
+        {
+            NUD_Shiny.Enabled = CHK_RandomShiny.Checked;
+        }
+        private void CHK_Level_CheckedChanged(object sender, EventArgs e)
+        {
+            NUD_LevelBoost.Enabled = CHK_Level.Checked;
         }
     }
 }

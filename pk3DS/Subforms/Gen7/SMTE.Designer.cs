@@ -30,13 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.CB_TrainerID = new System.Windows.Forms.ComboBox();
-            this.L_TPrize = new System.Windows.Forms.Label();
-            this.CB_Prize = new System.Windows.Forms.ComboBox();
             this.L_AI = new System.Windows.Forms.Label();
             this.L_Money = new System.Windows.Forms.Label();
             this.CB_Money = new System.Windows.Forms.ComboBox();
-            this.L_Battle_Type = new System.Windows.Forms.Label();
-            this.CB_Battle_Type = new System.Windows.Forms.ComboBox();
             this.L_Trainer_Class = new System.Windows.Forms.Label();
             this.CB_Trainer_Class = new System.Windows.Forms.ComboBox();
             this.L_Item_4 = new System.Windows.Forms.Label();
@@ -183,19 +179,15 @@
             this.CHK_RandomItems = new System.Windows.Forms.CheckBox();
             this.CHK_STAB = new System.Windows.Forms.CheckBox();
             this.Tab_Trainer1 = new System.Windows.Forms.TabPage();
-            this.CHK_OnlyDoubles = new System.Windows.Forms.CheckBox();
-            this.CHK_RandomGift = new System.Windows.Forms.CheckBox();
-            this.L_GiftPCT = new System.Windows.Forms.Label();
-            this.NUD_GiftPercent = new System.Windows.Forms.NumericUpDown();
             this.L_MinPKM = new System.Windows.Forms.Label();
             this.L_MaxPKM = new System.Windows.Forms.Label();
             this.NUD_RMin = new System.Windows.Forms.NumericUpDown();
             this.NUD_RMax = new System.Windows.Forms.NumericUpDown();
             this.CHK_RandomMegaForm = new System.Windows.Forms.CheckBox();
             this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
-            this.CHK_OnlySingles = new System.Windows.Forms.CheckBox();
             this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
             this.CHK_RandomClass = new System.Windows.Forms.CheckBox();
+            this.CHK_Flag = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -243,7 +235,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Damage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_STAB)).BeginInit();
             this.Tab_Trainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMax)).BeginInit();
             this.SuspendLayout();
@@ -261,30 +252,9 @@
             this.CB_TrainerID.TabIndex = 64;
             this.CB_TrainerID.SelectedIndexChanged += new System.EventHandler(this.changeTrainerIndex);
             // 
-            // L_TPrize
-            // 
-            this.L_TPrize.AutoSize = true;
-            this.L_TPrize.Location = new System.Drawing.Point(167, 116);
-            this.L_TPrize.Name = "L_TPrize";
-            this.L_TPrize.Size = new System.Drawing.Size(33, 13);
-            this.L_TPrize.TabIndex = 57;
-            this.L_TPrize.Text = "Prize:";
-            // 
-            // CB_Prize
-            // 
-            this.CB_Prize.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_Prize.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Prize.Enabled = false;
-            this.CB_Prize.FormattingEnabled = true;
-            this.CB_Prize.Location = new System.Drawing.Point(206, 113);
-            this.CB_Prize.Name = "CB_Prize";
-            this.CB_Prize.Size = new System.Drawing.Size(99, 21);
-            this.CB_Prize.TabIndex = 56;
-            // 
             // L_AI
             // 
             this.L_AI.AutoSize = true;
-            this.L_AI.Enabled = false;
             this.L_AI.Location = new System.Drawing.Point(217, 54);
             this.L_AI.Name = "L_AI";
             this.L_AI.Size = new System.Drawing.Size(38, 13);
@@ -294,8 +264,7 @@
             // L_Money
             // 
             this.L_Money.AutoSize = true;
-            this.L_Money.Enabled = false;
-            this.L_Money.Location = new System.Drawing.Point(181, 94);
+            this.L_Money.Location = new System.Drawing.Point(40, 54);
             this.L_Money.Name = "L_Money";
             this.L_Money.Size = new System.Drawing.Size(42, 13);
             this.L_Money.TabIndex = 53;
@@ -305,39 +274,11 @@
             // 
             this.CB_Money.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Money.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Money.Enabled = false;
             this.CB_Money.FormattingEnabled = true;
-            this.CB_Money.Location = new System.Drawing.Point(231, 91);
+            this.CB_Money.Location = new System.Drawing.Point(90, 51);
             this.CB_Money.Name = "CB_Money";
-            this.CB_Money.Size = new System.Drawing.Size(74, 21);
+            this.CB_Money.Size = new System.Drawing.Size(70, 21);
             this.CB_Money.TabIndex = 52;
-            // 
-            // L_Battle_Type
-            // 
-            this.L_Battle_Type.AutoSize = true;
-            this.L_Battle_Type.Enabled = false;
-            this.L_Battle_Type.Location = new System.Drawing.Point(20, 54);
-            this.L_Battle_Type.Name = "L_Battle_Type";
-            this.L_Battle_Type.Size = new System.Drawing.Size(64, 13);
-            this.L_Battle_Type.TabIndex = 51;
-            this.L_Battle_Type.Text = "Battle Type:";
-            // 
-            // CB_Battle_Type
-            // 
-            this.CB_Battle_Type.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Battle_Type.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Battle_Type.Enabled = false;
-            this.CB_Battle_Type.FormattingEnabled = true;
-            this.CB_Battle_Type.Items.AddRange(new object[] {
-            "Single Battle",
-            "Double Battle",
-            "Triple Battle",
-            "Rotation Battle",
-            "Horde Battle"});
-            this.CB_Battle_Type.Location = new System.Drawing.Point(90, 51);
-            this.CB_Battle_Type.Name = "CB_Battle_Type";
-            this.CB_Battle_Type.Size = new System.Drawing.Size(116, 21);
-            this.CB_Battle_Type.TabIndex = 50;
             // 
             // L_Trainer_Class
             // 
@@ -362,7 +303,6 @@
             // L_Item_4
             // 
             this.L_Item_4.AutoSize = true;
-            this.L_Item_4.Enabled = false;
             this.L_Item_4.Location = new System.Drawing.Point(16, 160);
             this.L_Item_4.Name = "L_Item_4";
             this.L_Item_4.Size = new System.Drawing.Size(39, 13);
@@ -373,7 +313,6 @@
             // 
             this.CB_Item_4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Item_4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Item_4.Enabled = false;
             this.CB_Item_4.FormattingEnabled = true;
             this.CB_Item_4.Location = new System.Drawing.Point(61, 157);
             this.CB_Item_4.Name = "CB_Item_4";
@@ -383,7 +322,6 @@
             // L_Item_3
             // 
             this.L_Item_3.AutoSize = true;
-            this.L_Item_3.Enabled = false;
             this.L_Item_3.Location = new System.Drawing.Point(16, 138);
             this.L_Item_3.Name = "L_Item_3";
             this.L_Item_3.Size = new System.Drawing.Size(39, 13);
@@ -394,7 +332,6 @@
             // 
             this.CB_Item_3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Item_3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Item_3.Enabled = false;
             this.CB_Item_3.FormattingEnabled = true;
             this.CB_Item_3.Location = new System.Drawing.Point(61, 135);
             this.CB_Item_3.Name = "CB_Item_3";
@@ -404,7 +341,6 @@
             // L_Item_2
             // 
             this.L_Item_2.AutoSize = true;
-            this.L_Item_2.Enabled = false;
             this.L_Item_2.Location = new System.Drawing.Point(16, 116);
             this.L_Item_2.Name = "L_Item_2";
             this.L_Item_2.Size = new System.Drawing.Size(39, 13);
@@ -415,7 +351,6 @@
             // 
             this.CB_Item_2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Item_2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Item_2.Enabled = false;
             this.CB_Item_2.FormattingEnabled = true;
             this.CB_Item_2.Location = new System.Drawing.Point(61, 113);
             this.CB_Item_2.Name = "CB_Item_2";
@@ -425,7 +360,6 @@
             // L_Item_1
             // 
             this.L_Item_1.AutoSize = true;
-            this.L_Item_1.Enabled = false;
             this.L_Item_1.Location = new System.Drawing.Point(16, 94);
             this.L_Item_1.Name = "L_Item_1";
             this.L_Item_1.Size = new System.Drawing.Size(39, 13);
@@ -436,7 +370,6 @@
             // 
             this.CB_Item_1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Item_1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Item_1.Enabled = false;
             this.CB_Item_1.FormattingEnabled = true;
             this.CB_Item_1.Location = new System.Drawing.Point(61, 91);
             this.CB_Item_1.Name = "CB_Item_1";
@@ -1532,9 +1465,11 @@
             // TB_TrainerName
             // 
             this.TB_TrainerName.Location = new System.Drawing.Point(90, 8);
+            this.TB_TrainerName.MaxLength = 50;
             this.TB_TrainerName.Name = "TB_TrainerName";
             this.TB_TrainerName.Size = new System.Drawing.Size(116, 20);
             this.TB_TrainerName.TabIndex = 35;
+            this.TB_TrainerName.TextChanged += new System.EventHandler(this.updateTrainerName);
             // 
             // NUD_NumPoke
             // 
@@ -1563,14 +1498,11 @@
             // 
             // Tab_Trainer
             // 
+            this.Tab_Trainer.Controls.Add(this.CHK_Flag);
             this.Tab_Trainer.Controls.Add(this.NUD_AI);
             this.Tab_Trainer.Controls.Add(this.L_AI);
             this.Tab_Trainer.Controls.Add(this.TB_TrainerName);
-            this.Tab_Trainer.Controls.Add(this.CB_Battle_Type);
-            this.Tab_Trainer.Controls.Add(this.L_Battle_Type);
-            this.Tab_Trainer.Controls.Add(this.L_TPrize);
             this.Tab_Trainer.Controls.Add(this.L_Trainer_Class);
-            this.Tab_Trainer.Controls.Add(this.CB_Prize);
             this.Tab_Trainer.Controls.Add(this.CB_Item_1);
             this.Tab_Trainer.Controls.Add(this.CB_Trainer_Class);
             this.Tab_Trainer.Controls.Add(this.L_Money);
@@ -1688,6 +1620,7 @@
             this.CHK_RandomShiny.TabIndex = 303;
             this.CHK_RandomShiny.Text = "Random Shinies";
             this.CHK_RandomShiny.UseVisualStyleBackColor = true;
+            this.CHK_RandomShiny.CheckedChanged += new System.EventHandler(this.CHK_RandomShiny_CheckedChanged);
             // 
             // CHK_E
             // 
@@ -1822,6 +1755,7 @@
             this.CHK_Level.TabIndex = 300;
             this.CHK_Level.Text = "Level Boost Multiplier";
             this.CHK_Level.UseVisualStyleBackColor = true;
+            this.CHK_Level.CheckedChanged += new System.EventHandler(this.CHK_Level_CheckedChanged);
             // 
             // CHK_G1
             // 
@@ -1858,6 +1792,7 @@
             this.CHK_RandomPKM.TabIndex = 299;
             this.CHK_RandomPKM.Text = "Random Pokemon";
             this.CHK_RandomPKM.UseVisualStyleBackColor = true;
+            this.CHK_RandomPKM.CheckedChanged += new System.EventHandler(this.CHK_RandomPKM_CheckedChanged);
             // 
             // Tab_PKM2
             // 
@@ -1916,6 +1851,7 @@
             this.CB_Moves.Name = "CB_Moves";
             this.CB_Moves.Size = new System.Drawing.Size(121, 21);
             this.CB_Moves.TabIndex = 337;
+            this.CB_Moves.SelectedIndexChanged += new System.EventHandler(this.CB_Moves_SelectedIndexChanged);
             // 
             // CHK_MaxDiffPKM
             // 
@@ -1991,6 +1927,7 @@
             this.CHK_Damage.TabIndex = 334;
             this.CHK_Damage.Text = "Ensure at least # Damaging Moves";
             this.CHK_Damage.UseVisualStyleBackColor = true;
+            this.CHK_Damage.CheckedChanged += new System.EventHandler(this.CHK_Damage_CheckedChanged);
             // 
             // CHK_RandomItems
             // 
@@ -2017,20 +1954,16 @@
             this.CHK_STAB.TabIndex = 335;
             this.CHK_STAB.Text = "Ensure at least # STAB Moves";
             this.CHK_STAB.UseVisualStyleBackColor = true;
+            this.CHK_STAB.CheckedChanged += new System.EventHandler(this.CHK_STAB_CheckedChanged);
             // 
             // Tab_Trainer1
             // 
-            this.Tab_Trainer1.Controls.Add(this.CHK_OnlyDoubles);
-            this.Tab_Trainer1.Controls.Add(this.CHK_RandomGift);
-            this.Tab_Trainer1.Controls.Add(this.L_GiftPCT);
-            this.Tab_Trainer1.Controls.Add(this.NUD_GiftPercent);
             this.Tab_Trainer1.Controls.Add(this.L_MinPKM);
             this.Tab_Trainer1.Controls.Add(this.L_MaxPKM);
             this.Tab_Trainer1.Controls.Add(this.NUD_RMin);
             this.Tab_Trainer1.Controls.Add(this.NUD_RMax);
             this.Tab_Trainer1.Controls.Add(this.CHK_RandomMegaForm);
             this.Tab_Trainer1.Controls.Add(this.CHK_TypeTheme);
-            this.Tab_Trainer1.Controls.Add(this.CHK_OnlySingles);
             this.Tab_Trainer1.Controls.Add(this.CHK_IgnoreSpecialClass);
             this.Tab_Trainer1.Controls.Add(this.CHK_RandomClass);
             this.Tab_Trainer1.Location = new System.Drawing.Point(4, 22);
@@ -2040,58 +1973,9 @@
             this.Tab_Trainer1.Text = "Trainer";
             this.Tab_Trainer1.UseVisualStyleBackColor = true;
             // 
-            // CHK_OnlyDoubles
-            // 
-            this.CHK_OnlyDoubles.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.CHK_OnlyDoubles.AutoSize = true;
-            this.CHK_OnlyDoubles.Checked = true;
-            this.CHK_OnlyDoubles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_OnlyDoubles.Location = new System.Drawing.Point(6, 45);
-            this.CHK_OnlyDoubles.Name = "CHK_OnlyDoubles";
-            this.CHK_OnlyDoubles.Size = new System.Drawing.Size(119, 17);
-            this.CHK_OnlyDoubles.TabIndex = 342;
-            this.CHK_OnlyDoubles.Text = "Only Double Battles";
-            this.CHK_OnlyDoubles.UseVisualStyleBackColor = true;
-            // 
-            // CHK_RandomGift
-            // 
-            this.CHK_RandomGift.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.CHK_RandomGift.AutoSize = true;
-            this.CHK_RandomGift.Checked = true;
-            this.CHK_RandomGift.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomGift.Location = new System.Drawing.Point(6, 116);
-            this.CHK_RandomGift.Name = "CHK_RandomGift";
-            this.CHK_RandomGift.Size = new System.Drawing.Size(145, 17);
-            this.CHK_RandomGift.TabIndex = 339;
-            this.CHK_RandomGift.Text = "Random After-Battle Gifts";
-            this.CHK_RandomGift.UseVisualStyleBackColor = true;
-            // 
-            // L_GiftPCT
-            // 
-            this.L_GiftPCT.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.L_GiftPCT.AutoSize = true;
-            this.L_GiftPCT.Location = new System.Drawing.Point(196, 117);
-            this.L_GiftPCT.Name = "L_GiftPCT";
-            this.L_GiftPCT.Size = new System.Drawing.Size(15, 13);
-            this.L_GiftPCT.TabIndex = 341;
-            this.L_GiftPCT.Text = "%";
-            // 
-            // NUD_GiftPercent
-            // 
-            this.NUD_GiftPercent.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.NUD_GiftPercent.Location = new System.Drawing.Point(151, 115);
-            this.NUD_GiftPercent.Name = "NUD_GiftPercent";
-            this.NUD_GiftPercent.Size = new System.Drawing.Size(43, 20);
-            this.NUD_GiftPercent.TabIndex = 340;
-            this.NUD_GiftPercent.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-            // 
             // L_MinPKM
             // 
-            this.L_MinPKM.Location = new System.Drawing.Point(178, 14);
+            this.L_MinPKM.Location = new System.Drawing.Point(191, 1);
             this.L_MinPKM.Name = "L_MinPKM";
             this.L_MinPKM.Size = new System.Drawing.Size(60, 20);
             this.L_MinPKM.TabIndex = 338;
@@ -2100,7 +1984,7 @@
             // 
             // L_MaxPKM
             // 
-            this.L_MaxPKM.Location = new System.Drawing.Point(178, 36);
+            this.L_MaxPKM.Location = new System.Drawing.Point(191, 23);
             this.L_MaxPKM.Name = "L_MaxPKM";
             this.L_MaxPKM.Size = new System.Drawing.Size(60, 20);
             this.L_MaxPKM.TabIndex = 337;
@@ -2109,7 +1993,7 @@
             // 
             // NUD_RMin
             // 
-            this.NUD_RMin.Location = new System.Drawing.Point(244, 16);
+            this.NUD_RMin.Location = new System.Drawing.Point(257, 3);
             this.NUD_RMin.Maximum = new decimal(new int[] {
             6,
             0,
@@ -2131,7 +2015,7 @@
             // 
             // NUD_RMax
             // 
-            this.NUD_RMax.Location = new System.Drawing.Point(244, 38);
+            this.NUD_RMax.Location = new System.Drawing.Point(257, 25);
             this.NUD_RMax.Maximum = new decimal(new int[] {
             6,
             0,
@@ -2155,7 +2039,7 @@
             // 
             this.CHK_RandomMegaForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_RandomMegaForm.AutoSize = true;
-            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(161, 73);
+            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(6, 55);
             this.CHK_RandomMegaForm.Name = "CHK_RandomMegaForm";
             this.CHK_RandomMegaForm.Size = new System.Drawing.Size(103, 30);
             this.CHK_RandomMegaForm.TabIndex = 333;
@@ -2166,25 +2050,14 @@
             // 
             this.CHK_TypeTheme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_TypeTheme.AutoSize = true;
-            this.CHK_TypeTheme.Location = new System.Drawing.Point(6, 80);
+            this.CHK_TypeTheme.Checked = true;
+            this.CHK_TypeTheme.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_TypeTheme.Location = new System.Drawing.Point(6, 32);
             this.CHK_TypeTheme.Name = "CHK_TypeTheme";
             this.CHK_TypeTheme.Size = new System.Drawing.Size(127, 17);
             this.CHK_TypeTheme.TabIndex = 329;
             this.CHK_TypeTheme.Text = "Type Theme Trainers";
             this.CHK_TypeTheme.UseVisualStyleBackColor = true;
-            // 
-            // CHK_OnlySingles
-            // 
-            this.CHK_OnlySingles.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.CHK_OnlySingles.AutoSize = true;
-            this.CHK_OnlySingles.Checked = true;
-            this.CHK_OnlySingles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_OnlySingles.Location = new System.Drawing.Point(6, 31);
-            this.CHK_OnlySingles.Name = "CHK_OnlySingles";
-            this.CHK_OnlySingles.Size = new System.Drawing.Size(114, 17);
-            this.CHK_OnlySingles.TabIndex = 328;
-            this.CHK_OnlySingles.Text = "Only Single Battles";
-            this.CHK_OnlySingles.UseVisualStyleBackColor = true;
             // 
             // CHK_IgnoreSpecialClass
             // 
@@ -2211,6 +2084,17 @@
             this.CHK_RandomClass.TabIndex = 326;
             this.CHK_RandomClass.Text = "Random Trainer Classes";
             this.CHK_RandomClass.UseVisualStyleBackColor = true;
+            this.CHK_RandomClass.CheckedChanged += new System.EventHandler(this.CHK_RandomClass_CheckedChanged);
+            // 
+            // CHK_Flag
+            // 
+            this.CHK_Flag.AutoSize = true;
+            this.CHK_Flag.Location = new System.Drawing.Point(166, 53);
+            this.CHK_Flag.Name = "CHK_Flag";
+            this.CHK_Flag.Size = new System.Drawing.Size(46, 17);
+            this.CHK_Flag.TabIndex = 451;
+            this.CHK_Flag.Text = "Flag";
+            this.CHK_Flag.UseVisualStyleBackColor = true;
             // 
             // SMTE
             // 
@@ -2289,7 +2173,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_STAB)).EndInit();
             this.Tab_Trainer1.ResumeLayout(false);
             this.Tab_Trainer1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMax)).EndInit();
             this.ResumeLayout(false);
@@ -2298,13 +2181,9 @@
 
         #endregion
         private System.Windows.Forms.ComboBox CB_TrainerID;
-        private System.Windows.Forms.Label L_TPrize;
-        private System.Windows.Forms.ComboBox CB_Prize;
         private System.Windows.Forms.Label L_AI;
         private System.Windows.Forms.Label L_Money;
         private System.Windows.Forms.ComboBox CB_Money;
-        private System.Windows.Forms.Label L_Battle_Type;
-        private System.Windows.Forms.ComboBox CB_Battle_Type;
         private System.Windows.Forms.Label L_Trainer_Class;
         private System.Windows.Forms.ComboBox CB_Trainer_Class;
         private System.Windows.Forms.Label L_Item_4;
@@ -2422,17 +2301,12 @@
         private System.Windows.Forms.TabPage Tab_Misc;
         private System.Windows.Forms.CheckBox CHK_RandomClass;
         private System.Windows.Forms.CheckBox CHK_IgnoreSpecialClass;
-        private System.Windows.Forms.CheckBox CHK_OnlySingles;
         private System.Windows.Forms.CheckBox CHK_TypeTheme;
         private System.Windows.Forms.CheckBox CHK_RandomMegaForm;
         private System.Windows.Forms.NumericUpDown NUD_RMax;
         private System.Windows.Forms.NumericUpDown NUD_RMin;
         private System.Windows.Forms.Label L_MaxPKM;
         private System.Windows.Forms.Label L_MinPKM;
-        private System.Windows.Forms.NumericUpDown NUD_GiftPercent;
-        private System.Windows.Forms.Label L_GiftPCT;
-        private System.Windows.Forms.CheckBox CHK_RandomGift;
-        private System.Windows.Forms.CheckBox CHK_OnlyDoubles;
         private System.Windows.Forms.TabPage Tab_Trainer1;
         private System.Windows.Forms.CheckBox CHK_STAB;
         private System.Windows.Forms.CheckBox CHK_RandomItems;
@@ -2464,6 +2338,7 @@
         private System.Windows.Forms.TabControl TC_rand;
         private System.Windows.Forms.CheckBox CHK_Damage;
         private System.Windows.Forms.NumericUpDown NUD_Damage;
+        private System.Windows.Forms.CheckBox CHK_Flag;
     }
 }
 

@@ -214,6 +214,51 @@ namespace pk3DS
             279, // Pokémon Trainer
             #endregion
         };
+
+        internal static readonly int[] SpecialClasses_SM =
+        {
+            030, // Pokémon Trainer: Hau
+            031, // Island Kahuna: Hala
+            038, // Captain: Ilima
+            042, // Trial Guide: Ben
+            044, // Captain: Lana
+            045, // Captain: Mallow
+            049, // Island Kahuna: Olivia
+            051, // Island Kahuna: Hapu
+            071, // Aether President: Lusamine
+            072, // Aether Branch Chief: Faba
+            076, // Team Skull Boss: Guzma
+            078, // Team Skull Admin: Plumeria
+            079, // Pokémon Trainer: Plumeria
+            080, // Elite Four: Kahili
+            081, // Pokémon Trainer: [~ 157]
+            082, // Aether President: Lusamine
+            083, // Pokémon Trainer: Red
+            084, // Pokémon Trainer: Blue
+            085, // Pokémon Trainer: Sina
+            086, // Pokémon Trainer: Dexio
+            088, // Pokémon Trainer: Anabel
+            092, // Pro Wrestler: The Royal
+            093, // Pokémon Trainer: Molayne
+            099, // Pokémon Trainer: Molayne
+            100, // Pokémon Trainer: Hau
+            101, // Pokémon Trainer: Hau
+            102, // Pokémon Trainer: Gladion
+            103, // Pokémon Trainer: Gladion
+            107, // Elite Four: Acerola
+            109, // Elite Four: Hala
+            110, // Elite Four: Olivia
+            111, // Pokémon Professor: Kukui
+            139, // GAME FREAK: Morimoto
+            141, // Island Kahuna: Nanu
+            142, // Captain: Sophocles
+            143, // Pokémon Trainer: Ryuki
+            153, // Captain: Mina
+            162, // Aether Foundation: Faba
+            164, // Island Kahuna: Hapu
+            165, // Pokémon Professor: Kukui
+            185, // Aether Foundation: Faba
+        };
         internal static readonly int[] Z_Moves =
         {
             622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658,
