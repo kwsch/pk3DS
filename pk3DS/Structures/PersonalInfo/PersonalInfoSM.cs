@@ -17,6 +17,8 @@ namespace pk3DS
         }
         public override byte[] Write()
         {
+            setBits(TMHM).CopyTo(Data, 0x28);
+            setBits(TypeTutors).CopyTo(Data, 0x38);
             return Data;
         }
         
