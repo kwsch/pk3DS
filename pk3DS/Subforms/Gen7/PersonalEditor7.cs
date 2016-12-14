@@ -193,6 +193,7 @@ namespace pk3DS
                 CB_ZItem.SelectedIndex = sm.SpecialZ_Item;
                 CB_ZBaseMove.SelectedIndex = sm.SpecialZ_BaseMove;
                 CB_ZMove.SelectedIndex = sm.SpecialZ_ZMove;
+                CHK_Variant.Checked = sm.LocalVariant;
             }
         }
         private void readEntry()
@@ -276,6 +277,7 @@ namespace pk3DS
                 sm.SpecialZ_Item = CB_ZItem.SelectedIndex;
                 sm.SpecialZ_BaseMove = CB_ZBaseMove.SelectedIndex;
                 sm.SpecialZ_ZMove = CB_ZMove.SelectedIndex;
+                sm.LocalVariant = CHK_Variant.Checked;
             }
         }
         private void saveEntry()
