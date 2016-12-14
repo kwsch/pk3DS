@@ -254,6 +254,7 @@
             this.CB_TableID = new System.Windows.Forms.ComboBox();
             this.B_Export = new System.Windows.Forms.Button();
             this.CopySOS = new System.Windows.Forms.Button();
+            this.CHK_SOS = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Min)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Max)).BeginInit();
             this.GB_Encounters.SuspendLayout();
@@ -697,6 +698,7 @@
             this.GB_Tweak.Controls.Add(this.B_LevelPlus);
             this.GB_Tweak.Controls.Add(this.NUD_LevelAmp);
             this.GB_Tweak.Controls.Add(this.CHK_Level);
+            this.GB_Tweak.Controls.Add(this.CHK_SOS);
             this.GB_Tweak.Location = new System.Drawing.Point(14, 427);
             this.GB_Tweak.Name = "GB_Tweak";
             this.GB_Tweak.Size = new System.Drawing.Size(282, 120);
@@ -3020,6 +3022,16 @@
             this.CopySOS.UseVisualStyleBackColor = true;
             this.CopySOS.Click += new System.EventHandler(this.CopySOS_Click);
             // 
+            // CHK_SOS
+            // 
+            this.CHK_SOS.AutoSize = true;
+            this.CHK_SOS.Location = new System.Drawing.Point(152, 37);
+            this.CHK_SOS.Name = "CHK_SOS";
+            this.CHK_SOS.Size = new System.Drawing.Size(98, 17);
+            this.CHK_SOS.TabIndex = 297;
+            this.CHK_SOS.Text = "SOS Slots Only";
+            this.CHK_SOS.UseVisualStyleBackColor = true;
+            // 
             // SMWE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3371,5 +3383,6 @@
         private System.Windows.Forms.NumericUpDown NUD_LevelAmp;
         private System.Windows.Forms.CheckBox CHK_Level;
         private System.Windows.Forms.Button CopySOS;
+        private System.Windows.Forms.CheckBox CHK_SOS;
     }
 }

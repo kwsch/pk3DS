@@ -532,6 +532,7 @@ namespace pk3DS
             if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings.") != DialogResult.Yes) return;
 
             Enabled = false;
+            int setSkip = CHK_SOS.Checked ? 1 : 0;
 
             // Calculate % diff we will apply to each level
             decimal leveldiff = (100 + NUD_LevelAmp.Value) / 100;
@@ -552,7 +553,7 @@ namespace pk3DS
                         Table.MaxLevel = Math.Max(1, Math.Min(100, (int)(leveldiff * Table.MaxLevel)));
                     }
 
-                    foreach (var EncounterSet in Table.Encounters)
+                    foreach (var EncounterSet in Table.Encounters.Skip(setSkip)) // Skip regular slots if checked
                     {
                         foreach (var encounter in EncounterSet)
                         {
