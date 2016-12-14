@@ -310,25 +310,19 @@ namespace pk3DS
             pkm.Height = (int)(h * 100);
             pkm.Weight = (int)(w * 10);
             
-            var tm = pkm.TMHM;
             for (int i = 0; i < CLB_TMHM.Items.Count; i++)
-                tm[i] = CLB_TMHM.GetItemChecked(i);
-            pkm.TMHM = tm;
+                pkm.TMHM[i] = CLB_TMHM.GetItemChecked(i);
 
-            var tt = pkm.TypeTutors;
             for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
-                tt[t] = CLB_MoveTutors.GetItemChecked(t);
-            pkm.TypeTutors = tt;
+                pkm.TypeTutors[t] = CLB_MoveTutors.GetItemChecked(t);
 
             if (!Main.Config.ORAS) return;
 
             int[] len = {tutor1.Length, tutor2.Length, tutor3.Length, tutor4.Length};
-            var bits = pkm.SpecialTutors;
             int ctr = 0;
             for (int i = 0; i < 4; i++)
                 for (int t = 0; t < len[i]; t++)
-                    bits[i][t] = CLB_OrasTutors.GetItemChecked(ctr++);
-            pkm.SpecialTutors = bits;
+                    pkm.SpecialTutors[i][t] = CLB_OrasTutors.GetItemChecked(ctr++);
         }
         private void saveEntry()
         {
