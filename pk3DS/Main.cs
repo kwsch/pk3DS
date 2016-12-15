@@ -579,7 +579,8 @@ namespace pk3DS
                 {
                     var g = Config.getGARCData("storytext");
                     string[][] tfiles = g.Files.Select(file => new TextFile(file).Lines).ToArray();
-                    Invoke((Action)(() => new TextEditor(tfiles, "storytext").ShowDialog()));
+                    Invoke((Action)(() => new OWSE().Show()));
+                    Invoke((Action)(() => new TextEditor(tfiles, "storytext").Show()));
                     while (Application.OpenForms.Count > 1)
                         Thread.Sleep(200);
                     g.Files = tfiles.Select(TextFile.getBytes).ToArray();
