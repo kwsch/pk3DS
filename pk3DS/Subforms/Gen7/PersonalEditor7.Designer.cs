@@ -32,6 +32,8 @@
             this.L_Species_Precursor = new System.Windows.Forms.Label();
             this.TC_Pokemon = new System.Windows.Forms.TabControl();
             this.TP_General = new System.Windows.Forms.TabPage();
+            this.TB_CallRate = new System.Windows.Forms.MaskedTextBox();
+            this.L_CallRate = new System.Windows.Forms.Label();
             this.CHK_Variant = new System.Windows.Forms.CheckBox();
             this.TB_BST = new System.Windows.Forms.TextBox();
             this.L_BST = new System.Windows.Forms.Label();
@@ -190,11 +192,13 @@
             this.TC_Pokemon.Location = new System.Drawing.Point(12, 40);
             this.TC_Pokemon.Name = "TC_Pokemon";
             this.TC_Pokemon.SelectedIndex = 0;
-            this.TC_Pokemon.Size = new System.Drawing.Size(445, 365);
+            this.TC_Pokemon.Size = new System.Drawing.Size(445, 375);
             this.TC_Pokemon.TabIndex = 416;
             // 
             // TP_General
             // 
+            this.TP_General.Controls.Add(this.TB_CallRate);
+            this.TP_General.Controls.Add(this.L_CallRate);
             this.TP_General.Controls.Add(this.CHK_Variant);
             this.TP_General.Controls.Add(this.TB_BST);
             this.TP_General.Controls.Add(this.L_BST);
@@ -265,10 +269,31 @@
             this.TP_General.Location = new System.Drawing.Point(4, 22);
             this.TP_General.Name = "TP_General";
             this.TP_General.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_General.Size = new System.Drawing.Size(437, 339);
+            this.TP_General.Size = new System.Drawing.Size(437, 349);
             this.TP_General.TabIndex = 0;
             this.TP_General.Text = "General Info";
             this.TP_General.UseVisualStyleBackColor = true;
+            // 
+            // TB_CallRate
+            // 
+            this.TB_CallRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_CallRate.Location = new System.Drawing.Point(94, 320);
+            this.TB_CallRate.Mask = "000";
+            this.TB_CallRate.Name = "TB_CallRate";
+            this.TB_CallRate.Size = new System.Drawing.Size(31, 20);
+            this.TB_CallRate.TabIndex = 93;
+            this.TB_CallRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_CallRate.TextChanged += new System.EventHandler(this.ByteLimiter);
+            // 
+            // L_CallRate
+            // 
+            this.L_CallRate.AutoSize = true;
+            this.L_CallRate.Location = new System.Drawing.Point(40, 324);
+            this.L_CallRate.Name = "L_CallRate";
+            this.L_CallRate.Size = new System.Drawing.Size(53, 13);
+            this.L_CallRate.TabIndex = 92;
+            this.L_CallRate.Text = "Call Rate:";
+            this.L_CallRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CHK_Variant
             // 
@@ -950,7 +975,7 @@
             this.TP_MoveTutors.Location = new System.Drawing.Point(4, 22);
             this.TP_MoveTutors.Name = "TP_MoveTutors";
             this.TP_MoveTutors.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_MoveTutors.Size = new System.Drawing.Size(437, 339);
+            this.TP_MoveTutors.Size = new System.Drawing.Size(437, 359);
             this.TP_MoveTutors.TabIndex = 1;
             this.TP_MoveTutors.Text = "Move Tutors";
             this.TP_MoveTutors.UseVisualStyleBackColor = true;
@@ -1052,7 +1077,7 @@
             this.TP_Randomizer.Controls.Add(this.B_Randomize);
             this.TP_Randomizer.Location = new System.Drawing.Point(4, 22);
             this.TP_Randomizer.Name = "TP_Randomizer";
-            this.TP_Randomizer.Size = new System.Drawing.Size(437, 339);
+            this.TP_Randomizer.Size = new System.Drawing.Size(437, 359);
             this.TP_Randomizer.TabIndex = 2;
             this.TP_Randomizer.Text = "Enhancements";
             this.TP_Randomizer.UseVisualStyleBackColor = true;
@@ -1492,15 +1517,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(469, 416);
+            this.ClientSize = new System.Drawing.Size(469, 426);
             this.Controls.Add(this.B_Dump);
             this.Controls.Add(this.PB_MonSprite);
             this.Controls.Add(this.TC_Pokemon);
             this.Controls.Add(this.L_Species_Precursor);
             this.Controls.Add(this.CB_Species);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(485, 455);
-            this.MinimumSize = new System.Drawing.Size(485, 455);
+            this.MaximumSize = new System.Drawing.Size(485, 465);
+            this.MinimumSize = new System.Drawing.Size(485, 465);
             this.Name = "PersonalEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Personal Stats Editor";
@@ -1646,5 +1671,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox CB_ZMove;
         private System.Windows.Forms.CheckBox CHK_Variant;
+        private System.Windows.Forms.Label L_CallRate;
+        private System.Windows.Forms.MaskedTextBox TB_CallRate;
     }
 }
