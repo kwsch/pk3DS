@@ -17,7 +17,7 @@ namespace pk3DS
             ability_boxes = new[] { CB_Ability1, CB_Ability2, CB_Ability3 };
             typing_boxes = new[] { CB_Type1, CB_Type2 };
             eggGroup_boxes = new[] { CB_EggGroup1, CB_EggGroup2 };
-            byte_boxes = new[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate };
+            byte_boxes = new[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate, TB_CallRate };
             ev_boxes = new[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
             rstat_boxes = new[] { CHK_rHP, CHK_rATK, CHK_rDEF, CHK_rSPA, CHK_rSPD, CHK_rSPE };
             files = infiles;
@@ -190,6 +190,7 @@ namespace pk3DS
             if (Main.Config.SM)
             {
                 PersonalInfoSM sm = (PersonalInfoSM) pkm;
+                TB_CallRate.Text = sm.CallRate.ToString("000");
                 CB_ZItem.SelectedIndex = sm.SpecialZ_Item;
                 CB_ZBaseMove.SelectedIndex = sm.SpecialZ_BaseMove;
                 CB_ZMove.SelectedIndex = sm.SpecialZ_ZMove;
@@ -270,6 +271,7 @@ namespace pk3DS
             if (Main.Config.SM)
             {
                 PersonalInfoSM sm = (PersonalInfoSM)pkm;
+                sm.CallRate = Convert.ToByte(TB_CallRate.Text);
                 sm.SpecialZ_Item = CB_ZItem.SelectedIndex;
                 sm.SpecialZ_BaseMove = CB_ZBaseMove.SelectedIndex;
                 sm.SpecialZ_ZMove = CB_ZMove.SelectedIndex;
