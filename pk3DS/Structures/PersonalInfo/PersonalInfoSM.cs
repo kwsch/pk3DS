@@ -24,7 +24,6 @@ namespace pk3DS
         
         // No accessing for 3C-4B
 
-        public int CallRate { get { return Data[0x1B]; } set { Data[0x1B] = (byte)value; } }
         public int SpecialZ_Item { get { return BitConverter.ToUInt16(Data, 0x4C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4C); } }
         public int SpecialZ_BaseMove { get { return BitConverter.ToUInt16(Data, 0x4E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4E); } }
         public int SpecialZ_ZMove { get { return BitConverter.ToUInt16(Data, 0x50); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x50); } }

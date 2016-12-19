@@ -190,7 +190,7 @@ namespace pk3DS
             if (Main.Config.SM)
             {
                 PersonalInfoSM sm = (PersonalInfoSM) pkm;
-                TB_CallRate.Text = sm.CallRate.ToString("000");
+                TB_CallRate.Text = sm.EscapeRate.ToString("000");
                 CB_ZItem.SelectedIndex = sm.SpecialZ_Item;
                 CB_ZBaseMove.SelectedIndex = sm.SpecialZ_BaseMove;
                 CB_ZMove.SelectedIndex = sm.SpecialZ_ZMove;
@@ -268,10 +268,10 @@ namespace pk3DS
             for (int t = 0; t < CLB_MoveTutors.Items.Count; t++)
                 pkm.TypeTutors[t] = CLB_MoveTutors.GetItemChecked(t);
 
+            pkm.EscapeRate = Convert.ToByte(TB_CallRate.Text);
             if (Main.Config.SM)
             {
                 PersonalInfoSM sm = (PersonalInfoSM)pkm;
-                sm.CallRate = Convert.ToByte(TB_CallRate.Text);
                 sm.SpecialZ_Item = CB_ZItem.SelectedIndex;
                 sm.SpecialZ_BaseMove = CB_ZBaseMove.SelectedIndex;
                 sm.SpecialZ_ZMove = CB_ZMove.SelectedIndex;
