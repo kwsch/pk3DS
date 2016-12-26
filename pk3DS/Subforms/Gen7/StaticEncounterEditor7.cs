@@ -337,7 +337,7 @@ namespace pk3DS
             {
                 t.Species = Randomizer.getRandomSpecies(ref sL, ref ctr, t.Species, CHK_BST.Checked, Main.SpeciesStat);
                 t.Form = Randomizer.GetRandomForme(t.Species, false, true);
-                int[] moves = Main.Config.Learnsets[t.Species].getMoves(t.Level); Array.Resize(ref moves, 4);
+                int[] moves = Main.Config.Learnsets[t.Species].getCurrentMoves(t.Level); Array.Resize(ref moves, 4);
                 t.RelearnMoves = moves;
             }
             foreach (EncounterTrade7 t in Trades)

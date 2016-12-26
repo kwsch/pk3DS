@@ -398,7 +398,7 @@ namespace pk3DS
         {
             int i = Main.Config.Personal.getFormeIndex(pk.Species, pk.Form);
             var learnset = Main.Config.Learnsets[i];
-            var moves = learnset.getMoves(pk.Level).Distinct().Take(4).ToArray();
+            var moves = learnset.getCurrentMoves(pk.Level);
             Array.Resize(ref moves, 4);
             return moves;
         }

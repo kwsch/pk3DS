@@ -11,10 +11,11 @@ namespace pk3DS
 
         public int[] getMoves(int level)
         {
-            for (int i = 0; i < Levels.Length; i++)
-                if (Levels[i] > level)
-                    return Moves.Take(i).ToArray();
-            return Moves;
+            return Moves.TakeWhile((move, i) => Levels[i] <= level).Distinct().ToArray();
+        }
+        public int[] getCurrentMoves(int level)
+        {
+            return getMoves(level).Reverse().Take(4).Reverse().ToArray();
         }
         public abstract byte[] Write();
     }
