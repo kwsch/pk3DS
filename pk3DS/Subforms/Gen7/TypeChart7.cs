@@ -23,7 +23,7 @@ namespace pk3DS
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
             exefs = File.ReadAllBytes(files[0]);
             if (exefs.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
-            offset = Util.IndexOfBytes(exefs, Signature, 0x500000, 0) + Signature.Length;
+            offset = Util.IndexOfBytes(exefs, Signature, 0x400000, 0) + Signature.Length;
 
             Array.Copy(exefs, offset, chart, 0, chart.Length);
             populateChart();
