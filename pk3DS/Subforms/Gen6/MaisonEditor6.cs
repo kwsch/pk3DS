@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
@@ -219,43 +220,35 @@ namespace pk3DS
         }
         private void B_DumpPKs_Click(object sender, EventArgs e)
         {
-            dumping = true;
+            string[] stats = {"HP", "ATK", "DEF", "Spe", "SpA", "SpD"};
             string result = "";
-            for (int i = 0; i < CB_Pokemon.Items.Count; i++)
+            for (int i = 0; i < pkFiles.Length; i++)
             {
-                CB_Pokemon.SelectedIndex = i;
-                if (CB_Species.SelectedIndex > 0)
-                {
-                    result += "======" + Environment.NewLine + i + " - " + CB_Species.Text + Environment.NewLine + "======" + Environment.NewLine;
-                    result += string.Format("Held Item: {0}" + Environment.NewLine, CB_Item.Text);
-                    result += string.Format("Nature: {0}" + Environment.NewLine, CB_Nature.Text);
-                    result += string.Format("Move 1: {0}" + Environment.NewLine, CB_Move1.Text);
-                    result += string.Format("Move 2: {0}" + Environment.NewLine, CB_Move2.Text);
-                    result += string.Format("Move 3: {0}" + Environment.NewLine, CB_Move3.Text);
-                    result += string.Format("Move 4: {0}" + Environment.NewLine, CB_Move4.Text);
+                var pk = new Maison6.Pokemon(pkFiles[i]);
+                if (pk.Species == 0)
+                    continue;
 
-                    result += "EV'd in: ";
-                    result += CHK_HP.Checked ? "HP, " : "";
-                    result += CHK_ATK.Checked ? "ATK, " : "";
-                    result += CHK_DEF.Checked ? "DEF, " : "";
-                    result += CHK_SpA.Checked ? "SpA, " : "";
-                    result += CHK_SpD.Checked ? "SpD, " : "";
-                    result += CHK_Spe.Checked ? "Spe, " : "";
-                    result += Environment.NewLine;
+                result += "======" + Environment.NewLine;
+                result += $"{i} - {specieslist[pk.Species]}" + Environment.NewLine;
+                result += "======" + Environment.NewLine;
+                result += $"Held Item: {itemlist[pk.Item]}" + Environment.NewLine;
+                result += $"Nature: {natures[pk.Nature]}" + Environment.NewLine;
+                result += $"Move 1: {movelist[pk.Move1]}" + Environment.NewLine;
+                result += $"Move 2: {movelist[pk.Move2]}" + Environment.NewLine;
+                result += $"Move 3: {movelist[pk.Move3]}" + Environment.NewLine;
+                result += $"Move 4: {movelist[pk.Move4]}" + Environment.NewLine;
 
-                    result += Environment.NewLine;
-                }
+                var EVstr = string.Join(",", pk.EVs.Select((iv, x) => iv ? stats[x] : string.Empty).Where(x => !string.IsNullOrWhiteSpace(x)));
+                result += $"EV'd in: {(pk.EVs.Any() ? EVstr : "None")}" + Environment.NewLine;
+
+                result += Environment.NewLine;
             }
             SaveFileDialog sfd = new SaveFileDialog {FileName = "Maison Pokemon.txt", Filter = "Text File|*.txt"};
 
-            SystemSounds.Asterisk.Play();
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                string path = sfd.FileName;
-                File.WriteAllText(path, result, Encoding.Unicode);
-            }
-            dumping = false;
-            CB_Trainer.SelectedIndex = 0;
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+
+            File.WriteAllText(sfd.FileName, result, Encoding.Unicode);
         }
     }
 }

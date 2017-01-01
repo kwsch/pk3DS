@@ -59,9 +59,12 @@
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.B_DumpPKs = new System.Windows.Forms.Button();
             this.DumpTRs = new System.Windows.Forms.Button();
+            this.NUD_Form = new System.Windows.Forms.NumericUpDown();
+            this.L_Form = new System.Windows.Forms.Label();
             this.GB_Trainer.SuspendLayout();
             this.GB_Pokemon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_PKM)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_Trainer
@@ -170,6 +173,8 @@
             // 
             // GB_Pokemon
             // 
+            this.GB_Pokemon.Controls.Add(this.L_Form);
+            this.GB_Pokemon.Controls.Add(this.NUD_Form);
             this.GB_Pokemon.Controls.Add(this.PB_PKM);
             this.GB_Pokemon.Controls.Add(this.CHK_Spe);
             this.GB_Pokemon.Controls.Add(this.CHK_SpD);
@@ -275,7 +280,7 @@
             // L_Item
             // 
             this.L_Item.AutoSize = true;
-            this.L_Item.Location = new System.Drawing.Point(29, 159);
+            this.L_Item.Location = new System.Drawing.Point(29, 141);
             this.L_Item.Name = "L_Item";
             this.L_Item.Size = new System.Drawing.Size(30, 13);
             this.L_Item.TabIndex = 17;
@@ -284,7 +289,7 @@
             // L_Nature
             // 
             this.L_Nature.AutoSize = true;
-            this.L_Nature.Location = new System.Drawing.Point(17, 132);
+            this.L_Nature.Location = new System.Drawing.Point(17, 119);
             this.L_Nature.Name = "L_Nature";
             this.L_Nature.Size = new System.Drawing.Size(42, 13);
             this.L_Nature.TabIndex = 16;
@@ -304,7 +309,7 @@
             this.CB_Item.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Item.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Item.FormattingEnabled = true;
-            this.CB_Item.Location = new System.Drawing.Point(65, 156);
+            this.CB_Item.Location = new System.Drawing.Point(65, 138);
             this.CB_Item.Name = "CB_Item";
             this.CB_Item.Size = new System.Drawing.Size(101, 21);
             this.CB_Item.TabIndex = 14;
@@ -314,7 +319,7 @@
             this.CB_Nature.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Nature.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Nature.FormattingEnabled = true;
-            this.CB_Nature.Location = new System.Drawing.Point(65, 129);
+            this.CB_Nature.Location = new System.Drawing.Point(65, 116);
             this.CB_Nature.Name = "CB_Nature";
             this.CB_Nature.Size = new System.Drawing.Size(101, 21);
             this.CB_Nature.TabIndex = 13;
@@ -390,11 +395,38 @@
             this.DumpTRs.UseVisualStyleBackColor = true;
             this.DumpTRs.Click += new System.EventHandler(this.DumpTRs_Click);
             // 
-            // Maison
+            // NUD_Form
+            // 
+            this.NUD_Form.Location = new System.Drawing.Point(107, 161);
+            this.NUD_Form.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Form.Name = "NUD_Form";
+            this.NUD_Form.Size = new System.Drawing.Size(59, 20);
+            this.NUD_Form.TabIndex = 26;
+            this.NUD_Form.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Form.ValueChanged += new System.EventHandler(this.changeSpecies);
+            // 
+            // L_Form
+            // 
+            this.L_Form.AutoSize = true;
+            this.L_Form.Location = new System.Drawing.Point(71, 163);
+            this.L_Form.Name = "L_Form";
+            this.L_Form.Size = new System.Drawing.Size(33, 13);
+            this.L_Form.TabIndex = 27;
+            this.L_Form.Text = "Form:";
+            // 
+            // MaisonEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(579, 227);
+            this.ClientSize = new System.Drawing.Size(579, 226);
             this.Controls.Add(this.DumpTRs);
             this.Controls.Add(this.B_DumpPKs);
             this.Controls.Add(this.GB_Pokemon);
@@ -406,7 +438,7 @@
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(595, 265);
             this.MinimumSize = new System.Drawing.Size(595, 265);
-            this.Name = "Maison";
+            this.Name = "MaisonEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Maison Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
@@ -415,6 +447,7 @@
             this.GB_Pokemon.ResumeLayout(false);
             this.GB_Pokemon.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_PKM)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -453,5 +486,7 @@
         private System.Windows.Forms.Button B_Set;
         private System.Windows.Forms.ListBox LB_Choices;
         private System.Windows.Forms.ComboBox CB_Class;
+        private System.Windows.Forms.Label L_Form;
+        private System.Windows.Forms.NumericUpDown NUD_Form;
     }
 }

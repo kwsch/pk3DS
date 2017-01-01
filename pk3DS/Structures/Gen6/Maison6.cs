@@ -35,35 +35,36 @@ namespace pk3DS
         }
         public class Pokemon
         {
-            public ushort Species, Item;
-            public byte EVs, Nature;
-            public ushort[] Moves;
-            public bool HP, ATK, DEF, SPE, SPA, SPD;
+            public ushort Species;
+            public readonly ushort[] Moves = new ushort[4];
+            private readonly byte EV;
+            public readonly bool[] EVs = new bool[6];
+            public byte Nature;
+            public ushort Item;
+            public ushort Form;
 
-            private readonly byte _u1;
-            private readonly byte _u2;
+            public int Move1 { get { return Moves[0]; } set { Moves[0] = (ushort)value; } }
+            public int Move2 { get { return Moves[1]; } set { Moves[1] = (ushort)value; } }
+            public int Move3 { get { return Moves[2]; } set { Moves[2] = (ushort)value; } }
+            public int Move4 { get { return Moves[3]; } set { Moves[3] = (ushort)value; } }
+            public bool HP { get { return EVs[0]; } set { EVs[0] = value; } }
+            public bool ATK { get { return EVs[1]; } set { EVs[1] = value; } }
+            public bool DEF { get { return EVs[2]; } set { EVs[2] = value; } }
+            public bool SPE { get { return EVs[3]; } set { EVs[3] = value; } }
+            public bool SPA { get { return EVs[4]; } set { EVs[4] = value; } }
+            public bool SPD { get { return EVs[5]; } set { EVs[5] = value; } }
 
             public Pokemon(byte[] data)
             {
                 Species = BitConverter.ToUInt16(data, 0);
-                Moves = new[]
-                {
-                    BitConverter.ToUInt16(data, 2),
-                    BitConverter.ToUInt16(data, 4),
-                    BitConverter.ToUInt16(data, 6),
-                    BitConverter.ToUInt16(data, 8)
-                };
-                EVs = data[0xA];
-                HP = (EVs >> 0 & 1) == 1;
-                ATK = (EVs >> 1 & 1) == 1;
-                DEF = (EVs >> 2 & 1) == 1;
-                SPE = (EVs >> 3 & 1) == 1;
-                SPA = (EVs >> 4 & 1) == 1;
-                SPD = (EVs >> 5 & 1) == 1;
+                for (int i = 0; i < 4; i++)
+                    Moves[i] = BitConverter.ToUInt16(data, 2 + 2*i);
+                EV = data[0xA];
+                for (int i = 0; i < 6; i++)
+                    EVs[i] = ((EV >> i) & 1) == 1;
                 Nature = data[0xB];
                 Item = BitConverter.ToUInt16(data, 0xC);
-                _u1 = data[0xE];
-                _u2 = data[0xF];
+                Form = BitConverter.ToUInt16(data, 0xE);
             }
             public byte[] Write()
             {
@@ -74,19 +75,14 @@ namespace pk3DS
                     foreach (ushort Move in Moves)
                         bw.Write(Move);
 
-                    EVs &= 0xC0;
-                    EVs |= (byte)(HP ? 1 << 0 : 0);
-                    EVs |= (byte)(ATK ? 1 << 1 : 0);
-                    EVs |= (byte)(DEF ? 1 << 1 : 0);
-                    EVs |= (byte)(SPE ? 1 << 1 : 0);
-                    EVs |= (byte)(SPA ? 1 << 1 : 0);
-                    EVs |= (byte)(SPD ? 1 << 1 : 0);
-                    bw.Write(EVs);
+                    int ev = EV & 0xC0;
+                    for (int i = 0; i < EVs.Length; i++)
+                        ev |= EVs[i] ? 1 << i : 0;
+                    bw.Write((byte)ev);
 
                     bw.Write(Nature);
                     bw.Write(Item);
-                    bw.Write(_u1);
-                    bw.Write(_u2);
+                    bw.Write(Form);
                     return ms.ToArray();
                 }
             }
