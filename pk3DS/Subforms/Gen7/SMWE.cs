@@ -25,23 +25,8 @@ namespace pk3DS
             font = L_Location.Font;
 
             speciesList[0] = "(None)";
-            for (int i = 0; i < locationList.Length; i++)
-                locationList[i] = locationList[i].Replace("\r", "");
-
-            var metSM_00000 = locationList;
-
-            var metSM_00000_good = (string[])metSM_00000.Clone();
-            for (int i = 0; i < metSM_00000.Length; i += 2)
-            {
-                var nextLoc = metSM_00000[i + 1];
-                if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
-                    metSM_00000_good[i] += $" ({nextLoc})";
-                if (i > 0 && !string.IsNullOrWhiteSpace(metSM_00000_good[i]) && metSM_00000_good.Take(i - 1).Contains(metSM_00000_good[i]))
-                    metSM_00000_good[i] += $" ({metSM_00000_good.Take(i - 1).Count(s => s == metSM_00000_good[i]) + 1})";
-            }
-            metSM_00000_good.CopyTo(metSM_00000, 0);
-
-            metSM_00000.CopyTo(locationList, 0);
+            locationList = Main.getText(TextName.metlist_000000);
+            locationList = getGoodLocationList(locationList);
 
             nup_spec = new[]
             {
@@ -78,12 +63,13 @@ namespace pk3DS
             byte[][] zdfiles = zd.Files;
             worldData = zdfiles[1]; // 1.bin
             zoneData = zdfiles[0]; // dec_0.bin
-            Zones = new Zone[zoneData.Length / 0x54];
+            Zones = new ZoneData7[zoneData.Length / ZoneData7.SIZE];
 
             var Worlds = wd.Files.Select(f => mini.unpackMini(f, "WD")[0]).ToArray();
             for (int i = 0; i < Zones.Length; i++)
             {
-                Zones[i] = new Zone(i) {WorldIndex = BitConverter.ToUInt16(worldData, i*0x2)};
+                Zones[i] = new ZoneData7(zoneData, i) {WorldIndex = BitConverter.ToUInt16(worldData, i*0x2)};
+                Zones[i].setName(locationList, i);
                 var World = Worlds[Zones[i].WorldIndex];
                 var mappingOffset = BitConverter.ToInt32(World, 0x8);
                 for (var ofs = mappingOffset; ofs < World.Length; ofs += 4)
@@ -99,12 +85,27 @@ namespace pk3DS
             LoadData();
         }
 
-        private Area[] Areas;
-        private readonly Zone[] Zones;
+        public static string[] getGoodLocationList(string[] list)
+        {
+            var bad = list;
+            var good = (string[])bad.Clone();
+            for (int i = 0; i < bad.Length; i += 2)
+            {
+                var nextLoc = bad[i + 1];
+                if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
+                    good[i] += $" ({nextLoc})";
+                if (i > 0 && !string.IsNullOrWhiteSpace(good[i]) && good.Take(i - 1).Contains(good[i]))
+                    good[i] += $" ({good.Take(i - 1).Count(s => s == good[i]) + 1})";
+            }
+            return good;
+        }
+
+        private Area7[] Areas;
+        private readonly ZoneData7[] Zones;
         private readonly lzGARCFile encdata;
 
         private static readonly string[] speciesList = Main.getText(TextName.SpeciesNames);
-        private static readonly string[] locationList = Main.getText(TextName.metlist_000000);
+        private static string[] locationList;
         private static byte[] zoneData;
         private static byte[] worldData;
 
@@ -123,10 +124,10 @@ namespace pk3DS
             loadingdata = true;
             int fileCount = encdata.FileCount;
             var numAreas = fileCount / 11;
-            Areas = new Area[numAreas];
+            Areas = new Area7[numAreas];
             for (int i = 0; i < numAreas; i++)
             {
-                Areas[i] = new Area
+                Areas[i] = new Area7
                 {
                     FileNumber = 9 + 11*i,
                     Zones = Zones.Where(z => z.AreaIndex == i).ToArray()
@@ -320,21 +321,19 @@ namespace pk3DS
         {
             byte[][] tabs = new byte[tables.Count/2][];
             for (int i = 0; i < tables.Count; i += 2)
-            {
-                tabs[i / 2] = new byte[4].Concat(tables[i].Data).Concat(tables[i + 1].Data).ToArray();
-            }
+                tabs[i/2] = new byte[4].Concat(tables[i].Data).Concat(tables[i + 1].Data).ToArray();
             return mini.packMini(tabs, "EA");
         }
 
-        private class Area
+        private class Area7
         {
             public string Name => string.Join(" / ", Zones.Select(z => z.Name));
             public int FileNumber;
             public bool HasTables;
             public readonly List<EncounterTable> Tables;
-            public Zone[] Zones;
+            public ZoneData7[] Zones;
 
-            public Area()
+            public Area7()
             {
                 Tables = new List<EncounterTable>();
             }
@@ -357,24 +356,7 @@ namespace pk3DS
             }
         }
 
-        internal class Zone
-        {
-            private readonly byte[] Data;
-            private readonly int Index;
-
-            public int WorldIndex;
-            public int AreaIndex;
-            public string Name => $"{Index.ToString("000")} - {locationList[BitConverter.ToUInt32(Data, 0x1C)]}";
-
-            public Zone(int i)
-            {
-                Data = new byte[0x54];
-                Array.Copy(zoneData, i * 0x54, Data, 0, 0x54);
-                Index = i;
-            }
-        }
-
-        internal class EncounterTable
+        private class EncounterTable
         {
             public int MinLevel;
             public int MaxLevel;
@@ -476,18 +458,11 @@ namespace pk3DS
             }
         }
 
-        internal class Encounter
+        private class Encounter
         {
             public uint Species;
             public uint Forme;
-
             public uint RawValue => Species | (Forme << 11);
-
-            public Encounter()
-            {
-                Species = 0;
-                Forme = 0;
-            }
 
             public Encounter(uint val)
             {

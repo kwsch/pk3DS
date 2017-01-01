@@ -93,6 +93,7 @@
             new TextReference(067, TextName.metlist_000000),
             new TextReference(087, TextName.Natures),
             new TextReference(096, TextName.AbilityNames),
+            new TextReference(099, TextName.MaisonTrainerNames),
             new TextReference(104, TextName.TrainerText),
             new TextReference(105, TextName.TrainerNames),
             new TextReference(106, TextName.TrainerClasses),

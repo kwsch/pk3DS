@@ -116,6 +116,11 @@ namespace pk3DS
             new GARCReference(106, "trpoke"),
 
             new GARCReference(155, "encounterstatic"),
+
+            new GARCReference(277, "maisonpkN"),
+            new GARCReference(278, "maisontrN"),
+            new GARCReference(279, "maisonpkS"),
+            new GARCReference(280, "maisontrS"),
                 
             // Varied
             new GARCReference(030, "gametext", true),

@@ -249,7 +249,7 @@ namespace pk3DS
                     B_MoveTutor.Visible = Config.ORAS; // Default false unless loaded
                     break;
                 case 7:
-                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Item, B_Move, };
+                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Item, B_Move, B_Maison};
                     exefs = new Control[] {B_TMHM, B_TypeChart};
                     cro = new Control[] {B_Mart};
 
@@ -455,7 +455,15 @@ namespace pk3DS
                 var trpoke = Config.getGARCData("maisonpk"+c);
                 byte[][] trd = trdata.Files;
                 byte[][] trp = trpoke.Files;
-                Invoke((Action)(() => new MaisonEditor6(trd, trp, super).ShowDialog()));
+                switch (Config.Generation)
+                {
+                    case 6:
+                        Invoke((Action)(() => new MaisonEditor6(trd, trp, super).ShowDialog()));
+                        break;
+                    case 7:
+                        Invoke((Action)(() => new MaisonEditor7(trd, trp).ShowDialog()));
+                        break;
+                }
                 trdata.Files = trd;
                 trpoke.Files = trp;
                 trdata.Save();
@@ -566,6 +574,19 @@ namespace pk3DS
         private void B_OWSE_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
+            switch (Config.Generation)
+            {
+                case 6:
+                    runOWSE6();
+                    return;
+                case 7:
+                    runOWSE7();
+                    return;
+            }
+        }
+        private void runOWSE6()
+        {
+            Enabled = false;
             new Thread(() =>
             {
                 bool reload = (ModifierKeys == Keys.Control) || ModifierKeys == (Keys.Alt | Keys.Control);
@@ -573,9 +594,7 @@ namespace pk3DS
                 if (reload || files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
                     fileGet(files, false);
 
-                // Only want to set back encdata.
-                files = new[] {"encdata"};
-                Invoke((MethodInvoker) delegate { Enabled = false; });
+                // Don't set any data back. Just view.
                 {
                     var g = Config.getGARCData("storytext");
                     string[][] tfiles = g.Files.Select(file => new TextFile(file).Lines).ToArray();
@@ -583,11 +602,31 @@ namespace pk3DS
                     Invoke((Action)(() => new TextEditor(tfiles, "storytext").Show()));
                     while (Application.OpenForms.Count > 1)
                         Thread.Sleep(200);
-                    g.Files = tfiles.Select(TextFile.getBytes).ToArray();
-                    g.Save();
                 }
                 Invoke((MethodInvoker) delegate { Enabled = true; });
                 fileSet(files);
+            }).Start();
+        }
+        private void runOWSE7()
+        {
+            Enabled = false;
+            new Thread(() =>
+            {
+                var files = new[] { "encdata", "zonedata", "worlddata" };
+                updateStatus($"GARC Get: {files[0]}... ");
+                var ed = Config.getlzGARCData(files[0]);
+                updateStatus($"GARC Get: {files[1]}... ");
+                var zd = Config.getlzGARCData(files[1]);
+                updateStatus($"GARC Get: {files[2]}... ");
+                var wd = Config.getlzGARCData(files[2]);
+
+                var g = Config.getGARCData("storytext");
+                string[][] tfiles = g.Files.Select(file => new TextFile(file).Lines).ToArray();
+                Invoke((Action)(() => new TextEditor(tfiles, "storytext").Show()));
+                Invoke((Action)(() => new OWSE7(ed, zd, wd).Show()));
+                while (Application.OpenForms.Count > 1)
+                    Thread.Sleep(200);
+                Invoke((MethodInvoker)delegate { Enabled = true; });
             }).Start();
         }
         private void B_Evolution_Click(object sender, EventArgs e)

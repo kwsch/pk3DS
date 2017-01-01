@@ -70,6 +70,8 @@
     <Compile Include="Structures\Gen7\EncounterGift7.cs" />
     <Compile Include="Structures\Gen7\EncounterStatic7.cs" />
     <Compile Include="Structures\Gen7\EncounterTrade7.cs" />
+    <Compile Include="Structures\Gen7\Maison7.cs" />
+    <Compile Include="Structures\Gen7\ZoneData7.cs" />
     <Compile Include="Structures\TypeChart.cs" />
     <Compile Include="Misc\About.cs">
       <SubType>Form</SubType>
@@ -111,6 +113,12 @@
     <Compile Include="Subforms\Gen7\EvolutionEditor7.Designer.cs">
       <DependentUpon>EvolutionEditor7.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Gen7\Experimental\OWSE7.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Gen7\Experimental\OWSE7.Designer.cs">
+      <DependentUpon>OWSE7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Gen7\ItemEditor7.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +130,12 @@
     </Compile>
     <Compile Include="Subforms\Gen7\LevelUpEditor7.Designer.cs">
       <DependentUpon>LevelUpEditor7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Gen7\MaisonEditor7.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Gen7\MaisonEditor7.Designer.cs">
+      <DependentUpon>MaisonEditor7.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Gen7\MartEditor7.cs">
       <SubType>Form</SubType>
@@ -381,6 +395,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\LevelUpEditor7.resx">
       <DependentUpon>LevelUpEditor7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Gen7\MaisonEditor7.resx">
+      <DependentUpon>MaisonEditor7.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\MartEditor7.resx">
       <DependentUpon>MartEditor7.cs</DependentUpon>

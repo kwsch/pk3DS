@@ -235,7 +235,7 @@
             this.Menu_Rebuild,
             this.Menu_SMDH});
             this.Menu_Tools.Name = "Menu_Tools";
-            this.Menu_Tools.Size = new System.Drawing.Size(48, 20);
+            this.Menu_Tools.Size = new System.Drawing.Size(47, 20);
             this.Menu_Tools.Text = "Tools";
             // 
             // Menu_Restore
