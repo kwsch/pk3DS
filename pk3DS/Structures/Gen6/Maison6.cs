@@ -15,7 +15,7 @@ namespace pk3DS
             public Trainer(byte[] data)
             {
                 Class = BitConverter.ToUInt16(data, 0);
-                Count = BitConverter.ToUInt16(data, 0);
+                Count = BitConverter.ToUInt16(data, 2);
                 Choices = new ushort[Count];
                 for (int i = 0; i < Count; i++)
                     Choices[i] = BitConverter.ToUInt16(data, 4 + 2 * i);
