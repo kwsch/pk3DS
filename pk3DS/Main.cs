@@ -444,7 +444,18 @@ namespace pk3DS
         private void B_Maison_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
-            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Edit Super Maison instead of Normal Maison?", "Yes = Super, No = Normal, Cancel = Abort");
+            DialogResult dr;
+            switch (Config.Generation)
+            {
+                case 6:
+                    dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Edit Super Maison instead of Normal Maison?", "Yes = Super, No = Normal, Cancel = Abort");
+                    break;
+                case 7:
+                    dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Edit Battle Royal instead of Battle Tree?", "Yes = Royal, No = Tree, Cancel = Abort");
+                    break;
+                default:
+                    return;
+            }
             if (dr == DialogResult.Cancel) return;
 
             new Thread(() =>
@@ -461,7 +472,7 @@ namespace pk3DS
                         Invoke((Action)(() => new MaisonEditor6(trd, trp, super).ShowDialog()));
                         break;
                     case 7:
-                        Invoke((Action)(() => new MaisonEditor7(trd, trp).ShowDialog()));
+                        Invoke((Action)(() => new MaisonEditor7(trd, trp, super).ShowDialog()));
                         break;
                 }
                 trdata.Files = trd;

@@ -9,14 +9,14 @@ namespace pk3DS
 {
     public partial class MaisonEditor7 : Form
     {
-        public MaisonEditor7(byte[][] trd, byte[][] trp)
+        public MaisonEditor7(byte[][] trd, byte[][] trp, bool royal)
         {
             trFiles = trd;
             pkFiles = trp;
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
             movelist[0] = specieslist[0] = itemlist[0] = "";
             
-            trNames = Main.getText(TextName.MaisonTrainerNames); Array.Resize(ref trNames, trFiles.Length);
+            trNames = Main.getText(royal ? TextName.BattleRoyalNames : TextName.BattleTreeNames); Array.Resize(ref trNames, trFiles.Length);
 
             InitializeComponent();
             Setup();
