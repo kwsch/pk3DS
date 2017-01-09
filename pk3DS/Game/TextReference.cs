@@ -85,6 +85,7 @@
             new TextReference(050, TextName.TrainerNames),
             new TextReference(051, TextName.TrainerClasses),
             new TextReference(052, TextName.Types),
+            new TextReference(054, TextName.MoveFlavor),
             new TextReference(055, TextName.MoveNames),
         };
         public static readonly TextReference[] GameText_SM =
@@ -101,6 +102,7 @@
             new TextReference(105, TextName.TrainerNames),
             new TextReference(106, TextName.TrainerClasses),
             new TextReference(107, TextName.Types),
+            new TextReference(112, TextName.MoveFlavor), 
             new TextReference(113, TextName.MoveNames),
             new TextReference(114, TextName.Forms)
         };
