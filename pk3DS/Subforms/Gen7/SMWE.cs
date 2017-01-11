@@ -161,7 +161,7 @@ namespace pk3DS
             foreach (Control ctrl in Controls)
                 ctrl.Enabled = true;
             B_Randomize.Enabled = true; // Randomization: complete
-
+            CB_SlotRand.SelectedIndex = 0;
 
             CB_LocationID.SelectedIndex = 0;
             loadingdata = false;
@@ -507,16 +507,36 @@ namespace pk3DS
             if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings.") != DialogResult.Yes) return;
 
             Enabled = false;
-            int setSkip = CHK_SOS.Checked ? 1 : 0;
+            int slotStart;
+            int slotStop;
+            bool copy = false;
+
+            switch (CB_SlotRand.SelectedIndex)
+            {
+                default: // All
+                    slotStart = 0;
+                    slotStop = -1;
+                    break;
+                case 1: // Regular Only
+                    slotStart = 0;
+                    slotStop = 1;
+                    break;
+                case 2: // SOS Only
+                    slotStart = 1;
+                    slotStop = -1;
+                    break;
+                case 3: // Regular Only, Copy to SOS
+                    slotStart = 0;
+                    slotStop = 1;
+                    copy = true;
+                    break;
+            }
 
             // Calculate % diff we will apply to each level
             decimal leveldiff = (100 + NUD_LevelAmp.Value) / 100;
 
-            // Nonrepeating List Start
-            int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked,
-                CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, CHK_G7.Checked, CHK_L.Checked, CHK_E.Checked);
-
-            int ctr = 0;
+            var rnd = new Randomizer(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked,
+                CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, CHK_G7.Checked, CHK_L.Checked, CHK_E.Checked, Shedinja: false);
 
             foreach (var Map in Areas)
             {
@@ -528,31 +548,29 @@ namespace pk3DS
                         Table.MaxLevel = Math.Max(1, Math.Min(100, (int)(leveldiff * Table.MaxLevel)));
                     }
 
-                    foreach (var EncounterSet in Table.Encounters.Skip(setSkip)) // Skip regular slots if checked
+                    int end = slotStop < 0 ? Table.Encounters.Length : slotStop;
+                    for (int s = slotStart; s < end; s++)
                     {
-                        foreach (var encounter in EncounterSet)
+                        var EncounterSet = Table.Encounters[s];
+                        foreach (var enc in EncounterSet.Where(enc => enc.Species != 0))
                         {
-                            // Only modify slots that're used.
-                            if (encounter.Species == 0)
-                                continue;
+                            enc.Species = (uint)rnd.getRandomSpecies((int)enc.Species);
+                            enc.Forme = GetRandomForme((int) enc.Species);
+                        }
+                    }
 
-                            if (!CHK_BST.Checked)
-                                encounter.Species = (uint) Randomizer.getRandomSpecies(ref sL, ref ctr);
-                            else
+                    if (copy) // copy row 0 to rest
+                    {
+                        var table = Table.Encounters;
+                        var s0 = table[0];
+                        for (int r = 1; r < table.Length; r++)
+                        {
+                            var slots = table[r];
+                            for (int s = 0; s < slots.Length; s++)
                             {
-                                var old_ind = Main.SpeciesStat[encounter.Species].FormeIndex((int)encounter.Species, (int)encounter.Forme);
-                                int oldBST = Main.SpeciesStat[old_ind].BST;
-
-                                int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
-                                int newBST = Main.SpeciesStat[species].BST;
-                                while (!(newBST*4/5 < oldBST && newBST*6/5 > oldBST))
-                                {
-                                    species = Randomizer.getRandomSpecies(ref sL, ref ctr);
-                                    newBST = Main.SpeciesStat[species].BST;
-                                }
-                                encounter.Species = (uint)species;
+                                slots[s].Species = s0[s].Species;
+                                slots[s].Forme = s0[s].Forme;
                             }
-                            encounter.Forme = GetRandomForme((int)encounter.Species);
                         }
                     }
 
