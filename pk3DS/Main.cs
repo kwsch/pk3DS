@@ -1197,7 +1197,7 @@ namespace pk3DS
         // Text Requests
         internal static string[] getText(TextName file)
         {
-            return Config.GameTextStrings[Config.getGameText(file).Index];
+            return (string[])Config.GameTextStrings[Config.getGameText(file).Index].Clone();
         }
         internal static bool setText(TextName file, string[] strings)
         {
