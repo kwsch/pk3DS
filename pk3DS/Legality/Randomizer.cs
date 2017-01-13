@@ -98,6 +98,10 @@ namespace pk3DS
                 return 0;
             if (stats[species].FormeCount <= 1)
                 return 0;
+            if (species == 664 || species == 665 || species == 666) // vivillon
+                return 30; // save file specific
+            if (species == 774) // minior
+                return (int)(Util.rnd32()%7);
             if (alola && Legal.EvolveToAlolanForms.Contains(species))
                 return (int)(Util.rnd32()%2);
             if (!Legal.Mega_ORAS.Contains((ushort)species) || mega)
