@@ -675,6 +675,7 @@ namespace CTR
             }
 
             byte[] GARCdata = File.ReadAllBytes(tempFile);
+            File.Delete(tempFile);
             return new MemGARC(GARCdata);
         }
 
