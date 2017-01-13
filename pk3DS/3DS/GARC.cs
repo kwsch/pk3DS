@@ -429,7 +429,10 @@ namespace CTR
         }
         private static GARCFile unpackGARC(byte[] data)
         {
-            return unpackGARC(new MemoryStream(data));
+            GARCFile garc;
+            using (var gd = new MemoryStream(data))
+                garc = unpackGARC(gd);
+            return garc;
         }
         private static GARCFile unpackGARC(Stream stream)
         {
@@ -545,10 +548,13 @@ namespace CTR
                 garc.fatb.Entries[i].SubEntries[0].Exists = true;
 
                 // Assemble Entry
-                int actualLength = data[i].Length%4 == 0 ? data[i].Length : data[i].Length + 4 - data[i].Length%4;
+                var paddingRequired = data[i].Length%garc.ContentPadToNearest;
+                if (paddingRequired != 0) paddingRequired = garc.ContentPadToNearest - paddingRequired;
+                int actualLength = data[i].Length + (int)paddingRequired;
                 garc.fatb.Entries[i].SubEntries[0].Start = od;
                 garc.fatb.Entries[i].SubEntries[0].End = actualLength + garc.fatb.Entries[i].SubEntries[0].Start;
                 garc.fatb.Entries[i].SubEntries[0].Length = data[i].Length;
+                garc.fatb.Entries[i].SubEntries[0].Padding = (int)paddingRequired;
                 od += actualLength;
 
                 op += 12;
@@ -557,8 +563,8 @@ namespace CTR
             garc.fatb.HeaderSize = 0xC + op;
 
             // Set up the Header Info
-            using (MemoryStream newGARC = new MemoryStream())
-            using (MemoryStream GARCdata = new MemoryStream())
+            string tempFile = Path.GetTempFileName();
+            using (var newGARC = new FileStream(tempFile, FileMode.Create))
             using (BinaryWriter gw = new BinaryWriter(newGARC))
             {
                 #region Write GARC Headers
@@ -602,47 +608,15 @@ namespace CTR
                     }
                 }
 
-                #endregion
-
-                #region Write Files
-
-                long largestSize = 0; // Required memory to allocate to handle the largest file
-                long largestPadded = 0; // Required memory to allocate to handle the largest PADDED file (Ver6 only)
-                foreach (byte[] e in data)
-                {
-                    // Update largest file length if necessary
-                    long len = e.Length;
-                    bool largest = len > largestSize;
-                    if (largest)
-                    {
-                        largestSize = len;
-                        largestPadded = len;
-                    }
-
-                    // Write to FIMB
-                    using (var input = new MemoryStream(e))
-                        input.CopyTo(GARCdata);
-
-                    // While length is not divisible by 4, pad with FF (unused byte)
-                    while (GARCdata.Length%garc.ContentPadToNearest != 0)
-                    {
-                        GARCdata.WriteByte(0xFF);
-                        if (largest)
-                            largestPadded++;
-                    }
-                }
-                garc.ContentLargestUnpadded = (uint) largestSize;
-                garc.ContentLargestPadded = (uint) largestPadded;
-
-                #endregion
-
                 gw.Write((uint) 0x46494D42); // FIMB
                 gw.Write((uint) 0x0000000C); // Header Length
-                gw.Write((uint) GARCdata.Length); // Data Length
+                var dataLen = gw.BaseStream.Position;
+                gw.Write((uint) 0); // Data Length - TEMP
 
                 gw.Seek(0x10, SeekOrigin.Begin); // Goto the start of the un-set 0 data we set earlier and set it.
-                gw.Write((uint) newGARC.Length); // Write Data Offset
-                gw.Write((uint) (newGARC.Length + GARCdata.Length)); // Write total GARC Length
+                var hdrLen = gw.BaseStream.Position;
+                gw.Write((uint) 0); // Write Data Offset - TEMP
+                gw.Write((uint) 0); // Write total GARC Length - TEMP
 
                 // Write Handling information
                 if (version == VER_4)
@@ -658,12 +632,50 @@ namespace CTR
 
                 newGARC.Seek(0, SeekOrigin.End); // Goto the end so we can copy the filedata after the GARC headers.
 
-                // Write in the data
-                GARCdata.Position = 0;
-                GARCdata.CopyTo(newGARC); // Copy the data.
-                // New File is ready to be saved (memstream newGARC)
-                return new MemGARC(newGARC.ToArray());
+                #endregion
+
+                #region Write Files
+
+                var ghLength = gw.BaseStream.Length;
+
+                long largestSize = 0; // Required memory to allocate to handle the largest file
+                long largestPadded = 0; // Required memory to allocate to handle the largest PADDED file (Ver6 only)
+                for (int i = 0; i < data.Length; i++)
+                {
+                    byte[] e = data[i];
+
+                    // Update largest file length if necessary
+                    int len = e.Length;
+                    int padding = garc.fatb.Entries[i].SubEntries[0].Padding;
+                    bool largest = len > largestSize;
+                    if (largest)
+                    {
+                        largestSize = len;
+                        largestPadded = len + padding;
+                    }
+
+                    // Write to FIMB
+                    gw.Write(e);
+
+                    // Pad with FF (unused byte)
+                    while (padding-- > 0)
+                        gw.Write((byte)0xFF);
+                }
+                garc.ContentLargestUnpadded = (uint)largestSize;
+                garc.ContentLargestPadded = (uint)largestPadded;
+                var gdLength = gw.BaseStream.Length - ghLength;
+
+                #endregion
+
+                gw.Seek((int)dataLen, SeekOrigin.Begin);
+                gw.Write((uint)gdLength); // Data Length
+                gw.Seek((int)hdrLen, SeekOrigin.Begin);
+                gw.Write((uint)ghLength); // Write Data Offset
+                gw.Write((uint)gw.BaseStream.Length); // Write total GARC Length
             }
+
+            byte[] GARCdata = File.ReadAllBytes(tempFile);
+            return new MemGARC(GARCdata);
         }
 
         public class MemGARC
@@ -751,9 +763,11 @@ namespace CTR
 
                     try
                     {
-                        MemoryStream newMS = new MemoryStream();
-                        LZSS.Decompress(new MemoryStream(data), data.Length, newMS);
-                        Data = newMS.ToArray();
+                        using (MemoryStream newMS = new MemoryStream())
+                        {
+                            LZSS.Decompress(new MemoryStream(data), data.Length, newMS);
+                            Data = newMS.ToArray();
+                        }
                         WasCompressed = true;
                     }
                     catch { }
@@ -764,9 +778,17 @@ namespace CTR
                     if (!WasCompressed)
                         return Data;
 
-                    MemoryStream newMS = new MemoryStream();
-                    LZSS.Compress(new MemoryStream(Data), Data.Length, newMS, original:true);
-                    return newMS.ToArray();
+                    byte[] data;
+                    try
+                    {
+                        using (MemoryStream newMS = new MemoryStream())
+                        {
+                            LZSS.Compress(new MemoryStream(Data), Data.Length, newMS, original: true);
+                            data = newMS.ToArray();
+                        }
+                    }
+                    catch { data = new byte[0]; }
+                    return data;
                 }
             }
 
@@ -872,6 +894,9 @@ namespace CTR
             public int Start;
             public int End;
             public int Length;
+
+            // Unsaved Properties
+            public int Padding { get; set; }
         }
 
         public struct FIMG
