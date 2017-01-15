@@ -303,12 +303,14 @@ namespace pk3DS
             // Check to see if the folder is romfs
             if (fi.Name == "a")
             {
-                var cfg = checkGameType(Directory.GetFiles(path, "*", SearchOption.AllDirectories));
+                string[] files = Directory.GetFiles(path, "*", SearchOption.AllDirectories);
+                var cfg = checkGameType(files);
 
                 if (cfg == null)
                 {
                     RomFSPath = null;
                     Config = null;
+                    Util.Error("File count does not match expected game count.", "Files: " + files.Length);
                     return false;
                 }
 
@@ -318,6 +320,7 @@ namespace pk3DS
                 Randomizer.MaxSpeciesID = cfg.MaxSpeciesID;
                 return true;
             }
+            Util.Error("Folder does not contain an 'a' folder in the top level.");
             RomFSPath = null;
             return false;
         }
