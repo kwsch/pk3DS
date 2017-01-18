@@ -45,6 +45,7 @@
             this.B_Continue.TabIndex = 11;
             this.B_Continue.Text = "Continue";
             this.B_Continue.UseVisualStyleBackColor = true;
+            this.B_Continue.Click += new System.EventHandler(this.B_Continue_Click);
             // 
             // B_Abort
             // 
@@ -55,6 +56,7 @@
             this.B_Abort.TabIndex = 10;
             this.B_Abort.Text = "Abort";
             this.B_Abort.UseVisualStyleBackColor = true;
+            this.B_Abort.Click += new System.EventHandler(this.B_Abort_Click);
             // 
             // B_CopyToClipboard
             // 
@@ -65,6 +67,7 @@
             this.B_CopyToClipboard.TabIndex = 9;
             this.B_CopyToClipboard.Text = "Copy to Clipboard";
             this.B_CopyToClipboard.UseVisualStyleBackColor = true;
+            this.B_CopyToClipboard.Click += new System.EventHandler(this.btnCopyToClipboard_Click);
             // 
             // L_ProvideInfo
             // 
@@ -77,7 +80,7 @@
             // 
             // L_Message
             // 
-            this.L_Message.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.L_Message.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Message.Location = new System.Drawing.Point(10, 11);
             this.L_Message.Name = "L_Message";
@@ -87,8 +90,8 @@
             // 
             // T_ExceptionDetails
             // 
-            this.T_ExceptionDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.T_ExceptionDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.T_ExceptionDetails.Location = new System.Drawing.Point(13, 54);
             this.T_ExceptionDetails.Multiline = true;

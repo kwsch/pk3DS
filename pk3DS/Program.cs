@@ -35,7 +35,7 @@ namespace pk3DS
             try
             {
                 // Todo: make this translatable
-                ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nYou can continue running the program (albeit with potential side-effects), but please report this error.", t.Exception, true);
+                ErrorWindow.ShowErrorDialog("An unhandled exception has occurred." + Environment.NewLine + "You can continue running the program (albeit with potential side-effects), but please report this error.", t.Exception, true);
             }
             catch
             {
@@ -65,7 +65,7 @@ namespace pk3DS
             {
                 var ex = (Exception)e.ExceptionObject;
                 // Todo: make this translatable
-                ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nThe program must now close.", ex, false);
+                ErrorWindow.ShowErrorDialog("An unhandled exception has occurred." + Environment.NewLine + "The program must now close.", ex, false);
             }
             catch
             {
