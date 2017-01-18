@@ -62,8 +62,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="3DS\AES.cs" />
@@ -88,6 +90,12 @@
     <Compile Include="Game\GARCReference.cs" />
     <Compile Include="Game\TextReference.cs" />
     <Compile Include="Game\TextVariableCode.cs" />
+    <Compile Include="Misc\ErrorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Misc\ErrorWindow.Designer.cs">
+      <DependentUpon>ErrorWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Structures\EncounterStatic.cs" />
     <Compile Include="Structures\Gen7\EncounterGift7.cs" />
     <Compile Include="Structures\Gen7\EncounterStatic7.cs" />
@@ -405,6 +413,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\ErrorWindow.resx">
+      <DependentUpon>ErrorWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\EggMoveEditor7.resx">
       <DependentUpon>EggMoveEditor7.cs</DependentUpon>
