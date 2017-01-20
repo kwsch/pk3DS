@@ -535,8 +535,12 @@ namespace pk3DS
             // Calculate % diff we will apply to each level
             decimal leveldiff = (100 + NUD_LevelAmp.Value) / 100;
 
-            var rnd = new Randomizer(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked,
-                CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, CHK_G7.Checked, CHK_L.Checked, CHK_E.Checked, Shedinja: false);
+            Randomizer rnd = new Randomizer(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked,
+                CHK_G6.Checked, CHK_G7.Checked, CHK_L.Checked, CHK_E.Checked, Shedinja: true)
+            {
+                BST = CHK_BST.Checked,
+                Stats = Main.SpeciesStat
+            };
 
             foreach (var Map in Areas)
             {
