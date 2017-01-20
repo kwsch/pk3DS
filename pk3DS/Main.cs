@@ -156,7 +156,7 @@ namespace pk3DS
                 }
                 else
                 {
-                    DialogResult dr = Util.Prompt(MessageBoxButtons.YesNo, "Unpack sub-files?", "Cancel: Abort");
+                    DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Unpack sub-files?", "Cancel: Abort");
                     if (dr == DialogResult.Cancel)
                         return;
                     bool recurse = dr == DialogResult.Yes;
