@@ -153,7 +153,6 @@ namespace pk3DS
         {
             if (!Directory.Exists(path)) { Util.Error("Input path is not a Folder", path); return; }
             string folderName = Path.GetFileName(path);
-            if (folderName == null) return;
             string parentName = Directory.GetParent(path).FullName;
             int type = CB_Repack.SelectedIndex;
             switch (type)
@@ -179,10 +178,14 @@ namespace pk3DS
                         return;
 
                     var version = dr == DialogResult.Yes ? CTR.GARC.VER_6 : CTR.GARC.VER_4;
+                    int padding = (int)NUD_Padding.Value;
+                    if (version == CTR.GARC.VER_4)
+                        padding = 4;
+
+                    string outfolder = Directory.GetParent(path).FullName;
                     new Thread(() =>
                     {
-                        string outfolder = Directory.GetParent(path).FullName;
-                        bool r = CTR.GARC.garcPackMS(path, Path.Combine(outfolder, folderName + ".garc"), version, pBar1);
+                        bool r = CTR.GARC.garcPackMS(path, Path.Combine(outfolder, folderName + ".garc"), version, padding, pBar1);
                         if (!r) { Util.Alert("Packing failed."); return; }
                         // Delete path after repacking
                         if (CHK_Delete.Checked && Directory.Exists(path))

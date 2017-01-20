@@ -799,7 +799,7 @@ namespace pk3DS
             {
                 string GARC = Config.getGARCFileName(toEdit);
                 updateStatus($"GARC Set: {toEdit} @ {GARC}... ");
-                threadSet(Path.Combine(RomFSPath, GARC), toEdit);
+                threadSet(Path.Combine(RomFSPath, GARC), toEdit, 4); // 4 bytes for Gen6
                 while (threads > 0) Thread.Sleep(50);
                 if (!keep && Directory.Exists(toEdit)) Directory.Delete(toEdit, true);
                 resetStatus();
@@ -1144,14 +1144,14 @@ namespace pk3DS
             }
             catch (Exception e) { Util.Error("Could not get the GARC:", e.ToString()); threads--; return false; }
         }
-        private bool setGARC(string outfile, string infolder, bool PB)
+        private bool setGARC(string outfile, string infolder, int padBytes, bool PB)
         {
             if (skipBoth || (ModifierKeys == Keys.Control && Util.Prompt(MessageBoxButtons.YesNo, "Cancel writing data back to GARC?") == DialogResult.Yes))
             { threads--; updateStatus("Aborted!", false); return false; }
 
             try
             {
-                bool success = CTR.GARC.garcPackMS(infolder, outfile, Config.GARCVersion, PB ? pBar1 : null, null, true);
+                bool success = CTR.GARC.garcPackMS(infolder, outfile, Config.GARCVersion, padBytes, PB ? pBar1 : null, null, true);
                 threads--;
                 updateStatus(string.Format(success ? "Success!" : "Failed!"), false);
                 return success;
@@ -1165,10 +1165,10 @@ namespace pk3DS
                 catch { }
             new Thread(() => getGARC(infile, outfolder, PB, bypassExt)).Start();
         }
-        private void threadSet(string outfile, string infolder, bool PB = true)
+        private void threadSet(string outfile, string infolder, int padBytes, bool PB = true)
         {
             threads++;
-            new Thread(() => setGARC(outfile, infolder, PB)).Start();
+            new Thread(() => setGARC(outfile, infolder, padBytes, PB)).Start();
         }
 
         private static void backupGARCs(bool overwrite, params string[] g)
