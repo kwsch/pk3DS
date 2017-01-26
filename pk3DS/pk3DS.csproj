@@ -272,7 +272,7 @@
     <Compile Include="Subforms\Gen6\RSWE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Gen6\RSWE.designer.cs">
+    <Compile Include="Subforms\Gen6\RSWE.Designer.cs">
       <DependentUpon>RSWE.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Gen6\OPower.cs">
