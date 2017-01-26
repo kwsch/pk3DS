@@ -4976,7 +4976,7 @@
     <None Include="Resources\img\F.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\img\FLY.png" />
+    <None Include="Resources\img\fly.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\img\slotDel.png" />
