@@ -200,7 +200,7 @@
     <Compile Include="Subforms\Gen7\SMWE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Gen7\SMWE.designer.cs">
+    <Compile Include="Subforms\Gen7\SMWE.Designer.cs">
       <DependentUpon>SMWE.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Gen6\StaticEncounterEditor6.cs">
@@ -272,7 +272,7 @@
     <Compile Include="Subforms\Gen6\RSWE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Gen6\RSWE.designer.cs">
+    <Compile Include="Subforms\Gen6\RSWE.Designer.cs">
       <DependentUpon>RSWE.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Gen6\OPower.cs">
@@ -366,7 +366,7 @@
     <Compile Include="Subforms\Gen6\Experimental\OWSE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Gen6\Experimental\OWSE.designer.cs">
+    <Compile Include="Subforms\Gen6\Experimental\OWSE.Designer.cs">
       <DependentUpon>OWSE.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Gen6\TrainerRand.cs">
@@ -384,7 +384,7 @@
     <Compile Include="Subforms\Gen6\XYWE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Gen6\XYWE.designer.cs">
+    <Compile Include="Subforms\Gen6\XYWE.Designer.cs">
       <DependentUpon>XYWE.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Icon.cs">
@@ -4976,7 +4976,7 @@
     <None Include="Resources\img\F.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\img\FLY.png" />
+    <None Include="Resources\img\fly.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\img\slotDel.png" />
