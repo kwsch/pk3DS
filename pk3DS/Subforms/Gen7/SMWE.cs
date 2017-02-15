@@ -485,14 +485,11 @@ namespace pk3DS
             // Disable Interface while modifying
             Enabled = false;
 
-            // Calculate % diff we will apply to each level
-            decimal leveldiff = (100 + NUD_LevelAmp.Value) / 100;
-
             // Cycle through each location to modify levels
             foreach (var Table in Areas.SelectMany(Map => Map.Tables))
             {
-                Table.MinLevel = Math.Max(1, Math.Min(100, (int)(leveldiff * Table.MinLevel)));
-                Table.MaxLevel = Math.Max(1, Math.Min(100, (int)(leveldiff * Table.MaxLevel)));
+                Table.MinLevel = Randomizer.getModifiedLevel(Table.MinLevel, NUD_LevelAmp.Value);
+                Table.MaxLevel = Randomizer.getModifiedLevel(Table.MaxLevel, NUD_LevelAmp.Value);
                 Table.Write();
             }
             // Enable Interface... modification complete.
@@ -532,9 +529,6 @@ namespace pk3DS
                     break;
             }
 
-            // Calculate % diff we will apply to each level
-            decimal leveldiff = (100 + NUD_LevelAmp.Value) / 100;
-
             Randomizer rnd = new Randomizer(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked,
                 CHK_G6.Checked, CHK_G7.Checked, CHK_L.Checked, CHK_E.Checked, Shedinja: true)
             {
@@ -548,8 +542,8 @@ namespace pk3DS
                 {
                     if (CHK_Level.Checked)
                     {
-                        Table.MinLevel = Math.Max(1, Math.Min(100, (int)(leveldiff * Table.MinLevel)));
-                        Table.MaxLevel = Math.Max(1, Math.Min(100, (int)(leveldiff * Table.MaxLevel)));
+                        Table.MinLevel = Randomizer.getModifiedLevel(Table.MinLevel, NUD_LevelAmp.Value);
+                        Table.MaxLevel = Randomizer.getModifiedLevel(Table.MaxLevel, NUD_LevelAmp.Value);
                     }
 
                     int end = slotStop < 0 ? Table.Encounters.Length : slotStop;

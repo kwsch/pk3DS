@@ -40,6 +40,8 @@
             this.L_Table = new System.Windows.Forms.Label();
             this.GB_Encounters = new System.Windows.Forms.GroupBox();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CB_SlotRand = new System.Windows.Forms.ComboBox();
+            this.L_SOS = new System.Windows.Forms.Label();
             this.CHK_G7 = new System.Windows.Forms.CheckBox();
             this.CHK_MegaForm = new System.Windows.Forms.CheckBox();
             this.L_RandOpt = new System.Windows.Forms.Label();
@@ -254,8 +256,6 @@
             this.CB_TableID = new System.Windows.Forms.ComboBox();
             this.B_Export = new System.Windows.Forms.Button();
             this.CopySOS = new System.Windows.Forms.Button();
-            this.L_SOS = new System.Windows.Forms.Label();
-            this.CB_SlotRand = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Min)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Max)).BeginInit();
             this.GB_Encounters.SuspendLayout();
@@ -708,6 +708,30 @@
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
             // 
+            // CB_SlotRand
+            // 
+            this.CB_SlotRand.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_SlotRand.DropDownWidth = 200;
+            this.CB_SlotRand.FormattingEnabled = true;
+            this.CB_SlotRand.Items.AddRange(new object[] {
+            "Randomize All",
+            "Randomize Regular Only",
+            "Randomize SOS Only",
+            "Randomize Regular, Copy to SOS"});
+            this.CB_SlotRand.Location = new System.Drawing.Point(152, 116);
+            this.CB_SlotRand.Name = "CB_SlotRand";
+            this.CB_SlotRand.Size = new System.Drawing.Size(121, 21);
+            this.CB_SlotRand.TabIndex = 299;
+            // 
+            // L_SOS
+            // 
+            this.L_SOS.Location = new System.Drawing.Point(13, 116);
+            this.L_SOS.Name = "L_SOS";
+            this.L_SOS.Size = new System.Drawing.Size(130, 23);
+            this.L_SOS.TabIndex = 298;
+            this.L_SOS.Text = "Slot Randomization:";
+            this.L_SOS.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // CHK_G7
             // 
             this.CHK_G7.AutoSize = true;
@@ -857,17 +881,22 @@
             // 
             // NUD_LevelAmp
             // 
+            this.NUD_LevelAmp.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
             this.NUD_LevelAmp.Location = new System.Drawing.Point(152, 16);
-            this.NUD_LevelAmp.Minimum = new decimal(new int[] {
-            75,
+            this.NUD_LevelAmp.Maximum = new decimal(new int[] {
+            3,
             0,
             0,
-            -2147483648});
+            0});
             this.NUD_LevelAmp.Name = "NUD_LevelAmp";
             this.NUD_LevelAmp.Size = new System.Drawing.Size(41, 20);
             this.NUD_LevelAmp.TabIndex = 276;
             this.NUD_LevelAmp.Value = new decimal(new int[] {
-            50,
+            3,
             0,
             0,
             0});
@@ -877,9 +906,9 @@
             this.CHK_Level.AutoSize = true;
             this.CHK_Level.Location = new System.Drawing.Point(33, 17);
             this.CHK_Level.Name = "CHK_Level";
-            this.CHK_Level.Size = new System.Drawing.Size(122, 17);
+            this.CHK_Level.Size = new System.Drawing.Size(105, 17);
             this.CHK_Level.TabIndex = 279;
-            this.CHK_Level.Text = "Modify All Levels (%)";
+            this.CHK_Level.Text = "Modify All Levels";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
             // PB_NightIcon
@@ -3023,30 +3052,6 @@
             this.CopySOS.Text = "Copy Initials to SOS";
             this.CopySOS.UseVisualStyleBackColor = true;
             this.CopySOS.Click += new System.EventHandler(this.CopySOS_Click);
-            // 
-            // L_SOS
-            // 
-            this.L_SOS.Location = new System.Drawing.Point(13, 116);
-            this.L_SOS.Name = "L_SOS";
-            this.L_SOS.Size = new System.Drawing.Size(130, 23);
-            this.L_SOS.TabIndex = 298;
-            this.L_SOS.Text = "Slot Randomization:";
-            this.L_SOS.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_SlotRand
-            // 
-            this.CB_SlotRand.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_SlotRand.DropDownWidth = 200;
-            this.CB_SlotRand.FormattingEnabled = true;
-            this.CB_SlotRand.Items.AddRange(new object[] {
-            "Randomize All",
-            "Randomize Regular Only",
-            "Randomize SOS Only",
-            "Randomize Regular, Copy to SOS"});
-            this.CB_SlotRand.Location = new System.Drawing.Point(152, 116);
-            this.CB_SlotRand.Name = "CB_SlotRand";
-            this.CB_SlotRand.Size = new System.Drawing.Size(121, 21);
-            this.CB_SlotRand.TabIndex = 299;
             // 
             // SMWE
             // 

@@ -109,6 +109,22 @@ namespace pk3DS
             return 0;
         }
 
+        /// <summary>
+        /// Multiplies the current level with a scaling factor, returning a modified level.
+        /// </summary>
+        /// <param name="level">Current Level.</param>
+        /// <param name="factor">Modification factor.</param>
+        /// <returns>Boosted (or reduced) level.</returns>
+        internal static int getModifiedLevel(int level, decimal factor)
+        {
+            int newlvl = (int) (level * factor);
+            if (newlvl < 1)
+                return 1;
+            if (newlvl > 100)
+                return 100;
+            return newlvl;
+        }
+
         internal static int[] getRandomItemList()
         {
             if (Main.Config.ORAS)

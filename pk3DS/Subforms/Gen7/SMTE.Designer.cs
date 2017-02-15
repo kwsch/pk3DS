@@ -146,6 +146,7 @@
             this.NUD_NumPoke = new System.Windows.Forms.NumericUpDown();
             this.TC_trdata = new System.Windows.Forms.TabControl();
             this.Tab_Trainer = new System.Windows.Forms.TabPage();
+            this.CHK_Flag = new System.Windows.Forms.CheckBox();
             this.Tab_Advanced = new System.Windows.Forms.TabPage();
             this.Tab_Misc = new System.Windows.Forms.TabPage();
             this.TC_rand = new System.Windows.Forms.TabControl();
@@ -159,7 +160,6 @@
             this.CHK_G6 = new System.Windows.Forms.CheckBox();
             this.CHK_G5 = new System.Windows.Forms.CheckBox();
             this.CHK_G4 = new System.Windows.Forms.CheckBox();
-            this.L_LevelPCT = new System.Windows.Forms.Label();
             this.CHK_G3 = new System.Windows.Forms.CheckBox();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_G2 = new System.Windows.Forms.CheckBox();
@@ -187,7 +187,6 @@
             this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
             this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
             this.CHK_RandomClass = new System.Windows.Forms.CheckBox();
-            this.CHK_Flag = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -1525,6 +1524,16 @@
             this.Tab_Trainer.Text = "Trainer";
             this.Tab_Trainer.UseVisualStyleBackColor = true;
             // 
+            // CHK_Flag
+            // 
+            this.CHK_Flag.AutoSize = true;
+            this.CHK_Flag.Location = new System.Drawing.Point(166, 53);
+            this.CHK_Flag.Name = "CHK_Flag";
+            this.CHK_Flag.Size = new System.Drawing.Size(46, 17);
+            this.CHK_Flag.TabIndex = 451;
+            this.CHK_Flag.Text = "Flag";
+            this.CHK_Flag.UseVisualStyleBackColor = true;
+            // 
             // Tab_Advanced
             // 
             this.Tab_Advanced.Controls.Add(this.textBox3);
@@ -1572,7 +1581,6 @@
             this.Tab_PKM1.Controls.Add(this.CHK_G6);
             this.Tab_PKM1.Controls.Add(this.CHK_G5);
             this.Tab_PKM1.Controls.Add(this.CHK_G4);
-            this.Tab_PKM1.Controls.Add(this.L_LevelPCT);
             this.Tab_PKM1.Controls.Add(this.CHK_G3);
             this.Tab_PKM1.Controls.Add(this.NUD_LevelBoost);
             this.Tab_PKM1.Controls.Add(this.CHK_G2);
@@ -1694,15 +1702,6 @@
             this.CHK_G4.Text = "Gen 4";
             this.CHK_G4.UseVisualStyleBackColor = true;
             // 
-            // L_LevelPCT
-            // 
-            this.L_LevelPCT.AutoSize = true;
-            this.L_LevelPCT.Location = new System.Drawing.Point(276, 79);
-            this.L_LevelPCT.Name = "L_LevelPCT";
-            this.L_LevelPCT.Size = new System.Drawing.Size(15, 13);
-            this.L_LevelPCT.TabIndex = 302;
-            this.L_LevelPCT.Text = "%";
-            // 
             // CHK_G3
             // 
             this.CHK_G3.AutoSize = true;
@@ -1717,17 +1716,22 @@
             // 
             // NUD_LevelBoost
             // 
+            this.NUD_LevelBoost.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
             this.NUD_LevelBoost.Location = new System.Drawing.Point(232, 75);
-            this.NUD_LevelBoost.Minimum = new decimal(new int[] {
-            75,
+            this.NUD_LevelBoost.Maximum = new decimal(new int[] {
+            3,
             0,
             0,
-            -2147483648});
+            0});
             this.NUD_LevelBoost.Name = "NUD_LevelBoost";
             this.NUD_LevelBoost.Size = new System.Drawing.Size(43, 20);
             this.NUD_LevelBoost.TabIndex = 301;
             this.NUD_LevelBoost.Value = new decimal(new int[] {
-            50,
+            1,
             0,
             0,
             0});
@@ -2086,16 +2090,6 @@
             this.CHK_RandomClass.UseVisualStyleBackColor = true;
             this.CHK_RandomClass.CheckedChanged += new System.EventHandler(this.CHK_RandomClass_CheckedChanged);
             // 
-            // CHK_Flag
-            // 
-            this.CHK_Flag.AutoSize = true;
-            this.CHK_Flag.Location = new System.Drawing.Point(166, 53);
-            this.CHK_Flag.Name = "CHK_Flag";
-            this.CHK_Flag.Size = new System.Drawing.Size(46, 17);
-            this.CHK_Flag.TabIndex = 451;
-            this.CHK_Flag.Text = "Flag";
-            this.CHK_Flag.UseVisualStyleBackColor = true;
-            // 
             // SMTE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2324,7 +2318,6 @@
         private System.Windows.Forms.CheckBox CHK_G2;
         private System.Windows.Forms.NumericUpDown NUD_LevelBoost;
         private System.Windows.Forms.CheckBox CHK_G3;
-        private System.Windows.Forms.Label L_LevelPCT;
         private System.Windows.Forms.CheckBox CHK_G4;
         private System.Windows.Forms.CheckBox CHK_G5;
         private System.Windows.Forms.CheckBox CHK_G6;

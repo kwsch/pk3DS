@@ -638,7 +638,7 @@ namespace pk3DS
                         pk.Gender = 0; // Random Gender
                     }
                     if (CHK_Level.Checked)
-                        pk.Level = (int)(pk.Level*(100 + NUD_LevelBoost.Value))/100;
+                        pk.Level = Randomizer.getModifiedLevel(pk.Level, NUD_LevelBoost.Value);
                     if (CHK_RandomShiny.Checked)
                         pk.Shiny = Util.rand.Next(0, 100 + 1) < NUD_Shiny.Value;
                     if (CHK_RandomItems.Checked)
