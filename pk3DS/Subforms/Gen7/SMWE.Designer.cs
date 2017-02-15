@@ -896,7 +896,7 @@
             this.NUD_LevelAmp.Size = new System.Drawing.Size(41, 20);
             this.NUD_LevelAmp.TabIndex = 276;
             this.NUD_LevelAmp.Value = new decimal(new int[] {
-            3,
+            1,
             0,
             0,
             0});
