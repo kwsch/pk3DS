@@ -9,6 +9,7 @@ namespace pk3DS
     public partial class TypeChart7 : Form
     {
         private readonly int offset = Main.Config.ORAS ? 0x000DB428 : 0x000D12A8;
+        private readonly string codebin;
         private readonly byte[] chart = new byte[TypeCount * TypeCount];
         private readonly byte[] exefs;
         private readonly string[] types = Main.getText(TextName.Types);
@@ -21,7 +22,8 @@ namespace pk3DS
             if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); Close(); }
             string[] files = Directory.GetFiles(Main.ExeFSPath);
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
-            exefs = File.ReadAllBytes(files[0]);
+            codebin = files[0];
+            exefs = File.ReadAllBytes(codebin);
             if (exefs.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
             offset = Util.IndexOfBytes(exefs, Signature, 0x400000, 0) + Signature.Length;
 
@@ -43,7 +45,7 @@ namespace pk3DS
         private void B_Save_Click(object sender, EventArgs e)
         {
             chart.CopyTo(exefs, offset);
-            File.WriteAllBytes(Main.ExeFSPath, exefs);
+            File.WriteAllBytes(codebin, exefs);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)
