@@ -109,7 +109,7 @@ namespace pk3DS
             catch (Exception ex)
             { 
                 Util.Error("Could not create patch:", ex.ToString());
-                Directory.Delete(patchFolder, true);
+                if (Directory.Exists(patchFolder)) Directory.Delete(patchFolder, true);
             }
         }
 
