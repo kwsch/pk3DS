@@ -871,16 +871,17 @@
             // 
             // B_LevelPlus
             // 
-            this.B_LevelPlus.Location = new System.Drawing.Point(199, 14);
+            this.B_LevelPlus.Location = new System.Drawing.Point(203, 14);
             this.B_LevelPlus.Name = "B_LevelPlus";
-            this.B_LevelPlus.Size = new System.Drawing.Size(70, 23);
+            this.B_LevelPlus.Size = new System.Drawing.Size(66, 23);
             this.B_LevelPlus.TabIndex = 277;
-            this.B_LevelPlus.Text = "+/- Current";
+            this.B_LevelPlus.Text = "× Current";
             this.B_LevelPlus.UseVisualStyleBackColor = true;
             this.B_LevelPlus.Click += new System.EventHandler(this.modifyLevels);
             // 
             // NUD_LevelAmp
             // 
+            this.NUD_LevelAmp.DecimalPlaces = 2;
             this.NUD_LevelAmp.Increment = new decimal(new int[] {
             5,
             0,
@@ -893,7 +894,7 @@
             0,
             0});
             this.NUD_LevelAmp.Name = "NUD_LevelAmp";
-            this.NUD_LevelAmp.Size = new System.Drawing.Size(41, 20);
+            this.NUD_LevelAmp.Size = new System.Drawing.Size(48, 20);
             this.NUD_LevelAmp.TabIndex = 276;
             this.NUD_LevelAmp.Value = new decimal(new int[] {
             1,

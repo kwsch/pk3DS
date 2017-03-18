@@ -1716,6 +1716,7 @@
             // 
             // NUD_LevelBoost
             // 
+            this.NUD_LevelBoost.DecimalPlaces = 2;
             this.NUD_LevelBoost.Increment = new decimal(new int[] {
             5,
             0,
@@ -1755,9 +1756,9 @@
             this.CHK_Level.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_Level.Location = new System.Drawing.Point(100, 76);
             this.CHK_Level.Name = "CHK_Level";
-            this.CHK_Level.Size = new System.Drawing.Size(126, 17);
+            this.CHK_Level.Size = new System.Drawing.Size(130, 17);
             this.CHK_Level.TabIndex = 300;
-            this.CHK_Level.Text = "Level Boost Multiplier";
+            this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             this.CHK_Level.CheckedChanged += new System.EventHandler(this.CHK_Level_CheckedChanged);
             // 
