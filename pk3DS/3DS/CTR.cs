@@ -11,7 +11,7 @@ namespace CTR
 {
     public class CTR
     {
-        internal static uint MEDIA_UNIT_SIZE = 0x200;
+        internal const uint MEDIA_UNIT_SIZE = 0x200;
 
         // Main wrapper that assembles the ROM based on the following specifications:
         internal static bool buildROM(bool Card2, string LOGO_NAME,

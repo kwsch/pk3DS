@@ -9,9 +9,9 @@ namespace CTR
 {
     public class Exheader
     {
-        public byte[] Data;
-        public byte[] AccessDescriptor;
-        public ulong TitleID;
+        public readonly byte[] Data;
+        public readonly byte[] AccessDescriptor;
+        public readonly ulong TitleID;
 
         public Exheader(string EXHEADER_PATH)
         {

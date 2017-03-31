@@ -6,10 +6,10 @@ using System.Text.RegularExpressions;
 
 namespace CTR
 {
-    internal class FileFormat
+    internal static class FileFormat
     {
-        internal static string defaultExtension = "bin";
-        internal static string[] validEXT = {"BCH",};
+        internal const string defaultExtension = "bin";
+        internal static readonly string[] validEXT = {"BCH",};
 
         internal static string Guess(string path)
         {

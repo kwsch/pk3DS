@@ -5,7 +5,7 @@ using System.Linq;
 namespace CTR
 {
     // Mini Packing Util
-    class mini
+    internal static class mini
     {
         internal static byte[] adjustMiniHeader(byte[] data, int headerLength)
         {
@@ -185,44 +185,27 @@ namespace CTR
             if (delete)
                 File.Delete(path); // File is unpacked.
         }
-        internal static byte[][] unpackMini(byte[] fileData, string ident)
+        public static byte[][] unpackMini(byte[] fileData, string identifier)
         {
-            using (var s = new MemoryStream(fileData))
-            using (var br = new BinaryReader(s))
+            if (fileData == null || fileData.Length < 4)
+                return null;
+
+            if (identifier[0] != fileData[0] || identifier[1] != fileData[1])
+                return null;
+
+            int count = BitConverter.ToUInt16(fileData, 2); int ctr = 4;
+            int start = BitConverter.ToInt32(fileData, ctr); ctr += 4;
+            byte[][] returnData = new byte[count][];
+            for (int i = 0; i < count; i++)
             {
-                string fx = new string(br.ReadChars(2));
-
-                if (fx != ident) return null;
-
-                ushort count = br.ReadUInt16();
-                byte[][] returnData = new byte[count][];
-
-                uint[] offsets = new uint[count + 1];
-                for (int i = 0; i < count; i++)
-                    offsets[i] = br.ReadUInt32();
-
-                uint length = br.ReadUInt32();
-                offsets[offsets.Length - 1] = length;
-
-                for (int i = 0; i < count; i++)
-                {
-                    br.BaseStream.Seek(offsets[i], SeekOrigin.Begin);
-                    using (MemoryStream dataout = new MemoryStream())
-                    {
-                        byte[] data = new byte[0];
-                        s.CopyTo(dataout, (int)offsets[i]);
-                        int len = (int)offsets[i + 1] - (int)offsets[i];
-
-                        if (len != 0)
-                        {
-                            data = dataout.ToArray();
-                            Array.Resize(ref data, len);
-                        }
-                        returnData[i] = data;
-                    }
-                }
-                return returnData;
+                int end = BitConverter.ToInt32(fileData, ctr); ctr += 4;
+                int len = end - start;
+                byte[] data = new byte[len];
+                Buffer.BlockCopy(fileData, start, data, 0, len);
+                returnData[i] = data;
+                start = end;
             }
+            return returnData;
         }
         internal static string getIsMini(string path)
         {

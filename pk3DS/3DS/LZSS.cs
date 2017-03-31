@@ -4,7 +4,7 @@ using System.IO;
 namespace CTR
 {
     // LZSS (de)compression, heavily taken from dsdecmp
-    public class LZSS 
+    public static class LZSS 
     {
         internal static long Decompress(string infile, string outfile)
         {
@@ -269,7 +269,7 @@ namespace CTR
         /// This algorithm should yield files that are the same as those found in the games.
         /// (delegates to the optimized method if LookAhead is set)
         /// </summary>
-        internal unsafe static int Compress(Stream instream, long inLength, Stream outstream, bool original)
+        internal static unsafe int Compress(Stream instream, long inLength, Stream outstream, bool original)
         {
             // make sure the decompressed size fits in 3 bytes.
             // There should be room for four bytes, however I'm not 100% sure if that can be used
@@ -396,7 +396,7 @@ namespace CTR
         /// and determine the optimal 'length' values for the compressed blocks. Is not 100% optimal,
         /// as the flag-bytes are not taken into account.
         /// </summary>
-        internal unsafe static int CompressWithLA(Stream instream, long inLength, Stream outstream)
+        internal static unsafe int CompressWithLA(Stream instream, long inLength, Stream outstream)
         {
             // save the input data in an array to prevent having to go back and forth in a file
             byte[] indata = new byte[inLength];
@@ -514,7 +514,7 @@ namespace CTR
         /// this value is the optimal 'length' value. If it is 1, the block should not be compressed.</param>
         /// <param name="disps">The 'disp' values of the compressed blocks. May be 0, in which case the
         /// corresponding length will never be anything other than 1.</param>
-        internal unsafe static void GetOptimalCompressionLengths(byte* indata, int inLength, out int[] lengths, out int[] disps)
+        internal static unsafe void GetOptimalCompressionLengths(byte* indata, int inLength, out int[] lengths, out int[] disps)
         {
             lengths = new int[inLength];
             disps = new int[inLength];
@@ -586,16 +586,15 @@ namespace CTR
     /// </summary>
     public class NotEnoughDataException : IOException
     {
-        private readonly long currentOutSize;
-        private readonly long totalOutSize;
         /// <summary>
         /// Gets the actual number of written bytes.
         /// </summary>
-        public long WrittenLength { get { return currentOutSize; } }
+        public long WrittenLength { get; }
+
         /// <summary>
         /// Gets the number of bytes that was supposed to be written.
         /// </summary>
-        public long DesiredLength { get { return totalOutSize; } }
+        public long DesiredLength { get; }
 
         /// <summary>
         /// Creates a new NotEnoughDataException.
@@ -607,8 +606,8 @@ namespace CTR
                 + " of " + (totalOutSize < 0 ? "???" : "0x" + totalOutSize.ToString("X"))
                 + " bytes written.")
         {
-            this.currentOutSize = currentOutSize;
-            this.totalOutSize = totalOutSize;
+            WrittenLength = currentOutSize;
+            DesiredLength = totalOutSize;
         }
     }
     /// <summary>

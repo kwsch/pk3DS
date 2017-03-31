@@ -28,11 +28,6 @@ namespace CTR
 {
     public class BLZCoder
     {
-        public static void main(string[] args)
-        {
-            new BLZCoder(args);
-        }
-
         private const int CMD_DECODE = 0;
         private const int CMD_ENCODE = 1;
 
@@ -43,15 +38,12 @@ namespace CTR
         private const int BLZ_THRESHOLD = 2;
         private const int BLZ_N = 0x1002;
         private const int BLZ_F = 0x12;
-
         private const int BLZ_MAXIM = 0x01400000;
         private const int RAW_MAXIM = 0x00FFFFFF;
-        readonly bool arm9;
-        int new_len;
-        static void EXIT(string text)
-        {
-            Console.Write(text);
-        }
+
+        private readonly bool arm9;
+        private int new_len;
+        
         private readonly ProgressBar pBar1;
         private void initpBar(int max)
         {
@@ -65,6 +57,7 @@ namespace CTR
                 pBar1.Invoke((MethodInvoker)delegate { pBar1.Value = pos; });
             else { pBar1.Value = pos; }
         }
+
         public BLZCoder(string[] args, ProgressBar pBar = null)
         {
             int cmd, mode = 0;
@@ -112,7 +105,7 @@ namespace CTR
 
             Console.Write(Environment.NewLine + "Done" + Environment.NewLine);
         }
-        private void Save(string filename, byte[] buffer, int length)
+        private static void Save(string filename, byte[] buffer, int length)
         {
             Array.Resize(ref buffer, length);
             try
@@ -124,7 +117,7 @@ namespace CTR
                 Console.Write(Environment.NewLine + "Wrote to 'blz.bin' instead." + Environment.NewLine);
             }
         }
-        private void BLZ_Decode(string filename)
+        private static void BLZ_Decode(string filename)
         {
             try
             {
@@ -141,7 +134,7 @@ namespace CTR
             catch (IOException e)
             { Console.Write(Environment.NewLine + "File read error" + Environment.NewLine + e); }
         }
-        private BLZResult BLZ_Decode(byte[] data)
+        private static BLZResult BLZ_Decode(byte[] data)
         {
             int raw_len, len;
             int enc_len, dec_len;
@@ -270,7 +263,7 @@ namespace CTR
             }
             return new BLZResult(pak_buffer, pak_len);
         }
-        private byte[] prepareData(byte[] data)
+        private static byte[] prepareData(byte[] data)
         {
             int fs = data.Length;
             byte[] fb = new byte[fs + 3];
@@ -279,7 +272,7 @@ namespace CTR
 
             return fb;
         }
-        private void writeUnsigned(byte[] buffer, int offset, int value)
+        private static void writeUnsigned(byte[] buffer, int offset, int value)
         {
             buffer[offset] = (byte)(value & 0xFF);
             buffer[offset + 1] = (byte)((value >> 8) & 0xFF);
@@ -386,11 +379,11 @@ namespace CTR
                 else
                     pak_buffer[pak++] = raw_buffer[raw++];
 
-                if (pak + raw_len - raw < pak_tmp + raw_tmp)
-                {
-                    pak_tmp = pak;
-                    raw_tmp = raw_len - raw;
-                }
+                if (pak + raw_len - raw >= pak_tmp + raw_tmp)
+                    continue;
+
+                pak_tmp = pak;
+                raw_tmp = raw_len - raw;
             }
 
             while ((mask > 0) && (mask != 1))
@@ -411,7 +404,7 @@ namespace CTR
                 raw_end = raw_len;
 
                 while (raw < raw_end)
-                    pak_buffer[pak] = raw_buffer[raw];
+                    pak_buffer[pak++] = raw_buffer[raw++];
 
                 while ((pak & 3) > 0)
                     pak_buffer[pak++] = 0;
@@ -431,10 +424,8 @@ namespace CTR
 
                 for (len = 0; len < pak_tmp; len++)
                     tmp[raw_tmp + len] = pak_buffer[len + pak_len - pak_tmp];
-
-                pak = 0;
+                
                 pak_buffer = tmp;
-
                 pak = raw_tmp + pak_tmp;
 
                 int enc_len = pak_tmp;
@@ -468,7 +459,7 @@ namespace CTR
                 this.p = p;
             }
         }
-        private SearchPair SEARCH(int p, IList<byte> raw_buffer, int raw, int raw_end)
+        private static SearchPair SEARCH(int p, IList<byte> raw_buffer, int raw, int raw_end)
         {
             int l = BLZ_THRESHOLD;
             int max = raw >= BLZ_N ? BLZ_N : raw;
@@ -506,7 +497,7 @@ namespace CTR
             public readonly byte[] buffer;
             public readonly int length;
         }
-        private void BLZ_Invert(byte[] buffer, int offset, int length)
+        private static void BLZ_Invert(byte[] buffer, int offset, int length)
         {
             int bottom = offset + length - 1;
 

@@ -58,8 +58,8 @@ namespace CTR
                 FileDataOffset = br.ReadUInt32();
             }
             public string Signature;
-            public UInt16 Endianness;
-            public UInt16 HeaderSize;
+            public ushort Endianness;
+            public ushort HeaderSize;
             public uint Version;
             public uint FileSize;
             public uint FileTableOffset;
@@ -78,7 +78,7 @@ namespace CTR
                 DataLength = br.ReadUInt32();
             }
             public uint NameOffset;
-            public Boolean IsFolder;
+            public bool IsFolder;
             public uint DataOffset; // FOLDER: Parent Entry Index
             public uint DataLength; // FOLDER: Next Folder Index
         }
@@ -156,7 +156,7 @@ namespace CTR
                     EntryList.Add(new FileTableEntry
                     {
                         DataOffset = 1,
-                        DataLength = (uint) (files.Count() + EntryList.Count),
+                        DataLength = (uint) (files.Length + EntryList.Count),
                         IsFolder = true,
                         NameOffset = nameOffset
                     });
@@ -346,7 +346,7 @@ namespace CTR
         }
         internal static DARC insertFiles(DARC orig, string folderName)
         {
-            string[] fileNames = new string[orig.Entries.Count()];
+            string[] fileNames = new string[orig.Entries.Length];
             for (int i = 0; i < fileNames.Length; i++)
                 fileNames[i] = orig.FileNameTable[i].FileName;
 

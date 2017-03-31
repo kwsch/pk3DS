@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace CTR
 {
-    class CRO
+    internal class CRO
     {
         // Utility
         internal static void updateTB(RichTextBox RTB, string progress)

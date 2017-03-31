@@ -1,12 +1,11 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using System.Text;
 
 namespace CTR
 {
     // System Menu Data Header
-    class SMDH
+    public class SMDH
     {
         public uint Magic;
         public ushort Version;
@@ -61,7 +60,7 @@ namespace CTR
     }
 
     // Thanks to Gericom for EveryFileExplorer's SMDH.cs as a basis for the object code (and AppSettings enumeration)
-    class ApplicationInfo
+    public class ApplicationInfo
     {
         public string ShortDescription; //0x80
         public string LongDescription; //0x100
@@ -80,17 +79,17 @@ namespace CTR
         }
     }
 
-    class ApplicationSettings
+    public class ApplicationSettings
     {
-        public byte[] GameRatings; //0x10
-        public RegionLockoutFlags RegionLockout;
-        public uint MatchMakerID;
-        public UInt64 MatchMakerBITID;
-        public AppSettingsFlags Flags;
-        public UInt16 EULAVersion;
-        public UInt16 Reserved;
-        public Single AnimationDefaultFrame;
-        public uint StreetPassID;
+        public readonly byte[] GameRatings; //0x10
+        public readonly RegionLockoutFlags RegionLockout;
+        public readonly uint MatchMakerID;
+        public readonly ulong MatchMakerBITID;
+        public readonly AppSettingsFlags Flags;
+        public readonly ushort EULAVersion;
+        public readonly ushort Reserved;
+        public readonly float AnimationDefaultFrame;
+        public readonly uint StreetPassID;
         
         public enum RegionLockoutFlags : uint
         {
@@ -141,7 +140,7 @@ namespace CTR
         }
     }
 
-    class SmallIcon // 24x24
+    public class SmallIcon // 24x24
     {
         public Bitmap Icon;
         public byte[] Bytes;
@@ -163,7 +162,7 @@ namespace CTR
         }
     }
 
-    class LargeIcon // 48x48
+    public class LargeIcon // 48x48
     {
         public Bitmap Icon;
         public byte[] Bytes;

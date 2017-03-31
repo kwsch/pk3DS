@@ -10,10 +10,10 @@ namespace CTR
     public class RomFS
     {
         // Get Info
-        public string FileName;
-        public bool isTempFile;
-        public byte[] SuperBlockHash;
-        public uint SuperBlockLen;
+        public readonly string FileName;
+        public readonly bool isTempFile;
+        public readonly byte[] SuperBlockHash;
+        public readonly uint SuperBlockLen;
 
         public RomFS(string fn)
         {
@@ -166,7 +166,7 @@ namespace CTR
                         }
                     }
                     if (PB_Show.InvokeRequired)
-                        PB_Show.Invoke((MethodInvoker)delegate { PB_Show.PerformStep(); });
+                        PB_Show.Invoke((MethodInvoker)PB_Show.PerformStep);
                     else { PB_Show.PerformStep(); }
                 }
                 long hashBaseOfs = (long)Align((ulong)OutFileStream.Position, ivfc.Levels[2].BlockSize);
@@ -178,9 +178,10 @@ namespace CTR
                     updateTB(TB_Progress, "Computing Level " + i + " Hashes...");
                     byte[] buffer = new byte[(int)ivfc.Levels[i].BlockSize];
 
+                    var count = (int) (ivfc.Levels[i].DataLength/ivfc.Levels[i].BlockSize);
                     if (PB_Show.InvokeRequired)
-                        PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = (int)(ivfc.Levels[i].DataLength / ivfc.Levels[i].BlockSize); });
-                    else { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = (int)(ivfc.Levels[i].DataLength / ivfc.Levels[i].BlockSize); }
+                        PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = count; });
+                    else { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = count; }
 
                     for (long ofs = 0; ofs < (long)ivfc.Levels[i].DataLength; ofs += ivfc.Levels[i].BlockSize)
                     {
@@ -192,9 +193,13 @@ namespace CTR
                         OutFileStream.Write(hash, 0, hash.Length);
                         cOfs = OutFileStream.Position;
                         if (PB_Show.InvokeRequired)
-                            PB_Show.Invoke((MethodInvoker)delegate { PB_Show.PerformStep(); });
+                            PB_Show.Invoke((MethodInvoker)PB_Show.PerformStep);
                         else { PB_Show.PerformStep(); }
                     }
+                    
+                    if (i <= 0)
+                        continue;
+
                     if (i == 2)
                     {
                         long len = OutFileStream.Position;
@@ -205,7 +210,7 @@ namespace CTR
                             OutFileStream.Write(buf, 0, buf.Length);
                         }
                     }
-                    if (i <= 0) continue;
+
                     hOfs = hashBaseOfs + (long)ivfc.Levels[i - 1].HashOffset;
                     if (i > 1)
                         cOfs = hashBaseOfs + (long)ivfc.Levels[i - 2].HashOffset;
@@ -220,15 +225,13 @@ namespace CTR
             }
             finally
             {
-                if (OutFileStream != null)
-                    OutFileStream.Dispose();
+                OutFileStream.Dispose();
             }
-            
-            if (OutFile != TempFile)
-            {
-                if (File.Exists(OutFile)) File.Delete(OutFile);
-                File.Move(TempFile, OutFile);
-            }
+
+            if (OutFile == TempFile)
+                return;
+            if (File.Exists(OutFile)) File.Delete(OutFile);
+            File.Move(TempFile, OutFile);
         }
         internal static void WriteBinary(string tempFile, string outFile, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
@@ -239,10 +242,10 @@ namespace CTR
                     using (FileStream fileStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read))
                     {
                         const uint BUFFER_SIZE = 0x400000; // 4MB Buffer
-
+                        var steps = (int)(fileStream.Length / BUFFER_SIZE);
                         if (PB_Show.InvokeRequired)
-                            PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = (int)(fileStream.Length / BUFFER_SIZE); });
-                        else { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = (int)(fileStream.Length / BUFFER_SIZE); }
+                            PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = steps; });
+                        else { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = steps; }
 
                         byte[] buffer = new byte[BUFFER_SIZE];
                         while (true)
@@ -252,7 +255,7 @@ namespace CTR
                             {
                                 writer.Write(buffer, 0, count);
                                 if (PB_Show.InvokeRequired)
-                                    PB_Show.Invoke((MethodInvoker)delegate { PB_Show.PerformStep(); });
+                                    PB_Show.Invoke((MethodInvoker)PB_Show.PerformStep);
                                 else { PB_Show.PerformStep(); }
                             }
                             else
@@ -281,15 +284,11 @@ namespace CTR
         internal static void BuildRomFSHeader(MemoryStream romfs_stream, RomfsFile[] Entries, string DIR)
         {
             ROOT_DIR = DIR;
-
             Romfs_MetaData MetaData = new Romfs_MetaData();
 
             InitializeMetaData(MetaData);
-
             CalcRomfsSize(MetaData);
-
             PopulateRomfs(MetaData, Entries);
-
             WriteMetaDataToStream(MetaData, romfs_stream);
         }
         internal static void InitializeMetaData(Romfs_MetaData MetaData)
@@ -501,27 +500,28 @@ namespace CTR
                 for (int i = 0; i < SubDirectories.Length; i++)
                 {
                     AddDir(MetaData, SubDirectories[i], CurrentDir, sibling, false);
-                    if (i > 0)
-                    {
-                        string PrevFullName = SubDirectories[i - 1].FullName;
-                        string ThisName = SubDirectories[i].FullName;
-                        int PrevIndex = GetRomfsDirEntry(MetaData, PrevFullName);
-                        int ThisIndex = GetRomfsDirEntry(MetaData, ThisName);
-                        MetaData.DirTable.DirectoryTable[PrevIndex].SiblingOffset =
-                            MetaData.DirTable.DirectoryTable[ThisIndex].Offset;
-                    }
+                    if (i <= 0)
+                        continue;
+
+                    string PrevFullName = SubDirectories[i - 1].FullName;
+                    string ThisName = SubDirectories[i].FullName;
+                    int PrevIndex = GetRomfsDirEntry(MetaData, PrevFullName);
+                    int ThisIndex = GetRomfsDirEntry(MetaData, ThisName);
+                    MetaData.DirTable.DirectoryTable[PrevIndex].SiblingOffset =
+                        MetaData.DirTable.DirectoryTable[ThisIndex].Offset;
                 }
                 foreach (DirectoryInfo t in SubDirectories)
                     AddDir(MetaData, t, CurrentDir, sibling, true);
             }
-            if (SubDirectories.Length > 0)
-            {
-                int curindex = GetRomfsDirEntry(MetaData, Dir.FullName);
-                int childindex = GetRomfsDirEntry(MetaData, SubDirectories[0].FullName);
-                if (curindex > -1 && childindex > -1)
-                    MetaData.DirTable.DirectoryTable[curindex].ChildOffset =
-                        MetaData.DirTable.DirectoryTable[childindex].Offset;
-            }
+
+            if (SubDirectories.Length <= 0)
+                return;
+
+            int curindex = GetRomfsDirEntry(MetaData, Dir.FullName);
+            int childindex = GetRomfsDirEntry(MetaData, SubDirectories[0].FullName);
+            if (curindex > -1 && childindex > -1)
+                MetaData.DirTable.DirectoryTable[curindex].ChildOffset =
+                    MetaData.DirTable.DirectoryTable[childindex].Offset;
         }
         internal static void AddFiles(Romfs_MetaData MetaData, RomfsFile[] Entries)
         {
@@ -618,34 +618,25 @@ namespace CTR
         internal static int GetRomfsDirEntry(Romfs_MetaData MetaData, string FullName)
         {
             for (int i = 0; i < MetaData.DirTable.DirectoryTable.Count; i++)
-            {
                 if (MetaData.DirTable.DirectoryTable[i].FullName == FullName)
-                {
                     return i;
-                }
-            }
+
             return -1;
         }
         internal static int GetRomfsDirEntry(Romfs_MetaData MetaData, uint Offset)
         {
             for (int i = 0; i < MetaData.DirTable.DirectoryTable.Count; i++)
-            {
                 if (MetaData.DirTable.DirectoryTable[i].Offset == Offset)
-                {
                     return i;
-                }
-            }
+
             return -1;
         }
         internal static int GetRomfsFileEntry(Romfs_MetaData MetaData, uint Offset)
         {
             for (int i = 0; i < MetaData.FileTable.FileTable.Count; i++)
-            {
                 if (MetaData.FileTable.FileTable[i].Offset == Offset)
-                {
                     return i;
-                }
-            }
+
             return -1;
         }
 
@@ -733,15 +724,8 @@ namespace CTR
         }
         public class FileNameTable
         {
-            public List<FileInfo> NameEntryTable { get; private set; }
-
-            public int NumFiles
-            {
-                get
-                {
-                    return NameEntryTable.Count;
-                }
-            }
+            public List<FileInfo> NameEntryTable { get; }
+            public int NumFiles => NameEntryTable.Count;
 
             internal FileNameTable(string rootPath)
             {
@@ -761,7 +745,7 @@ namespace CTR
                 }
             }
         }
-        public class LayoutManager
+        public static class LayoutManager
         {
             public static Output[] Create(IEnumerable<Input> Input)
             {
@@ -771,7 +755,7 @@ namespace CTR
                 {
                     Output output = new Output();
                     FileInfo fileInfo = new FileInfo(input.FilePath);
-                    ulong ofs = Align(Len, input.AlignmentSize);
+                    ulong ofs = AlignInput(Len, input.AlignmentSize);
                     output.FilePath = input.FilePath;
                     output.Offset = ofs;
                     output.Size = (ulong)fileInfo.Length;
@@ -780,7 +764,7 @@ namespace CTR
                 }
                 return list.ToArray();
             }
-            public static ulong Align(ulong input, ulong alignsize)
+            private static ulong AlignInput(ulong input, ulong alignsize)
             {
                 ulong output = input;
                 if (output % alignsize != 0)
