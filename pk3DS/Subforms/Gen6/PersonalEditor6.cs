@@ -405,7 +405,7 @@ namespace pk3DS
                     else
                     {
                         CB_EggGroup1.SelectedIndex = rnd.Next(1, CB_EggGroup1.Items.Count);
-                        CB_EggGroup2.SelectedIndex = rnd.Next(1, CB_EggGroup1.Items.Count);
+                        CB_EggGroup2.SelectedIndex = rnd.Next(1, CB_EggGroup2.Items.Count);
                     }
                 }
 

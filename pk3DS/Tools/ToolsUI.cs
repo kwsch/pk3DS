@@ -75,7 +75,7 @@ namespace pk3DS
             {
                 // Pre-check file length to see if it is at least valid.
                 FileInfo fi = new FileInfo(path);
-                if (fi.Length > 1.6 * (1<<30)) { Util.Error("File is too big!"); return; } // 1.6 GB
+                if (fi.Length > (long)2 * (1<<30)) { Util.Error("File is too big!"); return; } // 2 GB
                 string folderPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
 
                 byte[] first4 = new byte[4];

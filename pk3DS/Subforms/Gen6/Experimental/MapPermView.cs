@@ -42,7 +42,7 @@ namespace pk3DS.Subforms
                 byte[][] GR = CTR.mini.unpackMini(File.ReadAllBytes(MapGRs[mm.EntryList[i]]), "GR");
                 mm.Entries[i] = new MapMatrix.Entry(GR[0]) {coll = new MapMatrix.Collision(GR[2])};
             }
-            mapScale = (int)NUD_Scale.Value;
+            mapScale = Math.Max(1, (int)NUD_Scale.Value);
             Bitmap img = mm.Preview(mapScale, (int)NUD_Flavor.Value);
 
             baseImage = (Bitmap)img.Clone();

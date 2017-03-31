@@ -128,7 +128,7 @@ namespace CTR
         {
             try
             {
-                Console.Write("- decoding '%s'", filename);
+                Console.Write($"- decoding '{filename}'");
                 long startTime = DateTime.Now.Millisecond;
                 byte[] buf = File.ReadAllBytes(filename);
                 BLZResult result = BLZ_Decode(buf);
