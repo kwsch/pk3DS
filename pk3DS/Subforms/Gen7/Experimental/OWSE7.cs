@@ -79,21 +79,43 @@ namespace pk3DS
             // 09 - EA (Encounter Area)
             // 10 - BG (???)
 
-            byte[][] _7 = mini.unpackMini(EncounterData[index + 7], "ZS");
-            byte[][] _8 = mini.unpackMini(EncounterData[index + 8], "ZI");
+            if (index > EncounterData.FileCount)
+            {
+                Console.WriteLine("Out of range.");
+                tabControl1.Visible = false;
+                return;
+            }
+            tabControl1.Visible = true;
 
-            Console.WriteLine($"7: {_7.Length}");
-            Console.WriteLine($"8: {_8.Length}");
-            L_7_Count.Text = "Files: " + _7.Length;
-            L_8_Count.Text = "Files: " + _8.Length;
+            byte[][] files = new byte[11][];
+            files[07] = EncounterData[index + 7];
+            files[08] = EncounterData[index + 8];
 
-            RTB_7_Raw.Lines = Scripts.getHexLines(_7[0], 16);
-            RTB_8_Raw.Lines = Scripts.getHexLines(_8[0], 16);
+            if (files[07].Length > 0)
+            {
+                byte[][] _7 = mini.unpackMini(EncounterData[index + 7], "ZS");
+                Console.WriteLine($"7: {_7.Length}");
+                L_7_Count.Text = "Files: " + _7.Length;
+                RTB_7_Raw.Lines = Scripts.getHexLines(_7[0], 16);
+                var s_7 = new Script(_7[0]);
+                RTB_7_Script.Lines = Scripts.getHexLines(s_7.DecompressedInstructions);
+            }
+            else
+                Console.WriteLine("7: None.");
+            RTB_7_Raw.Visible = RTB_7_Script.Visible = L_7_Count.Visible = files[07].Length > 0;
 
-            var s_7 = new Script(_7[0]);
-            var s_8 = new Script(_8[0]);
-            RTB_7_Script.Lines = Scripts.getHexLines(s_7.DecompressedInstructions);
-            RTB_8_Script.Lines = Scripts.getHexLines(s_8.DecompressedInstructions);
+            if (files[08].Length > 0)
+            {
+                byte[][] _8 = mini.unpackMini(EncounterData[index + 8], "ZI");
+                Console.WriteLine($"8: {_8.Length}");
+                L_8_Count.Text = "Files: " + _8.Length;
+                RTB_8_Raw.Lines = Scripts.getHexLines(_8[0], 16);
+                var s_8 = new Script(_8[0]);
+                RTB_8_Script.Lines = Scripts.getHexLines(s_8.DecompressedInstructions);
+            }
+            else
+                Console.WriteLine("8: None.");
+            RTB_8_Raw.Visible = RTB_8_Script.Visible = L_8_Count.Visible = files[08].Length > 0;
         }
     }
 }
