@@ -35,6 +35,7 @@
             this.tb_ZoneData = new System.Windows.Forms.TabPage();
             this.L_MapInfoTabData = new System.Windows.Forms.Label();
             this.tb_OWSC = new System.Windows.Forms.TabPage();
+            this.B_ResetOverworlds = new System.Windows.Forms.Button();
             this.CHK_EditRAW = new System.Windows.Forms.CheckBox();
             this.NUD_UnkCount = new System.Windows.Forms.NumericUpDown();
             this.L_Unk = new System.Windows.Forms.Label();
@@ -48,6 +49,7 @@
             this.tc_OWSC = new System.Windows.Forms.TabControl();
             this.tb_Furniture = new System.Windows.Forms.TabPage();
             this.GB_F = new System.Windows.Forms.GroupBox();
+            this.B_ResetFurniture = new System.Windows.Forms.Button();
             this.NUD_FWY = new System.Windows.Forms.NumericUpDown();
             this.L_FWY = new System.Windows.Forms.Label();
             this.NUD_FWX = new System.Windows.Forms.NumericUpDown();
@@ -61,6 +63,7 @@
             this.L_FE = new System.Windows.Forms.Label();
             this.tb_NPC = new System.Windows.Forms.TabPage();
             this.GB_N = new System.Windows.Forms.GroupBox();
+            this.B_ResetNPC = new System.Windows.Forms.Button();
             this.NUD_NMove2 = new System.Windows.Forms.NumericUpDown();
             this.L_Move2 = new System.Windows.Forms.Label();
             this.NUD_NMove1 = new System.Windows.Forms.NumericUpDown();
@@ -91,6 +94,7 @@
             this.L_NE = new System.Windows.Forms.Label();
             this.tb_Warp = new System.Windows.Forms.TabPage();
             this.GB_W = new System.Windows.Forms.GroupBox();
+            this.B_ResetWarp = new System.Windows.Forms.Button();
             this.L_WpY = new System.Windows.Forms.Label();
             this.L_WpX = new System.Windows.Forms.Label();
             this.NUD_WY = new System.Windows.Forms.NumericUpDown();
@@ -107,6 +111,7 @@
             this.L_WE = new System.Windows.Forms.Label();
             this.tb_Trigger1 = new System.Windows.Forms.TabPage();
             this.GB_T1 = new System.Windows.Forms.GroupBox();
+            this.B_ResetTrigger1 = new System.Windows.Forms.Button();
             this.NUD_T1Y = new System.Windows.Forms.NumericUpDown();
             this.L_T1Y = new System.Windows.Forms.Label();
             this.NUD_T1X = new System.Windows.Forms.NumericUpDown();
@@ -116,6 +121,7 @@
             this.L_TE = new System.Windows.Forms.Label();
             this.tb_Trigger2 = new System.Windows.Forms.TabPage();
             this.GB_T2 = new System.Windows.Forms.GroupBox();
+            this.B_ResetTrigger2 = new System.Windows.Forms.Button();
             this.NUD_T2Y = new System.Windows.Forms.NumericUpDown();
             this.L_T2Y = new System.Windows.Forms.Label();
             this.NUD_T2X = new System.Windows.Forms.NumericUpDown();
@@ -167,12 +173,6 @@
             this.B_Map = new System.Windows.Forms.Button();
             this.L_ZDPreview = new System.Windows.Forms.Label();
             this.B_HLCMD = new System.Windows.Forms.Button();
-            this.B_ResetNPC = new System.Windows.Forms.Button();
-            this.B_ResetWarp = new System.Windows.Forms.Button();
-            this.B_ResetTrigger1 = new System.Windows.Forms.Button();
-            this.B_ResetTrigger2 = new System.Windows.Forms.Button();
-            this.B_ResetFurniture = new System.Windows.Forms.Button();
-            this.B_ResetOverworlds = new System.Windows.Forms.Button();
             this.tb_Zone.SuspendLayout();
             this.tb_ZoneData.SuspendLayout();
             this.tb_OWSC.SuspendLayout();
@@ -320,8 +320,20 @@
             this.tb_OWSC.Text = "OW & SC";
             this.tb_OWSC.UseVisualStyleBackColor = true;
             // 
+            // B_ResetOverworlds
+            // 
+            this.B_ResetOverworlds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_ResetOverworlds.Location = new System.Drawing.Point(413, 157);
+            this.B_ResetOverworlds.Name = "B_ResetOverworlds";
+            this.B_ResetOverworlds.Size = new System.Drawing.Size(62, 42);
+            this.B_ResetOverworlds.TabIndex = 467;
+            this.B_ResetOverworlds.Text = "Reset\r\nAll";
+            this.B_ResetOverworlds.UseVisualStyleBackColor = true;
+            this.B_ResetOverworlds.Click += new System.EventHandler(this.B_ResetOverworlds_Click);
+            // 
             // CHK_EditRAW
             // 
+            this.CHK_EditRAW.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CHK_EditRAW.AutoSize = true;
             this.CHK_EditRAW.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_EditRAW.Location = new System.Drawing.Point(380, 134);
@@ -486,6 +498,16 @@
             this.GB_F.TabIndex = 437;
             this.GB_F.TabStop = false;
             this.GB_F.Text = "Info:";
+            // 
+            // B_ResetFurniture
+            // 
+            this.B_ResetFurniture.Location = new System.Drawing.Point(257, 275);
+            this.B_ResetFurniture.Name = "B_ResetFurniture";
+            this.B_ResetFurniture.Size = new System.Drawing.Size(62, 42);
+            this.B_ResetFurniture.TabIndex = 470;
+            this.B_ResetFurniture.Text = "Reset\r\nFurniture";
+            this.B_ResetFurniture.UseVisualStyleBackColor = true;
+            this.B_ResetFurniture.Click += new System.EventHandler(this.B_ResetFurniture_Click);
             // 
             // NUD_FWY
             // 
@@ -653,6 +675,16 @@
             this.GB_N.TabIndex = 436;
             this.GB_N.TabStop = false;
             this.GB_N.Text = "Info:";
+            // 
+            // B_ResetNPC
+            // 
+            this.B_ResetNPC.Location = new System.Drawing.Point(257, 275);
+            this.B_ResetNPC.Name = "B_ResetNPC";
+            this.B_ResetNPC.Size = new System.Drawing.Size(62, 42);
+            this.B_ResetNPC.TabIndex = 458;
+            this.B_ResetNPC.Text = "Reset\r\nNPC";
+            this.B_ResetNPC.UseVisualStyleBackColor = true;
+            this.B_ResetNPC.Click += new System.EventHandler(this.B_ResetNPC_Click);
             // 
             // NUD_NMove2
             // 
@@ -979,6 +1011,16 @@
             this.GB_W.TabStop = false;
             this.GB_W.Text = "Info:";
             // 
+            // B_ResetWarp
+            // 
+            this.B_ResetWarp.Location = new System.Drawing.Point(256, 275);
+            this.B_ResetWarp.Name = "B_ResetWarp";
+            this.B_ResetWarp.Size = new System.Drawing.Size(62, 42);
+            this.B_ResetWarp.TabIndex = 466;
+            this.B_ResetWarp.Text = "Reset\r\nWarp";
+            this.B_ResetWarp.UseVisualStyleBackColor = true;
+            this.B_ResetWarp.Click += new System.EventHandler(this.B_ResetWarp_Click);
+            // 
             // L_WpY
             // 
             this.L_WpY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1166,6 +1208,16 @@
             this.GB_T1.TabStop = false;
             this.GB_T1.Text = "Info:";
             // 
+            // B_ResetTrigger1
+            // 
+            this.B_ResetTrigger1.Location = new System.Drawing.Point(257, 275);
+            this.B_ResetTrigger1.Name = "B_ResetTrigger1";
+            this.B_ResetTrigger1.Size = new System.Drawing.Size(62, 42);
+            this.B_ResetTrigger1.TabIndex = 467;
+            this.B_ResetTrigger1.Text = "Reset\r\nTrigger1";
+            this.B_ResetTrigger1.UseVisualStyleBackColor = true;
+            this.B_ResetTrigger1.Click += new System.EventHandler(this.B_ResetTrigger1_Click);
+            // 
             // NUD_T1Y
             // 
             this.NUD_T1Y.Location = new System.Drawing.Point(143, 164);
@@ -1269,6 +1321,16 @@
             this.GB_T2.TabIndex = 440;
             this.GB_T2.TabStop = false;
             this.GB_T2.Text = "Info:";
+            // 
+            // B_ResetTrigger2
+            // 
+            this.B_ResetTrigger2.Location = new System.Drawing.Point(257, 275);
+            this.B_ResetTrigger2.Name = "B_ResetTrigger2";
+            this.B_ResetTrigger2.Size = new System.Drawing.Size(62, 42);
+            this.B_ResetTrigger2.TabIndex = 467;
+            this.B_ResetTrigger2.Text = "Reset\r\nTrigger2";
+            this.B_ResetTrigger2.UseVisualStyleBackColor = true;
+            this.B_ResetTrigger2.Click += new System.EventHandler(this.B_ResetTrigger2_Click);
             // 
             // NUD_T2Y
             // 
@@ -1813,66 +1875,6 @@
             this.B_HLCMD.Text = "HL **CMD**";
             this.B_HLCMD.UseVisualStyleBackColor = true;
             this.B_HLCMD.Click += new System.EventHandler(this.B_HLCMD_Click);
-            // 
-            // B_ResetNPC
-            // 
-            this.B_ResetNPC.Location = new System.Drawing.Point(257, 275);
-            this.B_ResetNPC.Name = "B_ResetNPC";
-            this.B_ResetNPC.Size = new System.Drawing.Size(62, 42);
-            this.B_ResetNPC.TabIndex = 458;
-            this.B_ResetNPC.Text = "Reset\r\nNPC";
-            this.B_ResetNPC.UseVisualStyleBackColor = true;
-            this.B_ResetNPC.Click += new System.EventHandler(this.B_ResetNPC_Click);
-            // 
-            // B_ResetWarp
-            // 
-            this.B_ResetWarp.Location = new System.Drawing.Point(256, 275);
-            this.B_ResetWarp.Name = "B_ResetWarp";
-            this.B_ResetWarp.Size = new System.Drawing.Size(62, 42);
-            this.B_ResetWarp.TabIndex = 466;
-            this.B_ResetWarp.Text = "Reset\r\nWarp";
-            this.B_ResetWarp.UseVisualStyleBackColor = true;
-            this.B_ResetWarp.Click += new System.EventHandler(this.B_ResetWarp_Click);
-            // 
-            // B_ResetTrigger1
-            // 
-            this.B_ResetTrigger1.Location = new System.Drawing.Point(257, 275);
-            this.B_ResetTrigger1.Name = "B_ResetTrigger1";
-            this.B_ResetTrigger1.Size = new System.Drawing.Size(62, 42);
-            this.B_ResetTrigger1.TabIndex = 467;
-            this.B_ResetTrigger1.Text = "Reset\r\nTrigger1";
-            this.B_ResetTrigger1.UseVisualStyleBackColor = true;
-            this.B_ResetTrigger1.Click += new System.EventHandler(this.B_ResetTrigger1_Click);
-            // 
-            // B_ResetTrigger2
-            // 
-            this.B_ResetTrigger2.Location = new System.Drawing.Point(257, 275);
-            this.B_ResetTrigger2.Name = "B_ResetTrigger2";
-            this.B_ResetTrigger2.Size = new System.Drawing.Size(62, 42);
-            this.B_ResetTrigger2.TabIndex = 467;
-            this.B_ResetTrigger2.Text = "Reset\r\nTrigger2";
-            this.B_ResetTrigger2.UseVisualStyleBackColor = true;
-            this.B_ResetTrigger2.Click += new System.EventHandler(this.B_ResetTrigger2_Click);
-            // 
-            // B_ResetFurniture
-            // 
-            this.B_ResetFurniture.Location = new System.Drawing.Point(257, 275);
-            this.B_ResetFurniture.Name = "B_ResetFurniture";
-            this.B_ResetFurniture.Size = new System.Drawing.Size(62, 42);
-            this.B_ResetFurniture.TabIndex = 470;
-            this.B_ResetFurniture.Text = "Reset\r\nFurniture";
-            this.B_ResetFurniture.UseVisualStyleBackColor = true;
-            this.B_ResetFurniture.Click += new System.EventHandler(this.B_ResetFurniture_Click);
-            // 
-            // B_ResetOverworlds
-            // 
-            this.B_ResetOverworlds.Location = new System.Drawing.Point(413, 157);
-            this.B_ResetOverworlds.Name = "B_ResetOverworlds";
-            this.B_ResetOverworlds.Size = new System.Drawing.Size(62, 42);
-            this.B_ResetOverworlds.TabIndex = 467;
-            this.B_ResetOverworlds.Text = "Reset\r\nAll";
-            this.B_ResetOverworlds.UseVisualStyleBackColor = true;
-            this.B_ResetOverworlds.Click += new System.EventHandler(this.B_ResetOverworlds_Click);
             // 
             // OWSE
             // 

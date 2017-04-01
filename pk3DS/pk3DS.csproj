@@ -423,6 +423,9 @@
     <EmbeddedResource Include="Subforms\Gen7\EvolutionEditor7.resx">
       <DependentUpon>EvolutionEditor7.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Gen7\Experimental\OWSE7.resx">
+      <DependentUpon>OWSE7.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\ItemEditor7.resx">
       <DependentUpon>ItemEditor7.cs</DependentUpon>
     </EmbeddedResource>

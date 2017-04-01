@@ -23,7 +23,7 @@ namespace pk3DS
         }
 
         // ZoneData Attributes
-        private int ParentMap { get { return BitConverter.ToInt32(Data, 0x1C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1C);} }
+        public int ParentMap { get { return BitConverter.ToInt32(Data, 0x1C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1C);} }
         
         // Info Tracking
         public void setName(string[] locationList, int index)
