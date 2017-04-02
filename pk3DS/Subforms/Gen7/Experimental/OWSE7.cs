@@ -63,6 +63,8 @@ namespace pk3DS
             // research only, no set
         }
 
+        private bool loading = false;
+        private World Map;
         private void getEntry()
         {
             Console.WriteLine($"Loading {CB_LocationID.Text}");
@@ -87,35 +89,66 @@ namespace pk3DS
             }
             tabControl1.Visible = true;
 
-            byte[][] files = new byte[11][];
-            files[07] = EncounterData[index + 7];
-            files[08] = EncounterData[index + 8];
+            Map = new World(EncounterData, entry);
+            loading = true;
 
-            if (files[07].Length > 0)
-            {
-                byte[][] _7 = mini.unpackMini(EncounterData[index + 7], "ZS");
-                Console.WriteLine($"7: {_7.Length}");
-                L_7_Count.Text = "Files: " + _7.Length;
-                RTB_7_Raw.Lines = Scripts.getHexLines(_7[0], 16);
-                var s_7 = new Script(_7[0]);
-                RTB_7_Script.Lines = Scripts.getHexLines(s_7.DecompressedInstructions);
-            }
-            else
-                Console.WriteLine("7: None.");
-            RTB_7_Raw.Visible = RTB_7_Script.Visible = L_7_Count.Visible = files[07].Length > 0;
+            NUD_7_Count.Maximum = Map.ZoneScripts.Length;
+            NUD_7_Count.Value = Math.Min(Map.ZoneScripts.Length, 1);
 
-            if (files[08].Length > 0)
+            NUD_8_Count.Maximum = Map.ZoneInfoScripts.Length;
+            NUD_8_Count.Value = Math.Min(Map.ZoneInfoScripts.Length, 1);
+        }
+
+        private class World
+        {
+            private byte[][] _7;
+            private byte[][] _8;
+
+            private bool HasZS => _7 != null;
+            private bool HasZI => _8 != null;
+            public Script[] ZoneScripts; 
+            public Script[] ZoneInfoScripts;
+
+            public World(lzGARCFile garc, int worldID)
             {
-                byte[][] _8 = mini.unpackMini(EncounterData[index + 8], "ZI");
-                Console.WriteLine($"8: {_8.Length}");
-                L_8_Count.Text = "Files: " + _8.Length;
-                RTB_8_Raw.Lines = Scripts.getHexLines(_8[0], 16);
-                var s_8 = new Script(_8[0]);
-                RTB_8_Script.Lines = Scripts.getHexLines(s_8.DecompressedInstructions);
+                int index = worldID*11;
+                _7 = mini.unpackMini(garc[index + 7], "ZS");
+                _8 = mini.unpackMini(garc[index + 8], "ZI");
+
+                ZoneScripts = HasZS ? _7.Select(arr => new Script(arr)).ToArray() : new Script[0];
+                ZoneInfoScripts = HasZI ? _8.Select(arr => new Script(arr)).ToArray() : new Script[0];
             }
-            else
-                Console.WriteLine("8: None.");
-            RTB_8_Raw.Visible = RTB_8_Script.Visible = L_8_Count.Visible = files[08].Length > 0;
+        }
+
+        private void NUD_7_Count_ValueChanged(object sender, EventArgs e)
+        {
+            if (((sender as NumericUpDown)?.Value ?? 0) == 0)
+            {
+                RTB_7_Raw.Visible = RTB_7_Script.Visible = L_7_Count.Visible = false;
+                return;
+            }
+            RTB_7_Raw.Visible = RTB_7_Script.Visible = L_7_Count.Visible = true;
+
+            var script = Map.ZoneScripts[(int)NUD_7_Count.Value - 1];
+            L_7_Count.Text = $"Files: {Map.ZoneScripts.Length}";
+            RTB_7_Raw.Lines = Scripts.getHexLines(script.Raw, 16);
+            RTB_7_Script.Lines = Scripts.getHexLines(script.DecompressedInstructions);
+            RTB_7_Parse.Lines = script.ParseScript;
+        }
+        private void NUD_8_Count_ValueChanged(object sender, EventArgs e)
+        {
+            if (((sender as NumericUpDown)?.Value ?? 0) == 0)
+            {
+                RTB_8_Raw.Visible = RTB_8_Script.Visible = L_8_Count.Visible = false;
+                return;
+            }
+            RTB_8_Raw.Visible = RTB_8_Script.Visible = L_8_Count.Visible = true;
+
+            var script = Map.ZoneInfoScripts[(int)NUD_8_Count.Value - 1];
+            L_8_Count.Text = $"Files: {Map.ZoneInfoScripts.Length}";
+            RTB_8_Raw.Lines = Scripts.getHexLines(script.Raw, 16);
+            RTB_8_Script.Lines = Scripts.getHexLines(script.DecompressedInstructions);
+            RTB_8_Parse.Lines = script.ParseScript;
         }
     }
 }
