@@ -6,7 +6,7 @@ using System.Linq;
 namespace pk3DS
 {
     // Big thanks to FireFly for figuring out the 7/6-bit compression routine for scripts.
-    class Scripts
+    public static class Scripts
     {
         // Decompression - Deprecated: Use FireFly's method.
         internal static byte[] decompressScript(byte[] data)
@@ -241,7 +241,7 @@ namespace pk3DS
                     case 0x72:
                     {
                         // Peek at next value
-                        var next = cmd[i++];
+                        var next = (int)cmd[i++];
                         // Check Value against negative and zero... ?
                         
                         op = eA(c, next);
@@ -259,7 +259,7 @@ namespace pk3DS
                     case 0x73:
                     {
                         // Peek at next value
-                        var next = cmd[i++];
+                        var next = (int)cmd[i++];
                         // Check Value against negative... ?
                         
                         op = eA(c, next);
@@ -355,7 +355,7 @@ namespace pk3DS
                     case 0xD4:
                     {
                         // no sanity checks
-                        var arg = c >> 16;
+                        var arg = (short)(c >> 16);
 
                         op = eA(c & 0xFF, arg);
 
@@ -399,7 +399,7 @@ namespace pk3DS
                     case 0x79:
                     case 0x85:
                     {
-                        var next = cmd[i++];
+                        var next = (int)cmd[i++];
                         // No sanity check needed
                         
                         op = eA(c, next);
@@ -432,7 +432,7 @@ namespace pk3DS
                     }
                     case 0x7B:
                     {
-                        var next = cmd[i++];
+                        var next = (int)cmd[i++];
                         sanityMode |= 1;                       // flag mode 1
 
                         op = eA(c, next);
@@ -440,7 +440,7 @@ namespace pk3DS
                     }
                     case 0x82: // JumpIfElse
                     {
-                        var jOffset = i*4 + 4; // todo: this may be the correct jump start point...
+                        var jOffset = i*4 -4; // todo: this may be the correct jump start point...
                         var count = cmd[i++]; // switch case table
                         // sanity check
                         
@@ -451,15 +451,15 @@ namespace pk3DS
                         for (int j = 0; j < count; j++)
                         {
                             var jmp = (int)cmd[i++];
-                            var toOffset = i*4 + jmp;
+                            var toOffset = (i-2)*4 + jmp;
                             var ifValue = (int)cmd[i++];
                             tree.Add($"\t{ifValue} => 0x{toOffset:X4} ({jmp})");
                         }
                         // Default
                         {
                             int jmp = (int)cmd[i++];
-                            var toOffset = (i - 1)*4 + jmp;
-                            tree.Add($"\t {"*"} => 0x{toOffset:X4} ({jmp})");
+                            var toOffset = (i-2)*4 + jmp;
+                            tree.Add($"\t{"*"} => 0x{toOffset:X4} ({jmp})");
                         }
 
                         op = Commands[c] + Environment.NewLine + string.Join(Environment.NewLine, tree);
@@ -467,8 +467,8 @@ namespace pk3DS
                     }
                     case 0x87:
                     {
-                        var next1 = cmd[i++];
-                        var next2 = cmd[i++];
+                        var next1 = (int)cmd[i++];
+                        var next2 = (int)cmd[i++];
                         sanityMode |= 2;                       // flag mode 2
 
                         op = eA(c, next1, next2);
@@ -482,8 +482,8 @@ namespace pk3DS
                     case 0x9C:
                     case 0x9D:
                     {
-                        var next1 = cmd[i++];
-                        var next2 = cmd[i++];
+                        var next1 = (int)cmd[i++];
+                        var next2 = (int)cmd[i++];
 
                         op = eA(c, next1, next2);
                         break;
@@ -507,10 +507,10 @@ namespace pk3DS
                     case 0x94:
                     case 0x95:
                     {
-                        var next1 = cmd[i++];
-                        var next2 = cmd[i++];
-                        var next3 = cmd[i++];
-                        var next4 = cmd[i++];
+                        var next1 = (int)cmd[i++];
+                        var next2 = (int)cmd[i++];
+                        var next3 = (int)cmd[i++];
+                        var next4 = (int)cmd[i++];
 
                         op = eA(c, next1, next2, next3, next4);
                         break;
@@ -533,8 +533,8 @@ namespace pk3DS
 
                     case 0x9A:
                     {
-                        var next1 = cmd[i++];
-                        var next2 = cmd[i++];
+                        var next1 = (int)cmd[i++];
+                        var next2 = (int)cmd[i++];
                         // a bunch of sanity checking
 
                         op = eA(c, next1, next2);
@@ -543,8 +543,8 @@ namespace pk3DS
 
                     case 0x9B: // Copy
                     {
-                        var next1 = cmd[i++];
-                        var next2 = cmd[i++];
+                        var next1 = (int)cmd[i++];
+                        var next2 = (int)cmd[i++];
                         // a bunch of sanity checking
 
                         op = eA(c, next1, next2);
@@ -553,7 +553,7 @@ namespace pk3DS
 
                     case 0x9E:
                     {
-                        var next1 = cmd[i++];
+                        var next1 = (int)cmd[i++];
                         // perm check a1 + 0x14
                         // can return error code 0x1C
 
@@ -577,7 +577,7 @@ namespace pk3DS
                         // can return error code 0x1C
                         int newPos = i + (int)(1 + 2*(cmd[i]/4) + 1);
 
-                        op = eA(c, (uint)newPos);
+                        op = eA(c, newPos);
                         break;
                     }
 
@@ -593,7 +593,7 @@ namespace pk3DS
                     case 0xCD:
                     {
                         // sanity check arg
-                        var arg = c >> 16;
+                        var arg = (short)(c >> 16);
 
                         op = eA(c & 0xFF, arg);
                         break;
@@ -610,7 +610,7 @@ namespace pk3DS
                     case 0xCE:
                     {
                         // sanity check arg, slightly different
-                        var arg = c >> 16;
+                        var arg = (short)(c >> 16);
 
                         op = eA(c & 0xFF, arg);
                         break;
@@ -630,20 +630,20 @@ namespace pk3DS
             return getHexLines(cmd);
         }
 
-        internal static string eA(params uint[] arr)
+        internal static string eA(uint c, params int[] arr)
         {
-            string cmd = Commands[arr.First()];
-            string parameters = arr.Length == 1 ? "" : string.Join(", ", arr.Skip(1).Select(z => $"{z:X4}"));
+            string cmd = Commands[c];
+            string parameters = arr.Length == 0 ? "" : string.Join(", ", arr.Select(z => $"{(Math.Abs(z) < 100 ? z.ToString() : "0x"+z.ToString("X4"))}"));
             return $"{cmd}({parameters})";
         }
         private static readonly Func<uint, float> getFloat = val => BitConverter.ToSingle(BitConverter.GetBytes(val), 0);
-        internal static string eF(params uint[] arr)
+        internal static string eF(uint c, params uint[] arr)
         {
-            string cmd = Commands[arr.First()];
-            string parameters = arr.Length == 1 ? "" : string.Join(", ", arr.Skip(1).Select(z => getFloat(z)));
+            string cmd = Commands[c];
+            string parameters = arr.Length == 1 ? "" : string.Join(", ", arr.Select(z => getFloat(z)));
             return $"{cmd}({parameters})";
         }
-
+        
         internal static readonly Dictionary<uint, string> Commands = new Dictionary<uint, string>
         {// { 0x00, "$00" }, // Invalid Code
             { 0x01, "$01" },

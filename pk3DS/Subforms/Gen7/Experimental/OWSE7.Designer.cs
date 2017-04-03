@@ -32,22 +32,24 @@
             this.CB_LocationID = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tab_7_ZS = new System.Windows.Forms.TabPage();
+            this.RTB_7_Parse = new System.Windows.Forms.RichTextBox();
+            this.NUD_7_Count = new System.Windows.Forms.NumericUpDown();
             this.L_7_Count = new System.Windows.Forms.Label();
             this.RTB_7_Script = new System.Windows.Forms.RichTextBox();
             this.RTB_7_Raw = new System.Windows.Forms.RichTextBox();
             this.tab_8_ZI = new System.Windows.Forms.TabPage();
+            this.RTB_8_Parse = new System.Windows.Forms.RichTextBox();
+            this.NUD_8_Count = new System.Windows.Forms.NumericUpDown();
             this.L_8_Count = new System.Windows.Forms.Label();
             this.RTB_8_Script = new System.Windows.Forms.RichTextBox();
             this.RTB_8_Raw = new System.Windows.Forms.RichTextBox();
-            this.NUD_8_Count = new System.Windows.Forms.NumericUpDown();
-            this.NUD_7_Count = new System.Windows.Forms.NumericUpDown();
-            this.RTB_7_Parse = new System.Windows.Forms.RichTextBox();
-            this.RTB_8_Parse = new System.Windows.Forms.RichTextBox();
+            this.L_7_Info = new System.Windows.Forms.Label();
+            this.L_8_Info = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tab_7_ZS.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_7_Count)).BeginInit();
             this.tab_8_ZI.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_8_Count)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_7_Count)).BeginInit();
             this.SuspendLayout();
             // 
             // L_Location
@@ -85,6 +87,7 @@
             // 
             // tab_7_ZS
             // 
+            this.tab_7_ZS.Controls.Add(this.L_7_Info);
             this.tab_7_ZS.Controls.Add(this.RTB_7_Parse);
             this.tab_7_ZS.Controls.Add(this.NUD_7_Count);
             this.tab_7_ZS.Controls.Add(this.L_7_Count);
@@ -97,6 +100,27 @@
             this.tab_7_ZS.TabIndex = 0;
             this.tab_7_ZS.Text = "7.ZS";
             this.tab_7_ZS.UseVisualStyleBackColor = true;
+            // 
+            // RTB_7_Parse
+            // 
+            this.RTB_7_Parse.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB_7_Parse.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_7_Parse.Location = new System.Drawing.Point(208, 207);
+            this.RTB_7_Parse.Name = "RTB_7_Parse";
+            this.RTB_7_Parse.ReadOnly = true;
+            this.RTB_7_Parse.Size = new System.Drawing.Size(238, 225);
+            this.RTB_7_Parse.TabIndex = 437;
+            this.RTB_7_Parse.Text = "Script CMDs";
+            // 
+            // NUD_7_Count
+            // 
+            this.NUD_7_Count.Location = new System.Drawing.Point(140, 223);
+            this.NUD_7_Count.Name = "NUD_7_Count";
+            this.NUD_7_Count.Size = new System.Drawing.Size(62, 20);
+            this.NUD_7_Count.TabIndex = 436;
+            this.NUD_7_Count.ValueChanged += new System.EventHandler(this.NUD_7_Count_ValueChanged);
             // 
             // L_7_Count
             // 
@@ -133,6 +157,7 @@
             // 
             // tab_8_ZI
             // 
+            this.tab_8_ZI.Controls.Add(this.L_8_Info);
             this.tab_8_ZI.Controls.Add(this.RTB_8_Parse);
             this.tab_8_ZI.Controls.Add(this.NUD_8_Count);
             this.tab_8_ZI.Controls.Add(this.L_8_Count);
@@ -145,6 +170,27 @@
             this.tab_8_ZI.TabIndex = 1;
             this.tab_8_ZI.Text = "8.ZI";
             this.tab_8_ZI.UseVisualStyleBackColor = true;
+            // 
+            // RTB_8_Parse
+            // 
+            this.RTB_8_Parse.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB_8_Parse.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_8_Parse.Location = new System.Drawing.Point(208, 207);
+            this.RTB_8_Parse.Name = "RTB_8_Parse";
+            this.RTB_8_Parse.ReadOnly = true;
+            this.RTB_8_Parse.Size = new System.Drawing.Size(238, 225);
+            this.RTB_8_Parse.TabIndex = 438;
+            this.RTB_8_Parse.Text = "Script CMDs";
+            // 
+            // NUD_8_Count
+            // 
+            this.NUD_8_Count.Location = new System.Drawing.Point(140, 223);
+            this.NUD_8_Count.Name = "NUD_8_Count";
+            this.NUD_8_Count.Size = new System.Drawing.Size(62, 20);
+            this.NUD_8_Count.TabIndex = 435;
+            this.NUD_8_Count.ValueChanged += new System.EventHandler(this.NUD_8_Count_ValueChanged);
             // 
             // L_8_Count
             // 
@@ -179,47 +225,23 @@
             this.RTB_8_Raw.TabIndex = 432;
             this.RTB_8_Raw.Text = "Raw Data";
             // 
-            // NUD_8_Count
+            // L_7_Info
             // 
-            this.NUD_8_Count.Location = new System.Drawing.Point(140, 223);
-            this.NUD_8_Count.Name = "NUD_8_Count";
-            this.NUD_8_Count.Size = new System.Drawing.Size(62, 20);
-            this.NUD_8_Count.TabIndex = 435;
-            this.NUD_8_Count.ValueChanged += new System.EventHandler(this.NUD_8_Count_ValueChanged);
+            this.L_7_Info.AutoSize = true;
+            this.L_7_Info.Location = new System.Drawing.Point(137, 246);
+            this.L_7_Info.Name = "L_7_Info";
+            this.L_7_Info.Size = new System.Drawing.Size(41, 13);
+            this.L_7_Info.TabIndex = 438;
+            this.L_7_Info.Text = "Count7";
             // 
-            // NUD_7_Count
+            // L_8_Info
             // 
-            this.NUD_7_Count.Location = new System.Drawing.Point(140, 223);
-            this.NUD_7_Count.Name = "NUD_7_Count";
-            this.NUD_7_Count.Size = new System.Drawing.Size(62, 20);
-            this.NUD_7_Count.TabIndex = 436;
-            this.NUD_7_Count.ValueChanged += new System.EventHandler(this.NUD_7_Count_ValueChanged);
-            // 
-            // RTB_7_Parse
-            // 
-            this.RTB_7_Parse.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RTB_7_Parse.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_7_Parse.Location = new System.Drawing.Point(208, 207);
-            this.RTB_7_Parse.Name = "RTB_7_Parse";
-            this.RTB_7_Parse.ReadOnly = true;
-            this.RTB_7_Parse.Size = new System.Drawing.Size(238, 225);
-            this.RTB_7_Parse.TabIndex = 437;
-            this.RTB_7_Parse.Text = "Script CMDs";
-            // 
-            // RTB_8_Parse
-            // 
-            this.RTB_8_Parse.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RTB_8_Parse.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_8_Parse.Location = new System.Drawing.Point(208, 207);
-            this.RTB_8_Parse.Name = "RTB_8_Parse";
-            this.RTB_8_Parse.ReadOnly = true;
-            this.RTB_8_Parse.Size = new System.Drawing.Size(238, 225);
-            this.RTB_8_Parse.TabIndex = 438;
-            this.RTB_8_Parse.Text = "Script CMDs";
+            this.L_8_Info.AutoSize = true;
+            this.L_8_Info.Location = new System.Drawing.Point(137, 246);
+            this.L_8_Info.Name = "L_8_Info";
+            this.L_8_Info.Size = new System.Drawing.Size(41, 13);
+            this.L_8_Info.TabIndex = 439;
+            this.L_8_Info.Text = "Count8";
             // 
             // OWSE7
             // 
@@ -234,10 +256,10 @@
             this.tabControl1.ResumeLayout(false);
             this.tab_7_ZS.ResumeLayout(false);
             this.tab_7_ZS.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_7_Count)).EndInit();
             this.tab_8_ZI.ResumeLayout(false);
             this.tab_8_ZI.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_8_Count)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_7_Count)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -259,5 +281,7 @@
         private System.Windows.Forms.NumericUpDown NUD_7_Count;
         private System.Windows.Forms.RichTextBox RTB_7_Parse;
         private System.Windows.Forms.RichTextBox RTB_8_Parse;
+        private System.Windows.Forms.Label L_7_Info;
+        private System.Windows.Forms.Label L_8_Info;
     }
 }

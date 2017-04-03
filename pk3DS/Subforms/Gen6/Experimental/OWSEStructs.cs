@@ -741,6 +741,10 @@ namespace pk3DS
         public Script(byte[] data = null)
         {
             Raw = data ?? new byte[0];
+
+            // sub_51AAFC
+            if ((Raw[8] & 1) != 0)
+                throw new ArgumentException("Multi-environment script!?");
         }
         public byte[] Write()
         {

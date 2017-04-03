@@ -97,6 +97,10 @@ namespace pk3DS
 
             NUD_8_Count.Maximum = Map.ZoneInfoScripts.Length;
             NUD_8_Count.Value = Math.Min(Map.ZoneInfoScripts.Length, 1);
+            loading = false;
+
+            NUD_7_Count_ValueChanged(NUD_7_Count, null);
+            NUD_8_Count_ValueChanged(NUD_8_Count, null);
         }
 
         private class World
@@ -122,33 +126,49 @@ namespace pk3DS
 
         private void NUD_7_Count_ValueChanged(object sender, EventArgs e)
         {
-            if (((sender as NumericUpDown)?.Value ?? 0) == 0)
-            {
-                RTB_7_Raw.Visible = RTB_7_Script.Visible = L_7_Count.Visible = false;
+            if (loading)
                 return;
-            }
-            RTB_7_Raw.Visible = RTB_7_Script.Visible = L_7_Count.Visible = true;
+
+            bool vis = ((sender as NumericUpDown)?.Value ?? 0) != 0;
+            RTB_7_Raw.Visible = RTB_7_Script.Visible = L_7_Info.Visible = RTB_7_Parse.Visible = vis;
+            if (!vis)
+                return;
 
             var script = Map.ZoneScripts[(int)NUD_7_Count.Value - 1];
             L_7_Count.Text = $"Files: {Map.ZoneScripts.Length}";
             RTB_7_Raw.Lines = Scripts.getHexLines(script.Raw, 16);
             RTB_7_Script.Lines = Scripts.getHexLines(script.DecompressedInstructions);
             RTB_7_Parse.Lines = script.ParseScript;
+
+            string[] lines =
+            {
+                "Commands:" + Environment.NewLine + RTB_7_Script.Lines.Length,
+                "CBytes:" + Environment.NewLine + script.CompressedBytes.Length,
+            };
+            L_7_Info.Text = string.Join(Environment.NewLine, lines);
         }
         private void NUD_8_Count_ValueChanged(object sender, EventArgs e)
         {
-            if (((sender as NumericUpDown)?.Value ?? 0) == 0)
-            {
-                RTB_8_Raw.Visible = RTB_8_Script.Visible = L_8_Count.Visible = false;
+            if (loading)
                 return;
-            }
-            RTB_8_Raw.Visible = RTB_8_Script.Visible = L_8_Count.Visible = true;
+
+            bool vis = ((sender as NumericUpDown)?.Value ?? 0) != 0;
+            RTB_8_Raw.Visible = RTB_8_Script.Visible = L_8_Info.Visible = RTB_8_Parse.Visible = vis;
+            if (!vis)
+                return;
 
             var script = Map.ZoneInfoScripts[(int)NUD_8_Count.Value - 1];
             L_8_Count.Text = $"Files: {Map.ZoneInfoScripts.Length}";
             RTB_8_Raw.Lines = Scripts.getHexLines(script.Raw, 16);
             RTB_8_Script.Lines = Scripts.getHexLines(script.DecompressedInstructions);
             RTB_8_Parse.Lines = script.ParseScript;
+
+            string[] lines =
+            {
+                "Commands:" + Environment.NewLine + RTB_8_Script.Lines.Length,
+                "CBytes:" + Environment.NewLine + script.CompressedBytes.Length,
+            };
+            L_8_Info.Text = string.Join(Environment.NewLine, lines);
         }
     }
 }
