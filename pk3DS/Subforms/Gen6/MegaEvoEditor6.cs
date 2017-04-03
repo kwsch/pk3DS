@@ -34,7 +34,8 @@ namespace pk3DS
             CB_Species.ValueMember = "Value";
             #region Intializations
 
-            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID); specieslist[0] = itemlist[0] = "";
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
+            specieslist[0] = itemlist[0] = "";
             specieslist[32] += "♂"; specieslist[29] += "♀";
             AltForms = Main.Config.Personal.getFormList(specieslist, Main.Config.MaxSpeciesID);
 

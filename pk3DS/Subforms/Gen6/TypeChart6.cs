@@ -31,7 +31,7 @@ namespace pk3DS
 
         private void populateChart()
         {
-            PB_Chart.Image = TypeChart.getGrid(TypeCount, TypeCount, chart);
+            PB_Chart.Image = TypeChart.getGrid(TypeWidth, TypeCount, chart);
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
