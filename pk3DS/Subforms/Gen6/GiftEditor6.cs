@@ -10,7 +10,7 @@ namespace pk3DS
         public GiftEditor6()
         {
             specieslist[0] = "---";
-            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             if (!File.Exists(FieldPath))
             {
                 Util.Error("CRO does not exist! Closing.", FieldPath);

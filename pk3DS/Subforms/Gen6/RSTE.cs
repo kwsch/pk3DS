@@ -16,7 +16,7 @@ namespace pk3DS
             trclass = trc;
             trdata = trd;
             trpoke = trp;
-            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
 
             InitializeComponent();
             // String Fetching

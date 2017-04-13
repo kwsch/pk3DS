@@ -17,7 +17,7 @@ namespace pk3DS
             InitializeComponent();
 
             specieslist[0] = movelist[0] = itemlist[0] = "";
-            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
 
             string[] evolutionMethods =
             { 

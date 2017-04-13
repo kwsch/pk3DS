@@ -14,7 +14,7 @@ namespace pk3DS
         {
             trFiles = trd;
             pkFiles = trp;
-            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             movelist[0] = specieslist[0] = itemlist[0] = "";
             
             trNames = Main.getText(super ? TextName.SuperTrainerNames : TextName.MaisonTrainerNames); Array.Resize(ref trNames, trFiles.Length);

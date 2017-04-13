@@ -9,7 +9,7 @@ namespace pk3DS
         public StarterEditor6()
         {
             specieslist[0] = "---";
-            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID);
+            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             
             if (!File.Exists(CROPath))
             {
