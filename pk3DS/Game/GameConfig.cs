@@ -25,10 +25,10 @@ namespace pk3DS
                 case FILECOUNT_XY:
                     game = GameVersion.XY;
                     break;
-                case FILECOUNT_ORAS:
+                case FILECOUNT_ORASDEMO:
                     game = GameVersion.ORASDEMO;
                     break;
-                case FILECOUNT_ORASDEMO:
+                case FILECOUNT_ORAS:
                     game = GameVersion.ORAS;
                     break;
                 case FILECOUNT_SMDEMO:
