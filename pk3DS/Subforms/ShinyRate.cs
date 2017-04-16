@@ -28,13 +28,12 @@ namespace pk3DS
             {
                 uint val = BitConverter.ToUInt32(exefsData, offset);
                 val &= 0x00FFFFFF;
-                val = (val & 0xFFF) | ((val << 8) >> 24);
+                val = (val & 0xFFF) | ((val & 0x00FF0000) >> 4);
                 Util.Alert(".code.bin was already patched for shiny rate.", "Loaded existing value.");
                 NUD_Rerolls.Value = Math.Max(NUD_Rerolls.Minimum, Math.Min(NUD_Rerolls.Maximum, val));
                 modified = true;
             }
-            else
-                changeRerolls(null, null);
+            changeRerolls(null, null);
         }
 
         private readonly bool modified;
@@ -53,8 +52,8 @@ namespace pk3DS
         {
             int count = (int)NUD_Rerolls.Value;
             const int bc = 4096;
-            var prob = 1 - Math.Pow((float)(bc - 1)/bc, count);
-            L_Overall.Text = $"~{prob:P}";
+            var pct = 1 - Math.Pow((float)(bc - 1)/bc, count);
+            L_Overall.Text = $"~{pct:P}";
         }
         private void writeCodePatch()
         {
@@ -80,6 +79,16 @@ namespace pk3DS
                 File.WriteAllBytes(codebin, exefsData);
             }
             Close();
+        }
+        private void changePercent(object sender, EventArgs e)
+        {
+            var pct = NUD_Rate.Value;
+            const int bc = 4096;
+
+            var inv = (int)Math.Log(1 - (float)pct/100, (float) (bc - 1)/bc);
+            if (pct == 0)
+                pct = 0.00001m; // arbitrary nonzero
+            L_RerollCount.Text = $"Count: {inv.ToString("0")} = 1:{(int)(1/(pct/100))}";
         }
     }
 }
