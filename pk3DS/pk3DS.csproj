@@ -245,6 +245,12 @@
     <Compile Include="Subforms\Gen7\TypeChart7.Designer.cs">
       <DependentUpon>TypeChart7.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\ShinyRate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\ShinyRate.Designer.cs">
+      <DependentUpon>ShinyRate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\Shuffler.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -479,6 +485,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\TypeChart7.resx">
       <DependentUpon>TypeChart7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\ShinyRate.resx">
+      <DependentUpon>ShinyRate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Shuffler.resx">
       <DependentUpon>Shuffler.cs</DependentUpon>

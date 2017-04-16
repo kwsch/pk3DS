@@ -87,6 +87,7 @@
             this.B_Static = new System.Windows.Forms.Button();
             this.Tab_Output = new System.Windows.Forms.TabPage();
             this.L_Status = new System.Windows.Forms.Label();
+            this.B_ShinyRate = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.TC_RomFS.SuspendLayout();
             this.Tab_RomFS.SuspendLayout();
@@ -360,7 +361,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_Lang});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(146, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_Lang
@@ -386,14 +387,14 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(146, 22);
+            this.Menu_About.Size = new System.Drawing.Size(152, 22);
             this.Menu_About.Text = "A&bout pk3DS";
             this.Menu_About.Click += new System.EventHandler(this.L_About_Click);
             // 
             // Menu_GARCs
             // 
             this.Menu_GARCs.Name = "Menu_GARCs";
-            this.Menu_GARCs.Size = new System.Drawing.Size(146, 22);
+            this.Menu_GARCs.Size = new System.Drawing.Size(152, 22);
             this.Menu_GARCs.Text = "About GARCs";
             this.Menu_GARCs.Click += new System.EventHandler(this.L_GARCInfo_Click);
             // 
@@ -605,6 +606,7 @@
             this.FLP_ExeFS.Controls.Add(this.B_Mart);
             this.FLP_ExeFS.Controls.Add(this.B_Pickup);
             this.FLP_ExeFS.Controls.Add(this.B_OPower);
+            this.FLP_ExeFS.Controls.Add(this.B_ShinyRate);
             this.FLP_ExeFS.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_ExeFS.Location = new System.Drawing.Point(3, 3);
             this.FLP_ExeFS.Name = "FLP_ExeFS";
@@ -691,6 +693,16 @@
             this.L_Status.Size = new System.Drawing.Size(163, 20);
             this.L_Status.TabIndex = 14;
             this.L_Status.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // B_ShinyRate
+            // 
+            this.B_ShinyRate.Location = new System.Drawing.Point(215, 32);
+            this.B_ShinyRate.Name = "B_ShinyRate";
+            this.B_ShinyRate.Size = new System.Drawing.Size(100, 23);
+            this.B_ShinyRate.TabIndex = 5;
+            this.B_ShinyRate.Text = "Shiny Rate";
+            this.B_ShinyRate.UseVisualStyleBackColor = true;
+            this.B_ShinyRate.Click += new System.EventHandler(this.B_ShinyRate_Click);
             // 
             // Main
             // 
@@ -785,5 +797,6 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_RomFS;
         private System.Windows.Forms.Label L_Status;
         private System.Windows.Forms.Button B_OWSE;
+        private System.Windows.Forms.Button B_ShinyRate;
     }
 }
