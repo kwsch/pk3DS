@@ -44,6 +44,7 @@ namespace pk3DS
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
         private void B_Save_Click(object sender, EventArgs e)
         {
+            return;
             writeCodePatch();
             File.WriteAllBytes(codebin, exefsData);
             Close();
