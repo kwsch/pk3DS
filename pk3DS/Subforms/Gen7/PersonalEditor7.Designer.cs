@@ -149,6 +149,7 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
+            this.CHK_CallRate = new System.Windows.Forms.CheckBox();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -975,7 +976,7 @@
             this.TP_MoveTutors.Location = new System.Drawing.Point(4, 22);
             this.TP_MoveTutors.Name = "TP_MoveTutors";
             this.TP_MoveTutors.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_MoveTutors.Size = new System.Drawing.Size(437, 359);
+            this.TP_MoveTutors.Size = new System.Drawing.Size(437, 349);
             this.TP_MoveTutors.TabIndex = 1;
             this.TP_MoveTutors.Text = "Move Tutors";
             this.TP_MoveTutors.UseVisualStyleBackColor = true;
@@ -1077,13 +1078,14 @@
             this.TP_Randomizer.Controls.Add(this.B_Randomize);
             this.TP_Randomizer.Location = new System.Drawing.Point(4, 22);
             this.TP_Randomizer.Name = "TP_Randomizer";
-            this.TP_Randomizer.Size = new System.Drawing.Size(437, 359);
+            this.TP_Randomizer.Size = new System.Drawing.Size(437, 349);
             this.TP_Randomizer.TabIndex = 2;
             this.TP_Randomizer.Text = "Enhancements";
             this.TP_Randomizer.UseVisualStyleBackColor = true;
             // 
             // GB_Modifier
             // 
+            this.GB_Modifier.Controls.Add(this.CHK_CallRate);
             this.GB_Modifier.Controls.Add(this.CHK_EXP);
             this.GB_Modifier.Controls.Add(this.CHK_Growth);
             this.GB_Modifier.Controls.Add(this.CHK_QuickHatch);
@@ -1513,6 +1515,18 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
+            // CHK_CallRate
+            // 
+            this.CHK_CallRate.AutoSize = true;
+            this.CHK_CallRate.Checked = true;
+            this.CHK_CallRate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_CallRate.Location = new System.Drawing.Point(204, 36);
+            this.CHK_CallRate.Name = "CHK_CallRate";
+            this.CHK_CallRate.Size = new System.Drawing.Size(99, 17);
+            this.CHK_CallRate.TabIndex = 11;
+            this.CHK_CallRate.Text = "High Call Rates";
+            this.CHK_CallRate.UseVisualStyleBackColor = true;
+            // 
             // PersonalEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1673,5 +1687,6 @@
         private System.Windows.Forms.CheckBox CHK_Variant;
         private System.Windows.Forms.Label L_CallRate;
         private System.Windows.Forms.MaskedTextBox TB_CallRate;
+        private System.Windows.Forms.CheckBox CHK_CallRate;
     }
 }
