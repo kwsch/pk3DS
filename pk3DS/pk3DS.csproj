@@ -587,6 +587,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\asm_mov" />
     <None Include="Resources\romdata\byte\Logo\Distributed.bin" />
     <None Include="Resources\romdata\byte\Logo\iQue.bin" />
     <None Include="Resources\romdata\byte\Logo\iQueForSystem.bin" />

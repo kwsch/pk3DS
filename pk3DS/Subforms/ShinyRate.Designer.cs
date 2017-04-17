@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShinyRate));
             this.L_Note = new System.Windows.Forms.Label();
             this.NUD_Rerolls = new System.Windows.Forms.NumericUpDown();
             this.L_Overall = new System.Windows.Forms.Label();
@@ -52,11 +53,9 @@
             this.L_Note.AutoSize = true;
             this.L_Note.Location = new System.Drawing.Point(12, 9);
             this.L_Note.Name = "L_Note";
-            this.L_Note.Size = new System.Drawing.Size(292, 65);
+            this.L_Note.Size = new System.Drawing.Size(340, 91);
             this.L_Note.TabIndex = 0;
-            this.L_Note.Text = "Note: \r\nChanging the rate only changes the amount of PID rerolls.\r\nChanging the r" +
-    "ate does not alter the \"IsShiny\" determination.\r\n\r\nThink of it like a frozen sup" +
-    "er-Shiny Charm.";
+            this.L_Note.Text = resources.GetString("L_Note.Text");
             // 
             // NUD_Rerolls
             // 
@@ -70,7 +69,7 @@
             this.NUD_Rerolls.Size = new System.Drawing.Size(65, 20);
             this.NUD_Rerolls.TabIndex = 1;
             this.NUD_Rerolls.Value = new decimal(new int[] {
-            8,
+            125,
             0,
             0,
             0});
@@ -79,6 +78,7 @@
             // L_Overall
             // 
             this.L_Overall.AutoSize = true;
+            this.L_Overall.ForeColor = System.Drawing.SystemColors.ControlText;
             this.L_Overall.Location = new System.Drawing.Point(122, 23);
             this.L_Overall.Name = "L_Overall";
             this.L_Overall.Size = new System.Drawing.Size(28, 13);
@@ -110,6 +110,7 @@
             // L_Rerolls
             // 
             this.L_Rerolls.AutoSize = true;
+            this.L_Rerolls.ForeColor = System.Drawing.SystemColors.ControlText;
             this.L_Rerolls.Location = new System.Drawing.Point(6, 23);
             this.L_Rerolls.Name = "L_Rerolls";
             this.L_Rerolls.Size = new System.Drawing.Size(42, 13);
@@ -176,6 +177,7 @@
             this.GB_Rerolls.Controls.Add(this.NUD_Rerolls);
             this.GB_Rerolls.Controls.Add(this.L_Rerolls);
             this.GB_Rerolls.Controls.Add(this.L_Overall);
+            this.GB_Rerolls.ForeColor = System.Drawing.Color.Red;
             this.GB_Rerolls.Location = new System.Drawing.Point(6, 125);
             this.GB_Rerolls.Name = "GB_Rerolls";
             this.GB_Rerolls.Size = new System.Drawing.Size(171, 53);
@@ -190,8 +192,8 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(263, 52);
             this.label1.TabIndex = 13;
-            this.label1.Text = "Note:\r\nThe above reroll count will overwrite the existing code.\r\n\r\nTo undo, use t" +
-    "he button below.";
+            this.label1.Text = "Note:\r\nThe above reroll count will overwrite the existing code.\r\n\r\nTo revert chan" +
+    "ges, use the button below.";
             // 
             // ShinyRate
             // 

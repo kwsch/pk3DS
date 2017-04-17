@@ -117,4 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="L_Note.Text" xml:space="preserve">
+    <value>Note: 
+Changing the rate only changes the amount of PID rerolls.
+Changing the rate does not alter the "IsShiny" determination.
+
+Think of it like a frozen super-Shiny Charm.
+
+If no mods have been made, the value below is pk3DS's default value.</value>
+  </data>
 </root>

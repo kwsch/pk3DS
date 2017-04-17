@@ -4662,7 +4662,7 @@ namespace pk3DS.Properties {
         ///0004000000034500	ARBJ	ラビッツ タイム・トラベル
         ///0004000000032800	ARRJ	リッジレーサー3D
         ///0004000000034400	ASCJ	Tom Clancy&apos;s スプリンターセル 3D
-        ///0004000000033300	A [rest of string was truncated]&quot;;.
+        ///0004000000033300	ASFJ	ASPHALT [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string _3dsgames {
             get {
@@ -11717,6 +11717,16 @@ namespace pk3DS.Properties {
             get {
                 object obj = ResourceManager.GetObject("_99b", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] asm_mov {
+            get {
+                object obj = ResourceManager.GetObject("asm_mov", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

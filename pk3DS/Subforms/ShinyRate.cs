@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -16,6 +18,15 @@ namespace pk3DS
             exefsData = File.ReadAllBytes(codebin);
             if (exefsData.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
 
+            // Load instruction set
+            byte[] raw = Properties.Resources.asm_mov;
+            for (int i = 0; i < raw.Length; i += 4)
+            {
+                byte[] data = new byte[2];
+                Array.Copy(raw, i + 2, data, 0, 2);
+                InstructionList.Add(new Instruction(BitConverter.ToUInt16(raw, i), data));
+            }
+
             // Fetch Offset
             byte[] pattern = {0x01, 0x50, 0x85, 0xE2, 0x05, 0x00, 0x50, 0xE1, 0xDE, 0xFF, 0xFF, 0xCA};
             offset = Util.IndexOfBytes(exefsData, pattern, 0, 0) - 4;
@@ -26,25 +37,54 @@ namespace pk3DS
             }
             if (exefsData[offset] != 0x23) // already patched
             {
-                uint val = BitConverter.ToUInt32(exefsData, offset);
-                val &= 0x00FFFFFF;
-                val = (val & 0xFFF) | ((val & 0x00FF0000) >> 4);
-                Util.Alert(".code.bin was already patched for shiny rate.", "Loaded existing value.");
-                NUD_Rerolls.Value = Math.Max(NUD_Rerolls.Minimum, Math.Min(NUD_Rerolls.Maximum, val));
+                uint val = BitConverter.ToUInt16(exefsData, offset);
+                var instruction = InstructionList.FirstOrDefault(z => z.ArgVal == val);
+                if (instruction == null)
+                {
+                    Util.Alert(".code.bin was modified externally.", "Existing value not loaded.");
+                }
+                else
+                {
+                    Util.Alert(".code.bin was already patched for shiny rate.", "Loaded existing value.");
+                    NUD_Rerolls.Value = val;
+                }
                 modified = true;
             }
             changeRerolls(null, null);
         }
 
+        private readonly List<Instruction> InstructionList = new List<Instruction>();
         private readonly bool modified;
         private readonly string codebin;
         private readonly int offset;
         private readonly byte[] exefsData;
 
+        private class Instruction
+        {
+            public readonly int Value;
+            private readonly byte[] Argument;
+            public readonly ushort ArgVal;
+
+            public Instruction(int val, byte[] arg)
+            {
+                Value = val;
+                Argument = arg;
+                ArgVal = BitConverter.ToUInt16(Argument, 0);
+            }
+            public byte[] Bytes
+            {
+                get
+                {
+                    var bytes = new byte[] {0, 0, 0xA0, 0xE3};
+                    Argument.CopyTo(bytes, 0);
+                    return bytes;
+                }
+            }
+        }
+
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
         private void B_Save_Click(object sender, EventArgs e)
         {
-            return;
             writeCodePatch();
             File.WriteAllBytes(codebin, exefsData);
             Close();
@@ -59,17 +99,20 @@ namespace pk3DS
         private void writeCodePatch()
         {
             // Overwrite the "load input argument value for reroll count" so that it loads a constant value.
-            // 23 00 D4 E5 is then replaced with the instruction MOVW R0, $value
+            // 23 00 D4 E5 is then replaced with the instruction MOV R0, $value
             // $value is the amount of PID rerolls to iterate for.
 
             int rerolls = (int)NUD_Rerolls.Value;
             if (rerolls > ushort.MaxValue)
                 rerolls = ushort.MaxValue;
-            byte[] data = {00, 00, 00, 0xE3}; // MOVW R0, xxx
-            BitConverter.GetBytes((ushort)rerolls).CopyTo(data, 0x00); // = xxx
-            data[2] = (byte)(data[1] >> 4);
-            data[1] &= 0xF;
+            // lazy precomputed table for MOV0 up to 9000, lol
+            var instruction = InstructionList.FirstOrDefault(z => z.Value >= rerolls) ?? InstructionList.Last();
+            byte[] data = instruction.Bytes;
             data.CopyTo(exefsData, offset);
+
+            if (instruction.Value != rerolls)
+                Util.Alert("Specified reroll count increased to the next highest supported value.",
+                    $"{rerolls} -> {instruction.Value}");
         }
 
         private void B_RestoreOriginal_Click(object sender, EventArgs e)
