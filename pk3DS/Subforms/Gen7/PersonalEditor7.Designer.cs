@@ -149,6 +149,9 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
+            this.CHK_CallRate = new System.Windows.Forms.CheckBox();
+            this.L_CallRateVal = new System.Windows.Forms.Label();
+            this.NUD_CallRate = new System.Windows.Forms.NumericUpDown();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -160,6 +163,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TypePercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_StatDev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_CallRate)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_Species
@@ -975,7 +979,7 @@
             this.TP_MoveTutors.Location = new System.Drawing.Point(4, 22);
             this.TP_MoveTutors.Name = "TP_MoveTutors";
             this.TP_MoveTutors.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_MoveTutors.Size = new System.Drawing.Size(437, 359);
+            this.TP_MoveTutors.Size = new System.Drawing.Size(437, 349);
             this.TP_MoveTutors.TabIndex = 1;
             this.TP_MoveTutors.Text = "Move Tutors";
             this.TP_MoveTutors.UseVisualStyleBackColor = true;
@@ -1077,13 +1081,16 @@
             this.TP_Randomizer.Controls.Add(this.B_Randomize);
             this.TP_Randomizer.Location = new System.Drawing.Point(4, 22);
             this.TP_Randomizer.Name = "TP_Randomizer";
-            this.TP_Randomizer.Size = new System.Drawing.Size(437, 359);
+            this.TP_Randomizer.Size = new System.Drawing.Size(437, 349);
             this.TP_Randomizer.TabIndex = 2;
             this.TP_Randomizer.Text = "Enhancements";
             this.TP_Randomizer.UseVisualStyleBackColor = true;
             // 
             // GB_Modifier
             // 
+            this.GB_Modifier.Controls.Add(this.CHK_CallRate);
+            this.GB_Modifier.Controls.Add(this.L_CallRateVal);
+            this.GB_Modifier.Controls.Add(this.NUD_CallRate);
             this.GB_Modifier.Controls.Add(this.CHK_EXP);
             this.GB_Modifier.Controls.Add(this.CHK_Growth);
             this.GB_Modifier.Controls.Add(this.CHK_QuickHatch);
@@ -1513,6 +1520,42 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
+            // CHK_CallRate
+            // 
+            this.CHK_CallRate.AutoSize = true;
+            this.CHK_CallRate.Location = new System.Drawing.Point(203, 66);
+            this.CHK_CallRate.Name = "CHK_CallRate";
+            this.CHK_CallRate.Size = new System.Drawing.Size(128, 17);
+            this.CHK_CallRate.TabIndex = 13;
+            this.CHK_CallRate.Text = "Modify SOS Call Rate";
+            this.CHK_CallRate.UseVisualStyleBackColor = true;
+            // 
+            // L_CallRateVal
+            // 
+            this.L_CallRateVal.AutoSize = true;
+            this.L_CallRateVal.Location = new System.Drawing.Point(203, 86);
+            this.L_CallRateVal.Name = "L_CallRateVal";
+            this.L_CallRateVal.Size = new System.Drawing.Size(34, 13);
+            this.L_CallRateVal.TabIndex = 12;
+            this.L_CallRateVal.Text = "Value";
+            // 
+            // NUD_CallRate
+            // 
+            this.NUD_CallRate.Location = new System.Drawing.Point(266, 84);
+            this.NUD_CallRate.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_CallRate.Name = "NUD_CallRate";
+            this.NUD_CallRate.Size = new System.Drawing.Size(46, 20);
+            this.NUD_CallRate.TabIndex = 11;
+            this.NUD_CallRate.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            // 
             // PersonalEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1545,6 +1588,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TypePercent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_StatDev)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_CallRate)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1673,5 +1717,8 @@
         private System.Windows.Forms.CheckBox CHK_Variant;
         private System.Windows.Forms.Label L_CallRate;
         private System.Windows.Forms.MaskedTextBox TB_CallRate;
+        private System.Windows.Forms.CheckBox CHK_CallRate;
+        private System.Windows.Forms.Label L_CallRateVal;
+        private System.Windows.Forms.NumericUpDown NUD_CallRate;
     }
 }

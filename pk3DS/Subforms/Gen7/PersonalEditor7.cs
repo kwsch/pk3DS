@@ -399,6 +399,8 @@ namespace pk3DS
 
                 if (CHK_QuickHatch.Checked)
                     TB_HatchCycles.Text = 1.ToString();
+                if (CHK_CallRate.Checked)
+                    TB_CallRate.Text = ((int)NUD_CallRate.Value).ToString();
             }
             CB_Species.SelectedIndex = 1;
             Util.Alert("All species modified to specification!");
