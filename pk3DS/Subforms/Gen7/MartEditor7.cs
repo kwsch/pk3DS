@@ -167,7 +167,9 @@ namespace pk3DS
             int ctr = 0;
             Util.Shuffle(validItems);
 
-            for (int i = 0; i < CB_Location.Items.Count; i++)
+            bool specialOnly = DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Randomize only special marts?", "Will leave regular necessities intact.");
+            int start = specialOnly ? 8 : 0;
+            for (int i = start; i < CB_Location.Items.Count; i++)
             {
                 CB_Location.SelectedIndex = i;
                 for (int r = 0; r < dgv.Rows.Count; r++)
