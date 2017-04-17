@@ -122,18 +122,9 @@ namespace pk3DS
                 "Abort: Cancel");
             if (ync != DialogResult.Yes && ync != DialogResult.No)
                 return;
-            if (ync == DialogResult.No)
-            {
-                for (int i = 0; i < LB_Encounters.Items.Count; i++)
-                {
-                    LB_Encounters.SelectedIndex = i;
-                    int species = Util.rand.Next(1, 721);
-                    CB_Species.SelectedIndex = species;
-                }
-                return;
-            }
 
             // Randomize by BST
+            bool bst = ync == DialogResult.Yes;
             int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, false,
                 CHK_L.Checked, CHK_E.Checked);
             int ctr = 0;
@@ -142,7 +133,7 @@ namespace pk3DS
                 LB_Encounters.SelectedIndex = i;
 
                 int species = CB_Species.SelectedIndex;
-                species = Randomizer.getRandomSpecies(ref sL, ref ctr, species, true, Main.SpeciesStat);
+                species = Randomizer.getRandomSpecies(ref sL, ref ctr, species, bst, Main.SpeciesStat);
                 CB_Species.SelectedIndex = species;
                 NUD_Form.Value = Randomizer.GetRandomForme(species, false, true);
                 NUD_Gender.Value = 0; // random
