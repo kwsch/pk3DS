@@ -46,7 +46,7 @@ namespace pk3DS
                 else
                 {
                     Util.Alert(".code.bin was already patched for shiny rate.", "Loaded existing value.");
-                    NUD_Rerolls.Value = val;
+                    NUD_Rerolls.Value = instruction.Value;
                 }
                 modified = true;
             }
