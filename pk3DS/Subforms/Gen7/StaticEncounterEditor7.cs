@@ -311,6 +311,8 @@ namespace pk3DS
                 var t = Gifts[i];
                 t.Species = Randomizer.getRandomSpecies(ref sL, ref ctr, oldStarters[i], CHK_BST.Checked, Main.SpeciesStat);
                 t.Form = Randomizer.GetRandomForme(t.Species, false, true);
+
+                // no level boosting
             }
 
             getListBoxEntries();
@@ -332,6 +334,9 @@ namespace pk3DS
                 var t = Gifts[i];
                 t.Species = Randomizer.getRandomSpecies(ref sL, ref ctr, t.Species, CHK_BST.Checked, Main.SpeciesStat);
                 t.Form = Randomizer.GetRandomForme(t.Species, false, true);
+
+                if (CHK_Level.Checked)
+                    t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
             }
             foreach (EncounterStatic7 t in Encounters)
             {
@@ -339,12 +344,18 @@ namespace pk3DS
                 t.Form = Randomizer.GetRandomForme(t.Species, false, true);
                 int[] moves = Main.Config.Learnsets[t.Species].getCurrentMoves(t.Level); Array.Resize(ref moves, 4);
                 t.RelearnMoves = moves;
+
+                if (CHK_Level.Checked)
+                    t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
             }
             foreach (EncounterTrade7 t in Trades)
             {
                 t.Species = Randomizer.getRandomSpecies(ref sL, ref ctr, t.Species, CHK_BST.Checked, Main.SpeciesStat);
                 t.Form = Randomizer.GetRandomForme(t.Species, false, true);
                 t.TradeRequestSpecies = Randomizer.getRandomSpecies(ref sL, ref ctr, t.TradeRequestSpecies, CHK_BST.Checked, Main.SpeciesStat);
+
+                if (CHK_Level.Checked)
+                    t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
             }
 
             getListBoxEntries();

@@ -30,7 +30,6 @@
         {
             this.TC_Tabs = new System.Windows.Forms.TabControl();
             this.Tab_Gifts = new System.Windows.Forms.TabPage();
-            this.B_Starters = new System.Windows.Forms.Button();
             this.CB_GHeldItem = new System.Windows.Forms.ComboBox();
             this.L_GHeldItem = new System.Windows.Forms.Label();
             this.CB_GSpecies = new System.Windows.Forms.ComboBox();
@@ -41,6 +40,11 @@
             this.NUD_GLevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Gift = new System.Windows.Forms.ListBox();
             this.Tab_Encounters = new System.Windows.Forms.TabPage();
+            this.GB_EMoves = new System.Windows.Forms.GroupBox();
+            this.CB_EMove3 = new System.Windows.Forms.ComboBox();
+            this.CB_EMove2 = new System.Windows.Forms.ComboBox();
+            this.CB_EMove1 = new System.Windows.Forms.ComboBox();
+            this.CB_EMove0 = new System.Windows.Forms.ComboBox();
             this.CB_EHeldItem = new System.Windows.Forms.ComboBox();
             this.L_EHeldItem = new System.Windows.Forms.Label();
             this.CB_ESpecies = new System.Windows.Forms.ComboBox();
@@ -51,6 +55,11 @@
             this.NUD_ELevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Encounter = new System.Windows.Forms.ListBox();
             this.Tab_Trades = new System.Windows.Forms.TabPage();
+            this.CB_TRequest = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.L_TTID = new System.Windows.Forms.Label();
+            this.L_TID = new System.Windows.Forms.Label();
+            this.NUD_TID = new System.Windows.Forms.NumericUpDown();
             this.CB_THeldItem = new System.Windows.Forms.ComboBox();
             this.L_THeldItem = new System.Windows.Forms.Label();
             this.CB_TSpecies = new System.Windows.Forms.ComboBox();
@@ -60,18 +69,8 @@
             this.L_TSpecies = new System.Windows.Forms.Label();
             this.NUD_TLevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Trade = new System.Windows.Forms.ListBox();
-            this.B_Save = new System.Windows.Forms.Button();
-            this.GB_EMoves = new System.Windows.Forms.GroupBox();
-            this.CB_EMove0 = new System.Windows.Forms.ComboBox();
-            this.CB_EMove1 = new System.Windows.Forms.ComboBox();
-            this.CB_EMove2 = new System.Windows.Forms.ComboBox();
-            this.CB_EMove3 = new System.Windows.Forms.ComboBox();
-            this.NUD_TID = new System.Windows.Forms.NumericUpDown();
-            this.L_TID = new System.Windows.Forms.Label();
-            this.L_TTID = new System.Windows.Forms.Label();
-            this.CB_TRequest = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.Tab_Randomizer = new System.Windows.Forms.TabPage();
+            this.B_RandAll = new System.Windows.Forms.Button();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
             this.CHK_G7 = new System.Windows.Forms.CheckBox();
             this.L_RandOpt = new System.Windows.Forms.Label();
@@ -84,22 +83,26 @@
             this.CHK_G3 = new System.Windows.Forms.CheckBox();
             this.CHK_G2 = new System.Windows.Forms.CheckBox();
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
-            this.B_RandAll = new System.Windows.Forms.Button();
+            this.B_Starters = new System.Windows.Forms.Button();
+            this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
+            this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
+            this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GLevel)).BeginInit();
             this.Tab_Encounters.SuspendLayout();
+            this.GB_EMoves.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ELevel)).BeginInit();
             this.Tab_Trades.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TLevel)).BeginInit();
-            this.GB_EMoves.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_TID)).BeginInit();
             this.Tab_Randomizer.SuspendLayout();
             this.GB_Tweak.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).BeginInit();
             this.SuspendLayout();
             // 
             // TC_Tabs
@@ -134,16 +137,6 @@
             this.Tab_Gifts.TabIndex = 2;
             this.Tab_Gifts.Text = "Gifts";
             this.Tab_Gifts.UseVisualStyleBackColor = true;
-            // 
-            // B_Starters
-            // 
-            this.B_Starters.Location = new System.Drawing.Point(132, 272);
-            this.B_Starters.Name = "B_Starters";
-            this.B_Starters.Size = new System.Drawing.Size(122, 23);
-            this.B_Starters.TabIndex = 9;
-            this.B_Starters.Text = "Randomize Starters";
-            this.B_Starters.UseVisualStyleBackColor = true;
-            this.B_Starters.Click += new System.EventHandler(this.B_Starters_Click);
             // 
             // CB_GHeldItem
             // 
@@ -262,6 +255,51 @@
             this.Tab_Encounters.TabIndex = 0;
             this.Tab_Encounters.Text = "Encounters";
             this.Tab_Encounters.UseVisualStyleBackColor = true;
+            // 
+            // GB_EMoves
+            // 
+            this.GB_EMoves.Controls.Add(this.CB_EMove3);
+            this.GB_EMoves.Controls.Add(this.CB_EMove2);
+            this.GB_EMoves.Controls.Add(this.CB_EMove1);
+            this.GB_EMoves.Controls.Add(this.CB_EMove0);
+            this.GB_EMoves.Location = new System.Drawing.Point(218, 114);
+            this.GB_EMoves.Name = "GB_EMoves";
+            this.GB_EMoves.Size = new System.Drawing.Size(133, 112);
+            this.GB_EMoves.TabIndex = 17;
+            this.GB_EMoves.TabStop = false;
+            this.GB_EMoves.Text = "Moves";
+            // 
+            // CB_EMove3
+            // 
+            this.CB_EMove3.FormattingEnabled = true;
+            this.CB_EMove3.Location = new System.Drawing.Point(6, 85);
+            this.CB_EMove3.Name = "CB_EMove3";
+            this.CB_EMove3.Size = new System.Drawing.Size(121, 21);
+            this.CB_EMove3.TabIndex = 20;
+            // 
+            // CB_EMove2
+            // 
+            this.CB_EMove2.FormattingEnabled = true;
+            this.CB_EMove2.Location = new System.Drawing.Point(6, 63);
+            this.CB_EMove2.Name = "CB_EMove2";
+            this.CB_EMove2.Size = new System.Drawing.Size(121, 21);
+            this.CB_EMove2.TabIndex = 19;
+            // 
+            // CB_EMove1
+            // 
+            this.CB_EMove1.FormattingEnabled = true;
+            this.CB_EMove1.Location = new System.Drawing.Point(6, 41);
+            this.CB_EMove1.Name = "CB_EMove1";
+            this.CB_EMove1.Size = new System.Drawing.Size(121, 21);
+            this.CB_EMove1.TabIndex = 18;
+            // 
+            // CB_EMove0
+            // 
+            this.CB_EMove0.FormattingEnabled = true;
+            this.CB_EMove0.Location = new System.Drawing.Point(6, 19);
+            this.CB_EMove0.Name = "CB_EMove0";
+            this.CB_EMove0.Size = new System.Drawing.Size(121, 21);
+            this.CB_EMove0.TabIndex = 17;
             // 
             // CB_EHeldItem
             // 
@@ -385,6 +423,60 @@
             this.Tab_Trades.Text = "Trades";
             this.Tab_Trades.UseVisualStyleBackColor = true;
             // 
+            // CB_TRequest
+            // 
+            this.CB_TRequest.FormattingEnabled = true;
+            this.CB_TRequest.Location = new System.Drawing.Point(230, 137);
+            this.CB_TRequest.Name = "CB_TRequest";
+            this.CB_TRequest.Size = new System.Drawing.Size(121, 21);
+            this.CB_TRequest.TabIndex = 29;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(124, 135);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.TabIndex = 28;
+            this.label1.Text = "Request Species:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_TTID
+            // 
+            this.L_TTID.AutoSize = true;
+            this.L_TTID.Location = new System.Drawing.Point(268, 113);
+            this.L_TTID.Name = "L_TTID";
+            this.L_TTID.Size = new System.Drawing.Size(28, 13);
+            this.L_TTID.TabIndex = 27;
+            this.L_TTID.Text = "TID:";
+            this.L_TTID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // L_TID
+            // 
+            this.L_TID.Location = new System.Drawing.Point(124, 108);
+            this.L_TID.Name = "L_TID";
+            this.L_TID.Size = new System.Drawing.Size(50, 23);
+            this.L_TID.TabIndex = 26;
+            this.L_TID.Text = "ID:";
+            this.L_TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_TID
+            // 
+            this.NUD_TID.Location = new System.Drawing.Point(180, 111);
+            this.NUD_TID.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
+            this.NUD_TID.Name = "NUD_TID";
+            this.NUD_TID.Size = new System.Drawing.Size(82, 20);
+            this.NUD_TID.TabIndex = 25;
+            this.NUD_TID.Value = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
+            this.NUD_TID.ValueChanged += new System.EventHandler(this.changeTID);
+            // 
             // CB_THeldItem
             // 
             this.CB_THeldItem.FormattingEnabled = true;
@@ -483,117 +575,10 @@
             this.LB_Trade.TabIndex = 2;
             this.LB_Trade.SelectedIndexChanged += new System.EventHandler(this.LB_Trade_SelectedIndexChanged);
             // 
-            // B_Save
-            // 
-            this.B_Save.Location = new System.Drawing.Point(328, 365);
-            this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(75, 23);
-            this.B_Save.TabIndex = 1;
-            this.B_Save.Text = "Save";
-            this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
-            // 
-            // GB_EMoves
-            // 
-            this.GB_EMoves.Controls.Add(this.CB_EMove3);
-            this.GB_EMoves.Controls.Add(this.CB_EMove2);
-            this.GB_EMoves.Controls.Add(this.CB_EMove1);
-            this.GB_EMoves.Controls.Add(this.CB_EMove0);
-            this.GB_EMoves.Location = new System.Drawing.Point(218, 114);
-            this.GB_EMoves.Name = "GB_EMoves";
-            this.GB_EMoves.Size = new System.Drawing.Size(133, 112);
-            this.GB_EMoves.TabIndex = 17;
-            this.GB_EMoves.TabStop = false;
-            this.GB_EMoves.Text = "Moves";
-            // 
-            // CB_EMove0
-            // 
-            this.CB_EMove0.FormattingEnabled = true;
-            this.CB_EMove0.Location = new System.Drawing.Point(6, 19);
-            this.CB_EMove0.Name = "CB_EMove0";
-            this.CB_EMove0.Size = new System.Drawing.Size(121, 21);
-            this.CB_EMove0.TabIndex = 17;
-            // 
-            // CB_EMove1
-            // 
-            this.CB_EMove1.FormattingEnabled = true;
-            this.CB_EMove1.Location = new System.Drawing.Point(6, 41);
-            this.CB_EMove1.Name = "CB_EMove1";
-            this.CB_EMove1.Size = new System.Drawing.Size(121, 21);
-            this.CB_EMove1.TabIndex = 18;
-            // 
-            // CB_EMove2
-            // 
-            this.CB_EMove2.FormattingEnabled = true;
-            this.CB_EMove2.Location = new System.Drawing.Point(6, 63);
-            this.CB_EMove2.Name = "CB_EMove2";
-            this.CB_EMove2.Size = new System.Drawing.Size(121, 21);
-            this.CB_EMove2.TabIndex = 19;
-            // 
-            // CB_EMove3
-            // 
-            this.CB_EMove3.FormattingEnabled = true;
-            this.CB_EMove3.Location = new System.Drawing.Point(6, 85);
-            this.CB_EMove3.Name = "CB_EMove3";
-            this.CB_EMove3.Size = new System.Drawing.Size(121, 21);
-            this.CB_EMove3.TabIndex = 20;
-            // 
-            // NUD_TID
-            // 
-            this.NUD_TID.Location = new System.Drawing.Point(180, 111);
-            this.NUD_TID.Maximum = new decimal(new int[] {
-            -1,
-            0,
-            0,
-            0});
-            this.NUD_TID.Name = "NUD_TID";
-            this.NUD_TID.Size = new System.Drawing.Size(82, 20);
-            this.NUD_TID.TabIndex = 25;
-            this.NUD_TID.Value = new decimal(new int[] {
-            -1,
-            0,
-            0,
-            0});
-            this.NUD_TID.ValueChanged += new System.EventHandler(this.changeTID);
-            // 
-            // L_TID
-            // 
-            this.L_TID.Location = new System.Drawing.Point(124, 108);
-            this.L_TID.Name = "L_TID";
-            this.L_TID.Size = new System.Drawing.Size(50, 23);
-            this.L_TID.TabIndex = 26;
-            this.L_TID.Text = "ID:";
-            this.L_TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_TTID
-            // 
-            this.L_TTID.AutoSize = true;
-            this.L_TTID.Location = new System.Drawing.Point(268, 113);
-            this.L_TTID.Name = "L_TTID";
-            this.L_TTID.Size = new System.Drawing.Size(28, 13);
-            this.L_TTID.TabIndex = 27;
-            this.L_TTID.Text = "TID:";
-            this.L_TTID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // CB_TRequest
-            // 
-            this.CB_TRequest.FormattingEnabled = true;
-            this.CB_TRequest.Location = new System.Drawing.Point(230, 137);
-            this.CB_TRequest.Name = "CB_TRequest";
-            this.CB_TRequest.Size = new System.Drawing.Size(121, 21);
-            this.CB_TRequest.TabIndex = 29;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(124, 135);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 23);
-            this.label1.TabIndex = 28;
-            this.label1.Text = "Request Species:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // Tab_Randomizer
             // 
+            this.Tab_Randomizer.Controls.Add(this.NUD_LevelBoost);
+            this.Tab_Randomizer.Controls.Add(this.CHK_Level);
             this.Tab_Randomizer.Controls.Add(this.B_RandAll);
             this.Tab_Randomizer.Controls.Add(this.GB_Tweak);
             this.Tab_Randomizer.Controls.Add(this.B_Starters);
@@ -604,6 +589,16 @@
             this.Tab_Randomizer.TabIndex = 3;
             this.Tab_Randomizer.Text = "Randomizer";
             this.Tab_Randomizer.UseVisualStyleBackColor = true;
+            // 
+            // B_RandAll
+            // 
+            this.B_RandAll.Location = new System.Drawing.Point(132, 243);
+            this.B_RandAll.Name = "B_RandAll";
+            this.B_RandAll.Size = new System.Drawing.Size(122, 23);
+            this.B_RandAll.TabIndex = 509;
+            this.B_RandAll.Text = "Randomize All";
+            this.B_RandAll.UseVisualStyleBackColor = true;
+            this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
             // 
             // GB_Tweak
             // 
@@ -752,15 +747,25 @@
             this.CHK_G1.Text = "Gen 1";
             this.CHK_G1.UseVisualStyleBackColor = true;
             // 
-            // B_RandAll
+            // B_Starters
             // 
-            this.B_RandAll.Location = new System.Drawing.Point(132, 243);
-            this.B_RandAll.Name = "B_RandAll";
-            this.B_RandAll.Size = new System.Drawing.Size(122, 23);
-            this.B_RandAll.TabIndex = 509;
-            this.B_RandAll.Text = "Randomize All";
-            this.B_RandAll.UseVisualStyleBackColor = true;
-            this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
+            this.B_Starters.Location = new System.Drawing.Point(132, 272);
+            this.B_Starters.Name = "B_Starters";
+            this.B_Starters.Size = new System.Drawing.Size(122, 23);
+            this.B_Starters.TabIndex = 9;
+            this.B_Starters.Text = "Randomize Starters";
+            this.B_Starters.UseVisualStyleBackColor = true;
+            this.B_Starters.Click += new System.EventHandler(this.B_Starters_Click);
+            // 
+            // B_Save
+            // 
+            this.B_Save.Location = new System.Drawing.Point(328, 365);
+            this.B_Save.Name = "B_Save";
+            this.B_Save.Size = new System.Drawing.Size(75, 23);
+            this.B_Save.TabIndex = 1;
+            this.B_Save.Text = "Save";
+            this.B_Save.UseVisualStyleBackColor = true;
+            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
             // B_Cancel
             // 
@@ -771,6 +776,41 @@
             this.B_Cancel.Text = "Cancel";
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            // 
+            // NUD_LevelBoost
+            // 
+            this.NUD_LevelBoost.DecimalPlaces = 2;
+            this.NUD_LevelBoost.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.NUD_LevelBoost.Location = new System.Drawing.Point(231, 74);
+            this.NUD_LevelBoost.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.NUD_LevelBoost.Name = "NUD_LevelBoost";
+            this.NUD_LevelBoost.Size = new System.Drawing.Size(43, 20);
+            this.NUD_LevelBoost.TabIndex = 511;
+            this.NUD_LevelBoost.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // CHK_Level
+            // 
+            this.CHK_Level.AutoSize = true;
+            this.CHK_Level.Checked = true;
+            this.CHK_Level.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Level.Location = new System.Drawing.Point(99, 75);
+            this.CHK_Level.Name = "CHK_Level";
+            this.CHK_Level.Size = new System.Drawing.Size(130, 17);
+            this.CHK_Level.TabIndex = 510;
+            this.CHK_Level.Text = "Multiply PKM Level by";
+            this.CHK_Level.UseVisualStyleBackColor = true;
             // 
             // StaticEncounterEditor7
             // 
@@ -787,17 +827,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GLevel)).EndInit();
             this.Tab_Encounters.ResumeLayout(false);
+            this.GB_EMoves.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ELevel)).EndInit();
             this.Tab_Trades.ResumeLayout(false);
             this.Tab_Trades.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TID)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TLevel)).EndInit();
-            this.GB_EMoves.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_TID)).EndInit();
             this.Tab_Randomizer.ResumeLayout(false);
+            this.Tab_Randomizer.PerformLayout();
             this.GB_Tweak.ResumeLayout(false);
             this.GB_Tweak.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -862,5 +904,7 @@
         private System.Windows.Forms.CheckBox CHK_G1;
         private System.Windows.Forms.Button B_RandAll;
         private System.Windows.Forms.Button B_Cancel;
+        private System.Windows.Forms.NumericUpDown NUD_LevelBoost;
+        private System.Windows.Forms.CheckBox CHK_Level;
     }
 }

@@ -134,7 +134,8 @@ namespace pk3DS
             }
 
             // Randomize by BST
-            int[] sL = Randomizer.getSpeciesList(G1: true, G2: true, G3: true, G4: true, G5: true, G6: true, G7:false, L: false, E: false, Shedinja: false);
+            int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, false,
+                CHK_L.Checked, CHK_E.Checked);
             int ctr = 0;
             for (int i = 0; i < LB_Encounters.Items.Count; i++)
             {
@@ -145,6 +146,9 @@ namespace pk3DS
                 CB_Species.SelectedIndex = species;
                 NUD_Form.Value = Randomizer.GetRandomForme(species, false, true);
                 NUD_Gender.Value = 0; // random
+
+                if (CHK_Level.Checked)
+                    NUD_Level.Value = Randomizer.getModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
             }
         }
 
