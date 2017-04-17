@@ -139,15 +139,12 @@ namespace pk3DS
             for (int i = 0; i < LB_Encounters.Items.Count; i++)
             {
                 LB_Encounters.SelectedIndex = i;
+
                 int species = CB_Species.SelectedIndex;
-
-                int bst = Main.SpeciesStat[species].BST;
-                int tries = 0;
-                var pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
-                while (!((pkm.BST*(5 - ++tries/Main.Config.MaxSpeciesID)/6 < bst) && pkm.BST*(6 + ++tries/Main.Config.MaxSpeciesID)/5 > bst))
-                    pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
-
+                species = Randomizer.getRandomSpecies(ref sL, ref ctr, species, true, Main.SpeciesStat);
                 CB_Species.SelectedIndex = species;
+                NUD_Form.Value = Randomizer.GetRandomForme(species, false, true);
+                NUD_Gender.Value = 0; // random
             }
         }
 
