@@ -153,15 +153,8 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            DialogResult ync = Util.Prompt(MessageBoxButtons.YesNoCancel,
-                "Randomize by BST: Yes" + Environment.NewLine + 
-                "Randomize Randomly: No" + Environment.NewLine +
-                "Abort: Cancel");
-            if (ync != DialogResult.Yes && ync != DialogResult.No)
-                return;
-
             // Randomize by BST
-            bool bst = ync == DialogResult.Yes;
+            bool bst = CHK_BST.Checked;
             int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, false,
                 CHK_L.Checked, CHK_E.Checked);
             int ctr = 0;
