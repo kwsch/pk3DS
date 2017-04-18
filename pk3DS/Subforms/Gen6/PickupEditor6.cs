@@ -104,6 +104,7 @@ namespace pk3DS
         {
             setList();
             File.WriteAllBytes(codebin, data);
+            Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)
         {
