@@ -109,6 +109,7 @@ namespace pk3DS
             if (entry > -1) setList();
             if (entryBP > -1) setListBP();
             File.WriteAllBytes(CROPath, data);
+            Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)
         {
