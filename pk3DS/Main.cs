@@ -879,6 +879,10 @@ namespace pk3DS
                     break;
 
                 case 7:
+                    if (threadActive()) return;
+                    if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
+                        "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
+                        return;
                     if (RomFSPath != null) new MartEditor7().Show();
                     break;
             }

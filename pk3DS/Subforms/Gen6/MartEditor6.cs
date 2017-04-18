@@ -138,6 +138,7 @@ namespace pk3DS
         {
             if (entry > -1) setList();
             File.WriteAllBytes(codebin, data);
+            Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)
         {
