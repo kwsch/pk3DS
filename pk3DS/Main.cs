@@ -70,21 +70,31 @@ namespace pk3DS
         }
         private void L_GARCInfo_Click(object sender, EventArgs e)
         {
-            if (RomFSPath != null)
-            {
-                string s = "Game Type: " + Config.Version + Environment.NewLine;
-                s = Config.Files.Select(file => file.Name).Aggregate(s, (current, t) => current + string.Format(Environment.NewLine + "{0} - {1}", t, Config.getGARCFileName(t)));
+            if (RomFSPath == null)
+                return;
 
-                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, s, "Copy to Clipboard?")) return;
+            string s = "Game Type: " + Config.Version + Environment.NewLine;
+            s = Config.Files.Select(file => file.Name).Aggregate(s, (current, t) => current + string.Format(Environment.NewLine + "{0} - {1}", t, Config.getGARCFileName(t)));
 
-                try { Clipboard.SetText(s); }
-                catch { Util.Alert("Unable to copy to Clipboard."); }
-            }
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, s, "Copy to Clipboard?")) return;
+
+            try { Clipboard.SetText(s); }
+            catch { Util.Alert("Unable to copy to Clipboard."); }
         }
         private void L_Game_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Restore Original Files?"))
-                restoreGARCs(Config.Files.Select(file => file.Name).ToArray());
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Restore Original Files?"))
+                return;
+
+            string[] result = Config.restoreFiles();
+            if (result.Length == 2) // error
+            {
+                Util.Alert(result);
+                return;
+            }
+
+            Util.Alert("Restored files:", result[0], "The program will now close.");
+            Application.Exit(); // do not call closing events that repackage personal/gametext
         }
 
         private void B_Open_Click(object sender, EventArgs e)
@@ -203,8 +213,7 @@ namespace pk3DS
                     if (RTB_Status.Text.Length > 0) RTB_Status.Clear();
                     updateStatus("Data found! Loading persistent data for subforms...", false);
                     Config.Initialize(RomFSPath, ExeFSPath, Language);
-                    backupGARCs(false, Config.Files.Select(file => file.Name).ToArray());
-                    backupCROs(false, RomFSPath);
+                    Config.backupFiles();
                 }
 
                 // Enable Rebuilding options if all files have been found
@@ -289,7 +298,6 @@ namespace pk3DS
                 if (files.Length > 1000)
                     return null;
                 string[] fileArr = Directory.GetFiles(Path.Combine(Directory.GetParent(files[0]).FullName, "a"), "*", SearchOption.AllDirectories);
-                var afiles = fileArr.Where(file => Path.GetFileName(file)?.Length == 1).ToArray();
                 int fileCount = fileArr.Count(file => Path.GetFileName(file)?.Length == 1);
                 return new GameConfig(fileCount);
             }
@@ -781,7 +789,6 @@ namespace pk3DS
         // RomFS File Requesting Method Wrapper
         private void fileGet(string[] files, bool skipDecompression = true, bool skipGet = false)
         {
-            if (ModifierKeys == (Keys.Control | Keys.Shift)) restoreGARCs(files.ToArray());
             if (skipGet || skipBoth) return;
             foreach (string toEdit in files)
             {
@@ -998,42 +1005,6 @@ namespace pk3DS
             }
             new StaticEncounterEditor6().ShowDialog();
         }
-        private void backupCROs(bool overwrite, string path)
-        {
-            if (!Directory.Exists(path))
-                return;
-
-            string[] files = Directory.GetFiles(path);
-            string[] CROs = files.Where(x => new FileInfo(x).Name.Contains("Dll")).ToArray();
-            string[] CRSs = files.Where(x => new FileInfo(x).Extension.Contains("crs")).ToArray();
-            string[] CRRs = Directory.Exists(Path.Combine(path, ".crr"))
-                ? Directory.GetFiles(Path.Combine(path, ".crr"))
-                : new string[0];
-
-            int count = CROs.Length + CRSs.Length + CRRs.Length;
-            if (count <= 0)
-                return;
-
-            // Somewhat unique ID for the dlls to separate backup folders between versions
-            string CROBAKPATH = Path.Combine("backup", "DLL_" + count);
-
-            if (!Directory.Exists(CROBAKPATH))
-                Directory.CreateDirectory(CROBAKPATH);
-
-            foreach (string file in CROs.Concat(CRSs).Where(file => overwrite || !File.Exists(Path.Combine(CROBAKPATH, Path.GetFileName(file)))))
-                File.Copy(file, Path.Combine(CROBAKPATH, Path.GetFileName(file)));
-
-            if (CRRs.Length <= 0)
-                return;
-
-            // Separate folder for the .crr
-            string CRRBAKPATH = Path.Combine(CROBAKPATH, ".crr");
-            if (!Directory.Exists(CRRBAKPATH))
-                Directory.CreateDirectory(CRRBAKPATH);
-
-            foreach (string file in CRRs.Where(file => overwrite || !File.Exists(Path.Combine(CRRBAKPATH, Path.GetFileName(file)))))
-                File.Copy(file, Path.Combine(CRRBAKPATH, Path.GetFileName(file)));
-        }
 
         // 3DS Building
         private void B_Rebuild3DS_Click(object sender, EventArgs e)
@@ -1183,32 +1154,6 @@ namespace pk3DS
         {
             threads++;
             new Thread(() => setGARC(outfile, infolder, padBytes, PB)).Start();
-        }
-
-        private static void backupGARCs(bool overwrite, params string[] g)
-        {
-            if (!Directory.Exists("backup")) Directory.CreateDirectory("backup");
-            foreach (string s in g)
-            {
-                string GARC = Config.getGARCFileName(s);
-                string dest = "backup" + Path.DirectorySeparatorChar + s +
-                              $" ({GARC.Replace(Path.DirectorySeparatorChar.ToString(), "")})";
-                if (overwrite || !File.Exists(dest))
-                    File.Copy(Path.Combine(RomFSPath, GARC), dest);
-            }
-        }
-        private static void restoreGARCs(params string[] g)
-        {
-            foreach (string s in g)
-            {
-                string dest = Path.Combine(RomFSPath, Config.getGARCFileName(s));
-                string src = "backup" + Path.DirectorySeparatorChar + s +
-                             $" ({Config.getGARCFileName(s).Replace(Path.DirectorySeparatorChar.ToString(), "")})";
-                File.Copy(src, dest, true);
-                if (s == "personal" || s == "gametext")
-                    Util.Alert("In order to restore " + s + ", restart the program. While exiting, hold the Control Key to prevent writebacks.");
-            }
-            Util.Alert(g.Length + " files restored.");
         }
 
         // Text Requests

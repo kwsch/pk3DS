@@ -84,6 +84,7 @@
     <Compile Include="3DS\CTR.cs" />
     <Compile Include="3DS\ExeFS.cs" />
     <Compile Include="3DS\BCLIM.cs" />
+    <Compile Include="Game\GameBackup.cs" />
     <Compile Include="Game\GameRNG.cs" />
     <Compile Include="Game\GameVersion.cs" />
     <Compile Include="Game\GARCFile.cs" />

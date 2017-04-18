@@ -169,7 +169,7 @@ namespace pk3DS
             return new GARC.lzGARC(File.ReadAllBytes(getGARCPath(file)));
         }
 
-        private string RomFS, ExeFS;
+        public string RomFS, ExeFS;
 
         public GARCReference getGARCReference(string name) { return Files.FirstOrDefault(f => f.Name == name); }
         public TextVariableCode getVariableCode(string name) { return Variables.FirstOrDefault(v => v.Name == name); }
