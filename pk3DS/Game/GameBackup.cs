@@ -142,13 +142,13 @@ namespace pk3DS
         {
             int count = 0;
             var files = Directory.GetFiles(config.ExeFS);
-            foreach (var f in files)
+            foreach (var src in files)
             {
-                string dest = Path.Combine(bak_exefs, Path.GetFileName(f));
+                string dest = Path.Combine(bak_exefs, Path.GetFileName(src));
                 if (File.Exists(dest))
                 {
-                    File.Copy(dest, f);
-                    count++;
+                    try { File.Copy(dest, src, overwrite: true); count++; }
+                    catch { Console.WriteLine("Unable to overwrite backup: " + dest); }
                 }
                 else
                     Console.WriteLine("Unable to find backup: " + dest);
@@ -167,8 +167,8 @@ namespace pk3DS
                 string dest = Path.Combine(bak_a, name);
                 if (File.Exists(dest))
                 {
-                    File.Copy(dest, src);
-                    count++;
+                    try { File.Copy(dest, src, overwrite: true); count++; }
+                    catch { Console.WriteLine("Unable to overwrite backup: " + dest); }
                 }
                 else
                     Console.WriteLine("Unable to find backup: " + dest);
@@ -195,8 +195,8 @@ namespace pk3DS
                 string dest = Path.Combine(bak_dll, Path.GetFileName(src));
                 if (File.Exists(dest))
                 {
-                    File.Copy(dest, src);
-                    count++;
+                    try { File.Copy(dest, src, overwrite: true); count++; }
+                    catch { Console.WriteLine("Unable to overwrite backup: " + dest); }
                 }
                 else
                     Console.WriteLine("Unable to find backup: " + dest);
