@@ -114,12 +114,14 @@
             this.CLB_TM = new System.Windows.Forms.CheckedListBox();
             this.TP_Randomizer = new System.Windows.Forms.TabPage();
             this.GB_Modifier = new System.Windows.Forms.GroupBox();
+            this.CHK_CallRate = new System.Windows.Forms.CheckBox();
+            this.L_CallRateVal = new System.Windows.Forms.Label();
+            this.NUD_CallRate = new System.Windows.Forms.NumericUpDown();
             this.CHK_EXP = new System.Windows.Forms.CheckBox();
             this.CHK_Growth = new System.Windows.Forms.CheckBox();
             this.CHK_QuickHatch = new System.Windows.Forms.CheckBox();
             this.L_FinalXP = new System.Windows.Forms.Label();
             this.NUD_EXP = new System.Windows.Forms.NumericUpDown();
-            this.CHK_LowCatch = new System.Windows.Forms.CheckBox();
             this.CHK_NoEV = new System.Windows.Forms.CheckBox();
             this.B_ModAll = new System.Windows.Forms.Button();
             this.GB_Randomizer = new System.Windows.Forms.GroupBox();
@@ -149,21 +151,22 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
-            this.CHK_CallRate = new System.Windows.Forms.CheckBox();
-            this.L_CallRateVal = new System.Windows.Forms.Label();
-            this.NUD_CallRate = new System.Windows.Forms.NumericUpDown();
+            this.CHK_CatchRateMod = new System.Windows.Forms.CheckBox();
+            this.L_CatchRateMod = new System.Windows.Forms.Label();
+            this.NUD_CatchRateMod = new System.Windows.Forms.NumericUpDown();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
             this.TP_Randomizer.SuspendLayout();
             this.GB_Modifier.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_CallRate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EXP)).BeginInit();
             this.GB_Randomizer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Egg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TypePercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_StatDev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CallRate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_CatchRateMod)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_Species
@@ -1088,6 +1091,9 @@
             // 
             // GB_Modifier
             // 
+            this.GB_Modifier.Controls.Add(this.CHK_CatchRateMod);
+            this.GB_Modifier.Controls.Add(this.L_CatchRateMod);
+            this.GB_Modifier.Controls.Add(this.NUD_CatchRateMod);
             this.GB_Modifier.Controls.Add(this.CHK_CallRate);
             this.GB_Modifier.Controls.Add(this.L_CallRateVal);
             this.GB_Modifier.Controls.Add(this.NUD_CallRate);
@@ -1096,7 +1102,6 @@
             this.GB_Modifier.Controls.Add(this.CHK_QuickHatch);
             this.GB_Modifier.Controls.Add(this.L_FinalXP);
             this.GB_Modifier.Controls.Add(this.NUD_EXP);
-            this.GB_Modifier.Controls.Add(this.CHK_LowCatch);
             this.GB_Modifier.Controls.Add(this.CHK_NoEV);
             this.GB_Modifier.Location = new System.Drawing.Point(4, 147);
             this.GB_Modifier.Name = "GB_Modifier";
@@ -1105,10 +1110,46 @@
             this.GB_Modifier.TabStop = false;
             this.GB_Modifier.Text = "Modifier Options";
             // 
+            // CHK_CallRate
+            // 
+            this.CHK_CallRate.AutoSize = true;
+            this.CHK_CallRate.Location = new System.Drawing.Point(204, 38);
+            this.CHK_CallRate.Name = "CHK_CallRate";
+            this.CHK_CallRate.Size = new System.Drawing.Size(128, 17);
+            this.CHK_CallRate.TabIndex = 13;
+            this.CHK_CallRate.Text = "Modify SOS Call Rate";
+            this.CHK_CallRate.UseVisualStyleBackColor = true;
+            // 
+            // L_CallRateVal
+            // 
+            this.L_CallRateVal.AutoSize = true;
+            this.L_CallRateVal.Location = new System.Drawing.Point(204, 58);
+            this.L_CallRateVal.Name = "L_CallRateVal";
+            this.L_CallRateVal.Size = new System.Drawing.Size(34, 13);
+            this.L_CallRateVal.TabIndex = 12;
+            this.L_CallRateVal.Text = "Value";
+            // 
+            // NUD_CallRate
+            // 
+            this.NUD_CallRate.Location = new System.Drawing.Point(267, 56);
+            this.NUD_CallRate.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_CallRate.Name = "NUD_CallRate";
+            this.NUD_CallRate.Size = new System.Drawing.Size(46, 20);
+            this.NUD_CallRate.TabIndex = 11;
+            this.NUD_CallRate.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            // 
             // CHK_EXP
             // 
             this.CHK_EXP.AutoSize = true;
-            this.CHK_EXP.Location = new System.Drawing.Point(6, 66);
+            this.CHK_EXP.Location = new System.Drawing.Point(6, 51);
             this.CHK_EXP.Name = "CHK_EXP";
             this.CHK_EXP.Size = new System.Drawing.Size(107, 17);
             this.CHK_EXP.TabIndex = 7;
@@ -1118,7 +1159,7 @@
             // CHK_Growth
             // 
             this.CHK_Growth.AutoSize = true;
-            this.CHK_Growth.Location = new System.Drawing.Point(6, 51);
+            this.CHK_Growth.Location = new System.Drawing.Point(6, 36);
             this.CHK_Growth.Name = "CHK_Growth";
             this.CHK_Growth.Size = new System.Drawing.Size(147, 17);
             this.CHK_Growth.TabIndex = 8;
@@ -1140,7 +1181,7 @@
             // L_FinalXP
             // 
             this.L_FinalXP.AutoSize = true;
-            this.L_FinalXP.Location = new System.Drawing.Point(6, 86);
+            this.L_FinalXP.Location = new System.Drawing.Point(6, 71);
             this.L_FinalXP.Name = "L_FinalXP";
             this.L_FinalXP.Size = new System.Drawing.Size(57, 13);
             this.L_FinalXP.TabIndex = 6;
@@ -1148,7 +1189,7 @@
             // 
             // NUD_EXP
             // 
-            this.NUD_EXP.Location = new System.Drawing.Point(69, 84);
+            this.NUD_EXP.Location = new System.Drawing.Point(69, 69);
             this.NUD_EXP.Maximum = new decimal(new int[] {
             300,
             0,
@@ -1162,16 +1203,6 @@
             0,
             0,
             0});
-            // 
-            // CHK_LowCatch
-            // 
-            this.CHK_LowCatch.AutoSize = true;
-            this.CHK_LowCatch.Location = new System.Drawing.Point(6, 36);
-            this.CHK_LowCatch.Name = "CHK_LowCatch";
-            this.CHK_LowCatch.Size = new System.Drawing.Size(117, 17);
-            this.CHK_LowCatch.TabIndex = 9;
-            this.CHK_LowCatch.Text = "Lowest Catch Rate";
-            this.CHK_LowCatch.UseVisualStyleBackColor = true;
             // 
             // CHK_NoEV
             // 
@@ -1298,7 +1329,7 @@
             this.CHK_rSPE.AutoSize = true;
             this.CHK_rSPE.Checked = true;
             this.CHK_rSPE.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rSPE.Location = new System.Drawing.Point(45, 65);
+            this.CHK_rSPE.Location = new System.Drawing.Point(51, 64);
             this.CHK_rSPE.Name = "CHK_rSPE";
             this.CHK_rSPE.Size = new System.Drawing.Size(45, 17);
             this.CHK_rSPE.TabIndex = 19;
@@ -1322,11 +1353,11 @@
             this.CHK_rSPD.AutoSize = true;
             this.CHK_rSPD.Checked = true;
             this.CHK_rSPD.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rSPD.Location = new System.Drawing.Point(6, 65);
+            this.CHK_rSPD.Location = new System.Drawing.Point(6, 64);
             this.CHK_rSPD.Name = "CHK_rSPD";
-            this.CHK_rSPD.Size = new System.Drawing.Size(45, 17);
+            this.CHK_rSPD.Size = new System.Drawing.Size(47, 17);
             this.CHK_rSPD.TabIndex = 18;
-            this.CHK_rSPD.Text = "Spd";
+            this.CHK_rSPD.Text = "SpD";
             this.CHK_rSPD.UseVisualStyleBackColor = true;
             // 
             // CHK_rSPA
@@ -1334,11 +1365,11 @@
             this.CHK_rSPA.AutoSize = true;
             this.CHK_rSPA.Checked = true;
             this.CHK_rSPA.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rSPA.Location = new System.Drawing.Point(45, 49);
+            this.CHK_rSPA.Location = new System.Drawing.Point(51, 49);
             this.CHK_rSPA.Name = "CHK_rSPA";
-            this.CHK_rSPA.Size = new System.Drawing.Size(45, 17);
+            this.CHK_rSPA.Size = new System.Drawing.Size(46, 17);
             this.CHK_rSPA.TabIndex = 17;
-            this.CHK_rSPA.Text = "Spa";
+            this.CHK_rSPA.Text = "SpA";
             this.CHK_rSPA.UseVisualStyleBackColor = true;
             // 
             // L_SingleType
@@ -1367,7 +1398,7 @@
             this.CHK_rATK.AutoSize = true;
             this.CHK_rATK.Checked = true;
             this.CHK_rATK.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rATK.Location = new System.Drawing.Point(45, 34);
+            this.CHK_rATK.Location = new System.Drawing.Point(51, 34);
             this.CHK_rATK.Name = "CHK_rATK";
             this.CHK_rATK.Size = new System.Drawing.Size(42, 17);
             this.CHK_rATK.TabIndex = 15;
@@ -1461,7 +1492,7 @@
             this.CHK_EggGroup.AutoSize = true;
             this.CHK_EggGroup.Checked = true;
             this.CHK_EggGroup.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_EggGroup.Location = new System.Drawing.Point(203, 80);
+            this.CHK_EggGroup.Location = new System.Drawing.Point(204, 80);
             this.CHK_EggGroup.Name = "CHK_EggGroup";
             this.CHK_EggGroup.Size = new System.Drawing.Size(77, 17);
             this.CHK_EggGroup.TabIndex = 13;
@@ -1473,7 +1504,7 @@
             this.CHK_CatchRate.AutoSize = true;
             this.CHK_CatchRate.Checked = true;
             this.CHK_CatchRate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_CatchRate.Location = new System.Drawing.Point(203, 65);
+            this.CHK_CatchRate.Location = new System.Drawing.Point(204, 65);
             this.CHK_CatchRate.Name = "CHK_CatchRate";
             this.CHK_CatchRate.Size = new System.Drawing.Size(80, 17);
             this.CHK_CatchRate.TabIndex = 11;
@@ -1520,38 +1551,43 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
-            // CHK_CallRate
+            // CHK_CatchRateMod
             // 
-            this.CHK_CallRate.AutoSize = true;
-            this.CHK_CallRate.Location = new System.Drawing.Point(203, 66);
-            this.CHK_CallRate.Name = "CHK_CallRate";
-            this.CHK_CallRate.Size = new System.Drawing.Size(128, 17);
-            this.CHK_CallRate.TabIndex = 13;
-            this.CHK_CallRate.Text = "Modify SOS Call Rate";
-            this.CHK_CallRate.UseVisualStyleBackColor = true;
+            this.CHK_CatchRateMod.AutoSize = true;
+            this.CHK_CatchRateMod.Location = new System.Drawing.Point(204, 81);
+            this.CHK_CatchRateMod.Name = "CHK_CatchRateMod";
+            this.CHK_CatchRateMod.Size = new System.Drawing.Size(114, 17);
+            this.CHK_CatchRateMod.TabIndex = 16;
+            this.CHK_CatchRateMod.Text = "Modify Catch Rate";
+            this.CHK_CatchRateMod.UseVisualStyleBackColor = true;
             // 
-            // L_CallRateVal
+            // L_CatchRateMod
             // 
-            this.L_CallRateVal.AutoSize = true;
-            this.L_CallRateVal.Location = new System.Drawing.Point(203, 86);
-            this.L_CallRateVal.Name = "L_CallRateVal";
-            this.L_CallRateVal.Size = new System.Drawing.Size(34, 13);
-            this.L_CallRateVal.TabIndex = 12;
-            this.L_CallRateVal.Text = "Value";
+            this.L_CatchRateMod.AutoSize = true;
+            this.L_CatchRateMod.Location = new System.Drawing.Point(204, 101);
+            this.L_CatchRateMod.Name = "L_CatchRateMod";
+            this.L_CatchRateMod.Size = new System.Drawing.Size(34, 13);
+            this.L_CatchRateMod.TabIndex = 15;
+            this.L_CatchRateMod.Text = "Value";
             // 
-            // NUD_CallRate
+            // NUD_CatchRateMod
             // 
-            this.NUD_CallRate.Location = new System.Drawing.Point(266, 84);
-            this.NUD_CallRate.Maximum = new decimal(new int[] {
+            this.NUD_CatchRateMod.Location = new System.Drawing.Point(267, 99);
+            this.NUD_CatchRateMod.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.NUD_CallRate.Name = "NUD_CallRate";
-            this.NUD_CallRate.Size = new System.Drawing.Size(46, 20);
-            this.NUD_CallRate.TabIndex = 11;
-            this.NUD_CallRate.Value = new decimal(new int[] {
-            15,
+            this.NUD_CatchRateMod.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.NUD_CatchRateMod.Name = "NUD_CatchRateMod";
+            this.NUD_CatchRateMod.Size = new System.Drawing.Size(46, 20);
+            this.NUD_CatchRateMod.TabIndex = 14;
+            this.NUD_CatchRateMod.Value = new decimal(new int[] {
+            3,
             0,
             0,
             0});
@@ -1581,6 +1617,7 @@
             this.TP_Randomizer.ResumeLayout(false);
             this.GB_Modifier.ResumeLayout(false);
             this.GB_Modifier.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_CallRate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EXP)).EndInit();
             this.GB_Randomizer.ResumeLayout(false);
             this.GB_Randomizer.PerformLayout();
@@ -1588,7 +1625,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TypePercent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_StatDev)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CallRate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_CatchRateMod)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1704,7 +1741,6 @@
         private System.Windows.Forms.Label L_FinalXP;
         private System.Windows.Forms.NumericUpDown NUD_EXP;
         private System.Windows.Forms.CheckBox CHK_Growth;
-        private System.Windows.Forms.CheckBox CHK_LowCatch;
         private System.Windows.Forms.CheckBox CHK_QuickHatch;
         private System.Windows.Forms.Label L_Same;
         private System.Windows.Forms.NumericUpDown NUD_Egg;
@@ -1720,5 +1756,8 @@
         private System.Windows.Forms.CheckBox CHK_CallRate;
         private System.Windows.Forms.Label L_CallRateVal;
         private System.Windows.Forms.NumericUpDown NUD_CallRate;
+        private System.Windows.Forms.CheckBox CHK_CatchRateMod;
+        private System.Windows.Forms.Label L_CatchRateMod;
+        private System.Windows.Forms.NumericUpDown NUD_CatchRateMod;
     }
 }

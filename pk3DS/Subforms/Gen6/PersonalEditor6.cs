@@ -441,8 +441,6 @@ namespace pk3DS
                 if (CHK_NoEV.Checked)
                     for (int z = 0; z < 6; z++)
                         ev_boxes[z].Text = 0.ToString();
-                if (CHK_LowCatch.Checked)
-                    TB_CatchRate.Text = 3.ToString("000");
                 if (CHK_Growth.Checked)
                     CB_EXPGroup.SelectedIndex = 5;
                 if (CHK_EXP.Checked)
@@ -450,6 +448,8 @@ namespace pk3DS
 
                 if (CHK_QuickHatch.Checked)
                     TB_HatchCycles.Text = 1.ToString();
+                if(CHK_CatchRateMod.Checked)
+                    TB_CatchRate.Text = ((int)NUD_CatchRateMod.Value).ToString();
             }
             CB_Species.SelectedIndex = 1;
             Util.Alert("All species modified to specification!");
