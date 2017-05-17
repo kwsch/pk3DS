@@ -194,7 +194,7 @@ namespace pk3DS
         }
         private void B_Dump_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Dump all Egg Moves to Text File?"))
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Dump all Level Up Moves to Text File?"))
                 return;
 
             dumping = true;
