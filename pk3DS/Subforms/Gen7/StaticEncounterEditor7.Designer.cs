@@ -70,6 +70,8 @@
             this.NUD_TLevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Trade = new System.Windows.Forms.ListBox();
             this.Tab_Randomizer = new System.Windows.Forms.TabPage();
+            this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
+            this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.B_RandAll = new System.Windows.Forms.Button();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
             this.CHK_G7 = new System.Windows.Forms.CheckBox();
@@ -86,8 +88,7 @@
             this.B_Starters = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
-            this.CHK_Level = new System.Windows.Forms.CheckBox();
+            this.CHK_ShinyLock = new System.Windows.Forms.CheckBox();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).BeginInit();
@@ -101,8 +102,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TLevel)).BeginInit();
             this.Tab_Randomizer.SuspendLayout();
-            this.GB_Tweak.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).BeginInit();
+            this.GB_Tweak.SuspendLayout();
             this.SuspendLayout();
             // 
             // TC_Tabs
@@ -238,6 +239,7 @@
             // 
             // Tab_Encounters
             // 
+            this.Tab_Encounters.Controls.Add(this.CHK_ShinyLock);
             this.Tab_Encounters.Controls.Add(this.GB_EMoves);
             this.Tab_Encounters.Controls.Add(this.CB_EHeldItem);
             this.Tab_Encounters.Controls.Add(this.L_EHeldItem);
@@ -590,6 +592,41 @@
             this.Tab_Randomizer.Text = "Randomizer";
             this.Tab_Randomizer.UseVisualStyleBackColor = true;
             // 
+            // NUD_LevelBoost
+            // 
+            this.NUD_LevelBoost.DecimalPlaces = 2;
+            this.NUD_LevelBoost.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.NUD_LevelBoost.Location = new System.Drawing.Point(231, 74);
+            this.NUD_LevelBoost.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.NUD_LevelBoost.Name = "NUD_LevelBoost";
+            this.NUD_LevelBoost.Size = new System.Drawing.Size(43, 20);
+            this.NUD_LevelBoost.TabIndex = 511;
+            this.NUD_LevelBoost.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // CHK_Level
+            // 
+            this.CHK_Level.AutoSize = true;
+            this.CHK_Level.Checked = true;
+            this.CHK_Level.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Level.Location = new System.Drawing.Point(99, 75);
+            this.CHK_Level.Name = "CHK_Level";
+            this.CHK_Level.Size = new System.Drawing.Size(130, 17);
+            this.CHK_Level.TabIndex = 510;
+            this.CHK_Level.Text = "Multiply PKM Level by";
+            this.CHK_Level.UseVisualStyleBackColor = true;
+            // 
             // B_RandAll
             // 
             this.B_RandAll.Location = new System.Drawing.Point(132, 243);
@@ -777,40 +814,15 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // NUD_LevelBoost
+            // CHK_ShinyLock
             // 
-            this.NUD_LevelBoost.DecimalPlaces = 2;
-            this.NUD_LevelBoost.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
-            this.NUD_LevelBoost.Location = new System.Drawing.Point(231, 74);
-            this.NUD_LevelBoost.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.NUD_LevelBoost.Name = "NUD_LevelBoost";
-            this.NUD_LevelBoost.Size = new System.Drawing.Size(43, 20);
-            this.NUD_LevelBoost.TabIndex = 511;
-            this.NUD_LevelBoost.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // CHK_Level
-            // 
-            this.CHK_Level.AutoSize = true;
-            this.CHK_Level.Checked = true;
-            this.CHK_Level.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Level.Location = new System.Drawing.Point(99, 75);
-            this.CHK_Level.Name = "CHK_Level";
-            this.CHK_Level.Size = new System.Drawing.Size(130, 17);
-            this.CHK_Level.TabIndex = 510;
-            this.CHK_Level.Text = "Multiply PKM Level by";
-            this.CHK_Level.UseVisualStyleBackColor = true;
+            this.CHK_ShinyLock.AutoSize = true;
+            this.CHK_ShinyLock.Location = new System.Drawing.Point(218, 232);
+            this.CHK_ShinyLock.Name = "CHK_ShinyLock";
+            this.CHK_ShinyLock.Size = new System.Drawing.Size(79, 17);
+            this.CHK_ShinyLock.TabIndex = 18;
+            this.CHK_ShinyLock.Text = "Shiny Lock";
+            this.CHK_ShinyLock.UseVisualStyleBackColor = true;
             // 
             // StaticEncounterEditor7
             // 
@@ -827,6 +839,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GLevel)).EndInit();
             this.Tab_Encounters.ResumeLayout(false);
+            this.Tab_Encounters.PerformLayout();
             this.GB_EMoves.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ELevel)).EndInit();
@@ -837,9 +850,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TLevel)).EndInit();
             this.Tab_Randomizer.ResumeLayout(false);
             this.Tab_Randomizer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).EndInit();
             this.GB_Tweak.ResumeLayout(false);
             this.GB_Tweak.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -906,5 +919,6 @@
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.NumericUpDown NUD_LevelBoost;
         private System.Windows.Forms.CheckBox CHK_Level;
+        private System.Windows.Forms.CheckBox CHK_ShinyLock;
     }
 }

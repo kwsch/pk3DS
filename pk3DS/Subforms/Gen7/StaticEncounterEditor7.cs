@@ -206,6 +206,7 @@ namespace pk3DS
             CB_EMove1.SelectedIndex = moves[1];
             CB_EMove2.SelectedIndex = moves[2];
             CB_EMove3.SelectedIndex = moves[3];
+            CHK_ShinyLock.Checked = entry.ShinyLock;
 
             loading = false;
         }
@@ -227,6 +228,7 @@ namespace pk3DS
                 CB_EMove2.SelectedIndex,
                 CB_EMove3.SelectedIndex,
             };
+            entry.ShinyLock = CHK_ShinyLock.Checked;
         }
         private void getTrade()
         {
