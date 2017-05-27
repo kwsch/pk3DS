@@ -9,10 +9,6 @@ namespace pk3DS.Core
 {
     public class GameConfig
     {
-        // This static instance variable is a shim to continue using a static instance without breaking direct references to Main
-        // To-Do: Remove Instance in favor of something else
-        public static GameConfig Instance { get; set; }
-
         private const int FILECOUNT_XY = 271;
         private const int FILECOUNT_ORASDEMO = 301;
         private const int FILECOUNT_ORAS = 299;

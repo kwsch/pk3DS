@@ -298,7 +298,7 @@ namespace pk3DS
             if (form == -1)
                 form = baseForms[species];
             
-            pic[index].Image = Util.getSprite(species, form, 0, 0);
+            pic[index].Image = Util.getSprite(species, form, 0, 0, Main.Config);
         }
     }
 }

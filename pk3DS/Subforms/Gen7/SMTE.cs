@@ -132,7 +132,7 @@ namespace pk3DS
         }
         private static void getQuickFiller(PictureBox pb, trpoke7 pk)
         {
-            Bitmap rawImg = Util.getSprite(pk.Species, pk.Form, pk.Gender, pk.Item, pk.Shiny);
+            Bitmap rawImg = Util.getSprite(pk.Species, pk.Form, pk.Gender, pk.Item, Main.Config, pk.Shiny);
             pb.Image = Util.scaleImage(rawImg, 2);
         }
 

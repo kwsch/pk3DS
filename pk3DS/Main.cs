@@ -55,17 +55,7 @@ namespace pk3DS
             string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0])?.ToLower() : "";
             skipBoth = filename.IndexOf("3DSkip", StringComparison.Ordinal) >= 0;
         }
-        internal static GameConfig Config
-        {
-            get
-            {
-                return GameConfig.Instance;
-            }
-            set
-            {
-                GameConfig.Instance = value;
-            }
-        }
+        internal static GameConfig Config;
         public static string RomFSPath;
         public static string ExeFSPath;
         public static string ExHeaderPath;

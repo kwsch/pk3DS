@@ -418,7 +418,7 @@ namespace pk3DS
         {
             if (tr == null || randomizing) return;
             if (i >= tr.Team.Length) { pba[i].Image = null; return; }
-            Bitmap rawImg = Util.getSprite(tr.Team[i].Species, tr.Team[i].Form, tr.Team[i].Gender, tr.Team[i].Item);
+            Bitmap rawImg = Util.getSprite(tr.Team[i].Species, tr.Team[i].Form, tr.Team[i].Gender, tr.Team[i].Item, Main.Config);
             pba[i].Image = Util.scaleImage(rawImg, 2);
         }
         private void showText()

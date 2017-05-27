@@ -49,7 +49,7 @@ namespace pk3DS.Core
 
             return bmp;
         }
-        public static Bitmap getSprite(int species, int form, int gender, int item, bool shiny = false)
+        public static Bitmap getSprite(int species, int form, int gender, int item, GameConfig config, bool shiny = false)
         {
             string file;
             if (species == 0) // fix with SM release
@@ -72,7 +72,7 @@ namespace pk3DS.Core
             Bitmap baseImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(file);
             if (baseImage == null)
             {
-                if (species < GameConfig.Instance.MaxSpeciesID)
+                if (species < config.MaxSpeciesID)
                 {
                     baseImage = LayerImage(
                         (Image)Properties.Resources.ResourceManager.GetObject("_" + species),

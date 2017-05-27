@@ -124,11 +124,11 @@ namespace pk3DS.Core.Structures.PersonalInfo
             }
             return result;
         }
-        public int[] getSpeciesForm(int PersonalEntry)
+        public int[] getSpeciesForm(int PersonalEntry, GameConfig config)
         {
-            if (PersonalEntry < GameConfig.Instance.MaxSpeciesID) return new[] { PersonalEntry, 0 };
+            if (PersonalEntry < config.MaxSpeciesID) return new[] { PersonalEntry, 0 };
 
-            for (int i = 0; i < GameConfig.Instance.MaxSpeciesID; i++)
+            for (int i = 0; i < config.MaxSpeciesID; i++)
             {
                 int FormCount = this[i].FormeCount - 1; // Mons with no alt forms have a FormCount of 1.
                 var altformpointer = this[i].FormStatsIndex;

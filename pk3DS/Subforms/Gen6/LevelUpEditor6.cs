@@ -75,7 +75,7 @@ namespace pk3DS
         {
             entry = Util.getIndex(CB_Species);
 
-            int[] specForm = Main.Config.Personal.getSpeciesForm(entry);
+            int[] specForm = Main.Config.Personal.getSpeciesForm(entry, Main.Config);
             string filename = "_" + specForm[0] + (entry > 721 ? "_" + (specForm[1] + 1) : "");
             PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
 
