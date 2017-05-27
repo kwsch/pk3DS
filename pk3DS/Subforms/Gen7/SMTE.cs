@@ -1,4 +1,7 @@
-﻿using System;
+﻿using pk3DS.Core;
+using pk3DS.Core.Structures.Gen6;
+using pk3DS.Core.Structures.Gen7;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -73,7 +76,7 @@ namespace pk3DS
                 try { populateFieldsTP7(pk); }
                 catch { }
                 // Visual to display what slot is currently loaded.
-                getSlotColor(slot, Properties.Resources.slotView);
+                getSlotColor(slot, Core.Properties.Resources.slotView);
             }
             else
                 SystemSounds.Exclamation.Play();
@@ -96,7 +99,7 @@ namespace pk3DS
             }
 
             getQuickFiller(pba[slot], pk);
-            getSlotColor(slot, Properties.Resources.slotSet);
+            getSlotColor(slot, Core.Properties.Resources.slotSet);
         }
         private void clickDelete(object sender, EventArgs e)
         {
@@ -109,7 +112,7 @@ namespace pk3DS
             }
 
             populateTeam(Trainers[index]);
-            getSlotColor(slot, Properties.Resources.slotDel);
+            getSlotColor(slot, Core.Properties.Resources.slotDel);
         }
 
         private void populateTeam(trdata7 tr)

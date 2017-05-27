@@ -1,4 +1,7 @@
-﻿using System;
+﻿using pk3DS.Core;
+using pk3DS.Core.Structures.Gen6;
+using pk3DS.Core.Structures.PersonalInfo;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;

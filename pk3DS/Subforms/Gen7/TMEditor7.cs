@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Linq;
+using pk3DS.Core;
 
 namespace pk3DS
 {

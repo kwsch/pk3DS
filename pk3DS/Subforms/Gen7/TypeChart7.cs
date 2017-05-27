@@ -1,4 +1,6 @@
-﻿using System;
+﻿using pk3DS.Core;
+using pk3DS.Core.Structures;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;

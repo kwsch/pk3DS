@@ -1,4 +1,7 @@
-﻿using System;
+﻿using pk3DS.Core;
+using pk3DS.Core.Structures;
+using pk3DS.Core.Structures.Gen7;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 

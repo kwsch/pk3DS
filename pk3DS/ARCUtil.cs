@@ -1,10 +1,11 @@
-﻿using System;
+﻿using pk3DS.Core;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace pk3DS
+namespace pk3DS.ARCUtil
 {
     public class ARC
     {

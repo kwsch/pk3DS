@@ -1,4 +1,6 @@
-﻿using System;
+﻿using pk3DS.Core;
+using pk3DS.Core.CTR;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -8,7 +10,7 @@ namespace pk3DS
 {
     public partial class Icon : Form
     {
-        private CTR.SMDH SMDH;
+        private SMDH SMDH;
         public Icon()
         {
             InitializeComponent();
@@ -17,7 +19,7 @@ namespace pk3DS
             {
                 byte[] data = new byte[0x3C0]; // Feed a blank SMDH
                 Array.Copy(BitConverter.GetBytes(0x48444D53), data, 4); // SMDH header
-                SMDH = new CTR.SMDH(data);
+                SMDH = new SMDH(data);
                 B_Save.Enabled = false;
             }
             for (int i = 0; i < 16; i++)
@@ -158,7 +160,7 @@ namespace pk3DS
             if (prompt && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Replace SMDH?"))
                 return;
 
-            CTR.SMDH newSMDH = new CTR.SMDH(data);
+            SMDH newSMDH = new SMDH(data);
             if (newSMDH.LargeIcon.Icon == null) return;
 
             SMDH = newSMDH;

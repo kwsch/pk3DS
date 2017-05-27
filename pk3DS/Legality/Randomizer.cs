@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using pk3DS.Core;
+using pk3DS.Core.Structures.Gen6;
+using pk3DS.Core.Structures.PersonalInfo;
+using System.Linq;
 
 namespace pk3DS
 {

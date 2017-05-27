@@ -5,6 +5,8 @@ using System.Media;
 using System.Text;
 using System.Windows.Forms;
 using pk3DS.Properties;
+using pk3DS.Core.Structures.PersonalInfo;
+using pk3DS.Core;
 
 namespace pk3DS
 {
@@ -257,7 +259,7 @@ namespace pk3DS
             int[] specForm = { s, f };
             string filename = "_" + specForm[0] + (CB_Species.SelectedIndex > 721 ? "_" + (specForm[1] + 1) : "");
             Bitmap rawImg = (Bitmap)Resources.ResourceManager.GetObject(filename);
-            if (rawImg == null) rawImg = Resources.unknown;
+            if (rawImg == null) rawImg = Core.Properties.Resources.unknown;
             Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
             for (int x = 0; x < rawImg.Width; x++)
             {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using pk3DS.Core;
+using pk3DS.Core.Structures.Gen6;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
