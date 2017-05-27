@@ -59,5 +59,28 @@ namespace pk3DS.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to pk3DS - By Kaphotics
+        ///http://projectpokemon.org/
+        ///http://projectpokemon.org/forums/showthread.php?44950
+        ///
+        ///A package of Pokémon X/Y/OR/AS tools by various contributors.
+        ///
+        ///GARCTool (Backbone): Kaphotics
+        ///Text Editing (xytext): Kaphotics
+        ///Wild Editor (**WE): SciresM &amp; Kaphotics
+        ///Trainer Editor (**TE): SciresM, Kaphotics, and KazoWAR
+        ///Personal Editor: SciresM
+        ///Mega Evolution Editor (MEE): SciresM
+        ///OverWorld/Script Editor: Kaphotics &amp; FireFly
+        ///Evolutions, Moves, Items, Maison, Title Screen Editors: Kaphotics
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string changelog {
+            get {
+                return ResourceManager.GetString("changelog", resourceCulture);
+            }
+        }
     }
 }

@@ -1387,7 +1387,6 @@
     <None Include="Resources\img\item\item_99.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\changelog.txt" />
     <Content Include="Resources\img\moon.png" />
     <Content Include="Resources\img\Pokemon Sprites\empty.png" />
     <Content Include="Resources\img\rare_icon.png" />

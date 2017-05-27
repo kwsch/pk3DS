@@ -8,7 +8,7 @@ namespace pk3DS
         public About()
         {
             InitializeComponent();
-            RTB.Text = Core.Properties.Resources.changelog;
+            RTB.Text = Properties.Resources.changelog;
         }
         private void B_Close_Click(object sender, EventArgs e)
         {
