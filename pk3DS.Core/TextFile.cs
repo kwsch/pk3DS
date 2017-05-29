@@ -19,7 +19,7 @@ namespace pk3DS.Core
         private const bool SETEMPTYTEXT = false;
         private static readonly byte[] emptyTextFile = { 0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00 };
 
-        public TextFile(byte[] data = null)
+        public TextFile(GameConfig config, byte[] data = null)
         {
             Data = (byte[])(data ?? emptyTextFile).Clone();
 
@@ -29,7 +29,10 @@ namespace pk3DS.Core
                 throw new Exception("Invalid Text File");
             if (SectionLength != TotalLength)
                 throw new Exception("Section size and overall size do not match.");
+
+            Config = config;
         }
+        private GameConfig Config { get; set; }
         private ushort TextSections { get { return BitConverter.ToUInt16(Data, 0x0); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x0); } } // Always 0x0001
         private ushort LineCount { get { return BitConverter.ToUInt16(Data, 0x2); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x2); } }
         private uint TotalLength { get { return BitConverter.ToUInt32(Data, 0x4); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x4); } }
@@ -79,7 +82,7 @@ namespace pk3DS.Core
                     byte[] EncryptedLineData = new byte[lines[i].Length * 2];
                     Array.Copy(Data, lines[i].Offset, EncryptedLineData, 0, EncryptedLineData.Length);
                     byte[] DecryptedLineData = cryptLineData(EncryptedLineData, key);
-                    result[i] = getLineString(DecryptedLineData);
+                    result[i] = getLineString(Config, DecryptedLineData);
                     key += KEY_ADVANCE;
                 }
                 return result;
@@ -101,7 +104,7 @@ namespace pk3DS.Core
                     string text = (value[i] ?? "").Trim();
                     if (text.Length == 0 && SETEMPTYTEXT)
                         text = $"[~ {i}]";
-                    byte[] DecryptedLineData = getLineData(text);
+                    byte[] DecryptedLineData = getLineData(Config, text);
                     lineData[i] = cryptLineData(DecryptedLineData, key);
                     if (lineData[i].Length % 4 == 2)
                         Array.Resize(ref lineData[i], lineData[i].Length + 2);
@@ -120,7 +123,7 @@ namespace pk3DS.Core
         }
         public byte[] Data;
 
-        private static byte[] cryptLineData(byte[] data, ushort key)
+        private byte[] cryptLineData(byte[] data, ushort key)
         {
             byte[] result = new byte[data.Length];
             for (int i = 0; i < result.Length; i += 2)
@@ -130,7 +133,7 @@ namespace pk3DS.Core
             }
             return result;
         }
-        private static byte[] getLineData(string line)
+        private byte[] getLineData(GameConfig config, string line)
         {
             if (line == null)
                 return new byte[2];
@@ -155,7 +158,7 @@ namespace pk3DS.Core
                         if (bracket < 0)
                             throw new ArgumentException("Variable text is not capped properly.");
                         string varText = line.Substring(i, bracket - i);
-                        var varValues = getVariableValues(varText);
+                        var varValues = getVariableValues(config, varText);
                         foreach (ushort v in varValues) bw.Write(v);
                         i += 1 + varText.Length;
                     }
@@ -171,7 +174,7 @@ namespace pk3DS.Core
                 return ms.ToArray();
             }
         }
-        private static string getLineString(byte[] data)
+        private string getLineString(GameConfig config, byte[] data)
         {
             if (data == null)
                 return null;
@@ -187,7 +190,7 @@ namespace pk3DS.Core
                 switch (val)
                 {
                     case KEY_TERMINATOR: return s;
-                    case KEY_VARIABLE: s += getVariableString(data, ref i); break;
+                    case KEY_VARIABLE: s += getVariableString(config, data, ref i); break;
                     case '\n': s += @"\n"; break;
                     case '\\': s += @"\\"; break;
                     case '[': s += @"\["; break;
@@ -200,7 +203,7 @@ namespace pk3DS.Core
             }
             return s; // Shouldn't get hit if the string is properly terminated.
         }
-        private static string getVariableString(byte[] data, ref int i)
+        private string getVariableString(GameConfig config, byte[] data, ref int i)
         {
             string s = "";
             ushort count = BitConverter.ToUInt16(data, i); i += 2;
@@ -220,7 +223,7 @@ namespace pk3DS.Core
                     return $"[~ {line}]";
             }
 
-            string varName = getVariableString(variable);
+            string varName = getVariableString(config, variable);
 
             s += "[VAR" + " " + varName;
             if (count > 1)
@@ -238,7 +241,7 @@ namespace pk3DS.Core
             s += "]";
             return s;
         }
-        private static IEnumerable<ushort> getEscapeValues(char esc)
+        private IEnumerable<ushort> getEscapeValues(char esc)
         {
             var vals = new List<ushort>();
             switch (esc)
@@ -250,7 +253,7 @@ namespace pk3DS.Core
                 default: throw new Exception("Invalid terminated line: \"\\" + esc + "\"");
             }
         }
-        private static IEnumerable<ushort> getVariableValues(string variable)
+        private IEnumerable<ushort> getVariableValues(GameConfig config, string variable)
         {
             string[] split = variable.Split(' ');
             if (split.Length < 2)
@@ -270,19 +273,19 @@ namespace pk3DS.Core
                     vals.Add(Convert.ToUInt16(split[1]));
                     break;
                 case "VAR": // Text Variable
-                    vals.AddRange(getVariableParameters(split[1]));
+                    vals.AddRange(getVariableParameters(config, split[1]));
                     break;
                 default: throw new Exception("Unknown variable method type!");
             }
             return vals;
         }
-        private static IEnumerable<ushort> getVariableParameters(string text)
+        private IEnumerable<ushort> getVariableParameters(GameConfig config, string text)
         {
             var vals = new List<ushort>();
             int bracket = text.IndexOf('(');
             bool noArgs = bracket < 0;
             string variable = noArgs ? text : text.Substring(0, bracket);
-            ushort varVal = getVariableNumber(variable);
+            ushort varVal = getVariableNumber(config, variable);
 
             if (!noArgs)
             {
@@ -299,10 +302,9 @@ namespace pk3DS.Core
             return vals;
         }
 
-        public static GameConfig Config = new GameConfig(GameVersion.SM);
-        private static ushort getVariableNumber(string variable)
+        private ushort getVariableNumber(GameConfig config, string variable)
         {
-            var v = Config.getVariableCode(variable);
+            var v = config.getVariableCode(variable);
             if (v != null)
                 return (ushort) v.Code;
 
@@ -312,22 +314,22 @@ namespace pk3DS.Core
             }
             catch { throw new ArgumentException($"Variable \"{variable}\" parse error."); }
         }
-        private static string getVariableString(ushort variable)
+        private string getVariableString(GameConfig config, ushort variable)
         {
-            var v = Config.getVariableName(variable);
+            var v = config.getVariableName(variable);
             return v == null ? variable.ToString("X4") : v.Name;
         }
         
         // Exposed Methods
-        public static string[] getStrings(byte[] data)
+        public static string[] getStrings(GameConfig config, byte[] data)
         {
             TextFile t;
-            try { t = new TextFile(data); } catch { return null; }
+            try { t = new TextFile(config, data); } catch { return null; }
             return t.Lines;
         }
-        public static byte[] getBytes(string[] lines)
+        public static byte[] getBytes(GameConfig config, string[] lines)
         {
-            return new TextFile { Lines = lines }.Data;
+            return new TextFile (config) { Lines = lines }.Data;
         }
     }
 }

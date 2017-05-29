@@ -120,7 +120,7 @@ namespace pk3DS.Core
         public void InitializeGameText()
         {
             GARCGameText = getGARCData("gametext");
-            GameTextStrings = GARCGameText.Files.Select(file => new TextFile(file).Lines).ToArray();
+            GameTextStrings = GARCGameText.Files.Select(file => new TextFile(this, file).Lines).ToArray();
         }
         public void InitializeMoves()
         {
@@ -177,7 +177,17 @@ namespace pk3DS.Core
         public GARCReference getGARCReference(string name) { return Files.FirstOrDefault(f => f.Name == name); }
         public TextVariableCode getVariableCode(string name) { return Variables.FirstOrDefault(v => v.Name == name); }
         public TextVariableCode getVariableName(int value) { return Variables.FirstOrDefault(v => v.Code == value); }
-        public TextReference getGameText(TextName name) { return GameText.FirstOrDefault(f => f.Name == name); }
+
+        private TextReference getGameText(TextName name) { return GameText.FirstOrDefault(f => f.Name == name); }
+        public string[] getText(TextName file)
+        {
+            return (string[])GameTextStrings[getGameText(file).Index].Clone();
+        }
+        public bool setText(TextName file, string[] strings)
+        {
+            GameTextStrings[getGameText(file).Index] = strings;
+            return true;
+        }
 
         public string getGARCFileName(string requestedGARC)
         {

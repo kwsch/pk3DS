@@ -140,7 +140,7 @@ namespace pk3DS
             if (Config == null) return;
             var g = Config.GARCGameText;
             string[][] files = Config.GameTextStrings;
-            g.Files = files.Select(TextFile.getBytes).ToArray();
+            g.Files = files.Select(x => TextFile.getBytes(Config, x)).ToArray();
             g.Save();
         }
 
@@ -327,7 +327,6 @@ namespace pk3DS
 
                 RomFSPath = path;
                 Config = cfg;
-                TextFile.Config = cfg;
                 Randomizer.MaxSpeciesID = cfg.MaxSpeciesID;
                 return true;
             }
@@ -439,7 +438,7 @@ namespace pk3DS
                 var g = Config.GARCGameText;
                 string[][] files = Config.GameTextStrings;
                 Invoke((Action)(() => new TextEditor(files, "gametext").ShowDialog()));
-                g.Files = files.Select(TextFile.getBytes).ToArray();
+                g.Files = files.Select(x => TextFile.getBytes(Main.Config, x)).ToArray();
                 g.Save();
             }).Start();
         }
@@ -449,9 +448,9 @@ namespace pk3DS
             new Thread(() =>
             {
                 var g = Config.getGARCData("storytext");
-                string[][] files = g.Files.Select(file => new TextFile(file).Lines).ToArray();
+                string[][] files = g.Files.Select(file => new TextFile(Config, file).Lines).ToArray();
                 Invoke((Action)(() => new TextEditor(files, "storytext").ShowDialog()));
-                g.Files = files.Select(TextFile.getBytes).ToArray();
+                g.Files = files.Select(x => TextFile.getBytes(Main.Config, x)).ToArray();
                 g.Save();
             }).Start();
         }
@@ -622,7 +621,7 @@ namespace pk3DS
                 // Don't set any data back. Just view.
                 {
                     var g = Config.getGARCData("storytext");
-                    string[][] tfiles = g.Files.Select(file => new TextFile(file).Lines).ToArray();
+                    string[][] tfiles = g.Files.Select(file => new TextFile(Config, file).Lines).ToArray();
                     Invoke((Action)(() => new OWSE().Show()));
                     Invoke((Action)(() => new TextEditor(tfiles, "storytext").Show()));
                     while (Application.OpenForms.Count > 1)
@@ -646,7 +645,7 @@ namespace pk3DS
                 var wd = Config.getlzGARCData(files[2]);
 
                 var g = Config.getGARCData("storytext");
-                string[][] tfiles = g.Files.Select(file => new TextFile(file).Lines).ToArray();
+                string[][] tfiles = g.Files.Select(file => new TextFile(Config, file).Lines).ToArray();
                 Invoke((Action)(() => new TextEditor(tfiles, "storytext").Show()));
                 Invoke((Action)(() => new OWSE7(ed, zd, wd).Show()));
                 while (Application.OpenForms.Count > 1)
@@ -1164,14 +1163,15 @@ namespace pk3DS
         }
 
         // Text Requests
+        [Obsolete("Use Main.Config.getText instead")]
         internal static string[] getText(TextName file)
         {
-            return (string[])Config.GameTextStrings[Config.getGameText(file).Index].Clone();
+            return Config.getText(file);
         }
+        [Obsolete("Use Main.Config.getText instead")]
         internal static bool setText(TextName file, string[] strings)
         {
-            Config.GameTextStrings[Config.getGameText(file).Index] = strings;
-            return true;
+            return Config.setText(file, strings);
         }
 
         // Update RichTextBox

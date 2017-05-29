@@ -382,7 +382,7 @@ namespace pk3DS
                 var s = Main.Config.getGARCByReference(sr);
                 byte[][] storytextdata = s.Files;
 
-                string[] storyText = TextFile.getStrings(storytextdata[41]);
+                string[] storyText = TextFile.getStrings(Main.Config, storytextdata[41]);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -402,7 +402,7 @@ namespace pk3DS
 
                     storyText[1 + j] = line;
                 }
-                storytextdata[41] = TextFile.getBytes(storyText);
+                storytextdata[41] = TextFile.getBytes(Main.Config, storyText);
                 s.Files = storytextdata;
                 s.Save();
             }
