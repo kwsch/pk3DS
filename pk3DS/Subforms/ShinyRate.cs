@@ -1,4 +1,5 @@
-﻿using System;
+﻿using pk3DS.Core;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace pk3DS
             if (exefsData.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
 
             // Load instruction set
-            byte[] raw = Properties.Resources.asm_mov;
+            byte[] raw = Core.Properties.Resources.asm_mov;
             for (int i = 0; i < raw.Length; i += 4)
             {
                 byte[] data = new byte[2];

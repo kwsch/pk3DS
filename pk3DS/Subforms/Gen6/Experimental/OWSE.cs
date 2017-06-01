@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using pk3DS.Subforms;
+using pk3DS.Core;
+using pk3DS.Core.CTR;
 
 namespace pk3DS
 {
@@ -92,7 +94,7 @@ namespace pk3DS
         {
             if (entry < 0) return;
             byte[] raw = File.ReadAllBytes(filepaths[entry]);
-            locationData = CTR.mini.unpackMini(raw, "ZO");
+            locationData = Core.CTR.mini.unpackMini(raw, "ZO");
             if (locationData == null) return;
 
             // Read master ZD table
@@ -144,7 +146,7 @@ namespace pk3DS
             System.Media.SystemSounds.Asterisk.Play();
 
             // Package the files into the permanent package file.
-            byte[] raw = CTR.mini.packMini(data, "ZO");
+            byte[] raw = mini.packMini(data, "ZO");
             File.WriteAllBytes(filepaths[entry], raw);
         }
 

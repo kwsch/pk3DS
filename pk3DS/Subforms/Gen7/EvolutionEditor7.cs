@@ -1,4 +1,7 @@
-﻿using System;
+﻿using pk3DS.Core;
+using pk3DS.Core.Structures.Gen6;
+using pk3DS.Core.Structures.PersonalInfo;
+using System;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -295,7 +298,7 @@ namespace pk3DS
             if (form == -1)
                 form = baseForms[species];
             
-            pic[index].Image = Util.getSprite(species, form, 0, 0);
+            pic[index].Image = Util.getSprite(species, form, 0, 0, Main.Config);
         }
     }
 }

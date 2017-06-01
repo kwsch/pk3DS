@@ -1,4 +1,6 @@
-﻿using System;
+﻿using pk3DS.Core;
+using pk3DS.Core.Structures.PersonalInfo;
+using System;
 using System.IO;
 using System.Windows.Forms;
 
@@ -128,7 +130,7 @@ namespace pk3DS
             int index = int.Parse(name[6]+"");
 
             int species = (sender as ComboBox).SelectedIndex;
-            Previews[group][index].Image = Util.scaleImage(Util.getSprite(species, 0, 0, 0), 3);
+            Previews[group][index].Image = Util.scaleImage(Util.getSprite(species, 0, 0, 0, Main.Config), 3);
         }
 
         private void B_Randomize_Click(object sender, EventArgs e)

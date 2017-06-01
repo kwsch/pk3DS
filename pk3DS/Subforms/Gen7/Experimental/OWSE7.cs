@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using CTR;
+using pk3DS.Core;
+using pk3DS.Core.Structures.Gen6;
+using pk3DS.Core.CTR;
+using pk3DS.Core.Structures.Gen7;
 
 namespace pk3DS
 {

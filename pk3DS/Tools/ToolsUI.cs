@@ -1,4 +1,7 @@
-﻿using System;
+﻿using pk3DS.ARCUtil;
+using pk3DS.Core;
+using pk3DS.Core.CTR;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -44,11 +47,11 @@ namespace pk3DS
             else if (sender == PB_Repack)
                 saveARC(path);
             else try {
-                CTR.LZSS.Decompress(path, Path.Combine(Path.GetDirectoryName(path), "dec_" + Path.GetFileName(path)));
+                LZSS.Decompress(path, Path.Combine(Path.GetDirectoryName(path), "dec_" + Path.GetFileName(path)));
                 File.Delete(path);
                 System.Media.SystemSounds.Asterisk.Play();
             } catch { try { if (threads < 1)
-                new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+                new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
             } catch { Util.Error("Unable to process file."); threads = 0; } }
         }
         private void dropHover(object sender, EventArgs e)
@@ -61,7 +64,7 @@ namespace pk3DS
         }
         private void openIMG(string path)
         {
-            var img = CTR.BCLIM.makeBMP(path, CHK_PNG.Checked);
+            var img = BCLIM.makeBMP(path, CHK_PNG.Checked);
             if (img == null) return;
             PB_BCLIM.Size = new Size(img.Width + 2, img.Height + 2);
             PB_BCLIM.BackgroundImage = img;
@@ -91,12 +94,12 @@ namespace pk3DS
 
                 // Determine if it is a DARC or a Mini
                 // Check if Mini first
-                string fx = fi.Length > 10 * (1<<20) ? null : CTR.mini.getIsMini(path); // no mini is above 10MB
+                string fx = fi.Length > 10 * (1<<20) ? null : mini.getIsMini(path); // no mini is above 10MB
                 if (fx != null) // Is Mini Packed File
                 {
                     newFolder = folderPath + "_" + fx;
                     // Fetch Mini File Contents
-                    CTR.mini.unpackMini(path, fx, newFolder, false);
+                    mini.unpackMini(path, fx, newFolder, false);
                     // Recurse throught the extracted contents if they extract successfully
                     if (Directory.Exists(newFolder))
                     {   
@@ -112,7 +115,7 @@ namespace pk3DS
                     new Thread(() =>
                     {
                         threads++;
-                        bool r = CTR.GARC.garcUnpack(path, folderPath + "_g", SkipDecompression, pBar1);
+                        bool r = GARC.garcUnpack(path, folderPath + "_g", SkipDecompression, pBar1);
                         threads--;
                         if (r)
                             batchRenameExtension(newFolder);
@@ -133,7 +136,7 @@ namespace pk3DS
                     }
                     var darcData = data.Skip(pos).ToArray();
                     newFolder = folderPath + "_d";
-                    bool r = CTR.DARC.darc2files(darcData, newFolder);
+                    bool r = Core.CTR.DARC.darc2files(darcData, newFolder);
                     if (!r)
                     { Util.Alert("Unpacking failed."); return; }
                 }
@@ -177,15 +180,15 @@ namespace pk3DS
                     if (dr == DialogResult.Cancel)
                         return;
 
-                    var version = dr == DialogResult.Yes ? CTR.GARC.VER_6 : CTR.GARC.VER_4;
+                    var version = dr == DialogResult.Yes ? GARC.VER_6 : GARC.VER_4;
                     int padding = (int)NUD_Padding.Value;
-                    if (version == CTR.GARC.VER_4)
+                    if (version == Core.CTR.GARC.VER_4)
                         padding = 4;
 
                     string outfolder = Directory.GetParent(path).FullName;
                     new Thread(() =>
                     {
-                        bool r = CTR.GARC.garcPackMS(path, Path.Combine(outfolder, folderName + ".garc"), version, padding, pBar1);
+                        bool r = GARC.garcPackMS(path, Path.Combine(outfolder, folderName + ".garc"), version, padding, pBar1);
                         if (!r) { Util.Alert("Packing failed."); return; }
                         // Delete path after repacking
                         if (CHK_Delete.Checked && Directory.Exists(path))
@@ -206,7 +209,7 @@ namespace pk3DS
                         oldFile = Path.Combine(parentName, oldFile + ".darc");
                     else oldFile = null;
 
-                    bool r = CTR.DARC.files2darc(path, false, oldFile);
+                    bool r = Core.CTR.DARC.files2darc(path, false, oldFile);
                     if (!r) Util.Alert("Packing failed.");
                     break;
                 }
@@ -230,7 +233,7 @@ namespace pk3DS
                         file = null;
 
                     byte[] oldData = file != null ? File.ReadAllBytes(file) : null;
-                    bool r = CTR.mini.packMini2(path, fileExt, Path.Combine(parentName, fileNum + "." + fileExt));
+                    bool r = mini.packMini2(path, fileExt, Path.Combine(parentName, fileNum + "." + fileExt));
                     if (!r)
                     {
                         Util.Alert("Packing failed.");
@@ -254,7 +257,7 @@ namespace pk3DS
                                 break;
 
                             // Fix pointers
-                            byte[] update = CTR.mini.adjustMiniHeader(newData, oldPtr);
+                            byte[] update = mini.adjustMiniHeader(newData, oldPtr);
                             File.WriteAllBytes(Path.Combine(parentName, fileNum + "." + fileExt), update);
                         }                        
                     }
@@ -293,7 +296,7 @@ namespace pk3DS
             foreach (string f in Directory.GetFiles(Folder, "*", SearchOption.AllDirectories))
             try {
                 string ext = Path.GetExtension(f);
-                string newExt = CTR.FileFormat.Guess(f);
+                string newExt = FileFormat.Guess(f);
                 if (ext != newExt)
                     File.Move(f, Path.Combine(Path.GetDirectoryName(f), Path.GetFileNameWithoutExtension(f)) + newExt);
             } catch { }

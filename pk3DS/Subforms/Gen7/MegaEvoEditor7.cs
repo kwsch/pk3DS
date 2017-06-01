@@ -1,4 +1,6 @@
-﻿using System;
+﻿using pk3DS.Core;
+using pk3DS.Core.Structures.Gen6;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -175,7 +177,7 @@ namespace pk3DS
                 pb.Image = null;
                 return;
             }
-            pb.Image = Util.getSprite(species, form, gender, item);
+            pb.Image = Util.getSprite(species, form, gender, item, Main.Config);
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {

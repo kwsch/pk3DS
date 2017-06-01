@@ -13,6 +13,9 @@
 /*--  along with this program. If not, see <http://www.gnu.org/licenses/>.  --*/
 /*----------------------------------------------------------------------------*/
 
+using pk3DS.Core;
+using pk3DS.Core.CTR;
+using pk3DS.Core.Structures.PersonalInfo;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,7 +61,7 @@ namespace pk3DS
         public static string ExHeaderPath;
         private volatile int threads;
         internal static volatile int Language;
-        internal static CTR.SMDH SMDH;
+        internal static SMDH SMDH;
         private uint HANSgameID; // for exporting RomFS/ExeFS with correct X8 gameID
         private readonly bool skipBoth;
         public static PersonalInfo[] SpeciesStat => Config.Personal.Table;
@@ -137,7 +140,7 @@ namespace pk3DS
             if (Config == null) return;
             var g = Config.GARCGameText;
             string[][] files = Config.GameTextStrings;
-            g.Files = files.Select(TextFile.getBytes).ToArray();
+            g.Files = files.Select(x => TextFile.getBytes(Config, x)).ToArray();
             g.Save();
         }
 
@@ -151,14 +154,14 @@ namespace pk3DS
                 if (fi.Name.Contains("code.bin")) // Compress/Decompress .code.bin
                 {
                     if (fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed code.bin.", "Compress? File will be replaced.") == DialogResult.Yes))
-                        new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
+                        new Thread(() => { threads++; new BLZCoder(new[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
                     else if (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes)
-                        new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+                        new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
                 }
                 else if (fi.Name.ToLower().Contains("exe")) // Unpack exefs
                 {
                     if (fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS.bin.", "Unpack?") == DialogResult.Yes))
-                        new Thread(() => { threads++; CTR.ExeFS.get(path, Path.GetDirectoryName(path)); threads--; Util.Alert("Unpacked!"); }).Start();
+                        new Thread(() => { threads++; ExeFS.get(path, Path.GetDirectoryName(path)); threads--; Util.Alert("Unpacked!"); }).Start();
                 }
                 else if (fi.Name.ToLower().Contains("rom"))
                 {
@@ -225,7 +228,7 @@ namespace pk3DS
                     ExHeaderPath != null && RomFSPath != null && ExeFSPath != null;
 
                 // Change L_Game if RomFS and ExeFS exists to a better descriptor
-                SMDH = ExeFSPath != null ? File.Exists(Path.Combine(ExeFSPath, "icon.bin")) ? new CTR.SMDH(Path.Combine(ExeFSPath, "icon.bin")) : null : null;
+                SMDH = ExeFSPath != null ? File.Exists(Path.Combine(ExeFSPath, "icon.bin")) ? new SMDH(Path.Combine(ExeFSPath, "icon.bin")) : null : null;
                 HANSgameID = SMDH != null ? (SMDH.AppSettings?.StreetPassID ?? 0) : 0;
                 L_Game.Visible = SMDH == null && RomFSPath != null;
                 updateGameInfo();
@@ -324,7 +327,6 @@ namespace pk3DS
 
                 RomFSPath = path;
                 Config = cfg;
-                TextFile.Config = cfg;
                 Randomizer.MaxSpeciesID = cfg.MaxSpeciesID;
                 return true;
             }
@@ -342,7 +344,7 @@ namespace pk3DS
                     return false;
 
                 // User wanted to unpack. Unpack.
-                if (!CTR.ExeFS.get(files[0], path))
+                if (!ExeFS.get(files[0], path))
                     return false; // on unpack fail
 
                 // Remove ExeFS binary after unpacking
@@ -368,7 +370,7 @@ namespace pk3DS
                     return false;
             }
             if (fi.Length % 0x200 != 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code binary.", "Decompress? File will be replaced.") == DialogResult.Yes))
-                new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+                new Thread(() => { threads++; new BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
 
             ExeFSPath = path;
             return true;
@@ -420,7 +422,7 @@ namespace pk3DS
                     updateStatus(Environment.NewLine + "Building RomFS binary. Please wait until the program finishes.");
 
                     threads++;
-                    CTR.RomFS.BuildRomFS(RomFSPath, sfd.FileName, RTB_Status, pBar1);
+                    RomFS.BuildRomFS(RomFSPath, sfd.FileName, RTB_Status, pBar1);
                     threads--;
 
                     updateStatus("RomFS binary saved." + Environment.NewLine);
@@ -436,7 +438,7 @@ namespace pk3DS
                 var g = Config.GARCGameText;
                 string[][] files = Config.GameTextStrings;
                 Invoke((Action)(() => new TextEditor(files, "gametext").ShowDialog()));
-                g.Files = files.Select(TextFile.getBytes).ToArray();
+                g.Files = files.Select(x => TextFile.getBytes(Main.Config, x)).ToArray();
                 g.Save();
             }).Start();
         }
@@ -446,9 +448,9 @@ namespace pk3DS
             new Thread(() =>
             {
                 var g = Config.getGARCData("storytext");
-                string[][] files = g.Files.Select(file => new TextFile(file).Lines).ToArray();
+                string[][] files = g.Files.Select(file => new TextFile(Config, file).Lines).ToArray();
                 Invoke((Action)(() => new TextEditor(files, "storytext").ShowDialog()));
-                g.Files = files.Select(TextFile.getBytes).ToArray();
+                g.Files = files.Select(x => TextFile.getBytes(Main.Config, x)).ToArray();
                 g.Save();
             }).Start();
         }
@@ -619,7 +621,7 @@ namespace pk3DS
                 // Don't set any data back. Just view.
                 {
                     var g = Config.getGARCData("storytext");
-                    string[][] tfiles = g.Files.Select(file => new TextFile(file).Lines).ToArray();
+                    string[][] tfiles = g.Files.Select(file => new TextFile(Config, file).Lines).ToArray();
                     Invoke((Action)(() => new OWSE().Show()));
                     Invoke((Action)(() => new TextEditor(tfiles, "storytext").Show()));
                     while (Application.OpenForms.Count > 1)
@@ -643,7 +645,7 @@ namespace pk3DS
                 var wd = Config.getlzGARCData(files[2]);
 
                 var g = Config.getGARCData("storytext");
-                string[][] tfiles = g.Files.Select(file => new TextFile(file).Lines).ToArray();
+                string[][] tfiles = g.Files.Select(file => new TextFile(Config, file).Lines).ToArray();
                 Invoke((Action)(() => new TextEditor(tfiles, "storytext").Show()));
                 Invoke((Action)(() => new OWSE7(ed, zd, wd).Show()));
                 while (Application.OpenForms.Count > 1)
@@ -721,15 +723,15 @@ namespace pk3DS
                 switch (Config.Generation)
                 {
                     case 6:
-                        bool mini = Config.ORAS;
-                        Moves = mini ? CTR.mini.unpackMini(g.getFile(0), "WD") : g.Files;
+                        bool isMini = Config.ORAS;
+                        Moves = isMini ? mini.unpackMini(g.getFile(0), "WD") : g.Files;
                         Invoke((Action)(() => new MoveEditor6(Moves).ShowDialog()));
-                        g.Files = mini ? new[] { CTR.mini.packMini(Moves, "WD") } : Moves;
+                        g.Files = isMini ? new[] { mini.packMini(Moves, "WD") } : Moves;
                         break;
                     case 7:
-                        Moves = CTR.mini.unpackMini(g.getFile(0), "WD");
+                        Moves = mini.unpackMini(g.getFile(0), "WD");
                         Invoke((Action)(() => new MoveEditor7(Moves).ShowDialog()));
-                        g.Files = new[] {CTR.mini.packMini(Moves, "WD")};
+                        g.Files = new[] {mini.packMini(Moves, "WD")};
                         break;
                 }
                 g.Save();
@@ -834,9 +836,9 @@ namespace pk3DS
                 new Thread(() =>
                 {
                     threads++;
-                    new CTR.BLZCoder(new[] { "-en", files[file] }, pBar1);
+                    new BLZCoder(new[] { "-en", files[file] }, pBar1);
                     Util.Alert("Compressed!");
-                    CTR.ExeFS.set(Directory.GetFiles(ExeFSPath), sfd.FileName);
+                    ExeFS.set(Directory.GetFiles(ExeFSPath), sfd.FileName);
                     threads--;
                 }).Start();
             }
@@ -914,7 +916,7 @@ namespace pk3DS
             new Thread(() =>
             {
                 threads++;
-                CTR.CRO.rehashCRR(Path.Combine(RomFSPath, ".crr", "static.crr"), RomFSPath, true, /* true // don't patch crr for now */ false, RTB_Status, pBar1);
+                CRO.rehashCRR(Path.Combine(RomFSPath, ".crr", "static.crr"), RomFSPath, true, /* true // don't patch crr for now */ false, RTB_Status, pBar1);
                 threads--;
 
                 Util.Alert("CRO's and CRR have been updated.",
@@ -1033,8 +1035,8 @@ namespace pk3DS
             new Thread(() =>
             {
                 threads++;
-                CTR.Exheader exh = new CTR.Exheader(ExHeaderPath);
-                CTR.CTR.buildROM(true, "Nintendo", ExeFSPath, RomFSPath, ExHeaderPath, exh.GetSerial(), path, pBar1,
+                Exheader exh = new Exheader(ExHeaderPath);
+                CTRUtil.buildROM(true, "Nintendo", ExeFSPath, RomFSPath, ExHeaderPath, exh.GetSerial(), path, pBar1,
                     RTB_Status);
                 threads--;
             }).Start();
@@ -1060,9 +1062,9 @@ namespace pk3DS
             { Util.Error("File too big!", fi.Length + " bytes."); return; }
 
             if (ModifierKeys != Keys.Control && fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed Binary.", "Compress? File will be replaced.") == DialogResult.Yes))
-                new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
+                new Thread(() => { threads++; new BLZCoder(new[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
             else if (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed Binary", "Decompress? File will be replaced.") == DialogResult.Yes)
-                new Thread(() => { threads++; new CTR.BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+                new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
         }
         private void Menu_LZ11_Click(object sender, EventArgs e)
         {
@@ -1085,13 +1087,13 @@ namespace pk3DS
                 {
                     try
                     {
-                        CTR.LZSS.Decompress(path, Path.Combine(Directory.GetParent(path).FullName, "dec_" + Path.GetFileNameWithoutExtension(path) + ".bin"));
+                        LZSS.Decompress(path, Path.Combine(Directory.GetParent(path).FullName, "dec_" + Path.GetFileNameWithoutExtension(path) + ".bin"));
                     } catch (Exception err) { Util.Alert("Tried decompression, may have worked:", err.ToString()); }
                     Util.Alert("File Decompressed!", path);
                 }
                 if (dr == DialogResult.No)
                 {
-                    CTR.LZSS.Compress(path, Path.Combine(Directory.GetParent(path).FullName, Path.GetFileNameWithoutExtension(path).Replace("_dec", "") + ".lz"));
+                    LZSS.Compress(path, Path.Combine(Directory.GetParent(path).FullName, Path.GetFileNameWithoutExtension(path).Replace("_dec", "") + ".lz"));
                     Util.Alert("File Compressed!", path);
                 }
                 threads--;
@@ -1126,7 +1128,7 @@ namespace pk3DS
             }
             try
             {
-                bool success = CTR.GARC.garcUnpack(infile, outfolder, bypassExt, PB ? pBar1 : null, null, true, bypassExt);
+                bool success = GARC.garcUnpack(infile, outfolder, bypassExt, PB ? pBar1 : null, null, true, bypassExt);
                 updateStatus(string.Format(success ? "Success!" : "Failed!"), false);
                 threads--;
                 return success;
@@ -1140,7 +1142,7 @@ namespace pk3DS
 
             try
             {
-                bool success = CTR.GARC.garcPackMS(infolder, outfile, Config.GARCVersion, padBytes, PB ? pBar1 : null, null, true);
+                bool success = GARC.garcPackMS(infolder, outfile, Config.GARCVersion, padBytes, PB ? pBar1 : null, null, true);
                 threads--;
                 updateStatus(string.Format(success ? "Success!" : "Failed!"), false);
                 return success;
@@ -1161,14 +1163,15 @@ namespace pk3DS
         }
 
         // Text Requests
+        [Obsolete("Use Main.Config.getText instead")]
         internal static string[] getText(TextName file)
         {
-            return (string[])Config.GameTextStrings[Config.getGameText(file).Index].Clone();
+            return Config.getText(file);
         }
+        [Obsolete("Use Main.Config.getText instead")]
         internal static bool setText(TextName file, string[] strings)
         {
-            Config.GameTextStrings[Config.getGameText(file).Index] = strings;
-            return true;
+            return Config.setText(file, strings);
         }
 
         // Update RichTextBox
