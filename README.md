@@ -1,4 +1,5 @@
 # pk3DS
-pk3DS: A package of Pokémon X/Y/OR/AS ROM Editing Tools by various contributors.
+pk3DS: A package of Pokémon (3DS) ROM Editing Tools by various contributors.
 
-![alt tag](http://i.imgur.com/rRfCNLI.png)
+![RomFS Editing Tools](http://i.imgur.com/DC8aHQl.png)
+![ExeFS Editing Tools](http://i.imgur.com/rQd9Kxr.png)
