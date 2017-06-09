@@ -104,7 +104,15 @@ namespace pk3DS.Core
                     string text = (value[i] ?? "").Trim();
                     if (text.Length == 0 && SETEMPTYTEXT)
                         text = $"[~ {i}]";
-                    byte[] DecryptedLineData = getLineData(Config, text);
+                    byte[] DecryptedLineData;
+                    try
+                    {
+                        DecryptedLineData = getLineData(Config, text);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception($"{ex.GetType()} at line {i}: {ex.Message}");
+                    }
                     lineData[i] = cryptLineData(DecryptedLineData, key);
                     if (lineData[i].Length % 4 == 2)
                         Array.Resize(ref lineData[i], lineData[i].Length + 2);
@@ -289,10 +297,18 @@ namespace pk3DS.Core
 
             if (!noArgs)
             {
-                string[] args = text.Substring(bracket + 1, text.Length - bracket - 2).Split(',');
+                string strArgs = text.Substring(bracket + 1, text.Length - bracket - 2);
+                string[] args = strArgs.Split(',');
                 vals.Add((ushort)(1 + args.Length));
                 vals.Add(varVal);
-                vals.AddRange(args.Select(t => Convert.ToUInt16(t, 16)));
+                try
+                {
+                    vals.AddRange(args.Select(t => Convert.ToUInt16(t, 16)));
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"{ex.GetType()} in args '{strArgs}'");
+                }
             }
             else
             {
@@ -306,7 +322,7 @@ namespace pk3DS.Core
         {
             var v = config.getVariableCode(variable);
             if (v != null)
-                return (ushort) v.Code;
+                return (ushort)v.Code;
 
             try
             {
@@ -319,7 +335,7 @@ namespace pk3DS.Core
             var v = config.getVariableName(variable);
             return v == null ? variable.ToString("X4") : v.Name;
         }
-        
+
         // Exposed Methods
         public static string[] getStrings(GameConfig config, byte[] data)
         {
@@ -329,7 +345,7 @@ namespace pk3DS.Core
         }
         public static byte[] getBytes(GameConfig config, string[] lines)
         {
-            return new TextFile (config) { Lines = lines }.Data;
+            return new TextFile(config) { Lines = lines }.Data;
         }
     }
 }

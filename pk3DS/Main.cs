@@ -437,9 +437,44 @@ namespace pk3DS
             {
                 var g = Config.GARCGameText;
                 string[][] files = Config.GameTextStrings;
-                Invoke((Action)(() => new TextEditor(files, "gametext").ShowDialog()));
-                g.Files = files.Select(x => TextFile.getBytes(Main.Config, x)).ToArray();
-                g.Save();
+                string error;
+                do // Until there is no error
+                {
+                    error = null;
+                    Invoke((Action)(() => new TextEditor(files, "gametext").ShowDialog()));
+                    byte[][] data = new byte[files.Length][];
+                    for (int i = 0; i < files.Length; i++) // For every single file...
+                    {
+                        // Try to convert it.
+                        try
+                        {
+                            data[i] = TextFile.getBytes(Main.Config, files[i]);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Because of the for loop, the user can see the
+                            // file at fault
+                            error = $"{ex.GetType()} in text file {i}: {ex.Message}";
+                            break;
+                        }
+                    }
+                    if (error == null)
+                    {
+                        g.Files = data;
+                        g.Save();
+                    }
+                    else
+                    {
+                        // Give the user the option to save their work after
+                        // an error occured
+                        MessageBox.Show("Error:\r\n" + error + "\r\nNo changes made.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (MessageBox.Show("Discard text changes?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                            == DialogResult.Yes)
+                        {
+                            error = null;
+                        }
+                    }
+                } while (error != null);
             }).Start();
         }
         private void B_StoryText_Click(object sender, EventArgs e)
@@ -449,9 +484,44 @@ namespace pk3DS
             {
                 var g = Config.getGARCData("storytext");
                 string[][] files = g.Files.Select(file => new TextFile(Config, file).Lines).ToArray();
-                Invoke((Action)(() => new TextEditor(files, "storytext").ShowDialog()));
-                g.Files = files.Select(x => TextFile.getBytes(Main.Config, x)).ToArray();
-                g.Save();
+                string error;
+                do // Until there is no error
+                {
+                    error = null;
+                    Invoke((Action)(() => new TextEditor(files, "storytext").ShowDialog()));
+                    byte[][] data = new byte[files.Length][];
+                    for (int i = 0; i < files.Length; i++) // For every single file...
+                    {
+                        // Try to convert it.
+                        try
+                        {
+                            data[i] = TextFile.getBytes(Main.Config, files[i]);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Because of the for loop, the user can see the
+                            // file at fault
+                            error = $"{ex.GetType()} in text file {i}: {ex.Message}";
+                            break;
+                        }
+                    }
+                    if (error == null)
+                    {
+                        g.Files = data;
+                        g.Save();
+                    }
+                    else
+                    {
+                        // Give the user the option to save their work after
+                        // an error occured
+                        MessageBox.Show("Error:\r\n" + error + "\r\nNo changes made.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (MessageBox.Show("Discard text changes?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                            == DialogResult.Yes)
+                        {
+                            error = null;
+                        }
+                    }
+                } while (error != null);
             }).Start();
         }
         private void B_Maison_Click(object sender, EventArgs e)
