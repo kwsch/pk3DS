@@ -16,6 +16,11 @@ namespace pk3DS.Core.Structures.Gen7
             get { return BitConverter.ToUInt16(Data, 0x0); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0); }
         }
+        public int String1
+        {
+            get { return BitConverter.ToUInt16(Data, 0x2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2); }
+        }
         public int Form { get { return Data[0x4]; } set { Data[0x4] = (byte)value; } }
         public int Level { get { return Data[0x5]; } set { Data[0x5] = (byte)value; } }
         public int[] IVs
@@ -55,8 +60,20 @@ namespace pk3DS.Core.Structures.Gen7
                 BitConverter.GetBytes((short)value).CopyTo(Data, 0x14);
             }
         }
+        public int String2
+        {
+            get { return BitConverter.ToUInt16(Data, 0x18); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x18); }
+        }
         public int trGender { get { return Data[0x1A]; } set { Data[0x1A] = (byte)value; } }
-        
+
+        public ushort OT_Intensity { get { return BitConverter.ToUInt16(Data, 0x1C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1C); } }
+        public ushort OT_Memory { get { return BitConverter.ToUInt16(Data, 0x1E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E); } }
+        public ushort OT_TextVar { get { return BitConverter.ToUInt16(Data, 0x20); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x20); } }
+        public ushort OT_Feeling { get { return BitConverter.ToUInt16(Data, 0x22); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); } }
+
+        // 0x24-0x2B are language IDs set depending on the game's current language; all default to -1
+
         public int TradeRequestSpecies
         {
             get { return BitConverter.ToUInt16(Data, 0x2C); }
