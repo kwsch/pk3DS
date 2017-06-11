@@ -438,7 +438,7 @@ namespace pk3DS
                 var g = Config.GARCGameText;
                 string[][] files = Config.GameTextStrings;
                 Invoke((Action)(() => new TextEditor(files, "gametext").ShowDialog()));
-                g.Files = files.Select(x => TextFile.getBytes(Main.Config, x)).ToArray();
+                g.Files = TryWriteText(files, g);
                 g.Save();
             }).Start();
         }
@@ -450,9 +450,53 @@ namespace pk3DS
                 var g = Config.getGARCData("storytext");
                 string[][] files = g.Files.Select(file => new TextFile(Config, file).Lines).ToArray();
                 Invoke((Action)(() => new TextEditor(files, "storytext").ShowDialog()));
-                g.Files = files.Select(x => TextFile.getBytes(Main.Config, x)).ToArray();
+                g.Files = TryWriteText(files, g);
                 g.Save();
             }).Start();
+        }
+        private static byte[][] TryWriteText(string[][] files, GARCFile g)
+        {
+            byte[][] data = new byte[files.Length][];
+            var errata = new List<string>();
+            for (int i = 0; i < data.Length; i++)
+            {
+                try
+                {
+                    data[i] = TextFile.getBytes(Config, files[i]);
+                }
+                catch (Exception ex)
+                {
+                    errata.Add($"File {i:000} | {ex.Message}");
+                    // revert changes
+                    data[i] = g.getFile(i);
+                }
+            }
+            if (!errata.Any())
+                return data;
+
+            string[] options =
+            {
+                "Cancel: Discard all changes",
+                "Yes: Save changes, dump errata/failed text",
+                "No: Save changes, don't dump errata/failed text"
+            };
+            var dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Errors found while attempting to save text." 
+                + Environment.NewLine + "Example: " + errata[0],
+                string.Join(Environment.NewLine, options));
+            if (dr == DialogResult.Cancel)
+                return g.Files; // discard
+            if (dr == DialogResult.No)
+                return data;
+
+            const string txt_errata = "text_errata.txt";
+            const string txt_failed = "text_failed.txt";
+            File.WriteAllLines(txt_errata, errata);
+            TextEditor.exportTextFile(txt_failed, true, files);
+
+            Util.Alert("Saved text files to path: " + Application.StartupPath,
+                txt_errata + Environment.NewLine + txt_failed);
+
+            return data;
         }
         private void B_Maison_Click(object sender, EventArgs e)
         {

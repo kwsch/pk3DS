@@ -156,7 +156,7 @@ namespace pk3DS.Core
                         // grab the string
                         int bracket = line.IndexOf("]", i, StringComparison.Ordinal);
                         if (bracket < 0)
-                            throw new ArgumentException("Variable text is not capped properly.");
+                            throw new ArgumentException("Variable text is not capped properly: " + line);
                         string varText = line.Substring(i, bracket - i);
                         var varValues = getVariableValues(config, varText);
                         foreach (ushort v in varValues) bw.Write(v);
@@ -250,14 +250,14 @@ namespace pk3DS.Core
                 case '\\': vals.Add('\\'); return vals;
                 case 'r': vals.AddRange(new ushort[] { KEY_VARIABLE, 1, KEY_TEXTRETURN }); return vals;
                 case 'c': vals.AddRange(new ushort[] { KEY_VARIABLE, 1, KEY_TEXTCLEAR }); return vals;
-                default: throw new Exception("Invalid terminated line: \"\\" + esc + "\"");
+                default: throw new Exception("Invalid terminated line: \\" + esc);
             }
         }
         private IEnumerable<ushort> getVariableValues(GameConfig config, string variable)
         {
             string[] split = variable.Split(' ');
             if (split.Length < 2)
-                throw new ArgumentException("Incorrectly formatted variable text!");
+                throw new ArgumentException("Incorrectly formatted variable text: " + variable);
 
             var vals = new List<ushort> { KEY_VARIABLE };
             switch (split[0])
@@ -275,7 +275,7 @@ namespace pk3DS.Core
                 case "VAR": // Text Variable
                     vals.AddRange(getVariableParameters(config, split[1]));
                     break;
-                default: throw new Exception("Unknown variable method type!");
+                default: throw new Exception("Unknown variable method type: " + variable);
             }
             return vals;
         }
@@ -312,7 +312,7 @@ namespace pk3DS.Core
             {
                 return Convert.ToUInt16(variable, 16);
             }
-            catch { throw new ArgumentException($"Variable \"{variable}\" parse error."); }
+            catch { throw new ArgumentException("Variable parse error: " + variable); }
         }
         private string getVariableString(GameConfig config, ushort variable)
         {

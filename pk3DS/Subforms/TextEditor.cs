@@ -18,6 +18,7 @@ namespace pk3DS
             for (int i = 0; i < files.Length; i++)
                 CB_Entry.Items.Add(i.ToString());
             CB_Entry.SelectedIndex = 0;
+            dgv.EditMode = DataGridViewEditMode.EditOnEnter;
         }
         private readonly string[][] files;
         private readonly string Mode;
@@ -32,7 +33,7 @@ namespace pk3DS
             if (sdr != DialogResult.OK) return;
             bool newline = Util.Prompt(MessageBoxButtons.YesNo, "Remove newline formatting codes? (\\n,\\r,\\c)", "Removing newline formatting will make it more readable but will prevent any importing of that dump.") == DialogResult.Yes;
             string path = Dump.FileName;
-            exportTextFile(path, newline);
+            exportTextFile(path, newline, files);
         }
         private void B_Import_Click(object sender, EventArgs e)
         {
@@ -48,17 +49,17 @@ namespace pk3DS
             changeEntry(null, null);
             Util.Alert("Imported Text from Input Path:", path);
         }
-        private void exportTextFile(string fileName, bool newline)
+        public static void exportTextFile(string fileName, bool newline, string[][] fileData)
         {
             using (MemoryStream ms = new MemoryStream())
             {
                 ms.Write(new byte[] {0xFF, 0xFE}, 0, 2); // Write Unicode BOM
                 using (TextWriter tw = new StreamWriter(ms, new UnicodeEncoding()))
                 {
-                    for (int i = 0; i < files.Length; i++)
+                    for (int i = 0; i < fileData.Length; i++)
                     {
                         // Get Strings for the File
-                        string[] data = files[i];
+                        string[] data = fileData[i];
                         // Append the File Header
                         tw.WriteLine("~~~~~~~~~~~~~~~");
                         tw.WriteLine("Text File : " + i);
@@ -228,8 +229,10 @@ namespace pk3DS
             for (int i = 0; i < dgv.Rows.Count; i++)
                 dgv.Rows[i].Cells[0].Value = i.ToString();
         }
-        private void xytext_FormClosing(object sender, FormClosingEventArgs e)
+        private void TextEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // Save any pending edits
+            dgv.EndEdit();
             // Save All the old text
             if (entry > -1) files[entry] = getCurrentDGLines();
         }
