@@ -4,7 +4,6 @@ using System.IO;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
-using pk3DS.Properties;
 using pk3DS.Core.Structures.PersonalInfo;
 using pk3DS.Core;
 
