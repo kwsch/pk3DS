@@ -169,7 +169,13 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            if (!CHK_Category.Checked && !CHK_Type.Checked) return;
+            if (!CHK_Category.Checked && !CHK_Type.Checked)
+            {
+                Util.Alert("Cannot randomize Moves.", "Please check any of the options on the right to randomize Moves.");
+                return;
+            }
+
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize Moves? Cannot undo.", "Double check options on the right before continuing.") != DialogResult.Yes) return;
             Random rnd = new Random();
             for (int i = 0; i < CB_Move.Items.Count; i++)
             {
@@ -184,7 +190,7 @@ namespace pk3DS
                 if (CHK_Type.Checked)
                     CB_Type.SelectedIndex = rnd.Next(0, 18);
             }
-            Util.Alert("Moves have been randomized!");
+            Util.Alert("All moves have been randomized!");
         }
     }
 }
