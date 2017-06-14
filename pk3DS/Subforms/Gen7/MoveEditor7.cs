@@ -190,7 +190,7 @@ namespace pk3DS
                 if (CHK_Type.Checked)
                     CB_Type.SelectedIndex = rnd.Next(0, 18);
             }
-            Util.Alert("All moves have been randomized!");
+            Util.Alert("All Moves have been randomized!");
         }
     }
 }
