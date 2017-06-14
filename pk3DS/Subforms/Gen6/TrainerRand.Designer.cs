@@ -43,6 +43,7 @@
             this.NUD_Level = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_GymE4Only = new System.Windows.Forms.CheckBox();
             this.CHK_RandomMegaForm = new System.Windows.Forms.CheckBox();
             this.CHK_6PKM = new System.Windows.Forms.CheckBox();
             this.CHK_GymTrainers = new System.Windows.Forms.CheckBox();
@@ -65,7 +66,6 @@
             this.NUD_STAB = new System.Windows.Forms.NumericUpDown();
             this.CB_Moves = new System.Windows.Forms.ComboBox();
             this.L_Moves = new System.Windows.Forms.Label();
-            this.CHK_GymE4Only = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             this.GB_Tweak.SuspendLayout();
@@ -82,7 +82,7 @@
             this.CHK_RandomPKM.Name = "CHK_RandomPKM";
             this.CHK_RandomPKM.Size = new System.Drawing.Size(114, 17);
             this.CHK_RandomPKM.TabIndex = 0;
-            this.CHK_RandomPKM.Text = "Random Pokemon";
+            this.CHK_RandomPKM.Text = "Random Pokémon";
             this.CHK_RandomPKM.UseVisualStyleBackColor = true;
             this.CHK_RandomPKM.CheckedChanged += new System.EventHandler(this.CHK_RandomPKM_CheckedChanged);
             // 
@@ -215,7 +215,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(199, 13);
+            this.label2.Location = new System.Drawing.Point(183, 15);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(15, 13);
             this.label2.TabIndex = 4;
@@ -223,7 +223,7 @@
             // 
             // NUD_Level
             // 
-            this.NUD_Level.Location = new System.Drawing.Point(155, 9);
+            this.NUD_Level.Location = new System.Drawing.Point(139, 11);
             this.NUD_Level.Minimum = new decimal(new int[] {
             75,
             0,
@@ -242,8 +242,6 @@
             // CHK_Level
             // 
             this.CHK_Level.AutoSize = true;
-            this.CHK_Level.Checked = true;
-            this.CHK_Level.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_Level.Location = new System.Drawing.Point(12, 12);
             this.CHK_Level.Name = "CHK_Level";
             this.CHK_Level.Size = new System.Drawing.Size(126, 17);
@@ -278,15 +276,27 @@
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Options";
             // 
+            // CHK_GymE4Only
+            // 
+            this.CHK_GymE4Only.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_GymE4Only.AutoSize = true;
+            this.CHK_GymE4Only.Enabled = false;
+            this.CHK_GymE4Only.Location = new System.Drawing.Point(141, 129);
+            this.CHK_GymE4Only.Name = "CHK_GymE4Only";
+            this.CHK_GymE4Only.Size = new System.Drawing.Size(125, 17);
+            this.CHK_GymE4Only.TabIndex = 295;
+            this.CHK_GymE4Only.Text = "Theme Gym/E4 Only";
+            this.CHK_GymE4Only.UseVisualStyleBackColor = true;
+            // 
             // CHK_RandomMegaForm
             // 
             this.CHK_RandomMegaForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_RandomMegaForm.AutoSize = true;
-            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(9, 75);
+            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(9, 82);
             this.CHK_RandomMegaForm.Name = "CHK_RandomMegaForm";
-            this.CHK_RandomMegaForm.Size = new System.Drawing.Size(103, 30);
+            this.CHK_RandomMegaForm.Size = new System.Drawing.Size(127, 17);
             this.CHK_RandomMegaForm.TabIndex = 294;
-            this.CHK_RandomMegaForm.Text = "Allow RandForm\r\nfor Mega PKM";
+            this.CHK_RandomMegaForm.Text = "Random Mega Forms";
             this.CHK_RandomMegaForm.UseVisualStyleBackColor = true;
             // 
             // CHK_6PKM
@@ -556,18 +566,6 @@
             this.L_Moves.Size = new System.Drawing.Size(42, 13);
             this.L_Moves.TabIndex = 331;
             this.L_Moves.Text = "Moves:";
-            // 
-            // CHK_GymE4Only
-            // 
-            this.CHK_GymE4Only.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CHK_GymE4Only.AutoSize = true;
-            this.CHK_GymE4Only.Enabled = false;
-            this.CHK_GymE4Only.Location = new System.Drawing.Point(141, 129);
-            this.CHK_GymE4Only.Name = "CHK_GymE4Only";
-            this.CHK_GymE4Only.Size = new System.Drawing.Size(125, 17);
-            this.CHK_GymE4Only.TabIndex = 295;
-            this.CHK_GymE4Only.Text = "Theme Gym/E4 Only";
-            this.CHK_GymE4Only.UseVisualStyleBackColor = true;
             // 
             // TrainerRand
             // 

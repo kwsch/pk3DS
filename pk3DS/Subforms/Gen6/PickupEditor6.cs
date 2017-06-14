@@ -132,6 +132,7 @@ namespace pk3DS
                 if (ctr <= validItems.Length) continue;
                 Util.Shuffle(validItems); ctr = 0;
             }
+            Util.Alert("Randomized!");
         }
     }
 }

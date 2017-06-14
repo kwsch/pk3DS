@@ -504,7 +504,7 @@ namespace pk3DS
         // Randomization
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings.") != DialogResult.Yes) return;
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings at the bottom left.") != DialogResult.Yes) return;
 
             Enabled = false;
             int slotStart;

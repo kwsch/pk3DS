@@ -167,6 +167,7 @@ namespace pk3DS
                     Util.Shuffle(validItems); ctr = 0;
                 }
             }
+            Util.Alert("Randomized!");
         }
     }
 }

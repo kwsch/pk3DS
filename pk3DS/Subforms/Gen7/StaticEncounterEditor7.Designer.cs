@@ -40,6 +40,7 @@
             this.NUD_GLevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Gift = new System.Windows.Forms.ListBox();
             this.Tab_Encounters = new System.Windows.Forms.TabPage();
+            this.CHK_ShinyLock = new System.Windows.Forms.CheckBox();
             this.GB_EMoves = new System.Windows.Forms.GroupBox();
             this.CB_EMove3 = new System.Windows.Forms.ComboBox();
             this.CB_EMove2 = new System.Windows.Forms.ComboBox();
@@ -88,7 +89,6 @@
             this.B_Starters = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.CHK_ShinyLock = new System.Windows.Forms.CheckBox();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).BeginInit();
@@ -257,6 +257,16 @@
             this.Tab_Encounters.TabIndex = 0;
             this.Tab_Encounters.Text = "Encounters";
             this.Tab_Encounters.UseVisualStyleBackColor = true;
+            // 
+            // CHK_ShinyLock
+            // 
+            this.CHK_ShinyLock.AutoSize = true;
+            this.CHK_ShinyLock.Location = new System.Drawing.Point(218, 232);
+            this.CHK_ShinyLock.Name = "CHK_ShinyLock";
+            this.CHK_ShinyLock.Size = new System.Drawing.Size(79, 17);
+            this.CHK_ShinyLock.TabIndex = 18;
+            this.CHK_ShinyLock.Text = "Shiny Lock";
+            this.CHK_ShinyLock.UseVisualStyleBackColor = true;
             // 
             // GB_EMoves
             // 
@@ -435,11 +445,11 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(124, 135);
+            this.label1.Location = new System.Drawing.Point(121, 135);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.Size = new System.Drawing.Size(106, 23);
             this.label1.TabIndex = 28;
-            this.label1.Text = "Request Species:";
+            this.label1.Text = "Requested Species:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_TTID
@@ -589,7 +599,7 @@
             this.Tab_Randomizer.Padding = new System.Windows.Forms.Padding(3);
             this.Tab_Randomizer.Size = new System.Drawing.Size(387, 321);
             this.Tab_Randomizer.TabIndex = 3;
-            this.Tab_Randomizer.Text = "Randomizer";
+            this.Tab_Randomizer.Text = "Randomizer Options";
             this.Tab_Randomizer.UseVisualStyleBackColor = true;
             // 
             // NUD_LevelBoost
@@ -681,8 +691,6 @@
             // CHK_BST
             // 
             this.CHK_BST.AutoSize = true;
-            this.CHK_BST.Checked = true;
-            this.CHK_BST.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_BST.Location = new System.Drawing.Point(128, 64);
             this.CHK_BST.Name = "CHK_BST";
             this.CHK_BST.Size = new System.Drawing.Size(117, 17);
@@ -693,6 +701,8 @@
             // CHK_E
             // 
             this.CHK_E.AutoSize = true;
+            this.CHK_E.Checked = true;
+            this.CHK_E.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_E.Location = new System.Drawing.Point(128, 49);
             this.CHK_E.Name = "CHK_E";
             this.CHK_E.Size = new System.Drawing.Size(98, 17);
@@ -813,16 +823,6 @@
             this.B_Cancel.Text = "Cancel";
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
-            // 
-            // CHK_ShinyLock
-            // 
-            this.CHK_ShinyLock.AutoSize = true;
-            this.CHK_ShinyLock.Location = new System.Drawing.Point(218, 232);
-            this.CHK_ShinyLock.Name = "CHK_ShinyLock";
-            this.CHK_ShinyLock.Size = new System.Drawing.Size(79, 17);
-            this.CHK_ShinyLock.TabIndex = 18;
-            this.CHK_ShinyLock.Text = "Shiny Lock";
-            this.CHK_ShinyLock.UseVisualStyleBackColor = true;
             // 
             // StaticEncounterEditor7
             // 
