@@ -152,6 +152,10 @@ namespace pk3DS
             GiftData[entry].IVs[4] = (sbyte)NUD_IV4.Value;
             GiftData[entry].IVs[5] = (sbyte)NUD_IV5.Value;
         }
+        private void CHK_Level_CheckedChanged(object sender, EventArgs e)
+        {
+            NUD_LevelBoost.Enabled = CHK_Level.Checked;
+        }
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {

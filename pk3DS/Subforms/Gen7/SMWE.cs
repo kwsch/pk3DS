@@ -485,6 +485,8 @@ namespace pk3DS
 
         private void modifyLevels(object sender, EventArgs e)
         {
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Modify all current Level ranges?", "Cannot undo.") != DialogResult.Yes) return;
+
             // Disable Interface while modifying
             Enabled = false;
 
@@ -497,6 +499,7 @@ namespace pk3DS
             }
             // Enable Interface... modification complete.
             Enabled = true;
+            Util.Alert("Modified all Level ranges according to specification!", "Press the Dump Tables button to view the new Level ranges!");
 
             updatePanel(sender, e);
         }
@@ -581,7 +584,7 @@ namespace pk3DS
             }
             updatePanel(sender, e);
             Enabled = true;
-            Util.Alert("Randomized!");
+            Util.Alert("Randomized all Wild Encounters according to specification!", "Press the Dump Tables button to view the new Wild Encounter information!");
         }
 
         private uint GetRandomForme(int species)
@@ -595,6 +598,8 @@ namespace pk3DS
 
         private void CopySOS_Click(object sender, EventArgs e)
         {
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Copy initial species to SOS slots?", "Cannot undo.") != DialogResult.Yes) return;
+
             // first table is copied to all other tables except weather (last)
             for (int i = 1; i < nup_spec.Length - 1; i++)
             {
@@ -604,8 +609,7 @@ namespace pk3DS
                     cb_spec[i][s].SelectedIndex = cb_spec[0][s].SelectedIndex;
                 }
             }
-
-            System.Media.SystemSounds.Asterisk.Play();
+            Util.Alert("All initial species copied to SOS slots!");
         }
     }
 }

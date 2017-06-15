@@ -672,7 +672,7 @@ namespace pk3DS
                 }
                 saveData(tr, i);
             }
-            Util.Alert("Randomized all trainers according to specification!", "Press the Dump to .TXT button to view the new trainer information!");
+            Util.Alert("Randomized all Trainers according to specification!", "Press the Dump to .TXT button to view the new Trainer information!");
         }
         private void B_HighAttack_Click(object sender, EventArgs e)
         {
@@ -727,7 +727,9 @@ namespace pk3DS
         }
         private void CHK_RandomClass_CheckedChanged(object sender, EventArgs e)
         {
-            CHK_IgnoreSpecialClass.Visible = CHK_RandomClass.Checked;
+            CHK_IgnoreSpecialClass.Enabled = CHK_RandomClass.Checked;
+            if (!CHK_RandomClass.Checked)
+                CHK_IgnoreSpecialClass.Checked = false;
         }
         private void CHK_RandomShiny_CheckedChanged(object sender, EventArgs e)
         {

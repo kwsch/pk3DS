@@ -770,7 +770,7 @@ namespace pk3DS
             }
             randomizing = false;
             CB_TrainerID.SelectedIndex = 1;
-            Util.Alert("Randomized all trainers according to specification!", "Press the Dump to .TXT button to view the new trainer information!");
+            Util.Alert("Randomized all Trainers according to specification!", "Press the Dump to .TXT button to view the new Trainer information!");
         }
 
         private string[] GetTagsORAS()
