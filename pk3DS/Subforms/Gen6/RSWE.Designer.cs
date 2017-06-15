@@ -1002,29 +1002,40 @@
             // 
             // NUD_LevelAmp
             // 
+            this.NUD_LevelAmp.DecimalPlaces = 2;
+            this.NUD_LevelAmp.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
             this.NUD_LevelAmp.Location = new System.Drawing.Point(152, 16);
+            this.NUD_LevelAmp.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             this.NUD_LevelAmp.Minimum = new decimal(new int[] {
-            75,
+            1,
             0,
             0,
-            -2147483648});
+            65536});
             this.NUD_LevelAmp.Name = "NUD_LevelAmp";
             this.NUD_LevelAmp.Size = new System.Drawing.Size(41, 20);
             this.NUD_LevelAmp.TabIndex = 276;
             this.NUD_LevelAmp.Value = new decimal(new int[] {
-            50,
+            13,
             0,
             0,
-            0});
+            65536});
             // 
             // CHK_Level
             // 
             this.CHK_Level.AutoSize = true;
             this.CHK_Level.Location = new System.Drawing.Point(33, 17);
             this.CHK_Level.Name = "CHK_Level";
-            this.CHK_Level.Size = new System.Drawing.Size(122, 17);
+            this.CHK_Level.Size = new System.Drawing.Size(109, 17);
             this.CHK_Level.TabIndex = 279;
-            this.CHK_Level.Text = "Modify All Levels (%)";
+            this.CHK_Level.Text = "Multiply All Levels";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
             // L_HordeC_Max

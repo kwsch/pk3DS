@@ -633,7 +633,7 @@ namespace pk3DS
             Enabled = false;
 
             // Calculate % diff we will apply to each level
-            decimal leveldiff = (100 + NUD_LevelAmp.Value) / 100;
+            decimal leveldiff = NUD_LevelAmp.Value;
 
             // Cycle through each location to modify levels
             for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
@@ -643,7 +643,8 @@ namespace pk3DS
 
                 // Amp Levels
                 for (int l = 0; l < max.Length; l++)
-                    min[l].Value = max[l].Value = max[l].Value <= 1 ? max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * max[l].Value)));
+                    if (min[l].Value > 1)
+                        min[l].Value = max[l].Value = Randomizer.getModifiedLevel((int)max[l].Value, leveldiff);
 
                 // Save Changes
                 B_Save_Click(sender, e);

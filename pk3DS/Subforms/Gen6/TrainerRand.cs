@@ -32,7 +32,7 @@ namespace pk3DS
             RSTE.sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, false, CHK_L.Checked, CHK_E.Checked, ModifierKeys == Keys.Control);
             RSTE.rSmart = CHK_BST.Checked;
             RSTE.rLevel = CHK_Level.Checked;
-            RSTE.rLevelPercent = NUD_Level.Value;
+            RSTE.rLevelMultiplier = NUD_Level.Value;
 
             RSTE.rMove = CB_Moves.SelectedIndex == 1;
             RSTE.rNoMove = CB_Moves.SelectedIndex == 2;
@@ -101,7 +101,7 @@ namespace pk3DS
         private void CHK_Level_CheckedChanged(object sender, EventArgs e)
         {
             NUD_Level.Enabled = CHK_Level.Checked;
-            NUD_Level.Value = Convert.ToDecimal(CHK_Level.Checked) * 50;
+            NUD_Level.Value = CHK_Level.Checked ? 1.3m : 1m;
         }
         private void changeLevelPercent(object sender, EventArgs e)
         {

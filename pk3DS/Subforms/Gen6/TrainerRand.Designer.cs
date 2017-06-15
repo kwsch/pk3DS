@@ -39,7 +39,6 @@
             this.B_Cancel = new System.Windows.Forms.Button();
             this.NUD_GiftPercent = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.NUD_Level = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
@@ -212,31 +211,33 @@
             this.label1.TabIndex = 12;
             this.label1.Text = "%";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(183, 15);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(15, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "%";
-            // 
             // NUD_Level
             // 
+            this.NUD_Level.DecimalPlaces = 2;
+            this.NUD_Level.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
             this.NUD_Level.Location = new System.Drawing.Point(139, 11);
+            this.NUD_Level.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             this.NUD_Level.Minimum = new decimal(new int[] {
-            75,
+            1,
             0,
             0,
-            -2147483648});
+            65536});
             this.NUD_Level.Name = "NUD_Level";
             this.NUD_Level.Size = new System.Drawing.Size(43, 20);
             this.NUD_Level.TabIndex = 3;
             this.NUD_Level.Value = new decimal(new int[] {
-            50,
+            13,
             0,
             0,
-            0});
+            65536});
             this.NUD_Level.ValueChanged += new System.EventHandler(this.changeLevelPercent);
             // 
             // CHK_Level
@@ -581,7 +582,6 @@
             this.Controls.Add(this.CHK_MaxDiffPKM);
             this.Controls.Add(this.CHK_RandomAbilities);
             this.Controls.Add(this.CHK_RandomItems);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.NUD_Level);
             this.Controls.Add(this.CHK_Level);
             this.Controls.Add(this.label1);
@@ -626,7 +626,6 @@
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.NumericUpDown NUD_GiftPercent;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown NUD_Level;
         private System.Windows.Forms.CheckBox CHK_Level;
         private System.Windows.Forms.GroupBox GB_Tweak;

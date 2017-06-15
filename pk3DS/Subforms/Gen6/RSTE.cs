@@ -533,7 +533,7 @@ namespace pk3DS
         private readonly List<string> Tags = new List<string>();
         private readonly Dictionary<string, int> TagTypes = new Dictionary<string, int>();
         public static int[] sL; // Random Species List
-        public static decimal rGiftPercent, rLevelPercent;
+        public static decimal rGiftPercent, rLevelMultiplier;
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             rPKM = rMove = rAbility = rDiffAI = rDiffIV = rClass = rGift = rItem = rDoRand = false; // init to false
@@ -714,7 +714,7 @@ namespace pk3DS
                             trpk_form[p].SelectedIndex = (int)(rnd32() % trpk_form[p].Items.Count);
                     }
                     if (rLevel)
-                        trpk_lvl[p].SelectedIndex = Math.Max(1, Math.Min((int)(trpk_lvl[p].SelectedIndex * (100 + rLevelPercent) / 100), 100));
+                        trpk_lvl[p].SelectedIndex = Randomizer.getModifiedLevel(trpk_lvl[p].SelectedIndex, rLevelMultiplier);
                     if (rAbility)
                         trpk_abil[p].SelectedIndex = (int)(1 + rnd32() % 3);
                     if (rDiffIV)
