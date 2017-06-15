@@ -278,7 +278,7 @@
             // 
             // L_Species
             // 
-            this.L_Species.Location = new System.Drawing.Point(6, 3);
+            this.L_Species.Location = new System.Drawing.Point(6, 2);
             this.L_Species.Name = "L_Species";
             this.L_Species.Size = new System.Drawing.Size(94, 21);
             this.L_Species.TabIndex = 477;
@@ -387,7 +387,7 @@
             // 
             // L_Nature
             // 
-            this.L_Nature.Location = new System.Drawing.Point(7, 79);
+            this.L_Nature.Location = new System.Drawing.Point(7, 77);
             this.L_Nature.Name = "L_Nature";
             this.L_Nature.Size = new System.Drawing.Size(94, 21);
             this.L_Nature.TabIndex = 490;
@@ -527,18 +527,18 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 155);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 65);
+            this.label1.Size = new System.Drawing.Size(83, 65);
             this.label1.TabIndex = 502;
-            this.label1.Text = "Ability:\r\n0: Random\r\n1: Ability 1\r\n2: Ability 2\r\n3: Hidden";
+            this.label1.Text = "Ability:\r\n0: Random\r\n1: Ability 1\r\n2: Ability 2\r\n3: Hidden Ability";
             // 
             // L_Hint
             // 
             this.L_Hint.AutoSize = true;
             this.L_Hint.Location = new System.Drawing.Point(7, 99);
             this.L_Hint.Name = "L_Hint";
-            this.L_Hint.Size = new System.Drawing.Size(65, 52);
+            this.L_Hint.Size = new System.Drawing.Size(67, 52);
             this.L_Hint.TabIndex = 500;
-            this.L_Hint.Text = "Gender:\r\n0: Random  \n1: Male\r\n2: Female";
+            this.L_Hint.Text = "Gender:\r\n0: Random/-\r\n1: Male\r\n2: Female";
             // 
             // tabPage2
             // 
@@ -715,7 +715,7 @@
             this.CHK_Level.AutoSize = true;
             this.CHK_Level.Checked = true;
             this.CHK_Level.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Level.Location = new System.Drawing.Point(8, 7);
+            this.CHK_Level.Location = new System.Drawing.Point(9, 7);
             this.CHK_Level.Name = "CHK_Level";
             this.CHK_Level.Size = new System.Drawing.Size(130, 17);
             this.CHK_Level.TabIndex = 302;
