@@ -380,9 +380,9 @@
             this.L_Location.AutoSize = true;
             this.L_Location.Location = new System.Drawing.Point(11, 16);
             this.L_Location.Name = "L_Location";
-            this.L_Location.Size = new System.Drawing.Size(28, 13);
+            this.L_Location.Size = new System.Drawing.Size(51, 13);
             this.L_Location.TabIndex = 419;
-            this.L_Location.Text = "Loc:";
+            this.L_Location.Text = "Location:";
             // 
             // B_Save
             // 
@@ -401,7 +401,7 @@
             this.CB_LocationID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_LocationID.Enabled = false;
             this.CB_LocationID.FormattingEnabled = true;
-            this.CB_LocationID.Location = new System.Drawing.Point(43, 12);
+            this.CB_LocationID.Location = new System.Drawing.Point(67, 12);
             this.CB_LocationID.Name = "CB_LocationID";
             this.CB_LocationID.Size = new System.Drawing.Size(164, 21);
             this.CB_LocationID.TabIndex = 417;
@@ -469,7 +469,7 @@
             // 
             this.L_Table.AutoSize = true;
             this.L_Table.Enabled = false;
-            this.L_Table.Location = new System.Drawing.Point(212, 16);
+            this.L_Table.Location = new System.Drawing.Point(236, 16);
             this.L_Table.Name = "L_Table";
             this.L_Table.Size = new System.Drawing.Size(34, 13);
             this.L_Table.TabIndex = 428;
@@ -718,14 +718,14 @@
             "Randomize Regular Only",
             "Randomize SOS Only",
             "Randomize Regular, Copy to SOS"});
-            this.CB_SlotRand.Location = new System.Drawing.Point(152, 116);
+            this.CB_SlotRand.Location = new System.Drawing.Point(124, 120);
             this.CB_SlotRand.Name = "CB_SlotRand";
             this.CB_SlotRand.Size = new System.Drawing.Size(121, 21);
             this.CB_SlotRand.TabIndex = 299;
             // 
             // L_SOS
             // 
-            this.L_SOS.Location = new System.Drawing.Point(13, 116);
+            this.L_SOS.Location = new System.Drawing.Point(-9, 117);
             this.L_SOS.Name = "L_SOS";
             this.L_SOS.Size = new System.Drawing.Size(130, 23);
             this.L_SOS.TabIndex = 298;
@@ -737,7 +737,7 @@
             this.CHK_G7.AutoSize = true;
             this.CHK_G7.Checked = true;
             this.CHK_G7.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G7.Location = new System.Drawing.Point(33, 97);
+            this.CHK_G7.Location = new System.Drawing.Point(19, 97);
             this.CHK_G7.Name = "CHK_G7";
             this.CHK_G7.Size = new System.Drawing.Size(55, 17);
             this.CHK_G7.TabIndex = 296;
@@ -747,7 +747,7 @@
             // CHK_MegaForm
             // 
             this.CHK_MegaForm.AutoSize = true;
-            this.CHK_MegaForm.Location = new System.Drawing.Point(152, 97);
+            this.CHK_MegaForm.Location = new System.Drawing.Point(138, 97);
             this.CHK_MegaForm.Name = "CHK_MegaForm";
             this.CHK_MegaForm.Size = new System.Drawing.Size(127, 17);
             this.CHK_MegaForm.TabIndex = 295;
@@ -757,7 +757,7 @@
             // L_RandOpt
             // 
             this.L_RandOpt.AutoSize = true;
-            this.L_RandOpt.Location = new System.Drawing.Point(30, 34);
+            this.L_RandOpt.Location = new System.Drawing.Point(16, 34);
             this.L_RandOpt.Name = "L_RandOpt";
             this.L_RandOpt.Size = new System.Drawing.Size(105, 13);
             this.L_RandOpt.TabIndex = 294;
@@ -766,7 +766,7 @@
             // CHK_BST
             // 
             this.CHK_BST.AutoSize = true;
-            this.CHK_BST.Location = new System.Drawing.Point(152, 82);
+            this.CHK_BST.Location = new System.Drawing.Point(138, 82);
             this.CHK_BST.Name = "CHK_BST";
             this.CHK_BST.Size = new System.Drawing.Size(117, 17);
             this.CHK_BST.TabIndex = 288;
@@ -778,7 +778,7 @@
             this.CHK_E.AutoSize = true;
             this.CHK_E.Checked = true;
             this.CHK_E.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_E.Location = new System.Drawing.Point(152, 67);
+            this.CHK_E.Location = new System.Drawing.Point(138, 67);
             this.CHK_E.Name = "CHK_E";
             this.CHK_E.Size = new System.Drawing.Size(98, 17);
             this.CHK_E.TabIndex = 287;
@@ -790,7 +790,7 @@
             this.CHK_L.AutoSize = true;
             this.CHK_L.Checked = true;
             this.CHK_L.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_L.Location = new System.Drawing.Point(152, 52);
+            this.CHK_L.Location = new System.Drawing.Point(138, 52);
             this.CHK_L.Name = "CHK_L";
             this.CHK_L.Size = new System.Drawing.Size(98, 17);
             this.CHK_L.TabIndex = 286;
@@ -802,7 +802,7 @@
             this.CHK_G6.AutoSize = true;
             this.CHK_G6.Checked = true;
             this.CHK_G6.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G6.Location = new System.Drawing.Point(91, 82);
+            this.CHK_G6.Location = new System.Drawing.Point(77, 82);
             this.CHK_G6.Name = "CHK_G6";
             this.CHK_G6.Size = new System.Drawing.Size(55, 17);
             this.CHK_G6.TabIndex = 285;
@@ -814,7 +814,7 @@
             this.CHK_G5.AutoSize = true;
             this.CHK_G5.Checked = true;
             this.CHK_G5.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G5.Location = new System.Drawing.Point(91, 67);
+            this.CHK_G5.Location = new System.Drawing.Point(77, 67);
             this.CHK_G5.Name = "CHK_G5";
             this.CHK_G5.Size = new System.Drawing.Size(55, 17);
             this.CHK_G5.TabIndex = 284;
@@ -826,7 +826,7 @@
             this.CHK_G4.AutoSize = true;
             this.CHK_G4.Checked = true;
             this.CHK_G4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G4.Location = new System.Drawing.Point(91, 52);
+            this.CHK_G4.Location = new System.Drawing.Point(77, 52);
             this.CHK_G4.Name = "CHK_G4";
             this.CHK_G4.Size = new System.Drawing.Size(55, 17);
             this.CHK_G4.TabIndex = 283;
@@ -838,7 +838,7 @@
             this.CHK_G3.AutoSize = true;
             this.CHK_G3.Checked = true;
             this.CHK_G3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G3.Location = new System.Drawing.Point(33, 82);
+            this.CHK_G3.Location = new System.Drawing.Point(19, 82);
             this.CHK_G3.Name = "CHK_G3";
             this.CHK_G3.Size = new System.Drawing.Size(55, 17);
             this.CHK_G3.TabIndex = 282;
@@ -850,7 +850,7 @@
             this.CHK_G2.AutoSize = true;
             this.CHK_G2.Checked = true;
             this.CHK_G2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G2.Location = new System.Drawing.Point(33, 67);
+            this.CHK_G2.Location = new System.Drawing.Point(19, 67);
             this.CHK_G2.Name = "CHK_G2";
             this.CHK_G2.Size = new System.Drawing.Size(55, 17);
             this.CHK_G2.TabIndex = 281;
@@ -862,7 +862,7 @@
             this.CHK_G1.AutoSize = true;
             this.CHK_G1.Checked = true;
             this.CHK_G1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G1.Location = new System.Drawing.Point(33, 52);
+            this.CHK_G1.Location = new System.Drawing.Point(19, 52);
             this.CHK_G1.Name = "CHK_G1";
             this.CHK_G1.Size = new System.Drawing.Size(55, 17);
             this.CHK_G1.TabIndex = 280;
@@ -905,11 +905,11 @@
             // CHK_Level
             // 
             this.CHK_Level.AutoSize = true;
-            this.CHK_Level.Location = new System.Drawing.Point(33, 17);
+            this.CHK_Level.Location = new System.Drawing.Point(19, 17);
             this.CHK_Level.Name = "CHK_Level";
-            this.CHK_Level.Size = new System.Drawing.Size(105, 17);
+            this.CHK_Level.Size = new System.Drawing.Size(130, 17);
             this.CHK_Level.TabIndex = 279;
-            this.CHK_Level.Text = "Modify All Levels";
+            this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
             // PB_NightIcon
@@ -3026,7 +3026,7 @@
             this.CB_TableID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TableID.Enabled = false;
             this.CB_TableID.FormattingEnabled = true;
-            this.CB_TableID.Location = new System.Drawing.Point(245, 12);
+            this.CB_TableID.Location = new System.Drawing.Point(269, 12);
             this.CB_TableID.Name = "CB_TableID";
             this.CB_TableID.Size = new System.Drawing.Size(90, 21);
             this.CB_TableID.TabIndex = 431;
@@ -3074,7 +3074,7 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.CB_LocationID);
             this.Name = "SMWE";
-            this.Text = "Sun Moon Wilds Editor";
+            this.Text = "Sun/Moon Wild Editor";
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Min)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Max)).EndInit();
             this.GB_Encounters.ResumeLayout(false);

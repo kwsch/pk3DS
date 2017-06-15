@@ -927,7 +927,7 @@ namespace pk3DS
                 case 7:
                     if (threadActive()) return;
                     if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
-                        "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
+                        "CRO Editing causes crashes if you do not patch the RO module.", "In order to patch the RO module, your device must be running Custom Firmware (for example, Luma3DS).", "Continue anyway?"))
                         return;
                     if (RomFSPath != null) new MartEditor7().Show();
                     break;
@@ -955,7 +955,7 @@ namespace pk3DS
         {
             if (threadActive()) return;
             if (RomFSPath == null) return;
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Rebuilding CRO/CRR is not necessary if you patch RO.", "Continue?"))
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Rebuilding CRO/CRR is not necessary if you patch the RO module.", "Continue?"))
                 return;
             new Thread(() =>
             {
@@ -972,7 +972,7 @@ namespace pk3DS
         {
             if (threadActive()) return;
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
-                "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
+                "CRO Editing causes crashes if you do not patch the RO module.", "In order to patch the RO module, your device must be running Custom Firmware (for example, Luma3DS).", "Continue anyway?"))
                 return;
             string CRO = Path.Combine(RomFSPath, "DllPoke3Select.cro");
             string CRO2 = Path.Combine(RomFSPath, "DllField.cro");
@@ -996,7 +996,7 @@ namespace pk3DS
             {
                 case 6:
                     if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
-                        "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
+                        "CRO Editing causes crashes if you do not patch the RO module.", "In order to patch the RO module, your device must be running Custom Firmware (for example, Luma3DS).", "Continue anyway?"))
                         return;
                     string CRO = Path.Combine(RomFSPath, "DllBattle.cro");
                     if (!File.Exists(CRO))
@@ -1016,7 +1016,7 @@ namespace pk3DS
         {
             if (threadActive()) return;
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
-                "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
+                "CRO Editing causes crashes if you do not patch the RO module.", "In order to patch the RO module, your device must be running Custom Firmware (for example, Luma3DS).", "Continue anyway?"))
                 return;
             string CRO = Path.Combine(RomFSPath, "DllField.cro");
             if (!File.Exists(CRO))
@@ -1045,7 +1045,7 @@ namespace pk3DS
             }
 
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
-                "CRO Editing causes crashes if you do not patch the RO module.", "Continue anyway?"))
+                "CRO Editing causes crashes if you do not patch the RO module.", "In order to patch the RO module, your device must be running Custom Firmware (for example, Luma3DS).", "Continue anyway?"))
                 return;
             string CRO = Path.Combine(RomFSPath, "DllField.cro");
             if (!File.Exists(CRO))

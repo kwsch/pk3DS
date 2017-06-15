@@ -770,7 +770,7 @@ namespace pk3DS
             }
             randomizing = false;
             CB_TrainerID.SelectedIndex = 1;
-            Util.Alert("Randomized all trainers according to specification!", "Press the Dump to TXT to view the new trainer information!");
+            Util.Alert("Randomized all trainers according to specification!", "Press the Dump to .TXT button to view the new trainer information!");
         }
 
         private string[] GetTagsORAS()
@@ -1025,7 +1025,7 @@ namespace pk3DS
                     MEvoTypes.Add(Main.SpeciesStat[spec].Types[1]);
             }
             MEvoTypes.Sort();
-            Console.WriteLine("There are " + MEvoTypes.Count + " Types capable of mega evolution.");
+            Console.WriteLine("There are " + MEvoTypes.Count + " Types capable of Mega Evolution.");
             return MEvoTypes.ToArray();
         }
         private int GetRandomMegaEvolvablePokemon(int type)

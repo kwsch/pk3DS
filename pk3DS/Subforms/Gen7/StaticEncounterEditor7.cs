@@ -134,7 +134,7 @@ namespace pk3DS
             if (Gifts.Take(3).Select(gift => gift.Species).SequenceEqual(oldStarters))
                 return;
 
-            var dr = Util.Prompt(MessageBoxButtons.YesNo, "Starters have been changed. Update text references?");
+            var dr = Util.Prompt(MessageBoxButtons.YesNo, "Starters have been changed. Update text references?", "Note that this only updates text references for the current language set in pk3DS.", "This can be changed from Options -> Language on the main window.");
             if (dr == DialogResult.Yes)
                 updateStarterText();
         }
@@ -305,6 +305,8 @@ namespace pk3DS
         }
         private void B_Starters_Click(object sender, EventArgs e)
         {
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize Starters? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes) return;
+
             int[] sL = getRandomSpeciesList();
             int ctr = 0;
 
@@ -323,10 +325,12 @@ namespace pk3DS
             getListBoxEntries();
             getGift();
 
-            System.Media.SystemSounds.Asterisk.Play();
+            Util.Alert("Randomized Starters according to specification!");
         }
         private void B_RandAll_Click(object sender, EventArgs e)
         {
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize Static Encounters? Cannot undo.", "Double check Randomization Settings before continuing.") != DialogResult.Yes) return;
+
             int[] sL = getRandomSpeciesList();
             int ctr = 0;
 
@@ -368,7 +372,7 @@ namespace pk3DS
             getEncounter();
             getTrade();
 
-            System.Media.SystemSounds.Asterisk.Play();
+            Util.Alert("Randomized Static Encounters according to specification!");
         }
 
         // Mirror Changes

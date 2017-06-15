@@ -156,6 +156,8 @@ namespace pk3DS
 
         private void B_RandomTM_Click(object sender, EventArgs e)
         {
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize TMs?", "Move compatibility will be the same as the base TMs.") != DialogResult.Yes) return;
+
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
 
@@ -170,6 +172,7 @@ namespace pk3DS
 
                 dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
             }
+            Util.Alert("Randomized!");
         }
 
         internal static void getTMHMList(bool oras, ref ushort[] TMs, ref ushort[] HMs)

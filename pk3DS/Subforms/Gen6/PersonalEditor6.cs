@@ -452,7 +452,7 @@ namespace pk3DS
                     TB_CatchRate.Text = ((int)NUD_CatchRateMod.Value).ToString();
             }
             CB_Species.SelectedIndex = 1;
-            Util.Alert("All species modified to specification!");
+            Util.Alert("All species modified according to specification!");
         }
         private bool dumping;
         private void B_Dump_Click(object sender, EventArgs e)

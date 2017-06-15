@@ -81,6 +81,7 @@ namespace pk3DS
             
             RSTE.rThemedClasses = new bool[trClass.Length];
 
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes) return;
             RSTE.rDoRand = true;
             Close();
         }

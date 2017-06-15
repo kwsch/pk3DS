@@ -1344,7 +1344,7 @@
             this.B_CurrentAttack.Name = "B_CurrentAttack";
             this.B_CurrentAttack.Size = new System.Drawing.Size(93, 40);
             this.B_CurrentAttack.TabIndex = 449;
-            this.B_CurrentAttack.Text = "Current Level Levelups";
+            this.B_CurrentAttack.Text = "Current Level Levelup Moves";
             this.B_CurrentAttack.UseVisualStyleBackColor = true;
             this.B_CurrentAttack.Click += new System.EventHandler(this.B_CurrentAttack_Click);
             // 
@@ -1354,7 +1354,7 @@
             this.B_HighAttack.Name = "B_HighAttack";
             this.B_HighAttack.Size = new System.Drawing.Size(93, 40);
             this.B_HighAttack.TabIndex = 448;
-            this.B_HighAttack.Text = "High Attacking Levelups";
+            this.B_HighAttack.Text = "High Attacking Levelup Moves";
             this.B_HighAttack.UseVisualStyleBackColor = true;
             this.B_HighAttack.Click += new System.EventHandler(this.B_HighAttack_Click);
             // 
@@ -1777,8 +1777,6 @@
             // CHK_BST
             // 
             this.CHK_BST.AutoSize = true;
-            this.CHK_BST.Checked = true;
-            this.CHK_BST.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_BST.Location = new System.Drawing.Point(100, 17);
             this.CHK_BST.Name = "CHK_BST";
             this.CHK_BST.Size = new System.Drawing.Size(117, 17);
@@ -1795,7 +1793,7 @@
             this.CHK_RandomPKM.Name = "CHK_RandomPKM";
             this.CHK_RandomPKM.Size = new System.Drawing.Size(114, 17);
             this.CHK_RandomPKM.TabIndex = 299;
-            this.CHK_RandomPKM.Text = "Random Pokemon";
+            this.CHK_RandomPKM.Text = "Random Pokémon";
             this.CHK_RandomPKM.UseVisualStyleBackColor = true;
             this.CHK_RandomPKM.CheckedChanged += new System.EventHandler(this.CHK_RandomPKM_CheckedChanged);
             // 
@@ -1897,9 +1895,9 @@
             this.CHK_RandomAbilities.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_RandomAbilities.Location = new System.Drawing.Point(6, 87);
             this.CHK_RandomAbilities.Name = "CHK_RandomAbilities";
-            this.CHK_RandomAbilities.Size = new System.Drawing.Size(104, 17);
+            this.CHK_RandomAbilities.Size = new System.Drawing.Size(193, 17);
             this.CHK_RandomAbilities.TabIndex = 331;
-            this.CHK_RandomAbilities.Text = "Random Abilities";
+            this.CHK_RandomAbilities.Text = "Random Abilities (Including Hidden)";
             this.CHK_RandomAbilities.UseVisualStyleBackColor = true;
             // 
             // NUD_STAB
@@ -2044,11 +2042,11 @@
             // 
             this.CHK_RandomMegaForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_RandomMegaForm.AutoSize = true;
-            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(6, 55);
+            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(6, 68);
             this.CHK_RandomMegaForm.Name = "CHK_RandomMegaForm";
-            this.CHK_RandomMegaForm.Size = new System.Drawing.Size(103, 30);
+            this.CHK_RandomMegaForm.Size = new System.Drawing.Size(127, 17);
             this.CHK_RandomMegaForm.TabIndex = 333;
-            this.CHK_RandomMegaForm.Text = "Allow RandForm\r\nfor Mega PKM";
+            this.CHK_RandomMegaForm.Text = "Random Mega Forms";
             this.CHK_RandomMegaForm.UseVisualStyleBackColor = true;
             // 
             // CHK_TypeTheme

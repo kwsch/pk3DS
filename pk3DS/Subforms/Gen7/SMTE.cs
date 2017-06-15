@@ -584,6 +584,8 @@ namespace pk3DS
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Misc/Rand tab.") != DialogResult.Yes) return;
+
             CB_TrainerID.SelectedIndex = 0;
             Randomizer rnd = new Randomizer(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, 
                 CHK_G6.Checked, CHK_G7.Checked, CHK_L.Checked, CHK_E.Checked, Shedinja: true)
@@ -670,7 +672,7 @@ namespace pk3DS
                 }
                 saveData(tr, i);
             }
-            Util.Alert("Randomized!");
+            Util.Alert("Randomized all trainers according to specification!", "Press the Dump to .TXT button to view the new trainer information!");
         }
         private void B_HighAttack_Click(object sender, EventArgs e)
         {

@@ -118,6 +118,8 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Randomizer Options tab.") != DialogResult.Yes) return;
+
             // Randomize by BST
             bool bst = CHK_BST.Checked;
             int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, false,
@@ -136,6 +138,7 @@ namespace pk3DS
                 if (CHK_Level.Checked)
                     NUD_Level.Value = Randomizer.getModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
             }
+            Util.Alert("Randomized all Static Encounters according to specification!");
         }
 
         private void changeSpecies(object sender, EventArgs e)
