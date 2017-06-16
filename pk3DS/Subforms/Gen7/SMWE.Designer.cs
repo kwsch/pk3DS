@@ -378,11 +378,11 @@
             // L_Location
             // 
             this.L_Location.AutoSize = true;
-            this.L_Location.Location = new System.Drawing.Point(11, 16);
+            this.L_Location.Location = new System.Drawing.Point(38, 16);
             this.L_Location.Name = "L_Location";
-            this.L_Location.Size = new System.Drawing.Size(51, 13);
+            this.L_Location.Size = new System.Drawing.Size(28, 13);
             this.L_Location.TabIndex = 419;
-            this.L_Location.Text = "Location:";
+            this.L_Location.Text = "Loc:";
             // 
             // B_Save
             // 
@@ -893,6 +893,11 @@
             0,
             0,
             0});
+            this.NUD_LevelAmp.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.NUD_LevelAmp.Name = "NUD_LevelAmp";
             this.NUD_LevelAmp.Size = new System.Drawing.Size(48, 20);
             this.NUD_LevelAmp.TabIndex = 276;

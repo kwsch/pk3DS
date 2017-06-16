@@ -996,7 +996,7 @@
             this.B_LevelPlus.Name = "B_LevelPlus";
             this.B_LevelPlus.Size = new System.Drawing.Size(70, 23);
             this.B_LevelPlus.TabIndex = 277;
-            this.B_LevelPlus.Text = "+/- Current";
+            this.B_LevelPlus.Text = "× Current";
             this.B_LevelPlus.UseVisualStyleBackColor = true;
             this.B_LevelPlus.Click += new System.EventHandler(this.modifyLevels);
             // 
@@ -1004,10 +1004,10 @@
             // 
             this.NUD_LevelAmp.DecimalPlaces = 2;
             this.NUD_LevelAmp.Increment = new decimal(new int[] {
-            2,
+            5,
             0,
             0,
-            65536});
+            131072});
             this.NUD_LevelAmp.Location = new System.Drawing.Point(152, 16);
             this.NUD_LevelAmp.Maximum = new decimal(new int[] {
             3,
@@ -1023,7 +1023,7 @@
             this.NUD_LevelAmp.Size = new System.Drawing.Size(41, 20);
             this.NUD_LevelAmp.TabIndex = 276;
             this.NUD_LevelAmp.Value = new decimal(new int[] {
-            13,
+            10,
             0,
             0,
             65536});
@@ -1031,11 +1031,11 @@
             // CHK_Level
             // 
             this.CHK_Level.AutoSize = true;
-            this.CHK_Level.Location = new System.Drawing.Point(33, 17);
+            this.CHK_Level.Location = new System.Drawing.Point(18, 17);
             this.CHK_Level.Name = "CHK_Level";
-            this.CHK_Level.Size = new System.Drawing.Size(109, 17);
+            this.CHK_Level.Size = new System.Drawing.Size(135, 17);
             this.CHK_Level.TabIndex = 279;
-            this.CHK_Level.Text = "Multiply All Levels";
+            this.CHK_Level.Text = "Multiply PKM Levels by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
             // L_HordeC_Max
@@ -25527,9 +25527,9 @@
             this.L_TallGrass.AutoSize = true;
             this.L_TallGrass.Location = new System.Drawing.Point(343, 20);
             this.L_TallGrass.Name = "L_TallGrass";
-            this.L_TallGrass.Size = new System.Drawing.Size(54, 13);
+            this.L_TallGrass.Size = new System.Drawing.Size(61, 13);
             this.L_TallGrass.TabIndex = 374;
-            this.L_TallGrass.Text = "Tall Grass";
+            this.L_TallGrass.Text = "Long Grass";
             // 
             // label10
             // 
@@ -25706,9 +25706,9 @@
             this.L_Grass.AutoSize = true;
             this.L_Grass.Location = new System.Drawing.Point(44, 20);
             this.L_Grass.Name = "L_Grass";
-            this.L_Grass.Size = new System.Drawing.Size(34, 13);
+            this.L_Grass.Size = new System.Drawing.Size(54, 13);
             this.L_Grass.TabIndex = 310;
-            this.L_Grass.Text = "Grass";
+            this.L_Grass.Text = "Tall Grass";
             // 
             // NUP_GrassMax2
             // 

@@ -82,6 +82,8 @@ namespace pk3DS
             RSTE.rThemedClasses = new bool[trClass.Length];
 
             if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes) return;
+            if (!CHK_IgnoreSpecialClass.Checked)
+                if (Util.Prompt(MessageBoxButtons.YesNo, "Ignoring Special Trainer Classes has the chance of crashing your game in some battles!", "Continue anyway?") != DialogResult.Yes) return;
             RSTE.rDoRand = true;
             Close();
         }
@@ -101,7 +103,6 @@ namespace pk3DS
         private void CHK_Level_CheckedChanged(object sender, EventArgs e)
         {
             NUD_Level.Enabled = CHK_Level.Checked;
-            NUD_Level.Value = CHK_Level.Checked ? 1.3m : 1m;
         }
         private void changeLevelPercent(object sender, EventArgs e)
         {

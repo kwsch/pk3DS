@@ -5082,9 +5082,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(44, 20);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.Size = new System.Drawing.Size(54, 13);
             this.label2.TabIndex = 310;
-            this.label2.Text = "Grass";
+            this.label2.Text = "Tall Grass";
             // 
             // NUP_GrassMax2
             // 
@@ -15658,7 +15658,7 @@
             this.B_LevelPlus.Name = "B_LevelPlus";
             this.B_LevelPlus.Size = new System.Drawing.Size(70, 23);
             this.B_LevelPlus.TabIndex = 277;
-            this.B_LevelPlus.Text = "+/- Current";
+            this.B_LevelPlus.Text = "× Current";
             this.B_LevelPlus.UseVisualStyleBackColor = true;
             this.B_LevelPlus.Click += new System.EventHandler(this.modifyLevels);
             // 
@@ -15666,10 +15666,10 @@
             // 
             this.NUD_LevelAmp.DecimalPlaces = 2;
             this.NUD_LevelAmp.Increment = new decimal(new int[] {
-            2,
+            5,
             0,
             0,
-            65536});
+            131072});
             this.NUD_LevelAmp.Location = new System.Drawing.Point(152, 16);
             this.NUD_LevelAmp.Maximum = new decimal(new int[] {
             3,
@@ -15685,7 +15685,7 @@
             this.NUD_LevelAmp.Size = new System.Drawing.Size(41, 20);
             this.NUD_LevelAmp.TabIndex = 276;
             this.NUD_LevelAmp.Value = new decimal(new int[] {
-            13,
+            10,
             0,
             0,
             65536});
@@ -15693,11 +15693,11 @@
             // CHK_Level
             // 
             this.CHK_Level.AutoSize = true;
-            this.CHK_Level.Location = new System.Drawing.Point(33, 17);
+            this.CHK_Level.Location = new System.Drawing.Point(18, 17);
             this.CHK_Level.Name = "CHK_Level";
-            this.CHK_Level.Size = new System.Drawing.Size(109, 17);
+            this.CHK_Level.Size = new System.Drawing.Size(135, 17);
             this.CHK_Level.TabIndex = 279;
-            this.CHK_Level.Text = "Multiply All Levels";
+            this.CHK_Level.Text = "Multiply PKM Levels by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
             // label129

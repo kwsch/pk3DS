@@ -298,7 +298,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(557, 127);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Trainer info";
+            this.tabPage1.Text = "Trainer Info";
             // 
             // checkBox_Healer
             // 
@@ -517,7 +517,7 @@
             this.L_numPokemon.Name = "L_numPokemon";
             this.L_numPokemon.Size = new System.Drawing.Size(107, 13);
             this.L_numPokemon.TabIndex = 22;
-            this.L_numPokemon.Text = "Number of Pokemon:";
+            this.L_numPokemon.Text = "Number of Pokémon:";
             // 
             // CB_numPokemon
             // 
@@ -780,7 +780,7 @@
             this.L_Pokemon_1_Pokemon.Name = "L_Pokemon_1_Pokemon";
             this.L_Pokemon_1_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon_1_Pokemon.TabIndex = 22;
-            this.L_Pokemon_1_Pokemon.Text = "Pokemon:";
+            this.L_Pokemon_1_Pokemon.Text = "Pokémon:";
             // 
             // CB_Pokemon_1_Pokemon
             // 
@@ -1036,7 +1036,7 @@
             this.L_Pokemon_2_Pokemon.Name = "L_Pokemon_2_Pokemon";
             this.L_Pokemon_2_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon_2_Pokemon.TabIndex = 22;
-            this.L_Pokemon_2_Pokemon.Text = "Pokemon:";
+            this.L_Pokemon_2_Pokemon.Text = "Pokémon:";
             // 
             // CB_Pokemon_2_Pokemon
             // 
@@ -1292,7 +1292,7 @@
             this.L_Pokemon_3_Pokemon.Name = "L_Pokemon_3_Pokemon";
             this.L_Pokemon_3_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon_3_Pokemon.TabIndex = 22;
-            this.L_Pokemon_3_Pokemon.Text = "Pokemon:";
+            this.L_Pokemon_3_Pokemon.Text = "Pokémon:";
             // 
             // CB_Pokemon_3_Pokemon
             // 
@@ -1548,7 +1548,7 @@
             this.L_Pokemon_4_Pokemon.Name = "L_Pokemon_4_Pokemon";
             this.L_Pokemon_4_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon_4_Pokemon.TabIndex = 22;
-            this.L_Pokemon_4_Pokemon.Text = "Pokemon:";
+            this.L_Pokemon_4_Pokemon.Text = "Pokémon:";
             // 
             // CB_Pokemon_4_Pokemon
             // 
@@ -1804,7 +1804,7 @@
             this.L_Pokemon_5_Pokemon.Name = "L_Pokemon_5_Pokemon";
             this.L_Pokemon_5_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon_5_Pokemon.TabIndex = 22;
-            this.L_Pokemon_5_Pokemon.Text = "Pokemon:";
+            this.L_Pokemon_5_Pokemon.Text = "Pokémon:";
             // 
             // CB_Pokemon_5_Pokemon
             // 
@@ -2060,7 +2060,7 @@
             this.L_Pokemon_6_Pokemon.Name = "L_Pokemon_6_Pokemon";
             this.L_Pokemon_6_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon_6_Pokemon.TabIndex = 22;
-            this.L_Pokemon_6_Pokemon.Text = "Pokemon:";
+            this.L_Pokemon_6_Pokemon.Text = "Pokémon:";
             // 
             // CB_Pokemon_6_Pokemon
             // 

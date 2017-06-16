@@ -160,9 +160,9 @@
             this.CHK_MaxDiffPKM.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(12, 294);
             this.CHK_MaxDiffPKM.Name = "CHK_MaxDiffPKM";
-            this.CHK_MaxDiffPKM.Size = new System.Drawing.Size(161, 17);
+            this.CHK_MaxDiffPKM.Size = new System.Drawing.Size(64, 17);
             this.CHK_MaxDiffPKM.TabIndex = 8;
-            this.CHK_MaxDiffPKM.Text = "Max Difficulty (Pokemon IVs)";
+            this.CHK_MaxDiffPKM.Text = "Max IVs";
             this.CHK_MaxDiffPKM.UseVisualStyleBackColor = true;
             // 
             // B_OK
@@ -214,12 +214,13 @@
             // NUD_Level
             // 
             this.NUD_Level.DecimalPlaces = 2;
+            this.NUD_Level.Enabled = false;
             this.NUD_Level.Increment = new decimal(new int[] {
-            2,
+            5,
             0,
             0,
-            65536});
-            this.NUD_Level.Location = new System.Drawing.Point(139, 11);
+            131072});
+            this.NUD_Level.Location = new System.Drawing.Point(141, 11);
             this.NUD_Level.Maximum = new decimal(new int[] {
             3,
             0,
@@ -234,7 +235,7 @@
             this.NUD_Level.Size = new System.Drawing.Size(43, 20);
             this.NUD_Level.TabIndex = 3;
             this.NUD_Level.Value = new decimal(new int[] {
-            13,
+            10,
             0,
             0,
             65536});
@@ -245,9 +246,9 @@
             this.CHK_Level.AutoSize = true;
             this.CHK_Level.Location = new System.Drawing.Point(12, 12);
             this.CHK_Level.Name = "CHK_Level";
-            this.CHK_Level.Size = new System.Drawing.Size(126, 17);
+            this.CHK_Level.Size = new System.Drawing.Size(130, 17);
             this.CHK_Level.TabIndex = 2;
-            this.CHK_Level.Text = "Level Boost Multiplier";
+            this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             this.CHK_Level.CheckedChanged += new System.EventHandler(this.CHK_Level_CheckedChanged);
             // 
