@@ -10,11 +10,11 @@ namespace pk3DS
         public MartEditor6()
         {
             InitializeComponent();
-            if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); Close(); }
+            if (Main.ExeFSPath == null) { WinFormsUtil.Alert("No exeFS code to load."); Close(); }
             string[] files = Directory.GetFiles(Main.ExeFSPath);
-            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { WinFormsUtil.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
-            if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
+            if (data.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
             offset = Util.IndexOfBytes(data, new byte[] { 0x00, 0x72, 0x6F, 0x6D, 0x3A, 0x2F, 0x44, 0x6C, 0x6C, 0x53, 0x74, 0x61, 0x72, 0x74, 0x4D, 0x65, 0x6E, 0x75, 0x2E, 0x63, 0x72, 0x6F, 0x00 }, 0x400000, 0) + 0x17;
             codebin = files[0];
             itemlist[0] = "";
@@ -147,7 +147,7 @@ namespace pk3DS
         }
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Randomize mart inventories?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize mart inventories?"))
                 return;
 
             int[] validItems = Randomizer.getRandomItemList();
@@ -155,7 +155,7 @@ namespace pk3DS
             int ctr = 0;
             Util.Shuffle(validItems);
 
-            bool specialOnly = DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Randomize only special marts?", "Will leave regular necessities intact.");
+            bool specialOnly = DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize only special marts?", "Will leave regular necessities intact.");
             int start = specialOnly ? 9 : 0;
             for (int i = start; i < CB_Location.Items.Count; i++)
             {
@@ -167,7 +167,7 @@ namespace pk3DS
                     Util.Shuffle(validItems); ctr = 0;
                 }
             }
-            Util.Alert("Randomized!");
+            WinFormsUtil.Alert("Randomized!");
         }
     }
 }

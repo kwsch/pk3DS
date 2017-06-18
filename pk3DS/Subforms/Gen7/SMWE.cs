@@ -20,8 +20,8 @@ namespace pk3DS
         {
             InitializeComponent();
 
-            PB_DayIcon.Image = Core.Properties.Resources.sun;
-            PB_NightIcon.Image = Core.Properties.Resources.moon;
+            PB_DayIcon.Image = Properties.Resources.sun;
+            PB_NightIcon.Image = Properties.Resources.moon;
             PB_DayIcon.SizeMode = PictureBoxSizeMode.CenterImage;
             PB_NightIcon.SizeMode = PictureBoxSizeMode.CenterImage;
 
@@ -292,7 +292,7 @@ namespace pk3DS
                 g.Clear(Color.Transparent);
 
                 var enc = CurrentTable.Encounters[table][slot];
-                g.DrawImage(enc.Species == 0 ? Core.Properties.Resources.empty : Util.getSprite((int)enc.Species, (int)enc.Forme, 0, 0, Main.Config), pnt);
+                g.DrawImage(enc.Species == 0 ? Properties.Resources.empty : WinFormsUtil.getSprite((int)enc.Species, (int)enc.Forme, 0, 0, Main.Config), pnt);
             }
 
             cur_pb.Image = cur_img;
@@ -318,7 +318,7 @@ namespace pk3DS
                 var packed = getMapData(Map.Tables);
                 File.WriteAllBytes(Path.Combine("encdata", Map.FileNumber.ToString()), packed);
             }
-            Util.Alert("Exported all tables!");
+            WinFormsUtil.Alert("Exported all tables!");
         }
         private byte[] getMapData(List<EncounterTable> tables)
         {
@@ -450,12 +450,12 @@ namespace pk3DS
                     g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
                     for (int i = 0; i < Encounters.Length - 1; i++)
                         for (int j = 0; j < Encounters[i].Length; j++)
-                            g.DrawImage((Encounters[i][j].Species == 0 ? Core.Properties.Resources.empty : Util.getSprite((int)Encounters[i][j].Species, (int)Encounters[i][j].Forme, 0, 0, Main.Config)), new Point(40 * j, 30 * (i+1)));
+                            g.DrawImage((Encounters[i][j].Species == 0 ? Properties.Resources.empty : WinFormsUtil.getSprite((int)Encounters[i][j].Species, (int)Encounters[i][j].Forme, 0, 0, Main.Config)), new Point(40 * j, 30 * (i+1)));
                     for (int i = 0; i < Rates.Length; i++)
                         g.DrawString($"{Rates[i]}%", font, Brushes.Black, new PointF(40 * i + 10, 10));
                     g.DrawString("Weather: ", font, Brushes.Black, new PointF(10, 280));
                     for (int i = 0; i < AdditionalSOS.Length; i++)
-                        g.DrawImage((AdditionalSOS[i].Species == 0 ? Core.Properties.Resources.empty : Util.getSprite((int)AdditionalSOS[i].Species, (int)AdditionalSOS[i].Forme, 0, 0, Main.Config)), new Point(40*i + 60, 270));
+                        g.DrawImage((AdditionalSOS[i].Species == 0 ? Properties.Resources.empty : WinFormsUtil.getSprite((int)AdditionalSOS[i].Species, (int)AdditionalSOS[i].Forme, 0, 0, Main.Config)), new Point(40*i + 60, 270));
                 }
                 return img;
             }
@@ -485,7 +485,7 @@ namespace pk3DS
 
         private void modifyLevels(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Modify all current Level ranges?", "Cannot undo.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify all current Level ranges?", "Cannot undo.") != DialogResult.Yes) return;
 
             // Disable Interface while modifying
             Enabled = false;
@@ -499,7 +499,7 @@ namespace pk3DS
             }
             // Enable Interface... modification complete.
             Enabled = true;
-            Util.Alert("Modified all Level ranges according to specification!", "Press the Dump Tables button to view the new Level ranges!");
+            WinFormsUtil.Alert("Modified all Level ranges according to specification!", "Press the Dump Tables button to view the new Level ranges!");
 
             updatePanel(sender, e);
         }
@@ -507,7 +507,7 @@ namespace pk3DS
         // Randomization
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings at the bottom left.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings at the bottom left.") != DialogResult.Yes) return;
 
             Enabled = false;
             int slotStart;
@@ -584,7 +584,7 @@ namespace pk3DS
             }
             updatePanel(sender, e);
             Enabled = true;
-            Util.Alert("Randomized all Wild Encounters according to specification!", "Press the Dump Tables button to view the new Wild Encounter information!");
+            WinFormsUtil.Alert("Randomized all Wild Encounters according to specification!", "Press the Dump Tables button to view the new Wild Encounter information!");
         }
 
         private uint GetRandomForme(int species)
@@ -598,7 +598,7 @@ namespace pk3DS
 
         private void CopySOS_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Copy initial species to SOS slots?", "Cannot undo.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy initial species to SOS slots?", "Cannot undo.") != DialogResult.Yes) return;
 
             // first table is copied to all other tables except weather (last)
             for (int i = 1; i < nup_spec.Length - 1; i++)
@@ -609,7 +609,7 @@ namespace pk3DS
                     cb_spec[i][s].SelectedIndex = cb_spec[0][s].SelectedIndex;
                 }
             }
-            Util.Alert("All initial species copied to SOS slots!");
+            WinFormsUtil.Alert("All initial species copied to SOS slots!");
         }
     }
 }

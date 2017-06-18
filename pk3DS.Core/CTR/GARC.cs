@@ -13,10 +13,33 @@ namespace pk3DS.Core.CTR
         public const ushort VER_6 = 0x0600;
         public const ushort VER_4 = 0x0400;
 
-        public static bool garcPackMS(string folderPath, string garcPath, int version, int bytesPadding, ProgressBar pBar1 = null, Label label = null, bool supress = false)
+        public class FileCountDeterminedEventArgs : EventArgs
+        {
+            public int Total { get; set; }
+        }
+
+        public class PackProgressedEventArgs : EventArgs
+        {
+            public int Current { get; set; }
+            public int Total { get; set; }
+            public string CurrentFile { get; set; }
+        }
+
+        public class UnpackProgressedEventArgs : EventArgs
+        {
+            public int Current { get; set; }
+            public int Total { get; set; }
+        }
+
+
+        public static event EventHandler<FileCountDeterminedEventArgs> FileCountDetermined;
+        public static event EventHandler<PackProgressedEventArgs> PackProgressed;
+        public static event EventHandler<UnpackProgressedEventArgs> UnpackProgressed;
+
+        public static int garcPackMS(string folderPath, string garcPath, int version, int bytesPadding)
         {
             // Check to see if our input folder exists.
-            if (!new DirectoryInfo(folderPath).Exists) { Util.Error("Folder does not exist."); return false; }
+            if (!new DirectoryInfo(folderPath).Exists) throw new DirectoryNotFoundException("Folder does not exist");
 
             if (version != VER_4 && version != VER_6)
                 throw new FormatException("Invalid GARC Version: 0x" + version.ToString("X4"));
@@ -48,18 +71,10 @@ namespace pk3DS.Core.CTR
                     filectr += Directory.GetFiles(f).Length;
                 }
             }
-            catch (Exception e) { Util.Error("Invalid packing filenames", e.ToString()); return false; }
-            #endregion
+            catch (Exception e) { throw new Exception("Invalid packing filenames", e); }
 
-            #region Initialize Progress Update Display
-            if (pBar1 == null) pBar1 = new ProgressBar();
-            if (pBar1.InvokeRequired)
-                pBar1.Invoke((MethodInvoker)delegate { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = filectr; });
-            else { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = filectr; }
-            if (label == null) label = new Label();
-            if (label.InvokeRequired)
-                label.Invoke((MethodInvoker)delegate { label.Visible = true; });
-            #endregion
+            FileCountDetermined?.Invoke(null, new FileCountDeterminedEventArgs { Total = filectr });
+            #endregion            
 
             // Set Up the GARC template.
             GARCFile garc = new GARCFile
@@ -128,16 +143,9 @@ namespace pk3DS.Core.CTR
                         od += actualLength;
 
                         op += 12;
-                        #region Step
-                        if (pBar1.InvokeRequired)
-                            pBar1.Invoke((MethodInvoker)(() => pBar1.PerformStep()));
-                        else { pBar1.PerformStep(); }
-                        string update = $"{(float) index/(float) filectr:P2} - {index}/{filectr} - {packOrder[i]}";
-                        index++;
-                        if (label.InvokeRequired)
-                            label.Invoke((MethodInvoker)delegate { label.Text = update; });
-                        else { label.Text = update; }
-                        #endregion
+
+                        // Step
+                        PackProgressed?.Invoke(null, new PackProgressedEventArgs { Current = index++, Total = filectr, CurrentFile = packOrder[i] });
                     }
                     else
                     {
@@ -171,16 +179,9 @@ namespace pk3DS.Core.CTR
                             od += actualLength;
 
                             op += 12;
-                            #region Step
-                            if (pBar1.InvokeRequired)
-                                pBar1.Invoke((MethodInvoker)(() => pBar1.PerformStep()));
-                            else { pBar1.PerformStep(); }
-                            string update = $"{(float) index/(float) filectr:P2} - {index}/{filectr} - {f}";
-                            index++;
-                            if (label.InvokeRequired)
-                                label.Invoke((MethodInvoker)delegate { label.Text = update; });
-                            else { label.Text = update; }
-                            #endregion
+
+                            // Step
+                            PackProgressed?.Invoke(null, new PackProgressedEventArgs { Current = index++, Total = filectr, CurrentFile = packOrder[i] });
                         }
                     }
                     garc.fatb.Entries[i].Vector = (uint)v;
@@ -311,26 +312,14 @@ namespace pk3DS.Core.CTR
                     gw.Write(garc.ContentLargestPadded);                // Write Largest With Padding
                     gw.Write(garc.ContentLargestUnpadded);              // Write Largest Without Padding
                     gw.Write(garc.ContentPadToNearest);
-                }
+                }                             
 
-                try
-                {
-                    if (label.InvokeRequired)
-                        label.Invoke((MethodInvoker)delegate { label.Visible = false; });
-                    else { label.Visible = false; }
-
-                    // We're done.
-                    SystemSounds.Exclamation.Play();
-                    if (!supress) Util.Alert("Pack Successful!", filectr + " files packed to the GARC!");
-
-                    return true;
-                }
-                catch (Exception e) { Util.Error("Packing Failed!", e.ToString()); return false; }
+                return filectr;
             }
         }
-        public static bool garcUnpack(string garcPath, string outPath, bool skipDecompression, ProgressBar pBar1 = null, Label label = null, bool supress = false, bool bypassExt = false)
+        public static int garcUnpack(string garcPath, string outPath, bool skipDecompression)
         {
-            if (!File.Exists(garcPath) && !supress) { Util.Alert("File does not exist"); return false; }
+            if (!File.Exists(garcPath)) throw new FileNotFoundException("File does not exist");
 
             // Unpack the GARC
             GARCFile garc = unpackGARC(garcPath);
@@ -340,17 +329,7 @@ namespace pk3DS.Core.CTR
             if (outPath == "gametext")
                 format = "D3";
 
-            #region Display
-            // Initialize ProgressBar
-            if (pBar1 == null) pBar1 = new ProgressBar();
-            if (pBar1.InvokeRequired)
-                pBar1.Invoke((MethodInvoker)delegate { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = fileCount; });
-            else { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = garc.fatb.FileCount; }
-
-            if (label == null) label = new Label();
-            if (label.InvokeRequired)
-                label.Invoke((MethodInvoker)delegate { label.Visible = true; });
-            #endregion
+            FileCountDetermined?.Invoke(null, new FileCountDeterminedEventArgs { Total = fileCount });
 
             using (BinaryReader br = new BinaryReader(File.OpenRead(garcPath)))
             {
@@ -405,39 +384,23 @@ namespace pk3DS.Core.CTR
                             {
                                 LZSS.Decompress(fileOut, decout);
                                 try { File.Delete(fileOut); }
-                                catch (Exception e) { Util.Error("A compressed file could not be deleted.", fileOut, e.ToString()); }
+                                catch (Exception e) { throw new Exception("A compressed file could not be deleted: " + fileOut, e); }
                             }
                             catch
                             {
                                 // File is really not encrypted.
-                                try { File.Delete(decout); }
-                                catch (Exception e) { Util.Error("This shouldn't happen", e.ToString()); }
+                                File.Delete(decout);
                             }
                         }
                         #endregion
 
-                        #region Step
-                        if (pBar1.InvokeRequired) pBar1.Invoke((MethodInvoker)(() => pBar1.PerformStep()));
-                        else pBar1.PerformStep();
-
-                        string update = $"{filectr/fileCount:P2} - {filectr}/{fileCount}";
-                        if (label.InvokeRequired)
-                            label.Invoke((MethodInvoker)delegate { label.Text = update; });
-                        else { label.Text = update; }
-                        #endregion
+                        UnpackProgressed?.Invoke(null, new UnpackProgressedEventArgs { Current = filectr, Total = fileCount });
 
                         if ((vector >>= 1) == 0) break;
                     }
                 }
             }
-            #region Updates
-            if (label.InvokeRequired)
-                label.Invoke((MethodInvoker)delegate { label.Visible = false; });
-            else { label.Visible = false; }
-            SystemSounds.Exclamation.Play();
-            if (!supress) Util.Alert("Unpack Successful!", fileCount + " files unpacked from the GARC!");
-            #endregion
-            return true;
+            return fileCount;
         }
 
         public static GARCFile unpackGARC(string path)

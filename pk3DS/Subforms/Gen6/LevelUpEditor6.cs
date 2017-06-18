@@ -29,11 +29,11 @@ namespace pk3DS
             Array.Resize(ref sortedspecies, Main.Config.MaxSpeciesID); Array.Sort(sortedspecies);
             setupDGV();
 
-            var newlist = new List<Util.cbItem>();
+            var newlist = new List<WinFormsUtil.cbItem>();
             for (int i = 1; i < Main.Config.MaxSpeciesID; i++) // add all species
-                newlist.Add(new Util.cbItem { Text = sortedspecies[i], Value = Array.IndexOf(specieslist, sortedspecies[i]) });
+                newlist.Add(new WinFormsUtil.cbItem { Text = sortedspecies[i], Value = Array.IndexOf(specieslist, sortedspecies[i]) });
             for (int i = Main.Config.MaxSpeciesID; i < specieslist.Length; i++) // add all forms
-                newlist.Add(new Util.cbItem { Text = specieslist[i], Value = i });
+                newlist.Add(new WinFormsUtil.cbItem { Text = specieslist[i], Value = i });
 
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
@@ -73,7 +73,7 @@ namespace pk3DS
         private Learnset6 pkm;
         private void getList()
         {
-            entry = Util.getIndex(CB_Species);
+            entry = WinFormsUtil.getIndex(CB_Species);
 
             int[] specForm = Main.Config.Personal.getSpeciesForm(entry, Main.Config);
             string filename = "_" + specForm[0] + (entry > 721 ? "_" + (specForm[1] + 1) : "");
@@ -158,7 +158,7 @@ namespace pk3DS
             {
                 CB_Species.SelectedIndex = i; // Get new Species
                 int count = dgv.Rows.Count - 1;
-                int species = Util.getIndex(CB_Species);
+                int species = WinFormsUtil.getIndex(CB_Species);
                 if (CHK_Expand.Checked && (int)NUD_Moves.Value > count)
                     dgv.Rows.AddCopies(count, (int)NUD_Moves.Value - count);
 
@@ -193,11 +193,11 @@ namespace pk3DS
                 }
             }
             CB_Species.SelectedIndex = 0;
-            Util.Alert("All Pokemon's Level Up Moves have been randomized!");
+            WinFormsUtil.Alert("All Pokemon's Level Up Moves have been randomized!");
         }
         private void B_Dump_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Dump all Level Up Moves to Text File?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Dump all Level Up Moves to Text File?"))
                 return;
 
             dumping = true;
@@ -261,7 +261,7 @@ namespace pk3DS
                         stab++;
                 }
             }
-            Util.Alert($"Moves Learned: {movectr}\r\nMost Learned: {max} @ {spec}\r\nSTAB Count: {stab}");
+            WinFormsUtil.Alert($"Moves Learned: {movectr}\r\nMost Learned: {max} @ {spec}\r\nSTAB Count: {stab}");
         }
     }
 }

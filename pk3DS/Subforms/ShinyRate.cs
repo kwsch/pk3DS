@@ -12,12 +12,12 @@ namespace pk3DS
         public ShinyRate()
         {
             InitializeComponent();
-            if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); Close(); }
+            if (Main.ExeFSPath == null) { WinFormsUtil.Alert("No exeFS code to load."); Close(); }
             string[] files = Directory.GetFiles(Main.ExeFSPath);
-            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { WinFormsUtil.Alert("No .code.bin detected."); Close(); }
             codebin = files[0];
             exefsData = File.ReadAllBytes(codebin);
-            if (exefsData.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
+            if (exefsData.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
 
             // Load instruction set
             byte[] raw = Core.Properties.Resources.asm_mov;
@@ -33,7 +33,7 @@ namespace pk3DS
             offset = Util.IndexOfBytes(exefsData, pattern, 0, 0) - 4;
             if (offset < 0)
             {
-                Util.Alert("Unable to find PID Generation routine.", "Closing.");
+                WinFormsUtil.Alert("Unable to find PID Generation routine.", "Closing.");
                 Close();
             }
             if (exefsData[offset] != 0x23) // already patched
@@ -42,11 +42,11 @@ namespace pk3DS
                 var instruction = InstructionList.FirstOrDefault(z => z.ArgVal == val);
                 if (instruction == null)
                 {
-                    Util.Alert(".code.bin was modified externally.", "Existing value not loaded.");
+                    WinFormsUtil.Alert(".code.bin was modified externally.", "Existing value not loaded.");
                 }
                 else
                 {
-                    Util.Alert(".code.bin was already patched for shiny rate.", "Loaded existing value.");
+                    WinFormsUtil.Alert(".code.bin was already patched for shiny rate.", "Loaded existing value.");
                     NUD_Rerolls.Value = instruction.Value;
                 }
                 modified = true;
@@ -112,7 +112,7 @@ namespace pk3DS
             data.CopyTo(exefsData, offset);
 
             if (instruction.Value != rerolls)
-                Util.Alert("Specified reroll count increased to the next highest supported value.",
+                WinFormsUtil.Alert("Specified reroll count increased to the next highest supported value.",
                     $"{rerolls} -> {instruction.Value}");
         }
 

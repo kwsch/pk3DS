@@ -79,24 +79,24 @@ namespace pk3DS
             string s = "Game Type: " + Config.Version + Environment.NewLine;
             s = Config.Files.Select(file => file.Name).Aggregate(s, (current, t) => current + string.Format(Environment.NewLine + "{0} - {1}", t, Config.getGARCFileName(t)));
 
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, s, "Copy to Clipboard?")) return;
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, s, "Copy to Clipboard?")) return;
 
             try { Clipboard.SetText(s); }
-            catch { Util.Alert("Unable to copy to Clipboard."); }
+            catch { WinFormsUtil.Alert("Unable to copy to Clipboard."); }
         }
         private void L_Game_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Restore Original Files?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Restore Original Files?"))
                 return;
 
             string[] result = Config.restoreFiles();
             if (result.Length == 2) // error
             {
-                Util.Alert(result);
+                WinFormsUtil.Alert(result);
                 return;
             }
 
-            Util.Alert("Restored files:", result[0], "The program will now close.");
+            WinFormsUtil.Alert("Restored files:", result[0], "The program will now close.");
             Application.Exit(); // do not call closing events that repackage personal/gametext
         }
 
@@ -119,7 +119,7 @@ namespace pk3DS
 
             if ((Config.XY || Config.ORAS) && Language > 7)
             {
-                Util.Alert("Language not available for games. Defaulting to English.");
+                WinFormsUtil.Alert("Language not available for games. Defaulting to English.");
                 if (InvokeRequired)
                     Invoke((MethodInvoker)delegate { CB_Lang.SelectedIndex = 2; });
                 else CB_Lang.SelectedIndex = 2;
@@ -153,23 +153,23 @@ namespace pk3DS
                 FileInfo fi = new FileInfo(path);
                 if (fi.Name.Contains("code.bin")) // Compress/Decompress .code.bin
                 {
-                    if (fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed code.bin.", "Compress? File will be replaced.") == DialogResult.Yes))
-                        new Thread(() => { threads++; new BLZCoder(new[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
-                    else if (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes)
-                        new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+                    if (fi.Length % 0x200 == 0 && (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed code.bin.", "Compress? File will be replaced.") == DialogResult.Yes))
+                        new Thread(() => { threads++; new BLZCoder(new[] { "-en", path }, pBar1); threads--; WinFormsUtil.Alert("Compressed!"); }).Start();
+                    else if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes)
+                        new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; WinFormsUtil.Alert("Decompressed!"); }).Start();
                 }
                 else if (fi.Name.ToLower().Contains("exe")) // Unpack exefs
                 {
-                    if (fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS.bin.", "Unpack?") == DialogResult.Yes))
-                        new Thread(() => { threads++; ExeFS.get(path, Path.GetDirectoryName(path)); threads--; Util.Alert("Unpacked!"); }).Start();
+                    if (fi.Length % 0x200 == 0 && (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS.bin.", "Unpack?") == DialogResult.Yes))
+                        new Thread(() => { threads++; ExeFS.get(path, Path.GetDirectoryName(path)); threads--; WinFormsUtil.Alert("Unpacked!"); }).Start();
                 }
                 else if (fi.Name.ToLower().Contains("rom"))
                 {
-                    Util.Alert("RomFS unpacking not implemented.");
+                    WinFormsUtil.Alert("RomFS unpacking not implemented.");
                 }
                 else
                 {
-                    DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Unpack sub-files?", "Cancel: Abort");
+                    DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Unpack sub-files?", "Cancel: Abort");
                     if (dr == DialogResult.Cancel)
                         return;
                     bool recurse = dr == DialogResult.Yes;
@@ -192,7 +192,7 @@ namespace pk3DS
                     checkIfExeFS(f);
 
                 if (count > 3)
-                    Util.Alert("pk3DS will function best if you keep your Game Files folder clean and free of unnecessary folders.");
+                    WinFormsUtil.Alert("pk3DS will function best if you keep your Game Files folder clean and free of unnecessary folders.");
 
                 // Enable buttons if applicable
                 Tab_RomFS.Enabled = Menu_Restore.Enabled = Tab_CRO.Enabled = Menu_CRO.Enabled = Menu_Shuffler.Enabled = RomFSPath != null;
@@ -321,7 +321,7 @@ namespace pk3DS
                 {
                     RomFSPath = null;
                     Config = null;
-                    Util.Error("File count does not match expected game count.", "Files: " + files.Length);
+                    WinFormsUtil.Error("File count does not match expected game count.", "Files: " + files.Length);
                     return false;
                 }
 
@@ -330,7 +330,7 @@ namespace pk3DS
                 Randomizer.MaxSpeciesID = cfg.MaxSpeciesID;
                 return true;
             }
-            Util.Error("Folder does not contain an 'a' folder in the top level.");
+            WinFormsUtil.Error("Folder does not contain an 'a' folder in the top level.");
             RomFSPath = null;
             return false;
         }
@@ -340,7 +340,7 @@ namespace pk3DS
             if (files.Length == 1 && Path.GetFileName(files[0]).ToLower() == "exefs.bin")
             {
                 // Prompt if the user wants to unpack the ExeFS.
-                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS binary.", "Unpack?"))
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS binary.", "Unpack?"))
                     return false;
 
                 // User wanted to unpack. Unpack.
@@ -369,8 +369,8 @@ namespace pk3DS
                 else
                     return false;
             }
-            if (fi.Length % 0x200 != 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code binary.", "Decompress? File will be replaced.") == DialogResult.Yes))
-                new Thread(() => { threads++; new BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+            if (fi.Length % 0x200 != 0 && (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code binary.", "Decompress? File will be replaced.") == DialogResult.Yes))
+                new Thread(() => { threads++; new BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; WinFormsUtil.Alert("Decompressed!"); }).Start();
 
             ExeFSPath = path;
             return true;
@@ -388,7 +388,7 @@ namespace pk3DS
         private bool threadActive()
         {
             if (threads <= 0) return false;
-            Util.Alert("Please wait for all operations to finish first."); return true;
+            WinFormsUtil.Alert("Please wait for all operations to finish first."); return true;
         }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -406,7 +406,7 @@ namespace pk3DS
         {
             if (threadActive()) return;
             if (RomFSPath == null) return;
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild RomFS?") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Rebuild RomFS?") != DialogResult.Yes) return;
 
             SaveFileDialog sfd = new SaveFileDialog
             {
@@ -426,7 +426,7 @@ namespace pk3DS
                     threads--;
 
                     updateStatus("RomFS binary saved." + Environment.NewLine);
-                    Util.Alert("Wrote RomFS binary:", sfd.FileName);
+                    WinFormsUtil.Alert("Wrote RomFS binary:", sfd.FileName);
                 }).Start();
             }
         }
@@ -480,7 +480,7 @@ namespace pk3DS
                 "Yes: Save changes, dump errata/failed text",
                 "No: Save changes, don't dump errata/failed text"
             };
-            var dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Errors found while attempting to save text." 
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Errors found while attempting to save text." 
                 + Environment.NewLine + "Example: " + errata[0],
                 string.Join(Environment.NewLine, options));
             if (dr == DialogResult.Cancel)
@@ -493,7 +493,7 @@ namespace pk3DS
             File.WriteAllLines(txt_errata, errata);
             TextEditor.exportTextFile(txt_failed, true, files);
 
-            Util.Alert("Saved text files to path: " + Application.StartupPath,
+            WinFormsUtil.Alert("Saved text files to path: " + Application.StartupPath,
                 txt_errata + Environment.NewLine + txt_failed);
 
             return data;
@@ -505,10 +505,10 @@ namespace pk3DS
             switch (Config.Generation)
             {
                 case 6:
-                    dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Edit Super Maison instead of Normal Maison?", "Yes = Super, No = Normal, Cancel = Abort");
+                    dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Edit Super Maison instead of Normal Maison?", "Yes = Super, No = Normal, Cancel = Abort");
                     break;
                 case 7:
-                    dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Edit Battle Royal instead of Battle Tree?", "Yes = Royal, No = Tree, Cancel = Abort");
+                    dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Edit Battle Royal instead of Battle Tree?", "Yes = Royal, No = Tree, Cancel = Abort");
                     break;
                 default:
                     return;
@@ -863,7 +863,7 @@ namespace pk3DS
         private void rebuildExeFS(object sender, EventArgs e)
         {
             if (ExeFSPath == null) return;
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Rebuild ExeFS?") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Rebuild ExeFS?") != DialogResult.Yes) return;
 
             string[] files = Directory.GetFiles(ExeFSPath);
             int file = 0; if (files[1].Contains("code")) file = 1;
@@ -881,7 +881,7 @@ namespace pk3DS
                 {
                     threads++;
                     new BLZCoder(new[] { "-en", files[file] }, pBar1);
-                    Util.Alert("Compressed!");
+                    WinFormsUtil.Alert("Compressed!");
                     ExeFS.set(Directory.GetFiles(ExeFSPath), sfd.FileName);
                     threads--;
                 }).Start();
@@ -926,7 +926,7 @@ namespace pk3DS
 
                 case 7:
                     if (threadActive()) return;
-                    if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
+                    if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
                         "CRO Editing causes crashes if you do not patch the RO module.", "In order to patch the RO module, your device must be running Custom Firmware (for example, Luma3DS).", "Continue anyway?"))
                         return;
                     if (RomFSPath != null) new MartEditor7().Show();
@@ -936,7 +936,7 @@ namespace pk3DS
         private void B_MoveTutor_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
-            if (Config.XY) { Util.Alert("No Tutors for X/Y."); return; } // Already disabled button...
+            if (Config.XY) { WinFormsUtil.Alert("No Tutors for X/Y."); return; } // Already disabled button...
             if (ExeFSPath != null) new TutorEditor6().Show();
         }
         private void B_OPower_Click(object sender, EventArgs e)
@@ -955,7 +955,7 @@ namespace pk3DS
         {
             if (threadActive()) return;
             if (RomFSPath == null) return;
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Rebuilding CRO/CRR is not necessary if you patch the RO module.", "Continue?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Rebuilding CRO/CRR is not necessary if you patch the RO module.", "Continue?"))
                 return;
             new Thread(() =>
             {
@@ -963,7 +963,7 @@ namespace pk3DS
                 CRO.rehashCRR(Path.Combine(RomFSPath, ".crr", "static.crr"), RomFSPath, true, /* true // don't patch crr for now */ false, RTB_Status, pBar1);
                 threads--;
 
-                Util.Alert("CRO's and CRR have been updated.",
+                WinFormsUtil.Alert("CRO's and CRR have been updated.",
                         "If you have made any modifications, it is required that the RSA Verification check be patched on the system in order for the modified CROs to load (ie, no file redirection like NTR's layeredFS).");
             }).Start();
 
@@ -971,19 +971,19 @@ namespace pk3DS
         private void B_Starter_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
                 "CRO Editing causes crashes if you do not patch the RO module.", "In order to patch the RO module, your device must be running Custom Firmware (for example, Luma3DS).", "Continue anyway?"))
                 return;
             string CRO = Path.Combine(RomFSPath, "DllPoke3Select.cro");
             string CRO2 = Path.Combine(RomFSPath, "DllField.cro");
             if (!File.Exists(CRO))
             {
-                Util.Error("File Missing!", "DllPoke3Select.cro was not found in your RomFS folder!");
+                WinFormsUtil.Error("File Missing!", "DllPoke3Select.cro was not found in your RomFS folder!");
                 return;
             }
             if (!File.Exists(CRO2))
             {
-                Util.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
+                WinFormsUtil.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
                 return;
             }
             new StarterEditor6().ShowDialog();
@@ -995,13 +995,13 @@ namespace pk3DS
             switch (Config.Generation)
             {
                 case 6:
-                    if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
+                    if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
                         "CRO Editing causes crashes if you do not patch the RO module.", "In order to patch the RO module, your device must be running Custom Firmware (for example, Luma3DS).", "Continue anyway?"))
                         return;
                     string CRO = Path.Combine(RomFSPath, "DllBattle.cro");
                     if (!File.Exists(CRO))
                     {
-                        Util.Error("File Missing!", "DllBattle.cro was not found in your RomFS folder!");
+                        WinFormsUtil.Error("File Missing!", "DllBattle.cro was not found in your RomFS folder!");
                         return;
                     }
                     new TypeChart6().ShowDialog();
@@ -1015,13 +1015,13 @@ namespace pk3DS
         private void B_Gift_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
                 "CRO Editing causes crashes if you do not patch the RO module.", "In order to patch the RO module, your device must be running Custom Firmware (for example, Luma3DS).", "Continue anyway?"))
                 return;
             string CRO = Path.Combine(RomFSPath, "DllField.cro");
             if (!File.Exists(CRO))
             {
-                Util.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
+                WinFormsUtil.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
                 return;
             }
             new GiftEditor6().ShowDialog();
@@ -1044,13 +1044,13 @@ namespace pk3DS
                 return;
             }
 
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
                 "CRO Editing causes crashes if you do not patch the RO module.", "In order to patch the RO module, your device must be running Custom Firmware (for example, Luma3DS).", "Continue anyway?"))
                 return;
             string CRO = Path.Combine(RomFSPath, "DllField.cro");
             if (!File.Exists(CRO))
             {
-                Util.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
+                WinFormsUtil.Error("File Missing!", "DllField.cro was not found in your RomFS folder!");
                 return;
             }
             new StaticEncounterEditor6().ShowDialog();
@@ -1063,7 +1063,7 @@ namespace pk3DS
             string[] files = Directory.GetFiles(TB_Path.Text, "*", SearchOption.AllDirectories);
             if (!Config.IsRebuildable(files.Length))
             {
-                Util.Error("RomFS file count does not match the default game file count.");
+                WinFormsUtil.Error("RomFS file count does not match the default game file count.");
                 return;
             }
             if (threadActive()) return;
@@ -1103,12 +1103,12 @@ namespace pk3DS
             string path = ofd.FileName;
             FileInfo fi = new FileInfo(path);
             if (fi.Length > 15 * 1024 * 1024) // 15MB
-            { Util.Error("File too big!", fi.Length + " bytes."); return; }
+            { WinFormsUtil.Error("File too big!", fi.Length + " bytes."); return; }
 
-            if (ModifierKeys != Keys.Control && fi.Length % 0x200 == 0 && (Util.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed Binary.", "Compress? File will be replaced.") == DialogResult.Yes))
-                new Thread(() => { threads++; new BLZCoder(new[] { "-en", path }, pBar1); threads--; Util.Alert("Compressed!"); }).Start();
-            else if (Util.Prompt(MessageBoxButtons.YesNo, "Detected Compressed Binary", "Decompress? File will be replaced.") == DialogResult.Yes)
-                new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
+            if (ModifierKeys != Keys.Control && fi.Length % 0x200 == 0 && (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed Binary.", "Compress? File will be replaced.") == DialogResult.Yes))
+                new Thread(() => { threads++; new BLZCoder(new[] { "-en", path }, pBar1); threads--; WinFormsUtil.Alert("Compressed!"); }).Start();
+            else if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Compressed Binary", "Decompress? File will be replaced.") == DialogResult.Yes)
+                new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; WinFormsUtil.Alert("Decompressed!"); }).Start();
         }
         private void Menu_LZ11_Click(object sender, EventArgs e)
         {
@@ -1118,11 +1118,11 @@ namespace pk3DS
             string path = ofd.FileName;
             FileInfo fi = new FileInfo(path);
             if (fi.Length > 15*1024*1024) // 15MB
-            { Util.Error("File too big!", fi.Length + " bytes."); return; }
+            { WinFormsUtil.Error("File too big!", fi.Length + " bytes."); return; }
 
             byte[] data = File.ReadAllBytes(path);
             string predict = data[0] == 0x11 ? "compressed" : "decompressed";
-            var dr = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Detected {predict} file. Do what?",
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, $"Detected {predict} file. Do what?",
                 "Yes = Decompress\nNo = Compress\nCancel = Abort");
             new Thread(() =>
             {
@@ -1132,13 +1132,13 @@ namespace pk3DS
                     try
                     {
                         LZSS.Decompress(path, Path.Combine(Directory.GetParent(path).FullName, "dec_" + Path.GetFileNameWithoutExtension(path) + ".bin"));
-                    } catch (Exception err) { Util.Alert("Tried decompression, may have worked:", err.ToString()); }
-                    Util.Alert("File Decompressed!", path);
+                    } catch (Exception err) { WinFormsUtil.Alert("Tried decompression, may have worked:", err.ToString()); }
+                    WinFormsUtil.Alert("File Decompressed!", path);
                 }
                 if (dr == DialogResult.No)
                 {
                     LZSS.Compress(path, Path.Combine(Directory.GetParent(path).FullName, Path.GetFileNameWithoutExtension(path).Replace("_dec", "") + ".lz"));
-                    Util.Alert("File Compressed!", path);
+                    WinFormsUtil.Alert("File Compressed!", path);
                 }
                 threads--;
             }).Start();
@@ -1172,26 +1172,26 @@ namespace pk3DS
             }
             try
             {
-                bool success = GARC.garcUnpack(infile, outfolder, bypassExt, PB ? pBar1 : null, null, true, bypassExt);
+                bool success = GarcUtil.garcUnpack(infile, outfolder, bypassExt, PB ? pBar1 : null, null, true, bypassExt);
                 updateStatus(string.Format(success ? "Success!" : "Failed!"), false);
                 threads--;
                 return success;
             }
-            catch (Exception e) { Util.Error("Could not get the GARC:", e.ToString()); threads--; return false; }
+            catch (Exception e) { WinFormsUtil.Error("Could not get the GARC:", e.ToString()); threads--; return false; }
         }
         private bool setGARC(string outfile, string infolder, int padBytes, bool PB)
         {
-            if (skipBoth || (ModifierKeys == Keys.Control && Util.Prompt(MessageBoxButtons.YesNo, "Cancel writing data back to GARC?") == DialogResult.Yes))
+            if (skipBoth || (ModifierKeys == Keys.Control && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Cancel writing data back to GARC?") == DialogResult.Yes))
             { threads--; updateStatus("Aborted!", false); return false; }
 
             try
             {
-                bool success = GARC.garcPackMS(infolder, outfile, Config.GARCVersion, padBytes, PB ? pBar1 : null, null, true);
+                bool success = GarcUtil.garcPackMS(infolder, outfile, Config.GARCVersion, padBytes, PB ? pBar1 : null, null, true);
                 threads--;
                 updateStatus(string.Format(success ? "Success!" : "Failed!"), false);
                 return success;
             }
-            catch (Exception e) { Util.Error("Could not set the GARC back:", e.ToString()); threads--; return false; }
+            catch (Exception e) { WinFormsUtil.Error("Could not set the GARC back:", e.ToString()); threads--; return false; }
         }
         private void threadGet(string infile, string outfolder, bool PB = true, bool bypassExt = false)
         {

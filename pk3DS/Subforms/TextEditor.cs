@@ -31,7 +31,7 @@ namespace pk3DS
             SaveFileDialog Dump = new SaveFileDialog {Filter = "Text File|*.txt"};
             DialogResult sdr = Dump.ShowDialog();
             if (sdr != DialogResult.OK) return;
-            bool newline = Util.Prompt(MessageBoxButtons.YesNo, "Remove newline formatting codes? (\\n,\\r,\\c)", "Removing newline formatting will make it more readable but will prevent any importing of that dump.") == DialogResult.Yes;
+            bool newline = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Remove newline formatting codes? (\\n,\\r,\\c)", "Removing newline formatting will make it more readable but will prevent any importing of that dump.") == DialogResult.Yes;
             string path = Dump.FileName;
             exportTextFile(path, newline, files);
         }
@@ -47,7 +47,7 @@ namespace pk3DS
 
             // Reload the form with the new data.
             changeEntry(null, null);
-            Util.Alert("Imported Text from Input Path:", path);
+            WinFormsUtil.Alert("Imported Text from Input Path:", path);
         }
         public static void exportTextFile(string fileName, bool newline, string[][] fileData)
         {
@@ -96,10 +96,10 @@ namespace pk3DS
                     continue;
                 string[] brokenLine = fileText[i++ + 1].Split(new[] { " : " }, StringSplitOptions.None);
                 if (brokenLine.Length != 2)
-                { Util.Error($"Invalid Line @ {i}, expected Text File : {ctr}"); return false; }
+                { WinFormsUtil.Error($"Invalid Line @ {i}, expected Text File : {ctr}"); return false; }
                 int file = Util.ToInt32(brokenLine[1]);
                 if (file != ctr)
-                { Util.Error($"Invalid Line @ {i}, expected Text File : {ctr}"); return false; }
+                { WinFormsUtil.Error($"Invalid Line @ {i}, expected Text File : {ctr}"); return false; }
                 i += 2; // Skip over the other header line
                 List<string> Lines = new List<string>();
                 while (i < fileText.Length && fileText[i] != "~~~~~~~~~~~~~~~")
@@ -114,16 +114,18 @@ namespace pk3DS
 
             // Error Check
             if (ctr != files.Length)
-            { Util.Error("The amount of Text Files in the input file does not match the required for the text file.",
+            {
+                WinFormsUtil.Error("The amount of Text Files in the input file does not match the required for the text file.",
                 $"Received: {ctr}, Expected: {files.Length}"); return false; }
             if (!newlineFormatting)
-            { Util.Error("The input Text Files do not have the ingame newline formatting codes (\\n,\\r,\\c).",
+            {
+                WinFormsUtil.Error("The input Text Files do not have the ingame newline formatting codes (\\n,\\r,\\c).",
                       "When exporting text, do not remove newline formatting."); return false; }
 
             // All Text Lines received. Store all back.
             for (int i = 0; i < files.Length; i++)
                 try { files[i] = textLines[i]; }
-                catch (Exception e) { Util.Error($"The input Text File (# {i}) failed to convert:", e.ToString()); return false; }
+                catch (Exception e) { WinFormsUtil.Error($"The input Text File (# {i}) failed to convert:", e.ToString()); return false; }
             return true;
         }
         private void changeEntry(object sender, EventArgs e)
@@ -135,7 +137,7 @@ namespace pk3DS
                 { 
                     files[entry] = getCurrentDGLines();
                 }
-                catch (Exception ex) { Util.Error(ex.ToString()); }
+                catch (Exception ex) { WinFormsUtil.Error(ex.ToString()); }
             }
 
             // Reset
@@ -203,7 +205,7 @@ namespace pk3DS
             {
                 if (ModifierKeys != Keys.Control && currentRow != 0)
                 { 
-                    if (Util.Prompt(MessageBoxButtons.YesNo,
+                    if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
                     "Inserting in between rows will shift all subsequent lines.", "Continue?") != DialogResult.Yes) 
                         return; 
                 }
@@ -219,7 +221,7 @@ namespace pk3DS
             int currentRow = dgv.CurrentRow.Index;
             if (currentRow < dgv.Rows.Count - 1)
             {
-                if (ModifierKeys != Keys.Control && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, 
+                if (ModifierKeys != Keys.Control && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, 
                     "Deleting a row above other lines will shift all subsequent lines.", "Continue?"))
                     return;
             }
@@ -241,18 +243,18 @@ namespace pk3DS
         {
             // gametext can be horribly broken if randomized
             if (Mode == "gametext" && DialogResult.Yes !=
-                Util.Prompt(MessageBoxButtons.YesNo, "Randomizing Game Text is dangerous?", "Continue?"))
+                WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomizing Game Text is dangerous?", "Continue?"))
                 return;
 
             // get if the user wants to randomize current text file or all files
-            var dr = Util.Prompt(MessageBoxButtons.YesNoCancel,
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
                 $"Yes: Randomize ALL{Environment.NewLine}No: Randomize current textfile{Environment.NewLine}Cancel: Abort");
 
             if (dr == DialogResult.Cancel)
                 return;
 
             // get if pure shuffle or smart shuffle (no shuffle if variable present)
-            var drs = Util.Prompt(MessageBoxButtons.YesNo,
+            var drs = WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
                 $"Smart shuffle:{Environment.NewLine}Yes: Shuffle if no Variable present{Environment.NewLine}No: Pure random!");
 
             if (drs == DialogResult.Cancel)
@@ -299,7 +301,7 @@ namespace pk3DS
             // Load current text file
             setStringsDataGridView(files[entry]);
 
-            Util.Alert("Strings randomized!");
+            WinFormsUtil.Alert("Strings randomized!");
         }
     }
 }

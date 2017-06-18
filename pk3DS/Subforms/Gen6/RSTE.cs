@@ -418,8 +418,8 @@ namespace pk3DS
         {
             if (tr == null || randomizing) return;
             if (i >= tr.Team.Length) { pba[i].Image = null; return; }
-            Bitmap rawImg = Util.getSprite(tr.Team[i].Species, tr.Team[i].Form, tr.Team[i].Gender, tr.Team[i].Item, Main.Config);
-            pba[i].Image = Util.scaleImage(rawImg, 2);
+            Bitmap rawImg = WinFormsUtil.getSprite(tr.Team[i].Species, tr.Team[i].Form, tr.Team[i].Gender, tr.Team[i].Item, Main.Config);
+            pba[i].Image = WinFormsUtil.scaleImage(rawImg, 2);
         }
         private void showText()
         {
@@ -559,7 +559,8 @@ namespace pk3DS
             if (rEnsureMEvo.Length > 0)
             {
                 if (mEvoTypes.Length < 13 && rTypeTheme)
-                { Util.Alert("There are insufficient Types with at least one mega evolution to Guarantee story Mega Evos while keeping Type theming.", 
+                {
+                    WinFormsUtil.Alert("There are insufficient Types with at least one mega evolution to Guarantee story Mega Evos while keeping Type theming.", 
                     "Re-Randomize Personal or don't choose both options."); return; }
                 GymE4Types.AddRange(mEvoTypes);
             }
@@ -770,7 +771,7 @@ namespace pk3DS
             }
             randomizing = false;
             CB_TrainerID.SelectedIndex = 1;
-            Util.Alert("Randomized all Trainers according to specification!", "Press the Dump to .TXT button to view the new Trainer information!");
+            WinFormsUtil.Alert("Randomized all Trainers according to specification!", "Press the Dump to .TXT button to view the new Trainer information!");
         }
 
         private string[] GetTagsORAS()

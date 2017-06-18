@@ -51,8 +51,8 @@ namespace pk3DS
                 File.Delete(path);
                 System.Media.SystemSounds.Asterisk.Play();
             } catch { try { if (threads < 1)
-                new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; Util.Alert("Decompressed!"); }).Start();
-            } catch { Util.Error("Unable to process file."); threads = 0; } }
+                new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; WinFormsUtil.Alert("Decompressed!"); }).Start();
+            } catch { WinFormsUtil.Error("Unable to process file."); threads = 0; } }
         }
         private void dropHover(object sender, EventArgs e)
         {
@@ -78,7 +78,7 @@ namespace pk3DS
             {
                 // Pre-check file length to see if it is at least valid.
                 FileInfo fi = new FileInfo(path);
-                if (fi.Length > (long)2 * (1<<30)) { Util.Error("File is too big!"); return; } // 2 GB
+                if (fi.Length > (long)2 * (1<<30)) { WinFormsUtil.Error("File is too big!"); return; } // 2 GB
                 string folderPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
 
                 byte[] first4 = new byte[4];
@@ -89,7 +89,7 @@ namespace pk3DS
                 }
                 catch (Exception e)
                 {
-                    Util.Error("Cannot open file!", e.ToString());
+                    WinFormsUtil.Error("Cannot open file!", e.ToString());
                 }
 
                 // Determine if it is a DARC or a Mini
@@ -110,17 +110,17 @@ namespace pk3DS
                 }
                 else if (first4.SequenceEqual(BitConverter.GetBytes(0x47415243))) // GARC
                 {
-                    if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
+                    if (threads > 0) { WinFormsUtil.Alert("Please wait for all operations to finish first."); return; }
                     bool SkipDecompression = ModifierKeys == Keys.Control;
                     new Thread(() =>
                     {
                         threads++;
-                        bool r = GARC.garcUnpack(path, folderPath + "_g", SkipDecompression, pBar1);
+                        bool r = GarcUtil.garcUnpack(path, folderPath + "_g", SkipDecompression, pBar1);
                         threads--;
                         if (r)
                             batchRenameExtension(newFolder);
                         else
-                        { Util.Alert("Unpacking failed."); return; }
+                        { WinFormsUtil.Alert("Unpacking failed."); return; }
                         System.Media.SystemSounds.Asterisk.Play();
                     }).Start();
                     return;
@@ -138,23 +138,23 @@ namespace pk3DS
                     newFolder = folderPath + "_d";
                     bool r = Core.CTR.DARC.darc2files(darcData, newFolder);
                     if (!r)
-                    { Util.Alert("Unpacking failed."); return; }
+                    { WinFormsUtil.Alert("Unpacking failed."); return; }
                 }
                 else if (!recursing)
-                { Util.Alert("File is not a darc or a mini packed file:" + Environment.NewLine + path); return;}
+                { WinFormsUtil.Alert("File is not a darc or a mini packed file:" + Environment.NewLine + path); return;}
 
             }
             catch (Exception e)
             {
                 if (!recursing)
-                    Util.Error("File error:" + Environment.NewLine + path, e.ToString());
+                    WinFormsUtil.Error("File error:" + Environment.NewLine + path, e.ToString());
                 threads = 0;
             }
             System.Media.SystemSounds.Asterisk.Play();
         }
         private void saveARC(string path)
         {
-            if (!Directory.Exists(path)) { Util.Error("Input path is not a Folder", path); return; }
+            if (!Directory.Exists(path)) { WinFormsUtil.Error("Input path is not a Folder", path); return; }
             string folderName = Path.GetFileName(path);
             string parentName = Directory.GetParent(path).FullName;
             int type = CB_Repack.SelectedIndex;
@@ -163,7 +163,7 @@ namespace pk3DS
                 case 0: // AutoDetect
                 {
                     if (!folderName.Contains("_"))
-                    { Util.Alert("Unable to autodetect pack type."); return; }
+                    { WinFormsUtil.Alert("Unable to autodetect pack type."); return; }
 
                     if (folderName.Contains("_g"))
                         goto case 1;
@@ -174,8 +174,8 @@ namespace pk3DS
                 }
                 case 1: // GARC Pack
                 {
-                    if (threads > 0) { Util.Alert("Please wait for all operations to finish first."); return; }
-                    DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Format Selection:",
+                    if (threads > 0) { WinFormsUtil.Alert("Please wait for all operations to finish first."); return; }
+                    DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Format Selection:",
                         "Yes: Sun/Moon (Version 6)\nNo: XY/ORAS (Version 4)");
                     if (dr == DialogResult.Cancel)
                         return;
@@ -188,8 +188,8 @@ namespace pk3DS
                     string outfolder = Directory.GetParent(path).FullName;
                     new Thread(() =>
                     {
-                        bool r = GARC.garcPackMS(path, Path.Combine(outfolder, folderName + ".garc"), version, padding, pBar1);
-                        if (!r) { Util.Alert("Packing failed."); return; }
+                        bool r = GarcUtil.garcPackMS(path, Path.Combine(outfolder, folderName + ".garc"), version, padding, pBar1);
+                        if (!r) { WinFormsUtil.Alert("Packing failed."); return; }
                         // Delete path after repacking
                         if (CHK_Delete.Checked && Directory.Exists(path))
                             Directory.Delete(path, true);
@@ -210,14 +210,14 @@ namespace pk3DS
                     else oldFile = null;
 
                     bool r = Core.CTR.DARC.files2darc(path, false, oldFile);
-                    if (!r) Util.Alert("Packing failed.");
+                    if (!r) WinFormsUtil.Alert("Packing failed.");
                     break;
                 }
                 case 3: // Mini Pack
                 {
                     // Get Folder Name
                     string fileName = Path.GetFileName(path);
-                    if (fileName.Length < 3) { Util.Error("Mini Folder name not valid:", path); return; }
+                    if (fileName.Length < 3) { WinFormsUtil.Error("Mini Folder name not valid:", path); return; }
 
                     int index = fileName.LastIndexOf('_');
                     string fileNum = fileName.Substring(0, index);
@@ -236,7 +236,7 @@ namespace pk3DS
                     bool r = mini.packMini2(path, fileExt, Path.Combine(parentName, fileNum + "." + fileExt));
                     if (!r)
                     {
-                        Util.Alert("Packing failed.");
+                            WinFormsUtil.Alert("Packing failed.");
                         break;
                     }
 
@@ -252,7 +252,7 @@ namespace pk3DS
                         if (newPtr != oldPtr) // Header size is different. Prompt repointing.
                         {
                             if (DialogResult.Yes !=
-                                Util.Prompt(MessageBoxButtons.YesNo, "Header size of existing file is nonstandard.",
+                                WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Header size of existing file is nonstandard.",
                                     "Adjust newly packed file to have the same header size as old file? Data pointers will be updated accordingly."))
                                 break;
 
@@ -264,7 +264,8 @@ namespace pk3DS
 
                     break;
                 }
-                default: Util.Alert("Repacking not implemented." + Environment.NewLine + path);
+                default:
+                    WinFormsUtil.Alert("Repacking not implemented." + Environment.NewLine + path);
                     return;
             }
             // Delete path after repacking
@@ -274,7 +275,7 @@ namespace pk3DS
         }
         private void PB_BCLIM_Click(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control && Util.Prompt(MessageBoxButtons.YesNo, "Copy image to clipboard?") == DialogResult.Yes)
+            if (ModifierKeys == Keys.Control && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy image to clipboard?") == DialogResult.Yes)
                 Clipboard.SetImage(PB_BCLIM.BackgroundImage);
             else if (PB_BCLIM.BackColor == Color.Transparent)
                 PB_BCLIM.BackColor = Color.GreenYellow;
@@ -304,7 +305,7 @@ namespace pk3DS
 
         private void closeForm(object sender, FormClosingEventArgs e)
         {
-            if (threads > 0 && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Currently processing files.", "Abort?"))
+            if (threads > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Currently processing files.", "Abort?"))
                 e.Cancel = true;
         }
     }

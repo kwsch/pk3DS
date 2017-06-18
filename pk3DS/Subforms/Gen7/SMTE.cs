@@ -76,7 +76,7 @@ namespace pk3DS
                 try { populateFieldsTP7(pk); }
                 catch { }
                 // Visual to display what slot is currently loaded.
-                getSlotColor(slot, Core.Properties.Resources.slotView);
+                getSlotColor(slot, Properties.Resources.slotView);
             }
             else
                 SystemSounds.Exclamation.Play();
@@ -85,7 +85,7 @@ namespace pk3DS
         {
             int slot = getSlot(sender);
             if (CB_Species.SelectedIndex == 0)
-            { Util.Alert("Can't set empty slot."); return; }
+            { WinFormsUtil.Alert("Can't set empty slot."); return; }
 
             var pk = prepareTP7();
             var tr = Trainers[index];
@@ -99,7 +99,7 @@ namespace pk3DS
             }
 
             getQuickFiller(pba[slot], pk);
-            getSlotColor(slot, Core.Properties.Resources.slotSet);
+            getSlotColor(slot, Properties.Resources.slotSet);
         }
         private void clickDelete(object sender, EventArgs e)
         {
@@ -112,7 +112,7 @@ namespace pk3DS
             }
 
             populateTeam(Trainers[index]);
-            getSlotColor(slot, Core.Properties.Resources.slotDel);
+            getSlotColor(slot, Properties.Resources.slotDel);
         }
 
         private void populateTeam(trdata7 tr)
@@ -132,8 +132,8 @@ namespace pk3DS
         }
         private static void getQuickFiller(PictureBox pb, trpoke7 pk)
         {
-            Bitmap rawImg = Util.getSprite(pk.Species, pk.Form, pk.Gender, pk.Item, Main.Config, pk.Shiny);
-            pb.Image = Util.scaleImage(rawImg, 2);
+            Bitmap rawImg = WinFormsUtil.getSprite(pk.Species, pk.Form, pk.Gender, pk.Item, Main.Config, pk.Shiny);
+            pb.Image = WinFormsUtil.scaleImage(rawImg, 2);
         }
 
         // Top Level Functions
@@ -347,19 +347,19 @@ namespace pk3DS
             pk.Move3 = CB_Move3.SelectedIndex;
             pk.Move4 = CB_Move4.SelectedIndex;
 
-            pk.IV_HP = Util.ToInt32(TB_HPIV);
-            pk.IV_ATK = Util.ToInt32(TB_ATKIV);
-            pk.IV_DEF = Util.ToInt32(TB_DEFIV);
-            pk.IV_SPA = Util.ToInt32(TB_SPAIV);
-            pk.IV_SPE = Util.ToInt32(TB_SPEIV);
-            pk.IV_SPD = Util.ToInt32(TB_SPDIV);
+            pk.IV_HP = WinFormsUtil.ToInt32(TB_HPIV);
+            pk.IV_ATK = WinFormsUtil.ToInt32(TB_ATKIV);
+            pk.IV_DEF = WinFormsUtil.ToInt32(TB_DEFIV);
+            pk.IV_SPA = WinFormsUtil.ToInt32(TB_SPAIV);
+            pk.IV_SPE = WinFormsUtil.ToInt32(TB_SPEIV);
+            pk.IV_SPD = WinFormsUtil.ToInt32(TB_SPDIV);
 
-            pk.EV_HP = Util.ToInt32(TB_HPEV);
-            pk.EV_ATK = Util.ToInt32(TB_ATKEV);
-            pk.EV_DEF = Util.ToInt32(TB_DEFEV);
-            pk.EV_SPA = Util.ToInt32(TB_SPAEV);
-            pk.EV_SPE = Util.ToInt32(TB_SPEEV);
-            pk.EV_SPD = Util.ToInt32(TB_SPDEV);
+            pk.EV_HP = WinFormsUtil.ToInt32(TB_HPEV);
+            pk.EV_ATK = WinFormsUtil.ToInt32(TB_ATKEV);
+            pk.EV_DEF = WinFormsUtil.ToInt32(TB_DEFEV);
+            pk.EV_SPA = WinFormsUtil.ToInt32(TB_SPAEV);
+            pk.EV_SPE = WinFormsUtil.ToInt32(TB_SPEEV);
+            pk.EV_SPD = WinFormsUtil.ToInt32(TB_SPDEV);
 
             return pk;
         }
@@ -477,9 +477,9 @@ namespace pk3DS
             for (int i = 0; i < 6; i++)
             {
                 updatingStats = true;
-                if (Util.ToInt32(tb_iv[i]) > 31)
+                if (WinFormsUtil.ToInt32(tb_iv[i]) > 31)
                     tb_iv[i].Text = "31";
-                if (Util.ToInt32(tb_ev[i]) > 255)
+                if (WinFormsUtil.ToInt32(tb_ev[i]) > 255)
                     tb_ev[i].Text = "255";
                 updatingStats = false;
             }
@@ -516,8 +516,8 @@ namespace pk3DS
             Stat_SPD.Text = Stats[5].ToString();
             Stat_SPE.Text = Stats[3].ToString();
 
-            TB_IVTotal.Text = tb_iv.Select(Util.ToInt32).Sum().ToString();
-            TB_EVTotal.Text = tb_ev.Select(Util.ToInt32).Sum().ToString();
+            TB_IVTotal.Text = tb_iv.Select(WinFormsUtil.ToInt32).Sum().ToString();
+            TB_EVTotal.Text = tb_ev.Select(WinFormsUtil.ToInt32).Sum().ToString();
 
             // Recolor the Stat Labels based on boosted stats.
             {
@@ -535,7 +535,7 @@ namespace pk3DS
                     labarray[decr].ForeColor = Color.Blue;
                 }
             }
-            var ivs = tb_iv.Select(tb => Util.ToInt32(tb) & 1).ToArray();
+            var ivs = tb_iv.Select(tb => WinFormsUtil.ToInt32(tb) & 1).ToArray();
             updatingStats = true;
             CB_HPType.SelectedIndex = 15 * ((ivs[0]) + 2 * ivs[1] + 4 * ivs[2] + 8 * ivs[3] + 16 * ivs[4] + 32 * ivs[5]) / 63;
             updatingStats = false;
@@ -546,7 +546,7 @@ namespace pk3DS
             if (updatingStats)
                 return;
             var tb_iv = new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV };
-            int[] newIVs = setHPIVs(CB_HPType.SelectedIndex, tb_iv.Select(Util.ToInt32).ToArray());
+            int[] newIVs = setHPIVs(CB_HPType.SelectedIndex, tb_iv.Select(WinFormsUtil.ToInt32).ToArray());
             updatingStats = true;
             TB_HPIV.Text = newIVs[0].ToString();
             TB_ATKIV.Text = newIVs[1].ToString();
@@ -584,7 +584,7 @@ namespace pk3DS
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Misc/Rand tab.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Misc/Rand tab.") != DialogResult.Yes) return;
 
             CB_TrainerID.SelectedIndex = 0;
             Randomizer rnd = new Randomizer(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, 
@@ -672,7 +672,7 @@ namespace pk3DS
                 }
                 saveData(tr, i);
             }
-            Util.Alert("Randomized all Trainers according to specification!", "Press the Dump to .TXT button to view the new Trainer information!");
+            WinFormsUtil.Alert("Randomized all Trainers according to specification!", "Press the Dump to .TXT button to view the new Trainer information!");
         }
         private void B_HighAttack_Click(object sender, EventArgs e)
         {

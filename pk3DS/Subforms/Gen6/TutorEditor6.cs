@@ -10,17 +10,17 @@ namespace pk3DS
         public TutorEditor6()
         {
             InitializeComponent();
-            if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); Close(); }
+            if (Main.ExeFSPath == null) { WinFormsUtil.Alert("No exeFS code to load."); Close(); }
             string[] files = Directory.GetFiles(Main.ExeFSPath);
-            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { WinFormsUtil.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
-            if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
+            if (data.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
             codebin = files[0];
             movelist[0] = "";
             setupDGV();
             foreach (string s in locations) CB_Location.Items.Add(s);
             CB_Location.SelectedIndex = 0;
-            Util.Alert("Changes made do not reflect ingame.", "Still needs more research.");
+            WinFormsUtil.Alert("Changes made do not reflect ingame.", "Still needs more research.");
         }
 
         private readonly string codebin;

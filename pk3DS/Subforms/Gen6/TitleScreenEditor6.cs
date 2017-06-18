@@ -136,7 +136,7 @@ namespace pk3DS
         private byte[] currentBytes;
         private void insertFile(string path)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Overwrite image?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Overwrite image?"))
                 return;
             byte[] data = File.ReadAllBytes(path);
             byte[] bclim;
@@ -146,7 +146,7 @@ namespace pk3DS
                 var img = BCLIM.analyze(data, path);
                 if (img.Width != PB_Image.Width || img.Height != PB_Image.Height)
                 {
-                    Util.Alert("Image sizes do not match.",
+                    WinFormsUtil.Alert("Image sizes do not match.",
                         $"Width: {img.Width} - {PB_Image.Width}\nHeight: {img.Height} - {PB_Image.Height}");
                     return;
                 }
@@ -159,7 +159,7 @@ namespace pk3DS
                     Image img = Image.FromStream(BitmapStream);
                     if (img.Width != PB_Image.Width || img.Height != PB_Image.Height)
                     {
-                        Util.Alert("Image sizes do not match.",
+                        WinFormsUtil.Alert("Image sizes do not match.",
                             $"Width: {img.Width} - {PB_Image.Width}\nHeight: {img.Height} - {PB_Image.Height}");
                         return;
                     }
@@ -200,7 +200,7 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             if (compressed)
-                Util.Alert("Recompressing may take some time...", "Don't panic if the Progress Bar doesn't move!");
+                WinFormsUtil.Alert("Recompressing may take some time...", "Don't panic if the Progress Bar doesn't move!");
             // Write darcs
             for (int i = 0; i < darcs.Length; i++)
             {
@@ -269,7 +269,7 @@ namespace pk3DS
 
         private void PB_Image_Click(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control && Util.Prompt(MessageBoxButtons.YesNo, "Copy image to clipboard?") == DialogResult.Yes)
+            if (ModifierKeys == Keys.Control && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy image to clipboard?") == DialogResult.Yes)
                 Clipboard.SetImage(PB_Image.BackgroundImage);
             else if (PB_Image.BackColor == Color.Transparent)
                 PB_Image.BackColor = Color.GreenYellow;

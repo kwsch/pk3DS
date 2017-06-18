@@ -20,7 +20,7 @@ namespace pk3DS
         {
             if (!File.Exists(CROPath))
             {
-                Util.Error("CRO does not exist! Closing.", CROPath);
+                WinFormsUtil.Error("CRO does not exist! Closing.", CROPath);
                 Close();
             }
             InitializeComponent();

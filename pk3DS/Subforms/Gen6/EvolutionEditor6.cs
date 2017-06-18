@@ -129,7 +129,7 @@ namespace pk3DS
         private static int[] sL; // Random Species List
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Randomize all resulting species?", "Evolution methods and parameters will stay the same.")) return;
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all resulting species?", "Evolution methods and parameters will stay the same.")) return;
 
             // Set up advanced randomization options
             bool rBST = CHK_BST.Checked;
@@ -179,11 +179,11 @@ namespace pk3DS
                     }
             }
             setList();
-            Util.Alert("All Pokemon's Evolutions have been randomized!");
+            WinFormsUtil.Alert("All Pokemon's Evolutions have been randomized!");
         }
         private void B_Dump_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Dump all Evolutions to Text File?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Dump all Evolutions to Text File?"))
                 return;
 
             dumping = true;

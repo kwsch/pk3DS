@@ -12,7 +12,7 @@ namespace pk3DS
         {
             if (!File.Exists(CROPath))
             {
-                Util.Error("CRO does not exist! Closing.", CROPath);
+                WinFormsUtil.Error("CRO does not exist! Closing.", CROPath);
                 Close();
             }
             InitializeComponent();
@@ -161,7 +161,7 @@ namespace pk3DS
         }
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Randomize mart inventories?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize mart inventories?"))
                 return;
 
             int[] validItems = Randomizer.getRandomItemList();
@@ -169,7 +169,7 @@ namespace pk3DS
             int ctr = 0;
             Util.Shuffle(validItems);
 
-            bool specialOnly = DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Randomize only special marts?", "Will leave regular necessities intact.");
+            bool specialOnly = DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize only special marts?", "Will leave regular necessities intact.");
             int start = specialOnly ? 8 : 0;
             for (int i = start; i < CB_Location.Items.Count; i++)
             {
@@ -181,7 +181,7 @@ namespace pk3DS
                     Util.Shuffle(validItems); ctr = 0;
                 }
             }
-            Util.Alert("Randomized!");
+            WinFormsUtil.Alert("Randomized!");
         }
 
         private void getDataOffsetBP(int index)
@@ -226,7 +226,7 @@ namespace pk3DS
         }
         private void B_RandomizeBP_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Randomize BP inventories?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize BP inventories?"))
                 return;
 
             int[] validItems = Randomizer.getRandomItemList();
@@ -244,7 +244,7 @@ namespace pk3DS
                     Util.Shuffle(validItems); ctr = 0;
                 }
             }
-            Util.Alert("Randomized!");
+            WinFormsUtil.Alert("Randomized!");
         }
     }
 }

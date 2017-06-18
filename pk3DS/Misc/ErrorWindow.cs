@@ -36,7 +36,7 @@ namespace pk3DS
 
         public ErrorWindow(string lang) : this()
         {
-            Util.TranslateInterface(this, lang);
+            WinFormsUtil.TranslateInterface(this, lang);
         }
 
         /// <summary>

@@ -69,7 +69,7 @@ namespace pk3DS
         private void B_Save_Click(object sender, EventArgs e)
         {
             CB_AppInfo_SelectedIndexChanged(null, null); // Force re-save
-            if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Save changes?"))
+            if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Save changes?"))
             {
                 SaveSMDH();
                 Close();
@@ -157,7 +157,7 @@ namespace pk3DS
         }
         private void importSMDH(byte[] data, bool prompt = false)
         {
-            if (prompt && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Replace SMDH?"))
+            if (prompt && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Replace SMDH?"))
                 return;
 
             SMDH newSMDH = new SMDH(data);
@@ -180,10 +180,10 @@ namespace pk3DS
                     bool large = img.Width == 48 && img.Height == 48;
 
                     if (!small && !large)
-                        Util.Alert("Image size is not correct.",
+                        WinFormsUtil.Alert("Image size is not correct.",
                             $"Width: {img.Width}\nHeight: {img.Height}",
                             "Expected Dimensions (24x24 or 48x48)");
-                    if (prompt && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import image?", small ? "Small Icon" : "Large Icon"))
+                    if (prompt && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Import image?", small ? "Small Icon" : "Large Icon"))
                         return;
                     if (small)
                         SMDH.SmallIcon.ChangeIcon(mBitmap);
@@ -192,7 +192,7 @@ namespace pk3DS
                 }
             }
             catch
-            { Util.Error("Invalid image format?"); }
+            { WinFormsUtil.Error("Invalid image format?"); }
         }
 
         private int entry = -1;

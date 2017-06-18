@@ -26,12 +26,12 @@ namespace pk3DS
             
             setupDGV();
 
-            var newlist = new List<Util.cbItem>();
+            var newlist = new List<WinFormsUtil.cbItem>();
             for (int i = 0; i < species.Length; i++) // add all species & forms
-                newlist.Add(new Util.cbItem { Text = species[i] + $" ({i})", Value = i });
+                newlist.Add(new WinFormsUtil.cbItem { Text = species[i] + $" ({i})", Value = i });
             newlist = newlist.OrderBy(item => item.Text).ToList();
             for (int i = species.Length; i < files.Length; i++)
-                newlist.Add(new Util.cbItem { Text = $"{i.ToString("0000")} - Extra", Value = i });
+                newlist.Add(new WinFormsUtil.cbItem { Text = $"{i.ToString("0000")} - Extra", Value = i });
             NUD_FormTable.Maximum = files.Length;
 
             CB_Species.DisplayMember = "Text";
@@ -66,7 +66,7 @@ namespace pk3DS
         private EggMoves pkm = new EggMoves7(new byte[0]);
         private void getList()
         {
-            entry = Util.getIndex(CB_Species);
+            entry = WinFormsUtil.getIndex(CB_Species);
             int s = 0, f = 0;
             if (entry <= Main.Config.MaxSpeciesID)
             {
@@ -132,7 +132,7 @@ namespace pk3DS
             {
                 CB_Species.SelectedIndex = i; // Get new Species
                 int count = dgv.Rows.Count - 1;
-                int species = Util.getIndex(CB_Species);
+                int species = WinFormsUtil.getIndex(CB_Species);
                 if (CHK_Expand.Checked && (int)NUD_Moves.Value > count)
                     dgv.Rows.AddCopies(count, (int)NUD_Moves.Value - count);
                 
@@ -151,11 +151,11 @@ namespace pk3DS
                 }
             }
             CB_Species.SelectedIndex = 0;
-            Util.Alert("All Pokemon's Egg Up Moves have been randomized!");
+            WinFormsUtil.Alert("All Pokemon's Egg Up Moves have been randomized!");
         }
         private void B_Dump_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Dump all Egg Moves to Text File?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Dump all Egg Moves to Text File?"))
                 return;
 
             dumping = true;
@@ -212,7 +212,7 @@ namespace pk3DS
                         stab++;
                 }
             }
-            Util.Alert($"Egg Moves: {movectr}\r\nMost Moves: {max} @ {spec}\r\nSTAB Count: {stab}");
+            WinFormsUtil.Alert($"Egg Moves: {movectr}\r\nMost Moves: {max} @ {spec}\r\nSTAB Count: {stab}");
         }
     }
 }

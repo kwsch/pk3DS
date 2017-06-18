@@ -56,7 +56,7 @@ namespace pk3DS
 
             string garcID = L_File.Text.Split(':')[1].Replace("\\", "").Replace(" ","");
             if (banlist.Contains(garcID))
-            { Util.Alert("GARC is prevented from being shuffled."); return; }
+            { WinFormsUtil.Alert("GARC is prevented from being shuffled."); return; }
 
             var g = GARC.unpackGARC(garc);
             
@@ -70,7 +70,7 @@ namespace pk3DS
             Array.Resize(ref randFiles, ctr);
 
             if (ctr == 0) 
-            { Util.Alert("No files to shuffle...?"); return; }
+            { WinFormsUtil.Alert("No files to shuffle...?"); return; }
             
             // Create backup
             string dest = "backup" + Path.DirectorySeparatorChar + $"PreShuffle {garcID}";
@@ -124,7 +124,7 @@ namespace pk3DS
             }
             #endregion
 
-            Util.Alert("GARC Shuffled!");
+            WinFormsUtil.Alert("GARC Shuffled!");
         }
     }
 }
