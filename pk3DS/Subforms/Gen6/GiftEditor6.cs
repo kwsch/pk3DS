@@ -38,10 +38,10 @@ namespace pk3DS
         private readonly int fieldSize = Main.Config.ORAS ? 0x24 : 0x18;
         private readonly int count = Main.Config.ORAS ? 0x25 : 0x13;
         private EncounterGift6[] GiftData;
-        private readonly string[] abilitylist = Main.getText(TextName.AbilityNames);
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
-        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
+        private readonly string[] abilitylist = Main.Config.getText(TextName.AbilityNames);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
+        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveEntry();

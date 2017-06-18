@@ -34,12 +34,12 @@ namespace pk3DS
         #region Global Variables
         private readonly byte[][] files;
 
-        private readonly string[] items = Main.getText(TextName.ItemNames);
-        private readonly string[] moves = Main.getText(TextName.MoveNames);
-        private readonly string[] species = Main.getText(TextName.SpeciesNames);
-        private readonly string[] abilities = Main.getText(TextName.AbilityNames);
-        private readonly string[] forms = Main.getText(TextName.Forms);
-        private readonly string[] types = Main.getText(TextName.Types);
+        private readonly string[] items = Main.Config.getText(TextName.ItemNames);
+        private readonly string[] moves = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] species = Main.Config.getText(TextName.SpeciesNames);
+        private readonly string[] abilities = Main.Config.getText(TextName.AbilityNames);
+        private readonly string[] forms = Main.Config.getText(TextName.Forms);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
         
         private readonly string[] entryNames;
 

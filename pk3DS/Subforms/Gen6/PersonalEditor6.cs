@@ -23,11 +23,11 @@ namespace pk3DS
             rstat_boxes = new[] { CHK_rHP, CHK_rATK, CHK_rDEF, CHK_rSPA, CHK_rSPD, CHK_rSPE };
             files = infiles;
 
-            abilities = Main.getText(TextName.AbilityNames);
-            moves = Main.getText(TextName.MoveNames);
-            items = Main.getText(TextName.ItemNames);
-            species = Main.getText(TextName.SpeciesNames);
-            types = Main.getText(TextName.Types);
+            abilities = Main.Config.getText(TextName.AbilityNames);
+            moves = Main.Config.getText(TextName.MoveNames);
+            items = Main.Config.getText(TextName.ItemNames);
+            species = Main.Config.getText(TextName.SpeciesNames);
+            types = Main.Config.getText(TextName.Types);
             species[0] = "---";
             abilities[0] = items[0] = moves[0] = "";
             string[][] AltForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);

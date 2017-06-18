@@ -29,7 +29,7 @@ namespace pk3DS
             CB_LocationBP.SelectedIndex = 0;
         }
         
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private readonly byte[] data;
 
         #region Tables

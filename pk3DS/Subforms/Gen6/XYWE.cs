@@ -285,7 +285,7 @@ namespace pk3DS
 
         private void Load_XYWE()
         {
-            specieslist = Main.getText(TextName.SpeciesNames);
+            specieslist = Main.Config.getText(TextName.SpeciesNames);
             specieslist[0] = "---";
 
             CB_FormeList.Items.AddRange(formlist);
@@ -306,7 +306,7 @@ namespace pk3DS
             Array.Sort(encdatapaths);
             filepaths = new string[encdatapaths.Length - 1];
             Array.Copy(encdatapaths, 1, filepaths, 0, filepaths.Length);
-            metXY_00000 = Main.getText(TextName.metlist_000000);
+            metXY_00000 = Main.Config.getText(TextName.metlist_000000);
             zonedata = File.ReadAllBytes(encdatapaths[0]);
             LocationNames = new string[filepaths.Length];
             for (int f = 0; f < filepaths.Length; f++)

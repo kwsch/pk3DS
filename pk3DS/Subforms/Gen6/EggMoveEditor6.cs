@@ -19,7 +19,7 @@ namespace pk3DS
         {
             InitializeComponent();
             files = infiles;
-            string[] specieslist = Main.getText(TextName.SpeciesNames);
+            string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
             specieslist[0] = movelist[0] = "";
 
             string[] sortedspecies = (string[])specieslist.Clone();
@@ -37,7 +37,7 @@ namespace pk3DS
         }
         private readonly byte[][] files;
         private int entry = -1;
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private bool dumping;
         private void setupDGV()
         {

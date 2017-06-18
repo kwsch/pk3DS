@@ -19,7 +19,7 @@ namespace pk3DS
         {
             InitializeComponent();
             files = infiles;
-            string[] species = Main.getText(TextName.SpeciesNames);
+            string[] species = Main.Config.getText(TextName.SpeciesNames);
             string[][] AltForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
             string[] specieslist = Main.Config.Personal.getPersonalEntryList(AltForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
             specieslist[0] = movelist[0] = "";
@@ -43,7 +43,7 @@ namespace pk3DS
         }
         private readonly byte[][] files;
         private int entry = -1;
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private bool dumping;
         private readonly int[] baseForms, formVal;
         private void setupDGV()

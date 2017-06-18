@@ -18,8 +18,8 @@ namespace pk3DS
         }
 
         private readonly byte[][] files;
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
-        private readonly string[] itemflavor = Main.getText(TextName.ItemFlavor);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
+        private readonly string[] itemflavor = Main.Config.getText(TextName.ItemFlavor);
 
         private void Setup()
         {

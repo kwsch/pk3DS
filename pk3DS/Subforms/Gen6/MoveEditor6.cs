@@ -18,9 +18,9 @@ namespace pk3DS
             Setup();
         }
         private byte[][] files;
-        private readonly string[] types = Main.getText(TextName.Types);
-        private readonly string[] moveflavor = Main.getText(TextName.MoveFlavor);
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
+        private readonly string[] moveflavor = Main.Config.getText(TextName.MoveFlavor);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private readonly string[] sortedmoves;
         private readonly string[] MoveCategories = { "Status", "Physical", "Special", };
         private readonly string[] StatCategories = { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };

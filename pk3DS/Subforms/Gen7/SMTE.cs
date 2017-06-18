@@ -19,16 +19,16 @@ namespace pk3DS
         private PictureBox[] pba;
 
         private readonly byte[][] trclass, trdata, trpoke;
-        private readonly string[] abilitylist = Main.getText(TextName.AbilityNames);
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
-        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
-        private readonly string[] types = Main.getText(TextName.Types);
-        private readonly string[] natures = Main.getText(TextName.Natures);
+        private readonly string[] abilitylist = Main.Config.getText(TextName.AbilityNames);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
+        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
+        private readonly string[] natures = Main.Config.getText(TextName.Natures);
         private readonly string[] forms = Enumerable.Range(0, 1000).Select(i => i.ToString("000")).ToArray();
-        private string[] trName = Main.getText(TextName.TrainerNames);
-        private readonly string[] trClass = Main.getText(TextName.TrainerClasses);
-        private readonly string[] trText = Main.getText(TextName.TrainerText);
+        private string[] trName = Main.Config.getText(TextName.TrainerNames);
+        private readonly string[] trClass = Main.Config.getText(TextName.TrainerClasses);
+        private readonly string[] trText = Main.Config.getText(TextName.TrainerText);
 
         public SMTE(byte[][] trc, byte[][] trd, byte[][] trp)
         {

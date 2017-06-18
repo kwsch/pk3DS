@@ -13,11 +13,11 @@ namespace pk3DS
         private readonly EncounterGift7[] Gifts;
         private readonly EncounterStatic7[] Encounters;
         private readonly EncounterTrade7[] Trades;
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
-        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
-        private readonly string[] natures = Main.getText(TextName.Natures);
-        private readonly string[] types = Main.getText(TextName.Types);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
+        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+        private readonly string[] natures = Main.Config.getText(TextName.Natures);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
         private readonly int[] oldStarters;
 
         public StaticEncounterEditor7(byte[][] infiles)

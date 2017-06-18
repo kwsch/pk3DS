@@ -12,7 +12,7 @@ namespace pk3DS
         {
             InitializeComponent();
             g_pickup = pickup;
-            var itemlist = Main.getText(TextName.ItemNames);
+            var itemlist = Main.Config.getText(TextName.ItemNames);
             itemlist[0] = "";
             items = itemlist.Select((v, i) => $"{v} - {i:000}").ToArray();
             setupFLP();

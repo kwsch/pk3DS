@@ -28,7 +28,7 @@ namespace pk3DS
             font = L_Location.Font;
 
             speciesList[0] = "(None)";
-            locationList = Main.getText(TextName.metlist_000000);
+            locationList = Main.Config.getText(TextName.metlist_000000);
             locationList = getGoodLocationList(locationList);
 
             nup_spec = new[]
@@ -107,7 +107,7 @@ namespace pk3DS
         private readonly ZoneData7[] Zones;
         private readonly lzGARCFile encdata;
 
-        private static readonly string[] speciesList = Main.getText(TextName.SpeciesNames);
+        private static readonly string[] speciesList = Main.Config.getText(TextName.SpeciesNames);
         private static string[] locationList;
         private static byte[] zoneData;
         private static byte[] worldData;

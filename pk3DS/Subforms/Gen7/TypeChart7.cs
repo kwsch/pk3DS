@@ -14,7 +14,7 @@ namespace pk3DS
         private readonly string codebin;
         private readonly byte[] chart = new byte[TypeCount * TypeCount];
         private readonly byte[] exefs;
-        private readonly string[] types = Main.getText(TextName.Types);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
         private const int TypeCount = 18;
         private const int TypeWidth = 32;
 

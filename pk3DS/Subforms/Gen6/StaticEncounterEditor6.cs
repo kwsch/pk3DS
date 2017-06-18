@@ -37,8 +37,8 @@ namespace pk3DS
         private const int fieldSize = 0xC;
         private readonly int count = Main.Config.ORAS ? 0x3B : 0xC;
         private EncounterStatic6[] EncounterData;
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
-        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
+        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveEntry();

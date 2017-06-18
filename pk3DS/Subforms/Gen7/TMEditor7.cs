@@ -26,7 +26,7 @@ namespace pk3DS
 
         private static readonly byte[] Signature = {0x03, 0x40, 0x03, 0x41, 0x03, 0x42, 0x03, 0x43, 0x03}; // tail end of item::ITEM_CheckBeads
         private readonly string codebin;
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private readonly int offset = 0x0059795A; // Default
         private readonly byte[] data;
         private int dataoffset;

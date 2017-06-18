@@ -9,7 +9,7 @@ namespace pk3DS
     public partial class TypeChart6 : Form
     {
         private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllBattle.cro");
-        private readonly string[] types = Main.getText(TextName.Types);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
         private readonly int offset = Main.Config.ORAS ? 0x000DB428 : 0x000D12A8;
         private readonly byte[] chart = new byte[TypeCount * TypeCount];
         private readonly byte[] CROData;

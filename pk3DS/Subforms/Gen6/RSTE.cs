@@ -151,15 +151,15 @@ namespace pk3DS
         private readonly byte[][] trclass;
         private readonly byte[][] trdata;
         private readonly byte[][] trpoke;
-        private readonly string[] abilitylist = Main.getText(TextName.AbilityNames);
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
-        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
-        private readonly string[] types = Main.getText(TextName.Types);
-        private readonly string[] forms = Main.getText(TextName.Forms);
-        private string[] trName = Main.getText(TextName.TrainerNames);
-        private readonly string[] trClass = Main.getText(TextName.TrainerClasses);
-        private readonly string[] trText = Main.getText(TextName.TrainerText);
+        private readonly string[] abilitylist = Main.Config.getText(TextName.AbilityNames);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
+        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
+        private readonly string[] forms = Main.Config.getText(TextName.Forms);
+        private string[] trName = Main.Config.getText(TextName.TrainerNames);
+        private readonly string[] trClass = Main.Config.getText(TextName.TrainerClasses);
+        private readonly string[] trText = Main.Config.getText(TextName.TrainerText);
         #endregion
 
         // Ability Loading
@@ -431,7 +431,7 @@ namespace pk3DS
         private void Setup()
         {
             start = true;
-            string[] species = Main.getText(TextName.SpeciesNames);
+            string[] species = Main.Config.getText(TextName.SpeciesNames);
             AltForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
 
             Array.Resize(ref trName, trdata.Length);

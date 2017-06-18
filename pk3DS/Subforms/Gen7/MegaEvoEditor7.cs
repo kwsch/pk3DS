@@ -13,10 +13,10 @@ namespace pk3DS
     public partial class MegaEvoEditor7 : Form
     {
         private readonly byte[][] files;
-        private readonly string[] forms = Main.getText(TextName.Forms);
-        private readonly string[] types = Main.getText(TextName.Types);
-        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
+        private readonly string[] forms = Main.Config.getText(TextName.Forms);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
+        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private readonly GroupBox[] groupbox_spec;
         private readonly ComboBox[] forme_spec;
         private readonly ComboBox[] item_spec;

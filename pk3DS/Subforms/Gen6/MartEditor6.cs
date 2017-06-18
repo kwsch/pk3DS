@@ -24,7 +24,7 @@ namespace pk3DS
         }
 
         private readonly string codebin;
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private readonly byte[] data;
 
         private readonly byte[] entries = Main.Config.ORAS

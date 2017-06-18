@@ -1206,18 +1206,6 @@ namespace pk3DS
             new Thread(() => setGARC(outfile, infolder, padBytes, PB)).Start();
         }
 
-        // Text Requests
-        [Obsolete("Use Main.Config.getText instead")]
-        internal static string[] getText(TextName file)
-        {
-            return Config.getText(file);
-        }
-        [Obsolete("Use Main.Config.getText instead")]
-        internal static bool setText(TextName file, string[] strings)
-        {
-            return Config.setText(file, strings);
-        }
-
         // Update RichTextBox
         private void updateStatus(string status, bool preBreak = true)
         {
