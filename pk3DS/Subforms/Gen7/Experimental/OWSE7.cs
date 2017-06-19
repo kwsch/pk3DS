@@ -19,7 +19,7 @@ namespace pk3DS
             ZoneData = zd;
             WorldData = wd;
 
-            locationList = Main.getText(TextName.metlist_000000);
+            locationList = Main.Config.getText(TextName.metlist_000000);
             locationList = SMWE.getGoodLocationList(locationList);
 
             InitializeComponent();

@@ -18,8 +18,8 @@ namespace pk3DS
             trClassnorep.Sort();
         }
 
-        private string[] trName = Main.getText(TextName.TrainerNames);
-        private readonly string[] trClass = Main.getText(TextName.TrainerClasses);
+        private string[] trName = Main.Config.getText(TextName.TrainerNames);
+        private readonly string[] trClass = Main.Config.getText(TextName.TrainerClasses);
         private readonly List<string> trClassnorep;
 
         private void B_Close_Click(object sender, EventArgs e)
@@ -81,9 +81,9 @@ namespace pk3DS
             
             RSTE.rThemedClasses = new bool[trClass.Length];
 
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes) return;
             if (!CHK_IgnoreSpecialClass.Checked)
-                if (Util.Prompt(MessageBoxButtons.YesNo, "Ignoring Special Trainer Classes has the chance of crashing your game in some battles!", "Continue anyway?") != DialogResult.Yes) return;
+                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Ignoring Special Trainer Classes has the chance of crashing your game in some battles!", "Continue anyway?") != DialogResult.Yes) return;
             RSTE.rDoRand = true;
             Close();
         }

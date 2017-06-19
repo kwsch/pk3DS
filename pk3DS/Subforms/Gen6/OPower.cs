@@ -11,12 +11,12 @@ namespace pk3DS
         public OPower()
         {
             InitializeComponent();
-            if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); Close(); }
+            if (Main.ExeFSPath == null) { WinFormsUtil.Alert("No exeFS code to load."); Close(); }
             string[] files = Directory.GetFiles(Main.ExeFSPath);
-            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { WinFormsUtil.Alert("No .code.bin detected."); Close(); }
             codebin = files[0];
             exefsData = File.ReadAllBytes(codebin);
-            if (exefsData.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
+            if (exefsData.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
 
             // Fetch Offset
             offset = Util.IndexOfBytes(exefsData, new byte[] { 0x34, 0x39, 0x34, 0x36, 0x31, 0x38, 0x34, 0x35, 0x00 }, 0x400000, 0) + 9;
@@ -30,14 +30,14 @@ namespace pk3DS
             for (int i = 0; i < 10; i++) CB_SortOrder.Items.Add(i);
             for (int i = 1; i < powerData.Length; i++) CB_Item.Items.Add(i);
             CB_Item.SelectedIndex = 0;
-            Util.Alert("More research is required for giving S/MAX O-Powers ingame.");
+            WinFormsUtil.Alert("More research is required for giving S/MAX O-Powers ingame.");
         }
 
         private readonly string codebin;
         private readonly int offset;
         private readonly byte[] exefsData;
         private readonly byte[][] powerData = new byte[65][];
-        private readonly string[] powerFlavor = Main.getText(TextName.OPowerFlavor);
+        private readonly string[] powerFlavor = Main.Config.getText(TextName.OPowerFlavor);
 
         private int entry = -1;
         private void changeEntry(object sender, EventArgs e)

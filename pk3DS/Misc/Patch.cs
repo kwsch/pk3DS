@@ -105,11 +105,11 @@ namespace pk3DS
                 if (!patchExeFS(ExeFS, garcPaths, newPaths, oldROM, newROM, ref result, Path.Combine(patchFolder, ".code.bin")))
                     throw new Exception(result);
 
-                Util.Alert("Patch contents saved to:" + Environment.NewLine + exportGARCs(garcPaths, newPaths, Main.RomFSPath, patchFolder), result);
+                WinFormsUtil.Alert("Patch contents saved to:" + Environment.NewLine + exportGARCs(garcPaths, newPaths, Main.RomFSPath, patchFolder), result);
             }
             catch (Exception ex)
-            { 
-                Util.Error("Could not create patch:", ex.ToString());
+            {
+                WinFormsUtil.Error("Could not create patch:", ex.ToString());
                 if (Directory.Exists(patchFolder)) Directory.Delete(patchFolder, true);
             }
         }

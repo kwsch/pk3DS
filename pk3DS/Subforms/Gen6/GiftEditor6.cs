@@ -15,7 +15,7 @@ namespace pk3DS
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             if (!File.Exists(FieldPath))
             {
-                Util.Error("CRO does not exist! Closing.", FieldPath);
+                WinFormsUtil.Error("CRO does not exist! Closing.", FieldPath);
                 Close();
             }
             InitializeComponent();
@@ -38,10 +38,10 @@ namespace pk3DS
         private readonly int fieldSize = Main.Config.ORAS ? 0x24 : 0x18;
         private readonly int count = Main.Config.ORAS ? 0x25 : 0x13;
         private EncounterGift6[] GiftData;
-        private readonly string[] abilitylist = Main.getText(TextName.AbilityNames);
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
-        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
+        private readonly string[] abilitylist = Main.Config.getText(TextName.AbilityNames);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
+        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveEntry();
@@ -96,7 +96,7 @@ namespace pk3DS
             }
 
             if (starters) // are modified
-                Util.Alert("Starters have been modified.", 
+                WinFormsUtil.Alert("Starters have been modified.", 
                     "Be sure to update the Starters in DllPoke3Select.cro by updating via the Starter Editor.");
 
             File.WriteAllBytes(FieldPath, FieldData);
@@ -155,7 +155,7 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Randomizer Options tab.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Randomizer Options tab.") != DialogResult.Yes) return;
 
             // Randomize by BST
             bool bst = CHK_BST.Checked;
@@ -177,7 +177,7 @@ namespace pk3DS
                 if (CHK_Level.Checked)
                     NUD_Level.Value = Randomizer.getModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
             }
-            Util.Alert("Randomized all Gift Pokémon according to specification!");
+            WinFormsUtil.Alert("Randomized all Gift Pokémon according to specification!");
         }
 
         private void changeSpecies(object sender, EventArgs e)

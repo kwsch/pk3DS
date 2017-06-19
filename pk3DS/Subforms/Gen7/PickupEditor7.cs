@@ -12,7 +12,7 @@ namespace pk3DS
         {
             InitializeComponent();
             g_pickup = pickup;
-            var itemlist = Main.getText(TextName.ItemNames);
+            var itemlist = Main.Config.getText(TextName.ItemNames);
             itemlist[0] = "";
             items = itemlist.Select((v, i) => $"{v} - {i:000}").ToArray();
             setupFLP();
@@ -129,7 +129,7 @@ namespace pk3DS
                 if (sum == 100) // good
                     continue;
 
-                Util.Alert($"Sum of Column {i+1} needs to equal 100.", $"Got {sum}.");
+                WinFormsUtil.Alert($"Sum of Column {i+1} needs to equal 100.", $"Got {sum}.");
                 return null;
             }
 
@@ -167,7 +167,7 @@ namespace pk3DS
         }
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Randomize pickup lists?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize pickup lists?"))
                 return;
 
             int[] validItems = Randomizer.getRandomItemList();
@@ -180,12 +180,12 @@ namespace pk3DS
                 if (ctr <= validItems.Length) continue;
                 Util.Shuffle(validItems); ctr = 0;
             }
-            Util.Alert("Randomized!");
+            WinFormsUtil.Alert("Randomized!");
         }
 
         private void B_AddRow_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Add a row at the bottom?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Add a row at the bottom?"))
                 return;
 
             int row = dgvCommon.RowCount;
@@ -197,7 +197,7 @@ namespace pk3DS
 
         private void B_DeleteRow_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Delete the bottom row?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Delete the bottom row?"))
                 return;
 
             dgvCommon.Rows.RemoveAt(dgvCommon.RowCount - 1);

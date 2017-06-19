@@ -19,9 +19,9 @@ namespace pk3DS
             Setup();
         }
         private byte[][] files;
-        private readonly string[] types = Main.getText(TextName.Types);
-        private readonly string[] moveflavor = Main.getText(TextName.MoveFlavor);
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
+        private readonly string[] moveflavor = Main.Config.getText(TextName.MoveFlavor);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private readonly string[] sortedmoves;
         private readonly string[] MoveCategories = { "Status", "Physical", "Special", };
         private readonly string[] StatCategories = { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
@@ -171,11 +171,11 @@ namespace pk3DS
         {
             if (!CHK_Category.Checked && !CHK_Type.Checked)
             {
-                Util.Alert("Cannot randomize Moves.", "Please check any of the options on the right to randomize Moves.");
+                WinFormsUtil.Alert("Cannot randomize Moves.", "Please check any of the options on the right to randomize Moves.");
                 return;
             }
 
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize Moves? Cannot undo.", "Double check options on the right before continuing.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize Moves? Cannot undo.", "Double check options on the right before continuing.") != DialogResult.Yes) return;
             Random rnd = new Random();
             for (int i = 0; i < CB_Move.Items.Count; i++)
             {
@@ -190,7 +190,7 @@ namespace pk3DS
                 if (CHK_Type.Checked)
                     CB_Type.SelectedIndex = rnd.Next(0, 18);
             }
-            Util.Alert("All Moves have been randomized!");
+            WinFormsUtil.Alert("All Moves have been randomized!");
         }
     }
 }

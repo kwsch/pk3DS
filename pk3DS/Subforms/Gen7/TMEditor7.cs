@@ -12,11 +12,11 @@ namespace pk3DS
         public TMEditor7()
         {
             InitializeComponent();
-            if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); Close(); }
+            if (Main.ExeFSPath == null) { WinFormsUtil.Alert("No exeFS code to load."); Close(); }
             string[] files = Directory.GetFiles(Main.ExeFSPath);
-            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { WinFormsUtil.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
-            if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
+            if (data.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
             offset = Util.IndexOfBytes(data, Signature, 0x400000, 0) + Signature.Length;
             codebin = files[0];
             movelist[0] = "";
@@ -26,7 +26,7 @@ namespace pk3DS
 
         private static readonly byte[] Signature = {0x03, 0x40, 0x03, 0x41, 0x03, 0x42, 0x03, 0x43, 0x03}; // tail end of item::ITEM_CheckBeads
         private readonly string codebin;
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private readonly int offset = 0x0059795A; // Default
         private readonly byte[] data;
         private int dataoffset;
@@ -98,7 +98,7 @@ namespace pk3DS
 
         private void B_RandomTM_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize TMs?", "Move compatibility will be the same as the base TMs.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize TMs?", "Move compatibility will be the same as the base TMs.") != DialogResult.Yes) return;
 
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
@@ -114,7 +114,7 @@ namespace pk3DS
 
                 dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
             }
-            Util.Alert("Randomized!");
+            WinFormsUtil.Alert("Randomized!");
         }
 
         internal static void getTMHMList(ref ushort[] TMs)

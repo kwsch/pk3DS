@@ -13,10 +13,10 @@ namespace pk3DS
     public partial class MegaEvoEditor6 : Form
     {
         private readonly byte[][] files;
-        private readonly string[] forms = Main.getText(TextName.Forms);
-        private readonly string[] types = Main.getText(TextName.Types);
-        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
+        private readonly string[] forms = Main.Config.getText(TextName.Forms);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
+        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private readonly GroupBox[] groupbox_spec;
         private readonly ComboBox[] forme_spec;
         private readonly ComboBox[] item_spec;
@@ -55,24 +55,24 @@ namespace pk3DS
             List<string> temp_list = new List<string>(specieslist);
             temp_list.Sort();
 
-            CB_Species.DataSource = temp_list.Select(mon => new Util.cbItem { Text = mon, Value = Array.IndexOf(specieslist, mon) }).ToList();
+            CB_Species.DataSource = temp_list.Select(mon => new WinFormsUtil.cbItem { Text = mon, Value = Array.IndexOf(specieslist, mon) }).ToList();
 
             List<string> items = new List<string>(itemlist);
             List<string> sorted_items = new List<string>(itemlist);
-            List<Util.cbItem>[] item_lists = new List<Util.cbItem>[item_spec.Length];
+            List<WinFormsUtil.cbItem>[] item_lists = new List<WinFormsUtil.cbItem>[item_spec.Length];
             for (int i = 0; i < item_lists.Length; i++)
-                item_lists[i] = new List<Util.cbItem>();
+                item_lists[i] = new List<WinFormsUtil.cbItem>();
 
             sorted_items.Sort();
             for (int i = 0; i < items.Count; i++)
             {
                 int index = items.IndexOf(sorted_items[i]);
                 {
-                    Util.cbItem ncbi = new Util.cbItem();
+                    var ncbi = new WinFormsUtil.cbItem();
                     if (sorted_items[i] == "???") continue; // Don't allow stubbed items.
                     ncbi.Text = sorted_items[i] + " - " + index.ToString("000");
                     ncbi.Value = index;
-                    foreach (List<Util.cbItem> l in item_lists)
+                    foreach (var l in item_lists)
                         l.Add(ncbi);
                 }
                 items[index] = "";
@@ -106,7 +106,7 @@ namespace pk3DS
         {
             if (!loaded) return;
             if (Main.Config.ORAS && entry == 384 && !dumping) // Current Mon is Rayquaza
-                Util.Alert("Rayquaza is special and uses a different activator for its evolution. If it knows Dragon Ascent, it can Mega Evolve", "Don't edit its evolution table if you want to keep this functionality.");
+                WinFormsUtil.Alert("Rayquaza is special and uses a different activator for its evolution. If it knows Dragon Ascent, it can Mega Evolve", "Don't edit its evolution table if you want to keep this functionality.");
 
             byte[] data = files[entry];
 
@@ -129,7 +129,7 @@ namespace pk3DS
                 if (me.Method[i] > 1) 
                     return; // Shouldn't hit this.
                 me.Method[i] = (ushort)(checkbox_spec[i].Checked ? 1 : 0);
-                me.Argument[i] = (ushort)Util.getIndex(item_spec[i]);
+                me.Argument[i] = (ushort)WinFormsUtil.getIndex(item_spec[i]);
                 me.Form[i] = (ushort)forme_spec[i].SelectedIndex;
             }
             files[entry] = me.Write();
@@ -143,13 +143,13 @@ namespace pk3DS
                 CheckBox CB = checkbox_spec[i];
                 if (CB.Checked)
                 {
-                    UpdateImage(picturebox_spec[0][i], entry, 0, Util.getIndex(item_spec[i]), 0);
-                    UpdateImage(picturebox_spec[1][i], entry, forme_spec[i].SelectedIndex, Util.getIndex(item_spec[i]), 0);
+                    UpdateImage(picturebox_spec[0][i], entry, 0, WinFormsUtil.getIndex(item_spec[i]), 0);
+                    UpdateImage(picturebox_spec[1][i], entry, forme_spec[i].SelectedIndex, WinFormsUtil.getIndex(item_spec[i]), 0);
                 }
                 else
                 {
-                    UpdateImage(picturebox_spec[0][i], 0, 0, Util.getIndex(item_spec[i]), 0);
-                    UpdateImage(picturebox_spec[1][i], 0, 0, Util.getIndex(item_spec[i]), 0);
+                    UpdateImage(picturebox_spec[0][i], 0, 0, WinFormsUtil.getIndex(item_spec[i]), 0);
+                    UpdateImage(picturebox_spec[1][i], 0, 0, WinFormsUtil.getIndex(item_spec[i]), 0);
                 }
             }
         }
@@ -160,13 +160,13 @@ namespace pk3DS
             CheckBox CB = checkbox_spec[i];
             if (CB.Checked)
             {
-                UpdateImage(picturebox_spec[0][i], entry, 0, Util.getIndex(item_spec[i]), 0);
-                UpdateImage(picturebox_spec[1][i], entry, forme_spec[i].SelectedIndex, Util.getIndex(item_spec[i]), 0);
+                UpdateImage(picturebox_spec[0][i], entry, 0, WinFormsUtil.getIndex(item_spec[i]), 0);
+                UpdateImage(picturebox_spec[1][i], entry, forme_spec[i].SelectedIndex, WinFormsUtil.getIndex(item_spec[i]), 0);
             }
             else
             {
-                UpdateImage(picturebox_spec[0][i], 0, 0, Util.getIndex(item_spec[i]), 0);
-                UpdateImage(picturebox_spec[1][i], 0, 0, Util.getIndex(item_spec[i]), 0);
+                UpdateImage(picturebox_spec[0][i], 0, 0, WinFormsUtil.getIndex(item_spec[i]), 0);
+                UpdateImage(picturebox_spec[1][i], 0, 0, WinFormsUtil.getIndex(item_spec[i]), 0);
             }
         }
         
@@ -177,7 +177,7 @@ namespace pk3DS
                 pb.Image = null;
                 return;
             }
-            pb.Image = Util.getSprite(species, form, gender, item, Main.Config);
+            pb.Image = WinFormsUtil.getSprite(species, form, gender, item, Main.Config);
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {
@@ -186,7 +186,7 @@ namespace pk3DS
 
         private void B_Dump_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Dump all Mega Evolutions to Text File?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Dump all Mega Evolutions to Text File?"))
                 return;
             dumping = true;
             string result = "";

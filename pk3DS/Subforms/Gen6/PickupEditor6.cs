@@ -11,11 +11,11 @@ namespace pk3DS
         public PickupEditor6()
         {
             InitializeComponent();
-            if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); Close(); }
+            if (Main.ExeFSPath == null) { WinFormsUtil.Alert("No exeFS code to load."); Close(); }
             string[] files = Directory.GetFiles(Main.ExeFSPath);
-            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { WinFormsUtil.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
-            if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
+            if (data.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
             offset = Util.IndexOfBytes(data, new byte[] { 0x1E, 0x28, 0x32, 0x3C, 0x46, 0x50, 0x5A, 0x5E, 0x62, 0x05, 0x0A, 0x0F, 0x14, 0x19, 0x1E, 0x23, 0x28, 0x2D, 0x32 }, 0x400000, 0) - 0x3A;
             codebin = files[0];
             itemlist[0] = "";
@@ -24,7 +24,7 @@ namespace pk3DS
         }
 
         private readonly string codebin;
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private readonly int offset = Main.Config.ORAS ? 0x004872FC : 0x004455A8;
         private readonly byte[] data;
         private int dataoffset;
@@ -113,7 +113,7 @@ namespace pk3DS
         }
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Randomize pickup lists?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize pickup lists?"))
                 return;
 
             int[] validItems = Randomizer.getRandomItemList();
@@ -132,7 +132,7 @@ namespace pk3DS
                 if (ctr <= validItems.Length) continue;
                 Util.Shuffle(validItems); ctr = 0;
             }
-            Util.Alert("Randomized!");
+            WinFormsUtil.Alert("Randomized!");
         }
     }
 }

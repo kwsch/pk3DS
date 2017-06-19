@@ -34,12 +34,12 @@ namespace pk3DS
         #region Global Variables
         private readonly byte[][] files;
 
-        private readonly string[] items = Main.getText(TextName.ItemNames);
-        private readonly string[] moves = Main.getText(TextName.MoveNames);
-        private readonly string[] species = Main.getText(TextName.SpeciesNames);
-        private readonly string[] abilities = Main.getText(TextName.AbilityNames);
-        private readonly string[] forms = Main.getText(TextName.Forms);
-        private readonly string[] types = Main.getText(TextName.Types);
+        private readonly string[] items = Main.Config.getText(TextName.ItemNames);
+        private readonly string[] moves = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] species = Main.Config.getText(TextName.SpeciesNames);
+        private readonly string[] abilities = Main.Config.getText(TextName.AbilityNames);
+        private readonly string[] forms = Main.Config.getText(TextName.Forms);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
         
         private readonly string[] entryNames;
 
@@ -209,7 +209,7 @@ namespace pk3DS
                 s = entry;
             int[] specForm = {s, f};
             string filename = "_" + specForm[0] + (CB_Species.SelectedIndex > Main.Config.MaxSpeciesID ? "_" + (specForm[1] + 1) : "");
-            Bitmap rawImg = (Bitmap)Core.Properties.Resources.ResourceManager.GetObject(filename) ?? Core.Properties.Resources.unknown;
+            Bitmap rawImg = (Bitmap)Core.Properties.Resources.ResourceManager.GetObject(filename) ?? Properties.Resources.unknown;
             Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
             for (int x = 0; x < rawImg.Width; x++)
             {
@@ -380,7 +380,7 @@ namespace pk3DS
                 }
             }
             saveEntry();
-            Util.Alert("All relevant Pokemon Personal Entries have been randomized!");
+            WinFormsUtil.Alert("All relevant Pokemon Personal Entries have been randomized!");
         }
         private void B_ModifyAll(object sender, EventArgs e)
         {
@@ -404,13 +404,13 @@ namespace pk3DS
                     TB_CatchRate.Text = ((int)NUD_CatchRateMod.Value).ToString();
             }
             CB_Species.SelectedIndex = 1;
-            Util.Alert("All species modified according to specification!");
+            WinFormsUtil.Alert("All species modified according to specification!");
         }
         private bool dumping;
         private void B_Dump_Click(object sender, EventArgs e)
         {
 
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Dump all Personal Entries to Text File?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Dump all Personal Entries to Text File?"))
                 return;
 
             dumping = true;

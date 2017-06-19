@@ -26,7 +26,7 @@ namespace pk3DS
             mapView.Show();
             tb_Zone.SelectedIndex = 1;  // Show Overworlds tab
         }
-        private readonly string[] gameLocations = Main.getText(TextName.metlist_000000);
+        private readonly string[] gameLocations = Main.Config.getText(TextName.metlist_000000);
         private string[] filepaths;
         private string[] encdatapaths;
         private byte[] masterZoneData;
@@ -508,8 +508,8 @@ namespace pk3DS
         // Script Handling
         private void B_HLCMD_Click(object sender, EventArgs e)
         {
-            int ctr = Util.highlightText(RTB_OSP, "**", Color.Red) + Util.highlightText(RTB_MSP, "**", Color.Red) / 2;
-            Util.Alert($"{ctr} instance{(ctr > 1 ? "s" : "")} of \"*\" present.");
+            int ctr = WinFormsUtil.highlightText(RTB_OSP, "**", Color.Red) + WinFormsUtil.highlightText(RTB_MSP, "**", Color.Red) / 2;
+            WinFormsUtil.Alert($"{ctr} instance{(ctr > 1 ? "s" : "")} of \"*\" present.");
         }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -549,7 +549,7 @@ namespace pk3DS
         // Dev Dumpers
         private void B_DumpFurniture_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all Furniture?") != DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Export all Furniture?") != DialogResult.Yes)
                 return;
 
             debugToolDumping = true;
@@ -564,10 +564,10 @@ namespace pk3DS
                     data.Add(CurrentZone.Entities.Furniture[j].Raw);
                 }
             }
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Furniture to file?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Write Furniture to file?") == DialogResult.Yes)
                 File.WriteAllBytes("Furniture.bin", data.SelectMany(z => z).ToArray());
 
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy Furniture to Clipboard?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Copy Furniture to Clipboard?") == DialogResult.Yes)
                 Clipboard.SetText(string.Join(Environment.NewLine, result));
 
             CB_LocationID.SelectedIndex = 0;
@@ -575,7 +575,7 @@ namespace pk3DS
         }
         private void B_DumpNPC_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all NPCs?") != DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Export all NPCs?") != DialogResult.Yes)
                 return;
 
             debugToolDumping = true;
@@ -590,10 +590,10 @@ namespace pk3DS
                     data.Add(CurrentZone.Entities.NPCs[j].Raw);
                 }
             }
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write NPCs to file?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Write NPCs to file?") == DialogResult.Yes)
                 File.WriteAllBytes("NPCs.bin", data.SelectMany(z => z).ToArray());
 
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy NPCs to Clipboard?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Copy NPCs to Clipboard?") == DialogResult.Yes)
                 Clipboard.SetText(string.Join(Environment.NewLine, result));
 
             CB_LocationID.SelectedIndex = 0;
@@ -601,7 +601,7 @@ namespace pk3DS
         }
         private void B_DumpWarp_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all Warps?") != DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Export all Warps?") != DialogResult.Yes)
                 return;
 
             debugToolDumping = true;
@@ -616,10 +616,10 @@ namespace pk3DS
                     data.Add(CurrentZone.Entities.Warps[j].Raw);
                 }
             }
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Warps to file?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Write Warps to file?") == DialogResult.Yes)
                 File.WriteAllBytes("Warps.bin", data.SelectMany(z => z).ToArray());
 
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy Warps to Clipboard?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Copy Warps to Clipboard?") == DialogResult.Yes)
                 Clipboard.SetText(string.Join(Environment.NewLine, result));
 
             CB_LocationID.SelectedIndex = 0;
@@ -627,7 +627,7 @@ namespace pk3DS
         }
         private void B_DumpTrigger_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all Triggers?") != DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Export all Triggers?") != DialogResult.Yes)
                 return;
 
             debugToolDumping = true;
@@ -642,10 +642,10 @@ namespace pk3DS
                     data.Add(CurrentZone.Entities.Triggers1[j].Raw);
                 }
             }
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Triggers to file?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Write Triggers to file?") == DialogResult.Yes)
                 File.WriteAllBytes("Triggers.bin", data.SelectMany(z => z).ToArray());
 
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy Triggers to Clipboard?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Copy Triggers to Clipboard?") == DialogResult.Yes)
                 Clipboard.SetText(string.Join(Environment.NewLine, result));
 
             CB_LocationID.SelectedIndex = 0;
@@ -653,7 +653,7 @@ namespace pk3DS
         }
         private void B_DumpUnk_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all Unks?") != DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Export all Unks?") != DialogResult.Yes)
                 return;
 
             debugToolDumping = true;
@@ -668,10 +668,10 @@ namespace pk3DS
                     data.Add(CurrentZone.Entities.Triggers2[j].Raw);
                 }
             }
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Unks to file?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Write Unks to file?") == DialogResult.Yes)
                 File.WriteAllBytes("Unks.bin", data.SelectMany(z => z).ToArray());
 
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy Unks to Clipboard?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Copy Unks to Clipboard?") == DialogResult.Yes)
                 Clipboard.SetText(string.Join(Environment.NewLine, result));
 
             CB_LocationID.SelectedIndex = 0;
@@ -679,7 +679,7 @@ namespace pk3DS
         }
         private void B_DumpMaps_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all MapImages?") != DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Export all MapImages?") != DialogResult.Yes)
                 return;
 
             debugToolDumping = true;
@@ -702,15 +702,15 @@ namespace pk3DS
                 string l = mm.EntryList.Where(t => t != 0xFFFF).Aggregate("", (current, t) => current + t.ToString("000" + " "));
                 result[i] = $"{i.ToString("000")}\t{CB_LocationID.Items[i]}\t{l}";
             }
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write Map parse output?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Write Map parse output?") == DialogResult.Yes)
                 File.WriteAllLines("MapLocations.txt", result);
             CB_LocationID.SelectedIndex = 0;
-            Util.Alert("All Map images have been dumped to " + folder + ".");
+            WinFormsUtil.Alert("All Map images have been dumped to " + folder + ".");
             debugToolDumping = false;
         }
         private void B_DumpZD_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Export all ZD?") != DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Export all ZD?") != DialogResult.Yes)
                 return;
 
             debugToolDumping = true;
@@ -722,10 +722,10 @@ namespace pk3DS
                 result.Add(Util.getHexString(CurrentZone.ZD.Data));
                 data.Add(CurrentZone.ZD.Data);
             }
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Write ZDs to file?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Write ZDs to file?") == DialogResult.Yes)
                 File.WriteAllBytes("ZDs.bin", data.SelectMany(z => z).ToArray());
 
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy ZDs to Clipboard?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Copy ZDs to Clipboard?") == DialogResult.Yes)
                 Clipboard.SetText(string.Join(Environment.NewLine, result));
 
             CB_LocationID.SelectedIndex = 0;
@@ -844,7 +844,7 @@ namespace pk3DS
         // RAW Resets
         private void B_ResetOverworlds_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Reset all overworld entities?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Reset all overworld entities?"))
                 return;
 
             // since scripts are not editable, just reset the overworld file.

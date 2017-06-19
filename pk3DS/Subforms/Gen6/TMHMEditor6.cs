@@ -12,11 +12,11 @@ namespace pk3DS
         public TMHMEditor6()
         {
             InitializeComponent();
-            if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); Close(); }
+            if (Main.ExeFSPath == null) { WinFormsUtil.Alert("No exeFS code to load."); Close(); }
             string[] files = Directory.GetFiles(Main.ExeFSPath);
-            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { WinFormsUtil.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
-            if (data.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
+            if (data.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
             offset = Util.IndexOfBytes(data, Signature, 0x400000, 0) + 8;
             codebin = files[0];
             movelist[0] = "";
@@ -26,7 +26,7 @@ namespace pk3DS
 
         private static readonly byte[] Signature = {0xD4, 0x00, 0xAE, 0x02, 0xAF, 0x02, 0xB0, 0x02};
         private readonly string codebin;
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private readonly int offset = Main.Config.ORAS ? 0x004A67EE : 0x00464796; // Default
         private readonly byte[] data;
         private int dataoffset;
@@ -130,8 +130,8 @@ namespace pk3DS
             }
 
             // Set Move Text Descriptions back into Item Text File
-            string[] itemDescriptions = Main.getText(TextName.ItemFlavor);
-            string[] moveDescriptions = Main.getText(TextName.MoveFlavor);
+            string[] itemDescriptions = Main.Config.getText(TextName.ItemFlavor);
+            string[] moveDescriptions = Main.Config.getText(TextName.MoveFlavor);
             for (int i = 1 - 1; i <= 92 - 1; i++) // TM01 - TM92
                 itemDescriptions[328 + i] = moveDescriptions[tmlist[i]];
             for (int i = 93 - 1; i <= 95 - 1; i++) // TM92 - TM95
@@ -145,7 +145,7 @@ namespace pk3DS
                 itemDescriptions[425] = moveDescriptions[hmlist[5]]; // HM06
                 itemDescriptions[737] = moveDescriptions[hmlist[6]]; // HM07
             }
-            Main.setText(TextName.ItemFlavor, itemDescriptions);
+            Main.Config.setText(TextName.ItemFlavor, itemDescriptions);
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)
@@ -156,7 +156,7 @@ namespace pk3DS
 
         private void B_RandomTM_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize TMs?", "Move compatibility will be the same as the base TMs.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize TMs?", "Move compatibility will be the same as the base TMs.") != DialogResult.Yes) return;
 
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
@@ -172,7 +172,7 @@ namespace pk3DS
 
                 dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
             }
-            Util.Alert("Randomized!");
+            WinFormsUtil.Alert("Randomized!");
         }
 
         internal static void getTMHMList(bool oras, ref ushort[] TMs, ref ushort[] HMs)

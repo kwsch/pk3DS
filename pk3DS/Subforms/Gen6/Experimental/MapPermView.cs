@@ -62,7 +62,7 @@ namespace pk3DS.Subforms
                 img = overlayEntities(img);
 
             if (crop)
-                img = Util.TrimBitmap(img);
+                img = WinFormsUtil.TrimBitmap(img);
 
             return img;
         }
@@ -79,14 +79,14 @@ namespace pk3DS.Subforms
                 int y = e.Y;
                 for (int sx = 0; sx < e.WX; sx++) // Stretch X
                     for (int sy = 0; sy < e.WY; sy++) // Stretch Y
-                        try { Util.LayerImage(img, Core.Properties.Resources.F, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
+                        try { WinFormsUtil.LayerImage(img, Properties.Resources.F, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
                         catch { }
             }
             foreach (var e in OWSE.CurrentZone.Entities.NPCs)
             {
                 int x = e.X;
                 int y = e.Y;
-                try { Util.LayerImage(img, Core.Properties.Resources.N, x * mapScale, y * mapScale, opacity); }
+                try { WinFormsUtil.LayerImage(img, Properties.Resources.N, x * mapScale, y * mapScale, opacity); }
                 catch { }
             }
             foreach (var e in OWSE.CurrentZone.Entities.Warps)
@@ -95,7 +95,7 @@ namespace pk3DS.Subforms
                 int y = (int)e.pY; // shifted warps look weird
                 for (int sx = 0; sx < e.Width; sx++) // Stretch X
                     for (int sy = 0; sy < e.Height; sy++) // Stretch Y
-                        try { Util.LayerImage(img, Core.Properties.Resources.W, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
+                        try { WinFormsUtil.LayerImage(img, Properties.Resources.W, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
                         catch { }
             }
             foreach (var e in OWSE.CurrentZone.Entities.Triggers1)
@@ -104,7 +104,7 @@ namespace pk3DS.Subforms
                 int y = e.Y;
                 for (int sx = 0; sx < e.Width; sx++) // Stretch X
                     for (int sy = 0; sy < e.Height; sy++) // Stretch Y
-                        try { Util.LayerImage(img, Core.Properties.Resources.T1, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
+                        try { WinFormsUtil.LayerImage(img, Properties.Resources.T1, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
                         catch { }
             }
             foreach (var e in OWSE.CurrentZone.Entities.Triggers2)
@@ -113,7 +113,7 @@ namespace pk3DS.Subforms
                 int y = e.Y;
                 for (int sx = 0; sx < e.Width; sx++) // Stretch X
                     for (int sy = 0; sy < e.Height; sy++) // Stretch Y
-                        try { Util.LayerImage(img, Core.Properties.Resources.T2, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
+                        try { WinFormsUtil.LayerImage(img, Properties.Resources.T2, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
                         catch { }
             }
 
@@ -124,7 +124,7 @@ namespace pk3DS.Subforms
                 int y = (int)OWSE.CurrentZone.ZD.pY2;
                 for (int sx = 0; sx < 1; sx++) // Stretch X
                     for (int sy = 0; sy < 1; sy++) // Stretch Y
-                        try { Util.LayerImage(img, Core.Properties.Resources.FLY, (x + sx) * mapScale, (y + sy) * mapScale, opacity/2); }
+                        try { WinFormsUtil.LayerImage(img, Properties.Resources.FLY, (x + sx) * mapScale, (y + sy) * mapScale, opacity/2); }
                         catch { }
             }
             // Unknown
@@ -188,10 +188,10 @@ namespace pk3DS.Subforms
 
         private void dclickMap(object sender, EventArgs e)
         {
-            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Copy image to Clipboard?",
+            DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Copy image to Clipboard?",
                 "Yes: Map & Overworlds" + Environment.NewLine + "No: Map Only");
             if (dr == DialogResult.No) // Map Only
-                Clipboard.SetImage(Util.TrimBitmap(baseImage));
+                Clipboard.SetImage(WinFormsUtil.TrimBitmap(baseImage));
             if (dr == DialogResult.Yes)
                 Clipboard.SetImage(PB_Map.Image);
         }

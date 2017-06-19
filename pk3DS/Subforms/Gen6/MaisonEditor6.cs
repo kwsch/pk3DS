@@ -19,7 +19,7 @@ namespace pk3DS
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             movelist[0] = specieslist[0] = itemlist[0] = "";
             
-            trNames = Main.getText(super ? TextName.SuperTrainerNames : TextName.MaisonTrainerNames); Array.Resize(ref trNames, trFiles.Length);
+            trNames = Main.Config.getText(super ? TextName.SuperTrainerNames : TextName.MaisonTrainerNames); Array.Resize(ref trNames, trFiles.Length);
 
             InitializeComponent();
             Setup();
@@ -28,11 +28,11 @@ namespace pk3DS
         private readonly byte[][] trFiles;
         private readonly string[] trNames;
         private readonly byte[][] pkFiles;
-        private readonly string[] natures = Main.getText(TextName.Natures);
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
-        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
-        private readonly string[] trClass = Main.getText(TextName.TrainerClasses);
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
+        private readonly string[] natures = Main.Config.getText(TextName.Natures);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+        private readonly string[] trClass = Main.Config.getText(TextName.TrainerClasses);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private int trEntry = -1;
         private int pkEntry = -1;
         private bool dumping;
@@ -147,7 +147,7 @@ namespace pk3DS
 
         private void changeSpecies(object sender, EventArgs e)
         {
-            PB_PKM.Image = Util.getSprite(CB_Species.SelectedIndex, 0, 0, CB_Item.SelectedIndex, Main.Config);
+            PB_PKM.Image = WinFormsUtil.getSprite(CB_Species.SelectedIndex, 0, 0, CB_Item.SelectedIndex, Main.Config);
         }
 
         private void B_Remove_Click(object sender, EventArgs e)

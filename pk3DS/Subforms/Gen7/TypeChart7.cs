@@ -14,19 +14,19 @@ namespace pk3DS
         private readonly string codebin;
         private readonly byte[] chart = new byte[TypeCount * TypeCount];
         private readonly byte[] exefs;
-        private readonly string[] types = Main.getText(TextName.Types);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
         private const int TypeCount = 18;
         private const int TypeWidth = 32;
 
         public TypeChart7()
         {
             InitializeComponent();
-            if (Main.ExeFSPath == null) { Util.Alert("No exeFS code to load."); Close(); }
+            if (Main.ExeFSPath == null) { WinFormsUtil.Alert("No exeFS code to load."); Close(); }
             string[] files = Directory.GetFiles(Main.ExeFSPath);
-            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { Util.Alert("No .code.bin detected."); Close(); }
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { WinFormsUtil.Alert("No .code.bin detected."); Close(); }
             codebin = files[0];
             exefs = File.ReadAllBytes(codebin);
-            if (exefs.Length % 0x200 != 0) { Util.Alert(".code.bin not decompressed. Aborting."); Close(); }
+            if (exefs.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
             offset = Util.IndexOfBytes(exefs, Signature, 0x400000, 0) + Signature.Length;
 
             Array.Copy(exefs, offset, chart, 0, chart.Length);

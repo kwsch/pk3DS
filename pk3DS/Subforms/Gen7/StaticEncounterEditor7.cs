@@ -13,11 +13,11 @@ namespace pk3DS
         private readonly EncounterGift7[] Gifts;
         private readonly EncounterStatic7[] Encounters;
         private readonly EncounterTrade7[] Trades;
-        private readonly string[] movelist = Main.getText(TextName.MoveNames);
-        private readonly string[] itemlist = Main.getText(TextName.ItemNames);
-        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
-        private readonly string[] natures = Main.getText(TextName.Natures);
-        private readonly string[] types = Main.getText(TextName.Types);
+        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
+        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+        private readonly string[] natures = Main.Config.getText(TextName.Natures);
+        private readonly string[] types = Main.Config.getText(TextName.Types);
         private readonly int[] oldStarters;
 
         public StaticEncounterEditor7(byte[][] infiles)
@@ -134,7 +134,7 @@ namespace pk3DS
             if (Gifts.Take(3).Select(gift => gift.Species).SequenceEqual(oldStarters))
                 return;
 
-            var dr = Util.Prompt(MessageBoxButtons.YesNo, "Starters have been changed. Update text references?", "Note that this only updates text references for the current language set in pk3DS.", "This can be changed from Options -> Language on the main window.");
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Starters have been changed. Update text references?", "Note that this only updates text references for the current language set in pk3DS.", "This can be changed from Options -> Language on the main window.");
             if (dr == DialogResult.Yes)
                 updateStarterText();
         }
@@ -305,7 +305,7 @@ namespace pk3DS
         }
         private void B_Starters_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize Starters? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize Starters? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes) return;
 
             int[] sL = getRandomSpeciesList();
             int ctr = 0;
@@ -325,11 +325,11 @@ namespace pk3DS
             getListBoxEntries();
             getGift();
 
-            Util.Alert("Randomized Starters according to specification!");
+            WinFormsUtil.Alert("Randomized Starters according to specification!");
         }
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize Static Encounters? Cannot undo.", "Double check Randomization Settings before continuing.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize Static Encounters? Cannot undo.", "Double check Randomization Settings before continuing.") != DialogResult.Yes) return;
 
             int[] sL = getRandomSpeciesList();
             int ctr = 0;
@@ -372,7 +372,7 @@ namespace pk3DS
             getEncounter();
             getTrade();
 
-            Util.Alert("Randomized Static Encounters according to specification!");
+            WinFormsUtil.Alert("Randomized Static Encounters according to specification!");
         }
 
         // Mirror Changes

@@ -285,7 +285,7 @@ namespace pk3DS
 
         private void Load_XYWE()
         {
-            specieslist = Main.getText(TextName.SpeciesNames);
+            specieslist = Main.Config.getText(TextName.SpeciesNames);
             specieslist[0] = "---";
 
             CB_FormeList.Items.AddRange(formlist);
@@ -306,7 +306,7 @@ namespace pk3DS
             Array.Sort(encdatapaths);
             filepaths = new string[encdatapaths.Length - 1];
             Array.Copy(encdatapaths, 1, filepaths, 0, filepaths.Length);
-            metXY_00000 = Main.getText(TextName.metlist_000000);
+            metXY_00000 = Main.Config.getText(TextName.metlist_000000);
             zonedata = File.ReadAllBytes(encdatapaths[0]);
             LocationNames = new string[filepaths.Length];
             for (int f = 0; f < filepaths.Length; f++)
@@ -498,7 +498,7 @@ namespace pk3DS
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Horde tab.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Horde tab.") != DialogResult.Yes) return;
 
             Enabled = false;
 
@@ -541,7 +541,7 @@ namespace pk3DS
                 B_Save_Click(sender, e);
             }
             Enabled = true;
-            Util.Alert("Randomized all Wild Encounters according to specification!", "Press the Dump Tables button to view the new Wild Encounter information!");
+            WinFormsUtil.Alert("Randomized all Wild Encounters according to specification!", "Press the Dump Tables button to view the new Wild Encounter information!");
         }
         private void setRandomForm(int slot, int species)
         {
@@ -629,7 +629,7 @@ namespace pk3DS
 
         private void modifyLevels(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Modify all current Level ranges?", "Cannot undo.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify all current Level ranges?", "Cannot undo.") != DialogResult.Yes) return;
 
             // Disable Interface while modifying
             Enabled = false;
@@ -653,7 +653,7 @@ namespace pk3DS
             }
             // Enable Interface... modification complete.
             Enabled = true;
-            Util.Alert("Modified all Level ranges according to specification!", "Press the Dump Tables button to view the new Level ranges!");
+            WinFormsUtil.Alert("Modified all Level ranges according to specification!", "Press the Dump Tables button to view the new Level ranges!");
         }
     }
 }

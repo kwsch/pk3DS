@@ -15,12 +15,12 @@ namespace pk3DS
             
             if (!File.Exists(CROPath))
             {
-                Util.Error("CRO does not exist! Closing.", CROPath);
+                WinFormsUtil.Error("CRO does not exist! Closing.", CROPath);
                 Close();
             }
             if (!File.Exists(FieldPath))
             {
-                Util.Error("CRO does not exist! Closing.", FieldPath);
+                WinFormsUtil.Error("CRO does not exist! Closing.", FieldPath);
                 Close();
             }
             InitializeComponent();
@@ -48,7 +48,7 @@ namespace pk3DS
         }
         private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllPoke3Select.cro");
         private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
-        private readonly string[] specieslist = Main.getText(TextName.SpeciesNames);
+        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
         private readonly ComboBox[][] Choices;
         private readonly PictureBox[][] Previews;
         private readonly Label[] Labels;
@@ -130,13 +130,13 @@ namespace pk3DS
             int index = int.Parse(name[6]+"");
 
             int species = (sender as ComboBox).SelectedIndex;
-            Previews[group][index].Image = Util.scaleImage(Util.getSprite(species, 0, 0, 0, Main.Config), 3);
+            Previews[group][index].Image = WinFormsUtil.scaleImage(WinFormsUtil.getSprite(species, 0, 0, 0, Main.Config), 3);
         }
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             bool blind = DialogResult.Yes ==
-                         Util.Prompt(MessageBoxButtons.YesNo, "Hide randomization, save, and close?",
+                         WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Hide randomization, save, and close?",
                              "If you want the Starters to be a surprise :)");
             if (blind)
                 Hide();
