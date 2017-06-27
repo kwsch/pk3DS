@@ -40,7 +40,7 @@ namespace pk3DS.Core.CTR
                 {
                     char lc = RecognizedGames[titleid].ToArray()[0].ToCharArray()[3];
                     char lc2 = vars[1].ToCharArray()[3];
-                    if (lc2 == 'A' || lc2 == 'E' || (lc2 == 'P' && lc == 'J')) //Prefer games in order US, PAL, JP
+                    if (lc2 == 'A' || lc2 == 'E' || lc2 == 'P' && lc == 'J') //Prefer games in order US, PAL, JP
                     {
                         RecognizedGames[titleid] = vars.Skip(1).Take(2).ToArray();
                     }
@@ -59,11 +59,11 @@ namespace pk3DS.Core.CTR
         }
         public bool isORAS()
         {
-            return ((TitleID & 0xFFFFFFFF) >> 8 == 0x11C5) || ((TitleID & 0xFFFFFFFF) >> 8 == 0x11C4);
+            return (TitleID & 0xFFFFFFFF) >> 8 == 0x11C5 || (TitleID & 0xFFFFFFFF) >> 8 == 0x11C4;
         }
         public bool isXY()
         {
-            return ((TitleID & 0xFFFFFFFF) >> 8 == 0x55D) || ((TitleID & 0xFFFFFFFF) >> 8 == 0x55E);
+            return (TitleID & 0xFFFFFFFF) >> 8 == 0x55D || (TitleID & 0xFFFFFFFF) >> 8 == 0x55E;
         }
         public string GetPokemonSerial()
         {

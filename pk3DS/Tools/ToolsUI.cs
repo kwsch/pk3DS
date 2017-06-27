@@ -1,5 +1,4 @@
 ﻿using pk3DS.ARCUtil;
-using pk3DS.Core;
 using pk3DS.Core.CTR;
 using System;
 using System.Drawing;

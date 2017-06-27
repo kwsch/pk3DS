@@ -207,12 +207,12 @@ namespace pk3DS
                     trpk_IV[i].Enabled =
                     trpk_lvl[i].Enabled = i < pkm;
 
-                    trpk_item[i].Enabled = (i < pkm) && checkBox_Item.Checked;
+                    trpk_item[i].Enabled = i < pkm && checkBox_Item.Checked;
 
                     trpk_m1[i].Enabled =
                     trpk_m2[i].Enabled =
                     trpk_m3[i].Enabled =
-                    trpk_m4[i].Enabled = (i < pkm) && checkBox_Moves.Checked;
+                    trpk_m4[i].Enabled = i < pkm && checkBox_Moves.Checked;
 
                     if (!trpk_pkm[i].Enabled)
                     {
@@ -601,7 +601,7 @@ namespace pk3DS
                 CB_TrainerID.SelectedIndex = i; // data is loaded
 
                 // Setup
-                checkBox_Moves.Checked = rMove || (!rNoMove && checkBox_Moves.Checked);
+                checkBox_Moves.Checked = rMove || !rNoMove && checkBox_Moves.Checked;
                 checkBox_Item.Checked = rItem || checkBox_Item.Checked;
 
                 if (r6PKM && rImportant[i] != null) // skip the first rival battles
@@ -664,7 +664,7 @@ namespace pk3DS
                 int type = GetRandomType(i);
                 bool mevo = rEnsureMEvo.Contains(i);
                 bool typerand = rTypeTheme && !rGymE4Only ||
-                                (rTypeTheme && rImportant[i] != null && (rImportant[i].Contains("GYM") || rImportant[i].Contains("ELITE") || rImportant[i].Contains("CHAMPION")));
+                                rTypeTheme && rImportant[i] != null && (rImportant[i].Contains("GYM") || rImportant[i].Contains("ELITE") || rImportant[i].Contains("CHAMPION"));
 
                 // Randomize Pokemon
                 for (int p = 0; p < CB_numPokemon.SelectedIndex; p++)
@@ -679,13 +679,13 @@ namespace pk3DS
                         if (typerand)
                         {
                             int tries = 0;
-                            while (((pkm.Types[0] != type && pkm.Types[1] != type) || mevo && p == CB_numPokemon.SelectedIndex - 1 && !megaEvos.Contains(species)) && tries < 0x10000)
+                            while ((pkm.Types[0] != type && pkm.Types[1] != type || mevo && p == CB_numPokemon.SelectedIndex - 1 && !megaEvos.Contains(species)) && tries < 0x10000)
                                 if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
                                     pkm = Main.SpeciesStat[species = GetRandomMegaEvolvablePokemon(type)];
                                 else if (rSmart) // Get a new Pokemon with a close BST
                                 {
                                     pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
-                                    while (!((pkm.BST * (5 - ++tries / Main.Config.MaxSpeciesID) / 6 < oldpkm.BST) && pkm.BST * (6 + ++tries / Main.Config.MaxSpeciesID) / 5 > oldpkm.BST))
+                                    while (!(pkm.BST * (5 - ++tries / Main.Config.MaxSpeciesID) / 6 < oldpkm.BST && pkm.BST * (6 + ++tries / Main.Config.MaxSpeciesID) / 5 > oldpkm.BST))
                                     {
                                         pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
                                     }
@@ -698,7 +698,7 @@ namespace pk3DS
                         else if (rSmart) // Get a new Pokemon with a close BST
                         {
                             int tries = 0;
-                            while (!((pkm.BST * (5 - ++tries / Main.Config.MaxSpeciesID) / 6 < oldpkm.BST) && pkm.BST * (6 + ++tries / Main.Config.MaxSpeciesID) / 5 > oldpkm.BST))
+                            while (!(pkm.BST * (5 - ++tries / Main.Config.MaxSpeciesID) / 6 < oldpkm.BST && pkm.BST * (6 + ++tries / Main.Config.MaxSpeciesID) / 5 > oldpkm.BST))
                             {
                                 pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
                             }

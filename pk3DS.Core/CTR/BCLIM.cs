@@ -448,7 +448,7 @@ namespace pk3DS.Core.CTR
             int w = img.Width;
             int h = img.Height;
 
-            bool perfect = w == h && (w != 0) && ((w & (w - 1)) == 0);
+            bool perfect = w == h && w != 0 && (w & (w - 1)) == 0;
             if (!perfect) // Check if square power of two, else resize
             {
                 // Square Format Checks

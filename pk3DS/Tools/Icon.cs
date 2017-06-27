@@ -1,5 +1,4 @@
-﻿using pk3DS.Core;
-using pk3DS.Core.CTR;
+﻿using pk3DS.Core.CTR;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;

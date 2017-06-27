@@ -143,7 +143,7 @@ namespace pk3DS
                     int move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
 
                     while (banned.Contains(move) /* Invalid */
-                        || (forceSTAB && !Main.SpeciesStat[species].Types.Contains(moveTypes[move].Type))) // STAB is required
+                        || forceSTAB && !Main.SpeciesStat[species].Types.Contains(moveTypes[move].Type)) // STAB is required
                         move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
 
                     // Assign Move

@@ -7,9 +7,9 @@ namespace pk3DS.Core
     {
         public readonly int FileNumber;
         public readonly string Name;
-        private int A => (FileNumber / 100) % 10;
-        private int B => (FileNumber / 10) % 10;
-        private int C => (FileNumber / 1) % 10;
+        private int A => FileNumber / 100 % 10;
+        private int B => FileNumber / 10 % 10;
+        private int C => FileNumber / 1 % 10;
         public readonly bool LanguageVariant;
         public string Reference => Path.Combine("a", A.ToString(), B.ToString(), C.ToString());
 

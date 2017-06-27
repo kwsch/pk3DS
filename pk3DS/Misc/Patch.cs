@@ -1,5 +1,4 @@
-﻿using pk3DS.Core;
-using System;
+﻿using System;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
@@ -133,7 +132,7 @@ namespace pk3DS
             bool languages = CHK_Lang.Checked;
             StringCollection paths = new StringCollection();
             foreach (string s in sc)
-                if (!languages || (s != "gametext" && s != "storytext"))
+                if (!languages || s != "gametext" && s != "storytext")
                     paths.Add(Main.getGARCFileName(s, Main.Language));
                 else
                     for (int l = 0; l < 8; l++)

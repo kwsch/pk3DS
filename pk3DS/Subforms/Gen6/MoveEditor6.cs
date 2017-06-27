@@ -1,6 +1,5 @@
 ﻿using pk3DS.Core;
 using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace pk3DS

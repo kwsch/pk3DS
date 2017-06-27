@@ -1,10 +1,7 @@
 ﻿using pk3DS.Core.CTR;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Media;
-using System.Text;
 using System.Windows.Forms;
 
 namespace pk3DS

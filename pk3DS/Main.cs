@@ -153,14 +153,14 @@ namespace pk3DS
                 FileInfo fi = new FileInfo(path);
                 if (fi.Name.Contains("code.bin")) // Compress/Decompress .code.bin
                 {
-                    if (fi.Length % 0x200 == 0 && (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed code.bin.", "Compress? File will be replaced.") == DialogResult.Yes))
+                    if (fi.Length % 0x200 == 0 && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed code.bin.", "Compress? File will be replaced.") == DialogResult.Yes)
                         new Thread(() => { threads++; new BLZCoder(new[] { "-en", path }, pBar1); threads--; WinFormsUtil.Alert("Compressed!"); }).Start();
                     else if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes)
                         new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; WinFormsUtil.Alert("Decompressed!"); }).Start();
                 }
                 else if (fi.Name.ToLower().Contains("exe")) // Unpack exefs
                 {
-                    if (fi.Length % 0x200 == 0 && (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS.bin.", "Unpack?") == DialogResult.Yes))
+                    if (fi.Length % 0x200 == 0 && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS.bin.", "Unpack?") == DialogResult.Yes)
                         new Thread(() => { threads++; ExeFS.get(path, Path.GetDirectoryName(path)); threads--; WinFormsUtil.Alert("Unpacked!"); }).Start();
                 }
                 else if (fi.Name.ToLower().Contains("rom"))
@@ -369,7 +369,7 @@ namespace pk3DS
                 else
                     return false;
             }
-            if (fi.Length % 0x200 != 0 && (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code binary.", "Decompress? File will be replaced.") == DialogResult.Yes))
+            if (fi.Length % 0x200 != 0 && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code binary.", "Decompress? File will be replaced.") == DialogResult.Yes)
                 new Thread(() => { threads++; new BLZCoder(new[] { "-d", files[0] }, pBar1); threads--; WinFormsUtil.Alert("Decompressed!"); }).Start();
 
             ExeFSPath = path;
@@ -657,7 +657,7 @@ namespace pk3DS
             Enabled = false;
             new Thread(() =>
             {
-                bool reload = (ModifierKeys == Keys.Control) || ModifierKeys == (Keys.Alt | Keys.Control);
+                bool reload = ModifierKeys == Keys.Control || ModifierKeys == (Keys.Alt | Keys.Control);
                 string[] files = {"encdata", "storytext", "mapGR", "mapMatrix"};
                 if (reload || files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
                     fileGet(files, false);
@@ -1105,7 +1105,7 @@ namespace pk3DS
             if (fi.Length > 15 * 1024 * 1024) // 15MB
             { WinFormsUtil.Error("File too big!", fi.Length + " bytes."); return; }
 
-            if (ModifierKeys != Keys.Control && fi.Length % 0x200 == 0 && (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed Binary.", "Compress? File will be replaced.") == DialogResult.Yes))
+            if (ModifierKeys != Keys.Control && fi.Length % 0x200 == 0 && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed Binary.", "Compress? File will be replaced.") == DialogResult.Yes)
                 new Thread(() => { threads++; new BLZCoder(new[] { "-en", path }, pBar1); threads--; WinFormsUtil.Alert("Compressed!"); }).Start();
             else if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Compressed Binary", "Decompress? File will be replaced.") == DialogResult.Yes)
                 new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; WinFormsUtil.Alert("Decompressed!"); }).Start();
@@ -1181,7 +1181,7 @@ namespace pk3DS
         }
         private bool setGARC(string outfile, string infolder, int padBytes, bool PB)
         {
-            if (skipBoth || (ModifierKeys == Keys.Control && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Cancel writing data back to GARC?") == DialogResult.Yes))
+            if (skipBoth || ModifierKeys == Keys.Control && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Cancel writing data back to GARC?") == DialogResult.Yes)
             { threads--; updateStatus("Aborted!", false); return false; }
 
             try

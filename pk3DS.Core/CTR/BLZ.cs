@@ -66,7 +66,7 @@ namespace pk3DS.Core.CTR
 
             // Title();
 
-            if (args == null || (args.Length != 2))
+            if (args == null || args.Length != 2)
                 throw new Exception("No arguments supplied to BLZ");
 
             if (args[0].Equals("-d"))
@@ -386,7 +386,7 @@ namespace pk3DS.Core.CTR
                 raw_tmp = raw_len - raw;
             }
 
-            while ((mask > 0) && (mask != 1))
+            while (mask > 0 && mask != 1)
             {
                 mask = (int)((uint)mask >> BLZ_SHIFT);
                 pak_buffer[flg] = (byte)(pak_buffer[flg] << 1);
@@ -397,7 +397,7 @@ namespace pk3DS.Core.CTR
             BLZ_Invert(raw_buffer, 0, raw_len);
             BLZ_Invert(pak_buffer, 0, pak_len);
 
-            if (pak_tmp == 0 || (raw_len + 4 < ((pak_tmp + raw_tmp + 3) & 0xFFFFFFFC) + 8))
+            if (pak_tmp == 0 || raw_len + 4 < ((pak_tmp + raw_tmp + 3) & 0xFFFFFFFC) + 8)
             {
                 pak = 0;
                 raw = 0;

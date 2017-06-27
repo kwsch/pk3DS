@@ -1,5 +1,4 @@
 ﻿using pk3DS.Core;
-using pk3DS.Core.Structures.Gen6;
 using pk3DS.Core.Structures.Gen7;
 using System;
 using System.Drawing;
@@ -95,7 +94,7 @@ namespace pk3DS
             {
                 tr.Pokemon.Add(pk);
                 slot = tr.Pokemon.Count - 1;
-                Trainers[index].NumPokemon = (int)(++NUD_NumPoke.Value);
+                Trainers[index].NumPokemon = (int)++NUD_NumPoke.Value;
             }
 
             getQuickFiller(pba[slot], pk);
@@ -108,7 +107,7 @@ namespace pk3DS
             if (slot < Trainers[index].NumPokemon)
             {
                 Trainers[index].Pokemon.RemoveAt(slot);
-                Trainers[index].NumPokemon = (int)(--NUD_NumPoke.Value);
+                Trainers[index].NumPokemon = (int)--NUD_NumPoke.Value;
             }
 
             populateTeam(Trainers[index]);
@@ -457,7 +456,7 @@ namespace pk3DS
         {
             if (index < 0)
                 return;
-            Trainers[index].NumPokemon = (int) (NUD_NumPoke.Value);
+            Trainers[index].NumPokemon = (int) NUD_NumPoke.Value;
         }
         private void updateTrainerName(object sender, EventArgs e)
         {
@@ -537,7 +536,7 @@ namespace pk3DS
             }
             var ivs = tb_iv.Select(tb => WinFormsUtil.ToInt32(tb) & 1).ToArray();
             updatingStats = true;
-            CB_HPType.SelectedIndex = 15 * ((ivs[0]) + 2 * ivs[1] + 4 * ivs[2] + 8 * ivs[3] + 16 * ivs[4] + 32 * ivs[5]) / 63;
+            CB_HPType.SelectedIndex = 15 * (ivs[0] + 2 * ivs[1] + 4 * ivs[2] + 8 * ivs[3] + 16 * ivs[4] + 32 * ivs[5]) / 63;
             updatingStats = false;
         }
 
@@ -607,7 +606,7 @@ namespace pk3DS
                     do
                     {
                         rv = (int) (Util.rnd32()%CB_Trainer_Class.Items.Count);
-                    } while (/*trClass[rv].StartsWith("[~") || */(Legal.SpecialClasses_SM.Contains(rv) && !CHK_IgnoreSpecialClass.Checked));
+                    } while (/*trClass[rv].StartsWith("[~") || */Legal.SpecialClasses_SM.Contains(rv) && !CHK_IgnoreSpecialClass.Checked);
                     // don't allow disallowed classes
                     tr.TrainerClass = (byte) rv;
                 }

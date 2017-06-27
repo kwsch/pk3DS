@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 
 using pk3DS.Core.CTR;
-using pk3DS.Core.Structures.Gen6;
 using pk3DS.Core;
 using pk3DS.Core.Structures.Gen7;
 
@@ -193,8 +192,8 @@ namespace pk3DS
             {
                 for (int i = 0; i < Areas[CB_LocationID.SelectedIndex].Tables.Count; i += 2)
                 {
-                    CB_TableID.Items.Add($"{(i / 2) + 1} (Day)");
-                    CB_TableID.Items.Add($"{(i / 2) + 1} (Night)");
+                    CB_TableID.Items.Add($"{i / 2 + 1} (Day)");
+                    CB_TableID.Items.Add($"{i / 2 + 1} (Night)");
                 }
             }
             else
@@ -419,7 +418,7 @@ namespace pk3DS
                 {
                     var tn = "Encounters";
                     if (i != 0)
-                        tn = "SOS Slot " + (i);
+                        tn = "SOS Slot " + i;
                     sb.Append($"{tn} (Levels {MinLevel}-{MaxLevel}): ");
                     var specToRate = new Dictionary<uint, int>();
                     var distincts = new List<Encounter>();
@@ -450,12 +449,12 @@ namespace pk3DS
                     g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
                     for (int i = 0; i < Encounters.Length - 1; i++)
                         for (int j = 0; j < Encounters[i].Length; j++)
-                            g.DrawImage((Encounters[i][j].Species == 0 ? Properties.Resources.empty : WinFormsUtil.getSprite((int)Encounters[i][j].Species, (int)Encounters[i][j].Forme, 0, 0, Main.Config)), new Point(40 * j, 30 * (i+1)));
+                            g.DrawImage(Encounters[i][j].Species == 0 ? Properties.Resources.empty : WinFormsUtil.getSprite((int)Encounters[i][j].Species, (int)Encounters[i][j].Forme, 0, 0, Main.Config), new Point(40 * j, 30 * (i+1)));
                     for (int i = 0; i < Rates.Length; i++)
                         g.DrawString($"{Rates[i]}%", font, Brushes.Black, new PointF(40 * i + 10, 10));
                     g.DrawString("Weather: ", font, Brushes.Black, new PointF(10, 280));
                     for (int i = 0; i < AdditionalSOS.Length; i++)
-                        g.DrawImage((AdditionalSOS[i].Species == 0 ? Properties.Resources.empty : WinFormsUtil.getSprite((int)AdditionalSOS[i].Species, (int)AdditionalSOS[i].Forme, 0, 0, Main.Config)), new Point(40*i + 60, 270));
+                        g.DrawImage(AdditionalSOS[i].Species == 0 ? Properties.Resources.empty : WinFormsUtil.getSprite((int)AdditionalSOS[i].Species, (int)AdditionalSOS[i].Forme, 0, 0, Main.Config), new Point(40*i + 60, 270));
                 }
                 return img;
             }

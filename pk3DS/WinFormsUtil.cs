@@ -7,7 +7,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
 
 namespace pk3DS
@@ -185,7 +184,7 @@ namespace pk3DS
             {
                 var c = t;
                 // filter for hex
-                if ((c < 0x0047 && c > 0x002F) || (c < 0x0067 && c > 0x0060))
+                if (c < 0x0047 && c > 0x002F || c < 0x0067 && c > 0x0060)
                     s += c;
                 else
                     System.Media.SystemSounds.Beep.Play();

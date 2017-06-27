@@ -2,9 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using pk3DS.Properties;
 using pk3DS.Core.CTR;
-using pk3DS.Core;
 
 namespace pk3DS.Subforms
 {
@@ -54,7 +52,7 @@ namespace pk3DS.Subforms
                 int area = 40*mapScale;
                 for (int x = 0; x < img.Width; x++)
                     for (int y = 0; y < img.Height; y++)
-                        if ((x % area == 0) || (y % area == 0))
+                        if (x % area == 0 || y % area == 0)
                             img.SetPixel(x,y,Color.FromArgb(0x10,0xFF,0,0));
             }
 

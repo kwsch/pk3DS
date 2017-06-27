@@ -1,9 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Media;
-using System.Windows.Forms;
-using pk3DS;
 
 namespace pk3DS.Core.CTR
 {

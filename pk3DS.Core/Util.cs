@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace pk3DS.Core
 {
@@ -39,7 +36,7 @@ namespace pk3DS.Core
         public static Random rand = new Random();
         public static uint rnd32()
         {
-            return (uint)(rand.Next(1 << 30)) << 2 | (uint)(rand.Next(1 << 2));
+            return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
         }
 
         // Data Retrieval
@@ -126,7 +123,7 @@ namespace pk3DS.Core
                             return defaultExt;
                         for (int i = 0; i < magic.Length && i < 4; i++)
                         {
-                            if ((magic[i] >= 'a' && magic[i] <= 'z') || (magic[i] >= 'A' && magic[i] <= 'Z')
+                            if (magic[i] >= 'a' && magic[i] <= 'z' || magic[i] >= 'A' && magic[i] <= 'Z'
                                 || char.IsDigit((char)magic[i]))
                             {
                                 ext += (char)magic[i];
@@ -158,7 +155,7 @@ namespace pk3DS.Core
             for (int i = 0; i < 32; ++i)
             {
                 y <<= 1;
-                y |= (x & 1);
+                y |= x & 1;
                 x >>= 1;
             }
             return y;

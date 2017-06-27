@@ -171,9 +171,9 @@ namespace pk3DS
                     bool forceSTAB = CHK_STAB.Checked && rnd.Next(0, 99) < NUD_STAB.Value;
                     int move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
                     while ( // Move is invalid
-                        (!CHK_HMs.Checked && banned.Contains(move)) // HM Moves Not Allowed
-                        || (forceSTAB && // STAB is required
-                            !Main.Config.Personal[species].Types.Contains(moveTypes[move].Type)))
+                        !CHK_HMs.Checked && banned.Contains(move) // HM Moves Not Allowed
+                        || forceSTAB && // STAB is required
+                        !Main.Config.Personal[species].Types.Contains(moveTypes[move].Type))
                             { move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr); }
 
                     // Assign Move
