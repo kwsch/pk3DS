@@ -261,8 +261,8 @@ namespace pk3DS
                     B_MoveTutor.Visible = Config.ORAS; // Default false unless loaded
                     break;
                 case 7:
-                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Item, B_Move, B_Maison, B_Pickup, B_OWSE };
-                    exefs = new Control[] {B_TMHM, B_TypeChart, B_ShinyRate};
+                    romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Item, B_Move, B_Royal, B_Pickup, B_OWSE };
+                    exefs = new Control[] {B_TM, B_TypeChart, B_ShinyRate};
                     cro = new Control[] {B_Mart};
 
                     if (Config.Version != GameVersion.SMDEMO)
