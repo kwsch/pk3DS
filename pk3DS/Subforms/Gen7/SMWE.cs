@@ -328,9 +328,9 @@ namespace pk3DS
             int tot = 0;
             foreach (var nup in rate_spec) { tot += (int) nup.Value; }
             
-            if (tot != 100)
+            if (tot != 100 && tot != 0)
             {
-                WinFormsUtil.Error("Encounter rates must add up to 100%.");
+                WinFormsUtil.Error("Encounter rates must add up to either 0% or 100%.");
                 return;
             }
             
