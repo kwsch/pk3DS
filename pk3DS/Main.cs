@@ -1172,7 +1172,7 @@ namespace pk3DS
             }
             try
             {
-                bool success = GarcUtil.garcUnpack(infile, outfolder, bypassExt, PB ? pBar1 : null, null, true, bypassExt);
+                bool success = GarcUtil.garcUnpack(infile, outfolder, bypassExt, PB ? pBar1 : null, L_Status, true, bypassExt);
                 updateStatus(string.Format(success ? "Success!" : "Failed!"), false);
                 threads--;
                 return success;
@@ -1186,7 +1186,7 @@ namespace pk3DS
 
             try
             {
-                bool success = GarcUtil.garcPackMS(infolder, outfile, Config.GARCVersion, padBytes, PB ? pBar1 : null, null, true);
+                bool success = GarcUtil.garcPackMS(infolder, outfile, Config.GARCVersion, padBytes, PB ? pBar1 : null, L_Status, true);
                 threads--;
                 updateStatus(string.Format(success ? "Success!" : "Failed!"), false);
                 return success;

@@ -98,9 +98,12 @@ namespace pk3DS
                     if (!supress) WinFormsUtil.Alert("Unpack Successful!", fileCount + " files unpacked from the GARC!");
                 }
 
+                if (label == null)
+                    return true;
                 if (label.InvokeRequired)
                     label.Invoke((MethodInvoker)delegate { label.Visible = false; });
-                else { label.Visible = false; }
+                else
+                    label.Visible = false;
                 return true;
             }
             catch (FileNotFoundException)
