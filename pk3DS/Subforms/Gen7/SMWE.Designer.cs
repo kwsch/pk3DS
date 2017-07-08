@@ -224,35 +224,35 @@
             this.label1 = new System.Windows.Forms.Label();
             this.NUP_Forme10 = new System.Windows.Forms.NumericUpDown();
             this.CB_Enc10 = new System.Windows.Forms.ComboBox();
-            this.L_Rate10 = new System.Windows.Forms.Label();
+            this.NUP_Rate10 = new System.Windows.Forms.NumericUpDown();
             this.NUP_Forme9 = new System.Windows.Forms.NumericUpDown();
             this.CB_Enc9 = new System.Windows.Forms.ComboBox();
-            this.L_Rate9 = new System.Windows.Forms.Label();
+            this.NUP_Rate9 = new System.Windows.Forms.NumericUpDown();
             this.NUP_Forme8 = new System.Windows.Forms.NumericUpDown();
             this.CB_Enc8 = new System.Windows.Forms.ComboBox();
-            this.L_Rate8 = new System.Windows.Forms.Label();
+            this.NUP_Rate8 = new System.Windows.Forms.NumericUpDown();
             this.NUP_Forme7 = new System.Windows.Forms.NumericUpDown();
             this.CB_Enc7 = new System.Windows.Forms.ComboBox();
-            this.L_Rate7 = new System.Windows.Forms.Label();
+            this.NUP_Rate7 = new System.Windows.Forms.NumericUpDown();
             this.NUP_Forme6 = new System.Windows.Forms.NumericUpDown();
             this.CB_Enc6 = new System.Windows.Forms.ComboBox();
-            this.L_Rate6 = new System.Windows.Forms.Label();
+            this.NUP_Rate6 = new System.Windows.Forms.NumericUpDown();
             this.NUP_Forme5 = new System.Windows.Forms.NumericUpDown();
             this.CB_Enc5 = new System.Windows.Forms.ComboBox();
-            this.L_Rate5 = new System.Windows.Forms.Label();
+            this.NUP_Rate5 = new System.Windows.Forms.NumericUpDown();
             this.NUP_Forme4 = new System.Windows.Forms.NumericUpDown();
             this.CB_Enc4 = new System.Windows.Forms.ComboBox();
-            this.L_Rate4 = new System.Windows.Forms.Label();
+            this.NUP_Rate4 = new System.Windows.Forms.NumericUpDown();
             this.NUP_Forme3 = new System.Windows.Forms.NumericUpDown();
             this.CB_Enc3 = new System.Windows.Forms.ComboBox();
-            this.L_Rate3 = new System.Windows.Forms.Label();
+            this.NUP_Rate3 = new System.Windows.Forms.NumericUpDown();
             this.NUP_Forme2 = new System.Windows.Forms.NumericUpDown();
             this.CB_Enc2 = new System.Windows.Forms.ComboBox();
-            this.L_Rate2 = new System.Windows.Forms.Label();
+            this.NUP_Rate2 = new System.Windows.Forms.NumericUpDown();
             this.L_Rate = new System.Windows.Forms.Label();
             this.NUP_Forme1 = new System.Windows.Forms.NumericUpDown();
             this.CB_Enc1 = new System.Windows.Forms.ComboBox();
-            this.L_Rate1 = new System.Windows.Forms.Label();
+            this.NUP_Rate1 = new System.Windows.Forms.NumericUpDown();
             this.CB_TableID = new System.Windows.Forms.ComboBox();
             this.B_Export = new System.Windows.Forms.Button();
             this.CopySOS = new System.Windows.Forms.Button();
@@ -645,42 +645,42 @@
             this.GB_Encounters.Controls.Add(this.label1);
             this.GB_Encounters.Controls.Add(this.NUP_Forme10);
             this.GB_Encounters.Controls.Add(this.CB_Enc10);
-            this.GB_Encounters.Controls.Add(this.L_Rate10);
+            this.GB_Encounters.Controls.Add(this.NUP_Rate10);
             this.GB_Encounters.Controls.Add(this.NUP_Forme9);
             this.GB_Encounters.Controls.Add(this.CB_Enc9);
-            this.GB_Encounters.Controls.Add(this.L_Rate9);
+            this.GB_Encounters.Controls.Add(this.NUP_Rate9);
             this.GB_Encounters.Controls.Add(this.NUP_Forme8);
             this.GB_Encounters.Controls.Add(this.CB_Enc8);
-            this.GB_Encounters.Controls.Add(this.L_Rate8);
+            this.GB_Encounters.Controls.Add(this.NUP_Rate8);
             this.GB_Encounters.Controls.Add(this.NUP_Forme7);
             this.GB_Encounters.Controls.Add(this.CB_Enc7);
-            this.GB_Encounters.Controls.Add(this.L_Rate7);
+            this.GB_Encounters.Controls.Add(this.NUP_Rate7);
             this.GB_Encounters.Controls.Add(this.NUP_Forme6);
             this.GB_Encounters.Controls.Add(this.CB_Enc6);
-            this.GB_Encounters.Controls.Add(this.L_Rate6);
+            this.GB_Encounters.Controls.Add(this.NUP_Rate6);
             this.GB_Encounters.Controls.Add(this.NUP_Forme5);
             this.GB_Encounters.Controls.Add(this.CB_Enc5);
-            this.GB_Encounters.Controls.Add(this.L_Rate5);
+            this.GB_Encounters.Controls.Add(this.NUP_Rate5);
             this.GB_Encounters.Controls.Add(this.NUP_Forme4);
             this.GB_Encounters.Controls.Add(this.CB_Enc4);
-            this.GB_Encounters.Controls.Add(this.L_Rate4);
+            this.GB_Encounters.Controls.Add(this.NUP_Rate4);
             this.GB_Encounters.Controls.Add(this.NUP_Forme3);
             this.GB_Encounters.Controls.Add(this.CB_Enc3);
-            this.GB_Encounters.Controls.Add(this.L_Rate3);
+            this.GB_Encounters.Controls.Add(this.NUP_Rate3);
             this.GB_Encounters.Controls.Add(this.NUP_Forme2);
             this.GB_Encounters.Controls.Add(this.CB_Enc2);
-            this.GB_Encounters.Controls.Add(this.L_Rate2);
+            this.GB_Encounters.Controls.Add(this.NUP_Rate2);
             this.GB_Encounters.Controls.Add(this.L_Rate);
             this.GB_Encounters.Controls.Add(this.NUP_Forme1);
             this.GB_Encounters.Controls.Add(this.CB_Enc1);
-            this.GB_Encounters.Controls.Add(this.L_Rate1);
+            this.GB_Encounters.Controls.Add(this.NUP_Rate1);
             this.GB_Encounters.Enabled = false;
             this.GB_Encounters.Location = new System.Drawing.Point(14, 39);
             this.GB_Encounters.Name = "GB_Encounters";
             this.GB_Encounters.Size = new System.Drawing.Size(1138, 561);
             this.GB_Encounters.TabIndex = 430;
             this.GB_Encounters.TabStop = false;
-            this.GB_Encounters.Text = "Encounters";
+            this.GB_Encounters.Text = "Encounters (100%)";
             // 
             // GB_Tweak
             // 
@@ -2728,14 +2728,14 @@
             this.CB_Enc10.Size = new System.Drawing.Size(72, 21);
             this.CB_Enc10.TabIndex = 339;
             // 
-            // L_Rate10
+            // NUP_Rate10
             // 
-            this.L_Rate10.AutoSize = true;
-            this.L_Rate10.Location = new System.Drawing.Point(1052, 16);
-            this.L_Rate10.Name = "L_Rate10";
-            this.L_Rate10.Size = new System.Drawing.Size(27, 13);
-            this.L_Rate10.TabIndex = 341;
-            this.L_Rate10.Text = "10%";
+            this.NUP_Rate10.AutoSize = true;
+            this.NUP_Rate10.Location = new System.Drawing.Point(1052, 16);
+            this.NUP_Rate10.Name = "NUP_Rate10";
+            this.NUP_Rate10.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate10.TabIndex = 341;
+            this.NUP_Rate10.Value = 0;
             // 
             // NUP_Forme9
             // 
@@ -2759,14 +2759,14 @@
             this.CB_Enc9.Size = new System.Drawing.Size(72, 21);
             this.CB_Enc9.TabIndex = 336;
             // 
-            // L_Rate9
+            // NUP_Rate9
             // 
-            this.L_Rate9.AutoSize = true;
-            this.L_Rate9.Location = new System.Drawing.Point(942, 16);
-            this.L_Rate9.Name = "L_Rate9";
-            this.L_Rate9.Size = new System.Drawing.Size(27, 13);
-            this.L_Rate9.TabIndex = 338;
-            this.L_Rate9.Text = "10%";
+            this.NUP_Rate9.AutoSize = true;
+            this.NUP_Rate9.Location = new System.Drawing.Point(942, 16);
+            this.NUP_Rate9.Name = "NUP_Rate9";
+            this.NUP_Rate9.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate9.TabIndex = 338;
+            this.NUP_Rate9.Value = 0;
             // 
             // NUP_Forme8
             // 
@@ -2790,14 +2790,14 @@
             this.CB_Enc8.Size = new System.Drawing.Size(72, 21);
             this.CB_Enc8.TabIndex = 333;
             // 
-            // L_Rate8
+            // NUP_Rate8
             // 
-            this.L_Rate8.AutoSize = true;
-            this.L_Rate8.Location = new System.Drawing.Point(836, 16);
-            this.L_Rate8.Name = "L_Rate8";
-            this.L_Rate8.Size = new System.Drawing.Size(27, 13);
-            this.L_Rate8.TabIndex = 335;
-            this.L_Rate8.Text = "10%";
+            this.NUP_Rate8.AutoSize = true;
+            this.NUP_Rate8.Location = new System.Drawing.Point(836, 16);
+            this.NUP_Rate8.Name = "NUP_Rate8";
+            this.NUP_Rate8.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate8.TabIndex = 335;
+            this.NUP_Rate8.Value = 0;
             // 
             // NUP_Forme7
             // 
@@ -2821,14 +2821,14 @@
             this.CB_Enc7.Size = new System.Drawing.Size(72, 21);
             this.CB_Enc7.TabIndex = 330;
             // 
-            // L_Rate7
+            // NUP_Rate7
             // 
-            this.L_Rate7.AutoSize = true;
-            this.L_Rate7.Location = new System.Drawing.Point(724, 16);
-            this.L_Rate7.Name = "L_Rate7";
-            this.L_Rate7.Size = new System.Drawing.Size(27, 13);
-            this.L_Rate7.TabIndex = 332;
-            this.L_Rate7.Text = "10%";
+            this.NUP_Rate7.AutoSize = true;
+            this.NUP_Rate7.Location = new System.Drawing.Point(724, 16);
+            this.NUP_Rate7.Name = "NUP_Rate7";
+            this.NUP_Rate7.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate7.TabIndex = 332;
+            this.NUP_Rate7.Value = 0;
             // 
             // NUP_Forme6
             // 
@@ -2852,14 +2852,14 @@
             this.CB_Enc6.Size = new System.Drawing.Size(72, 21);
             this.CB_Enc6.TabIndex = 327;
             // 
-            // L_Rate6
+            // NUP_Rate6
             // 
-            this.L_Rate6.AutoSize = true;
-            this.L_Rate6.Location = new System.Drawing.Point(616, 16);
-            this.L_Rate6.Name = "L_Rate6";
-            this.L_Rate6.Size = new System.Drawing.Size(27, 13);
-            this.L_Rate6.TabIndex = 329;
-            this.L_Rate6.Text = "10%";
+            this.NUP_Rate6.AutoSize = true;
+            this.NUP_Rate6.Location = new System.Drawing.Point(616, 16);
+            this.NUP_Rate6.Name = "NUP_Rate6";
+            this.NUP_Rate6.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate6.TabIndex = 329;
+            this.NUP_Rate6.Value = 0;
             // 
             // NUP_Forme5
             // 
@@ -2883,14 +2883,14 @@
             this.CB_Enc5.Size = new System.Drawing.Size(72, 21);
             this.CB_Enc5.TabIndex = 324;
             // 
-            // L_Rate5
+            // NUP_Rate5
             // 
-            this.L_Rate5.AutoSize = true;
-            this.L_Rate5.Location = new System.Drawing.Point(505, 16);
-            this.L_Rate5.Name = "L_Rate5";
-            this.L_Rate5.Size = new System.Drawing.Size(27, 13);
-            this.L_Rate5.TabIndex = 326;
-            this.L_Rate5.Text = "10%";
+            this.NUP_Rate5.AutoSize = true;
+            this.NUP_Rate5.Location = new System.Drawing.Point(505, 16);
+            this.NUP_Rate5.Name = "NUP_Rate5";
+            this.NUP_Rate5.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate5.TabIndex = 326;
+            this.NUP_Rate5.Value = 0;
             // 
             // NUP_Forme4
             // 
@@ -2914,14 +2914,14 @@
             this.CB_Enc4.Size = new System.Drawing.Size(72, 21);
             this.CB_Enc4.TabIndex = 321;
             // 
-            // L_Rate4
+            // NUP_Rate4
             // 
-            this.L_Rate4.AutoSize = true;
-            this.L_Rate4.Location = new System.Drawing.Point(400, 16);
-            this.L_Rate4.Name = "L_Rate4";
-            this.L_Rate4.Size = new System.Drawing.Size(27, 13);
-            this.L_Rate4.TabIndex = 323;
-            this.L_Rate4.Text = "10%";
+            this.NUP_Rate4.AutoSize = true;
+            this.NUP_Rate4.Location = new System.Drawing.Point(400, 16);
+            this.NUP_Rate4.Name = "NUP_Rate4";
+            this.NUP_Rate4.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate4.TabIndex = 323;
+            this.NUP_Rate4.Value = 0;
             // 
             // NUP_Forme3
             // 
@@ -2945,14 +2945,14 @@
             this.CB_Enc3.Size = new System.Drawing.Size(72, 21);
             this.CB_Enc3.TabIndex = 318;
             // 
-            // L_Rate3
+            // NUP_Rate3
             // 
-            this.L_Rate3.AutoSize = true;
-            this.L_Rate3.Location = new System.Drawing.Point(294, 16);
-            this.L_Rate3.Name = "L_Rate3";
-            this.L_Rate3.Size = new System.Drawing.Size(27, 13);
-            this.L_Rate3.TabIndex = 320;
-            this.L_Rate3.Text = "10%";
+            this.NUP_Rate3.AutoSize = true;
+            this.NUP_Rate3.Location = new System.Drawing.Point(294, 16);
+            this.NUP_Rate3.Name = "NUP_Rate3";
+            this.NUP_Rate3.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate3.TabIndex = 320;
+            this.NUP_Rate3.Value = 0;
             // 
             // NUP_Forme2
             // 
@@ -2976,20 +2976,20 @@
             this.CB_Enc2.Size = new System.Drawing.Size(72, 21);
             this.CB_Enc2.TabIndex = 315;
             // 
-            // L_Rate2
+            // NUP_Rate2
             // 
-            this.L_Rate2.AutoSize = true;
-            this.L_Rate2.Location = new System.Drawing.Point(187, 16);
-            this.L_Rate2.Name = "L_Rate2";
-            this.L_Rate2.Size = new System.Drawing.Size(27, 13);
-            this.L_Rate2.TabIndex = 317;
-            this.L_Rate2.Text = "10%";
+            this.NUP_Rate2.AutoSize = true;
+            this.NUP_Rate2.Location = new System.Drawing.Point(187, 16);
+            this.NUP_Rate2.Name = "NUP_Rate2";
+            this.NUP_Rate2.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate2.TabIndex = 317;
+            this.NUP_Rate2.Value = 0;
             // 
-            // L_Rate
+            // NUP_Rate
             // 
             this.L_Rate.AutoSize = true;
             this.L_Rate.Location = new System.Drawing.Point(15, 16);
-            this.L_Rate.Name = "L_Rate";
+            this.L_Rate.Name = "NUP_Rate";
             this.L_Rate.Size = new System.Drawing.Size(38, 13);
             this.L_Rate.TabIndex = 314;
             this.L_Rate.Text = "Rates:";
@@ -3016,14 +3016,14 @@
             this.CB_Enc1.Size = new System.Drawing.Size(72, 21);
             this.CB_Enc1.TabIndex = 288;
             // 
-            // L_Rate1
+            // NUP_Rate1
             // 
-            this.L_Rate1.AutoSize = true;
-            this.L_Rate1.Location = new System.Drawing.Point(78, 16);
-            this.L_Rate1.Name = "L_Rate1";
-            this.L_Rate1.Size = new System.Drawing.Size(27, 13);
-            this.L_Rate1.TabIndex = 290;
-            this.L_Rate1.Text = "10%";
+            this.NUP_Rate1.AutoSize = true;
+            this.NUP_Rate1.Location = new System.Drawing.Point(78, 16);
+            this.NUP_Rate1.Name = "NUP_Rate1";
+            this.NUP_Rate1.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate1.TabIndex = 290;
+            this.NUP_Rate1.Value = 0;
             // 
             // CB_TableID
             // 
@@ -3197,35 +3197,35 @@
         private System.Windows.Forms.GroupBox GB_Encounters;
         private System.Windows.Forms.NumericUpDown NUP_Forme8;
         private System.Windows.Forms.ComboBox CB_Enc8;
-        private System.Windows.Forms.Label L_Rate8;
+        private System.Windows.Forms.NumericUpDown NUP_Rate8;
         private System.Windows.Forms.NumericUpDown NUP_Forme7;
         private System.Windows.Forms.ComboBox CB_Enc7;
-        private System.Windows.Forms.Label L_Rate7;
+        private System.Windows.Forms.NumericUpDown NUP_Rate7;
         private System.Windows.Forms.NumericUpDown NUP_Forme6;
         private System.Windows.Forms.ComboBox CB_Enc6;
-        private System.Windows.Forms.Label L_Rate6;
+        private System.Windows.Forms.NumericUpDown NUP_Rate6;
         private System.Windows.Forms.NumericUpDown NUP_Forme5;
         private System.Windows.Forms.ComboBox CB_Enc5;
-        private System.Windows.Forms.Label L_Rate5;
+        private System.Windows.Forms.NumericUpDown NUP_Rate5;
         private System.Windows.Forms.NumericUpDown NUP_Forme4;
         private System.Windows.Forms.ComboBox CB_Enc4;
-        private System.Windows.Forms.Label L_Rate4;
+        private System.Windows.Forms.NumericUpDown NUP_Rate4;
         private System.Windows.Forms.NumericUpDown NUP_Forme3;
         private System.Windows.Forms.ComboBox CB_Enc3;
-        private System.Windows.Forms.Label L_Rate3;
+        private System.Windows.Forms.NumericUpDown NUP_Rate3;
         private System.Windows.Forms.NumericUpDown NUP_Forme2;
         private System.Windows.Forms.ComboBox CB_Enc2;
-        private System.Windows.Forms.Label L_Rate2;
+        private System.Windows.Forms.NumericUpDown NUP_Rate2;
         private System.Windows.Forms.Label L_Rate;
         private System.Windows.Forms.NumericUpDown NUP_Forme1;
         private System.Windows.Forms.ComboBox CB_Enc1;
-        private System.Windows.Forms.Label L_Rate1;
+        private System.Windows.Forms.NumericUpDown NUP_Rate1;
         private System.Windows.Forms.NumericUpDown NUP_Forme10;
         private System.Windows.Forms.ComboBox CB_Enc10;
-        private System.Windows.Forms.Label L_Rate10;
+        private System.Windows.Forms.NumericUpDown NUP_Rate10;
         private System.Windows.Forms.NumericUpDown NUP_Forme9;
         private System.Windows.Forms.ComboBox CB_Enc9;
-        private System.Windows.Forms.Label L_Rate9;
+        private System.Windows.Forms.NumericUpDown NUP_Rate9;
         private System.Windows.Forms.ComboBox CB_TableID;
         private System.Windows.Forms.Button B_Export;
         private System.Windows.Forms.NumericUpDown NUP_Forme20;
