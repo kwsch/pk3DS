@@ -181,7 +181,7 @@ namespace pk3DS
                         dgv.Rows[j].Cells[0].Value = lv + (j - count) + 1;
                     }
                     if (CHK_Spread.Checked)
-                        dgv.Rows[j].Cells[0].Value = (j * (NUD_Level.Value / (dgv.Rows.Count - 1))).ToString();
+                        dgv.Rows[j].Cells[0].Value = ((int)(j * (NUD_Level.Value / (dgv.Rows.Count - 1)))).ToString();
                 }
             }
             CB_Species.SelectedIndex = 0;
