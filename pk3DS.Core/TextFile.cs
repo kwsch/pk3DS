@@ -17,6 +17,7 @@ namespace pk3DS.Core
         private const ushort KEY_TEXTWAIT = 0xBE02;
         private const ushort KEY_TEXTNULL = 0xBDFF;
         private const bool SETEMPTYTEXT = false;
+        private static bool REMAPCHARS = false;
         private static readonly byte[] emptyTextFile = { 0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00 };
 
         public TextFile(GameConfig config, byte[] data = null)
@@ -145,11 +146,7 @@ namespace pk3DS.Core
                 while (i < line.Length)
                 {
                     ushort val = line[i++];
-
-                    if (val == 0x202F) val = 0xE07F; // nbsp
-                    else if (val == 0x2026) val = 0xE08D; // …
-                    else if (val == 0x2642) val = 0xE08E; // ♂
-                    else if (val == 0x2640) val = 0xE08F; // ♀
+                    val = TryRemapChar(val);
 
                     if (val == '[') // Variable
                     {
@@ -174,6 +171,34 @@ namespace pk3DS.Core
                 return ms.ToArray();
             }
         }
+
+        private static ushort TryRemapChar(ushort val)
+        {
+            if (!REMAPCHARS)
+                return val;
+            switch (val)
+            {
+                case 0x202F: return 0xE07F; // nbsp
+                case 0x2026: return 0xE08D; // …
+                case 0x2642: return 0xE08E; // ♂
+                case 0x2640: return 0xE08F; // ♀
+                default: return val;
+            }
+        }
+        private static ushort TryUnmapChar(ushort val)
+        {
+            if (!REMAPCHARS)
+                return val;
+            switch (val)
+            {
+                case 0xE07F: return 0x202F; // nbsp
+                case 0xE08D: return 0x2026; // …
+                case 0xE08E: return 0x2642; // ♂
+                case 0xE08F: return 0x2640; // ♀
+                default: return val;
+            }
+        }
+
         private string getLineString(GameConfig config, byte[] data)
         {
             if (data == null)
@@ -194,11 +219,7 @@ namespace pk3DS.Core
                     case '\n': s += @"\n"; break;
                     case '\\': s += @"\\"; break;
                     case '[': s += @"\["; break;
-                    case 0xE07F: s += (char)0x202F; break; // nbsp
-                    case 0xE08D: s += (char)0x2026; break; // …
-                    case 0xE08E: s += (char)0x2642; break; // ♂
-                    case 0xE08F: s += (char)0x2640; break; // ♀
-                    default: s += (char)val; break;
+                    default: s += (char)TryUnmapChar(val); break;
                 }
             }
             return s; // Shouldn't get hit if the string is properly terminated.
