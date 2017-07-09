@@ -55,12 +55,11 @@ namespace pk3DS
                 new[] {CB_WeatherEnc1, CB_WeatherEnc2, CB_WeatherEnc3, CB_WeatherEnc4, CB_WeatherEnc5, CB_WeatherEnc6}
             };
             rate_spec = new[]
-            {L_Rate1, L_Rate2, L_Rate3, L_Rate4, L_Rate5, L_Rate6, L_Rate7, L_Rate8, L_Rate9, L_Rate10};
+            {NUP_Rate1, NUP_Rate2, NUP_Rate3, NUP_Rate4, NUP_Rate5, NUP_Rate6, NUP_Rate7, NUP_Rate8, NUP_Rate9, NUP_Rate10};
 
             foreach (var cb_l in cb_spec) foreach (var cb in cb_l) { cb.Items.AddRange(speciesList); cb.SelectedIndex = 0; cb.SelectedIndexChanged += updateSpeciesForm; }
             foreach (var nup_l in nup_spec) foreach (var nup in nup_l) { nup.ValueChanged += updateSpeciesForm; }
-            foreach (var l in rate_spec)
-                l.Text = "0%";
+            foreach (var nup in rate_spec) { nup.Value = 0; nup.ValueChanged += updateEncounterRate; }
 
             byte[][] zdfiles = zd.Files;
             worldData = zdfiles[1]; // 1.bin
@@ -115,7 +114,7 @@ namespace pk3DS
 
         private readonly NumericUpDown[][] nup_spec;
         private readonly ComboBox[][] cb_spec;
-        private readonly Label[] rate_spec;
+        private readonly NumericUpDown[] rate_spec;
 
         private bool loadingdata;
 
@@ -225,7 +224,7 @@ namespace pk3DS
                 var sl = CurrentTable.Encounters[slot];
                 if (slot == 8)
                     sl = CurrentTable.AdditionalSOS;
-                rate_spec[i].Text = $"{CurrentTable.Rates[i]}%";
+                rate_spec[i].Value = CurrentTable.Rates[i];
                 cb_spec[slot][i].SelectedIndex = (int)sl[i].Species;
                 nup_spec[slot][i].Value = (int)sl[i].Forme;
             }
@@ -297,8 +296,44 @@ namespace pk3DS
             cur_pb.Image = cur_img;
         }
 
+        private void updateEncounterRate(object sender, EventArgs e)
+        {
+            if (loadingdata)
+                return;
+            
+            var cur_pb = CB_TableID.SelectedIndex%2 == 0 ? PB_DayTable : PB_NightTable;
+            var cur_img = cur_pb.Image;
+            
+            int slot = Array.IndexOf(rate_spec, sender);
+            int rate = (int) ((NumericUpDown) sender).Value;
+            CurrentTable.Rates[slot] = rate;
+            
+            using (var g = Graphics.FromImage(cur_img))
+            {
+                var pnt = new PointF(40 * slot + 10, 10);
+                g.SetClip(new Rectangle((int) pnt.X, (int) pnt.Y, 40, 14), CombineMode.Replace);
+                g.Clear(Color.Transparent);
+                g.DrawString($"{rate}%", font, Brushes.Black, pnt);
+            }
+            
+            cur_pb.Image = cur_img;
+            
+            int tot = 0;
+            foreach (var nup in rate_spec) { tot += (int) nup.Value; }
+            GB_Encounters.Text = $"Encounters ({tot}%)";
+        }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
+            int tot = 0;
+            foreach (var nup in rate_spec) { tot += (int) nup.Value; }
+            
+            if (tot != 100 && tot != 0)
+            {
+                WinFormsUtil.Error("Encounter rates must add up to either 0% or 100%.");
+                return;
+            }
+            
             CurrentTable.Write();
             var area = Areas[CB_LocationID.SelectedIndex];
             area.Tables[CB_TableID.SelectedIndex] = CurrentTable;
@@ -362,7 +397,7 @@ namespace pk3DS
         {
             public int MinLevel;
             public int MaxLevel;
-            public readonly int[] Rates;
+            public int[] Rates;
             public readonly Encounter[][] Encounters;
             public readonly Encounter[] AdditionalSOS;
 
@@ -398,7 +433,10 @@ namespace pk3DS
             {
                 Data[0] = (byte)MinLevel;
                 Data[1] = (byte)MaxLevel;
-                // TODO: Rate Editing?
+                for (int i = 0; i < Rates.Length; i++)
+                {
+                    Data[2 + i] = (byte)Rates[i];
+                }
                 for (int i = 0; i < Encounters.Length - 1; i++)
                 {
                     var ofs = 0xC + i * 4 * Encounters[i].Length;
