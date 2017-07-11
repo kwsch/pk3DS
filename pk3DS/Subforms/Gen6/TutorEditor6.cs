@@ -15,7 +15,7 @@ namespace pk3DS
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { WinFormsUtil.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
             if (data.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
-            offset = GetDataOffset();
+            offset = GetDataOffset(data);
             codebin = files[0];
             movelist[0] = "";
             setupDGV();
@@ -24,16 +24,16 @@ namespace pk3DS
             WinFormsUtil.Alert("Changes made do not reflect ingame.", "Still needs more research.");
         }
 
-        private int GetDataOffset()
+        private static int GetDataOffset(byte[] data)
         {
             byte[] vanilla =
             {
                 0x00, 0x46, 0x6F, 0x72, 0x6D, 0x61, 0x74, 0x54, 0x79, 0x70, 0x65, 0x00, 0x00, 0x45, 0x64, 0x67,
                 0x65, 0x49, 0x44, 0x00, 0xFF
             };
-            int o = Util.IndexOfBytes(data, vanilla, 0x400000, 0);
+            int offset = Util.IndexOfBytes(data, vanilla, 0x400000, 0);
             if (offset >= 0)
-                return o + vanilla.Length;
+                return offset + vanilla.Length;
 
             byte[] patched =
             {
@@ -44,10 +44,10 @@ namespace pk3DS
                 0x79, 0x73, 0x74, 0x65, 0x6D, 0x2F, 0x6D, 0x6F, 0x74, 0x69, 0x6F, 0x6E, 0x2F, 0x4D, 0x6F, 0x74,
                 0x69, 0x6F, 0x6E, 0x2E, 0x63, 0x70, 0x70, 0x00, 0x00
             };
-            o = Util.IndexOfBytes(data, patched, 0x400000, 0);
+            offset = Util.IndexOfBytes(data, patched, 0x400000, 0);
 
             if (offset >= 0)
-                return o + patched.Length;
+                return offset + patched.Length;
 
             return -1;
         }
