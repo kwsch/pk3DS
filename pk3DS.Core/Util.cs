@@ -170,16 +170,20 @@ namespace pk3DS.Core
         public static int IndexOfBytes(byte[] array, byte[] pattern, int startIndex, int count)
         {
             int len = pattern.Length;
-            int endIndex = count > 0 ? startIndex + count + 1 : array.Length - pattern.Length;
-            for (int i = startIndex; i < endIndex; i++)
+            int endIndex = count > 0 ? startIndex + count : array.Length - pattern.Length;
+            int i = startIndex;
+            int j = 0;
+            while (true)
             {
-                for (int j = 0; j < len; j++)
-                    if (pattern[j] != array[i + j])
-                        goto next_i;
-                return i;
-                next_i:;
+                if (pattern[j] != array[i + j])
+                {
+                    if (++i == endIndex)
+                        return -1;
+                    j = 0;
+                }
+                else if (++j == len)
+                    return i;
             }
-            return -1;
         }
 
         // Misc
