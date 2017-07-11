@@ -207,9 +207,7 @@ namespace pk3DS
             int f = formVal[entry];
             if (entry <= Main.Config.MaxSpeciesID)
                 s = entry;
-            int[] specForm = {s, f};
-            string filename = "_" + specForm[0] + (CB_Species.SelectedIndex > Main.Config.MaxSpeciesID ? "_" + (specForm[1] + 1) : "");
-            Bitmap rawImg = (Bitmap)Properties.Resources.ResourceManager.GetObject(filename) ?? Properties.Resources.unknown;
+            Bitmap rawImg = WinFormsUtil.getSprite(s, f, 0, 0, Main.Config);
             Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
             for (int x = 0; x < rawImg.Width; x++)
             {

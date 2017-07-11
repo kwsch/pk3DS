@@ -54,30 +54,27 @@ namespace pk3DS
         public static Bitmap getSprite(int species, int form, int gender, int item, GameConfig config, bool shiny = false)
         {
             string file;
-            if (species == 0) // fix with SM release
-            { return (Bitmap)Properties.Resources.ResourceManager.GetObject("_0"); }
-            if (species > 802)
-            {
-                return (Bitmap)Properties.Resources.unknown;
-            }
-            {
-                file = "_" + species;
-                if (form > 0) // Alt Form Handling
-                    file = file + "_" + form;
-                else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
-                    file = file + "_" + gender;
-                else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
-                    file = "_" + species + "f";
-            }
+            if (species == 0)
+                return Properties.Resources._0;
+            if (species > config.MaxSpeciesID)
+                return Properties.Resources.unknown;
+
+            file = "_" + species;
+            if (form > 0) // Alt Form Handling
+                file = file + "_" + form;
+            else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
+                file = file + "_" + gender;
+            else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
+                file = "_" + species + "f";
 
             // Redrawing logic
-            Bitmap baseImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(file);
+            Bitmap baseImage = Properties.Resources.ResourceManager.GetObject(file) as Bitmap;
             if (baseImage == null)
             {
                 if (species < config.MaxSpeciesID)
                 {
                     baseImage = LayerImage(
-                        (Image)Properties.Resources.ResourceManager.GetObject("_" + species),
+                        Properties.Resources.ResourceManager.GetObject("_" + species) as Image,
                         Properties.Resources.unknown,
                         0, 0, .5);
                 }
@@ -91,7 +88,7 @@ namespace pk3DS
             }
             if (item > 0)
             {
-                Bitmap itemimg = (Bitmap)Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem;
+                Bitmap itemimg = (Bitmap)(Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem);
                 // Redraw
                 baseImage = LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
             }
