@@ -15,6 +15,7 @@ namespace pk3DS
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { WinFormsUtil.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
             if (data.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
+            offset = GetDataOffset();
             codebin = files[0];
             movelist[0] = "";
             setupDGV();
@@ -23,11 +24,39 @@ namespace pk3DS
             WinFormsUtil.Alert("Changes made do not reflect ingame.", "Still needs more research.");
         }
 
+        private int GetDataOffset()
+        {
+            byte[] vanilla =
+            {
+                0x00, 0x46, 0x6F, 0x72, 0x6D, 0x61, 0x74, 0x54, 0x79, 0x70, 0x65, 0x00, 0x00, 0x45, 0x64, 0x67,
+                0x65, 0x49, 0x44, 0x00, 0xFF
+            };
+            int o = Util.IndexOfBytes(data, vanilla, 0x400000, 0);
+            if (offset >= 0)
+                return o + vanilla.Length;
+
+            byte[] patched =
+            {
+                0x00, 0x46, 0x6F, 0x72, 0x6D, 0x61, 0x74, 0x54, 0x79, 0x70, 0x65, 0x00, 0x00, 0x45, 0x64, 0x67,
+                0x65, 0x49, 0x44, 0x00, 0x00, 0x63, 0x3A, 0x5C, 0x72, 0x65, 0x76, 0x69, 0x73, 0x69, 0x6F, 0x6E,
+                0x31, 0x5F, 0x73, 0x61, 0x6E, 0x67, 0x6F, 0x5C, 0x73, 0x61, 0x6E, 0x67, 0x6F, 0x5F, 0x70, 0x72,
+                0x6F, 0x6A, 0x65, 0x63, 0x74, 0x5C, 0x70, 0x72, 0x6F, 0x67, 0x5C, 0x73, 0x72, 0x63, 0x2F, 0x73,
+                0x79, 0x73, 0x74, 0x65, 0x6D, 0x2F, 0x6D, 0x6F, 0x74, 0x69, 0x6F, 0x6E, 0x2F, 0x4D, 0x6F, 0x74,
+                0x69, 0x6F, 0x6E, 0x2E, 0x63, 0x70, 0x70, 0x00, 0x00
+            };
+            o = Util.IndexOfBytes(data, patched, 0x400000, 0);
+
+            if (offset >= 0)
+                return o + patched.Length;
+
+            return -1;
+        }
+
         private readonly string codebin;
         private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private readonly byte[] data;
         private readonly byte[] entries = { 0xF, 0x11, 0x10, 0xF }; // Entries per Tutor
-        private const int offset = 0x004960F8;
+        private readonly int offset;
         private int dataoffset;
         readonly string[] locations = { "1", "2", "3", "4" };
         private void getDataOffset(int index)
