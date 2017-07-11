@@ -1815,6 +1815,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\img\moon.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-2c.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-3c.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-4c.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-5c.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-6c.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-1c.png" />
     <Content Include="Resources\img\Pokemon Sprites\empty.png" />
     <Content Include="Resources\img\rare_icon.png" />
     <Content Include="Resources\img\sun.png" />

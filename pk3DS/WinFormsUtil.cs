@@ -51,21 +51,31 @@ namespace pk3DS
 
             return bmp;
         }
+
+        public static string GetResourceStringSprite(int species, int form, int gender, int generation)
+        {
+            if (new[] { 778, 664, 665, 414, 493, 773 }.Contains(species)) // Species who show their default sprite regardless of Form
+                form = 0;
+
+            string file = "_" + species;
+            if (form > 0) // Alt Form Handling
+                file += "_" + form;
+            else if (gender == 1 && new[] { 592, 593, 521, 668 }.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
+                file += "_" + gender;
+
+            if (species == 25 && form > 0 && generation >= 7) // Pikachu
+                file += "c"; // Cap
+
+            return file;
+        }
         public static Bitmap getSprite(int species, int form, int gender, int item, GameConfig config, bool shiny = false)
         {
-            string file;
             if (species == 0)
                 return Properties.Resources._0;
             if (species > config.MaxSpeciesID)
                 return Properties.Resources.unknown;
 
-            file = "_" + species;
-            if (form > 0) // Alt Form Handling
-                file = file + "_" + form;
-            else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
-                file = file + "_" + gender;
-            else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
-                file = "_" + species + "f";
+            var file = GetResourceStringSprite(species, form, gender, config.Generation);
 
             // Redrawing logic
             Bitmap baseImage = Properties.Resources.ResourceManager.GetObject(file) as Bitmap;

@@ -2503,9 +2503,29 @@ namespace pk3DS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _25_1c {
+            get {
+                object obj = ResourceManager.GetObject("_25_1c", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _25_2 {
             get {
                 object obj = ResourceManager.GetObject("_25_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _25_2c {
+            get {
+                object obj = ResourceManager.GetObject("_25_2c", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2523,9 +2543,29 @@ namespace pk3DS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _25_3c {
+            get {
+                object obj = ResourceManager.GetObject("_25_3c", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _25_4 {
             get {
                 object obj = ResourceManager.GetObject("_25_4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _25_4c {
+            get {
+                object obj = ResourceManager.GetObject("_25_4c", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2543,9 +2583,29 @@ namespace pk3DS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _25_5c {
+            get {
+                object obj = ResourceManager.GetObject("_25_5c", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _25_6 {
             get {
                 object obj = ResourceManager.GetObject("_25_6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _25_6c {
+            get {
+                object obj = ResourceManager.GetObject("_25_6c", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -16069,16 +16129,6 @@ namespace pk3DS.Properties {
         internal static System.Drawing.Bitmap unknown {
             get {
                 object obj = ResourceManager.GetObject("unknown", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap unknown1 {
-            get {
-                object obj = ResourceManager.GetObject("unknown1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
