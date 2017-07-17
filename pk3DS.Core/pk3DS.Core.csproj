@@ -1,122 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BC4D176C-9471-432A-82EB-ABF9AF1D6DFD}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>pk3DS.Core</RootNamespace>
-    <AssemblyName>pk3DS.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworks>net40</TargetFrameworks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CTR\AES.cs" />
-    <Compile Include="CTR\BCLIM.cs" />
-    <Compile Include="CTR\BLZ.cs" />
-    <Compile Include="CTR\CRO.cs" />
-    <Compile Include="CTR\CTR.cs" />
-    <Compile Include="CTR\DARC.cs" />
-    <Compile Include="CTR\ETC1.cs" />
-    <Compile Include="CTR\ExeFS.cs" />
-    <Compile Include="CTR\Exheader.cs" />
-    <Compile Include="CTR\FileFormat.cs" />
-    <Compile Include="CTR\GARC.cs" />
-    <Compile Include="CTR\LZSS.cs" />
-    <Compile Include="CTR\mini.cs" />
-    <Compile Include="CTR\NCCH.cs" />
-    <Compile Include="CTR\NCSD.cs" />
-    <Compile Include="CTR\RomFS.cs" />
-    <Compile Include="CTR\SMDH.cs" />
-    <Compile Include="Game\GameBackup.cs" />
-    <Compile Include="Game\GameConfig.cs" />
-    <Compile Include="Game\GameRNG.cs" />
-    <Compile Include="Game\GameVersion.cs" />
-    <Compile Include="Game\GARCFile.cs" />
-    <Compile Include="Game\GARCReference.cs" />
-    <Compile Include="Game\TextReference.cs" />
-    <Compile Include="Game\TextVariableCode.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Structures\EggMoves.cs" />
-    <Compile Include="Structures\EncounterStatic.cs" />
-    <Compile Include="Structures\Gen6\EncounterGift6.cs" />
-    <Compile Include="Structures\Gen6\EncounterStatic6.cs" />
-    <Compile Include="Structures\Gen6\Evolutions.cs" />
-    <Compile Include="Structures\Gen6\Item6.cs" />
-    <Compile Include="Structures\Gen6\Maison6.cs" />
-    <Compile Include="Structures\Gen6\MegaEvolution6.cs" />
-    <Compile Include="Structures\Gen6\Move6.cs" />
-    <Compile Include="Structures\Gen6\trdata6.cs" />
-    <Compile Include="Structures\Gen7\EncounterGift7.cs" />
-    <Compile Include="Structures\Gen7\EncounterStatic7.cs" />
-    <Compile Include="Structures\Gen7\EncounterTrade7.cs" />
-    <Compile Include="Structures\Gen7\Maison7.cs" />
-    <Compile Include="Structures\Gen7\trdata7.cs" />
-    <Compile Include="Structures\Gen7\trpoke7.cs" />
-    <Compile Include="Structures\Gen7\ZoneData7.cs" />
-    <Compile Include="Structures\Learnset.cs" />
-    <Compile Include="Structures\PersonalInfo\PersonalInfo.cs" />
-    <Compile Include="Structures\PersonalInfo\PersonalInfoORAS.cs" />
-    <Compile Include="Structures\PersonalInfo\PersonalInfoSM.cs" />
-    <Compile Include="Structures\PersonalInfo\PersonalInfoXY.cs" />
-    <Compile Include="Structures\PersonalInfo\PersonalTable.cs" />
-    <Compile Include="Structures\TypeChart.cs" />
-    <Compile Include="TextFile.cs" />
-    <Compile Include="Util.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\asm_mov" />
-    <None Include="Resources\ETC1Lib.dll" />
-    <None Include="Resources\romdata\byte\Logo\Distributed.bin" />
-    <None Include="Resources\romdata\byte\Logo\iQue.bin" />
-    <None Include="Resources\romdata\byte\Logo\iQueForSystem.bin" />
-    <None Include="Resources\romdata\byte\Logo\Licensed.bin" />
-    <None Include="Resources\romdata\byte\Logo\Nintendo.bin" />
-    <None Include="Resources\romdata\byte\PlainRegion\ORAS.bin" />
-    <None Include="Resources\romdata\byte\PlainRegion\XY.bin" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\romdata\txt\3dsgames.txt" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>
