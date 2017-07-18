@@ -542,12 +542,6 @@
     <None Include="Resources\img\F.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\pk3DS.Core\pk3DS.Core.csproj">
-      <Project>{BC4D176C-9471-432A-82EB-ABF9AF1D6DFD}</Project>
-      <Name>pk3DS.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\changelog.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -2997,6 +2991,12 @@
     <None Include="Resources\img\Pokemon Sprites\0.png" />
     <None Include="Resources\img\Pokemon Sprites\_.png" />
     <None Include="Resources\img\N.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\pk3DS.Core\pk3DS.Core.csproj">
+      <Project>{053212fc-2d93-427b-8695-78ec87e4c43c}</Project>
+      <Name>pk3DS.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
