@@ -244,45 +244,35 @@ namespace pk3DS
             int maxmove = Main.Config.XY ? 617 
                 : Main.Config.ORAS ? 620 
                 : 718; // SM
-            maxmove += 1;
             int[] moves = new int[4];
             int loopctr = 0;
+            int[] movelist = Enumerable.Range(1, maxmove).Except(Legal.Z_Moves).ToArray();
+            int m = 0;
+            int getMove() => getRandomSpecies(ref movelist, ref m);
             const int maxLoop = 666;
 
             getMoves:
-            switch (Main.Config.Generation)
-            {
-                case 6:
-                    for (int i = 0; i < 4; i++)
-                        moves[i] = (int)(Util.rnd32() % maxmove);
-                    break;
-                    
-                case 7:
-                    int m = 0;
-                    while (m != 4)
-                    {
-                        moves[m] = (int)(Util.rnd32() % maxmove);
-                        if (!Legal.Z_Moves.Contains(moves[m]))
-                            m++; // Valid
-                    }
-                    break;
+            int i = 0;
+            if (rSTAB)
+                while (i < rSTABCount)
+                    if (Types.Contains(moveData[moves[i] = getMove()].Type))
+                        i++; // valid
+            while (i < 4) // remainder of moves
+                moves[i++] = getMove();
 
-                default:
-                    return moves;
-            }
-            if (loopctr++ < maxLoop || ScreenMoves(moves, Types, moveData, rDMG, rDMGCount, rSTAB, rSTABCount))
-                return moves;
-            goto getMoves;
+            bool valid = ScreenMoves(moves, Types, moveData, rDMG, rDMGCount);
+            if (!valid && loopctr++ <= maxLoop)
+                goto getMoves;
+
+            return moves;
         }
 
-        private static bool ScreenMoves(int[] moves, int[] Types, Move[] moveData, bool rDMG, int rDMGCount, bool rSTAB, int rSTABCount)
+        private static bool ScreenMoves(int[] moves, int[] Types, Move[] moveData, bool rDMG, int rDMGCount)
         {
             if (rDMG && rDMGCount > moves.Count(move => moveData[move].Category != 0))
                 return false;
-            if (rSTAB && rSTABCount > moves.Count(move => Types.Contains(moveData[move].Type)))
-                return false;
 
-            return true;
+            return moves.Distinct().Count() == 4;
         }
     }
 }
