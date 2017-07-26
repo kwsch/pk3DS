@@ -68,9 +68,9 @@ namespace pk3DS
         public string[] tutor4 = { "Gastro Acid", "Worry Seed", "Spite", "After You", "Helping Hand", "Trick", "Magic Room", "Wonder Room", "Endeavor", "Outrage", "Recycle", "Snatch", "Stealth Rock", "Sleep Talk", "Skill Swap" };
         */
         public ushort[] tutormoves = { 520, 519, 518, 338, 307, 308, 434, 620 };
-        public ushort[] tutor1 = { 450, 343, 162, 530, 324, 442, 402, 529, 340, 67, 441, 253, 9, 7, 8 };
+        public ushort[] tutor1 = { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 };
         public ushort[] tutor2 = { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 };
-        public ushort[] tutor3 = { 20, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 314, 264, 351, 352 };
+        public ushort[] tutor3 = { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355, 264, 351, 352 };
         public ushort[] tutor4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 };
 
         private readonly int[] baseForms, formVal;
