@@ -88,6 +88,17 @@ namespace pk3DS
             // Set TM/HM list in
             for (int i = 0; i < 100; i++)
                 Array.Copy(BitConverter.GetBytes(tmlist[i]), 0, data, offset + 2 * i, 2);
+
+            // Set Move Text Descriptions back into Item Text File
+            string[] itemDescriptions = Main.Config.getText(TextName.ItemFlavor);
+            string[] moveDescriptions = Main.Config.getText(TextName.MoveFlavor);
+            for (int i = 1 - 1; i <= 92 - 1; i++) // TM01 - TM92
+                itemDescriptions[328 + i] = moveDescriptions[tmlist[i]];
+            for (int i = 93 - 1; i <= 95 - 1; i++) // TM92 - TM95
+                itemDescriptions[618 + i - 92] = moveDescriptions[tmlist[i]];
+            for (int i = 96 - 1; i <= 100 - 1; i++) // TM96 - TM100
+                itemDescriptions[690 + i - 95] = moveDescriptions[tmlist[i]];
+            Main.Config.setText(TextName.ItemFlavor, itemDescriptions);
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)
