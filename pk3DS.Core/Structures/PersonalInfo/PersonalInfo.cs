@@ -11,7 +11,19 @@
         public abstract int SPA { get; set; }
         public abstract int SPD { get; set; }
 
-        public int[] Stats => new[] { HP, ATK, DEF, SPE, SPA, SPD };
+        public int[] Stats
+        {
+            get => new[] {HP, ATK, DEF, SPE, SPA, SPD};
+            set
+            {
+                HP = value[0];
+                ATK = value[1];
+                DEF = value[2];
+                SPE = value[3];
+                SPA = value[4];
+                SPD = value[5];
+            }
+        }
 
         public abstract int EV_HP { get; set; }
         public abstract int EV_ATK { get; set; }
