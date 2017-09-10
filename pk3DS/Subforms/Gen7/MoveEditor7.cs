@@ -38,7 +38,7 @@ namespace pk3DS
             "Confusion", "Attract", "Capture", "Nightmare", "Curse", 
             "Taunt", "Torment", "Disable", "Yawn", "Heal Block", 
             "?", "Detect", "Leech Seed", "Embargo", "Perish Song", 
-            "Ingrain", 
+            "Ingrain", "??? 0x16", "??? 0x17", "Mute"
         };
 
         private readonly string[] MoveQualities =
