@@ -376,7 +376,7 @@
             this.B_DumpPKs.Name = "B_DumpPKs";
             this.B_DumpPKs.Size = new System.Drawing.Size(75, 23);
             this.B_DumpPKs.TabIndex = 6;
-            this.B_DumpPKs.Text = "Dump PKs";
+            this.B_DumpPKs.Text = "Dump PKMs";
             this.B_DumpPKs.UseVisualStyleBackColor = true;
             this.B_DumpPKs.Click += new System.EventHandler(this.B_DumpPKs_Click);
             // 
@@ -390,11 +390,11 @@
             this.DumpTRs.UseVisualStyleBackColor = true;
             this.DumpTRs.Click += new System.EventHandler(this.DumpTRs_Click);
             // 
-            // Maison
+            // MaisonEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(579, 227);
+            this.ClientSize = new System.Drawing.Size(579, 226);
             this.Controls.Add(this.DumpTRs);
             this.Controls.Add(this.B_DumpPKs);
             this.Controls.Add(this.GB_Pokemon);
@@ -406,7 +406,7 @@
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(595, 265);
             this.MinimumSize = new System.Drawing.Size(595, 265);
-            this.Name = "Maison";
+            this.Name = "MaisonEditor6";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Maison Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);

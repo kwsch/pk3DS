@@ -39,6 +39,8 @@
             this.LB_Choices = new System.Windows.Forms.ListBox();
             this.CB_Class = new System.Windows.Forms.ComboBox();
             this.GB_Pokemon = new System.Windows.Forms.GroupBox();
+            this.L_Form = new System.Windows.Forms.Label();
+            this.NUD_Form = new System.Windows.Forms.NumericUpDown();
             this.PB_PKM = new System.Windows.Forms.PictureBox();
             this.CHK_Spe = new System.Windows.Forms.CheckBox();
             this.CHK_SpD = new System.Windows.Forms.CheckBox();
@@ -59,12 +61,10 @@
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.B_DumpPKs = new System.Windows.Forms.Button();
             this.DumpTRs = new System.Windows.Forms.Button();
-            this.NUD_Form = new System.Windows.Forms.NumericUpDown();
-            this.L_Form = new System.Windows.Forms.Label();
             this.GB_Trainer.SuspendLayout();
             this.GB_Pokemon.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_PKM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_PKM)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_Trainer
@@ -199,6 +199,33 @@
             this.GB_Pokemon.TabIndex = 5;
             this.GB_Pokemon.TabStop = false;
             this.GB_Pokemon.Text = "Pokemon Summary";
+            // 
+            // L_Form
+            // 
+            this.L_Form.AutoSize = true;
+            this.L_Form.Location = new System.Drawing.Point(71, 163);
+            this.L_Form.Name = "L_Form";
+            this.L_Form.Size = new System.Drawing.Size(33, 13);
+            this.L_Form.TabIndex = 27;
+            this.L_Form.Text = "Form:";
+            // 
+            // NUD_Form
+            // 
+            this.NUD_Form.Location = new System.Drawing.Point(107, 161);
+            this.NUD_Form.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Form.Name = "NUD_Form";
+            this.NUD_Form.Size = new System.Drawing.Size(59, 20);
+            this.NUD_Form.TabIndex = 26;
+            this.NUD_Form.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Form.ValueChanged += new System.EventHandler(this.changeSpecies);
             // 
             // PB_PKM
             // 
@@ -381,7 +408,7 @@
             this.B_DumpPKs.Name = "B_DumpPKs";
             this.B_DumpPKs.Size = new System.Drawing.Size(75, 23);
             this.B_DumpPKs.TabIndex = 6;
-            this.B_DumpPKs.Text = "Dump PKs";
+            this.B_DumpPKs.Text = "Dump PKMs";
             this.B_DumpPKs.UseVisualStyleBackColor = true;
             this.B_DumpPKs.Click += new System.EventHandler(this.B_DumpPKs_Click);
             // 
@@ -394,33 +421,6 @@
             this.DumpTRs.Text = "Dump TRs";
             this.DumpTRs.UseVisualStyleBackColor = true;
             this.DumpTRs.Click += new System.EventHandler(this.DumpTRs_Click);
-            // 
-            // NUD_Form
-            // 
-            this.NUD_Form.Location = new System.Drawing.Point(107, 161);
-            this.NUD_Form.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_Form.Name = "NUD_Form";
-            this.NUD_Form.Size = new System.Drawing.Size(59, 20);
-            this.NUD_Form.TabIndex = 26;
-            this.NUD_Form.Value = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_Form.ValueChanged += new System.EventHandler(this.changeSpecies);
-            // 
-            // L_Form
-            // 
-            this.L_Form.AutoSize = true;
-            this.L_Form.Location = new System.Drawing.Point(71, 163);
-            this.L_Form.Name = "L_Form";
-            this.L_Form.Size = new System.Drawing.Size(33, 13);
-            this.L_Form.TabIndex = 27;
-            this.L_Form.Text = "Form:";
             // 
             // MaisonEditor7
             // 
@@ -440,14 +440,14 @@
             this.MinimumSize = new System.Drawing.Size(595, 265);
             this.Name = "MaisonEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Maison Editor";
+            this.Text = "Royal/Tree Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             this.GB_Trainer.ResumeLayout(false);
             this.GB_Trainer.PerformLayout();
             this.GB_Pokemon.ResumeLayout(false);
             this.GB_Pokemon.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_PKM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_PKM)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
