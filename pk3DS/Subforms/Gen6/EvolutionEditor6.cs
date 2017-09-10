@@ -143,7 +143,7 @@ namespace pk3DS
             evos.Select(z => z.Write()).ToArray().CopyTo(files, 0);
             getList();
 
-            WinFormsUtil.Alert("All Pokemon's Evolutions have been randomized!");
+            WinFormsUtil.Alert("All Pokémon's Evolutions have been randomized!");
         }
         private void B_Dump_Click(object sender, EventArgs e)
         {

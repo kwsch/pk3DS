@@ -243,7 +243,7 @@ namespace pk3DS
         {
             // gametext can be horribly broken if randomized
             if (Mode == "gametext" && DialogResult.Yes !=
-                WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomizing Game Text is dangerous?", "Continue?"))
+                WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomizing Game Text is dangerous!", "Continue?"))
                 return;
 
             // get if the user wants to randomize current text file or all files

@@ -303,7 +303,6 @@ namespace pk3DS
                 ModifyLearnsetTM = CHK_TM.Checked,
                 ModifyLearnsetHM = CHK_HM.Checked,
                 ModifyLearnsetTypeTutors = CHK_Tutors.Checked,
-                ModifyLearnsetMoveTutors = Main.Config.ORAS && CHK_ORASTutors.Checked,
                 ModifyTypes = CHK_Type.Checked,
                 ModifyHeldItems = CHK_Item.Checked,
                 SameTypeChance = NUD_TypePercent.Value,
@@ -314,7 +313,7 @@ namespace pk3DS
             rnd.Execute();
 
             readEntry();
-            WinFormsUtil.Alert("All relevant Pokemon Personal Entries have been randomized!");
+            WinFormsUtil.Alert("All relevant Pokémon Personal Entries have been randomized!");
         }
         private void B_ModifyAll(object sender, EventArgs e)
         {
@@ -386,7 +385,8 @@ namespace pk3DS
         }
         private void CHK_Stats_CheckedChanged(object sender, EventArgs e)
         {
-            L_StatDev.Visible = NUD_StatDev.Visible = CHK_Stats.Checked;
+            L_StatDev.Enabled = NUD_StatDev.Enabled = CHK_Stats.Checked;
+            CHK_rHP.Enabled = CHK_rATK.Enabled = CHK_rDEF.Enabled = CHK_rSPA.Enabled = CHK_rSPD.Enabled = CHK_rSPE.Enabled = CHK_Stats.Checked;
         }
         private void CHK_Ability_CheckedChanged(object sender, EventArgs e)
         {

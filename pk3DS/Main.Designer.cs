@@ -80,6 +80,7 @@
             this.B_OWSE = new System.Windows.Forms.Button();
             this.Tab_ExeFS = new System.Windows.Forms.TabPage();
             this.FLP_ExeFS = new System.Windows.Forms.FlowLayoutPanel();
+            this.B_TM = new System.Windows.Forms.Button();
             this.B_ShinyRate = new System.Windows.Forms.Button();
             this.Tab_CRO = new System.Windows.Forms.TabPage();
             this.FLP_CRO = new System.Windows.Forms.FlowLayoutPanel();
@@ -89,7 +90,6 @@
             this.B_Static = new System.Windows.Forms.Button();
             this.Tab_Output = new System.Windows.Forms.TabPage();
             this.L_Status = new System.Windows.Forms.Label();
-            this.B_TM = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.TC_RomFS.SuspendLayout();
             this.Tab_RomFS.SuspendLayout();
@@ -156,7 +156,7 @@
             this.B_Mart.Name = "B_Mart";
             this.B_Mart.Size = new System.Drawing.Size(100, 23);
             this.B_Mart.TabIndex = 2;
-            this.B_Mart.Text = "Mart";
+            this.B_Mart.Text = "Poké Mart";
             this.B_Mart.UseVisualStyleBackColor = true;
             this.B_Mart.Click += new System.EventHandler(this.B_Mart_Click);
             // 
@@ -166,7 +166,7 @@
             this.B_MoveTutor.Name = "B_MoveTutor";
             this.B_MoveTutor.Size = new System.Drawing.Size(100, 23);
             this.B_MoveTutor.TabIndex = 3;
-            this.B_MoveTutor.Text = "Move Tutor";
+            this.B_MoveTutor.Text = "Move Tutors";
             this.B_MoveTutor.UseVisualStyleBackColor = true;
             this.B_MoveTutor.Click += new System.EventHandler(this.B_MoveTutor_Click);
             // 
@@ -217,7 +217,7 @@
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(105, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(152, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.B_Open_Click);
             // 
@@ -226,7 +226,7 @@
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(105, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(152, 22);
             this.Menu_Exit.Text = "&Exit";
             this.Menu_Exit.Click += new System.EventHandler(this.Menu_Exit_Click);
             // 
@@ -305,7 +305,7 @@
             // 
             this.Menu_RomFS.Enabled = false;
             this.Menu_RomFS.Name = "Menu_RomFS";
-            this.Menu_RomFS.Size = new System.Drawing.Size(111, 22);
+            this.Menu_RomFS.Size = new System.Drawing.Size(152, 22);
             this.Menu_RomFS.Text = "RomFS";
             this.Menu_RomFS.Click += new System.EventHandler(this.rebuildRomFS);
             // 
@@ -313,7 +313,7 @@
             // 
             this.Menu_ExeFS.Enabled = false;
             this.Menu_ExeFS.Name = "Menu_ExeFS";
-            this.Menu_ExeFS.Size = new System.Drawing.Size(111, 22);
+            this.Menu_ExeFS.Size = new System.Drawing.Size(152, 22);
             this.Menu_ExeFS.Text = "ExeFS";
             this.Menu_ExeFS.Click += new System.EventHandler(this.rebuildExeFS);
             // 
@@ -321,7 +321,7 @@
             // 
             this.Menu_CRO.Enabled = false;
             this.Menu_CRO.Name = "Menu_CRO";
-            this.Menu_CRO.Size = new System.Drawing.Size(111, 22);
+            this.Menu_CRO.Size = new System.Drawing.Size(152, 22);
             this.Menu_CRO.Text = "CRO";
             this.Menu_CRO.Click += new System.EventHandler(this.patchCRO_CRR);
             // 
@@ -329,7 +329,7 @@
             // 
             this.Menu_3DS.Enabled = false;
             this.Menu_3DS.Name = "Menu_3DS";
-            this.Menu_3DS.Size = new System.Drawing.Size(111, 22);
+            this.Menu_3DS.Size = new System.Drawing.Size(152, 22);
             this.Menu_3DS.Text = ".3DS";
             this.Menu_3DS.Click += new System.EventHandler(this.B_Rebuild3DS_Click);
             // 
@@ -337,7 +337,7 @@
             // 
             this.Menu_Patch.Enabled = false;
             this.Menu_Patch.Name = "Menu_Patch";
-            this.Menu_Patch.Size = new System.Drawing.Size(111, 22);
+            this.Menu_Patch.Size = new System.Drawing.Size(152, 22);
             this.Menu_Patch.Text = "Patch";
             this.Menu_Patch.Click += new System.EventHandler(this.B_Patch_Click);
             // 
@@ -363,7 +363,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_Lang});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(146, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_Lang
@@ -389,14 +389,14 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(146, 22);
+            this.Menu_About.Size = new System.Drawing.Size(152, 22);
             this.Menu_About.Text = "A&bout pk3DS";
             this.Menu_About.Click += new System.EventHandler(this.L_About_Click);
             // 
             // Menu_GARCs
             // 
             this.Menu_GARCs.Name = "Menu_GARCs";
-            this.Menu_GARCs.Size = new System.Drawing.Size(146, 22);
+            this.Menu_GARCs.Size = new System.Drawing.Size(152, 22);
             this.Menu_GARCs.Text = "About GARCs";
             this.Menu_GARCs.Click += new System.EventHandler(this.L_GARCInfo_Click);
             // 
@@ -536,7 +536,7 @@
             this.B_Trainer.Name = "B_Trainer";
             this.B_Trainer.Size = new System.Drawing.Size(100, 23);
             this.B_Trainer.TabIndex = 2;
-            this.B_Trainer.Text = "Trainer";
+            this.B_Trainer.Text = "Trainers";
             this.B_Trainer.UseVisualStyleBackColor = true;
             this.B_Trainer.Click += new System.EventHandler(this.B_Trainer_Click);
             // 
@@ -556,7 +556,7 @@
             this.B_Royal.Name = "B_Royal";
             this.B_Royal.Size = new System.Drawing.Size(100, 23);
             this.B_Royal.TabIndex = 14;
-            this.B_Royal.Text = "Tree/Royal";
+            this.B_Royal.Text = "Royal/Tree";
             this.B_Royal.UseVisualStyleBackColor = true;
             this.B_Royal.Click += new System.EventHandler(this.B_Maison_Click);
             // 
@@ -626,6 +626,16 @@
             this.FLP_ExeFS.Name = "FLP_ExeFS";
             this.FLP_ExeFS.Size = new System.Drawing.Size(346, 148);
             this.FLP_ExeFS.TabIndex = 11;
+            // 
+            // B_TM
+            // 
+            this.B_TM.Location = new System.Drawing.Point(215, 3);
+            this.B_TM.Name = "B_TM";
+            this.B_TM.Size = new System.Drawing.Size(100, 23);
+            this.B_TM.TabIndex = 6;
+            this.B_TM.Text = "TMs";
+            this.B_TM.UseVisualStyleBackColor = true;
+            this.B_TM.Click += new System.EventHandler(this.B_TMHM_Click);
             // 
             // B_ShinyRate
             // 
@@ -717,16 +727,6 @@
             this.L_Status.Size = new System.Drawing.Size(163, 20);
             this.L_Status.TabIndex = 14;
             this.L_Status.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // B_TM
-            // 
-            this.B_TM.Location = new System.Drawing.Point(215, 3);
-            this.B_TM.Name = "B_TM";
-            this.B_TM.Size = new System.Drawing.Size(100, 23);
-            this.B_TM.TabIndex = 6;
-            this.B_TM.Text = "TM/HM";
-            this.B_TM.UseVisualStyleBackColor = true;
-            this.B_TM.Click += new System.EventHandler(this.B_TMHM_Click);
             // 
             // Main
             // 
