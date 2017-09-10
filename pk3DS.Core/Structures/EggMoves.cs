@@ -70,7 +70,6 @@ namespace pk3DS.Core.Structures
         public override byte[] Write()
         {
             Count = Moves.Length;
-            if (Count == 0) return new byte[0];
             using (MemoryStream ms = new MemoryStream())
             using (BinaryWriter bw = new BinaryWriter(ms))
             {

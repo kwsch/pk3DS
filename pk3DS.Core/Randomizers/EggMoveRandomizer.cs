@@ -23,12 +23,24 @@ namespace pk3DS.Core.Randomizers
         public int ExpandTo = 18;
         public bool STAB { set => moverand.rSTAB = value; }
         public int[] BannedMoves { set => moverand.BannedMoves = value; }
-        public decimal rSTABPercent = 32.1m;
+        public decimal rSTABPercent { set => moverand.rSTABPercent = value; }
 
         public void Execute()
         {
-            for (int i = 0; i < Sets.Length; i++)
-                Randomize(Sets[i], i);
+            if (Sets[0] is EggMoves6)
+                for (int i = 0; i < Sets.Length; i++)
+                    Randomize(Sets[i], i);
+            else if (Sets[0] is EggMoves7)
+            {
+                for (int i = 0; i <= Config.MaxSpeciesID; i++)
+                {
+                    Randomize(Sets[i], i);
+                    int formoff = ((EggMoves7) Sets[i]).FormTableIndex;
+                    int count = Config.Personal[i].FormeCount;
+                    for (int j = 1; j < count; j++)
+                        Randomize(Sets[formoff + j - 1], Config.Personal.getFormeIndex(i, j));
+                }
+            }
         }
 
         private void Randomize(EggMoves eggMoves, int index)
@@ -40,8 +52,6 @@ namespace pk3DS.Core.Randomizers
         private int[] GetRandomMoves(int count, int index)
         {
             count = Expand ? ExpandTo : count;
-            moverand.rSTABCount = (int)(count * rSTABPercent / 100);
-
             int[] moves = new int[count];
             moverand.GetRandomLearnset(index, count).CopyTo(moves, 0);
             return moves;

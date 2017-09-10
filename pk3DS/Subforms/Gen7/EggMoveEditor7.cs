@@ -25,22 +25,36 @@ namespace pk3DS
             specieslist[0] = movelist[0] = "";
             
             setupDGV();
+            entries = infiles.Select(z => new EggMoves7(z)).ToArray();
+            string[] names = new string[entries.Length];
 
-            var newlist = new List<WinFormsUtil.cbItem>();
             for (int i = 0; i < species.Length; i++) // add all species & forms
-                newlist.Add(new WinFormsUtil.cbItem { Text = species[i] + $" ({i})", Value = i });
-            newlist = newlist.OrderBy(item => item.Text).ToList();
-            for (int i = species.Length; i < files.Length; i++)
-                newlist.Add(new WinFormsUtil.cbItem { Text = $"{i.ToString("0000")} - Extra", Value = i });
+            {
+                names[i] = species[i];
+                int formoff = entries[i].FormTableIndex;
+                int count = Main.Config.Personal[i].FormeCount;
+                for (int j = 1; j < count; j++)
+                {
+                    if (names[formoff + j - 1] == null)
+                        names[formoff + j - 1] = $"{species[i]} [{AltForms[i][j].Replace(species[i] + " ", "")}]";
+                }
+            }
+
+            var newlist = names.Select((z, i) => new WinFormsUtil.cbItem{Text = (names[i] ?? "Extra") + $" ({i})", Value = i});
+            newlist = newlist.GroupBy(z => z.Text.StartsWith("Extra"))
+                .Select(z => z.OrderBy(item => item.Text))
+                .SelectMany(z => z).ToList();
             NUD_FormTable.Maximum = files.Length;
 
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
             CB_Species.DataSource = newlist;
 
-
             CB_Species.SelectedIndex = 0;
         }
+
+        private readonly EggMoves7[] entries;
+
         private readonly byte[][] files;
         private int entry = -1;
         private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
@@ -77,8 +91,7 @@ namespace pk3DS
             PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
 
             dgv.Rows.Clear();
-            byte[] input = files[entry];
-            pkm = new EggMoves7(input);
+            pkm = entries[entry];
             NUD_FormTable.Value = pkm.FormTableIndex;
             if (pkm.Count < 1) { files[entry] = new byte[0]; return; }
             dgv.Rows.Add(pkm.Count);
@@ -99,8 +112,9 @@ namespace pk3DS
                 if (move > 0 && !moves.Contains((ushort)move)) moves.Add(move);
             }
             pkm.Moves = moves.ToArray();
+            pkm.FormTableIndex = (int)NUD_FormTable.Value;
 
-            files[entry] = pkm.Write();
+            entries[entry] = (EggMoves7)pkm;
         }
 
         private void changeEntry(object sender, EventArgs e)
@@ -111,7 +125,7 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            var sets = files.Select(z => new EggMoves7(z)).ToArray();
+            var sets = entries;
             var rand = new EggMoveRandomizer(Main.Config, sets)
             {
                 Expand = CHK_Expand.Checked,
@@ -121,7 +135,7 @@ namespace pk3DS
                 BannedMoves = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(), // Struggle, Hyperspace Fury, Dark Void
             };
             rand.Execute();
-            sets.Select(z => z.Write()).ToArray().CopyTo(files, 0);
+            // sets.Select(z => z.Write()).ToArray().CopyTo(files, 0);
             getList();
             WinFormsUtil.Alert("All Pokemon's Egg Up Moves have been randomized!");
         }
@@ -155,6 +169,7 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setList();
+            entries.Select(z => z.Write()).ToArray().CopyTo(files, 0);
         }
 
         private void B_Goto_Click(object sender, EventArgs e)
