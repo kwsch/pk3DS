@@ -118,9 +118,10 @@ namespace pk3DS
                 Array.Copy(species, temp_species, temp_species.Length);
                 species = temp_species;
 
-                CLB_OrasTutors.Visible = 
+                CLB_OrasTutors.Visible =
                 CLB_OrasTutors.Enabled =
                 L_ORASTutors.Visible = false;
+                CHK_ORASTutors.Visible = false;
             }
             else if (mode == "ORAS")
             {
@@ -360,7 +361,7 @@ namespace pk3DS
             rnd.Execute();
 
             readEntry();
-            WinFormsUtil.Alert("All relevant Pokemon Personal Entries have been randomized!");
+            WinFormsUtil.Alert("All relevant Pokémon Personal Entries have been randomized!");
         }
         private void B_ModifyAll(object sender, EventArgs e)
         {
@@ -427,6 +428,7 @@ namespace pk3DS
         private void CHK_Stats_CheckedChanged(object sender, EventArgs e)
         {
             L_StatDev.Visible = NUD_StatDev.Visible = CHK_Stats.Checked;
+            CHK_rHP.Enabled = CHK_rATK.Enabled = CHK_rDEF.Enabled = CHK_rSPA.Enabled = CHK_rSPD.Enabled = CHK_rSPE.Enabled = CHK_Stats.Checked;
         }
         private void CHK_Ability_CheckedChanged(object sender, EventArgs e)
         {
