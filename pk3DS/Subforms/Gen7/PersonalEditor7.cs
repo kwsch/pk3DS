@@ -123,9 +123,9 @@ namespace pk3DS
         }
         private void ByteLimiter(object sender, EventArgs e)
         {
-            MaskedTextBox mtb = sender as MaskedTextBox;
-            int val;
-            int.TryParse(mtb.Text, out val);
+            if (!(sender is MaskedTextBox mtb))
+                return;
+            int.TryParse(mtb.Text, out int val);
             if (Array.IndexOf(byte_boxes, mtb) > -1 && val > 255)
                 mtb.Text = "255";
             else if (Array.IndexOf(ev_boxes, mtb) > -1 && val > 3)
@@ -290,17 +290,10 @@ namespace pk3DS
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             saveEntry();
-
-            ushort[] itemlist = Main.Config.SM ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
-            ushort[] berrylist = Legal.Pouch_Berry_XY;
-            Array.Resize(ref itemlist, itemlist.Length + berrylist.Length);
-            Array.Copy(berrylist, 0, itemlist, itemlist.Length - berrylist.Length, berrylist.Length);
-
+            
             // input settings
             var rnd = new PersonalRandomizer(Main.SpeciesStat, Main.Config)
             {
-                ItemCount = itemlist.Length,
-                AbilityCount = CB_Ability1.Items.Count,
                 TypeCount = CB_Type1.Items.Count,
                 ModifyCatchRate = CHK_CatchRate.Checked,
                 ModifyEggGroup = CHK_EggGroup.Checked,

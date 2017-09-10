@@ -327,7 +327,6 @@ namespace pk3DS
 
                 RomFSPath = path;
                 Config = cfg;
-                Randomizer.MaxSpeciesID = cfg.MaxSpeciesID;
                 return true;
             }
             WinFormsUtil.Error("Folder does not contain an 'a' folder in the top level.");

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using pk3DS.Properties;
 using pk3DS.Core.Structures;
 using pk3DS.Core;
+using pk3DS.Core.Randomizers;
 using pk3DS.Core.Structures.Gen6;
 
 namespace pk3DS
@@ -111,46 +112,18 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            /*
-             * 3111 Egg Moves Learned by 290 Species (10.73 avg)
-             * 18 is the most
-             * 1000 moves learned were STAB (32.1%)
-             */
-            Random rnd = new Random();
-
-            int[] banned = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(); // Struggle, Hyperspace Fury, Dark Void
-
-            // Move Stats
-            Move[] moveTypes = Main.Config.Moves;
-            
-            // Set up Randomized Moves
-            int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
-            Util.Shuffle(randomMoves);
-            int ctr = 0;
-
-            for (int i = 0; i < CB_Species.Items.Count; i++)
+            var sets = files.Select(z => new EggMoves7(z)).ToArray();
+            var rand = new EggMoveRandomizer(Main.Config, sets)
             {
-                CB_Species.SelectedIndex = i; // Get new Species
-                int count = dgv.Rows.Count - 1;
-                int species = WinFormsUtil.getIndex(CB_Species);
-                if (CHK_Expand.Checked && (int)NUD_Moves.Value > count)
-                    dgv.Rows.AddCopies(count, (int)NUD_Moves.Value - count);
-                
-                for (int j = 1; j < dgv.Rows.Count - 1; j++)
-                {
-                    // Assign New Moves
-                    bool forceSTAB = CHK_STAB.Checked && rnd.Next(0, 99) < NUD_STAB.Value;
-                    int move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
-
-                    while (banned.Contains(move) /* Invalid */
-                        || forceSTAB && !Main.SpeciesStat[species].Types.Contains(moveTypes[move].Type)) // STAB is required
-                        move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
-
-                    // Assign Move
-                    dgv.Rows[j].Cells[0].Value = movelist[move];
-                }
-            }
-            CB_Species.SelectedIndex = 0;
+                Expand = CHK_Expand.Checked,
+                ExpandTo = (int)NUD_Moves.Value,
+                STAB = CHK_STAB.Checked,
+                rSTABPercent = NUD_STAB.Value,
+                BannedMoves = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(), // Struggle, Hyperspace Fury, Dark Void
+            };
+            rand.Execute();
+            sets.Select(z => z.Write()).ToArray().CopyTo(files, 0);
+            getList();
             WinFormsUtil.Alert("All Pokemon's Egg Up Moves have been randomized!");
         }
         private void B_Dump_Click(object sender, EventArgs e)

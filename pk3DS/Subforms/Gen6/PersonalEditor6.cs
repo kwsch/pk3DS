@@ -46,7 +46,7 @@ namespace pk3DS
         private string[] items = { };
         private string[] moves = { };
         private string[] species = { };
-        private string[] abilities = { };
+        private readonly string[] abilities = { };
 
         private readonly ComboBox[] helditem_boxes;
         private readonly ComboBox[] ability_boxes;
@@ -57,11 +57,11 @@ namespace pk3DS
         private readonly MaskedTextBox[] ev_boxes;
         private readonly CheckBox[] rstat_boxes;
 
-        public string[] types = { };
+        private readonly string[] types = { };
 
-        public string[] eggGroups = { "---", "Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon", "Undiscovered" };
-        public string[] EXPGroups = { "Medium-Fast", "Erratic", "Fluctuating", "Medium-Slow", "Fast", "Slow" };
-        public string[] colors = { "Red", "Blue", "Yellow", "Green", "Black", "Brown", "Purple", "Gray", "White", "Pink" };
+        private readonly string[] eggGroups = { "---", "Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon", "Undiscovered" };
+        private readonly string[] EXPGroups = { "Medium-Fast", "Erratic", "Fluctuating", "Medium-Slow", "Fast", "Slow" };
+        private readonly string[] colors = { "Red", "Blue", "Yellow", "Green", "Black", "Brown", "Purple", "Gray", "White", "Pink" };
 
         /*
         public string[] tutormoves = { "Frenzy Plant", "Blast Burn", "Hydro Cannon", "Grass Pledge", "Fire Pledge", "Water Pledge", "Draco Meteor", "Dragon's Ascent" };
@@ -70,11 +70,11 @@ namespace pk3DS
         public string[] tutor3 = { "Bind", "Snore", "Knock Off", "Synthesis", "Heat Wave", "Role Play", "Heal Bell", "Tailwind", "Sky Attack", "Pain Split", "Giga Drain", "Drain Punch", "Air Cutter", "Focus Punch", "Shock Wave", "Water Pulse" };
         public string[] tutor4 = { "Gastro Acid", "Worry Seed", "Spite", "After You", "Helping Hand", "Trick", "Magic Room", "Wonder Room", "Endeavor", "Outrage", "Recycle", "Snatch", "Stealth Rock", "Sleep Talk", "Skill Swap" };
         */
-        public ushort[] tutormoves = { 520, 519, 518, 338, 307, 308, 434, 620 };
-        public ushort[] tutor1 = { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 };
-        public ushort[] tutor2 = { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 };
-        public ushort[] tutor3 = { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355, 264, 351, 352 };
-        public ushort[] tutor4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 };
+        private readonly ushort[] tutormoves = { 520, 519, 518, 338, 307, 308, 434, 620 };
+        private readonly ushort[] tutor1 = { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 };
+        private readonly ushort[] tutor2 = { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 };
+        private readonly ushort[] tutor3 = { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355, 264, 351, 352 };
+        private readonly ushort[] tutor4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 };
 
         private readonly int[] baseForms, formVal;
         int entry = -1;
@@ -172,9 +172,9 @@ namespace pk3DS
         }
         private void ByteLimiter(object sender, EventArgs e)
         {
-            MaskedTextBox mtb = sender as MaskedTextBox;
-            int val;
-            int.TryParse(mtb.Text, out val);
+            if (!(sender is MaskedTextBox mtb))
+                return;
+            int.TryParse(mtb.Text, out int val);
             if (Array.IndexOf(byte_boxes, mtb) > -1 && val > 255)
                 mtb.Text = "255";
             else if (Array.IndexOf(ev_boxes, mtb) > -1 && val > 3)
@@ -337,16 +337,9 @@ namespace pk3DS
         {
             saveEntry();
 
-            ushort[] itemlist = Main.Config.ORAS ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
-            ushort[] berrylist = Legal.Pouch_Berry_XY;
-            Array.Resize(ref itemlist, itemlist.Length + berrylist.Length);
-            Array.Copy(berrylist, 0, itemlist, itemlist.Length - berrylist.Length, berrylist.Length);
-
             // input settings
             var rnd = new PersonalRandomizer(Main.SpeciesStat, Main.Config)
             {
-                ItemCount = itemlist.Length,
-                AbilityCount = CB_Ability1.Items.Count,
                 TypeCount = CB_Type1.Items.Count,
                 ModifyCatchRate = CHK_CatchRate.Checked,
                 ModifyEggGroup = CHK_EggGroup.Checked,

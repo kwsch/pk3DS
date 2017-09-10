@@ -312,7 +312,6 @@
     <Compile Include="Subforms\Gen6\EggMoveEditor6.Designer.cs">
       <DependentUpon>EggMoveEditor6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Legality\Legal.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

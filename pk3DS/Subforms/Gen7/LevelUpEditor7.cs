@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using pk3DS.Properties;
 using pk3DS.Core.Structures;
 using pk3DS.Core;
-using pk3DS.Core.Structures.Gen6;
 
 namespace pk3DS
 {
@@ -128,63 +127,21 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            // ORAS: 10682 moves learned on levelup/birth. 
-            // 5593 are STAB. 52.3% are STAB. 
-            // Steelix learns the most @ 25 (so many level 1)!
-            // Move relearner ingame glitch fixed (52 tested), but keep below 75:
-            // https://twitter.com/Drayano60/status/807297858244411397
-            Random rnd = new Random();
-
-            int[] firstMoves = { 1, 40, 52, 55, 64, 71, 84, 98, 122, 141 };
-            // Pound, Poison Sting, Ember, Water Gun, Peck, Absorb, Thunder Shock, Quick Attack, Lick, Leech Life
-            
-            int[] banned = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(); // Struggle, Hyperspace Fury, Dark Void
-
-            // Move Stats
-            Move[] moveTypes = Main.Config.Moves;
-
-            // Set up Randomized Moves
-            int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
-            Util.Shuffle(randomMoves);
-            int ctr = 0;
-
-            for (int i = 0; i < CB_Species.Items.Count; i++)
+            setList();
+            var sets = files.Select(z => new Learnset7(z)).ToArray();
+            var rand = new LearnsetRandomizer(Main.Config, sets)
             {
-                CB_Species.SelectedIndex = i; // Get new Species
-                int count = dgv.Rows.Count - 1;
-                int species = WinFormsUtil.getIndex(CB_Species);
-                if (CHK_Expand.Checked && (int)NUD_Moves.Value > count)
-                    dgv.Rows.AddCopies(count, (int)NUD_Moves.Value - count);
-
-                // Default First Move
-                dgv.Rows[0].Cells[0].Value = 1;
-                dgv.Rows[0].Cells[1].Value = movelist[firstMoves[rnd.Next(0, firstMoves.Length)]];
-                for (int j = 1; j < dgv.Rows.Count - 1; j++)
-                {
-                    // Assign New Moves
-                    bool forceSTAB = CHK_STAB.Checked && rnd.Next(0, 99) < NUD_STAB.Value;
-                    int move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
-
-                    while (banned.Contains(move) /* Invalid */
-                        || forceSTAB && !Main.SpeciesStat[species].Types.Contains(moveTypes[move].Type)) // STAB is required
-                        move = Randomizer.getRandomSpecies(ref randomMoves, ref ctr);
-
-                    // Assign Move
-                    dgv.Rows[j].Cells[1].Value = movelist[move];
-                    // Assign Level
-                    if (j >= count)
-                    {
-                        string level = (dgv.Rows[count - 1].Cells[0].Value ?? 0).ToString();
-                        ushort lv;
-                        UInt16.TryParse(level, out lv);
-                        if (lv > 100) lv = 100;
-                        dgv.Rows[j].Cells[0].Value = lv + (j - count) + 1;
-                    }
-                    if (CHK_Spread.Checked)
-                        dgv.Rows[j].Cells[0].Value = ((int)(j * (NUD_Level.Value / (dgv.Rows.Count - 1)))).ToString();
-                }
-            }
-            CB_Species.SelectedIndex = 0;
+                Expand = CHK_Expand.Checked,
+                ExpandTo = (int) NUD_Moves.Value,
+                Spread = CHK_Spread.Checked,
+                SpreadTo = (int) NUD_Level.Value,
+                STAB = CHK_STAB.Checked,
+                rSTABPercent = NUD_STAB.Value,
+                BannedMoves = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(), // Struggle, Hyperspace Fury, Dark Void
+            };
+            rand.Execute();
+            sets.Select(z => z.Write()).ToArray().CopyTo(files, 0);
+            getList();
             WinFormsUtil.Alert("All Pokemon's Level Up Moves have been randomized!");
         }
         private void B_Dump_Click(object sender, EventArgs e)

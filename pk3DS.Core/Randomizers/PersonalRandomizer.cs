@@ -17,8 +17,6 @@ namespace pk3DS.Core.Randomizers
         private readonly PersonalInfo[] Table;
 
         // Randomization Settings
-        public int ItemCount = 720;
-        public int AbilityCount;
         public int TypeCount;
         public bool ModifyCatchRate = true;
         public bool ModifyLearnsetTM = true;
@@ -155,12 +153,12 @@ namespace pk3DS.Core.Randomizers
 
         private int GetRandomType() => rnd.Next(0, TypeCount);
         private int GetRandomEggGroup() => rnd.Next(1, eggGroupCount);
-        private int GetRandomHeldItem() => rnd.Next(1, ItemCount);
+        private int GetRandomHeldItem() => Game.Info.HeldItems[rnd.Next(1, Game.Info.HeldItems.Length)];
         private int GetRandomAbility()
         {
             const int WonderGuard = 25;
             int newabil;
-            do newabil = rnd.Next(1, AbilityCount);
+            do newabil = rnd.Next(1, Game.Info.MaxAbilityID + 1);
             while (newabil == WonderGuard && !AllowWonderGuard);
             return newabil;
         }

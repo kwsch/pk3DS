@@ -3,7 +3,6 @@ using System.Linq;
 using pk3DS.Core.CTR;
 using pk3DS.Core.Structures.PersonalInfo;
 using pk3DS.Core.Structures;
-using pk3DS.Core.Structures.Gen6;
 
 namespace pk3DS.Core
 {
@@ -19,6 +18,7 @@ namespace pk3DS.Core
         public GARCReference[] Files { get; private set; }
         public TextVariableCode[] Variables { get; private set; }
         public TextReference[] GameText { get; private set; }
+        public GameInfo Info { get; private set; }
 
         public GameConfig(int fileCount)
         {
@@ -98,6 +98,7 @@ namespace pk3DS.Core
             InitializeLearnset();
             InitializeGameText();
             InitializeMoves();
+            InitializeGameInfo();
         }
         public void InitializePersonal()
         {
@@ -137,6 +138,10 @@ namespace pk3DS.Core
                     Moves = mini.unpackMini(GARCMoves.getFile(0), "WD").Select(file => new Move(file)).ToArray();
                     break;
             }
+        }
+        private void InitializeGameInfo()
+        {
+            Info = new GameInfo(this);
         }
         public lzGARCFile getlzGARCData(string file)
         {

@@ -644,9 +644,9 @@ namespace pk3DS
                     ushort[] items;
                     uint rnd = rnd32() % 10;
                     if (rnd < 2) // held item
-                        items = Main.Config.ORAS ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+                        items = Main.Config.ORAS ? Legal.Pouch_Items_AO : Legal.Pouch_Items_XY;
                     else if (rnd < 5) // medicine
-                        items = Main.Config.ORAS ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
+                        items = Main.Config.ORAS ? Legal.Pouch_Medicine_AO : Legal.Pouch_Medicine_XY;
                     else // berry
                         items = Legal.Pouch_Berry_XY;
                     CB_Prize.SelectedIndex = items[rnd32() % items.Length];
@@ -655,7 +655,7 @@ namespace pk3DS
                 else if (rGift)
                     CB_Prize.SelectedIndex = 0;
 
-                ushort[] itemvals = Main.Config.ORAS ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+                ushort[] itemvals = Main.Config.ORAS ? Legal.Pouch_Items_AO : Legal.Pouch_Items_XY;
                 itemvals = itemvals.Concat(Legal.Pouch_Berry_XY).ToArray();
                 int itemC = itemvals.Length;
                 int ctr = 0;
