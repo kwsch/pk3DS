@@ -1,9 +1,11 @@
-﻿using pk3DS.Core;
-using pk3DS.Core.Structures.Gen6;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+
+using pk3DS.Core;
+using pk3DS.Core.Randomizers;
+using pk3DS.Core.Structures;
 
 namespace pk3DS
 {
@@ -157,8 +159,7 @@ namespace pk3DS
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Randomizer Options tab.") != DialogResult.Yes) return;
 
-            // Randomize by BST
-            var formrand = new FormRandomizer(Main.Config) { AllowMega = false };
+            var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = false };
             var specrand = new SpeciesRandomizer(Main.Config)
             {
                 G1 = CHK_G1.Checked,
@@ -174,6 +175,7 @@ namespace pk3DS
 
                 rBST = CHK_BST.Checked,
             };
+            specrand.Initialize();
             for (int i = 0; i < LB_Gifts.Items.Count; i++)
             {
                 LB_Gifts.SelectedIndex = i;

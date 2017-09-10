@@ -1,9 +1,10 @@
-﻿using pk3DS.Core;
-using pk3DS.Core.Structures;
-using pk3DS.Core.Structures.Gen7;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+
+using pk3DS.Core;
+using pk3DS.Core.Randomizers;
+using pk3DS.Core.Structures;
 
 namespace pk3DS
 {
@@ -298,26 +299,42 @@ namespace pk3DS
         }
 
         // Randomization
-        private int[] getRandomSpeciesList()
+        private SpeciesRandomizer getRandomizer()
         {
-            return Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, CHK_G7.Checked,
-                CHK_L.Checked, CHK_E.Checked);
+            var specrand = new SpeciesRandomizer(Main.Config)
+            {
+                G1 = CHK_G1.Checked,
+                G2 = CHK_G2.Checked,
+                G3 = CHK_G3.Checked,
+                G4 = CHK_G4.Checked,
+                G5 = CHK_G5.Checked,
+                G6 = CHK_G6.Checked,
+                G7 = false,
+
+                E = CHK_E.Checked,
+                L = CHK_L.Checked,
+
+                rBST = CHK_BST.Checked,
+            };
+            specrand.Initialize();
+            return specrand;
         }
         private void B_Starters_Click(object sender, EventArgs e)
         {
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize Starters? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes) return;
-
-            int[] sL = getRandomSpeciesList();
-            int ctr = 0;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize Starters? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes)
+                return;
 
             setGift();
+
+            var specrand = getRandomizer();
+            var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
 
             // Assign Species
             for (int i = 0; i < 3; i++)
             {
                 var t = Gifts[i];
-                t.Species = Randomizer.getRandomSpecies(ref sL, ref ctr, oldStarters[i], CHK_BST.Checked, Main.SpeciesStat);
-                t.Form = Randomizer.GetRandomForme(t.Species, false, true);
+                t.Species = specrand.GetRandomSpecies(oldStarters[i]);
+                t.Form = formrand.GetRandomForme(t.Species);
 
                 // no level boosting
             }
@@ -329,39 +346,40 @@ namespace pk3DS
         }
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize Static Encounters? Cannot undo.", "Double check Randomization Settings before continuing.") != DialogResult.Yes) return;
-
-            int[] sL = getRandomSpeciesList();
-            int ctr = 0;
-
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize Static Encounters? Cannot undo.", "Double check Randomization Settings before continuing.") != DialogResult.Yes)
+                return;
+            
             setGift();
             setEncounter();
             setTrade();
 
+            var specrand = getRandomizer();
+            var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
+            var move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
+
             for (int i = 3; i < Gifts.Length; i++) // Skip Starters
             {
                 var t = Gifts[i];
-                t.Species = Randomizer.getRandomSpecies(ref sL, ref ctr, t.Species, CHK_BST.Checked, Main.SpeciesStat);
-                t.Form = Randomizer.GetRandomForme(t.Species, false, true);
+                t.Species = specrand.GetRandomSpecies(t.Species);
+                t.Form = formrand.GetRandomForme(t.Species);
 
                 if (CHK_Level.Checked)
                     t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
             }
             foreach (EncounterStatic7 t in Encounters)
             {
-                t.Species = Randomizer.getRandomSpecies(ref sL, ref ctr, t.Species, CHK_BST.Checked, Main.SpeciesStat);
-                t.Form = Randomizer.GetRandomForme(t.Species, false, true);
-                int[] moves = Main.Config.Learnsets[t.Species].getCurrentMoves(t.Level); Array.Resize(ref moves, 4);
-                t.RelearnMoves = moves;
+                t.Species = specrand.GetRandomSpecies(t.Species);
+                t.Form = formrand.GetRandomForme(t.Species);
+                t.RelearnMoves = move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
 
                 if (CHK_Level.Checked)
                     t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
             }
             foreach (EncounterTrade7 t in Trades)
             {
-                t.Species = Randomizer.getRandomSpecies(ref sL, ref ctr, t.Species, CHK_BST.Checked, Main.SpeciesStat);
-                t.Form = Randomizer.GetRandomForme(t.Species, false, true);
-                t.TradeRequestSpecies = Randomizer.getRandomSpecies(ref sL, ref ctr, t.TradeRequestSpecies, CHK_BST.Checked, Main.SpeciesStat);
+                t.Species = specrand.GetRandomSpecies(t.Species);
+                t.Form = formrand.GetRandomForme(t.Species);
+                t.TradeRequestSpecies = specrand.GetRandomSpecies(t.TradeRequestSpecies);
 
                 if (CHK_Level.Checked)
                     t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);

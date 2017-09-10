@@ -1,6 +1,4 @@
-﻿using pk3DS.Core;
-using pk3DS.Core.Structures.Gen7;
-using System;
+﻿using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -8,10 +6,15 @@ using System.Media;
 using System.Text;
 using System.Windows.Forms;
 
+using pk3DS.Core;
+using pk3DS.Core.Randomizers;
+using pk3DS.Core.Structures;
+
 namespace pk3DS
 {
     public partial class SMTE : Form
     {
+        private readonly LearnsetRandomizer move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
         private readonly trdata7[] Trainers;
         private string[][] AltForms;
         private int index = -1;
@@ -388,22 +391,6 @@ namespace pk3DS
             tr.AI = (int)NUD_AI.Value;
             tr.Flag = CHK_Flag.Checked;
         }
-        private static int[] getHighAttacks(trpoke7 pk)
-        {
-            int i = Main.Config.Personal.getFormeIndex(pk.Species, pk.Form);
-            var learnset = Main.Config.Learnsets[i];
-            var moves = learnset.Moves.OrderByDescending(move => Main.Config.Moves[move].Power).Distinct().Take(4).ToArray();
-            Array.Resize(ref moves, 4);
-            return moves;
-        }
-        private static int[] getCurrentAttacks(trpoke7 pk)
-        {
-            int i = Main.Config.Personal.getFormeIndex(pk.Species, pk.Form);
-            var learnset = Main.Config.Learnsets[i];
-            var moves = learnset.getCurrentMoves(pk.Level);
-            Array.Resize(ref moves, 4);
-            return moves;
-        }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -586,12 +573,21 @@ namespace pk3DS
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Misc/Rand tab.") != DialogResult.Yes) return;
 
             CB_TrainerID.SelectedIndex = 0;
-            Randomizer rnd = new Randomizer(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, 
-                CHK_G6.Checked, CHK_G7.Checked, CHK_L.Checked, CHK_E.Checked, Shedinja: true)
+            var rnd = new SpeciesRandomizer(Main.Config)
             {
-                BST = CHK_BST.Checked,
-                Stats = Main.SpeciesStat
+                G1 = CHK_G1.Checked,
+                G2 = CHK_G2.Checked,
+                G3 = CHK_G3.Checked,
+                G4 = CHK_G4.Checked,
+                G5 = CHK_G5.Checked,
+                G6 = CHK_G6.Checked,
+                G7 = CHK_G7.Checked,
+
+                E = CHK_E.Checked,
+                L = CHK_L.Checked,
+                rBST = CHK_BST.Checked,
             };
+            rnd.Initialize();
 
             var items = Randomizer.getRandomItemList();
             for (int i = 0; i < Trainers.Length; i++)
@@ -620,7 +616,7 @@ namespace pk3DS
                     for (int p = tr.NumPokemon; p < NUD_RMin.Value; p++)
                         tr.Pokemon.Add(new trpoke7
                         {
-                            Species = rnd.getRandomSpecies(avgSpec),
+                            Species = rnd.GetRandomSpecies(avgSpec),
                             Level = avgLevel,
                         });
                     tr.NumPokemon = (int)NUD_RMin.Value;
@@ -637,7 +633,7 @@ namespace pk3DS
                     if (CHK_RandomPKM.Checked)
                     {
                         int Type = CHK_TypeTheme.Checked ? (int)Util.rnd32()%17 : -1;
-                        pk.Species = rnd.getRandomSpecies(pk.Species, Type);
+                        pk.Species = rnd.GetRandomSpeciesType(pk.Species, Type);
                         pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
                         pk.Gender = 0; // Random Gender
                     }
@@ -662,10 +658,10 @@ namespace pk3DS
                                 CHK_STAB.Checked, (int)NUD_STAB.Value);
                             break;
                         case 2: // Current LevelUp
-                            pk.Moves = getCurrentAttacks(pk);
+                            pk.Moves = move.GetCurrentMoves(pk.Species, pk.Form, pk.Level, 4);
                             break;
                         case 3: // High Attacks
-                            pk.Moves = getHighAttacks(pk);
+                            pk.Moves = move.GetHighPoweredMoves(pk.Species, pk.Form, 4);
                             break;
                     }
                 }
@@ -678,7 +674,7 @@ namespace pk3DS
             pkm.Species = CB_Species.SelectedIndex;
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
-            var moves = getHighAttacks(pkm);
+            var moves = move.GetHighPoweredMoves(pkm.Species, pkm.Form, 4);
             setMoves(moves);
         }
         private void B_CurrentAttack_Click(object sender, EventArgs e)
@@ -686,7 +682,7 @@ namespace pk3DS
             pkm.Species = CB_Species.SelectedIndex;
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
-            var moves = getCurrentAttacks(pkm);
+            var moves = move.GetCurrentMoves(pkm.Species, pkm.Form, 4);
             setMoves(moves);
         }
         private void B_Clear_Click(object sender, EventArgs e)

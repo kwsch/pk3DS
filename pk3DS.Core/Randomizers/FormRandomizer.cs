@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using pk3DS.Core.Structures.PersonalInfo;
 
-namespace pk3DS.Core
+namespace pk3DS.Core.Randomizers
 {
     public class FormRandomizer
     {

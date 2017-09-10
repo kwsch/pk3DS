@@ -6,9 +6,12 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
+
 using pk3DS.Properties;
+
 using pk3DS.Core.Structures;
 using pk3DS.Core;
+using pk3DS.Core.Randomizers;
 
 namespace pk3DS
 {

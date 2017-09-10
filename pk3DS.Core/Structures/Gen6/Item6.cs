@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace pk3DS.Core.Structures.Gen6
+namespace pk3DS.Core.Structures
 {
     public class Item
     {

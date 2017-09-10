@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace pk3DS.Core.Structures.Gen7
+namespace pk3DS.Core.Structures
 {
     public class trdata7
     {

@@ -1,9 +1,11 @@
 ﻿using pk3DS.Core;
-using pk3DS.Core.Structures.Gen6;
 using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+
+using pk3DS.Core.Randomizers;
+using pk3DS.Core.Structures;
 
 namespace pk3DS
 {
@@ -120,19 +122,31 @@ namespace pk3DS
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Randomizer Options tab.") != DialogResult.Yes) return;
 
-            // Randomize by BST
-            bool bst = CHK_BST.Checked;
-            int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, false,
-                CHK_L.Checked, CHK_E.Checked);
-            int ctr = 0;
+            var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = false };
+            var specrand = new SpeciesRandomizer(Main.Config)
+            {
+                G1 = CHK_G1.Checked,
+                G2 = CHK_G2.Checked,
+                G3 = CHK_G3.Checked,
+                G4 = CHK_G4.Checked,
+                G5 = CHK_G5.Checked,
+                G6 = CHK_G6.Checked,
+                G7 = false,
+
+                E = CHK_E.Checked,
+                L = CHK_L.Checked,
+
+                rBST = CHK_BST.Checked,
+            };
+            specrand.Initialize();
             for (int i = 0; i < LB_Encounters.Items.Count; i++)
             {
                 LB_Encounters.SelectedIndex = i;
 
                 int species = CB_Species.SelectedIndex;
-                species = Randomizer.getRandomSpecies(ref sL, ref ctr, species, bst, Main.SpeciesStat);
+                species = specrand.GetRandomSpecies(species);
                 CB_Species.SelectedIndex = species;
-                NUD_Form.Value = Randomizer.GetRandomForme(species, false, true);
+                NUD_Form.Value = formrand.GetRandomForme(species);
                 NUD_Gender.Value = 0; // random
 
                 if (CHK_Level.Checked)

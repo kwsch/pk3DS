@@ -10,7 +10,6 @@ using pk3DS.Properties;
 using pk3DS.Core.Structures;
 using pk3DS.Core;
 using pk3DS.Core.Randomizers;
-using pk3DS.Core.Structures.Gen6;
 
 namespace pk3DS
 {

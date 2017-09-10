@@ -9,7 +9,8 @@ using System.Windows.Forms;
 
 using pk3DS.Core.CTR;
 using pk3DS.Core;
-using pk3DS.Core.Structures.Gen7;
+using pk3DS.Core.Randomizers;
+using pk3DS.Core.Structures;
 
 namespace pk3DS
 {
@@ -572,12 +573,21 @@ namespace pk3DS
                     break;
             }
 
-            Randomizer rnd = new Randomizer(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked,
-                CHK_G6.Checked, CHK_G7.Checked, CHK_L.Checked, CHK_E.Checked, Shedinja: true)
+            var rnd = new SpeciesRandomizer(Main.Config)
             {
-                BST = CHK_BST.Checked,
-                Stats = Main.SpeciesStat
+                G1 = CHK_G1.Checked,
+                G2 = CHK_G2.Checked,
+                G3 = CHK_G3.Checked,
+                G4 = CHK_G4.Checked,
+                G5 = CHK_G5.Checked,
+                G6 = CHK_G6.Checked,
+                G7 = CHK_G7.Checked,
+
+                E = CHK_E.Checked,
+                L = CHK_L.Checked,
+                rBST = CHK_BST.Checked,
             };
+            rnd.Initialize();
 
             foreach (var Map in Areas)
             {
@@ -595,7 +605,7 @@ namespace pk3DS
                         var EncounterSet = Table.Encounters[s];
                         foreach (var enc in EncounterSet.Where(enc => enc.Species != 0))
                         {
-                            enc.Species = (uint)rnd.getRandomSpecies((int)enc.Species);
+                            enc.Species = (uint)rnd.GetRandomSpecies((int)enc.Species);
                             enc.Forme = GetRandomForme((int) enc.Species);
                         }
                     }

@@ -1,9 +1,8 @@
 ﻿using System;
-
-using pk3DS.Core.Randomizers;
+using System.Linq;
 using pk3DS.Core.Structures;
 
-namespace pk3DS.Core
+namespace pk3DS.Core.Randomizers
 {
     // https://twitter.com/Drayano60/status/807297858244411397
     // ORAS: 10682 moves learned on levelup/birth. 
@@ -80,6 +79,22 @@ namespace pk3DS.Core
                 return moves;
             moves[0] = moverand.GetRandomFirstMove(index);
             moverand.GetRandomLearnset(index, count - 1).CopyTo(moves, 1);
+            return moves;
+        }
+
+        public int[] GetHighPoweredMoves(int species, int form, int count = 4)
+        {
+            int index = Config.Personal.getFormeIndex(species, form);
+            var moves = Learnsets[index].Moves.OrderByDescending(move => Config.Moves[move].Power).Distinct().Take(count).ToArray();
+            Array.Resize(ref moves, count);
+            return moves;
+        }
+
+        public int[] GetCurrentMoves(int species, int form, int level, int count = 4)
+        {
+            int i = Config.Personal.getFormeIndex(species, form);
+            var moves = Learnsets[i].getCurrentMoves(level);
+            Array.Resize(ref moves, count);
             return moves;
         }
     }

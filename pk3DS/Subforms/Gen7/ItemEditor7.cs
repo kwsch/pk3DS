@@ -1,8 +1,9 @@
-﻿using pk3DS.Core;
-using pk3DS.Core.Structures.Gen6;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows.Forms;
+
+using pk3DS.Core;
+using pk3DS.Core.Structures;
 
 namespace pk3DS
 {

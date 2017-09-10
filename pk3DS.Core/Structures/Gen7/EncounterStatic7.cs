@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace pk3DS.Core.Structures.Gen7
+namespace pk3DS.Core.Structures
 {
     public class EncounterStatic7 : EncounterStatic
     {

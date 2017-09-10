@@ -1,7 +1,4 @@
-﻿using pk3DS.Core;
-using pk3DS.Core.Structures.Gen6;
-using pk3DS.Core.Structures.PersonalInfo;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -9,6 +6,10 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
+
+using pk3DS.Core;
+using pk3DS.Core.Structures;
+using pk3DS.Core.Structures.PersonalInfo;
 
 namespace pk3DS
 {

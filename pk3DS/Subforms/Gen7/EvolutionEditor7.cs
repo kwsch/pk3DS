@@ -1,11 +1,13 @@
-﻿using pk3DS.Core;
-using pk3DS.Core.Structures.Gen6;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
+
+using pk3DS.Core;
+using pk3DS.Core.Randomizers;
+using pk3DS.Core.Structures;
 
 namespace pk3DS
 {

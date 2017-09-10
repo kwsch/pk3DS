@@ -1,6 +1,6 @@
-﻿using pk3DS.Core.Structures.Gen6;
+﻿using pk3DS.Core.Structures;
 
-namespace pk3DS.Core
+namespace pk3DS.Core.Randomizers
 {
     public class EvolutionRandomizer : IRandomizer
     {

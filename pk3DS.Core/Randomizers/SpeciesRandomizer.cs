@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using pk3DS.Core.Structures.PersonalInfo;
 
-namespace pk3DS.Core
+namespace pk3DS.Core.Randomizers
 {
     public class SpeciesRandomizer
     {
@@ -49,17 +50,30 @@ namespace pk3DS.Core
         private const int h = 11;
         #endregion
 
-        public int GetRandomSpecies(int oldSpecies, int index)
+        internal int GetRandomSpecies(int oldSpecies, int bannedSpecies)
         {
             // Get a new random species
             PersonalInfo oldpkm = SpeciesStat[oldSpecies];
 
             loopctr = 0; // altering calculations to prevent infinite loops
             int newSpecies;
-            while (!GetNewSpecies(index, oldpkm, out newSpecies))
+            while (!GetNewSpecies(bannedSpecies, oldpkm, out newSpecies))
                 loopctr++;
             return newSpecies;
         }
+
+        public int GetRandomSpeciesType(int oldSpecies, int type)
+        {
+            // Get a new random species
+            PersonalInfo oldpkm = SpeciesStat[oldSpecies];
+
+            loopctr = 0; // altering calculations to prevent infinite loops
+            int newSpecies;
+            while (!GetNewSpecies(oldSpecies, oldpkm, out newSpecies) || !GetIsTypeMatch(newSpecies, type))
+                loopctr++;
+            return newSpecies;
+        }
+        private bool GetIsTypeMatch(int newSpecies, int type) => SpeciesStat[newSpecies].Types.Any(z => z == type) || loopctr > 9000;
 
         public int GetRandomSpecies(int oldSpecies)
         {

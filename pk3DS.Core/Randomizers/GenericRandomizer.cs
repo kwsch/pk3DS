@@ -1,4 +1,4 @@
-﻿namespace pk3DS.Core
+﻿namespace pk3DS.Core.Randomizers
 {
     /// <summary> Cyclical Shuffled Randomizer </summary>
     /// <remarks> 

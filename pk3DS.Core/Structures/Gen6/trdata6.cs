@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace pk3DS.Core.Structures.Gen6
+namespace pk3DS.Core.Structures
 {
     public class trdata6
     {
