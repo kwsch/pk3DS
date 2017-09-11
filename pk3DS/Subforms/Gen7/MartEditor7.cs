@@ -67,22 +67,22 @@ namespace pk3DS
         private readonly string[] locations =
         {
             "No Trials", "1 Trial", "2 Trials", "3 Trials", "4 Trials", "5 Trials", "6 Trials", "7 Trials",
-            "KoniKoni Incense",
-            "KoniKoni Herb",
-            "Hau'oli Battle",
-            "Route 2",
-            "Heahea",
-            "Royal Avenue",
-            "Route 8",
-            "Paniola",
-            "Malie TMs",
-            "Mount Hokulani",
-            "Seafolk TM",
-            "KoniKoni TM",
-            "KoniKoni Jewelry",
-            "Thrifty 1",
-            "Thrifty 2",
-            "Thrifty 3 (Souvenir)"
+            "Konikoni City [Incenses]",
+            "Konikoni City [Herbs]",
+            "Hau'oli City [X Items]",
+            "Route 2 [Misc]",
+            "Heahea City [TMs]",
+            "Royal Avenue [TMs]",
+            "Route 8 [Misc]",
+            "Paniola Town [Poké Balls]",
+            "Malie City [TMs]",
+            "Mount Hokulani [Vitamins]",
+            "Seafolk Village [TMs]",
+            "Konikoni City [TMs]",
+            "Konikoni City [Stones]",
+            "Thrifty Megamart 1 [Poké Balls]",
+            "Thrifty Megamart 2 [Misc]",
+            "Thrifty Megamart 3 [Strange Souvenir]"
         };
 
         private readonly int[] entriesBP =
