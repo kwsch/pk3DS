@@ -84,8 +84,8 @@ namespace pk3DS
             { 
                 "No Badges", "1 Badge", "2 Badges", "3 Badges", "4 Badges", "5 Badges", "6 Badges", "7 Badges", "8 Badges",
                 "Unused",
-                "Slateport Market [Incenses]", "Slateport Market [Vitamins]", "Slateport Market [TMs]", "Rustboro Mart [Poke Balls]", "Slateport Mart [Misc]",
-                "Mauville Mart [TMs]", "Verdanturf Mart [Poke Balls]", "Fallarbor Mart [Poke Balls]", "Lavaridge Town [Herbs]", 
+                "Slateport Market [Incenses]", "Slateport Market [Vitamins]", "Slateport Market [TMs]", "Rustboro City [Poké Balls]", "Slateport City [X Items]",
+                "Mauville City [TMs]", "Verdanturf Town [Poké Balls]", "Fallarbor Town [Poké Balls]", "Lavaridge Town [Herbs]", 
                 "Lilycove Dept Store, 2F Left [Run Away Items]", "Lilycove Dept Store, 3F Left [Vitamins]", "Lilycove Dept Store, 3F Right [Misc]",
                 "Lilycove Dept Store, 4F Left [Offensive TMs]", "Lilycove Dept Store, 4F Right [Defensive TMs]" 
             }
@@ -93,15 +93,15 @@ namespace pk3DS
             {
                 "No Badges", "1 Badge", "2 Badges", "3 Badges", "4 Badges", "5 Badges", "6 Badges", "7 Badges", "8 Badges",
                 "Unused",
-                "Herbs", "Balls", "Stones", "Incence", "Aquacorde Balls", "Aquacorde Potion",
-                "Lumiose North Boulevard [Balls]", "Cyllage City [Balls]", 
-                "Shalour City [TMs]", "Lumiose South Boulevard [TMs]",
+                "Herbs", "Poké Balls", "Stones", "Incenses", "Aquacorde Town [Poké Ball]", "Aquacorde Town [Potion]",
+                "Lumiose City North Boulevard [Poké Balls]", "Cyllage City [Poké Balls]", 
+                "Shalour City [TMs]", "Lumiose City South Boulevard [TMs]",
                 "Laverre City [Vitamins]",
-                "Snowbelle City [Balls]",
+                "Snowbelle City [Poké Balls]",
                 "Kiloude City [TMs]",
                 "Anistar City [TMs]",
-                "Santalune City [X-Stat]",
-                "Coumarine City [Balls]"
+                "Santalune City [X Items]",
+                "Coumarine City [Poké Balls]"
             };
 
         private void getDataOffset(int index)

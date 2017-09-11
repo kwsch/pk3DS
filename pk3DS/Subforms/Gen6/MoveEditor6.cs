@@ -27,7 +27,7 @@ namespace pk3DS
         private readonly string[] TargetingTypes =
         { "Single Adjacent Ally/Foe", 
             "Any Ally", "Any Adjacent Ally", "Single Adjacent Foe", "Everyone but User", "All Foes", 
-            "All Allies", "Self", "All Pokemon on Field", "Single Adjacent Foe (2)", "Entire Field", 
+            "All Allies", "Self", "All Pokémon on Field", "Single Adjacent Foe (2)", "Entire Field", 
             "Opponent's Field", "User's Field", "Self", 
         };
 

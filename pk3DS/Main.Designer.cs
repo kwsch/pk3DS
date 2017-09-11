@@ -176,7 +176,7 @@
             this.B_TMHM.Name = "B_TMHM";
             this.B_TMHM.Size = new System.Drawing.Size(100, 23);
             this.B_TMHM.TabIndex = 1;
-            this.B_TMHM.Text = "TM/HM";
+            this.B_TMHM.Text = "TMs/HMs";
             this.B_TMHM.UseVisualStyleBackColor = true;
             this.B_TMHM.Click += new System.EventHandler(this.B_TMHM_Click);
             // 
@@ -217,7 +217,7 @@
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(105, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.B_Open_Click);
             // 
@@ -226,7 +226,7 @@
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(105, 22);
             this.Menu_Exit.Text = "&Exit";
             this.Menu_Exit.Click += new System.EventHandler(this.Menu_Exit_Click);
             // 
@@ -305,7 +305,7 @@
             // 
             this.Menu_RomFS.Enabled = false;
             this.Menu_RomFS.Name = "Menu_RomFS";
-            this.Menu_RomFS.Size = new System.Drawing.Size(152, 22);
+            this.Menu_RomFS.Size = new System.Drawing.Size(111, 22);
             this.Menu_RomFS.Text = "RomFS";
             this.Menu_RomFS.Click += new System.EventHandler(this.rebuildRomFS);
             // 
@@ -313,7 +313,7 @@
             // 
             this.Menu_ExeFS.Enabled = false;
             this.Menu_ExeFS.Name = "Menu_ExeFS";
-            this.Menu_ExeFS.Size = new System.Drawing.Size(152, 22);
+            this.Menu_ExeFS.Size = new System.Drawing.Size(111, 22);
             this.Menu_ExeFS.Text = "ExeFS";
             this.Menu_ExeFS.Click += new System.EventHandler(this.rebuildExeFS);
             // 
@@ -321,7 +321,7 @@
             // 
             this.Menu_CRO.Enabled = false;
             this.Menu_CRO.Name = "Menu_CRO";
-            this.Menu_CRO.Size = new System.Drawing.Size(152, 22);
+            this.Menu_CRO.Size = new System.Drawing.Size(111, 22);
             this.Menu_CRO.Text = "CRO";
             this.Menu_CRO.Click += new System.EventHandler(this.patchCRO_CRR);
             // 
@@ -329,7 +329,7 @@
             // 
             this.Menu_3DS.Enabled = false;
             this.Menu_3DS.Name = "Menu_3DS";
-            this.Menu_3DS.Size = new System.Drawing.Size(152, 22);
+            this.Menu_3DS.Size = new System.Drawing.Size(111, 22);
             this.Menu_3DS.Text = ".3DS";
             this.Menu_3DS.Click += new System.EventHandler(this.B_Rebuild3DS_Click);
             // 
@@ -337,7 +337,7 @@
             // 
             this.Menu_Patch.Enabled = false;
             this.Menu_Patch.Name = "Menu_Patch";
-            this.Menu_Patch.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Patch.Size = new System.Drawing.Size(111, 22);
             this.Menu_Patch.Text = "Patch";
             this.Menu_Patch.Click += new System.EventHandler(this.B_Patch_Click);
             // 
@@ -363,7 +363,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_Lang});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(146, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_Lang
@@ -389,14 +389,14 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(152, 22);
+            this.Menu_About.Size = new System.Drawing.Size(146, 22);
             this.Menu_About.Text = "A&bout pk3DS";
             this.Menu_About.Click += new System.EventHandler(this.L_About_Click);
             // 
             // Menu_GARCs
             // 
             this.Menu_GARCs.Name = "Menu_GARCs";
-            this.Menu_GARCs.Size = new System.Drawing.Size(152, 22);
+            this.Menu_GARCs.Size = new System.Drawing.Size(146, 22);
             this.Menu_GARCs.Text = "About GARCs";
             this.Menu_GARCs.Click += new System.EventHandler(this.L_GARCInfo_Click);
             // 
@@ -546,7 +546,7 @@
             this.B_Maison.Name = "B_Maison";
             this.B_Maison.Size = new System.Drawing.Size(100, 23);
             this.B_Maison.TabIndex = 5;
-            this.B_Maison.Text = "Maison";
+            this.B_Maison.Text = "Battle Maison";
             this.B_Maison.UseVisualStyleBackColor = true;
             this.B_Maison.Click += new System.EventHandler(this.B_Maison_Click);
             // 
@@ -556,7 +556,7 @@
             this.B_Royal.Name = "B_Royal";
             this.B_Royal.Size = new System.Drawing.Size(100, 23);
             this.B_Royal.TabIndex = 14;
-            this.B_Royal.Text = "Royal/Tree";
+            this.B_Royal.Text = "Battle Royal/Tree";
             this.B_Royal.UseVisualStyleBackColor = true;
             this.B_Royal.Click += new System.EventHandler(this.B_Maison_Click);
             // 

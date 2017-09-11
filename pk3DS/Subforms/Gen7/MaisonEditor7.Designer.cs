@@ -105,7 +105,7 @@
             this.L_Pokemon.Name = "L_Pokemon";
             this.L_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon.TabIndex = 3;
-            this.L_Pokemon.Text = "Pokemon:";
+            this.L_Pokemon.Text = "Pokémon:";
             // 
             // GB_Trainer
             // 
@@ -198,7 +198,7 @@
             this.GB_Pokemon.Size = new System.Drawing.Size(275, 187);
             this.GB_Pokemon.TabIndex = 5;
             this.GB_Pokemon.TabStop = false;
-            this.GB_Pokemon.Text = "Pokemon Summary";
+            this.GB_Pokemon.Text = "Pokémon Summary";
             // 
             // L_Form
             // 
@@ -270,9 +270,9 @@
             this.CHK_DEF.AutoSize = true;
             this.CHK_DEF.Location = new System.Drawing.Point(172, 157);
             this.CHK_DEF.Name = "CHK_DEF";
-            this.CHK_DEF.Size = new System.Drawing.Size(47, 17);
+            this.CHK_DEF.Size = new System.Drawing.Size(43, 17);
             this.CHK_DEF.TabIndex = 21;
-            this.CHK_DEF.Text = "DEF";
+            this.CHK_DEF.Text = "Def";
             this.CHK_DEF.UseVisualStyleBackColor = true;
             // 
             // CHK_ATK
@@ -280,9 +280,9 @@
             this.CHK_ATK.AutoSize = true;
             this.CHK_ATK.Location = new System.Drawing.Point(172, 143);
             this.CHK_ATK.Name = "CHK_ATK";
-            this.CHK_ATK.Size = new System.Drawing.Size(47, 17);
+            this.CHK_ATK.Size = new System.Drawing.Size(42, 17);
             this.CHK_ATK.TabIndex = 20;
-            this.CHK_ATK.Text = "ATK";
+            this.CHK_ATK.Text = "Atk";
             this.CHK_ATK.UseVisualStyleBackColor = true;
             // 
             // CHK_HP
