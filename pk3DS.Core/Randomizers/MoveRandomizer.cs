@@ -103,6 +103,11 @@ namespace pk3DS.Core.Randomizers
             
         };
         private static readonly GenericRandomizer first = new GenericRandomizer(firstMoves);
+        public int GetRandomFirstMoveAny()
+        {
+            first.Reset();
+            return first.Next();
+        }
         public int GetRandomFirstMove(int index) => GetRandomFirstMove(SpeciesStat[index].Types);
         public int GetRandomFirstMove(int[] types)
         {
