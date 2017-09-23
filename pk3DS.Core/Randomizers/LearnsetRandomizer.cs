@@ -20,16 +20,18 @@ namespace pk3DS.Core.Randomizers
             Config = config;
             moverand = new MoveRandomizer(config);
             Learnsets = sets;
+            rSTABPercent = 52.3m;
         }
 
         public bool Expand = true;
         public int ExpandTo = 25;
         public bool Spread = true;
         public int SpreadTo = 75;
+        public bool STABFirst = true;
 
         public bool STAB { set => moverand.rSTAB = value; }
         public int[] BannedMoves { set => moverand.BannedMoves = value; }
-        public decimal rSTABPercent = 52.3m;
+        public decimal rSTABPercent { set => moverand.rSTABPercent = value; }
         
         public void Execute()
         {
@@ -72,12 +74,11 @@ namespace pk3DS.Core.Randomizers
         private int[] GetRandomMoves(int count, int index)
         {
             count = Expand ? ExpandTo : count;
-            moverand.rSTABPercent = rSTABPercent;
 
             int[] moves = new int[count];
             if (count == 0)
                 return moves;
-            moves[0] = moverand.GetRandomFirstMove(index);
+            moves[0] = STABFirst ? moverand.GetRandomFirstMove(index) : moverand.GetRandomFirstMoveAny();
             moverand.GetRandomLearnset(index, count - 1).CopyTo(moves, 1);
             return moves;
         }

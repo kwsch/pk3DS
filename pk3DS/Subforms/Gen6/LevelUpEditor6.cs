@@ -145,6 +145,7 @@ namespace pk3DS
                 SpreadTo = (int)NUD_Level.Value,
                 STAB = CHK_STAB.Checked,
                 rSTABPercent = NUD_STAB.Value,
+                STABFirst = CHK_STAB.Checked,
                 BannedMoves = banned.ToArray()
             };
             rand.Execute();

@@ -140,6 +140,7 @@ namespace pk3DS
                 SpreadTo = (int) NUD_Level.Value,
                 STAB = CHK_STAB.Checked,
                 rSTABPercent = NUD_STAB.Value,
+                STABFirst = CHK_STAB.Checked,
                 BannedMoves = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(), // Struggle, Hyperspace Fury, Dark Void
             };
             rand.Execute();
