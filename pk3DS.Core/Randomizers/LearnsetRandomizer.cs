@@ -72,7 +72,7 @@ namespace pk3DS.Core.Randomizers
         private int[] GetRandomMoves(int count, int index)
         {
             count = Expand ? ExpandTo : count;
-            moverand.rSTABCount = (int)(count * rSTABPercent / 100);
+            moverand.rSTABPercent = rSTABPercent;
 
             int[] moves = new int[count];
             if (count == 0)
