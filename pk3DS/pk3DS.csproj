@@ -68,6 +68,12 @@
   <ItemGroup>
     <Compile Include="ARCUtil.cs" />
     <Compile Include="GarcUtil.cs" />
+    <Compile Include="Subforms\EnhancedRestore.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\EnhancedRestore.Designer.cs">
+      <DependentUpon>EnhancedRestore.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinFormsUtil.cs" />
     <Compile Include="Misc\ErrorWindow.cs">
       <SubType>Form</SubType>
@@ -377,6 +383,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\ErrorWindow.resx">
       <DependentUpon>ErrorWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\EnhancedRestore.resx">
+      <DependentUpon>EnhancedRestore.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\EggMoveEditor7.resx">
       <DependentUpon>EggMoveEditor7.cs</DependentUpon>

@@ -6,10 +6,10 @@ namespace pk3DS.Core
 {
     public static class GameBackup
     {
-        private const string bakpath = "backup";
-        private const string bakexefs = "exefs";
-        private const string baka = "a";
-        private const string bakdll = "dll";
+        public const string bakpath = "backup";
+        public const string bakexefs = "exefs";
+        public const string baka = "a";
+        public const string bakdll = "dll";
 
         public static void backupFiles(this GameConfig config, bool overwrite = false)
         {
@@ -212,7 +212,7 @@ namespace pk3DS.Core
                 string dest = Path.Combine(CRRBAKPATH, Path.GetFileName(src));
                 if (File.Exists(dest))
                 {
-                    File.Copy(dest, src);
+                    File.Copy(dest, src, true);
                     count++;
                 }
                 else

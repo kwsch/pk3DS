@@ -84,21 +84,7 @@ namespace pk3DS
             try { Clipboard.SetText(s); }
             catch { WinFormsUtil.Alert("Unable to copy to Clipboard."); }
         }
-        private void L_Game_Click(object sender, EventArgs e)
-        {
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Restore Original Files?"))
-                return;
-
-            string[] result = Config.restoreFiles();
-            if (result.Length == 2) // error
-            {
-                WinFormsUtil.Alert(result);
-                return;
-            }
-
-            WinFormsUtil.Alert("Restored files:", result[0], "The program will now close.");
-            Application.Exit(); // do not call closing events that repackage personal/gametext
-        }
+        private void L_Game_Click(object sender, EventArgs e) => new EnhancedRestore(Config).ShowDialog();
 
         private void B_Open_Click(object sender, EventArgs e)
         {
