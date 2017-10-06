@@ -660,6 +660,14 @@ namespace pk3DS
                         ShuffleSlots(ref list, RandomList.Length);
                     used = countUnique(list);
                 }
+                // If Distinct Hordes are selected, homogenize
+                int hordeslot = 0;
+                if (CHK_HomogeneousHordes.Checked)
+                for (int slot = max.Length - 15; slot < max.Length; slot++)
+                {
+                    list[slot] = list[slot - hordeslot % 5];
+                    hordeslot++;
+                }
 
                 // Fill Slots
                 for (int slot = 0; slot < max.Length; slot++)

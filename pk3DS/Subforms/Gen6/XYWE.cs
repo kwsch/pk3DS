@@ -521,9 +521,23 @@ namespace pk3DS
                     for (int l = 0; l < max.Length; l++)
                         min[l].Value = max[l].Value = max[l].Value <= 1 ? max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * max[l].Value)));
 
+
+                // If Distinct Hordes are selected, homogenize
+                int hordeslot = 0;
                 for (int slot = 0; slot < max.Length; slot++)
                 {
                     if (spec[slot].SelectedIndex == 0) continue;
+                    if (CHK_HomogeneousHordes.Checked && slot >= max.Length - 15)
+                    {
+                        int shift = hordeslot % 5;
+                        hordeslot++;
+                        if (shift != 0)
+                        {
+                            spec[slot].SelectedIndex = spec[slot - shift].SelectedIndex;
+                            form[slot].Value = form[slot - shift].Value;
+                            continue;
+                        }
+                    }
 
                     int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
 

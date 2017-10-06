@@ -562,6 +562,7 @@
             this.CB_FormeList = new System.Windows.Forms.ComboBox();
             this.B_Randomize = new System.Windows.Forms.Button();
             this.B_Dump = new System.Windows.Forms.Button();
+            this.CHK_HomogeneousHordes = new System.Windows.Forms.CheckBox();
             this.TabControl_EncounterData.SuspendLayout();
             this.TabPage_Land.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_RockSmashMax5)).BeginInit();
@@ -15506,6 +15507,7 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.CHK_HomogeneousHordes);
             this.GB_Tweak.Controls.Add(this.CHK_MegaForm);
             this.GB_Tweak.Controls.Add(this.L_RandOpt);
             this.GB_Tweak.Controls.Add(this.CHK_BST);
@@ -27916,6 +27918,16 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
+            // CHK_HomogeneousHordes
+            // 
+            this.CHK_HomogeneousHordes.AutoSize = true;
+            this.CHK_HomogeneousHordes.Location = new System.Drawing.Point(18, 97);
+            this.CHK_HomogeneousHordes.Name = "CHK_HomogeneousHordes";
+            this.CHK_HomogeneousHordes.Size = new System.Drawing.Size(133, 17);
+            this.CHK_HomogeneousHordes.TabIndex = 297;
+            this.CHK_HomogeneousHordes.Text = "Single Species Hordes";
+            this.CHK_HomogeneousHordes.UseVisualStyleBackColor = true;
+            // 
             // XYWE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -28770,6 +28782,7 @@
         private System.Windows.Forms.NumericUpDown NUD_LevelAmp;
         private System.Windows.Forms.CheckBox CHK_Level;
         private System.Windows.Forms.CheckBox CHK_MegaForm;
+        private System.Windows.Forms.CheckBox CHK_HomogeneousHordes;
     }
 }
 
