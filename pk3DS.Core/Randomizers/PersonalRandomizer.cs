@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using pk3DS.Core.Structures.PersonalInfo;
 
 namespace pk3DS.Core.Randomizers
@@ -41,6 +44,13 @@ namespace pk3DS.Core.Randomizers
         {
             Game = game;
             Table = table;
+            if (File.Exists("bannedabilites.txt"))
+            {
+                var data = File.ReadAllLines("bannedabilities.txt");
+                var list = new List<int>(BannedAbilities);
+                list.AddRange(data.Select(z => Convert.ToInt32(z)));
+                BannedAbilities = list;
+            }
         }
 
         public void Execute()
@@ -154,12 +164,13 @@ namespace pk3DS.Core.Randomizers
         private int GetRandomType() => rnd.Next(0, TypeCount);
         private int GetRandomEggGroup() => rnd.Next(1, eggGroupCount);
         private int GetRandomHeldItem() => Game.Info.HeldItems[rnd.Next(1, Game.Info.HeldItems.Length)];
+        private readonly IList<int> BannedAbilities = new int[0];
         private int GetRandomAbility()
         {
             const int WonderGuard = 25;
             int newabil;
             do newabil = rnd.Next(1, Game.Info.MaxAbilityID + 1);
-            while (newabil == WonderGuard && !AllowWonderGuard);
+            while (newabil == WonderGuard && !AllowWonderGuard || BannedAbilities.Contains(newabil));
             return newabil;
         }
     }
