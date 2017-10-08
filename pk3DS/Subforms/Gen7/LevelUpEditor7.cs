@@ -142,6 +142,7 @@ namespace pk3DS
                 rSTABPercent = NUD_STAB.Value,
                 STABFirst = CHK_STAB.Checked,
                 BannedMoves = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(), // Struggle, Hyperspace Fury, Dark Void
+                Learn4Level1 = CHK_4MovesLvl1.Checked,
             };
             rand.Execute();
             sets.Select(z => z.Write()).ToArray().CopyTo(files, 0);

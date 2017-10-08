@@ -28,6 +28,7 @@ namespace pk3DS.Core.Randomizers
         public bool Spread = true;
         public int SpreadTo = 75;
         public bool STABFirst = true;
+        public bool Learn4Level1 = false;
 
         public bool STAB { set => moverand.rSTAB = value; }
         public int[] BannedMoves { set => moverand.BannedMoves = value; }
@@ -43,6 +44,10 @@ namespace pk3DS.Core.Randomizers
         {
             int[] moves = GetRandomMoves(set.Count, index);
             int[] levels = GetRandomLevels(set, moves.Length);
+
+            if (Learn4Level1)
+                for (int i = 0; i < Math.Max(4, levels.Length); ++i)
+                    levels[i] = 1;
 
             set.Moves = moves;
             set.Levels = levels;

@@ -46,6 +46,7 @@
             this.CHK_STAB = new System.Windows.Forms.CheckBox();
             this.CHK_HMs = new System.Windows.Forms.CheckBox();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
+            this.CHK_4MovesLvl1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Moves)).BeginInit();
@@ -112,6 +113,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.CHK_4MovesLvl1);
             this.groupBox1.Controls.Add(this.L_Moves);
             this.groupBox1.Controls.Add(this.NUD_Moves);
             this.groupBox1.Controls.Add(this.CHK_Expand);
@@ -272,6 +274,16 @@
             this.PB_MonSprite.TabIndex = 90;
             this.PB_MonSprite.TabStop = false;
             // 
+            // CHK_4MovesLvl1
+            // 
+            this.CHK_4MovesLvl1.AutoSize = true;
+            this.CHK_4MovesLvl1.Location = new System.Drawing.Point(0, 154);
+            this.CHK_4MovesLvl1.Name = "CHK_4MovesLvl1";
+            this.CHK_4MovesLvl1.Size = new System.Drawing.Size(67, 30);
+            this.CHK_4MovesLvl1.TabIndex = 12;
+            this.CHK_4MovesLvl1.Text = "4 Moves\r\n@ Lvl1";
+            this.CHK_4MovesLvl1.UseVisualStyleBackColor = true;
+            // 
             // LevelUpEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -322,5 +334,6 @@
         private System.Windows.Forms.NumericUpDown NUD_Moves;
         private System.Windows.Forms.CheckBox CHK_Expand;
         private System.Windows.Forms.PictureBox PB_MonSprite;
+        private System.Windows.Forms.CheckBox CHK_4MovesLvl1;
     }
 }

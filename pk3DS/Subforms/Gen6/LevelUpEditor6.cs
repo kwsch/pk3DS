@@ -146,7 +146,8 @@ namespace pk3DS
                 STAB = CHK_STAB.Checked,
                 rSTABPercent = NUD_STAB.Value,
                 STABFirst = CHK_STAB.Checked,
-                BannedMoves = banned.ToArray()
+                BannedMoves = banned.ToArray(),
+                Learn4Level1 = CHK_4MovesLvl1.Checked,
             };
             rand.Execute();
             sets.Select(z => z.Write()).ToArray().CopyTo(files, 0);
