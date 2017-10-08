@@ -76,6 +76,7 @@
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
+            this.CHK_Mega = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV2)).BeginInit();
@@ -542,6 +543,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.CHK_Mega);
             this.tabPage2.Controls.Add(this.GB_Tweak);
             this.tabPage2.Controls.Add(this.NUD_LevelBoost);
             this.tabPage2.Controls.Add(this.CHK_Level);
@@ -722,6 +724,18 @@
             this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
+            // CHK_Mega
+            // 
+            this.CHK_Mega.AutoSize = true;
+            this.CHK_Mega.Checked = true;
+            this.CHK_Mega.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Mega.Location = new System.Drawing.Point(9, 202);
+            this.CHK_Mega.Name = "CHK_Mega";
+            this.CHK_Mega.Size = new System.Drawing.Size(232, 17);
+            this.CHK_Mega.TabIndex = 511;
+            this.CHK_Mega.Text = "Replace Mega (Lucario) with Another Mega";
+            this.CHK_Mega.UseVisualStyleBackColor = true;
+            // 
             // GiftEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -812,5 +826,6 @@
         private System.Windows.Forms.CheckBox CHK_G3;
         private System.Windows.Forms.CheckBox CHK_G2;
         private System.Windows.Forms.CheckBox CHK_G1;
+        private System.Windows.Forms.CheckBox CHK_Mega;
     }
 }

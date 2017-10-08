@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -180,10 +181,17 @@ namespace pk3DS
             {
                 LB_Gifts.SelectedIndex = i;
                 int species = CB_Species.SelectedIndex;
-                if (species == 448)
-                    continue; // skip Lucario, battle needs to mega evolve
-                
-                species = specrand.GetRandomSpecies(species);
+                if (MegaDictionary.Values.Any(z => z.Contains(CB_HeldItem.SelectedIndex))) // mega stone gift pkm (only lucario?)
+                {
+                    if (!CHK_Mega.Checked)
+                        continue; // skip Lucario, battle needs to mega evolve
+
+                    int[] items = GetRandomMega(out species);
+                    CB_HeldItem.SelectedIndex = items[Util.rand.Next(0, items.Length)];
+                }
+                else
+                    species = specrand.GetRandomSpecies(species);
+
                 CB_Species.SelectedIndex = species;
                 NUD_Form.Value = formrand.GetRandomForme(species);
                 NUD_Gender.Value = 0; // random
@@ -194,6 +202,63 @@ namespace pk3DS
             WinFormsUtil.Alert("Randomized all Gift Pokémon according to specification!");
         }
 
+        private static int[] GetRandomMega(out int species)
+        {
+            int rnd = Util.rand.Next(0, MegaDictionary.Count - 1);
+            species = MegaDictionary.Keys.ElementAt(rnd);
+            return MegaDictionary.Values.ElementAt(rnd);
+        }
+
+        private static readonly Dictionary<int, int[]> MegaDictionary = new Dictionary<int, int[]>
+        {
+            {003, new[] {659}}, // Venusaur @ Venusaurite
+            {006, new[] {660, 678}}, // Charizard @ Charizardite X/Y
+            {009, new[] {661}}, // Blastoise @ Blastoisinite
+            {065, new[] {679}}, // Alakazam @ Alakazite
+            {094, new[] {656}}, // Gengar @ Gengarite
+            {115, new[] {675}}, // Kangaskhan @ Kangaskhanite
+            {127, new[] {671}}, // Pinsir @ Pinsirite
+            {130, new[] {676}}, // Gyarados @ Gyaradosite
+            {142, new[] {672}}, // Aerodactyl @ Aerodactylite
+            {150, new[] {662, 663}}, // Mewtwo @ Mewtwonite X/Y
+            {181, new[] {658}}, // Ampharos @ Ampharosite
+            {212, new[] {670}}, // Scizor @ Scizorite
+            {214, new[] {680}}, // Heracross @ Heracronite
+            {229, new[] {666}}, // Houndoom @ Houndoominite
+            {248, new[] {669}}, // Tyranitar @ Tyranitarite
+            {257, new[] {664}}, // Blaziken @ Blazikenite
+            {282, new[] {657}}, // Gardevoir @ Gardevoirite
+            {303, new[] {681}}, // Mawile @ Mawilite
+            {306, new[] {667}}, // Aggron @ Aggronite
+            {308, new[] {665}}, // Medicham @ Medichamite
+            {310, new[] {682}}, // Manectric @ Manectite
+            {354, new[] {668}}, // Banette @ Banettite
+            {359, new[] {677}}, // Absol @ Absolite
+            {445, new[] {683}}, // Garchomp @ Garchompite
+            {448, new[] {673}}, // Lucario @ Lucarionite
+            {460, new[] {674}}, // Abomasnow @ Abomasite
+            {015, new[] {770}}, // Beedrill @ Beedrillite
+            {018, new[] {762}}, // Pidgeot @ Pidgeotite
+            {080, new[] {760}}, // Slowbro @ Slowbronite
+            {208, new[] {761}}, // Steelix @ Steelixite
+            {254, new[] {753}}, // Sceptile @ Sceptilite
+            {260, new[] {752}}, // Swampert @ Swampertite
+            {302, new[] {754}}, // Sableye @ Sablenite
+            {319, new[] {759}}, // Sharpedo @ Sharpedonite
+            {323, new[] {767}}, // Camerupt @ Cameruptite
+            {334, new[] {755}}, // Altaria @ Altarianite
+            {362, new[] {763}}, // Glalie @ Glalitite
+            {373, new[] {769}}, // Salamence @ Salamencite
+            {376, new[] {758}}, // Metagross @ Metagrossite
+            {380, new[] {684}}, // Latias @ Latiasite
+            {381, new[] {685}}, // Latios @ Latiosite
+            {428, new[] {768}}, // Lopunny @ Lopunnite
+            {475, new[] {756}}, // Gallade @ Galladite
+            {531, new[] {757}}, // Audino @ Audinite
+            {719, new[] {764}}, // Diancie @ Diancite
+
+            {384, new[] {-620}}, // Rayquaza @ Dragon Ascent
+        };
         private void changeSpecies(object sender, EventArgs e)
         {
             int index = LB_Gifts.SelectedIndex;

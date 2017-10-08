@@ -33,6 +33,7 @@ namespace pk3DS
             RSTE.rSmart = CHK_BST.Checked;
             RSTE.rLevel = CHK_Level.Checked;
             RSTE.rLevelMultiplier = NUD_Level.Value;
+            RSTE.rNoFixedDamage = CHK_NoFixedDamage.Checked;
 
             RSTE.rMove = CB_Moves.SelectedIndex == 1;
             RSTE.rNoMove = CB_Moves.SelectedIndex == 2;
