@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using pk3DS.Core.Structures;
 using pk3DS.Core.Structures.PersonalInfo;
@@ -33,7 +34,9 @@ namespace pk3DS.Core.Randomizers
         public bool rSTAB = true;
         public int rSTABCount = 2;
         public decimal rSTABPercent = 100;
-        public int[] BannedMoves = new int[0];
+        public IList<int> BannedMoves = new int[0];
+
+        public static readonly int[] FixedDamageMoves = { 49, 82 };
 
         private int loopctr = 0;
 

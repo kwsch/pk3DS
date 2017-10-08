@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using pk3DS.Core.Structures;
 
@@ -31,7 +33,7 @@ namespace pk3DS.Core.Randomizers
         public bool Learn4Level1 = false;
 
         public bool STAB { set => moverand.rSTAB = value; }
-        public int[] BannedMoves { set => moverand.BannedMoves = value; }
+        public IList<int> BannedMoves { set => moverand.BannedMoves = value; }
         public decimal rSTABPercent { set => moverand.rSTABPercent = value; }
         
         public void Execute()

@@ -47,6 +47,7 @@
             this.CHK_HMs = new System.Windows.Forms.CheckBox();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.CHK_4MovesLvl1 = new System.Windows.Forms.CheckBox();
+            this.CHK_NoFixedDamage = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Moves)).BeginInit();
@@ -113,6 +114,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.CHK_NoFixedDamage);
             this.groupBox1.Controls.Add(this.CHK_4MovesLvl1);
             this.groupBox1.Controls.Add(this.L_Moves);
             this.groupBox1.Controls.Add(this.NUD_Moves);
@@ -284,6 +286,18 @@
             this.CHK_4MovesLvl1.Text = "4 Moves\r\n@ Lvl1";
             this.CHK_4MovesLvl1.UseVisualStyleBackColor = true;
             // 
+            // CHK_NoFixedDamage
+            // 
+            this.CHK_NoFixedDamage.AutoSize = true;
+            this.CHK_NoFixedDamage.Checked = true;
+            this.CHK_NoFixedDamage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_NoFixedDamage.Location = new System.Drawing.Point(5, 266);
+            this.CHK_NoFixedDamage.Name = "CHK_NoFixedDamage";
+            this.CHK_NoFixedDamage.Size = new System.Drawing.Size(90, 56);
+            this.CHK_NoFixedDamage.TabIndex = 14;
+            this.CHK_NoFixedDamage.Text = "No Fixed\r\nDamage\r\nDragon Rage\r\nSonicboom";
+            this.CHK_NoFixedDamage.UseVisualStyleBackColor = true;
+            // 
             // LevelUpEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -335,5 +349,6 @@
         private System.Windows.Forms.CheckBox CHK_Expand;
         private System.Windows.Forms.PictureBox PB_MonSprite;
         private System.Windows.Forms.CheckBox CHK_4MovesLvl1;
+        private System.Windows.Forms.CheckBox CHK_NoFixedDamage;
     }
 }

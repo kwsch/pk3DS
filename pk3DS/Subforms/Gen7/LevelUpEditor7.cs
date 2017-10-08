@@ -132,6 +132,10 @@ namespace pk3DS
         {
             setList();
             var sets = files.Select(z => new Learnset7(z)).ToArray();
+            var banned = new List<int>(new[] {165, 621, 464}.Concat(Legal.Z_Moves)); // Struggle, Hyperspace Fury, Dark Void
+            if (CHK_NoFixedDamage.Checked)
+                banned.AddRange(MoveRandomizer.FixedDamageMoves);
+
             var rand = new LearnsetRandomizer(Main.Config, sets)
             {
                 Expand = CHK_Expand.Checked,
@@ -141,7 +145,7 @@ namespace pk3DS
                 STAB = CHK_STAB.Checked,
                 rSTABPercent = NUD_STAB.Value,
                 STABFirst = CHK_STAB.Checked,
-                BannedMoves = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(), // Struggle, Hyperspace Fury, Dark Void
+                BannedMoves = banned,
                 Learn4Level1 = CHK_4MovesLvl1.Checked,
             };
             rand.Execute();

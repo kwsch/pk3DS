@@ -134,6 +134,8 @@ namespace pk3DS
             List<int> banned = new List<int> {165, 621}; // Struggle, Hyperspace Fury
             if (!CHK_HMs.Checked)
                 banned.AddRange(HMs.Select(z => (int)z));
+            if (CHK_NoFixedDamage.Checked)
+                banned.AddRange(MoveRandomizer.FixedDamageMoves);
 
             setList();
             var sets = files.Select(z => new Learnset6(z)).ToArray();

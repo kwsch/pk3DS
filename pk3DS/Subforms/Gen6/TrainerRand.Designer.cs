@@ -65,6 +65,7 @@
             this.NUD_STAB = new System.Windows.Forms.NumericUpDown();
             this.CB_Moves = new System.Windows.Forms.ComboBox();
             this.L_Moves = new System.Windows.Forms.Label();
+            this.CHK_NoFixedDamage = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             this.GB_Tweak.SuspendLayout();
@@ -569,11 +570,24 @@
             this.L_Moves.TabIndex = 331;
             this.L_Moves.Text = "Moves:";
             // 
+            // CHK_NoFixedDamage
+            // 
+            this.CHK_NoFixedDamage.AutoSize = true;
+            this.CHK_NoFixedDamage.Checked = true;
+            this.CHK_NoFixedDamage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_NoFixedDamage.Location = new System.Drawing.Point(182, 297);
+            this.CHK_NoFixedDamage.Name = "CHK_NoFixedDamage";
+            this.CHK_NoFixedDamage.Size = new System.Drawing.Size(90, 56);
+            this.CHK_NoFixedDamage.TabIndex = 332;
+            this.CHK_NoFixedDamage.Text = "No Fixed\r\nDamage\r\nDragon Rage\r\nSonicboom";
+            this.CHK_NoFixedDamage.UseVisualStyleBackColor = true;
+            // 
             // TrainerRand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 410);
+            this.Controls.Add(this.CHK_NoFixedDamage);
             this.Controls.Add(this.L_Moves);
             this.Controls.Add(this.CB_Moves);
             this.Controls.Add(this.CHK_OnlySingles);
@@ -653,5 +667,6 @@
         private System.Windows.Forms.CheckBox CHK_6PKM;
         private System.Windows.Forms.CheckBox CHK_RandomMegaForm;
         private System.Windows.Forms.CheckBox CHK_GymE4Only;
+        private System.Windows.Forms.CheckBox CHK_NoFixedDamage;
     }
 }

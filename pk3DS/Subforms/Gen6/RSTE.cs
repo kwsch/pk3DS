@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using pk3DS.Core;
+using pk3DS.Core.Randomizers;
 using pk3DS.Core.Structures;
 using pk3DS.Core.Structures.PersonalInfo;
 
@@ -524,6 +525,7 @@ namespace pk3DS
         public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rAbility, rDiffAI, 
             rDiffIV, rClass, rGift, rItem, rDoRand, rRandomMegas, rGymE4Only,
             rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM;
+        public static bool rNoFixedDamage;
         internal static bool[] rThemedClasses = { };
         private static string[] rTags;
         private static int[] megaEvos;
@@ -545,7 +547,9 @@ namespace pk3DS
         }
         private void Randomize()
         {
-            int[] banned = { 165, 621 }; // Struggle, Hyperspace Fury
+            List<int> banned = new List<int> { 165, 621 }; // Struggle, Hyperspace Fury
+            if (rNoFixedDamage)
+                banned.AddRange(MoveRandomizer.FixedDamageMoves);
             rImportant = new string[CB_TrainerID.Items.Count];
             rTags = Main.Config.ORAS ? GetTagsORAS() : GetTagsXY();
             mEvoTypes = GetMegaEvolvableTypes();
