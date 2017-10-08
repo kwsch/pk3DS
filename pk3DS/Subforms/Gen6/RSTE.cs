@@ -619,12 +619,9 @@ namespace pk3DS
 
                 // Randomize Trainer Stats
                 if (rDiffAI)
-                {
-                    if (CB_Battle_Type.SelectedIndex == 0)
-                        CB_AI.SelectedIndex = 7; // Max Single
-                    else if (CB_Battle_Type.SelectedIndex == 1)
-                        CB_AI.SelectedIndex = 135; // Max Double
-                }
+                    CB_AI.SelectedIndex |= 7; // Set first 3 bits, keep any other flag if present
+                if (rOnlySingles)
+                    CB_AI.SelectedIndex &= 7;
                 if (
                     rClass // Classes selected to be randomized
                     && (!rOnlySingles || CB_Battle_Type.SelectedIndex == 0) //  Nonsingles only get changed if rOnlySingles
