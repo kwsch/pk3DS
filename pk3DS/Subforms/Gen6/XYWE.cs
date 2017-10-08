@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using pk3DS.Core.Randomizers;
 
 namespace pk3DS
 {
@@ -505,11 +506,22 @@ namespace pk3DS
             // Calculate % diff we will apply to each level
             decimal leveldiff = (100 + NUD_LevelAmp.Value) / 100;
 
-            // Nonrepeating List Start
-            int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked,
-                CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, false, CHK_L.Checked, CHK_E.Checked);
+            var rand = new SpeciesRandomizer(Main.Config)
+            {
+                G1 = CHK_G1.Checked,
+                G2 = CHK_G2.Checked,
+                G3 = CHK_G3.Checked,
+                G4 = CHK_G4.Checked,
+                G5 = CHK_G5.Checked,
+                G6 = CHK_G6.Checked,
 
-            int ctr = 0;
+                L = CHK_L.Checked,
+                E = CHK_E.Checked,
+                Shedinja = false,
+
+                rBST = CHK_BST.Checked,
+            };
+            rand.Initialize();
 
             for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
             {
@@ -539,18 +551,9 @@ namespace pk3DS
                         }
                     }
 
-                    int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
-
-                    if (CHK_BST.Checked)
-                    {
-                        int oldBST = Main.Config.Personal[spec[slot].SelectedIndex].BST;
-                        int newBST = Main.Config.Personal[species].BST;
-                        while (!(newBST * 4 / 5 < oldBST && newBST * 6 / 5 > oldBST))
-                        { species = sL[rand.Next(1, sL.Length)]; newBST = Main.Config.Personal[species].BST; }
-                    }
-
+                    int species = rand.GetRandomSpecies(spec[slot].SelectedIndex);
                     spec[slot].SelectedIndex = species;
-                    setRandomForm(slot, spec[slot].SelectedIndex);
+                    setRandomForm(slot, species);
                 }
                 B_Save_Click(sender, e);
             }

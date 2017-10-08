@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using pk3DS.Core.Randomizers;
 
 namespace pk3DS
 {
@@ -594,10 +595,23 @@ namespace pk3DS
             decimal leveldiff = NUD_LevelAmp.Value;
 
             // Nonrepeating List Start
-            int[] sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked,
-                CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, false, CHK_L.Checked, CHK_E.Checked);
+            var rand = new SpeciesRandomizer(Main.Config)
+            {
+                G1 = CHK_G1.Checked,
+                G2 = CHK_G2.Checked,
+                G3 = CHK_G3.Checked,
+                G4 = CHK_G4.Checked,
+                G5 = CHK_G5.Checked,
+                G6 = CHK_G6.Checked,
 
-            int ctr = 0;
+                L = CHK_L.Checked,
+                E = CHK_E.Checked,
+                Shedinja = false,
+
+                rBST = CHK_BST.Checked,
+            };
+            rand.Initialize();
+
             int[] slotArray = Enumerable.Range(0, max.Length).Select(a => a).ToArray();
 
             for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
@@ -624,36 +638,19 @@ namespace pk3DS
                 int[] RandomList = new int[cons > 18 ? 18 - cons / 8 : cons];
 
                 // Fill Location List
-                if (!CHK_BST.Checked)
-                    for (int z = 0; z < RandomList.Length; z++)
-                        RandomList[z] = Randomizer.getRandomSpecies(ref sL, ref ctr);
-                else
-                {
-                    int oldBST = 0;
-                    for (int s = 0; s < max.Length; s++)
-                        if (spec[s].SelectedIndex > 0)
-                        { oldBST = Main.Config.Personal[spec[s + 2].SelectedIndex].BST; break; }
-
-                    for (int z = 0; z < RandomList.Length; z++)
-                    {
-                        int species = Randomizer.getRandomSpecies(ref sL, ref ctr);
-                        int newBST = Main.Config.Personal[species].BST;
-                        while (!(newBST * 4 / 5 < oldBST && newBST * 6 / 5 > oldBST))
-                        { species = sL[rand.Next(1, sL.Length)]; newBST = Main.Config.Personal[species].BST; }
-                        RandomList[z] = species;
-                    }
-                }
+                for (int s = 0; s < max.Length; s++)
+                    if (spec[s].SelectedIndex > 0)
+                        RandomList[s] = rand.GetRandomSpecies(spec[s].SelectedIndex);
 
                 // Assign Slots
                 while (used < RandomList.Distinct().Count() || used > 18) // Can just arbitrarily assign slots.
                 {
-                    int ctrSingle = 0;
                     Util.Shuffle(slotArray);
                     for (int s = 0; s < max.Length; s++)
                     {
                         int slot = slotArray[s];
                         if (spec[slot].SelectedIndex != 0) // If the slot is in use
-                            list[slot] = Randomizer.getRandomSpecies(ref RandomList, ref ctrSingle);
+                            list[slot] = rand.GetRandomSpecies(spec[s].SelectedIndex);
                     }
                     used = countUnique(list);
                     if (used != RandomList.Length)

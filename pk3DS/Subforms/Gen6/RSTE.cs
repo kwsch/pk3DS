@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using pk3DS.Core;
 using pk3DS.Core.Randomizers;
 using pk3DS.Core.Structures;
-using pk3DS.Core.Structures.PersonalInfo;
 
 namespace pk3DS
 {
@@ -668,43 +667,35 @@ namespace pk3DS
                 bool typerand = rTypeTheme && !rGymE4Only ||
                                 rTypeTheme && rImportant[i] != null && (rImportant[i].Contains("GYM") || rImportant[i].Contains("ELITE") || rImportant[i].Contains("CHAMPION"));
 
+                rSpeciesRand.rType = typerand;
+
+                var move = new MoveRandomizer(Main.Config)
+                {
+                    rDMG = rDMG,
+                    rSTAB = rSTAB,
+                    rSTABCount = rSTABCount,
+                    rDMGCount = rDMGCount,
+                };
+
                 // Randomize Pokemon
                 for (int p = 0; p < CB_numPokemon.SelectedIndex; p++)
                 {
-                    PersonalInfo oldpkm = Main.SpeciesStat[trpk_pkm[p].SelectedIndex];
-                    PersonalInfo pkm = null;
                     if (rPKM)
                     {
                         // randomize pokemon
-                        int species;
-                        pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
+                        int species = rSpeciesRand.GetRandomSpecies(trpk_pkm[p].SelectedIndex);
                         if (typerand)
                         {
-                            int tries = 0;
-                            while ((pkm.Types[0] != type && pkm.Types[1] != type || mevo && p == CB_numPokemon.SelectedIndex - 1 && !megaEvos.Contains(species)) && tries < 0x10000)
-                                if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
-                                    pkm = Main.SpeciesStat[species = GetRandomMegaEvolvablePokemon(type)];
-                                else if (rSmart) // Get a new Pokemon with a close BST
-                                {
-                                    pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
-                                    while (!(pkm.BST * (5 - ++tries / Main.Config.MaxSpeciesID) / 6 < oldpkm.BST && pkm.BST * (6 + ++tries / Main.Config.MaxSpeciesID) / 5 > oldpkm.BST))
-                                    {
-                                        pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
-                                    }
-                                }
-                                else
-                                    pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
-                        }
-                        else if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
-                            pkm = Main.SpeciesStat[species = megaEvos[rnd32() % megaEvos.Length]];
-                        else if (rSmart) // Get a new Pokemon with a close BST
-                        {
-                            int tries = 0;
-                            while (!(pkm.BST * (5 - ++tries / Main.Config.MaxSpeciesID) / 6 < oldpkm.BST && pkm.BST * (6 + ++tries / Main.Config.MaxSpeciesID) / 5 > oldpkm.BST))
+                            species = rSpeciesRand.GetRandomSpeciesType(trpk_pkm[p].SelectedIndex, type);
+                            if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
                             {
-                                pkm = Main.SpeciesStat[species = Randomizer.getRandomSpecies(ref sL, ref ctr)];
+                                int tries = 0;
+                                while (!megaEvos.Contains(species) && tries < 0x10000)
+                                    species = rSpeciesRand.GetRandomSpeciesType(trpk_pkm[p].SelectedIndex, type);
                             }
                         }
+                        else if (p == CB_numPokemon.SelectedIndex - 1 && mevo)
+                            species = megaEvos[rnd32() % megaEvos.Length];
 
                         trpk_pkm[p].SelectedIndex = species;
                         // Set Gender to Random
@@ -729,41 +720,13 @@ namespace pk3DS
                             trpk_item[p].SelectedIndex = megastones[rnd32() % megastones.Length];
                     }
                     else if (rItem)
-                        #region RandomItem
                         trpk_item[p].SelectedIndex = itemvals[rnd32() % itemC];
-                        #endregion
                     
                     if (rMove)
                     {
-                        pkm = pkm ?? Main.SpeciesStat[trpk_pkm[p].SelectedIndex];
-                        int[] pkMoves = new int[4];
-                        var moves = new[] {trpk_m1[p], trpk_m2[p], trpk_m3[p], trpk_m4[p]};
-
-                        int loopctr = 0;
-                    getMoves: // Get list of moves
-                        loopctr++;
-                        for (int m = 0; m < 4; m++)
-                        {
-                            int mv = Randomizer.getRandomSpecies(ref moveList, ref mctr);
-                            while (banned.Contains(mv) || pkMoves.Contains(mv))
-                                mv = Randomizer.getRandomSpecies(ref moveList, ref mctr);
-
-                            pkMoves[m] = mv;
-                        }
-
-                        // If a certain amount of damaging moves is required, check.
-                        if (rDMG)
-                        {
-                            int damagingMoves = pkMoves.Count(move => moveData[move].Category != 0);
-                            if (damagingMoves < rDMGCount && loopctr < 666)
-                                goto getMoves;
-                        }
-                        if (rSTAB)
-                        {
-                            int STAB = pkMoves.Count(move => pkm.Types.Contains(moveData[move].Type));
-                            if (STAB < rSTABCount && loopctr < 666)
-                                goto getMoves;
-                        }
+                        var moves = new[] { trpk_m1[p], trpk_m2[p], trpk_m3[p], trpk_m4[p] };
+                        int species = trpk_pkm[p].SelectedIndex;
+                        var pkMoves = move.GetRandomMoveset(species, 4);
 
                         // Assign Moves
                         for (int m = 0; m < 4; m++)
@@ -897,6 +860,7 @@ namespace pk3DS
             return tags;
         }
         private bool ImportantTrainers;
+        public static SpeciesRandomizer rSpeciesRand;
 
         // Theme Methods
         private void TagTrainer(string[] trTags, string tag, params int[] ids)

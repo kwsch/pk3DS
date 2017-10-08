@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using pk3DS.Core.Randomizers;
 
 namespace pk3DS
 {
@@ -29,7 +30,6 @@ namespace pk3DS
         private void B_Save_Click(object sender, EventArgs e)
         {
             RSTE.rPKM = CHK_RandomPKM.Checked;
-            RSTE.sL = Randomizer.getSpeciesList(CHK_G1.Checked, CHK_G2.Checked, CHK_G3.Checked, CHK_G4.Checked, CHK_G5.Checked, CHK_G6.Checked, false, CHK_L.Checked, CHK_E.Checked, ModifierKeys == Keys.Control);
             RSTE.rSmart = CHK_BST.Checked;
             RSTE.rLevel = CHK_Level.Checked;
             RSTE.rLevelMultiplier = NUD_Level.Value;
@@ -81,6 +81,22 @@ namespace pk3DS
             }
             
             RSTE.rThemedClasses = new bool[trClass.Length];
+            RSTE.rSpeciesRand = new SpeciesRandomizer(Main.Config)
+            {
+                G1 = CHK_G1.Checked,
+                G2 = CHK_G2.Checked,
+                G3 = CHK_G3.Checked,
+                G4 = CHK_G4.Checked,
+                G5 = CHK_G5.Checked,
+                G6 = CHK_G6.Checked,
+
+                L = CHK_L.Checked,
+                E = CHK_E.Checked,
+                Shedinja = true,
+
+                rBST = CHK_BST.Checked,
+            };
+            RSTE.rSpeciesRand.Initialize();
 
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes) return;
             if (!CHK_IgnoreSpecialClass.Checked)

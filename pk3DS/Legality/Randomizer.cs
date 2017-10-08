@@ -1,100 +1,11 @@
 ﻿using pk3DS.Core;
 using pk3DS.Core.Structures.PersonalInfo;
 using System.Linq;
-using pk3DS.Core.Structures;
 
 namespace pk3DS
 {
-    public class Randomizer
+    public static class Randomizer
     {
-        public PersonalInfo[] Stats { private get; set; }
-        public bool BST;
-        private int[] SpeciesList;
-        private int ctr;
-        public Randomizer(bool G1, bool G2, bool G3, bool G4, bool G5, bool G6, bool G7, bool L, bool E, bool Shedinja = true)
-        {
-            SpeciesList = getSpeciesList(G1, G2, G3, G4, G5, G6, G7, L, E, Shedinja);
-        }
-        public int getRandomSpecies(int oldSpecies, int Type = -1)
-        {
-            return getRandomSpecies(ref SpeciesList, ref ctr, oldSpecies, BST, Stats, Type);
-        }
-
-        internal static int getRandomSpecies(ref int[] list, ref int ctr)
-        {
-            if (ctr == 0) { Util.Shuffle(list); }
-            int species = list[ctr++]; ctr %= list.Length;
-            return species;
-        }
-        internal static int MaxSpeciesID = 721;
-        internal static int[] RandomSpeciesList => Enumerable.Range(1, MaxSpeciesID).ToArray();
-        internal static int getRandomSpecies(ref int[] sL, ref int ctr, int oldSpecies, bool BST, PersonalInfo[] stats = null, int Type = -1)
-        {
-            int species = getRandomSpecies(ref sL, ref ctr);
-            if (!BST || stats == null)
-                return species;
-
-            PersonalInfo oldpkm = stats[oldSpecies];
-            PersonalInfo pkm = stats[species];
-
-            // Stat Deviation: increasing 10% increments if no suitable match found in entire list
-            int a = 11;
-            const int c = 10;
-            
-            int iter = 1;
-            bool valid = pkm.BST*c/a < oldpkm.BST && pkm.BST*a/c > oldpkm.BST;
-            if (Type > -1) valid &= pkm.Types.Any(type => type == Type);
-
-            while (!valid)
-            {
-                species = getRandomSpecies(ref sL, ref ctr);
-                pkm = Main.SpeciesStat[species];
-                if (++iter % sL.Length == 0)
-                    a++;
-
-                // Check Satisfaction
-                valid = pkm.BST*c/a < oldpkm.BST && pkm.BST*a/c > oldpkm.BST;
-                if (Type > -1) valid &= pkm.Types.Any(type => type == Type);
-            }
-            return species;
-        }
-
-        internal static int[] getSpeciesList(bool G1, bool G2, bool G3, bool G4, bool G5, bool G6, bool G7, bool L, bool E, bool Shedinja = true)
-        {
-            int[] sL = new int[0];
-
-            // Gen 1
-            if (G1) sL = sL.Concat(Enumerable.Range(1, 143)).Concat(Enumerable.Range(147, 3)).ToArray(); // Bulbasaur - Snorlax & Dratini - Dragonite
-            if (G1 && L) sL = sL.Concat(Enumerable.Range(144, 3)).Concat(Enumerable.Range(150, 1)).ToArray(); // Birds & Mewtwo
-            if (G1 && E) sL = sL.Concat(Enumerable.Range(151, 1)).ToArray(); // Mew
-            // Gen 2
-            if (G2) sL = sL.Concat(Enumerable.Range(152, 91)).Concat(Enumerable.Range(246, 3)).ToArray(); // Chikorita - Blissey & Larvitar - Tyranitar
-            if (G2 && L) sL = sL.Concat(Enumerable.Range(243, 3)).Concat(Enumerable.Range(249, 2)).ToArray(); // Dogs, Lugia & Ho-Oh
-            if (G2 && E) sL = sL.Concat(Enumerable.Range(251, 1)).ToArray(); // Celebi
-            // Gen 3
-            if (G3) sL = sL.Concat(Enumerable.Range(252, 40)).Concat(Enumerable.Range(293, 84)).ToArray();
-            if (G3 && Shedinja) sL = sL.Concat(Enumerable.Range(292, 1)).ToArray(); // Shedinja
-            if (G3 && L) sL = sL.Concat(Enumerable.Range(377, 8)).ToArray(); // Regi, Lati, Mascot
-            if (G3 && E) sL = sL.Concat(Enumerable.Range(385, 2)).ToArray(); // Jirachi/Deoxys
-            // Gen 4
-            if (G4) sL = sL.Concat(Enumerable.Range(387, 93)).ToArray();
-            if (G4 && L) sL = sL.Concat(Enumerable.Range(480, 9)).ToArray(); //
-            if (G4 && E) sL = sL.Concat(Enumerable.Range(489, 5)).ToArray(); //
-            // Gen 5
-            if (G5) sL = sL.Concat(Enumerable.Range(495, 143)).ToArray();
-            if (G5 && L) sL = sL.Concat(Enumerable.Range(638, 9)).Concat(Enumerable.Range(494, 1)).ToArray(); // 
-            if (G5 && E) sL = sL.Concat(Enumerable.Range(647, 3)).ToArray(); // 
-            // Gen 6
-            if (G6) sL = sL.Concat(Enumerable.Range(650, 66)).ToArray();
-            if (G6 && L) sL = sL.Concat(Enumerable.Range(716, 3)).ToArray(); // 
-            if (G6 && E) sL = sL.Concat(Enumerable.Range(719, 3)).ToArray(); // 
-            // Gen 7
-            if (G7) sL = sL.Concat(Enumerable.Range(722, 67)).ToArray();
-            if (G7 && L) sL = sL.Concat(Enumerable.Range(785, 16)).ToArray(); // Tapus, Legends, UBs
-            if (G7 && E) sL = sL.Concat(Enumerable.Range(801, 2)).ToArray(); // Magearna, Marshadow
-
-            return sL.Length == 0 ? RandomSpeciesList : sL;
-        }
         internal static int GetRandomForme(int species, bool mega, bool alola, PersonalInfo[] stats = null)
         {
             if (stats == null)
@@ -238,41 +149,5 @@ namespace pk3DS
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
         internal static readonly ushort[] HeldItemsBuy_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Medicine_SM).ToArray();
         #endregion
-
-        internal static int[] getRandomMoves(int[] Types, Move[] moveData, bool rDMG, int rDMGCount, bool rSTAB, int rSTABCount)
-        {
-            int maxmove = Main.Config.XY ? 617 
-                : Main.Config.ORAS ? 620 
-                : 718; // SM
-            int[] moves = new int[4];
-            int loopctr = 0;
-            int[] movelist = Enumerable.Range(1, maxmove).Except(Legal.Z_Moves).ToArray();
-            int m = 0;
-            int getMove() => getRandomSpecies(ref movelist, ref m);
-            const int maxLoop = 666;
-
-            getMoves:
-            int i = 0;
-            if (rSTAB)
-                while (i < rSTABCount)
-                    if (Types.Contains(moveData[moves[i] = getMove()].Type))
-                        i++; // valid
-            while (i < 4) // remainder of moves
-                moves[i++] = getMove();
-
-            bool valid = ScreenMoves(moves, Types, moveData, rDMG, rDMGCount);
-            if (!valid && loopctr++ <= maxLoop)
-                goto getMoves;
-
-            return moves;
-        }
-
-        private static bool ScreenMoves(int[] moves, int[] Types, Move[] moveData, bool rDMG, int rDMGCount)
-        {
-            if (rDMG && rDMGCount > moves.Count(move => moveData[move].Category != 0))
-                return false;
-
-            return moves.Distinct().Count() == 4;
-        }
     }
 }
