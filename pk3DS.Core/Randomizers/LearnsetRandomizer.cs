@@ -57,13 +57,13 @@ namespace pk3DS.Core.Randomizers
                 decimal increment = SpreadTo / (decimal)count;
                 for (int i = 1; i < count; i++)
                     levels[i] = (int)(i * increment);
-                return set.Levels;
+                return levels;
             }
-            if (levels.Length == count)
-                return set.Levels;
+            if (levels.Length == count && levels.Length == set.Levels.Length)
+                return set.Levels; // don't modify
 
             var exist = set.Levels;
-            int lastlevel = exist[exist.Length - 1];
+            int lastlevel = Math.Min(1, exist.LastOrDefault());
             exist.CopyTo(levels, 0);
             for (int i = exist.Length; i < levels.Length; i++)
                 levels[i] = Math.Max(100, lastlevel + (exist.Length - i + 1));
