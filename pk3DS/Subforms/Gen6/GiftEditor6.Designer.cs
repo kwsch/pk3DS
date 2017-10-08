@@ -63,6 +63,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.L_Hint = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.CHK_Mega = new System.Windows.Forms.CheckBox();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
             this.L_RandOpt = new System.Windows.Forms.Label();
             this.CHK_BST = new System.Windows.Forms.CheckBox();
@@ -76,7 +77,6 @@
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
-            this.CHK_Mega = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV2)).BeginInit();
@@ -555,6 +555,18 @@
             this.tabPage2.Text = "Randomizer Options";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // CHK_Mega
+            // 
+            this.CHK_Mega.AutoSize = true;
+            this.CHK_Mega.Checked = true;
+            this.CHK_Mega.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Mega.Location = new System.Drawing.Point(9, 176);
+            this.CHK_Mega.Name = "CHK_Mega";
+            this.CHK_Mega.Size = new System.Drawing.Size(264, 43);
+            this.CHK_Mega.TabIndex = 511;
+            this.CHK_Mega.Text = "Replace Megas with Another Mega (via Held Item)\r\nXY - Lucario\r\nORAS - Lati@s";
+            this.CHK_Mega.UseVisualStyleBackColor = true;
+            // 
             // GB_Tweak
             // 
             this.GB_Tweak.Controls.Add(this.L_RandOpt);
@@ -723,18 +735,6 @@
             this.CHK_Level.TabIndex = 302;
             this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Mega
-            // 
-            this.CHK_Mega.AutoSize = true;
-            this.CHK_Mega.Checked = true;
-            this.CHK_Mega.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Mega.Location = new System.Drawing.Point(9, 202);
-            this.CHK_Mega.Name = "CHK_Mega";
-            this.CHK_Mega.Size = new System.Drawing.Size(232, 17);
-            this.CHK_Mega.TabIndex = 511;
-            this.CHK_Mega.Text = "Replace Mega (Lucario) with Another Mega";
-            this.CHK_Mega.UseVisualStyleBackColor = true;
             // 
             // GiftEditor6
             // 

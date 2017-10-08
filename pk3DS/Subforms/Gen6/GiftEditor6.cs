@@ -23,6 +23,9 @@ namespace pk3DS
             }
             InitializeComponent();
 
+            MegaDictionary = Main.Config.XY ? MegaDictionaryXY : MegaDictionaryAO.Concat(MegaDictionaryXY)
+                .ToDictionary(pair => pair.Key, pair => pair.Value);
+
             specieslist[0] = "---";
             abilitylist[0] = itemlist[0] = movelist[0] = "(None)"; // blank == -1
 
@@ -45,6 +48,7 @@ namespace pk3DS
         private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+        private readonly Dictionary<int, int[]> MegaDictionary;
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveEntry();
@@ -63,7 +67,7 @@ namespace pk3DS
             for (int i = 0; i < GiftData.Length; i++)
             {
                 GiftData[i] = new EncounterGift6(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray(), Main.Config.ORAS);
-                LB_Gifts.Items.Add($"{i.ToString("00")} - {specieslist[GiftData[i].Species]}");
+                LB_Gifts.Items.Add($"{i:00} - {specieslist[GiftData[i].Species]}");
             }
             loaded = true;
             LB_Gifts.SelectedIndex = 0;
@@ -202,14 +206,14 @@ namespace pk3DS
             WinFormsUtil.Alert("Randomized all Gift Pokémon according to specification!");
         }
 
-        private static int[] GetRandomMega(out int species)
+        private int[] GetRandomMega(out int species)
         {
             int rnd = Util.rand.Next(0, MegaDictionary.Count - 1);
             species = MegaDictionary.Keys.ElementAt(rnd);
             return MegaDictionary.Values.ElementAt(rnd);
         }
 
-        private static readonly Dictionary<int, int[]> MegaDictionary = new Dictionary<int, int[]>
+        private static readonly Dictionary<int, int[]> MegaDictionaryXY = new Dictionary<int, int[]>
         {
             {003, new[] {659}}, // Venusaur @ Venusaurite
             {006, new[] {660, 678}}, // Charizard @ Charizardite X/Y
@@ -237,6 +241,9 @@ namespace pk3DS
             {445, new[] {683}}, // Garchomp @ Garchompite
             {448, new[] {673}}, // Lucario @ Lucarionite
             {460, new[] {674}}, // Abomasnow @ Abomasite
+        };
+        private static readonly Dictionary<int, int[]> MegaDictionaryAO = new Dictionary<int, int[]>
+        {
             {015, new[] {770}}, // Beedrill @ Beedrillite
             {018, new[] {762}}, // Pidgeot @ Pidgeotite
             {080, new[] {760}}, // Slowbro @ Slowbronite
