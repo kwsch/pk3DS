@@ -187,6 +187,7 @@
             this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
             this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
             this.CHK_RandomClass = new System.Windows.Forms.CheckBox();
+            this.CHK_NoFixedDamage = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -1803,6 +1804,7 @@
             // 
             // Tab_PKM2
             // 
+            this.Tab_PKM2.Controls.Add(this.CHK_NoFixedDamage);
             this.Tab_PKM2.Controls.Add(this.CHK_BeneficialEVs);
             this.Tab_PKM2.Controls.Add(this.L_Moves);
             this.Tab_PKM2.Controls.Add(this.CB_Moves);
@@ -2093,6 +2095,18 @@
             this.CHK_RandomClass.UseVisualStyleBackColor = true;
             this.CHK_RandomClass.CheckedChanged += new System.EventHandler(this.CHK_RandomClass_CheckedChanged);
             // 
+            // CHK_NoFixedDamage
+            // 
+            this.CHK_NoFixedDamage.AutoSize = true;
+            this.CHK_NoFixedDamage.Checked = true;
+            this.CHK_NoFixedDamage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_NoFixedDamage.Location = new System.Drawing.Point(146, 104);
+            this.CHK_NoFixedDamage.Name = "CHK_NoFixedDamage";
+            this.CHK_NoFixedDamage.Size = new System.Drawing.Size(148, 30);
+            this.CHK_NoFixedDamage.TabIndex = 340;
+            this.CHK_NoFixedDamage.Text = "No Fixed Damage\r\nDragon Rage/Sonicboom";
+            this.CHK_NoFixedDamage.UseVisualStyleBackColor = true;
+            // 
             // SMTE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2335,6 +2349,7 @@
         private System.Windows.Forms.CheckBox CHK_Damage;
         private System.Windows.Forms.NumericUpDown NUD_Damage;
         private System.Windows.Forms.CheckBox CHK_Flag;
+        private System.Windows.Forms.CheckBox CHK_NoFixedDamage;
     }
 }
 

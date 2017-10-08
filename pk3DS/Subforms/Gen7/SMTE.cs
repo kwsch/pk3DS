@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace pk3DS
 {
     public partial class SMTE : Form
     {
-        private readonly LearnsetRandomizer move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
+        private readonly LearnsetRandomizer learn = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
         private readonly trdata7[] Trainers;
         private string[][] AltForms;
         private int index = -1;
@@ -589,6 +590,18 @@ namespace pk3DS
             };
             rnd.Initialize();
 
+            var banned = new List<int>(new[] { 165, 621, 464 }.Concat(Legal.Z_Moves)); // Struggle, Hyperspace Fury, Dark Void
+            if (CHK_NoFixedDamage.Checked)
+                banned.AddRange(MoveRandomizer.FixedDamageMoves);
+            var move = new MoveRandomizer(Main.Config)
+            {
+                BannedMoves = banned,
+                rSTABCount = (int) NUD_STAB.Value,
+                rDMG = CHK_Damage.Checked,
+                rDMGCount = (int) NUD_Damage.Value,
+                rSTAB = CHK_STAB.Checked
+            };
+
             var items = Randomizer.getRandomItemList();
             for (int i = 0; i < Trainers.Length; i++)
             {
@@ -651,17 +664,13 @@ namespace pk3DS
                     switch (CB_Moves.SelectedIndex)
                     {
                         case 1: // Random
-                            pk.Moves = Randomizer.getRandomMoves(
-                                Main.Config.Personal.getFormeEntry(pk.Species, pk.Form).Types,
-                                Main.Config.Moves,
-                                CHK_Damage.Checked, (int)NUD_Damage.Value,
-                                CHK_STAB.Checked, (int)NUD_STAB.Value);
+                            pk.Moves = move.GetRandomMoveset(pk.Species, 4);
                             break;
                         case 2: // Current LevelUp
-                            pk.Moves = move.GetCurrentMoves(pk.Species, pk.Form, pk.Level, 4);
+                            pk.Moves = learn.GetCurrentMoves(pk.Species, pk.Form, pk.Level, 4);
                             break;
                         case 3: // High Attacks
-                            pk.Moves = move.GetHighPoweredMoves(pk.Species, pk.Form, 4);
+                            pk.Moves = learn.GetHighPoweredMoves(pk.Species, pk.Form, 4);
                             break;
                     }
                 }
@@ -674,7 +683,7 @@ namespace pk3DS
             pkm.Species = CB_Species.SelectedIndex;
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
-            var moves = move.GetHighPoweredMoves(pkm.Species, pkm.Form, 4);
+            var moves = learn.GetHighPoweredMoves(pkm.Species, pkm.Form, 4);
             setMoves(moves);
         }
         private void B_CurrentAttack_Click(object sender, EventArgs e)
@@ -682,7 +691,7 @@ namespace pk3DS
             pkm.Species = CB_Species.SelectedIndex;
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
-            var moves = move.GetCurrentMoves(pkm.Species, pkm.Form, 4);
+            var moves = learn.GetCurrentMoves(pkm.Species, pkm.Form, 4);
             setMoves(moves);
         }
         private void B_Clear_Click(object sender, EventArgs e)
