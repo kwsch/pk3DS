@@ -83,7 +83,16 @@ namespace pk3DS.Core.Randomizers
             loopctr = 0; // altering calculations to prevent infinite loops
             int newSpecies;
             while (!GetNewSpecies(oldSpecies, oldpkm, out newSpecies))
+            {
+                if (loopctr > 0x0001_0000)
+                {
+                    PersonalInfo pkm = SpeciesStat[newSpecies];
+                    if (IsSpeciesBSTBad(oldpkm, pkm) && loopctr > 0x0001_1000) // keep trying for at minimum BST
+                        continue;
+                    return newSpecies; // failed to find any match based on criteria, return random species that may or may not match criteria
+                }
                 loopctr++;
+            }
             return newSpecies;
         }
 
