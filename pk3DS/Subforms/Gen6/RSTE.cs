@@ -656,9 +656,8 @@ namespace pk3DS
                         if (p == last && mevo)
                         {
                             int tries = 0;
-                            while (!megaEvos.Contains(species) && tries++ < 0x10000)
-                                species = rSpeciesRand.GetRandomSpeciesType(pk.Species, type);
-                            stones = MegaDictionary[species];
+                            do { stones = GetRandomMega(out species); }
+                            while (Main.Config.Personal[species].Types.All(z => z != type) && tries++ < 100);
                         }
                     }
                     else if (p == last && mevo)
@@ -701,10 +700,14 @@ namespace pk3DS
             int lastPKM = Math.Max(t.NumPokemon - 1, 0); // 0,1-6 => 0-5 (never is 0)
 
             t.NumPokemon = 6;
+            Array.Resize(ref t.Team, t.NumPokemon);
             for (int f = lastPKM + 1; f < t.NumPokemon; f++)
             {
-                t.Team[f].Species = t.Team[lastPKM].Species;
-                t.Team[f].Level = (ushort)Math.Min(t.Team[f - 1].Level + 1, 100);
+                t.Team[f] = // clone last pkm then increment level by 1
+                    new trdata6.Pokemon(t.Team[lastPKM].Write(t.Item, t.Moves), t.Item, t.Moves)
+                    {
+                        Level = (ushort) Math.Min(t.Team[f - 1].Level + 1, 100)
+                    };
             }
         }
         private static void RandomizeTrainerAIClass(trdata6 t, string[] trClass)
