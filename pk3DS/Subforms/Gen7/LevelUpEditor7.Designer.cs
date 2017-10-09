@@ -34,6 +34,8 @@
             this.B_RandAll = new System.Windows.Forms.Button();
             this.B_Dump = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CHK_NoFixedDamage = new System.Windows.Forms.CheckBox();
+            this.CHK_4MovesLvl1 = new System.Windows.Forms.CheckBox();
             this.L_Moves = new System.Windows.Forms.Label();
             this.NUD_Moves = new System.Windows.Forms.NumericUpDown();
             this.CHK_Expand = new System.Windows.Forms.CheckBox();
@@ -46,8 +48,6 @@
             this.CHK_STAB = new System.Windows.Forms.CheckBox();
             this.CHK_HMs = new System.Windows.Forms.CheckBox();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
-            this.CHK_4MovesLvl1 = new System.Windows.Forms.CheckBox();
-            this.CHK_NoFixedDamage = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Moves)).BeginInit();
@@ -133,6 +133,28 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
+            // 
+            // CHK_NoFixedDamage
+            // 
+            this.CHK_NoFixedDamage.AutoSize = true;
+            this.CHK_NoFixedDamage.Checked = true;
+            this.CHK_NoFixedDamage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_NoFixedDamage.Location = new System.Drawing.Point(5, 271);
+            this.CHK_NoFixedDamage.Name = "CHK_NoFixedDamage";
+            this.CHK_NoFixedDamage.Size = new System.Drawing.Size(90, 56);
+            this.CHK_NoFixedDamage.TabIndex = 13;
+            this.CHK_NoFixedDamage.Text = "No Fixed\nDamage\nMoves\n(Dragon Rage\n+ Sonic Boom)";
+            this.CHK_NoFixedDamage.UseVisualStyleBackColor = true;
+            // 
+            // CHK_4MovesLvl1
+            // 
+            this.CHK_4MovesLvl1.AutoSize = true;
+            this.CHK_4MovesLvl1.Location = new System.Drawing.Point(5, 159);
+            this.CHK_4MovesLvl1.Name = "CHK_4MovesLvl1";
+            this.CHK_4MovesLvl1.Size = new System.Drawing.Size(70, 30);
+            this.CHK_4MovesLvl1.TabIndex = 12;
+            this.CHK_4MovesLvl1.Text = "Start with\n4 Moves";
+            this.CHK_4MovesLvl1.UseVisualStyleBackColor = true;
             // 
             // L_Moves
             // 
@@ -275,28 +297,6 @@
             this.PB_MonSprite.Size = new System.Drawing.Size(40, 30);
             this.PB_MonSprite.TabIndex = 90;
             this.PB_MonSprite.TabStop = false;
-            // 
-            // CHK_4MovesLvl1
-            // 
-            this.CHK_4MovesLvl1.AutoSize = true;
-            this.CHK_4MovesLvl1.Location = new System.Drawing.Point(5, 154);
-            this.CHK_4MovesLvl1.Name = "CHK_4MovesLvl1";
-            this.CHK_4MovesLvl1.Size = new System.Drawing.Size(67, 30);
-            this.CHK_4MovesLvl1.TabIndex = 12;
-            this.CHK_4MovesLvl1.Text = "4 Moves\r\n@ Lvl1";
-            this.CHK_4MovesLvl1.UseVisualStyleBackColor = true;
-            // 
-            // CHK_NoFixedDamage
-            // 
-            this.CHK_NoFixedDamage.AutoSize = true;
-            this.CHK_NoFixedDamage.Checked = true;
-            this.CHK_NoFixedDamage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_NoFixedDamage.Location = new System.Drawing.Point(5, 266);
-            this.CHK_NoFixedDamage.Name = "CHK_NoFixedDamage";
-            this.CHK_NoFixedDamage.Size = new System.Drawing.Size(90, 56);
-            this.CHK_NoFixedDamage.TabIndex = 13;
-            this.CHK_NoFixedDamage.Text = "No Fixed\r\nDamage\r\nDragon Rage\r\nSonicboom";
-            this.CHK_NoFixedDamage.UseVisualStyleBackColor = true;
             // 
             // LevelUpEditor7
             // 

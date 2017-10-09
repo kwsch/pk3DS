@@ -157,6 +157,8 @@ namespace pk3DS
         private void B_RandomTM_Click(object sender, EventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize TMs?", "Move compatibility will be the same as the base TMs.") != DialogResult.Yes) return;
+            if(CHK_RandomizeHM.Checked)
+                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomizing HMs can halt story progression!", "Continue anyway?") != DialogResult.Yes) return;
 
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
@@ -171,6 +173,15 @@ namespace pk3DS
                 while (banned.Contains(randomMoves[ctr])) ctr++;
 
                 dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
+            }
+
+            if (CHK_RandomizeHM.Checked)
+            {
+                for (int i = 0; i < dgvHM.Rows.Count; i++)
+                {
+                    dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
+                    dgvHM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
+                }
             }
             WinFormsUtil.Alert("Randomized!");
         }
