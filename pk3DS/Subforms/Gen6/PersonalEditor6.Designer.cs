@@ -1106,9 +1106,9 @@
             this.L_FinalXP.AutoSize = true;
             this.L_FinalXP.Location = new System.Drawing.Point(6, 71);
             this.L_FinalXP.Name = "L_FinalXP";
-            this.L_FinalXP.Size = new System.Drawing.Size(57, 13);
+            this.L_FinalXP.Size = new System.Drawing.Size(63, 13);
             this.L_FinalXP.TabIndex = 6;
-            this.L_FinalXP.Text = "FinalXP(%)";
+            this.L_FinalXP.Text = "Final XP (%)";
             // 
             // NUD_EXP
             // 
@@ -1182,7 +1182,7 @@
             // L_Same
             // 
             this.L_Same.AutoSize = true;
-            this.L_Same.Location = new System.Drawing.Point(226, 100);
+            this.L_Same.Location = new System.Drawing.Point(216, 101);
             this.L_Same.Name = "L_Same";
             this.L_Same.Size = new System.Drawing.Size(48, 13);
             this.L_Same.TabIndex = 23;
@@ -1190,7 +1190,7 @@
             // 
             // NUD_Egg
             // 
-            this.NUD_Egg.Location = new System.Drawing.Point(277, 98);
+            this.NUD_Egg.Location = new System.Drawing.Point(267, 99);
             this.NUD_Egg.Name = "NUD_Egg";
             this.NUD_Egg.Size = new System.Drawing.Size(46, 20);
             this.NUD_Egg.TabIndex = 22;
@@ -1228,7 +1228,7 @@
             this.CHK_ORASTutors.AutoSize = true;
             this.CHK_ORASTutors.Checked = true;
             this.CHK_ORASTutors.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_ORASTutors.Location = new System.Drawing.Point(229, 49);
+            this.CHK_ORASTutors.Location = new System.Drawing.Point(219, 50);
             this.CHK_ORASTutors.Name = "CHK_ORASTutors";
             this.CHK_ORASTutors.Size = new System.Drawing.Size(120, 17);
             this.CHK_ORASTutors.TabIndex = 9;
@@ -1240,7 +1240,7 @@
             this.CHK_Tutors.AutoSize = true;
             this.CHK_Tutors.Checked = true;
             this.CHK_Tutors.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Tutors.Location = new System.Drawing.Point(229, 34);
+            this.CHK_Tutors.Location = new System.Drawing.Point(219, 34);
             this.CHK_Tutors.Name = "CHK_Tutors";
             this.CHK_Tutors.Size = new System.Drawing.Size(94, 17);
             this.CHK_Tutors.TabIndex = 8;
@@ -1357,7 +1357,7 @@
             this.CHK_HM.AutoSize = true;
             this.CHK_HM.Checked = true;
             this.CHK_HM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_HM.Location = new System.Drawing.Point(277, 19);
+            this.CHK_HM.Location = new System.Drawing.Point(267, 19);
             this.CHK_HM.Name = "CHK_HM";
             this.CHK_HM.Size = new System.Drawing.Size(43, 17);
             this.CHK_HM.TabIndex = 7;
@@ -1378,7 +1378,7 @@
             this.CHK_TM.AutoSize = true;
             this.CHK_TM.Checked = true;
             this.CHK_TM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_TM.Location = new System.Drawing.Point(229, 19);
+            this.CHK_TM.Location = new System.Drawing.Point(219, 19);
             this.CHK_TM.Name = "CHK_TM";
             this.CHK_TM.Size = new System.Drawing.Size(42, 17);
             this.CHK_TM.TabIndex = 0;
@@ -1415,7 +1415,7 @@
             this.CHK_EggGroup.AutoSize = true;
             this.CHK_EggGroup.Checked = true;
             this.CHK_EggGroup.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_EggGroup.Location = new System.Drawing.Point(229, 80);
+            this.CHK_EggGroup.Location = new System.Drawing.Point(219, 81);
             this.CHK_EggGroup.Name = "CHK_EggGroup";
             this.CHK_EggGroup.Size = new System.Drawing.Size(77, 17);
             this.CHK_EggGroup.TabIndex = 13;
@@ -1427,7 +1427,7 @@
             this.CHK_CatchRate.AutoSize = true;
             this.CHK_CatchRate.Checked = true;
             this.CHK_CatchRate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_CatchRate.Location = new System.Drawing.Point(229, 65);
+            this.CHK_CatchRate.Location = new System.Drawing.Point(219, 66);
             this.CHK_CatchRate.Name = "CHK_CatchRate";
             this.CHK_CatchRate.Size = new System.Drawing.Size(80, 17);
             this.CHK_CatchRate.TabIndex = 11;

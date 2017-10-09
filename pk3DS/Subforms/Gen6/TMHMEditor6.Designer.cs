@@ -33,6 +33,7 @@
             this.dgvHM = new System.Windows.Forms.DataGridView();
             this.L_HM = new System.Windows.Forms.Label();
             this.B_RTM = new System.Windows.Forms.Button();
+            this.CHK_RandomizeHM = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHM)).BeginInit();
             this.SuspendLayout();
@@ -71,7 +72,7 @@
             this.dgvHM.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHM.Location = new System.Drawing.Point(256, 25);
             this.dgvHM.Name = "dgvHM";
-            this.dgvHM.Size = new System.Drawing.Size(240, 300);
+            this.dgvHM.Size = new System.Drawing.Size(240, 277);
             this.dgvHM.TabIndex = 3;
             // 
             // L_HM
@@ -93,11 +94,22 @@
             this.B_RTM.UseVisualStyleBackColor = true;
             this.B_RTM.Click += new System.EventHandler(this.B_RandomTM_Click);
             // 
-            // TMHM
+            // CHK_RandomizeHM
+            // 
+            this.CHK_RandomizeHM.AutoSize = true;
+            this.CHK_RandomizeHM.Location = new System.Drawing.Point(256, 308);
+            this.CHK_RandomizeHM.Name = "CHK_RandomizeHM";
+            this.CHK_RandomizeHM.Size = new System.Drawing.Size(104, 17);
+            this.CHK_RandomizeHM.TabIndex = 280;
+            this.CHK_RandomizeHM.Text = "Randomize HMs";
+            this.CHK_RandomizeHM.UseVisualStyleBackColor = true;
+            // 
+            // TMHMEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 332);
+            this.Controls.Add(this.CHK_RandomizeHM);
             this.Controls.Add(this.B_RTM);
             this.Controls.Add(this.L_HM);
             this.Controls.Add(this.dgvHM);
@@ -124,5 +136,6 @@
         private System.Windows.Forms.DataGridView dgvHM;
         private System.Windows.Forms.Label L_HM;
         private System.Windows.Forms.Button B_RTM;
+        private System.Windows.Forms.CheckBox CHK_RandomizeHM;
     }
 }

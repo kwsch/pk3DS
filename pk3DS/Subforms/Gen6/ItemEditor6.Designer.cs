@@ -127,7 +127,7 @@
             // L_Sell
             // 
             this.L_Sell.AutoSize = true;
-            this.L_Sell.Location = new System.Drawing.Point(103, 59);
+            this.L_Sell.Location = new System.Drawing.Point(103, 61);
             this.L_Sell.Name = "L_Sell";
             this.L_Sell.Size = new System.Drawing.Size(54, 13);
             this.L_Sell.TabIndex = 44;
@@ -136,7 +136,7 @@
             // MT_Sell
             // 
             this.MT_Sell.Enabled = false;
-            this.MT_Sell.Location = new System.Drawing.Point(163, 56);
+            this.MT_Sell.Location = new System.Drawing.Point(163, 58);
             this.MT_Sell.Mask = "00000";
             this.MT_Sell.Name = "MT_Sell";
             this.MT_Sell.Size = new System.Drawing.Size(37, 20);
@@ -152,7 +152,7 @@
             this.L_Index.TabIndex = 46;
             this.L_Index.Text = "Index: ";
             // 
-            // Item
+            // ItemEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -171,7 +171,7 @@
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(355, 420);
             this.MinimumSize = new System.Drawing.Size(355, 220);
-            this.Name = "Item";
+            this.Name = "ItemEditor6";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Item Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
