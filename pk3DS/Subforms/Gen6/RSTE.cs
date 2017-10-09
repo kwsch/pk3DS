@@ -668,7 +668,7 @@ namespace pk3DS
 
                     pk.Species = (ushort)species;
                     pk.Gender = 0; // Set Gender to Random
-                    bool mega = !megaEvos.Contains(species) || rRandomMegas;
+                    bool mega = rRandomMegas & !(mevo && p == last); // except if mega evolution is forced for the last slot
                     pk.Form = (ushort)Randomizer.GetRandomForme(pk.Species, mega, true, Main.SpeciesStat);
                 }
                 if (rLevel)
