@@ -22,9 +22,8 @@ namespace pk3DS
                 Close();
             }
             InitializeComponent();
-
-            MegaDictionary = Main.Config.XY ? MegaDictionaryXY : MegaDictionaryAO.Concat(MegaDictionaryXY)
-                .ToDictionary(pair => pair.Key, pair => pair.Value);
+            Dictionary<int, int[]> megaDictionary = GetMegaDictionary(Main.Config);
+            MegaDictionary = megaDictionary;
 
             specieslist[0] = "---";
             abilitylist[0] = itemlist[0] = movelist[0] = "(None)"; // blank == -1
@@ -38,6 +37,13 @@ namespace pk3DS
 
             loadData();
         }
+
+        public static Dictionary<int, int[]> GetMegaDictionary(GameConfig config)
+        {
+            return config.XY ? MegaDictionaryXY : MegaDictionaryAO.Concat(MegaDictionaryXY)
+                            .ToDictionary(pair => pair.Key, pair => pair.Value);
+        }
+
         private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
         private byte[] FieldData;
         private readonly int fieldOffset = Main.Config.ORAS ? 0xF906C : 0xF805C;
