@@ -649,7 +649,7 @@ namespace pk3DS
                 if (rPKM)
                 {
                     // randomize pokemon
-                    int species = rSpeciesRand.GetRandomSpecies(pk.Species);
+                    int species;
                     if (typerand)
                     {
                         species = rSpeciesRand.GetRandomSpeciesType(pk.Species, type);
@@ -658,13 +658,13 @@ namespace pk3DS
                             int tries = 0;
                             while (!megaEvos.Contains(species) && tries++ < 0x10000)
                                 species = rSpeciesRand.GetRandomSpeciesType(pk.Species, type);
+                            stones = MegaDictionary[species];
                         }
                     }
                     else if (p == last && mevo)
-                    {
                         stones = GetRandomMega(out species);
-                        species = megaEvos[rnd32() % megaEvos.Length];
-                    }
+                    else
+                        species = rSpeciesRand.GetRandomSpecies(pk.Species);
 
                     pk.Species = (ushort)species;
                     pk.Gender = 0; // Set Gender to Random
