@@ -182,7 +182,6 @@ namespace pk3DS
                     dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
                     dgvHM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
                 }
-
             }
             WinFormsUtil.Alert("Randomized!");
         }
