@@ -182,6 +182,44 @@ namespace pk3DS.Core
             165, // Pokémon Professor: Kukui
             185, // Aether Foundation: Faba
         };
+
+        public static readonly int[] Model_XY =
+        {
+            018, // Team Flare (Aliana)
+            019, // Team Flare (Bryony)
+            020, // Team Flare (Celosia)
+            021, // Team Flare (Mable)
+            022, // Team Flare (Xerosic)
+            055, // Pokémon Trainer (Shauna)
+            056, // Pokémon Trainer (Tierno)
+            057, // Pokémon Trainer (Trevor)
+            077, // Team Flare (Admin)*
+            078, // Team Flare (Admin)
+            079, // Team Flare (Grunt)*
+            080, // Team Flare (Grunt)
+            081, // Team Flare (Lysandre)
+            102, // Pokémon Trainer (AZ)
+            103, // Pokémon Trainer (Calem)
+            104, // Pokémon Trainer (Serena)
+            105, // Pokémon Profoessor (Sycamore)
+            175, // Team Flare Boss (Lysandre)
+            // * = Female
+        };
+        public static readonly int[] Model_AO =
+        {
+            127, // Pokémon Trainer (Brendan)
+            128, // Pokémon Trainer (May)
+            174, // Aqua Leader (Archie)
+            178, // Magma Leader (Maxie)
+            192, // Pokémon Trainer (Wally)
+            219, // Pokémon Trainer (Steven)
+            221, // Lorekeeper (Zinnia)
+            267, // Pokémon Trainer (Zinnia)
+            272, // Pokémon Trainer (Wally)*
+            278, // Pokémon Trainer (Brendan)*
+            279, // Pokémon Trainer (May)*
+            // * = has Mega Pendant/Bracelet
+        };
         public static readonly int[] Z_Moves =
         {
             622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658,

@@ -22,6 +22,7 @@ namespace pk3DS
             trpoke = trp;
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             MegaDictionary = GiftEditor6.GetMegaDictionary(Main.Config);
+            rModelRestricted = Main.Config.ORAS ? Legal.Model_AO : Legal.Model_XY;
 
             InitializeComponent();
             // String Fetching
@@ -531,6 +532,7 @@ namespace pk3DS
         public static int[] rIgnoreClass, rEnsureMEvo;
         public static int rDMGCount, rSTABCount;
         private int[] mEvoTypes;
+        private static int[] rModelRestricted;
         private string[] rImportant;
         private readonly List<string> Tags = new List<string>();
         private readonly Dictionary<string, int> TagTypes = new Dictionary<string, int>();
@@ -717,6 +719,14 @@ namespace pk3DS
             if (rOnlySingles)
                 t.AI &= 7;
 
+            if (rClass && rModelRestricted.Contains(t.Class)) // Classes selected to be randomized
+            {
+                //if (rIgnoreClass.Any()) // ignored special classes
+                //    return;
+                int randClass() => (int) (rnd32() % rModelRestricted.Length);
+                t.Class = rModelRestricted[randClass()];
+            }
+            else 
             if (
                 rClass // Classes selected to be randomized
                 && (!rOnlySingles || t.BattleType == 0) //  Nonsingles only get changed if rOnlySingles
