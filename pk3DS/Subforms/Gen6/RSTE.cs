@@ -726,7 +726,7 @@ namespace pk3DS
                 int randClass() => (int)(rnd32() % trClass.Length);
                 int rv; do { rv = randClass(); }
                 // Ensure the Random Class isn't an exclusive class
-                while (rIgnoreClass.Contains(rv) && !trClass[rv].StartsWith("[~")); // don't allow disallowed classes
+                while (rIgnoreClass.Contains(rv) || trClass[rv].StartsWith("[~")); // don't allow disallowed classes
                 t.Class = rv;
             }
         }
