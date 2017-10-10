@@ -29,6 +29,9 @@ namespace pk3DS
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes)
+                return;
+
             RSTE.rPKM = CHK_RandomPKM.Checked;
             RSTE.rSmart = CHK_BST.Checked;
             RSTE.rLevel = CHK_Level.Checked;
@@ -98,9 +101,6 @@ namespace pk3DS
             };
             RSTE.rSpeciesRand.Initialize();
 
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes) return;
-            if (!CHK_IgnoreSpecialClass.Checked)
-                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Ignoring Special Trainer Classes has the chance of crashing your game in some battles!", "Continue anyway?") != DialogResult.Yes) return;
             RSTE.rDoRand = true;
             Close();
         }
