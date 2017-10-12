@@ -19,10 +19,8 @@ namespace pk3DS
         public TypeChart6()
         {
             if (!File.Exists(CROPath))
-            {
-                WinFormsUtil.Error("CRO does not exist! Closing.", CROPath);
-                Close();
-            }
+            { WinFormsUtil.Error("CRO does not exist! Closing.", CROPath); Close(); }
+
             InitializeComponent();
 
             CROData = File.ReadAllBytes(CROPath);
@@ -48,65 +46,23 @@ namespace pk3DS
 
         private void moveMouse(object sender, MouseEventArgs e)
         {
-            int X = e.X / TypeWidth;
-            int Y = e.Y / TypeWidth;
-            if (e.X == (sender as PictureBox).Width - 1 - 2) // tweak because the furthest pixel is unused for transparent effect, and 2 px are used for border
-                X -= 1;
-            if (e.Y == (sender as PictureBox).Height - 1 - 2)
-                Y -= 1;
-
+            GetCoordinate((PictureBox)sender, e, out int X, out int Y);
             int index = Y * TypeCount + X;
+
             updateLabel(X, Y, chart[index]);
         }
         private void clickMouse(object sender, MouseEventArgs e)
         {
-            int X = e.X / TypeWidth;
-            int Y = e.Y / TypeWidth;
-            if (e.X == (sender as PictureBox).Width - 1 - 2) // tweak because the furthest pixel is unused for transparent effect, and 2 px are used for border
-                X -= 1;
-            if (e.Y == (sender as PictureBox).Height - 1 - 2)
-                Y -= 1;
-
+            GetCoordinate((PictureBox)sender, e, out int X, out int Y);
             int index = Y * TypeCount + X;
-            if (e.Button == MouseButtons.Left) // Increase
-            switch (chart[index])
-            {
-                case 08:
-                    chart[index] = 4;
-                    break;
-                case 04:
-                    chart[index] = 2;
-                    break;
-                case 02:
-                    chart[index] = 0;
-                    break;
-                case 00:
-                    chart[index] = 8;
-                    break;
-            }
-            else // Decrease
-            switch (chart[index])
-            {
-                case 08:
-                    chart[index] = 0;
-                    break;
-                case 04:
-                    chart[index] = 8;
-                    break;
-                case 02:
-                    chart[index] = 4;
-                    break;
-                case 00:
-                    chart[index] = 2;
-                    break;
-            }
+            chart[index] = ToggleEffectiveness(chart[index], e.Button == MouseButtons.Left);
+
             updateLabel(X, Y, chart[index]);
             populateChart();
         }
         private void updateLabel(int X, int Y, int value)
         {
-            L_Hover.Text = string.Format("[{0}x{1}: {2}] {4} attacking {3} {5}", X.ToString("00"), Y.ToString("00"),
-                value.ToString("00"), types[X], types[Y], effects[value]);
+            L_Hover.Text = $"[{X:00}x{Y:00}: {value:00}] {types[Y]} attacking {types[X]} {effects[value]}";
         }
         private readonly string[] effects =
         {
@@ -118,5 +74,26 @@ namespace pk3DS
             "", "", "",
             "is super effective!"
         };
+
+        public static void GetCoordinate(Control sender, MouseEventArgs e, out int X, out int Y)
+        {
+            X = e.X / TypeWidth;
+            Y = e.Y / TypeWidth;
+            if (e.X == sender.Width - 1 - 2) // tweak because the furthest pixel is unused for transparent effect, and 2 px are used for border
+                X -= 1;
+            if (e.Y == sender.Height - 1 - 2)
+                Y -= 1;
+        }
+        public static byte ToggleEffectiveness(byte currentValue, bool increase)
+        {
+            byte[] vals = { 0, 2, 4, 8 };
+            int curIndex = Array.IndexOf(vals, currentValue);
+            if (curIndex < 0)
+                return currentValue;
+
+            uint shift = (uint) (curIndex + (increase ? 1 : -1));
+            var newIndex = shift % vals.Length;
+            return vals[newIndex];
+        }
     }
 }

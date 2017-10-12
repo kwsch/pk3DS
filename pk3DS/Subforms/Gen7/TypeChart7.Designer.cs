@@ -77,7 +77,7 @@
             this.L_Hover.TabIndex = 468;
             this.L_Hover.Text = "Effectiveness Summary";
             // 
-            // TypeChart
+            // TypeChart7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -86,9 +86,10 @@
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.PB_Chart);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(355, 220);
-            this.Name = "TypeChart6";
+            this.Name = "TypeChart7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Type Chart Editor";
             ((System.ComponentModel.ISupportInitialize)(this.PB_Chart)).EndInit();
