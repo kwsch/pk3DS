@@ -643,9 +643,8 @@ namespace pk3DS
                 int[] RandomList = new int[cons > 18 ? 18 - cons / 8 : cons];
 
                 // Fill Location List
-                for (int s = 0; s < max.Length; s++)
-                    if (spec[s].SelectedIndex > 0)
-                        RandomList[s] = rand.GetRandomSpecies(spec[s].SelectedIndex);
+                for (int s = 0; s < RandomList.Length; s++)
+                    RandomList[s] = rand.GetRandomSpecies(spec[s].SelectedIndex);
 
                 // Assign Slots
                 while (used < RandomList.Distinct().Count() || used > 18) // Can just arbitrarily assign slots.
@@ -655,7 +654,7 @@ namespace pk3DS
                     {
                         int slot = slotArray[s];
                         if (spec[slot].SelectedIndex != 0) // If the slot is in use
-                            list[slot] = rand.GetRandomSpecies(spec[s].SelectedIndex);
+                            list[slot] = RandomList[Util.rand.Next(0, RandomList.Length)];
                     }
                     used = countUnique(list);
                     if (used != RandomList.Length)
