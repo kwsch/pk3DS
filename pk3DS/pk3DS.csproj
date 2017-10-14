@@ -74,6 +74,10 @@
     <Compile Include="Subforms\EnhancedRestore.Designer.cs">
       <DependentUpon>EnhancedRestore.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Gen7\Wild\Area7.cs" />
+    <Compile Include="Subforms\Gen7\Wild\Encounter7.cs" />
+    <Compile Include="Subforms\Gen7\Wild\EncounterTable.cs" />
+    <Compile Include="Subforms\Gen7\Wild\Wild7Randomizer.cs" />
     <Compile Include="WinFormsUtil.cs" />
     <Compile Include="Misc\ErrorWindow.cs">
       <SubType>Form</SubType>

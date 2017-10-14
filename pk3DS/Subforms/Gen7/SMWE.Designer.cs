@@ -225,33 +225,33 @@
             this.NUP_Forme10 = new System.Windows.Forms.NumericUpDown();
             this.CB_Enc10 = new System.Windows.Forms.ComboBox();
             this.NUP_Rate10 = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Forme9 = new System.Windows.Forms.NumericUpDown();
-            this.CB_Enc9 = new System.Windows.Forms.ComboBox();
+            this.NUP_Forme09 = new System.Windows.Forms.NumericUpDown();
+            this.CB_Enc09 = new System.Windows.Forms.ComboBox();
             this.NUP_Rate9 = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Forme8 = new System.Windows.Forms.NumericUpDown();
-            this.CB_Enc8 = new System.Windows.Forms.ComboBox();
+            this.NUP_Forme08 = new System.Windows.Forms.NumericUpDown();
+            this.CB_Enc08 = new System.Windows.Forms.ComboBox();
             this.NUP_Rate8 = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Forme7 = new System.Windows.Forms.NumericUpDown();
-            this.CB_Enc7 = new System.Windows.Forms.ComboBox();
+            this.NUP_Forme07 = new System.Windows.Forms.NumericUpDown();
+            this.CB_Enc07 = new System.Windows.Forms.ComboBox();
             this.NUP_Rate7 = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Forme6 = new System.Windows.Forms.NumericUpDown();
-            this.CB_Enc6 = new System.Windows.Forms.ComboBox();
+            this.NUP_Forme06 = new System.Windows.Forms.NumericUpDown();
+            this.CB_Enc06 = new System.Windows.Forms.ComboBox();
             this.NUP_Rate6 = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Forme5 = new System.Windows.Forms.NumericUpDown();
-            this.CB_Enc5 = new System.Windows.Forms.ComboBox();
+            this.NUP_Forme05 = new System.Windows.Forms.NumericUpDown();
+            this.CB_Enc05 = new System.Windows.Forms.ComboBox();
             this.NUP_Rate5 = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Forme4 = new System.Windows.Forms.NumericUpDown();
-            this.CB_Enc4 = new System.Windows.Forms.ComboBox();
+            this.NUP_Forme04 = new System.Windows.Forms.NumericUpDown();
+            this.CB_Enc04 = new System.Windows.Forms.ComboBox();
             this.NUP_Rate4 = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Forme3 = new System.Windows.Forms.NumericUpDown();
-            this.CB_Enc3 = new System.Windows.Forms.ComboBox();
+            this.NUP_Forme03 = new System.Windows.Forms.NumericUpDown();
+            this.CB_Enc03 = new System.Windows.Forms.ComboBox();
             this.NUP_Rate3 = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Forme2 = new System.Windows.Forms.NumericUpDown();
-            this.CB_Enc2 = new System.Windows.Forms.ComboBox();
+            this.NUP_Forme02 = new System.Windows.Forms.NumericUpDown();
+            this.CB_Enc02 = new System.Windows.Forms.ComboBox();
             this.NUP_Rate2 = new System.Windows.Forms.NumericUpDown();
             this.L_Rate = new System.Windows.Forms.Label();
-            this.NUP_Forme1 = new System.Windows.Forms.NumericUpDown();
-            this.CB_Enc1 = new System.Windows.Forms.ComboBox();
+            this.NUP_Forme01 = new System.Windows.Forms.NumericUpDown();
+            this.CB_Enc01 = new System.Windows.Forms.ComboBox();
             this.NUP_Rate1 = new System.Windows.Forms.NumericUpDown();
             this.CB_TableID = new System.Windows.Forms.ComboBox();
             this.B_Export = new System.Windows.Forms.Button();
@@ -342,20 +342,29 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme09)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme08)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme07)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme06)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme05)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme04)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme03)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme02)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme01)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate1)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Randomize
             // 
-            this.B_Randomize.Enabled = false;
             this.B_Randomize.Location = new System.Drawing.Point(812, 11);
             this.B_Randomize.Name = "B_Randomize";
             this.B_Randomize.Size = new System.Drawing.Size(102, 23);
@@ -366,7 +375,6 @@
             // 
             // B_Dump
             // 
-            this.B_Dump.Enabled = false;
             this.B_Dump.Location = new System.Drawing.Point(920, 11);
             this.B_Dump.Name = "B_Dump";
             this.B_Dump.Size = new System.Drawing.Size(108, 23);
@@ -386,7 +394,6 @@
             // 
             // B_Save
             // 
-            this.B_Save.Enabled = false;
             this.B_Save.Location = new System.Drawing.Point(558, 11);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(135, 23);
@@ -399,17 +406,15 @@
             // 
             this.CB_LocationID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_LocationID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_LocationID.Enabled = false;
             this.CB_LocationID.FormattingEnabled = true;
             this.CB_LocationID.Location = new System.Drawing.Point(67, 12);
             this.CB_LocationID.Name = "CB_LocationID";
             this.CB_LocationID.Size = new System.Drawing.Size(164, 21);
             this.CB_LocationID.TabIndex = 417;
-            this.CB_LocationID.SelectedIndexChanged += new System.EventHandler(this.updateMap);
+            this.CB_LocationID.SelectedIndexChanged += new System.EventHandler(this.ChangeMap);
             // 
             // NUP_Min
             // 
-            this.NUP_Min.Enabled = false;
             this.NUP_Min.Location = new System.Drawing.Point(434, 14);
             this.NUP_Min.Minimum = new decimal(new int[] {
             1,
@@ -424,11 +429,10 @@
             0,
             0,
             0});
-            this.NUP_Min.ValueChanged += new System.EventHandler(this.updateMinMax);
+            this.NUP_Min.ValueChanged += new System.EventHandler(this.UpdateMinMax);
             // 
             // NUP_Max
             // 
-            this.NUP_Max.Enabled = false;
             this.NUP_Max.Location = new System.Drawing.Point(505, 14);
             this.NUP_Max.Minimum = new decimal(new int[] {
             1,
@@ -443,12 +447,11 @@
             0,
             0,
             0});
-            this.NUP_Max.ValueChanged += new System.EventHandler(this.updateMinMax);
+            this.NUP_Max.ValueChanged += new System.EventHandler(this.UpdateMinMax);
             // 
             // L_Min
             // 
             this.L_Min.AutoSize = true;
-            this.L_Min.Enabled = false;
             this.L_Min.Location = new System.Drawing.Point(406, 16);
             this.L_Min.Name = "L_Min";
             this.L_Min.Size = new System.Drawing.Size(24, 13);
@@ -458,7 +461,6 @@
             // L_Max
             // 
             this.L_Max.AutoSize = true;
-            this.L_Max.Enabled = false;
             this.L_Max.Location = new System.Drawing.Point(478, 16);
             this.L_Max.Name = "L_Max";
             this.L_Max.Size = new System.Drawing.Size(27, 13);
@@ -468,7 +470,6 @@
             // L_Table
             // 
             this.L_Table.AutoSize = true;
-            this.L_Table.Enabled = false;
             this.L_Table.Location = new System.Drawing.Point(236, 16);
             this.L_Table.Name = "L_Table";
             this.L_Table.Size = new System.Drawing.Size(34, 13);
@@ -646,35 +647,34 @@
             this.GB_Encounters.Controls.Add(this.NUP_Forme10);
             this.GB_Encounters.Controls.Add(this.CB_Enc10);
             this.GB_Encounters.Controls.Add(this.NUP_Rate10);
-            this.GB_Encounters.Controls.Add(this.NUP_Forme9);
-            this.GB_Encounters.Controls.Add(this.CB_Enc9);
+            this.GB_Encounters.Controls.Add(this.NUP_Forme09);
+            this.GB_Encounters.Controls.Add(this.CB_Enc09);
             this.GB_Encounters.Controls.Add(this.NUP_Rate9);
-            this.GB_Encounters.Controls.Add(this.NUP_Forme8);
-            this.GB_Encounters.Controls.Add(this.CB_Enc8);
+            this.GB_Encounters.Controls.Add(this.NUP_Forme08);
+            this.GB_Encounters.Controls.Add(this.CB_Enc08);
             this.GB_Encounters.Controls.Add(this.NUP_Rate8);
-            this.GB_Encounters.Controls.Add(this.NUP_Forme7);
-            this.GB_Encounters.Controls.Add(this.CB_Enc7);
+            this.GB_Encounters.Controls.Add(this.NUP_Forme07);
+            this.GB_Encounters.Controls.Add(this.CB_Enc07);
             this.GB_Encounters.Controls.Add(this.NUP_Rate7);
-            this.GB_Encounters.Controls.Add(this.NUP_Forme6);
-            this.GB_Encounters.Controls.Add(this.CB_Enc6);
+            this.GB_Encounters.Controls.Add(this.NUP_Forme06);
+            this.GB_Encounters.Controls.Add(this.CB_Enc06);
             this.GB_Encounters.Controls.Add(this.NUP_Rate6);
-            this.GB_Encounters.Controls.Add(this.NUP_Forme5);
-            this.GB_Encounters.Controls.Add(this.CB_Enc5);
+            this.GB_Encounters.Controls.Add(this.NUP_Forme05);
+            this.GB_Encounters.Controls.Add(this.CB_Enc05);
             this.GB_Encounters.Controls.Add(this.NUP_Rate5);
-            this.GB_Encounters.Controls.Add(this.NUP_Forme4);
-            this.GB_Encounters.Controls.Add(this.CB_Enc4);
+            this.GB_Encounters.Controls.Add(this.NUP_Forme04);
+            this.GB_Encounters.Controls.Add(this.CB_Enc04);
             this.GB_Encounters.Controls.Add(this.NUP_Rate4);
-            this.GB_Encounters.Controls.Add(this.NUP_Forme3);
-            this.GB_Encounters.Controls.Add(this.CB_Enc3);
+            this.GB_Encounters.Controls.Add(this.NUP_Forme03);
+            this.GB_Encounters.Controls.Add(this.CB_Enc03);
             this.GB_Encounters.Controls.Add(this.NUP_Rate3);
-            this.GB_Encounters.Controls.Add(this.NUP_Forme2);
-            this.GB_Encounters.Controls.Add(this.CB_Enc2);
+            this.GB_Encounters.Controls.Add(this.NUP_Forme02);
+            this.GB_Encounters.Controls.Add(this.CB_Enc02);
             this.GB_Encounters.Controls.Add(this.NUP_Rate2);
             this.GB_Encounters.Controls.Add(this.L_Rate);
-            this.GB_Encounters.Controls.Add(this.NUP_Forme1);
-            this.GB_Encounters.Controls.Add(this.CB_Enc1);
+            this.GB_Encounters.Controls.Add(this.NUP_Forme01);
+            this.GB_Encounters.Controls.Add(this.CB_Enc01);
             this.GB_Encounters.Controls.Add(this.NUP_Rate1);
-            this.GB_Encounters.Enabled = false;
             this.GB_Encounters.Location = new System.Drawing.Point(14, 39);
             this.GB_Encounters.Name = "GB_Encounters";
             this.GB_Encounters.Size = new System.Drawing.Size(1138, 561);
@@ -877,7 +877,7 @@
             this.B_LevelPlus.TabIndex = 277;
             this.B_LevelPlus.Text = "× Current";
             this.B_LevelPlus.UseVisualStyleBackColor = true;
-            this.B_LevelPlus.Click += new System.EventHandler(this.modifyLevels);
+            this.B_LevelPlus.Click += new System.EventHandler(this.ModifyAllLevelRanges);
             // 
             // NUD_LevelAmp
             // 
@@ -2733,313 +2733,301 @@
             this.NUP_Rate10.AutoSize = true;
             this.NUP_Rate10.Location = new System.Drawing.Point(1052, 16);
             this.NUP_Rate10.Name = "NUP_Rate10";
-            this.NUP_Rate10.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate10.Size = new System.Drawing.Size(41, 20);
             this.NUP_Rate10.TabIndex = 341;
-            this.NUP_Rate10.Value = 0;
             // 
-            // NUP_Forme9
+            // NUP_Forme09
             // 
-            this.NUP_Forme9.Location = new System.Drawing.Point(993, 38);
-            this.NUP_Forme9.Maximum = new decimal(new int[] {
+            this.NUP_Forme09.Location = new System.Drawing.Point(993, 38);
+            this.NUP_Forme09.Maximum = new decimal(new int[] {
             31,
             0,
             0,
             0});
-            this.NUP_Forme9.Name = "NUP_Forme9";
-            this.NUP_Forme9.Size = new System.Drawing.Size(31, 20);
-            this.NUP_Forme9.TabIndex = 337;
+            this.NUP_Forme09.Name = "NUP_Forme09";
+            this.NUP_Forme09.Size = new System.Drawing.Size(31, 20);
+            this.NUP_Forme09.TabIndex = 337;
             // 
-            // CB_Enc9
+            // CB_Enc09
             // 
-            this.CB_Enc9.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Enc9.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Enc9.FormattingEnabled = true;
-            this.CB_Enc9.Location = new System.Drawing.Point(918, 37);
-            this.CB_Enc9.Name = "CB_Enc9";
-            this.CB_Enc9.Size = new System.Drawing.Size(72, 21);
-            this.CB_Enc9.TabIndex = 336;
+            this.CB_Enc09.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Enc09.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Enc09.FormattingEnabled = true;
+            this.CB_Enc09.Location = new System.Drawing.Point(918, 37);
+            this.CB_Enc09.Name = "CB_Enc09";
+            this.CB_Enc09.Size = new System.Drawing.Size(72, 21);
+            this.CB_Enc09.TabIndex = 336;
             // 
             // NUP_Rate9
             // 
             this.NUP_Rate9.AutoSize = true;
             this.NUP_Rate9.Location = new System.Drawing.Point(942, 16);
             this.NUP_Rate9.Name = "NUP_Rate9";
-            this.NUP_Rate9.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate9.Size = new System.Drawing.Size(41, 20);
             this.NUP_Rate9.TabIndex = 338;
-            this.NUP_Rate9.Value = 0;
             // 
-            // NUP_Forme8
+            // NUP_Forme08
             // 
-            this.NUP_Forme8.Location = new System.Drawing.Point(885, 38);
-            this.NUP_Forme8.Maximum = new decimal(new int[] {
+            this.NUP_Forme08.Location = new System.Drawing.Point(885, 38);
+            this.NUP_Forme08.Maximum = new decimal(new int[] {
             31,
             0,
             0,
             0});
-            this.NUP_Forme8.Name = "NUP_Forme8";
-            this.NUP_Forme8.Size = new System.Drawing.Size(31, 20);
-            this.NUP_Forme8.TabIndex = 334;
+            this.NUP_Forme08.Name = "NUP_Forme08";
+            this.NUP_Forme08.Size = new System.Drawing.Size(31, 20);
+            this.NUP_Forme08.TabIndex = 334;
             // 
-            // CB_Enc8
+            // CB_Enc08
             // 
-            this.CB_Enc8.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Enc8.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Enc8.FormattingEnabled = true;
-            this.CB_Enc8.Location = new System.Drawing.Point(810, 37);
-            this.CB_Enc8.Name = "CB_Enc8";
-            this.CB_Enc8.Size = new System.Drawing.Size(72, 21);
-            this.CB_Enc8.TabIndex = 333;
+            this.CB_Enc08.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Enc08.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Enc08.FormattingEnabled = true;
+            this.CB_Enc08.Location = new System.Drawing.Point(810, 37);
+            this.CB_Enc08.Name = "CB_Enc08";
+            this.CB_Enc08.Size = new System.Drawing.Size(72, 21);
+            this.CB_Enc08.TabIndex = 333;
             // 
             // NUP_Rate8
             // 
             this.NUP_Rate8.AutoSize = true;
             this.NUP_Rate8.Location = new System.Drawing.Point(836, 16);
             this.NUP_Rate8.Name = "NUP_Rate8";
-            this.NUP_Rate8.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate8.Size = new System.Drawing.Size(41, 20);
             this.NUP_Rate8.TabIndex = 335;
-            this.NUP_Rate8.Value = 0;
             // 
-            // NUP_Forme7
+            // NUP_Forme07
             // 
-            this.NUP_Forme7.Location = new System.Drawing.Point(777, 38);
-            this.NUP_Forme7.Maximum = new decimal(new int[] {
+            this.NUP_Forme07.Location = new System.Drawing.Point(777, 38);
+            this.NUP_Forme07.Maximum = new decimal(new int[] {
             31,
             0,
             0,
             0});
-            this.NUP_Forme7.Name = "NUP_Forme7";
-            this.NUP_Forme7.Size = new System.Drawing.Size(31, 20);
-            this.NUP_Forme7.TabIndex = 331;
+            this.NUP_Forme07.Name = "NUP_Forme07";
+            this.NUP_Forme07.Size = new System.Drawing.Size(31, 20);
+            this.NUP_Forme07.TabIndex = 331;
             // 
-            // CB_Enc7
+            // CB_Enc07
             // 
-            this.CB_Enc7.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Enc7.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Enc7.FormattingEnabled = true;
-            this.CB_Enc7.Location = new System.Drawing.Point(702, 37);
-            this.CB_Enc7.Name = "CB_Enc7";
-            this.CB_Enc7.Size = new System.Drawing.Size(72, 21);
-            this.CB_Enc7.TabIndex = 330;
+            this.CB_Enc07.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Enc07.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Enc07.FormattingEnabled = true;
+            this.CB_Enc07.Location = new System.Drawing.Point(702, 37);
+            this.CB_Enc07.Name = "CB_Enc07";
+            this.CB_Enc07.Size = new System.Drawing.Size(72, 21);
+            this.CB_Enc07.TabIndex = 330;
             // 
             // NUP_Rate7
             // 
             this.NUP_Rate7.AutoSize = true;
             this.NUP_Rate7.Location = new System.Drawing.Point(724, 16);
             this.NUP_Rate7.Name = "NUP_Rate7";
-            this.NUP_Rate7.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate7.Size = new System.Drawing.Size(41, 20);
             this.NUP_Rate7.TabIndex = 332;
-            this.NUP_Rate7.Value = 0;
             // 
-            // NUP_Forme6
+            // NUP_Forme06
             // 
-            this.NUP_Forme6.Location = new System.Drawing.Point(668, 38);
-            this.NUP_Forme6.Maximum = new decimal(new int[] {
+            this.NUP_Forme06.Location = new System.Drawing.Point(668, 38);
+            this.NUP_Forme06.Maximum = new decimal(new int[] {
             31,
             0,
             0,
             0});
-            this.NUP_Forme6.Name = "NUP_Forme6";
-            this.NUP_Forme6.Size = new System.Drawing.Size(31, 20);
-            this.NUP_Forme6.TabIndex = 328;
+            this.NUP_Forme06.Name = "NUP_Forme06";
+            this.NUP_Forme06.Size = new System.Drawing.Size(31, 20);
+            this.NUP_Forme06.TabIndex = 328;
             // 
-            // CB_Enc6
+            // CB_Enc06
             // 
-            this.CB_Enc6.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Enc6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Enc6.FormattingEnabled = true;
-            this.CB_Enc6.Location = new System.Drawing.Point(593, 37);
-            this.CB_Enc6.Name = "CB_Enc6";
-            this.CB_Enc6.Size = new System.Drawing.Size(72, 21);
-            this.CB_Enc6.TabIndex = 327;
+            this.CB_Enc06.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Enc06.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Enc06.FormattingEnabled = true;
+            this.CB_Enc06.Location = new System.Drawing.Point(593, 37);
+            this.CB_Enc06.Name = "CB_Enc06";
+            this.CB_Enc06.Size = new System.Drawing.Size(72, 21);
+            this.CB_Enc06.TabIndex = 327;
             // 
             // NUP_Rate6
             // 
             this.NUP_Rate6.AutoSize = true;
             this.NUP_Rate6.Location = new System.Drawing.Point(616, 16);
             this.NUP_Rate6.Name = "NUP_Rate6";
-            this.NUP_Rate6.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate6.Size = new System.Drawing.Size(41, 20);
             this.NUP_Rate6.TabIndex = 329;
-            this.NUP_Rate6.Value = 0;
             // 
-            // NUP_Forme5
+            // NUP_Forme05
             // 
-            this.NUP_Forme5.Location = new System.Drawing.Point(560, 38);
-            this.NUP_Forme5.Maximum = new decimal(new int[] {
+            this.NUP_Forme05.Location = new System.Drawing.Point(560, 38);
+            this.NUP_Forme05.Maximum = new decimal(new int[] {
             31,
             0,
             0,
             0});
-            this.NUP_Forme5.Name = "NUP_Forme5";
-            this.NUP_Forme5.Size = new System.Drawing.Size(31, 20);
-            this.NUP_Forme5.TabIndex = 325;
+            this.NUP_Forme05.Name = "NUP_Forme05";
+            this.NUP_Forme05.Size = new System.Drawing.Size(31, 20);
+            this.NUP_Forme05.TabIndex = 325;
             // 
-            // CB_Enc5
+            // CB_Enc05
             // 
-            this.CB_Enc5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Enc5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Enc5.FormattingEnabled = true;
-            this.CB_Enc5.Location = new System.Drawing.Point(485, 37);
-            this.CB_Enc5.Name = "CB_Enc5";
-            this.CB_Enc5.Size = new System.Drawing.Size(72, 21);
-            this.CB_Enc5.TabIndex = 324;
+            this.CB_Enc05.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Enc05.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Enc05.FormattingEnabled = true;
+            this.CB_Enc05.Location = new System.Drawing.Point(485, 37);
+            this.CB_Enc05.Name = "CB_Enc05";
+            this.CB_Enc05.Size = new System.Drawing.Size(72, 21);
+            this.CB_Enc05.TabIndex = 324;
             // 
             // NUP_Rate5
             // 
             this.NUP_Rate5.AutoSize = true;
             this.NUP_Rate5.Location = new System.Drawing.Point(505, 16);
             this.NUP_Rate5.Name = "NUP_Rate5";
-            this.NUP_Rate5.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate5.Size = new System.Drawing.Size(41, 20);
             this.NUP_Rate5.TabIndex = 326;
-            this.NUP_Rate5.Value = 0;
             // 
-            // NUP_Forme4
+            // NUP_Forme04
             // 
-            this.NUP_Forme4.Location = new System.Drawing.Point(452, 38);
-            this.NUP_Forme4.Maximum = new decimal(new int[] {
+            this.NUP_Forme04.Location = new System.Drawing.Point(452, 38);
+            this.NUP_Forme04.Maximum = new decimal(new int[] {
             31,
             0,
             0,
             0});
-            this.NUP_Forme4.Name = "NUP_Forme4";
-            this.NUP_Forme4.Size = new System.Drawing.Size(31, 20);
-            this.NUP_Forme4.TabIndex = 322;
+            this.NUP_Forme04.Name = "NUP_Forme04";
+            this.NUP_Forme04.Size = new System.Drawing.Size(31, 20);
+            this.NUP_Forme04.TabIndex = 322;
             // 
-            // CB_Enc4
+            // CB_Enc04
             // 
-            this.CB_Enc4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Enc4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Enc4.FormattingEnabled = true;
-            this.CB_Enc4.Location = new System.Drawing.Point(378, 37);
-            this.CB_Enc4.Name = "CB_Enc4";
-            this.CB_Enc4.Size = new System.Drawing.Size(72, 21);
-            this.CB_Enc4.TabIndex = 321;
+            this.CB_Enc04.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Enc04.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Enc04.FormattingEnabled = true;
+            this.CB_Enc04.Location = new System.Drawing.Point(378, 37);
+            this.CB_Enc04.Name = "CB_Enc04";
+            this.CB_Enc04.Size = new System.Drawing.Size(72, 21);
+            this.CB_Enc04.TabIndex = 321;
             // 
             // NUP_Rate4
             // 
             this.NUP_Rate4.AutoSize = true;
             this.NUP_Rate4.Location = new System.Drawing.Point(400, 16);
             this.NUP_Rate4.Name = "NUP_Rate4";
-            this.NUP_Rate4.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate4.Size = new System.Drawing.Size(41, 20);
             this.NUP_Rate4.TabIndex = 323;
-            this.NUP_Rate4.Value = 0;
             // 
-            // NUP_Forme3
+            // NUP_Forme03
             // 
-            this.NUP_Forme3.Location = new System.Drawing.Point(345, 38);
-            this.NUP_Forme3.Maximum = new decimal(new int[] {
+            this.NUP_Forme03.Location = new System.Drawing.Point(345, 38);
+            this.NUP_Forme03.Maximum = new decimal(new int[] {
             31,
             0,
             0,
             0});
-            this.NUP_Forme3.Name = "NUP_Forme3";
-            this.NUP_Forme3.Size = new System.Drawing.Size(31, 20);
-            this.NUP_Forme3.TabIndex = 319;
+            this.NUP_Forme03.Name = "NUP_Forme03";
+            this.NUP_Forme03.Size = new System.Drawing.Size(31, 20);
+            this.NUP_Forme03.TabIndex = 319;
             // 
-            // CB_Enc3
+            // CB_Enc03
             // 
-            this.CB_Enc3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Enc3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Enc3.FormattingEnabled = true;
-            this.CB_Enc3.Location = new System.Drawing.Point(271, 37);
-            this.CB_Enc3.Name = "CB_Enc3";
-            this.CB_Enc3.Size = new System.Drawing.Size(72, 21);
-            this.CB_Enc3.TabIndex = 318;
+            this.CB_Enc03.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Enc03.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Enc03.FormattingEnabled = true;
+            this.CB_Enc03.Location = new System.Drawing.Point(271, 37);
+            this.CB_Enc03.Name = "CB_Enc03";
+            this.CB_Enc03.Size = new System.Drawing.Size(72, 21);
+            this.CB_Enc03.TabIndex = 318;
             // 
             // NUP_Rate3
             // 
             this.NUP_Rate3.AutoSize = true;
             this.NUP_Rate3.Location = new System.Drawing.Point(294, 16);
             this.NUP_Rate3.Name = "NUP_Rate3";
-            this.NUP_Rate3.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate3.Size = new System.Drawing.Size(41, 20);
             this.NUP_Rate3.TabIndex = 320;
-            this.NUP_Rate3.Value = 0;
             // 
-            // NUP_Forme2
+            // NUP_Forme02
             // 
-            this.NUP_Forme2.Location = new System.Drawing.Point(238, 38);
-            this.NUP_Forme2.Maximum = new decimal(new int[] {
+            this.NUP_Forme02.Location = new System.Drawing.Point(238, 38);
+            this.NUP_Forme02.Maximum = new decimal(new int[] {
             31,
             0,
             0,
             0});
-            this.NUP_Forme2.Name = "NUP_Forme2";
-            this.NUP_Forme2.Size = new System.Drawing.Size(31, 20);
-            this.NUP_Forme2.TabIndex = 316;
+            this.NUP_Forme02.Name = "NUP_Forme02";
+            this.NUP_Forme02.Size = new System.Drawing.Size(31, 20);
+            this.NUP_Forme02.TabIndex = 316;
             // 
-            // CB_Enc2
+            // CB_Enc02
             // 
-            this.CB_Enc2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Enc2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Enc2.FormattingEnabled = true;
-            this.CB_Enc2.Location = new System.Drawing.Point(163, 37);
-            this.CB_Enc2.Name = "CB_Enc2";
-            this.CB_Enc2.Size = new System.Drawing.Size(72, 21);
-            this.CB_Enc2.TabIndex = 315;
+            this.CB_Enc02.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Enc02.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Enc02.FormattingEnabled = true;
+            this.CB_Enc02.Location = new System.Drawing.Point(163, 37);
+            this.CB_Enc02.Name = "CB_Enc02";
+            this.CB_Enc02.Size = new System.Drawing.Size(72, 21);
+            this.CB_Enc02.TabIndex = 315;
             // 
             // NUP_Rate2
             // 
             this.NUP_Rate2.AutoSize = true;
             this.NUP_Rate2.Location = new System.Drawing.Point(187, 16);
             this.NUP_Rate2.Name = "NUP_Rate2";
-            this.NUP_Rate2.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate2.Size = new System.Drawing.Size(41, 20);
             this.NUP_Rate2.TabIndex = 317;
-            this.NUP_Rate2.Value = 0;
             // 
-            // NUP_Rate
+            // L_Rate
             // 
             this.L_Rate.AutoSize = true;
             this.L_Rate.Location = new System.Drawing.Point(15, 16);
-            this.L_Rate.Name = "NUP_Rate";
+            this.L_Rate.Name = "L_Rate";
             this.L_Rate.Size = new System.Drawing.Size(38, 13);
             this.L_Rate.TabIndex = 314;
             this.L_Rate.Text = "Rates:";
             // 
-            // NUP_Forme1
+            // NUP_Forme01
             // 
-            this.NUP_Forme1.Location = new System.Drawing.Point(129, 38);
-            this.NUP_Forme1.Maximum = new decimal(new int[] {
+            this.NUP_Forme01.Location = new System.Drawing.Point(129, 38);
+            this.NUP_Forme01.Maximum = new decimal(new int[] {
             31,
             0,
             0,
             0});
-            this.NUP_Forme1.Name = "NUP_Forme1";
-            this.NUP_Forme1.Size = new System.Drawing.Size(31, 20);
-            this.NUP_Forme1.TabIndex = 289;
+            this.NUP_Forme01.Name = "NUP_Forme01";
+            this.NUP_Forme01.Size = new System.Drawing.Size(31, 20);
+            this.NUP_Forme01.TabIndex = 289;
             // 
-            // CB_Enc1
+            // CB_Enc01
             // 
-            this.CB_Enc1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Enc1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Enc1.FormattingEnabled = true;
-            this.CB_Enc1.Location = new System.Drawing.Point(54, 37);
-            this.CB_Enc1.Name = "CB_Enc1";
-            this.CB_Enc1.Size = new System.Drawing.Size(72, 21);
-            this.CB_Enc1.TabIndex = 288;
+            this.CB_Enc01.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Enc01.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Enc01.FormattingEnabled = true;
+            this.CB_Enc01.Location = new System.Drawing.Point(54, 37);
+            this.CB_Enc01.Name = "CB_Enc01";
+            this.CB_Enc01.Size = new System.Drawing.Size(72, 21);
+            this.CB_Enc01.TabIndex = 288;
             // 
             // NUP_Rate1
             // 
             this.NUP_Rate1.AutoSize = true;
             this.NUP_Rate1.Location = new System.Drawing.Point(78, 16);
             this.NUP_Rate1.Name = "NUP_Rate1";
-            this.NUP_Rate1.Size = new System.Drawing.Size(27, 13);
+            this.NUP_Rate1.Size = new System.Drawing.Size(41, 20);
             this.NUP_Rate1.TabIndex = 290;
-            this.NUP_Rate1.Value = 0;
             // 
             // CB_TableID
             // 
             this.CB_TableID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_TableID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_TableID.Enabled = false;
             this.CB_TableID.FormattingEnabled = true;
             this.CB_TableID.Location = new System.Drawing.Point(269, 12);
             this.CB_TableID.Name = "CB_TableID";
             this.CB_TableID.Size = new System.Drawing.Size(90, 21);
             this.CB_TableID.TabIndex = 431;
-            this.CB_TableID.SelectedIndexChanged += new System.EventHandler(this.updatePanel);
+            this.CB_TableID.SelectedIndexChanged += new System.EventHandler(this.UpdatePanel);
             // 
             // B_Export
             // 
-            this.B_Export.Enabled = false;
             this.B_Export.Location = new System.Drawing.Point(1034, 11);
             this.B_Export.Name = "B_Export";
             this.B_Export.Size = new System.Drawing.Size(112, 23);
@@ -3050,7 +3038,6 @@
             // 
             // CopySOS
             // 
-            this.CopySOS.Enabled = false;
             this.CopySOS.Location = new System.Drawing.Point(698, 11);
             this.CopySOS.Name = "CopySOS";
             this.CopySOS.Size = new System.Drawing.Size(109, 23);
@@ -3168,15 +3155,25 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme09)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme08)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme07)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme06)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme05)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme04)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme03)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme02)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Forme01)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rate1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3195,36 +3192,36 @@
         private System.Windows.Forms.Label L_Max;
         private System.Windows.Forms.Label L_Table;
         private System.Windows.Forms.GroupBox GB_Encounters;
-        private System.Windows.Forms.NumericUpDown NUP_Forme8;
-        private System.Windows.Forms.ComboBox CB_Enc8;
+        private System.Windows.Forms.NumericUpDown NUP_Forme08;
+        private System.Windows.Forms.ComboBox CB_Enc08;
         private System.Windows.Forms.NumericUpDown NUP_Rate8;
-        private System.Windows.Forms.NumericUpDown NUP_Forme7;
-        private System.Windows.Forms.ComboBox CB_Enc7;
+        private System.Windows.Forms.NumericUpDown NUP_Forme07;
+        private System.Windows.Forms.ComboBox CB_Enc07;
         private System.Windows.Forms.NumericUpDown NUP_Rate7;
-        private System.Windows.Forms.NumericUpDown NUP_Forme6;
-        private System.Windows.Forms.ComboBox CB_Enc6;
+        private System.Windows.Forms.NumericUpDown NUP_Forme06;
+        private System.Windows.Forms.ComboBox CB_Enc06;
         private System.Windows.Forms.NumericUpDown NUP_Rate6;
-        private System.Windows.Forms.NumericUpDown NUP_Forme5;
-        private System.Windows.Forms.ComboBox CB_Enc5;
+        private System.Windows.Forms.NumericUpDown NUP_Forme05;
+        private System.Windows.Forms.ComboBox CB_Enc05;
         private System.Windows.Forms.NumericUpDown NUP_Rate5;
-        private System.Windows.Forms.NumericUpDown NUP_Forme4;
-        private System.Windows.Forms.ComboBox CB_Enc4;
+        private System.Windows.Forms.NumericUpDown NUP_Forme04;
+        private System.Windows.Forms.ComboBox CB_Enc04;
         private System.Windows.Forms.NumericUpDown NUP_Rate4;
-        private System.Windows.Forms.NumericUpDown NUP_Forme3;
-        private System.Windows.Forms.ComboBox CB_Enc3;
+        private System.Windows.Forms.NumericUpDown NUP_Forme03;
+        private System.Windows.Forms.ComboBox CB_Enc03;
         private System.Windows.Forms.NumericUpDown NUP_Rate3;
-        private System.Windows.Forms.NumericUpDown NUP_Forme2;
-        private System.Windows.Forms.ComboBox CB_Enc2;
+        private System.Windows.Forms.NumericUpDown NUP_Forme02;
+        private System.Windows.Forms.ComboBox CB_Enc02;
         private System.Windows.Forms.NumericUpDown NUP_Rate2;
         private System.Windows.Forms.Label L_Rate;
-        private System.Windows.Forms.NumericUpDown NUP_Forme1;
-        private System.Windows.Forms.ComboBox CB_Enc1;
+        private System.Windows.Forms.NumericUpDown NUP_Forme01;
+        private System.Windows.Forms.ComboBox CB_Enc01;
         private System.Windows.Forms.NumericUpDown NUP_Rate1;
         private System.Windows.Forms.NumericUpDown NUP_Forme10;
         private System.Windows.Forms.ComboBox CB_Enc10;
         private System.Windows.Forms.NumericUpDown NUP_Rate10;
-        private System.Windows.Forms.NumericUpDown NUP_Forme9;
-        private System.Windows.Forms.ComboBox CB_Enc9;
+        private System.Windows.Forms.NumericUpDown NUP_Forme09;
+        private System.Windows.Forms.ComboBox CB_Enc09;
         private System.Windows.Forms.NumericUpDown NUP_Rate9;
         private System.Windows.Forms.ComboBox CB_TableID;
         private System.Windows.Forms.Button B_Export;

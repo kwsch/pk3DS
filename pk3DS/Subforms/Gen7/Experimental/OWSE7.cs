@@ -20,7 +20,7 @@ namespace pk3DS
             WorldData = wd;
 
             locationList = Main.Config.getText(TextName.metlist_000000);
-            locationList = SMWE.getGoodLocationList(locationList);
+            locationList = SMWE.GetGoodLocationList(locationList);
 
             InitializeComponent();
 
@@ -37,13 +37,7 @@ namespace pk3DS
         private void loadData()
         {
             // get zonedata array
-            ZoneData7[] zd = new ZoneData7[zoneData.Length / ZoneData7.SIZE];
-            for (int i = 0; i < zd.Length; i++)
-            {
-                byte[] buff = new byte[ZoneData7.SIZE];
-                Buffer.BlockCopy(zoneData, i*ZoneData7.SIZE, buff, 0, ZoneData7.SIZE);
-                zd[i] = new ZoneData7(buff);
-            }
+            var zd = ZoneData7.GetArray(zoneData);
 
             string[] locations = zd.Select((z, i) => $"{i:000} - {locationList[z.ParentMap]}").ToArray();
             CB_LocationID.Items.AddRange(locations);
