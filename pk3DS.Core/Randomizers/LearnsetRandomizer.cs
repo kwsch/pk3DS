@@ -85,7 +85,11 @@ namespace pk3DS.Core.Randomizers
             if (count == 0)
                 return moves;
             moves[0] = STABFirst ? moverand.GetRandomFirstMove(index) : moverand.GetRandomFirstMoveAny();
-            moverand.GetRandomLearnset(index, count - 1).CopyTo(moves, 1);
+            var rand = moverand.GetRandomLearnset(index, count - 1);
+
+            // STAB Moves (if requested) come first; randomize the order of moves
+            Util.Shuffle(rand);
+            rand.CopyTo(moves, 1);
             return moves;
         }
 
