@@ -673,6 +673,22 @@ namespace pk3DS
                             pk.Moves = learn.GetHighPoweredMoves(pk.Species, pk.Form, 4);
                             break;
                     }
+                    // sanitize moves
+                    if (CB_Moves.SelectedIndex > 1) // learn source
+                    {
+                        bool update = false;
+                        var moves = pk.Moves;
+                        for (int m = 0; m < moves.Length; m++)
+                        {
+                            if (!learn.BannedMoves.Contains(moves[m]))
+                                continue;
+                            update = true;
+                            moves[m] = move.GetRandomFirstMove(pk.Species);
+                        }
+
+                        if (update)
+                            pk.Moves = moves;
+                    }
                 }
                 saveData(tr, i);
             }
