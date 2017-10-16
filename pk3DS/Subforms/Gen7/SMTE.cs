@@ -676,17 +676,8 @@ namespace pk3DS
                     // sanitize moves
                     if (CB_Moves.SelectedIndex > 1) // learn source
                     {
-                        bool update = false;
                         var moves = pk.Moves;
-                        for (int m = 0; m < moves.Length; m++)
-                        {
-                            if (!learn.BannedMoves.Contains(moves[m]))
-                                continue;
-                            update = true;
-                            moves[m] = move.GetRandomFirstMove(pk.Species);
-                        }
-
-                        if (update)
+                        if (move.SanitizeMovesetForBannedMoves(moves, pk.Species))
                             pk.Moves = moves;
                     }
                 }

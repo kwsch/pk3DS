@@ -125,5 +125,19 @@ namespace pk3DS.Core.Randomizers
             } while (!types.Contains(MoveData[move].Type));
             return move;
         }
+
+        public bool SanitizeMovesetForBannedMoves(int[] moves, int index)
+        {
+            bool updated = false;
+            for (int m = 0; m < moves.Length; m++)
+            {
+                if (!BannedMoves.Contains(moves[m]))
+                    continue;
+                updated = true;
+                moves[m] = GetRandomFirstMove(index);
+            }
+
+            return updated;
+        }
     }
 }
