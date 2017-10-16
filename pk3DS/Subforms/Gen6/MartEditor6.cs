@@ -186,6 +186,9 @@ namespace pk3DS
                 CB_Location.SelectedIndex = i;
                 for (int r = 0; r < dgv.Rows.Count; r++)
                 {
+                    int currentItem = Array.IndexOf(itemlist, dgv.Rows[r].Cells[1].Value);
+                    if (MartEditor7.BannedItems.Contains(currentItem))
+                        continue;
                     dgv.Rows[r].Cells[1].Value = itemlist[validItems[ctr++]];
                     if (ctr <= validItems.Length) continue;
                     Util.Shuffle(validItems); ctr = 0;
