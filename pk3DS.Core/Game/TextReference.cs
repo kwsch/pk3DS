@@ -23,6 +23,10 @@
         SuperTrainerNames,
         BattleRoyalNames,
         BattleTreeNames,
+
+        SpeciesClassifications,
+        PokedexEntry1,
+        PokedexEntry2
     }
     public class TextReference
     {
@@ -104,7 +108,10 @@
             new TextReference(107, TextName.Types),
             new TextReference(112, TextName.MoveFlavor), 
             new TextReference(113, TextName.MoveNames),
-            new TextReference(114, TextName.Forms)
+            new TextReference(114, TextName.Forms),
+            new TextReference(116, TextName.SpeciesClassifications),
+            new TextReference(119, TextName.PokedexEntry1),
+            new TextReference(120, TextName.PokedexEntry2)            
         };
     }
 }
