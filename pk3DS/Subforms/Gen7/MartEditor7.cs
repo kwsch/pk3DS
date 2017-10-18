@@ -97,12 +97,12 @@ namespace pk3DS
         };
         private readonly string[] locationsBP =
         {
-            "Royal 1",
-            "Royal 2",
-            "Royal 3",
-            "Battle Tree 1",
-            "Battle Tree 2",
-            "Battle Tree 3",
+            "Battle Royal Dome [Medicine]",
+            "Battle Royal Dome [EV Training]",
+            "Battle Royal Dome [Held Items]",
+            "Battle Tree [Trade Evolution Items]",
+            "Battle Tree [Held Items]",
+            "Battle Tree [Mega Stones]",
         };
         #endregion
 
