@@ -311,6 +311,7 @@ namespace pk3DS
                 AllowWonderGuard = CHK_WGuard.Checked
             };
             rnd.Execute();
+            Main.SpeciesStat.Select(z => z.Write()).ToArray().CopyTo(files, 0);
 
             readEntry();
             WinFormsUtil.Alert("All relevant Pokémon Personal Entries have been randomized!");
