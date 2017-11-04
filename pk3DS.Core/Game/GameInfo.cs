@@ -50,9 +50,9 @@
 
         private void LoadUSUM()
         {
-            MaxSpeciesID = Legal.MaxSpeciesID_7;
-            MaxMoveID = Legal.MaxMoveID_7;
-            MaxItemID = Legal.MaxItemID_7;
+            MaxSpeciesID = Legal.MaxSpeciesID_7_USUM;
+            MaxMoveID = Legal.MaxMoveID_7_USUM;
+            MaxItemID = Legal.MaxItemID_7_USUM;
             HeldItems = Legal.HeldItems_SM;
             MaxAbilityID = Legal.MaxAbilityID_7;
         }

@@ -11,6 +11,10 @@ namespace pk3DS.Core
         internal const int MaxBallID_7 = 0x1A; // 26
         internal const int MaxGameID_7 = 41; // Crystal (VC?)
 
+        internal const int MaxSpeciesID_7_USUM = 802;
+        internal const int MaxMoveID_7_USUM = 720;
+        internal const int MaxItemID_7_USUM = 920;
+
         #region Met Locations
 
         internal static readonly int[] Met_SMc = { 0, 60002, 30002, };
