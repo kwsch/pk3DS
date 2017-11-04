@@ -39,28 +39,18 @@ namespace pk3DS
         {
             if (entry < 1) return;
             item = new Item(files[entry]);
+            Grid.SelectedObject = item;
 
             RTB.Text = itemflavor[entry].Replace("\\n", Environment.NewLine);
-            MT_Price.Text = item.BuyPrice.ToString();
-            NUD_UseEffect.Value = item.UseEffect;
         }
         private void setEntry()
         {
             if (entry < 1) return;
-
-            item.Price = (ushort)(WinFormsUtil.ToInt32(MT_Price)/10);
-            item.UseEffect = (byte)(int)NUD_UseEffect.Value;
-
-            files[entry] = item.Write();
+            files[entry] = ((Item)Grid.SelectedObject).Write();
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setEntry();
-        }
-
-        private void changePrice(object sender, EventArgs e)
-        {
-            MT_Sell.Text = (Math.Min(WinFormsUtil.ToUInt32(MT_Price) / 10, 0x7FFF) * 10 / 2).ToString();
         }
 
         private int getItemMapOffset()

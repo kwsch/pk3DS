@@ -33,38 +33,28 @@ namespace pk3DS
         {
             setEntry();
             entry = CB_Item.SelectedIndex;
-            L_Index.Text = "Index: " + entry.ToString("000");
+            L_Index.Text = $"Index: {entry:000}";
             getEntry();
         }
         private void getEntry()
         {
             if (entry < 1) return;
             item = new Item(files[entry]);
+            Grid.SelectedObject = item;
 
             RTB.Text = itemflavor[entry].Replace("\\n", Environment.NewLine);
-            MT_Price.Text = item.BuyPrice.ToString();
-            NUD_UseEffect.Value = item.UseEffect;
         }
         private void setEntry()
         {
             if (entry < 1) return;
-
-            item.Price = (ushort)(WinFormsUtil.ToInt32(MT_Price)/10);
-            item.UseEffect = (byte)(int)NUD_UseEffect.Value;
-
-            files[entry] = item.Write();
+            files[entry] = ((Item)Grid.SelectedObject).Write();
         }
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setEntry();
         }
 
-        private void changePrice(object sender, EventArgs e)
-        {
-            MT_Sell.Text = (Math.Min(WinFormsUtil.ToUInt32(MT_Price) / 10, 0x7FFF) * 10 / 2).ToString();
-        }
-
-        private readonly byte[] ItemIconTableSignature =
+        private static readonly byte[] ItemIconTableSignature =
         {
             0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
             0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
@@ -72,7 +62,7 @@ namespace pk3DS
             0x00, 0x01, 0x01, 0x00
         };
 
-        private int getItemMapOffset()
+        private static int getItemMapOffset()
         {
             if (Main.ExeFSPath == null) { WinFormsUtil.Alert("No exeFS code to load."); return -1; }
             string[] exefsFiles = Directory.GetFiles(Main.ExeFSPath);
