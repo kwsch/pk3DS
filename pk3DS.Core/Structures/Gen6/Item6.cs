@@ -39,24 +39,24 @@ namespace pk3DS.Core.Structures
         public byte FunctionFlags0 { get; set; }
         public byte FunctionFlags1{ get; set; }
         [Category(Field), Description("Adds EVs to the HP stat.")]
-        public byte EVHP { get; set; }
+        public sbyte EVHP { get; set; }
         [Category(Field), Description("Adds EVs to the Attack stat.")]
-        public byte EVATK { get; set; }
+        public sbyte EVATK { get; set; }
         [Category(Field), Description("Adds EVs to the Defense stat.")]
-        public byte EVDEF { get; set; }
+        public sbyte EVDEF { get; set; }
         [Category(Field), Description("Adds EVs to the Speed stat.")]
-        public byte EVSPE { get; set; }
+        public sbyte EVSPE { get; set; }
         [Category(Field), Description("Adds EVs to the Sp. Attack stat.")]
-        public byte EVSPA { get; set; }
+        public sbyte EVSPA { get; set; }
         [Category(Field), Description("Adds EVs to the Sp. Defense stat.")]
-        public byte EVSPD { get; set; }
+        public sbyte EVSPD { get; set; }
         [Category(Heal), Description("Determines the healing percent, or if a flat value is used."), RefreshProperties(RefreshProperties.All)]
         public HealValue HealAmount { get; set; }
         [Category(Field), Description("PP to be added to the move's current PP if used.")]
         public byte PPGain { get; set; }
-        public byte Friendship1 { get; set; }
-        public byte Friendship2 { get; set; }
-        public byte Friendship3 { get; set; }
+        public sbyte Friendship1 { get; set; }
+        public sbyte Friendship2 { get; set; }
+        public sbyte Friendship3 { get; set; }
         public byte _0x23, _0x24;
         #endregion
 
