@@ -13,11 +13,11 @@ namespace pk3DS.Core
             var list = GetTableRaw(arr).ToArray();
 
             // slap in name to column header
-            list[0] = $"{name ?? typeof(T).Name}{sep}{list[0]}";
+            list[0] = $"Index{sep}{name ?? typeof(T).Name}{sep}{list[0]}";
 
             // slap in row name to row
             for (int i = 1; i < list.Length; i++)
-                list[i] = $"{names[i - 1]}{sep}{list[i]}";
+                list[i] = $"{i - 1}{sep}{names[i - 1]}{sep}{list[i]}";
 
             return string.Join(Environment.NewLine, list);
         }
