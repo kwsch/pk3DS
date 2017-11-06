@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 using pk3DS.Core;
@@ -28,7 +29,6 @@ namespace pk3DS
             CB_Item.SelectedIndex = 1;
         }
         private int entry = -1;
-        private Item item;
         private void changeEntry(object sender, EventArgs e)
         {
             setEntry();
@@ -39,8 +39,7 @@ namespace pk3DS
         private void getEntry()
         {
             if (entry < 1) return;
-            item = new Item(files[entry]);
-            Grid.SelectedObject = item;
+            Grid.SelectedObject = new Item(files[entry]);
 
             RTB.Text = itemflavor[entry].Replace("\\n", Environment.NewLine);
         }
@@ -73,6 +72,12 @@ namespace pk3DS
 
             int ptr = Util.IndexOfBytes(data, reference, 0x400000, 0) - 2 + reference.Length;
             return ptr;
+        }
+
+        private void B_Table_Click(object sender, EventArgs e)
+        {
+            var items = files.Select(z => new Item(z));
+            Clipboard.SetText(TableUtil.GetTable(items, itemlist));
         }
     }
 }

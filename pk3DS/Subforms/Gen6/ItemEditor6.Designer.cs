@@ -33,6 +33,7 @@
             this.RTB = new System.Windows.Forms.RichTextBox();
             this.L_Item = new System.Windows.Forms.Label();
             this.CB_Item = new System.Windows.Forms.ComboBox();
+            this.B_Table = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Grid
@@ -87,11 +88,22 @@
             this.CB_Item.TabIndex = 48;
             this.CB_Item.SelectedIndexChanged += new System.EventHandler(this.changeEntry);
             // 
+            // B_Table
+            // 
+            this.B_Table.Location = new System.Drawing.Point(253, 94);
+            this.B_Table.Name = "B_Table";
+            this.B_Table.Size = new System.Drawing.Size(75, 23);
+            this.B_Table.TabIndex = 53;
+            this.B_Table.Text = "Export Table";
+            this.B_Table.UseVisualStyleBackColor = true;
+            this.B_Table.Click += new System.EventHandler(this.B_Table_Click);
+            // 
             // ItemEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(339, 381);
+            this.Controls.Add(this.B_Table);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.L_Index);
             this.Controls.Add(this.RTB);
@@ -116,5 +128,6 @@
         private System.Windows.Forms.RichTextBox RTB;
         private System.Windows.Forms.Label L_Item;
         private System.Windows.Forms.ComboBox CB_Item;
+        private System.Windows.Forms.Button B_Table;
     }
 }
