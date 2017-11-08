@@ -89,6 +89,8 @@
             this.B_Starters = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
+            this.CHK_G_Lock = new System.Windows.Forms.CheckBox();
+            this.NUD_GGender = new System.Windows.Forms.NumericUpDown();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).BeginInit();
@@ -104,6 +106,7 @@
             this.Tab_Randomizer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).BeginInit();
             this.GB_Tweak.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_GGender)).BeginInit();
             this.SuspendLayout();
             // 
             // TC_Tabs
@@ -123,6 +126,8 @@
             // 
             // Tab_Gifts
             // 
+            this.Tab_Gifts.Controls.Add(this.NUD_GGender);
+            this.Tab_Gifts.Controls.Add(this.CHK_G_Lock);
             this.Tab_Gifts.Controls.Add(this.CB_GHeldItem);
             this.Tab_Gifts.Controls.Add(this.L_GHeldItem);
             this.Tab_Gifts.Controls.Add(this.CB_GSpecies);
@@ -824,6 +829,33 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
+            // CHK_G_Lock
+            // 
+            this.CHK_G_Lock.AutoSize = true;
+            this.CHK_G_Lock.Location = new System.Drawing.Point(230, 114);
+            this.CHK_G_Lock.Name = "CHK_G_Lock";
+            this.CHK_G_Lock.Size = new System.Drawing.Size(79, 17);
+            this.CHK_G_Lock.TabIndex = 19;
+            this.CHK_G_Lock.Text = "Shiny Lock";
+            this.CHK_G_Lock.UseVisualStyleBackColor = true;
+            // 
+            // NUD_GGender
+            // 
+            this.NUD_GGender.Location = new System.Drawing.Point(230, 137);
+            this.NUD_GGender.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_GGender.Name = "NUD_GGender";
+            this.NUD_GGender.Size = new System.Drawing.Size(48, 20);
+            this.NUD_GGender.TabIndex = 20;
+            this.NUD_GGender.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
             // StaticEncounterEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -836,6 +868,7 @@
             this.Text = "StaticEncounterEditor7";
             this.TC_Tabs.ResumeLayout(false);
             this.Tab_Gifts.ResumeLayout(false);
+            this.Tab_Gifts.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GLevel)).EndInit();
             this.Tab_Encounters.ResumeLayout(false);
@@ -853,6 +886,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).EndInit();
             this.GB_Tweak.ResumeLayout(false);
             this.GB_Tweak.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_GGender)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -920,5 +954,7 @@
         private System.Windows.Forms.NumericUpDown NUD_LevelBoost;
         private System.Windows.Forms.CheckBox CHK_Level;
         private System.Windows.Forms.CheckBox CHK_ShinyLock;
+        private System.Windows.Forms.NumericUpDown NUD_GGender;
+        private System.Windows.Forms.CheckBox CHK_G_Lock;
     }
 }

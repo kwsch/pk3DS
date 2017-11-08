@@ -13,6 +13,7 @@ namespace pk3DS.Core
         private const int FILECOUNT_ORAS = 299;
         private const int FILECOUNT_SMDEMO = 239;
         private const int FILECOUNT_SM = 311; // only a guess for now
+        private const int FILECOUNT_USUM = 333; // only a guess for now
         public readonly GameVersion Version = GameVersion.Invalid;
 
         public GARCReference[] Files { get; private set; }
@@ -39,6 +40,9 @@ namespace pk3DS.Core
                     break;
                 case FILECOUNT_SM:
                     game = GameVersion.SM;
+                    break;
+                case FILECOUNT_USUM:
+                    game = GameVersion.USUM;
                     break;
             }
             if (game == GameVersion.Invalid)
@@ -81,6 +85,15 @@ namespace pk3DS.Core
                         Files = GARCReference.GARCReference_MN;
                     Variables = TextVariableCode.VariableCodes_SM;
                     GameText = TextReference.GameText_SM;
+                    break;
+                case GameVersion.US:
+                case GameVersion.UM:
+                case GameVersion.USUM:
+                    Files = GARCReference.GARCReference_US;
+                    if (new FileInfo(Path.Combine(RomFS, getGARCFileName("encdata"))).Length == 0)
+                        Files = GARCReference.GARCReference_UM;
+                    Variables = TextVariableCode.VariableCodes_SM;
+                    GameText = TextReference.GameText_USUM;
                     break;
             }
         }
@@ -214,7 +227,8 @@ namespace pk3DS.Core
         public bool XY => Version == GameVersion.XY;
         public bool ORAS => Version == GameVersion.ORAS || Version == GameVersion.ORASDEMO;
         public bool SM => Version == GameVersion.SM || Version == GameVersion.SMDEMO;
-        public int MaxSpeciesID => XY || ORAS ? 721 : 802;
+        public bool USUM => Version == GameVersion.USUM;
+        public int MaxSpeciesID => XY || ORAS ? 721 : SM ? 802 : 807;
         public int GARCVersion => XY || ORAS ? GARC.VER_4 : GARC.VER_6;
         public int Generation
         {
@@ -222,7 +236,7 @@ namespace pk3DS.Core
             {
                 if (XY || ORAS)
                     return 6;
-                if (SM)
+                if (SM || USUM)
                     return 7;
                 return -1;
             }
@@ -242,6 +256,8 @@ namespace pk3DS.Core
                     return Version == GameVersion.SMDEMO;
                 case FILECOUNT_SM:
                     return Version == GameVersion.SM;
+                case FILECOUNT_USUM:
+                    return Version == GameVersion.USUM;
             }
             return false;
         }

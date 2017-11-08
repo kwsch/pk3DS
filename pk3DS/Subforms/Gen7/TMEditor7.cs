@@ -18,6 +18,8 @@ namespace pk3DS
             data = File.ReadAllBytes(files[0]);
             if (data.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
             offset = Util.IndexOfBytes(data, Signature, 0x400000, 0) + Signature.Length;
+            if (Main.Config.USUM)
+                offset += 0x22;
             codebin = files[0];
             movelist[0] = "";
             setupDGV();
@@ -137,6 +139,8 @@ namespace pk3DS
             int dataoffset = Util.IndexOfBytes(data, Signature, 0x400000, 0) + Signature.Length;
             if (data.Length % 0x200 != 0) return;
 
+            if (Main.Config.USUM)
+                dataoffset += 0x22;
             List<ushort> tms = new List<ushort>();
 
             for (int i = 0; i < 100; i++) // TMs stored sequentially

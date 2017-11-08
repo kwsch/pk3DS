@@ -23,7 +23,8 @@ namespace pk3DS.Core.Structures.PersonalInfo
                 case GameVersion.ORASDEMO:
                 case GameVersion.ORAS: size = PersonalInfoORAS.SIZE; break;
                 case GameVersion.SMDEMO:
-                case GameVersion.SM: size = PersonalInfoSM.SIZE; break;
+                case GameVersion.SM:
+                case GameVersion.USUM: size = PersonalInfoSM.SIZE; break;
             }
 
             if (size == 0)
@@ -45,6 +46,7 @@ namespace pk3DS.Core.Structures.PersonalInfo
                     break;
                 case GameVersion.SMDEMO:
                 case GameVersion.SM:
+                case GameVersion.USUM:
                     for (int i = 0; i < d.Length; i++)
                         d[i] = new PersonalInfoSM(entries[i]);
                     break;

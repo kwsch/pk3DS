@@ -180,6 +180,8 @@ namespace pk3DS
             CB_GHeldItem.SelectedIndex = entry.HeldItem;
             NUD_GLevel.Value = entry.Level;
             NUD_GForm.Value = entry.Form;
+            NUD_GGender.Value = entry.Gender;
+            CHK_G_Lock.Checked = entry.ShinyLock;
             loading = false;
         }
         private void setGift()
@@ -192,6 +194,8 @@ namespace pk3DS
             entry.HeldItem = CB_GHeldItem.SelectedIndex;
             entry.Level = (int)NUD_GLevel.Value;
             entry.Form = (int)NUD_GForm.Value;
+            entry.Gender = (int) NUD_GGender.Value;
+            entry.ShinyLock = CHK_G_Lock.Checked;
         }
         private void getEncounter()
         {

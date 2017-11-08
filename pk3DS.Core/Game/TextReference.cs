@@ -113,5 +113,26 @@
             new TextReference(119, TextName.PokedexEntry1),
             new TextReference(120, TextName.PokedexEntry2)            
         };
+        public static readonly TextReference[] GameText_USUM =
+        {
+            new TextReference(039, TextName.ItemFlavor),
+            new TextReference(040, TextName.ItemNames),
+            new TextReference(060, TextName.SpeciesNames),
+            new TextReference(072, TextName.metlist_000000),
+            new TextReference(091, TextName.BattleRoyalNames),
+            new TextReference(092, TextName.Natures),
+            new TextReference(101, TextName.AbilityNames),
+            new TextReference(104, TextName.BattleTreeNames),
+            new TextReference(109, TextName.TrainerText),
+            new TextReference(110, TextName.TrainerNames),
+            new TextReference(111, TextName.TrainerClasses),
+            new TextReference(112, TextName.Types),
+            new TextReference(117, TextName.MoveFlavor),
+            new TextReference(118, TextName.MoveNames),
+            new TextReference(119, TextName.Forms),
+            new TextReference(121, TextName.SpeciesClassifications),
+            new TextReference(124, TextName.PokedexEntry1),
+            new TextReference(125, TextName.PokedexEntry2)
+        };
     }
 }
