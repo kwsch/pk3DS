@@ -78,6 +78,7 @@ namespace pk3DS
         {
             var items = files.Select(z => new Item(z));
             Clipboard.SetText(TableUtil.GetTable(items, itemlist));
+            System.Media.SystemSounds.Asterisk.Play();
         }
     }
 }
