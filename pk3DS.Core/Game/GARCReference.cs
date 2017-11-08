@@ -141,18 +141,18 @@ namespace pk3DS.Core
             new GARCReference(077, "zonedata"),
             new GARCReference(091, "worlddata"),
 
-            new GARCReference(104, "trclass"),
-            new GARCReference(105, "trdata"),
-            new GARCReference(106, "trpoke"),
+            new GARCReference(105, "trclass"),
+            new GARCReference(106, "trdata"),
+            new GARCReference(107, "trpoke"),
 
             new GARCReference(159, "encounterstatic"),
 
-            new GARCReference(267, "pickup"),
+            new GARCReference(271, "pickup"),
 
-            new GARCReference(277, "maisonpkN"),
-            new GARCReference(278, "maisontrN"),
-            new GARCReference(279, "maisonpkS"),
-            new GARCReference(280, "maisontrS"),
+            new GARCReference(281, "maisonpkN"),
+            new GARCReference(282, "maisontrN"),
+            new GARCReference(283, "maisonpkS"),
+            new GARCReference(284, "maisontrS"),
                 
             // Varied
             new GARCReference(030, "gametext", true),
