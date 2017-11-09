@@ -35,15 +35,15 @@ namespace pk3DS.Core.Structures
             get => (Data[0x4] & 2) != 0;
             set => Data[0x4] = (byte)((Data[0x4] & ~2) | (value ? 2 : 0));
         }
-        public sbyte _6
+        public sbyte Ability
         {
             get => (sbyte)Data[0x6];
             set => Data[0x6] = (byte)value;
         }
-        public sbyte _7
+        public sbyte Nature
         {
-            get => (sbyte)Data[0x6];
-            set => Data[0x6] = (byte)value;
+            get => (sbyte)Data[0x7];
+            set => Data[0x7] = (byte)value;
         }
         public override int HeldItem
         {
@@ -60,14 +60,21 @@ namespace pk3DS.Core.Structures
             get => BitConverter.ToUInt16(Data, 0xC);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xC);
         }
+        public bool IV3 => (sbyte) Data[0xE] < 0 && (sbyte) Data[0xE] + 1 == -3;
 
         public string GetSummary()
         {
             var str = $"new EncounterStatic {{ Gift = true, Species = {Species:000}, Level = {Level:00}, Location = -01, ";
+            if (Ability > -1)
+                str += $"Ability = {1 << Ability}, ";
+            if (Nature > -1)
+                str += $"Nature = {Nature}, ";
             if (Form != 0)
                 str += $"Form = {Form}, ";
             if (ShinyLock)
                 str += "Shiny = false, ";
+            if (IV3)
+                str += "IV3 = true, ";
             if (HeldItem != 0)
                 str += $"HeldItem = {HeldItem}, ";
             if (SpecialMove != 0)
