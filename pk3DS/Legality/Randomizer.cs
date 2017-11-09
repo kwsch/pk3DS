@@ -45,9 +45,9 @@ namespace pk3DS
                 return Items_HeldAO.Concat(Items_Ball).Where(i => i != 0).ToArray();
             if (Main.Config.XY)
                 return Items_HeldXY.Concat(Items_Ball).Where(i => i != 0).ToArray();
-            if (Main.Config.SM)
+            if (Main.Config.SM || Main.Config.USUM)
                 return HeldItemsBuy_SM.Select(i => (int)i).Concat(Items_Ball).Where(i => i != 0).ToArray();
-            return new int[0];
+            return new int[1];
         }
         #region Random Item List
         private static readonly int[] Items_HeldXY =
