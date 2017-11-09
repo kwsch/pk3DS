@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -67,6 +68,12 @@ namespace pk3DS
                 "Level Up Summit",
             };
 
+            var evos = new List<string>(evolutionMethods);
+            if (Main.Config.USUM)
+            {
+                evos.AddRange(new[] {"Level Up (40???)", "Level Up (41???)", "Used Item (42???)" });
+            }
+
             mb = new[] { CB_M1, CB_M2, CB_M3, CB_M4, CB_M5, CB_M6, CB_M7, CB_M8 };
             pb = new[] { CB_P1, CB_P2, CB_P3, CB_P4, CB_P5, CB_P6, CB_P7, CB_P8 };
             rb = new[] { CB_I1, CB_I2, CB_I3, CB_I4, CB_I5, CB_I6, CB_I7, CB_I8 };
@@ -74,7 +81,8 @@ namespace pk3DS
             lb = new[] { NUD_L1, NUD_L2, NUD_L3, NUD_L4, NUD_L5, NUD_L6, NUD_L7, NUD_L8 };
             pic = new[] { PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7, PB_8 };
 
-            foreach (ComboBox cb in mb) { cb.Items.AddRange(evolutionMethods); }
+            maxEvoMethod = evos.Count;
+            foreach (ComboBox cb in mb) { cb.Items.AddRange(evos.ToArray()); }
             foreach (ComboBox cb in rb) { cb.Items.AddRange(specieslist.Take(Main.Config.MaxSpeciesID+1).ToArray()); }
 
             sortedspecies = (string[])specieslist.Clone();
@@ -99,6 +107,7 @@ namespace pk3DS
         private bool dumping, loading;
         private readonly int[] baseForms, formVal;
         private EvolutionSet evo = new EvolutionSet7(new byte[EvolutionSet7.SIZE]);
+        private readonly int maxEvoMethod;
         private void getList()
         {
             entry = Array.IndexOf(specieslist, CB_Species.Text);
@@ -108,7 +117,8 @@ namespace pk3DS
 
             for (int i = 0; i < evo.PossibleEvolutions.Length; i++)
             {
-                if (evo.PossibleEvolutions[i].Method > 39) return; // Invalid!
+                if (evo.PossibleEvolutions[i].Method > maxEvoMethod)
+                    return; // Invalid!
 
                 loading = true;
                 fb[i].Value = evo.PossibleEvolutions[i].Form;
@@ -226,6 +236,9 @@ namespace pk3DS
                 1, // 35 - UNUSED
                 7, 7, 7, // Version Specific
                 1,
+                1, // 40 - Level Up with Condition (???)
+                1, // 41 - Level Up with Condition (???)
+                2, // 42 - Use Item with Condition (???)
             };
 
             pb[op].Visible = pic[op].Visible = rb[op].Visible = fb[op].Visible = lb[op].Visible = mb[op].SelectedIndex > 0;
