@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using pk3DS.Core;
+using pk3DS.Core.CTR;
 using pk3DS.Core.Randomizers;
 
 namespace pk3DS
@@ -37,6 +39,8 @@ namespace pk3DS
             Areas = areas.OrderBy(a => a.Zones[0].Name).ToArray();
 
             LoadData();
+
+            // ExportEncounters("um", "uu");
         }
 
 
@@ -397,6 +401,75 @@ namespace pk3DS
                     good[i] += $" ({good.Take(i - 1).Count(s => s == good[i]) + 1})";
             }
             return good;
+        }
+
+        private void ExportEncounters(string gameID, string ident)
+        {
+            var reg = dumpreg();
+            var sos = dumpsos();
+
+            File.WriteAllBytes($"encounter_{gameID}.pkl", mini.packMini(reg, ident));
+            File.WriteAllBytes($"encounter_{gameID}_sos.pkl", mini.packMini(sos, ident));
+        }
+        private byte[][] dumpreg()
+        {
+            var dict = new Dictionary<int, List<uint>>();
+            foreach (var area in Areas)
+            {
+                foreach (var z in area.Zones)
+                {
+                    int loc = z.ParentMap;
+                    if (!dict.ContainsKey(loc))
+                        dict.Add(loc, new List<uint>());
+
+                    var table = dict[loc];
+                    table.AddRange(from t in area.Tables
+                        from s in t.Encounter7s.Take(1)
+                        from e in s
+                        select e.RawValue | (uint)(t.MinLevel << 16) | (uint)(t.MaxLevel << 24));
+                }
+            }
+
+            return GetLocationDump(dict).ToArray();
+        }
+        private byte[][] dumpsos()
+        {
+            var dict = new Dictionary<int, List<uint>>();
+            foreach (var area in Areas)
+            {
+                foreach (var z in area.Zones)
+                {
+                    int loc = z.ParentMap;
+                    if (!dict.ContainsKey(loc))
+                        dict.Add(loc, new List<uint>());
+
+                    var table = dict[loc];
+                    table.AddRange(from t in area.Tables from s in t.Encounter7s.Skip(1)
+                                   from e in s
+                                   select e.RawValue | (uint) (t.MinLevel << 16) | (uint) (t.MaxLevel << 24));
+
+                    table.AddRange(from t in area.Tables
+                                   from e in t.AdditionalSOS
+                                   select e.RawValue | (uint) (t.MinLevel << 16) | (uint) (t.MaxLevel << 24));
+                }
+            }
+
+            return GetLocationDump(dict).ToArray();
+        }
+
+        private IEnumerable<byte[]> GetLocationDump(Dictionary<int, List<uint>> dict)
+        {
+            foreach (var z in dict.OrderBy(z => z.Key))
+            {
+                using (var ms = new MemoryStream())
+                using (var bw = new BinaryWriter(ms))
+                {
+                    bw.Write((ushort)z.Key);
+                    foreach (var s in z.Value.Distinct())
+                        bw.Write(s);
+                    yield return ms.ToArray();
+                }
+            }
         }
     }
 
