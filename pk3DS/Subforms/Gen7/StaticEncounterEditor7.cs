@@ -92,6 +92,8 @@ namespace pk3DS
 
             // Select last tab (Randomization) by default in case info already randomized.
             TC_Tabs.SelectedIndex = TC_Tabs.TabCount - 1;
+
+            // ExportEncounters();
         }
         private void getListBoxEntries()
         {
@@ -432,6 +434,15 @@ namespace pk3DS
                 s.Files = storytextdata;
                 s.Save();
             }
+        }
+
+        private void ExportEncounters()
+        {
+            System.IO.File.WriteAllBytes("0", files[0]);
+            System.IO.File.WriteAllBytes("1", files[1]);
+            var g = Gifts.Select(z => z.GetSummary() + $" // {specieslist[z.Species]} @ ???");
+            var s = Encounters.Select(z => z.GetSummary() + $" // {specieslist[z.Species]} @ ???");
+            Clipboard.SetText(string.Join(Environment.NewLine, g.Concat(s)));
         }
     }
 }
