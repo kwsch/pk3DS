@@ -50,12 +50,12 @@ namespace pk3DS.Core.Structures
             get => BitConverter.ToUInt16(Data, 0x8);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x8);
         }
-        public byte _A
+        public bool IsEgg
         {
-            get => Data[0xA];
-            set => Data[0xA] = value;
+            get => Data[0xA] == 1;
+            set => Data[0xA] = (byte)(value ? 1 : 0);
         }
-        public int _C
+        public int SpecialMove
         {
             get => BitConverter.ToUInt16(Data, 0xC);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xC);
@@ -70,6 +70,8 @@ namespace pk3DS.Core.Structures
                 str += "Shiny = false, ";
             if (HeldItem != 0)
                 str += $"HeldItem = {HeldItem}, ";
+            if (SpecialMove != 0)
+                str += $"Moves = new[] {{{SpecialMove}}}, ";
 
             str = str.Trim() + " },";
             return str;
