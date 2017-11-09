@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace pk3DS.Core.Structures
 {
@@ -55,11 +56,11 @@ namespace pk3DS.Core.Structures
             set => Data[0x6] = (byte)(Data[0x6] & ~0x70 | ((value & 7) << 4));
         }
 
-        public bool IV3
+        public bool _7
         { get => (Data[0x7] & 1) >> 0 == 1;
             set => Data[0x7] = (byte)(Data[0x7] & ~1 | (value ? 1 : 0));
         }
-        public bool IV3_1
+        public bool _7_1
         {
             get => (Data[0x7] & 2) >> 1 == 1;
             set => Data[0x7] = (byte)(Data[0x7] & ~2 | (value ? 2 : 0));
@@ -97,14 +98,29 @@ namespace pk3DS.Core.Structures
                     Data[i + 0x15] = (byte)Convert.ToSByte(value[i]);
             }
         }
+        public bool IV3 => (sbyte) Data[0x15] < 0 && (sbyte) Data[0x15] + 1 == -3;
 
         public string GetSummary()
         {
             var str = $"new EncounterStatic {{ Species = {Species:000}, Level = {Level:00}, Location = -01, ";
-            if (Form != 0)
-                str += $"Form = {Form}, ";
+            if (Ability != 0)
+                str += $"Ability = {1 << (Ability - 1)}, ";
             if (ShinyLock)
                 str += "Shiny = false, ";
+            if (Form != 0)
+                str += $"Form = {Form}, ";
+            if (IV3)
+                str += "IV3 = true, ";
+            else if (IVs.Any(z => z >= 0))
+            {
+                var iv = IVs.Select(z => z >= 0 ? $"{z:00}" : "-1");
+                str += $"IVs = new[] {{{string.Join(",", iv)}}}, ";
+            }
+            if (RelearnMoves.Any(z => z != 0))
+            {
+                var mv = RelearnMoves.Select(z => $"{z:000}");
+                str += $"Relearn = new[] {{{string.Join(",", mv)}}}, ";
+            }
             if (HeldItem != 0)
                 str += $"HeldItem = {HeldItem}, ";
 
