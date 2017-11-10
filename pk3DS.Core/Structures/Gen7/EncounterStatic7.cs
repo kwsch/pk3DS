@@ -107,8 +107,6 @@ namespace pk3DS.Core.Structures
                 str += $"Ability = {1 << (Ability - 1)}, ";
             if (ShinyLock)
                 str += "Shiny = false, ";
-            if (Form != 0)
-                str += $"Form = {Form}, ";
             if (IV3)
                 str += "IV3 = true, ";
             else if (IVs.Any(z => z >= 0))
@@ -121,6 +119,10 @@ namespace pk3DS.Core.Structures
                 var mv = RelearnMoves.Select(z => $"{z:000}");
                 str += $"Relearn = new[] {{{string.Join(",", mv)}}}, ";
             }
+            if (Form != 0)
+                str += $"Form = {Form}, ";
+            if (Gender != 0)
+                str += $"Gender = {Gender - 1}, ";
             if (HeldItem != 0)
                 str += $"HeldItem = {HeldItem}, ";
 
