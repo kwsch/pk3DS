@@ -403,6 +403,7 @@ namespace pk3DS
         private void updateStarterText()
         {
             var gr = Main.Config.getGARCReference("storytext");
+            int file = Main.Config.USUM ? 39 : 41;
             for (int i = 0; i < 10; i++)
             {
                 // get Story Text
@@ -410,7 +411,7 @@ namespace pk3DS
                 var s = Main.Config.getGARCByReference(sr);
                 byte[][] storytextdata = s.Files;
 
-                string[] storyText = TextFile.getStrings(Main.Config, storytextdata[41]);
+                string[] storyText = TextFile.getStrings(Main.Config, storytextdata[file]);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -421,12 +422,14 @@ namespace pk3DS
                     // Replace Species
                     line = line.Replace(specieslist[oldSpecies], specieslist[species]);
 
-                    int oldIndex = Main.Config.Personal.getFormeIndex(oldSpecies, Gifts[j].Form);
-                    int oldtype0 = Main.Config.Personal[oldIndex].Types[0];
-
-                    int newIndex = Main.Config.Personal.getFormeIndex(species, Gifts[j].Form);
-                    int newtype0 = Main.Config.Personal[newIndex].Types[0];
-                    line = line.Replace(types[oldtype0], types[newtype0]);
+                    if (Main.Config.SM) // replace type text
+                    {
+                        int oldIndex = Main.Config.Personal.getFormeIndex(oldSpecies, Gifts[j].Form);
+                        int oldtype0 = Main.Config.Personal[oldIndex].Types[0];
+                        int newIndex = Main.Config.Personal.getFormeIndex(species, Gifts[j].Form);
+                        int newtype0 = Main.Config.Personal[newIndex].Types[0];
+                        line = line.Replace(types[oldtype0], types[newtype0]);
+                    }
 
                     storyText[1 + j] = line;
                 }
