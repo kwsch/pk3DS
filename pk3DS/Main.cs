@@ -914,7 +914,7 @@ namespace pk3DS
                     if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
                         "CRO Editing causes crashes if you do not patch the RO module.", "In order to patch the RO module, your device must be running Custom Firmware (for example, Luma3DS).", "Continue anyway?"))
                         return;
-                    if (RomFSPath != null) new MartEditor7().Show();
+                    if (RomFSPath != null) (Config.USUM ? new MartEditor7UU() : (Form)new MartEditor7()).Show();
                     break;
             }
         }
