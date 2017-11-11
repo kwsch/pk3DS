@@ -153,6 +153,9 @@
             this.TB_Height = new System.Windows.Forms.MaskedTextBox();
             this.L_Weight = new System.Windows.Forms.Label();
             this.L_Height = new System.Windows.Forms.Label();
+            this.L_BeachTutors = new System.Windows.Forms.Label();
+            this.CLB_BeachTutors = new System.Windows.Forms.CheckedListBox();
+            this.CHK_BeachTutors = new System.Windows.Forms.CheckBox();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -916,6 +919,8 @@
             // 
             // TP_MoveTutors
             // 
+            this.TP_MoveTutors.Controls.Add(this.L_BeachTutors);
+            this.TP_MoveTutors.Controls.Add(this.CLB_BeachTutors);
             this.TP_MoveTutors.Controls.Add(this.L_Special);
             this.TP_MoveTutors.Controls.Add(this.L_TM);
             this.TP_MoveTutors.Controls.Add(this.CLB_MoveTutors);
@@ -1157,6 +1162,7 @@
             // 
             // GB_Randomizer
             // 
+            this.GB_Randomizer.Controls.Add(this.CHK_BeachTutors);
             this.GB_Randomizer.Controls.Add(this.L_Same);
             this.GB_Randomizer.Controls.Add(this.NUD_Egg);
             this.GB_Randomizer.Controls.Add(this.CHK_WGuard);
@@ -1578,6 +1584,40 @@
             this.L_Height.Text = "Height:";
             this.L_Height.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // L_ORASTutors
+            // 
+            this.L_BeachTutors.AutoSize = true;
+            this.L_BeachTutors.Location = new System.Drawing.Point(298, 3);
+            this.L_BeachTutors.Name = "L_BeachTutors";
+            this.L_BeachTutors.Size = new System.Drawing.Size(40, 13);
+            this.L_BeachTutors.TabIndex = 9;
+            this.L_BeachTutors.Text = "Tutors:";
+            this.L_BeachTutors.Visible = false;
+            // 
+            // CLB_OrasTutors
+            // 
+            this.CLB_BeachTutors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.CLB_BeachTutors.Enabled = false;
+            this.CLB_BeachTutors.FormattingEnabled = true;
+            this.CLB_BeachTutors.Location = new System.Drawing.Point(301, 19);
+            this.CLB_BeachTutors.Name = "CLB_BeachTutors";
+            this.CLB_BeachTutors.Size = new System.Drawing.Size(133, 319);
+            this.CLB_BeachTutors.TabIndex = 8;
+            this.CLB_BeachTutors.Visible = false;
+            // 
+            // CHK_ORASTutors
+            // 
+            this.CHK_BeachTutors.AutoSize = true;
+            this.CHK_BeachTutors.Checked = true;
+            this.CHK_BeachTutors.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_BeachTutors.Location = new System.Drawing.Point(219, 106);
+            this.CHK_BeachTutors.Name = "CHK_BeachTutors";
+            this.CHK_BeachTutors.Size = new System.Drawing.Size(90, 17);
+            this.CHK_BeachTutors.TabIndex = 24;
+            this.CHK_BeachTutors.Text = "Beach Tutors";
+            this.CHK_BeachTutors.UseVisualStyleBackColor = true;
+            // 
             // PersonalEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1744,5 +1784,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label L_BaseMove;
         private System.Windows.Forms.Label L_ZItem;
+        private System.Windows.Forms.Label L_BeachTutors;
+        private System.Windows.Forms.CheckedListBox CLB_BeachTutors;
+        private System.Windows.Forms.CheckBox CHK_BeachTutors;
     }
 }

@@ -30,7 +30,7 @@ namespace pk3DS
             abilities[0] = items[0] = moves[0] = "";
             var altForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
             entryNames = Main.Config.Personal.getPersonalEntryList(altForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
-
+            
             Setup();
             CB_Species.SelectedIndex = 1;
         }
@@ -59,6 +59,16 @@ namespace pk3DS
         private readonly string[] EXPGroups = { "Medium-Fast", "Erratic", "Fluctuating", "Medium-Slow", "Fast", "Slow" };
         private readonly string[] colors = { "Red", "Blue", "Yellow", "Green", "Black", "Brown", "Purple", "Gray", "White", "Pink" };
         private readonly ushort[] tutormoves = { 520, 519, 518, 338, 307, 308, 434, 620 };
+
+        internal static readonly int[] Tutors_USUM =
+        {
+            450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008,
+            277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401,      428, 406, 304, 231,
+            020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409,      264, 351, 352,
+            380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446,      285,
+
+            477, 502, 432, 710, 707, 675, 673
+        };
 
         private readonly int[] baseForms, formVal;
         int entry = -1;
@@ -113,6 +123,14 @@ namespace pk3DS
 
             foreach (string eg in EXPGroups)
                 CB_EXPGroup.Items.Add(eg);
+
+            if (Main.Config.USUM)
+                foreach (var tutor in Tutors_USUM)
+                    CLB_BeachTutors.Items.Add(moves[tutor]);
+
+            // toggle usum content
+            CHK_BeachTutors.Checked = CHK_BeachTutors.Visible =
+                CLB_BeachTutors.Visible = CLB_BeachTutors.Enabled = L_BeachTutors.Visible = Main.Config.USUM;
         }
 
         private void CB_Species_SelectedIndexChanged(object sender, EventArgs e)
@@ -200,6 +218,12 @@ namespace pk3DS
                 CB_ZMove.SelectedIndex = sm.SpecialZ_ZMove;
                 CHK_Variant.Checked = sm.LocalVariant;
             }
+            var special = pkm.SpecialTutors;
+            if (special.Length > 0)
+            {
+                for (int b = 0; b < CLB_BeachTutors.Items.Count; b++)
+                    CLB_BeachTutors.SetItemChecked(b, special[0][b]);
+            }
         }
         private void readEntry()
         {
@@ -279,6 +303,13 @@ namespace pk3DS
                 sm.SpecialZ_ZMove = CB_ZMove.SelectedIndex;
                 sm.LocalVariant = CHK_Variant.Checked;
             }
+            var special = pkm.SpecialTutors;
+            if (special.Length > 0)
+            {
+                for (int b = 0; b < CLB_BeachTutors.Items.Count; b++)
+                    special[0][b] = CLB_BeachTutors.GetItemChecked(b);
+                pkm.SpecialTutors = special;
+            }
         }
         private void saveEntry()
         {
@@ -303,6 +334,7 @@ namespace pk3DS
                 ModifyLearnsetTM = CHK_TM.Checked,
                 ModifyLearnsetHM = CHK_HM.Checked,
                 ModifyLearnsetTypeTutors = CHK_Tutors.Checked,
+                ModifyLearnsetMoveTutors = Main.Config.USUM && CHK_BeachTutors.Checked,
                 ModifyTypes = CHK_Type.Checked,
                 ModifyHeldItems = CHK_Item.Checked,
                 SameTypeChance = NUD_TypePercent.Value,
