@@ -61,6 +61,7 @@ namespace pk3DS
             "Mount Hokulani [Vitamins]",
             "Seafolk Village [TMs]",
             "Konikoni City [TMs]",
+            "Konikoni City [Stones]",
             "Thrifty Megamart 1 [Poké Balls]",
             "Thrifty Megamart 2 [Misc]",
             "Thrifty Megamart 3 [Strange Souvenir]",
