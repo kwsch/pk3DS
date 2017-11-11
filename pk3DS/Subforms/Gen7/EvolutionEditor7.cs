@@ -71,7 +71,11 @@ namespace pk3DS
             var evos = new List<string>(evolutionMethods);
             if (Main.Config.USUM)
             {
-                evos.AddRange(new[] {"Level Up (40???)", "Level Up (41???)", "Used Item (42???)" });
+                evos.AddRange(new[] {
+                    "Level Up (@) Dusk", // 40
+                    "Level Up (Wormhole)", // 41
+                    "Used Item (Wormhole)" // 42
+                });
             }
 
             mb = new[] { CB_M1, CB_M2, CB_M3, CB_M4, CB_M5, CB_M6, CB_M7, CB_M8 };
