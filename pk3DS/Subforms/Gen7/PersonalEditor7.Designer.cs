@@ -41,8 +41,6 @@
             this.TB_CatchRate = new System.Windows.Forms.MaskedTextBox();
             this.TB_Stage = new System.Windows.Forms.TextBox();
             this.L_Stage = new System.Windows.Forms.Label();
-            this.L_WeightKG = new System.Windows.Forms.Label();
-            this.L_HeightM = new System.Windows.Forms.Label();
             this.TB_FormeCount = new System.Windows.Forms.TextBox();
             this.L_FormesCount = new System.Windows.Forms.Label();
             this.TB_FormeSprite = new System.Windows.Forms.TextBox();
@@ -52,10 +50,6 @@
             this.CB_EXPGroup = new System.Windows.Forms.ComboBox();
             this.L_Color = new System.Windows.Forms.Label();
             this.L_EXPGrowth = new System.Windows.Forms.Label();
-            this.TB_Weight = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Height = new System.Windows.Forms.MaskedTextBox();
-            this.L_Weight = new System.Windows.Forms.Label();
-            this.L_Height = new System.Windows.Forms.Label();
             this.CB_Ability3 = new System.Windows.Forms.ComboBox();
             this.CB_Ability2 = new System.Windows.Forms.ComboBox();
             this.CB_Ability1 = new System.Windows.Forms.ComboBox();
@@ -102,12 +96,6 @@
             this.L_EVYield = new System.Windows.Forms.Label();
             this.L_BaseStats = new System.Windows.Forms.Label();
             this.TP_MoveTutors = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.CB_ZMove = new System.Windows.Forms.ComboBox();
-            this.L_BaseMove = new System.Windows.Forms.Label();
-            this.L_ZItem = new System.Windows.Forms.Label();
-            this.CB_ZBaseMove = new System.Windows.Forms.ComboBox();
-            this.CB_ZItem = new System.Windows.Forms.ComboBox();
             this.L_Special = new System.Windows.Forms.Label();
             this.L_TM = new System.Windows.Forms.Label();
             this.CLB_MoveTutors = new System.Windows.Forms.CheckedListBox();
@@ -153,6 +141,18 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.CB_ZMove = new System.Windows.Forms.ComboBox();
+            this.L_BaseMove = new System.Windows.Forms.Label();
+            this.L_ZItem = new System.Windows.Forms.Label();
+            this.CB_ZBaseMove = new System.Windows.Forms.ComboBox();
+            this.CB_ZItem = new System.Windows.Forms.ComboBox();
+            this.L_WeightKG = new System.Windows.Forms.Label();
+            this.L_HeightM = new System.Windows.Forms.Label();
+            this.TB_Weight = new System.Windows.Forms.MaskedTextBox();
+            this.TB_Height = new System.Windows.Forms.MaskedTextBox();
+            this.L_Weight = new System.Windows.Forms.Label();
+            this.L_Height = new System.Windows.Forms.Label();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -203,6 +203,15 @@
             // 
             // TP_General
             // 
+            this.TP_General.Controls.Add(this.L_WeightKG);
+            this.TP_General.Controls.Add(this.L_HeightM);
+            this.TP_General.Controls.Add(this.TB_Weight);
+            this.TP_General.Controls.Add(this.TB_Height);
+            this.TP_General.Controls.Add(this.L_Weight);
+            this.TP_General.Controls.Add(this.L_Height);
+            this.TP_General.Controls.Add(this.CB_ZMove);
+            this.TP_General.Controls.Add(this.CB_ZBaseMove);
+            this.TP_General.Controls.Add(this.CB_ZItem);
             this.TP_General.Controls.Add(this.TB_CallRate);
             this.TP_General.Controls.Add(this.L_CallRate);
             this.TP_General.Controls.Add(this.CHK_Variant);
@@ -212,8 +221,6 @@
             this.TP_General.Controls.Add(this.TB_CatchRate);
             this.TP_General.Controls.Add(this.TB_Stage);
             this.TP_General.Controls.Add(this.L_Stage);
-            this.TP_General.Controls.Add(this.L_WeightKG);
-            this.TP_General.Controls.Add(this.L_HeightM);
             this.TP_General.Controls.Add(this.TB_FormeCount);
             this.TP_General.Controls.Add(this.L_FormesCount);
             this.TP_General.Controls.Add(this.TB_FormeSprite);
@@ -223,10 +230,6 @@
             this.TP_General.Controls.Add(this.CB_EXPGroup);
             this.TP_General.Controls.Add(this.L_Color);
             this.TP_General.Controls.Add(this.L_EXPGrowth);
-            this.TP_General.Controls.Add(this.TB_Weight);
-            this.TP_General.Controls.Add(this.TB_Height);
-            this.TP_General.Controls.Add(this.L_Weight);
-            this.TP_General.Controls.Add(this.L_Height);
             this.TP_General.Controls.Add(this.CB_Ability3);
             this.TP_General.Controls.Add(this.CB_Ability2);
             this.TP_General.Controls.Add(this.CB_Ability1);
@@ -272,6 +275,9 @@
             this.TP_General.Controls.Add(this.Label_SPE);
             this.TP_General.Controls.Add(this.L_EVYield);
             this.TP_General.Controls.Add(this.L_BaseStats);
+            this.TP_General.Controls.Add(this.label1);
+            this.TP_General.Controls.Add(this.L_BaseMove);
+            this.TP_General.Controls.Add(this.L_ZItem);
             this.TP_General.Location = new System.Drawing.Point(4, 22);
             this.TP_General.Name = "TP_General";
             this.TP_General.Padding = new System.Windows.Forms.Padding(3);
@@ -283,7 +289,7 @@
             // TB_CallRate
             // 
             this.TB_CallRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_CallRate.Location = new System.Drawing.Point(94, 320);
+            this.TB_CallRate.Location = new System.Drawing.Point(77, 278);
             this.TB_CallRate.Mask = "000";
             this.TB_CallRate.Name = "TB_CallRate";
             this.TB_CallRate.Size = new System.Drawing.Size(31, 20);
@@ -294,7 +300,7 @@
             // L_CallRate
             // 
             this.L_CallRate.AutoSize = true;
-            this.L_CallRate.Location = new System.Drawing.Point(40, 324);
+            this.L_CallRate.Location = new System.Drawing.Point(23, 282);
             this.L_CallRate.Name = "L_CallRate";
             this.L_CallRate.Size = new System.Drawing.Size(53, 13);
             this.L_CallRate.TabIndex = 92;
@@ -305,7 +311,7 @@
             // 
             this.CHK_Variant.AutoSize = true;
             this.CHK_Variant.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_Variant.Location = new System.Drawing.Point(303, 323);
+            this.CHK_Variant.Location = new System.Drawing.Point(178, 261);
             this.CHK_Variant.Name = "CHK_Variant";
             this.CHK_Variant.Size = new System.Drawing.Size(104, 17);
             this.CHK_Variant.TabIndex = 91;
@@ -334,7 +340,7 @@
             // 
             // TB_RawColor
             // 
-            this.TB_RawColor.Location = new System.Drawing.Point(236, 211);
+            this.TB_RawColor.Location = new System.Drawing.Point(382, 211);
             this.TB_RawColor.Name = "TB_RawColor";
             this.TB_RawColor.ReadOnly = true;
             this.TB_RawColor.Size = new System.Drawing.Size(30, 20);
@@ -355,7 +361,7 @@
             // 
             // TB_Stage
             // 
-            this.TB_Stage.Location = new System.Drawing.Point(376, 248);
+            this.TB_Stage.Location = new System.Drawing.Point(382, 238);
             this.TB_Stage.Name = "TB_Stage";
             this.TB_Stage.ReadOnly = true;
             this.TB_Stage.Size = new System.Drawing.Size(30, 20);
@@ -365,34 +371,16 @@
             // L_Stage
             // 
             this.L_Stage.AutoSize = true;
-            this.L_Stage.Location = new System.Drawing.Point(290, 251);
+            this.L_Stage.Location = new System.Drawing.Point(296, 241);
             this.L_Stage.Name = "L_Stage";
             this.L_Stage.Size = new System.Drawing.Size(85, 13);
             this.L_Stage.TabIndex = 85;
             this.L_Stage.Text = "Evolution Stage:";
             this.L_Stage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_WeightKG
-            // 
-            this.L_WeightKG.AutoSize = true;
-            this.L_WeightKG.Location = new System.Drawing.Point(269, 300);
-            this.L_WeightKG.Name = "L_WeightKG";
-            this.L_WeightKG.Size = new System.Drawing.Size(19, 13);
-            this.L_WeightKG.TabIndex = 84;
-            this.L_WeightKG.Text = "kg";
-            // 
-            // L_HeightM
-            // 
-            this.L_HeightM.AutoSize = true;
-            this.L_HeightM.Location = new System.Drawing.Point(128, 300);
-            this.L_HeightM.Name = "L_HeightM";
-            this.L_HeightM.Size = new System.Drawing.Size(15, 13);
-            this.L_HeightM.TabIndex = 83;
-            this.L_HeightM.Text = "m";
-            // 
             // TB_FormeCount
             // 
-            this.TB_FormeCount.Location = new System.Drawing.Point(376, 296);
+            this.TB_FormeCount.Location = new System.Drawing.Point(382, 278);
             this.TB_FormeCount.Name = "TB_FormeCount";
             this.TB_FormeCount.ReadOnly = true;
             this.TB_FormeCount.Size = new System.Drawing.Size(30, 20);
@@ -402,7 +390,7 @@
             // L_FormesCount
             // 
             this.L_FormesCount.AutoSize = true;
-            this.L_FormesCount.Location = new System.Drawing.Point(300, 300);
+            this.L_FormesCount.Location = new System.Drawing.Point(306, 282);
             this.L_FormesCount.Name = "L_FormesCount";
             this.L_FormesCount.Size = new System.Drawing.Size(75, 13);
             this.L_FormesCount.TabIndex = 81;
@@ -411,7 +399,7 @@
             // 
             // TB_FormeSprite
             // 
-            this.TB_FormeSprite.Location = new System.Drawing.Point(376, 272);
+            this.TB_FormeSprite.Location = new System.Drawing.Point(382, 258);
             this.TB_FormeSprite.Name = "TB_FormeSprite";
             this.TB_FormeSprite.ReadOnly = true;
             this.TB_FormeSprite.Size = new System.Drawing.Size(30, 20);
@@ -421,7 +409,7 @@
             // L_FormeSprite
             // 
             this.L_FormeSprite.AutoSize = true;
-            this.L_FormeSprite.Location = new System.Drawing.Point(306, 276);
+            this.L_FormeSprite.Location = new System.Drawing.Point(312, 262);
             this.L_FormeSprite.Name = "L_FormeSprite";
             this.L_FormeSprite.Size = new System.Drawing.Size(69, 13);
             this.L_FormeSprite.TabIndex = 79;
@@ -442,9 +430,9 @@
             this.CB_Color.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Color.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Color.FormattingEnabled = true;
-            this.CB_Color.Location = new System.Drawing.Point(311, 211);
+            this.CB_Color.Location = new System.Drawing.Point(295, 211);
             this.CB_Color.Name = "CB_Color";
-            this.CB_Color.Size = new System.Drawing.Size(105, 21);
+            this.CB_Color.Size = new System.Drawing.Size(86, 21);
             this.CB_Color.TabIndex = 76;
             // 
             // CB_EXPGroup
@@ -460,7 +448,7 @@
             // L_Color
             // 
             this.L_Color.AutoSize = true;
-            this.L_Color.Location = new System.Drawing.Point(276, 214);
+            this.L_Color.Location = new System.Drawing.Point(260, 214);
             this.L_Color.Name = "L_Color";
             this.L_Color.Size = new System.Drawing.Size(34, 13);
             this.L_Color.TabIndex = 74;
@@ -474,46 +462,6 @@
             this.L_EXPGrowth.Size = new System.Drawing.Size(63, 13);
             this.L_EXPGrowth.TabIndex = 73;
             this.L_EXPGrowth.Text = "EXP Group:";
-            // 
-            // TB_Weight
-            // 
-            this.TB_Weight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Weight.Location = new System.Drawing.Point(235, 296);
-            this.TB_Weight.Mask = "000.0";
-            this.TB_Weight.Name = "TB_Weight";
-            this.TB_Weight.Size = new System.Drawing.Size(31, 20);
-            this.TB_Weight.TabIndex = 72;
-            this.TB_Weight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // TB_Height
-            // 
-            this.TB_Height.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Height.Location = new System.Drawing.Point(94, 296);
-            this.TB_Height.Mask = "00.0";
-            this.TB_Height.Name = "TB_Height";
-            this.TB_Height.Size = new System.Drawing.Size(31, 20);
-            this.TB_Height.TabIndex = 71;
-            this.TB_Height.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // L_Weight
-            // 
-            this.L_Weight.AutoSize = true;
-            this.L_Weight.Location = new System.Drawing.Point(190, 300);
-            this.L_Weight.Name = "L_Weight";
-            this.L_Weight.Size = new System.Drawing.Size(44, 13);
-            this.L_Weight.TabIndex = 70;
-            this.L_Weight.Text = "Weight:";
-            this.L_Weight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Height
-            // 
-            this.L_Height.AutoSize = true;
-            this.L_Height.Location = new System.Drawing.Point(52, 300);
-            this.L_Height.Name = "L_Height";
-            this.L_Height.Size = new System.Drawing.Size(41, 13);
-            this.L_Height.TabIndex = 69;
-            this.L_Height.Text = "Height:";
-            this.L_Height.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_Ability3
             // 
@@ -586,7 +534,7 @@
             // TB_BaseExp
             // 
             this.TB_BaseExp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_BaseExp.Location = new System.Drawing.Point(235, 272);
+            this.TB_BaseExp.Location = new System.Drawing.Point(77, 298);
             this.TB_BaseExp.Mask = "000";
             this.TB_BaseExp.Name = "TB_BaseExp";
             this.TB_BaseExp.Size = new System.Drawing.Size(31, 20);
@@ -597,7 +545,7 @@
             // L_BaseEXP
             // 
             this.L_BaseEXP.AutoSize = true;
-            this.L_BaseEXP.Location = new System.Drawing.Point(176, 276);
+            this.L_BaseEXP.Location = new System.Drawing.Point(18, 302);
             this.L_BaseEXP.Name = "L_BaseEXP";
             this.L_BaseEXP.Size = new System.Drawing.Size(58, 13);
             this.L_BaseEXP.TabIndex = 60;
@@ -607,7 +555,7 @@
             // TB_HatchCycles
             // 
             this.TB_HatchCycles.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HatchCycles.Location = new System.Drawing.Point(235, 248);
+            this.TB_HatchCycles.Location = new System.Drawing.Point(77, 318);
             this.TB_HatchCycles.Mask = "000";
             this.TB_HatchCycles.Name = "TB_HatchCycles";
             this.TB_HatchCycles.Size = new System.Drawing.Size(31, 20);
@@ -618,7 +566,7 @@
             // L_HatchCycles
             // 
             this.L_HatchCycles.AutoSize = true;
-            this.L_HatchCycles.Location = new System.Drawing.Point(161, 251);
+            this.L_HatchCycles.Location = new System.Drawing.Point(3, 321);
             this.L_HatchCycles.Name = "L_HatchCycles";
             this.L_HatchCycles.Size = new System.Drawing.Size(73, 13);
             this.L_HatchCycles.TabIndex = 57;
@@ -628,7 +576,7 @@
             // TB_Friendship
             // 
             this.TB_Friendship.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Friendship.Location = new System.Drawing.Point(94, 272);
+            this.TB_Friendship.Location = new System.Drawing.Point(77, 258);
             this.TB_Friendship.Mask = "000";
             this.TB_Friendship.Name = "TB_Friendship";
             this.TB_Friendship.Size = new System.Drawing.Size(31, 20);
@@ -639,7 +587,7 @@
             // TB_Gender
             // 
             this.TB_Gender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Gender.Location = new System.Drawing.Point(94, 248);
+            this.TB_Gender.Location = new System.Drawing.Point(77, 238);
             this.TB_Gender.Mask = "000";
             this.TB_Gender.Name = "TB_Gender";
             this.TB_Gender.Size = new System.Drawing.Size(31, 20);
@@ -650,7 +598,7 @@
             // L_Friendship
             // 
             this.L_Friendship.AutoSize = true;
-            this.L_Friendship.Location = new System.Drawing.Point(35, 276);
+            this.L_Friendship.Location = new System.Drawing.Point(18, 262);
             this.L_Friendship.Name = "L_Friendship";
             this.L_Friendship.Size = new System.Drawing.Size(58, 13);
             this.L_Friendship.TabIndex = 54;
@@ -660,7 +608,7 @@
             // L_Gender
             // 
             this.L_Gender.AutoSize = true;
-            this.L_Gender.Location = new System.Drawing.Point(48, 251);
+            this.L_Gender.Location = new System.Drawing.Point(31, 241);
             this.L_Gender.Name = "L_Gender";
             this.L_Gender.Size = new System.Drawing.Size(45, 13);
             this.L_Gender.TabIndex = 53;
@@ -968,12 +916,6 @@
             // 
             // TP_MoveTutors
             // 
-            this.TP_MoveTutors.Controls.Add(this.label1);
-            this.TP_MoveTutors.Controls.Add(this.CB_ZMove);
-            this.TP_MoveTutors.Controls.Add(this.L_BaseMove);
-            this.TP_MoveTutors.Controls.Add(this.L_ZItem);
-            this.TP_MoveTutors.Controls.Add(this.CB_ZBaseMove);
-            this.TP_MoveTutors.Controls.Add(this.CB_ZItem);
             this.TP_MoveTutors.Controls.Add(this.L_Special);
             this.TP_MoveTutors.Controls.Add(this.L_TM);
             this.TP_MoveTutors.Controls.Add(this.CLB_MoveTutors);
@@ -985,57 +927,6 @@
             this.TP_MoveTutors.TabIndex = 1;
             this.TP_MoveTutors.Text = "Move Tutors";
             this.TP_MoveTutors.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(301, 83);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Z Move";
-            // 
-            // CB_ZMove
-            // 
-            this.CB_ZMove.FormattingEnabled = true;
-            this.CB_ZMove.Location = new System.Drawing.Point(301, 99);
-            this.CB_ZMove.Name = "CB_ZMove";
-            this.CB_ZMove.Size = new System.Drawing.Size(121, 21);
-            this.CB_ZMove.TabIndex = 12;
-            // 
-            // L_BaseMove
-            // 
-            this.L_BaseMove.AutoSize = true;
-            this.L_BaseMove.Location = new System.Drawing.Point(301, 43);
-            this.L_BaseMove.Name = "L_BaseMove";
-            this.L_BaseMove.Size = new System.Drawing.Size(61, 13);
-            this.L_BaseMove.TabIndex = 11;
-            this.L_BaseMove.Text = "Base Move";
-            // 
-            // L_ZItem
-            // 
-            this.L_ZItem.AutoSize = true;
-            this.L_ZItem.Location = new System.Drawing.Point(301, 3);
-            this.L_ZItem.Name = "L_ZItem";
-            this.L_ZItem.Size = new System.Drawing.Size(37, 13);
-            this.L_ZItem.TabIndex = 10;
-            this.L_ZItem.Text = "Z Item";
-            // 
-            // CB_ZBaseMove
-            // 
-            this.CB_ZBaseMove.FormattingEnabled = true;
-            this.CB_ZBaseMove.Location = new System.Drawing.Point(301, 59);
-            this.CB_ZBaseMove.Name = "CB_ZBaseMove";
-            this.CB_ZBaseMove.Size = new System.Drawing.Size(121, 21);
-            this.CB_ZBaseMove.TabIndex = 9;
-            // 
-            // CB_ZItem
-            // 
-            this.CB_ZItem.FormattingEnabled = true;
-            this.CB_ZItem.Location = new System.Drawing.Point(301, 19);
-            this.CB_ZItem.Name = "CB_ZItem";
-            this.CB_ZItem.Size = new System.Drawing.Size(121, 21);
-            this.CB_ZItem.TabIndex = 8;
             // 
             // L_Special
             // 
@@ -1578,6 +1469,115 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(134, 323);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.TabIndex = 99;
+            this.label1.Text = "Z Move";
+            // 
+            // CB_ZMove
+            // 
+            this.CB_ZMove.FormattingEnabled = true;
+            this.CB_ZMove.Location = new System.Drawing.Point(177, 320);
+            this.CB_ZMove.Name = "CB_ZMove";
+            this.CB_ZMove.Size = new System.Drawing.Size(121, 21);
+            this.CB_ZMove.TabIndex = 98;
+            // 
+            // L_BaseMove
+            // 
+            this.L_BaseMove.AutoSize = true;
+            this.L_BaseMove.Location = new System.Drawing.Point(116, 302);
+            this.L_BaseMove.Name = "L_BaseMove";
+            this.L_BaseMove.Size = new System.Drawing.Size(61, 13);
+            this.L_BaseMove.TabIndex = 97;
+            this.L_BaseMove.Text = "Base Move";
+            // 
+            // L_ZItem
+            // 
+            this.L_ZItem.AutoSize = true;
+            this.L_ZItem.Location = new System.Drawing.Point(140, 281);
+            this.L_ZItem.Name = "L_ZItem";
+            this.L_ZItem.Size = new System.Drawing.Size(37, 13);
+            this.L_ZItem.TabIndex = 96;
+            this.L_ZItem.Text = "Z Item";
+            // 
+            // CB_ZBaseMove
+            // 
+            this.CB_ZBaseMove.FormattingEnabled = true;
+            this.CB_ZBaseMove.Location = new System.Drawing.Point(177, 299);
+            this.CB_ZBaseMove.Name = "CB_ZBaseMove";
+            this.CB_ZBaseMove.Size = new System.Drawing.Size(121, 21);
+            this.CB_ZBaseMove.TabIndex = 95;
+            // 
+            // CB_ZItem
+            // 
+            this.CB_ZItem.FormattingEnabled = true;
+            this.CB_ZItem.Location = new System.Drawing.Point(177, 278);
+            this.CB_ZItem.Name = "CB_ZItem";
+            this.CB_ZItem.Size = new System.Drawing.Size(121, 21);
+            this.CB_ZItem.TabIndex = 94;
+            // 
+            // L_WeightKG
+            // 
+            this.L_WeightKG.AutoSize = true;
+            this.L_WeightKG.Location = new System.Drawing.Point(415, 322);
+            this.L_WeightKG.Name = "L_WeightKG";
+            this.L_WeightKG.Size = new System.Drawing.Size(19, 13);
+            this.L_WeightKG.TabIndex = 105;
+            this.L_WeightKG.Text = "kg";
+            // 
+            // L_HeightM
+            // 
+            this.L_HeightM.AutoSize = true;
+            this.L_HeightM.Location = new System.Drawing.Point(415, 302);
+            this.L_HeightM.Name = "L_HeightM";
+            this.L_HeightM.Size = new System.Drawing.Size(15, 13);
+            this.L_HeightM.TabIndex = 104;
+            this.L_HeightM.Text = "m";
+            // 
+            // TB_Weight
+            // 
+            this.TB_Weight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_Weight.Location = new System.Drawing.Point(381, 318);
+            this.TB_Weight.Mask = "000.0";
+            this.TB_Weight.Name = "TB_Weight";
+            this.TB_Weight.Size = new System.Drawing.Size(31, 20);
+            this.TB_Weight.TabIndex = 103;
+            this.TB_Weight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // TB_Height
+            // 
+            this.TB_Height.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_Height.Location = new System.Drawing.Point(381, 298);
+            this.TB_Height.Mask = "00.0";
+            this.TB_Height.Name = "TB_Height";
+            this.TB_Height.Size = new System.Drawing.Size(31, 20);
+            this.TB_Height.TabIndex = 102;
+            this.TB_Height.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_Weight
+            // 
+            this.L_Weight.AutoSize = true;
+            this.L_Weight.Location = new System.Drawing.Point(336, 322);
+            this.L_Weight.Name = "L_Weight";
+            this.L_Weight.Size = new System.Drawing.Size(44, 13);
+            this.L_Weight.TabIndex = 101;
+            this.L_Weight.Text = "Weight:";
+            this.L_Weight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Height
+            // 
+            this.L_Height.AutoSize = true;
+            this.L_Height.Location = new System.Drawing.Point(339, 302);
+            this.L_Height.Name = "L_Height";
+            this.L_Height.Size = new System.Drawing.Size(41, 13);
+            this.L_Height.TabIndex = 100;
+            this.L_Height.Text = "Height:";
+            this.L_Height.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // PersonalEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1654,10 +1654,6 @@
         private System.Windows.Forms.Label L_Item50;
         private System.Windows.Forms.ComboBox CB_HeldItem3;
         private System.Windows.Forms.ComboBox CB_HeldItem2;
-        private System.Windows.Forms.MaskedTextBox TB_Weight;
-        private System.Windows.Forms.MaskedTextBox TB_Height;
-        private System.Windows.Forms.Label L_Weight;
-        private System.Windows.Forms.Label L_Height;
         private System.Windows.Forms.ComboBox CB_Ability3;
         private System.Windows.Forms.ComboBox CB_Ability2;
         private System.Windows.Forms.ComboBox CB_Ability1;
@@ -1678,8 +1674,6 @@
         private System.Windows.Forms.Label L_Color;
         private System.Windows.Forms.Label L_EXPGrowth;
         private System.Windows.Forms.Label L_CatchRate;
-        private System.Windows.Forms.Label L_WeightKG;
-        private System.Windows.Forms.Label L_HeightM;
         private System.Windows.Forms.TextBox TB_FormeCount;
         private System.Windows.Forms.Label L_FormesCount;
         private System.Windows.Forms.TextBox TB_FormeSprite;
@@ -1729,12 +1723,6 @@
         private System.Windows.Forms.CheckBox CHK_QuickHatch;
         private System.Windows.Forms.Label L_Same;
         private System.Windows.Forms.NumericUpDown NUD_Egg;
-        private System.Windows.Forms.Label L_ZItem;
-        private System.Windows.Forms.ComboBox CB_ZBaseMove;
-        private System.Windows.Forms.ComboBox CB_ZItem;
-        private System.Windows.Forms.Label L_BaseMove;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox CB_ZMove;
         private System.Windows.Forms.CheckBox CHK_Variant;
         private System.Windows.Forms.Label L_CallRate;
         private System.Windows.Forms.MaskedTextBox TB_CallRate;
@@ -1744,5 +1732,17 @@
         private System.Windows.Forms.CheckBox CHK_CatchRateMod;
         private System.Windows.Forms.Label L_CatchRateMod;
         private System.Windows.Forms.NumericUpDown NUD_CatchRateMod;
+        private System.Windows.Forms.Label L_WeightKG;
+        private System.Windows.Forms.Label L_HeightM;
+        private System.Windows.Forms.MaskedTextBox TB_Weight;
+        private System.Windows.Forms.MaskedTextBox TB_Height;
+        private System.Windows.Forms.Label L_Weight;
+        private System.Windows.Forms.Label L_Height;
+        private System.Windows.Forms.ComboBox CB_ZMove;
+        private System.Windows.Forms.ComboBox CB_ZBaseMove;
+        private System.Windows.Forms.ComboBox CB_ZItem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_BaseMove;
+        private System.Windows.Forms.Label L_ZItem;
     }
 }
