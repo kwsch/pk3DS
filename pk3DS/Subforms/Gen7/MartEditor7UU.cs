@@ -81,10 +81,10 @@ namespace pk3DS
         };
         private readonly string[] locationsTutor =
         {
-            "1",
-            "2",
-            "3",
-            "4",
+            "Big Wave Beach",
+            "Heahea Beach",
+            "Ula'ula Beach",
+            "Poni Beach",
         };
         #endregion
 
