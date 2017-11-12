@@ -83,6 +83,11 @@ namespace pk3DS.Core.Structures
                     BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, 0xC + i * 2);
             }
         }
+        public int Nature
+        {
+            get => Data[0x14];
+            set => Data[0x14] = (byte)value;
+        }
 
         public int[] IVs
         {
@@ -125,6 +130,8 @@ namespace pk3DS.Core.Structures
                 str += $"Gender = {Gender - 1}, ";
             if (HeldItem != 0)
                 str += $"HeldItem = {HeldItem}, ";
+            if (Nature != 0)
+                str += $"Nature = {Nature - 1}, ";
 
             str = str.Trim() + " },";
             return str;
