@@ -62,10 +62,13 @@ namespace pk3DS
                     SystemSounds.Exclamation.Play();
                     if (!supress) WinFormsUtil.Alert("Pack Successful!", filectr + " files packed to the GARC!");
                 }
-
-                if (label.InvokeRequired)
-                    label.Invoke((MethodInvoker)delegate { label.Visible = false; });
-                else { label.Visible = false; }
+                if (label != null)
+                {
+                    if (label.InvokeRequired)
+                        label.Invoke((MethodInvoker)(() => label.Visible = false));
+                    else
+                        label.Visible = false;
+                }
 
                 return true;
             }
