@@ -430,6 +430,10 @@ namespace pk3DS
                         int newtype0 = Main.Config.Personal[newIndex].Types[0];
                         line = line.Replace(types[oldtype0], types[newtype0]);
                     }
+                    else if (Main.Config.USUM)
+                    {
+                        storyText[14 + j] = specieslist[species];
+                    }
 
                     storyText[1 + j] = line;
                 }
