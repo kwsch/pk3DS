@@ -433,7 +433,7 @@ namespace pk3DS
 
                     storyText[1 + j] = line;
                 }
-                storytextdata[41] = TextFile.getBytes(Main.Config, storyText);
+                storytextdata[file] = TextFile.getBytes(Main.Config, storyText);
                 s.Files = storytextdata;
                 s.Save();
             }

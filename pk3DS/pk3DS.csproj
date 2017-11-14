@@ -1914,6 +1914,7 @@
     <None Include="Resources\img\Pokemon Sprites\806.png" />
     <None Include="Resources\img\Pokemon Sprites\807.png" />
     <None Include="Resources\img\Pokemon Sprites\744-1.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-7c.png" />
     <Content Include="Resources\img\Pokemon Sprites\empty.png" />
     <Content Include="Resources\img\rare_icon.png" />
     <Content Include="Resources\img\sun.png" />
