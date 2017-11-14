@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace pk3DS.Core
 {
@@ -204,5 +205,38 @@ namespace pk3DS.Core
         };
         #endregion
         internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7+1).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
+
+        public static readonly HashSet<int> Totem_Alolan = new HashSet<int>
+        {
+            020, // Raticate (Normal, Alolan, Totem)
+            105, // Marowak (Normal, Alolan, Totem)
+            778, // Mimikyu (Normal, Busted, Totem, Totem_Busted)
+        };
+        public static readonly HashSet<int> Totem_SM = new HashSet<int>
+        {
+            020, // Raticate
+            735, // Gumshoos
+            //746, // Wishiwashi
+            758, // Salazzle
+            754, // Lurantis
+            738, // Vikavolt
+            778, // Mimikyu
+            784, // Kommo-o
+        };
+        public static readonly HashSet<int> Totem_USUM = new HashSet<int>
+        {
+            020, // Raticate
+            735, // Gumshoos
+            //746, // Wishiwashi
+            758, // Salazzle
+            754, // Lurantis
+            738, // Vikavolt
+            778, // Mimikyu
+            784, // Kommo-o
+            105, // Marowak
+            752, // Araquanid
+            777, // Togedemaru
+            743, // Ribombee
+        };
     }
 }
