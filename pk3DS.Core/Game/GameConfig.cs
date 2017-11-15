@@ -21,6 +21,14 @@ namespace pk3DS.Core
         public TextReference[] GameText { get; private set; }
         public GameInfo Info { get; private set; }
 
+        /// <summary>
+        /// Whether or not to remap characters in text files to proper unicode. Defaults to false.
+        /// </summary>
+        /// <remarks>
+        /// This will enable the display of ♂ and ♀, but may interfere with text editing. Set this to true if you're not going to change any text, otherwise set it to false.
+        /// </remarks>
+        public bool RemapCharacters { get; set; } = false;
+
         public GameConfig(int fileCount)
         {
             GameVersion game = GameVersion.Invalid;
@@ -134,7 +142,7 @@ namespace pk3DS.Core
         public void InitializeGameText()
         {
             GARCGameText = getGARCData("gametext");
-            GameTextStrings = GARCGameText.Files.Select(file => new TextFile(this, file).Lines).ToArray();
+            GameTextStrings = GARCGameText.Files.Select(file => new TextFile(this, file, RemapCharacters).Lines).ToArray();
         }
         public void InitializeMoves()
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace pk3DS.Core
 {
@@ -16,11 +17,10 @@ namespace pk3DS.Core
         private const ushort KEY_TEXTCLEAR = 0xBE01;
         private const ushort KEY_TEXTWAIT = 0xBE02;
         private const ushort KEY_TEXTNULL = 0xBDFF;
-        private const bool SETEMPTYTEXT = false;
-        private static bool REMAPCHARS = false;
+        private const bool SETEMPTYTEXT = false;        
         private static readonly byte[] emptyTextFile = { 0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00 };
 
-        public TextFile(GameConfig config, byte[] data = null)
+        public TextFile(GameConfig config, byte[] data = null, bool remapChars = false)
         {
             Data = (byte[])(data ?? emptyTextFile).Clone();
 
@@ -32,8 +32,10 @@ namespace pk3DS.Core
                 throw new Exception("Section size and overall size do not match.");
 
             Config = config;
+            RemapChars = remapChars;
         }
         private GameConfig Config { get; set; }
+        private bool RemapChars = true;
         private ushort TextSections { get { return BitConverter.ToUInt16(Data, 0x0); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x0); } } // Always 0x0001
         private ushort LineCount { get { return BitConverter.ToUInt16(Data, 0x2); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x2); } }
         private uint TotalLength { get { return BitConverter.ToUInt32(Data, 0x4); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x4); } }
@@ -172,9 +174,9 @@ namespace pk3DS.Core
             }
         }
 
-        private static ushort TryRemapChar(ushort val)
+        private ushort TryRemapChar(ushort val)
         {
-            if (!REMAPCHARS)
+            if (!RemapChars)
                 return val;
             switch (val)
             {
@@ -185,9 +187,9 @@ namespace pk3DS.Core
                 default: return val;
             }
         }
-        private static ushort TryUnmapChar(ushort val)
+        private ushort TryUnmapChar(ushort val)
         {
-            if (!REMAPCHARS)
+            if (!RemapChars)
                 return val;
             switch (val)
             {
@@ -204,7 +206,7 @@ namespace pk3DS.Core
             if (data == null)
                 return null;
 
-            string s = "";
+            var s = new StringBuilder();
             int i = 0;
             while (i < data.Length)
             {
@@ -214,19 +216,19 @@ namespace pk3DS.Core
 
                 switch (val)
                 {
-                    case KEY_TERMINATOR: return s;
-                    case KEY_VARIABLE: s += getVariableString(config, data, ref i); break;
-                    case '\n': s += @"\n"; break;
-                    case '\\': s += @"\\"; break;
-                    case '[': s += @"\["; break;
-                    default: s += (char)TryUnmapChar(val); break;
+                    case KEY_TERMINATOR: return s.ToString();
+                    case KEY_VARIABLE: s.Append(getVariableString(config, data, ref i)); break;
+                    case '\n': s.Append(@"\n"); break;
+                    case '\\': s.Append(@"\\"); break;
+                    case '[': s.Append(@"\["); break;
+                    default: s.Append((char)TryUnmapChar(val)); break;
                 }
             }
-            return s; // Shouldn't get hit if the string is properly terminated.
+            return s.ToString(); // Shouldn't get hit if the string is properly terminated.
         }
         private string getVariableString(GameConfig config, byte[] data, ref int i)
         {
-            string s = "";
+            var s = new StringBuilder();
             ushort count = BitConverter.ToUInt16(data, i); i += 2;
             ushort variable = BitConverter.ToUInt16(data, i); i += 2;
 
@@ -246,21 +248,21 @@ namespace pk3DS.Core
 
             string varName = getVariableString(config, variable);
 
-            s += "[VAR" + " " + varName;
+            s.Append("[VAR" + " " + varName);
             if (count > 1)
             {
-                s += '(';
+                s.Append('(');
                 while (count > 1)
                 {
                     ushort arg = BitConverter.ToUInt16(data, i); i += 2;
-                    s += arg.ToString("X4");
+                    s.Append(arg.ToString("X4"));
                     if (--count == 1) break;
-                    s += ",";
+                    s.Append(",");
                 }
-                s += ')';
+                s.Append(')');
             }
-            s += "]";
-            return s;
+            s.Append("]");
+            return s.ToString();
         }
         private IEnumerable<ushort> getEscapeValues(char esc)
         {
@@ -342,15 +344,15 @@ namespace pk3DS.Core
         }
         
         // Exposed Methods
-        public static string[] getStrings(GameConfig config, byte[] data)
+        public static string[] getStrings(GameConfig config, byte[] data, bool remapChars = false)
         {
             TextFile t;
-            try { t = new TextFile(config, data); } catch { return null; }
+            try { t = new TextFile(config, data, remapChars); } catch { return null; }
             return t.Lines;
         }
-        public static byte[] getBytes(GameConfig config, string[] lines)
+        public static byte[] getBytes(GameConfig config, string[] lines, bool remapChars = false)
         {
-            return new TextFile (config) { Lines = lines }.Data;
+            return new TextFile (config, remapChars: remapChars) { Lines = lines }.Data;
         }
     }
 }
