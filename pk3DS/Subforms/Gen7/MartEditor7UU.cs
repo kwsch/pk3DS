@@ -65,9 +65,10 @@ namespace pk3DS
             "Thrifty Megamart 1 [Poké Balls]",
             "Thrifty Megamart 2 [Misc]",
             "Thrifty Megamart 3 [Strange Souvenir]",
-            "Unused 1",
-            "Unused 2",
-            "Unused 3",
+            "Route 3 [X Items]",
+            "Konikoni [X Items]",
+            "Tapu Village [X Items]",
+            "Lanakila [X Items]",
         };
         private readonly string[] locationsBP =
         {
