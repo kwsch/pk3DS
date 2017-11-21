@@ -65,6 +65,11 @@ namespace pk3DS.Core.Structures
             get => (Data[0x7] & 2) >> 1 == 1;
             set => Data[0x7] = (byte)(Data[0x7] & ~2 | (value ? 2 : 0));
         }
+        public int Map
+        {
+            get => BitConverter.ToInt16(Data, 0x8) - 1;
+            set => BitConverter.GetBytes((short)(value + 1)).CopyTo(Data, 0x8);
+        }
 
         public int[] RelearnMoves
         {
@@ -112,6 +117,7 @@ namespace pk3DS.Core.Structures
                 str += $"Ability = {1 << (Ability - 1)}, ";
             if (ShinyLock)
                 str += "Shiny = false, ";
+
             if (IV3)
                 str += "IV3 = true, ";
             else if (IVs.Any(z => z >= 0))
