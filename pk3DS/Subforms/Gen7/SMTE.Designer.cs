@@ -250,7 +250,7 @@
             this.CB_TrainerID.Name = "CB_TrainerID";
             this.CB_TrainerID.Size = new System.Drawing.Size(140, 21);
             this.CB_TrainerID.TabIndex = 64;
-            this.CB_TrainerID.SelectedIndexChanged += new System.EventHandler(this.changeTrainerIndex);
+            this.CB_TrainerID.SelectedIndexChanged += new System.EventHandler(this.ChangeTrainerIndex);
             // 
             // L_AI
             // 
@@ -571,7 +571,7 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(121, 21);
             this.CB_Species.TabIndex = 1;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.refreshSpeciesAbility);
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.RefreshSpeciesAbility);
             // 
             // FLP_Form
             // 
@@ -604,7 +604,7 @@
             this.CB_Forme.Name = "CB_Forme";
             this.CB_Forme.Size = new System.Drawing.Size(121, 21);
             this.CB_Forme.TabIndex = 1;
-            this.CB_Forme.SelectedIndexChanged += new System.EventHandler(this.refreshFormAbility);
+            this.CB_Forme.SelectedIndexChanged += new System.EventHandler(this.RefreshFormAbility);
             // 
             // flowLayoutPanel3
             // 
@@ -634,7 +634,7 @@
             this.NUD_Level.Name = "NUD_Level";
             this.NUD_Level.Size = new System.Drawing.Size(56, 20);
             this.NUD_Level.TabIndex = 1;
-            this.NUD_Level.ValueChanged += new System.EventHandler(this.updateStats);
+            this.NUD_Level.ValueChanged += new System.EventHandler(this.UpdateStats);
             // 
             // flowLayoutPanel4
             // 
@@ -731,7 +731,7 @@
             this.CB_Nature.Name = "CB_Nature";
             this.CB_Nature.Size = new System.Drawing.Size(121, 21);
             this.CB_Nature.TabIndex = 2;
-            this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.updateStats);
+            this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.UpdateStats);
             // 
             // flowLayoutPanel6
             // 
@@ -908,7 +908,7 @@
             this.TB_HPIV.Size = new System.Drawing.Size(22, 20);
             this.TB_HPIV.TabIndex = 46;
             this.TB_HPIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_HPIV.TextChanged += new System.EventHandler(this.updateStats);
+            this.TB_HPIV.TextChanged += new System.EventHandler(this.UpdateStats);
             // 
             // TB_HPEV
             // 
@@ -920,7 +920,7 @@
             this.TB_HPEV.Size = new System.Drawing.Size(28, 20);
             this.TB_HPEV.TabIndex = 47;
             this.TB_HPEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_HPEV.TextChanged += new System.EventHandler(this.updateStats);
+            this.TB_HPEV.TextChanged += new System.EventHandler(this.UpdateStats);
             // 
             // Stat_HP
             // 
@@ -968,7 +968,7 @@
             this.TB_ATKIV.Size = new System.Drawing.Size(22, 20);
             this.TB_ATKIV.TabIndex = 47;
             this.TB_ATKIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_ATKIV.TextChanged += new System.EventHandler(this.updateStats);
+            this.TB_ATKIV.TextChanged += new System.EventHandler(this.UpdateStats);
             // 
             // TB_ATKEV
             // 
@@ -980,7 +980,7 @@
             this.TB_ATKEV.Size = new System.Drawing.Size(28, 20);
             this.TB_ATKEV.TabIndex = 48;
             this.TB_ATKEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_ATKEV.TextChanged += new System.EventHandler(this.updateStats);
+            this.TB_ATKEV.TextChanged += new System.EventHandler(this.UpdateStats);
             // 
             // Stat_ATK
             // 
@@ -1028,7 +1028,7 @@
             this.TB_DEFIV.Size = new System.Drawing.Size(22, 20);
             this.TB_DEFIV.TabIndex = 48;
             this.TB_DEFIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_DEFIV.TextChanged += new System.EventHandler(this.updateStats);
+            this.TB_DEFIV.TextChanged += new System.EventHandler(this.UpdateStats);
             // 
             // TB_DEFEV
             // 
@@ -1040,7 +1040,7 @@
             this.TB_DEFEV.Size = new System.Drawing.Size(28, 20);
             this.TB_DEFEV.TabIndex = 49;
             this.TB_DEFEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_DEFEV.TextChanged += new System.EventHandler(this.updateStats);
+            this.TB_DEFEV.TextChanged += new System.EventHandler(this.UpdateStats);
             // 
             // Stat_DEF
             // 
@@ -1088,7 +1088,7 @@
             this.TB_SPAIV.Size = new System.Drawing.Size(22, 20);
             this.TB_SPAIV.TabIndex = 49;
             this.TB_SPAIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPAIV.TextChanged += new System.EventHandler(this.updateStats);
+            this.TB_SPAIV.TextChanged += new System.EventHandler(this.UpdateStats);
             // 
             // TB_SPAEV
             // 
@@ -1100,7 +1100,7 @@
             this.TB_SPAEV.Size = new System.Drawing.Size(28, 20);
             this.TB_SPAEV.TabIndex = 50;
             this.TB_SPAEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPAEV.TextChanged += new System.EventHandler(this.updateStats);
+            this.TB_SPAEV.TextChanged += new System.EventHandler(this.UpdateStats);
             // 
             // Stat_SPA
             // 
@@ -1148,7 +1148,7 @@
             this.TB_SPDIV.Size = new System.Drawing.Size(22, 20);
             this.TB_SPDIV.TabIndex = 5;
             this.TB_SPDIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPDIV.TextChanged += new System.EventHandler(this.updateStats);
+            this.TB_SPDIV.TextChanged += new System.EventHandler(this.UpdateStats);
             // 
             // TB_SPDEV
             // 
@@ -1160,7 +1160,7 @@
             this.TB_SPDEV.Size = new System.Drawing.Size(28, 20);
             this.TB_SPDEV.TabIndex = 11;
             this.TB_SPDEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPDEV.TextChanged += new System.EventHandler(this.updateStats);
+            this.TB_SPDEV.TextChanged += new System.EventHandler(this.UpdateStats);
             // 
             // Stat_SPD
             // 
@@ -1208,7 +1208,7 @@
             this.TB_SPEIV.Size = new System.Drawing.Size(22, 20);
             this.TB_SPEIV.TabIndex = 51;
             this.TB_SPEIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPEIV.TextChanged += new System.EventHandler(this.updateStats);
+            this.TB_SPEIV.TextChanged += new System.EventHandler(this.UpdateStats);
             // 
             // TB_SPEEV
             // 
@@ -1220,7 +1220,7 @@
             this.TB_SPEEV.Size = new System.Drawing.Size(28, 20);
             this.TB_SPEEV.TabIndex = 52;
             this.TB_SPEEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPEEV.TextChanged += new System.EventHandler(this.updateStats);
+            this.TB_SPEEV.TextChanged += new System.EventHandler(this.UpdateStats);
             // 
             // Stat_SPE
             // 
@@ -1313,7 +1313,7 @@
             this.CB_HPType.Name = "CB_HPType";
             this.CB_HPType.Size = new System.Drawing.Size(70, 21);
             this.CB_HPType.TabIndex = 44;
-            this.CB_HPType.SelectedIndexChanged += new System.EventHandler(this.updateHPType);
+            this.CB_HPType.SelectedIndexChanged += new System.EventHandler(this.UpdateHPType);
             // 
             // Tab_Moves
             // 
@@ -1469,7 +1469,7 @@
             this.TB_TrainerName.Name = "TB_TrainerName";
             this.TB_TrainerName.Size = new System.Drawing.Size(116, 20);
             this.TB_TrainerName.TabIndex = 35;
-            this.TB_TrainerName.TextChanged += new System.EventHandler(this.updateTrainerName);
+            this.TB_TrainerName.TextChanged += new System.EventHandler(this.UpdateTrainerName);
             // 
             // NUD_NumPoke
             // 
@@ -1483,7 +1483,7 @@
             this.NUD_NumPoke.Size = new System.Drawing.Size(47, 20);
             this.NUD_NumPoke.TabIndex = 0;
             this.NUD_NumPoke.Visible = false;
-            this.NUD_NumPoke.ValueChanged += new System.EventHandler(this.updateNumPokemon);
+            this.NUD_NumPoke.ValueChanged += new System.EventHandler(this.UpdateNumPokemon);
             // 
             // TC_trdata
             // 

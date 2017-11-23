@@ -28,6 +28,25 @@
         PokedexEntry1,
         PokedexEntry2
     }
+
+    public class TextData
+    {
+        public readonly string[] Lines;
+        public bool Modified { get; private set; }
+        public TextData(string[] lines) => Lines = lines;
+
+        public string this[int line]
+        {
+            get => Lines[line];
+            set
+            {
+                if (Lines[line] == value)
+                    return;
+                Modified = true;
+                Lines[line] = value;
+            }
+        }
+    }
     public class TextReference
     {
         public readonly int Index;

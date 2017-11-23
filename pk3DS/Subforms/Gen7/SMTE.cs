@@ -29,46 +29,48 @@ namespace pk3DS
         private readonly string[] types = Main.Config.getText(TextName.Types);
         private readonly string[] natures = Main.Config.getText(TextName.Natures);
         private readonly string[] forms = Enumerable.Range(0, 1000).Select(i => i.ToString("000")).ToArray();
-        private string[] trName = Main.Config.getText(TextName.TrainerNames);
+        private readonly string[] trName = Main.Config.getText(TextName.TrainerNames);
         private readonly string[] trClass = Main.Config.getText(TextName.TrainerClasses);
-        private readonly string[] trText = Main.Config.getText(TextName.TrainerText);
+        private readonly TextData trText = Main.Config.getTextData(TextName.TrainerText);
+        private readonly TextData TrainerNames;
 
         public SMTE(byte[][] trc, byte[][] trd, byte[][] trp)
         {
             trclass = trc;
             trdata = trd;
             trpoke = trp;
+            TrainerNames = new TextData(trName);
             InitializeComponent();
 
-            mnuView.Click += clickView;
-            mnuSet.Click += clickSet;
-            mnuDelete.Click += clickDelete;
+            mnuView.Click += ClickView;
+            mnuSet.Click += ClickSet;
+            mnuDelete.Click += ClickDelete;
             Trainers = new trdata7[trdata.Length];
             Setup();
             foreach (var pb in pba)
-                pb.Click += clickSlot;
+                pb.Click += ClickSlot;
 
             CB_TrainerID.SelectedIndex = 0;
             CB_Moves.SelectedIndex = 0;
         }
 
-        private int getSlot(object sender)
+        private int GetSlot(object sender)
         {
             var send = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
             return Array.IndexOf(pba, send);
         }
-        private void clickSlot(object sender, EventArgs e)
+        private void ClickSlot(object sender, EventArgs e)
         {
             switch (ModifierKeys)
             {
-                case Keys.Control: clickView(sender, e); break;
-                case Keys.Shift: clickSet(sender, e); break;
-                case Keys.Alt: clickDelete(sender, e); break;
+                case Keys.Control: ClickView(sender, e); break;
+                case Keys.Shift: ClickSet(sender, e); break;
+                case Keys.Alt: ClickDelete(sender, e); break;
             }
         }
-        private void clickView(object sender, EventArgs e)
+        private void ClickView(object sender, EventArgs e)
         {
-            int slot = getSlot(sender);
+            int slot = GetSlot(sender);
             if (pba[slot].Image == null)
             { SystemSounds.Exclamation.Play(); return; }
             
@@ -76,21 +78,21 @@ namespace pk3DS
             var pk = Trainers[index].Pokemon[slot];
             if (pk.Species != 0)
             {
-                try { populateFieldsTP7(pk); }
+                try { PopulateFieldsTP7(pk); }
                 catch { }
                 // Visual to display what slot is currently loaded.
-                getSlotColor(slot, Properties.Resources.slotView);
+                GetSlotColor(slot, Properties.Resources.slotView);
             }
             else
                 SystemSounds.Exclamation.Play();
         }
-        private void clickSet(object sender, EventArgs e)
+        private void ClickSet(object sender, EventArgs e)
         {
-            int slot = getSlot(sender);
+            int slot = GetSlot(sender);
             if (CB_Species.SelectedIndex == 0)
             { WinFormsUtil.Alert("Can't set empty slot."); return; }
 
-            var pk = prepareTP7();
+            var pk = PrepareTP7();
             var tr = Trainers[index];
             if (slot < tr.NumPokemon)
                 tr.Pokemon[slot] = pk;
@@ -101,12 +103,12 @@ namespace pk3DS
                 Trainers[index].NumPokemon = (int)++NUD_NumPoke.Value;
             }
 
-            getQuickFiller(pba[slot], pk);
-            getSlotColor(slot, Properties.Resources.slotSet);
+            GetQuickFiller(pba[slot], pk);
+            GetSlotColor(slot, Properties.Resources.slotSet);
         }
-        private void clickDelete(object sender, EventArgs e)
+        private void ClickDelete(object sender, EventArgs e)
         {
-            int slot = getSlot(sender);
+            int slot = GetSlot(sender);
 
             if (slot < Trainers[index].NumPokemon)
             {
@@ -114,48 +116,48 @@ namespace pk3DS
                 Trainers[index].NumPokemon = (int)--NUD_NumPoke.Value;
             }
 
-            populateTeam(Trainers[index]);
-            getSlotColor(slot, Properties.Resources.slotDel);
+            PopulateTeam(Trainers[index]);
+            GetSlotColor(slot, Properties.Resources.slotDel);
         }
 
-        private void populateTeam(trdata7 tr)
+        private void PopulateTeam(trdata7 tr)
         {
             for (int i = 0; i < tr.NumPokemon; i++)
-                getQuickFiller(pba[i], tr.Pokemon[i]);
+                GetQuickFiller(pba[i], tr.Pokemon[i]);
             for (int i = tr.NumPokemon; i < 6; i++)
                 pba[i].Image = null;
         }
 
-        private void getSlotColor(int slot, Image color)
+        private void GetSlotColor(int slot, Image color)
         {
             foreach (PictureBox t in pba)
                 t.BackgroundImage = null;
 
             pba[slot].BackgroundImage = color;
         }
-        private static void getQuickFiller(PictureBox pb, trpoke7 pk)
+        private static void GetQuickFiller(PictureBox pb, trpoke7 pk)
         {
             Bitmap rawImg = WinFormsUtil.getSprite(pk.Species, pk.Form, pk.Gender, pk.Item, Main.Config, pk.Shiny);
             pb.Image = WinFormsUtil.scaleImage(rawImg, 2);
         }
 
         // Top Level Functions
-        private void refreshFormAbility(object sender, EventArgs e)
+        private void RefreshFormAbility(object sender, EventArgs e)
         {
             if (index < 0)
                 return;
             pkm.Form = CB_Forme.SelectedIndex;
-            refreshPKMSlotAbility();
+            RefreshPKMSlotAbility();
         }
-        private void refreshSpeciesAbility(object sender, EventArgs e)
+        private void RefreshSpeciesAbility(object sender, EventArgs e)
         {
             if (index < 0)
                 return;
             pkm.Species = (ushort)CB_Species.SelectedIndex;
             FormUtil.setForms(CB_Species.SelectedIndex, CB_Forme, AltForms);
-            refreshPKMSlotAbility();
+            RefreshPKMSlotAbility();
         }
-        private void refreshPKMSlotAbility()
+        private void RefreshPKMSlotAbility()
         {
             int previousAbility = CB_Ability.SelectedIndex;
 
@@ -171,19 +173,18 @@ namespace pk3DS
 
             CB_Ability.SelectedIndex = previousAbility;
         }
-        
+
+        private static string GetEntryTitle(string str, int i) => $"{str} - {i:000}";
         private void Setup()
         {
             AltForms = forms.Select(f => Enumerable.Range(0, 100).Select(i => i.ToString()).ToArray()).ToArray();
-
-            Array.Resize(ref trName, trdata.Length);
             CB_TrainerID.Items.Clear();
             for (int i = 0; i < trdata.Length; i++)
-                CB_TrainerID.Items.Add(string.Format("{1} - {0}", i.ToString("000"), trName[i] ?? "UNKNOWN"));
+                CB_TrainerID.Items.Add(GetEntryTitle(trName[i] ?? "UNKNOWN", i));
 
             CB_Trainer_Class.Items.Clear();
             for (int i = 0; i < trClass.Length; i++)
-                CB_Trainer_Class.Items.Add(string.Format("{1} - {0}", i.ToString("000"), trClass[i]));
+                CB_Trainer_Class.Items.Add(GetEntryTitle(trClass[i], i));
 
             Trainers[0] = new trdata7();
 
@@ -254,48 +255,46 @@ namespace pk3DS
             CB_TrainerID.SelectedIndex = 0;
             index = 0;
             pkm = new trpoke7();
-            populateFieldsTP7(pkm);
+            PopulateFieldsTP7(pkm);
         }
 
-        private void changeTrainerIndex(object sender, EventArgs e)
+        private void ChangeTrainerIndex(object sender, EventArgs e)
         {
-            saveEntry();
-            loadEntry();
+            SaveEntry();
+            LoadEntry();
             if (TC_trdata.SelectedIndex == TC_trdata.TabCount - 1) // last
                 TC_trdata.SelectedIndex = 0;
         }
-        private void saveEntry()
+        private void SaveEntry()
         {
             if (index < 0)
                 return;
             var tr = Trainers[index];
-            prepareTR7(tr);
-            saveData(tr, index);
-            trName[index] = TB_TrainerName.Text;
+            PrepareTR7(tr);
+            SaveData(tr, index);
+            TrainerNames[index] = TB_TrainerName.Text;
         }
-        private void saveData(trdata7 tr, int i)
+        private void SaveData(trdata7 tr, int i)
         {
-            byte[] trd;
-            byte[] trp;
-            tr.Write(out trd, out trp);
+            tr.Write(out byte[] trd, out byte[] trp);
             trdata[i] = trd;
             trpoke[i] = trp;
         }
-        private void loadEntry()
+        private void LoadEntry()
         {
             index = CB_TrainerID.SelectedIndex;
             var tr = Trainers[index];
 
             loading = true;
-            TB_TrainerName.Text = trName[index];
+            TB_TrainerName.Text = TrainerNames[index];
 
-            populateFieldsTD7(tr);
+            PopulateFieldsTD7(tr);
             loading = false;
         }
 
         private bool loading;
         private trpoke7 pkm;
-        private void populateFieldsTP7(trpoke7 pk)
+        private void PopulateFieldsTP7(trpoke7 pk)
         {
             pkm = pk.Clone();
 
@@ -331,9 +330,9 @@ namespace pk3DS
             TB_SPEEV.Text = pkm.EV_SPE.ToString();
             TB_SPDEV.Text = pkm.EV_SPD.ToString();
             updatingStats = false;
-            updateStats(null, null);
+            UpdateStats(null, null);
         }
-        private trpoke7 prepareTP7()
+        private trpoke7 PrepareTP7()
         {
             var pk = pkm.Clone();
             pk.Species = CB_Species.SelectedIndex;
@@ -366,7 +365,7 @@ namespace pk3DS
 
             return pk;
         }
-        private void populateFieldsTD7(trdata7 tr)
+        private void PopulateFieldsTD7(trdata7 tr)
         {
             // Load Trainer Data
             CB_Trainer_Class.SelectedIndex = tr.TrainerClass;
@@ -378,9 +377,9 @@ namespace pk3DS
             CB_Money.SelectedIndex = tr.Money;
             NUD_AI.Value = tr.AI;
             CHK_Flag.Checked = tr.Flag;
-            populateTeam(tr);
+            PopulateTeam(tr);
         }
-        private void prepareTR7(trdata7 tr)
+        private void PrepareTR7(trdata7 tr)
         {
             tr.TrainerClass = (byte)CB_Trainer_Class.SelectedIndex;
             tr.NumPokemon = (byte)NUD_NumPoke.Value;
@@ -395,7 +394,9 @@ namespace pk3DS
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            saveEntry();
+            SaveEntry();
+            if (TrainerNames.Modified)
+                Main.Config.setText(TextName.TrainerNames, TrainerNames.Lines);
             base.OnFormClosing(e);
         }
 
@@ -409,11 +410,11 @@ namespace pk3DS
                     return;
                 var sb = new StringBuilder();
                 foreach (var Trainer in Trainers)
-                    sb.Append(getTrainerString(Trainer));
+                    sb.Append(GetTrainerString(Trainer));
                 File.WriteAllText(sfd.FileName, sb.ToString());
             }
         }
-        private string getTrainerString(trdata7 tr)
+        private string GetTrainerString(trdata7 tr)
         {
             var sb = new StringBuilder();
             sb.AppendLine("======");
@@ -440,22 +441,23 @@ namespace pk3DS
             return sb.ToString();
         }
 
-        private void updateNumPokemon(object sender, EventArgs e)
+        private void UpdateNumPokemon(object sender, EventArgs e)
         {
             if (index < 0)
                 return;
             Trainers[index].NumPokemon = (int) NUD_NumPoke.Value;
         }
-        private void updateTrainerName(object sender, EventArgs e)
+        private void UpdateTrainerName(object sender, EventArgs e)
         {
             if (loading)
                 return;
-            CB_TrainerID.Items[index] = $"{TB_TrainerName.Text} - {index:000}";
+            string str = TB_TrainerName.Text;
+            CB_TrainerID.Items[index] = GetEntryTitle(str, index);
         }
 
         private static bool updatingStats;
 
-        private void updateStats(object sender, EventArgs e)
+        private void UpdateStats(object sender, EventArgs e)
         {
             if (updatingStats)
                 return;
@@ -528,12 +530,12 @@ namespace pk3DS
             updatingStats = false;
         }
 
-        private void updateHPType(object sender, EventArgs e)
+        private void UpdateHPType(object sender, EventArgs e)
         {
             if (updatingStats)
                 return;
             var tb_iv = new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV };
-            int[] newIVs = setHPIVs(CB_HPType.SelectedIndex, tb_iv.Select(WinFormsUtil.ToInt32).ToArray());
+            int[] newIVs = SetHPIVs(CB_HPType.SelectedIndex, tb_iv.Select(WinFormsUtil.ToInt32).ToArray());
             updatingStats = true;
             TB_HPIV.Text = newIVs[0].ToString();
             TB_ATKIV.Text = newIVs[1].ToString();
@@ -543,7 +545,7 @@ namespace pk3DS
             TB_SPEIV.Text = newIVs[5].ToString();
             updatingStats = false;
         }
-        public static int[] setHPIVs(int type, int[] ivs)
+        public static int[] SetHPIVs(int type, int[] ivs)
         {
             for (int i = 0; i < 6; i++)
                 ivs[i] = (ivs[i] & 0x1E) + hpivs[type, i];
@@ -681,7 +683,7 @@ namespace pk3DS
                             pk.Moves = moves;
                     }
                 }
-                saveData(tr, i);
+                SaveData(tr, i);
             }
             WinFormsUtil.Alert("Randomized all Trainers according to specification!", "Press the Dump to .TXT button to view the new Trainer information!");
         }
@@ -691,7 +693,7 @@ namespace pk3DS
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
             var moves = learn.GetHighPoweredMoves(pkm.Species, pkm.Form, 4);
-            setMoves(moves);
+            SetMoves(moves);
         }
         private void B_CurrentAttack_Click(object sender, EventArgs e)
         {
@@ -699,13 +701,11 @@ namespace pk3DS
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
             var moves = learn.GetCurrentMoves(pkm.Species, pkm.Form, 4);
-            setMoves(moves);
+            SetMoves(moves);
         }
-        private void B_Clear_Click(object sender, EventArgs e)
-        {
-            setMoves(new int[4]);
-        }
-        private void setMoves(int[] moves)
+        private void B_Clear_Click(object sender, EventArgs e) => SetMoves(new int[4]);
+
+        private void SetMoves(IList<int> moves)
         {
             var mcb = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
             for (int i = 0; i < mcb.Length; i++)

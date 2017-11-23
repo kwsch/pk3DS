@@ -251,32 +251,32 @@ namespace pk3DS
     }
     public class ZoneData
     {
-        internal static int Size = 0x38;
-        public byte[] Data;
-        public int MapMatrix { get { return BitConverter.ToUInt16(Data, 0x04); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x04);} }
-        public int TextFile { get { return BitConverter.ToUInt16(Data, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x06); } }
+        internal const int Size = 0x38;
+        public readonly byte[] Data;
+        public int MapMatrix { get => BitConverter.ToUInt16(Data, 0x04); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x04); }
+        public int TextFile { get => BitConverter.ToUInt16(Data, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x06); }
         public int ParentMap // 0x1C - low 7 bits
         {
-            get { return BitConverter.ToUInt16(Data, 0x1C) & 0x1FF; }
-            set { BitConverter.GetBytes((ushort)(value | (BitConverter.ToUInt16(Data, 0x1C) & ~0x1FF))).CopyTo(Data, 0x1C); }
+            get => BitConverter.ToUInt16(Data, 0x1C) & 0x1FF;
+            set => BitConverter.GetBytes((ushort)(value | (BitConverter.ToUInt16(Data, 0x1C) & ~0x1FF))).CopyTo(Data, 0x1C);
         }
         public int OLFlags // 0x1C - high 9(?) bits
         {
-            get { return BitConverter.ToUInt16(Data, 0x1C) >> 9; }
-            set { BitConverter.GetBytes((ushort)((value << 9) | (BitConverter.ToUInt16(Data, 0x1C) & 0x1FF))).CopyTo(Data, 0x1C); }
+            get => BitConverter.ToUInt16(Data, 0x1C) >> 9;
+            set => BitConverter.GetBytes((ushort)((value << 9) | (BitConverter.ToUInt16(Data, 0x1C) & 0x1FF))).CopyTo(Data, 0x1C);
         }
 
-        private int X { get { return BitConverter.ToUInt16(Data, 0x2C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2C); } }
-        public int Z { get { return BitConverter.ToInt16(Data, 0x2E); } set { BitConverter.GetBytes((short)value).CopyTo(Data, 0x2E); } }
-        private int Y { get { return BitConverter.ToUInt16(Data, 0x30); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x30); } }
-        private int X2 { get { return BitConverter.ToUInt16(Data, 0x32); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x32); } }
-        public int Z2 { get { return BitConverter.ToInt16(Data, 0x34); } set { BitConverter.GetBytes((short)value).CopyTo(Data, 0x34); } }
-        private int Y2 { get { return BitConverter.ToUInt16(Data, 0x36); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x36); } }
+        private int X { get => BitConverter.ToUInt16(Data, 0x2C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2C); }
+        public int Z { get => BitConverter.ToInt16(Data, 0x2E); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x2E); }
+        private int Y { get => BitConverter.ToUInt16(Data, 0x30); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x30); }
+        private int X2 { get => BitConverter.ToUInt16(Data, 0x32); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x32); }
+        public int Z2 { get => BitConverter.ToInt16(Data, 0x34); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x34); }
+        private int Y2 { get => BitConverter.ToUInt16(Data, 0x36); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x36); }
 
-        public float pX { get { return (float)X / 18; } set { X = (int)(18 * value); } }
-        public float pY { get { return (float)Y / 18; } set { Y = (int)(18 * value); } }
-        public float pX2 { get { return (float)X2 / 18; } set { X2 = (int)(18 * value); } }
-        public float pY2 { get { return (float)Y2 / 18; } set { Y2 = (int)(18 * value); } }
+        public float pX { get => (float)X / 18; set => X = (int)(18 * value); }
+        public float pY { get => (float)Y / 18; set => Y = (int)(18 * value); }
+        public float pX2 { get => (float)X2 / 18; set => X2 = (int)(18 * value); }
+        public float pY2 { get => (float)Y2 / 18; set => Y2 = (int)(18 * value); }
 
         public ZoneData(byte[] data)
         {
@@ -292,11 +292,11 @@ namespace pk3DS
     }
     public class Zone
     {
-        public ZoneData ZD;
+        public readonly ZoneData ZD;
         public ZoneEntities Entities;
-        public ZoneScript MapScript;
-        public ZoneEncounters Encounters;
-        public ZoneUnknown File5;
+        public readonly ZoneScript MapScript;
+        public readonly ZoneEncounters Encounters;
+        public readonly ZoneUnknown File5;
 
         public Zone(byte[][] Zone)
         {
@@ -422,20 +422,20 @@ namespace pk3DS
             public class EntityFurniture
             {
                 // Usable Attributes
-                public int Script { get { return BitConverter.ToUInt16(Raw, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); } }
+                public int Script { get => BitConverter.ToUInt16(Raw, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); }
 
-                public int U2 { get { return BitConverter.ToUInt16(Raw, 0x02); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); } }
-                public int U4 { get { return BitConverter.ToUInt16(Raw, 0x04); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x04); } }
-                public int U6 { get { return BitConverter.ToUInt16(Raw, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); } }
+                public int U2 { get => BitConverter.ToUInt16(Raw, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); }
+                public int U4 { get => BitConverter.ToUInt16(Raw, 0x04); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x04); }
+                public int U6 { get => BitConverter.ToUInt16(Raw, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); }
 
                 // Coordinates have some upper-bit usage it seems...
-                public int X { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
-                public int Y { get { return BitConverter.ToUInt16(Raw, 0x0A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0A); } }
+                public int X { get => BitConverter.ToUInt16(Raw, 0x08); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); }
+                public int Y { get => BitConverter.ToUInt16(Raw, 0x0A); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0A); }
                 // Next two bytes should be dealing with furniture width?
-                public int WX { get { return BitConverter.ToInt16(Raw, 0x0C); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0C); } }
-                public int WY { get { return BitConverter.ToInt16(Raw, 0x0E); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0E); } }
+                public int WX { get => BitConverter.ToInt16(Raw, 0x0C); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0C); }
+                public int WY { get => BitConverter.ToInt16(Raw, 0x0E); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0E); }
 
-                public int U10 { get { return BitConverter.ToInt32(Raw, 0x10); } set { BitConverter.GetBytes(value).CopyTo(Raw, 0x10); } }
+                public int U10 { get => BitConverter.ToInt32(Raw, 0x10); set => BitConverter.GetBytes(value).CopyTo(Raw, 0x10); }
 
                 public byte[] Raw;
                 public byte[] OriginalData;
@@ -453,44 +453,44 @@ namespace pk3DS
             public class EntityNPC
             {
                 // Usable Attributes
-                public int ID { get { return BitConverter.ToUInt16(Raw, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); } }
-                public int Model { get { return BitConverter.ToUInt16(Raw, 0x02); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); } }
-                public int MovePermissions { get { return BitConverter.ToUInt16(Raw, 0x04); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x04); } }
-                public int MovePermissions2 { get { return BitConverter.ToUInt16(Raw, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); } }
-                public int SpawnFlag { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
-                public int Script { get { return BitConverter.ToUInt16(Raw, 0x0A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0A); } }
-                public int FaceDirection { get { return BitConverter.ToUInt16(Raw, 0x0C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); } }
-                public int SightRange { get { return BitConverter.ToUInt16(Raw, 0x0E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0E); } }
+                public int ID { get => BitConverter.ToUInt16(Raw, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); }
+                public int Model { get => BitConverter.ToUInt16(Raw, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); }
+                public int MovePermissions { get => BitConverter.ToUInt16(Raw, 0x04); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x04); }
+                public int MovePermissions2 { get => BitConverter.ToUInt16(Raw, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); }
+                public int SpawnFlag { get => BitConverter.ToUInt16(Raw, 0x08); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); }
+                public int Script { get => BitConverter.ToUInt16(Raw, 0x0A); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0A); }
+                public int FaceDirection { get => BitConverter.ToUInt16(Raw, 0x0C); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); }
+                public int SightRange { get => BitConverter.ToUInt16(Raw, 0x0E); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0E); }
 
                 // XY Only
-                public int U10 { get { return BitConverter.ToUInt16(Raw, 0x10); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x10); } }
-                public int U12 { get { return BitConverter.ToUInt16(Raw, 0x12); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x12); } }
+                public int U10 { get => BitConverter.ToUInt16(Raw, 0x10); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x10); }
+                public int U12 { get => BitConverter.ToUInt16(Raw, 0x12); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x12); }
 
                 // Shorts
-                public int U14 { get { return BitConverter.ToInt16(Raw, 0x14); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); } }
-                public int U16 { get { return BitConverter.ToInt16(Raw, 0x16); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); } }
+                public int U14 { get => BitConverter.ToInt16(Raw, 0x14); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); }
+                public int U16 { get => BitConverter.ToInt16(Raw, 0x16); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); }
                 // Negative only in X/Y... seeing behind them? Might be projection of an interaction area.
-                public int U18 { get { return BitConverter.ToInt16(Raw, 0x18); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x18); } }
-                public int U1A { get { return BitConverter.ToInt16(Raw, 0x1A); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x1A); } }
+                public int U18 { get => BitConverter.ToInt16(Raw, 0x18); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x18); }
+                public int U1A { get => BitConverter.ToInt16(Raw, 0x1A); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x1A); }
 
                 // WalkArea Leashes (?): If these are for NPCs that walk in an area, I'm not sure if there's a direction specified.
                 // Set L# to -1 to turn off.
-                public int L1 { get { return BitConverter.ToInt16(Raw, 0x1C); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x1C); } }
-                public int L2 { get { return BitConverter.ToInt16(Raw, 0x1E); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x1E); } }
-                public int L3 { get { return BitConverter.ToInt16(Raw, 0x20); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x20); } }
+                public int L1 { get => BitConverter.ToInt16(Raw, 0x1C); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x1C); }
+                public int L2 { get => BitConverter.ToInt16(Raw, 0x1E); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x1E); }
+                public int L3 { get => BitConverter.ToInt16(Raw, 0x20); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x20); }
                 // Leash Direction? Only used when an area is specified.
-                public int LDir { get { return BitConverter.ToUInt16(Raw, 0x22); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x22); } }
+                public int LDir { get => BitConverter.ToUInt16(Raw, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x22); }
 
                 // 0x24-0x25 is Unused in OR/AS, rarely 1 in XY
-                public int U24 { get { return BitConverter.ToUInt16(Raw, 0x24); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x24); } }
+                public int U24 { get => BitConverter.ToUInt16(Raw, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x24); }
                 // 0x26-0x27 is Unused in OR/AS
 
                 // Highest bits for X/Y seem to be fractions of a coordinate?
-                public int X { get { return BitConverter.ToUInt16(Raw, 0x28); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x28); } }
-                public int Y { get { return BitConverter.ToUInt16(Raw, 0x2A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2A); } }
+                public int X { get => BitConverter.ToUInt16(Raw, 0x28); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x28); }
+                public int Y { get => BitConverter.ToUInt16(Raw, 0x2A); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x2A); }
 
                 // -360, 360 ????
-                public float Degrees { get { return BitConverter.ToSingle(Raw, 0x2C); } set { BitConverter.GetBytes(value).CopyTo(Raw, 0x2C); } }
+                public float Degrees { get => BitConverter.ToSingle(Raw, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Raw, 0x2C); }
                 public float Deg18 => Degrees/18;
 
                 public byte[] Raw;
@@ -509,29 +509,29 @@ namespace pk3DS
             public class EntityWarp
             {
                 // Usable Attributes
-                public int DestinationMap { get { return BitConverter.ToUInt16(Raw, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00);} }
-                public int DestinationTileIndex { get { return BitConverter.ToUInt16(Raw, 0x02); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02);} }
+                public int DestinationMap { get => BitConverter.ToUInt16(Raw, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); }
+                public int DestinationTileIndex { get => BitConverter.ToUInt16(Raw, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); }
 
                 // Not sure if these are widths or face direction
-                public int WX { get { return Raw[0x04]; } set { Raw[0x4] = (byte)value; } }
-                public int WY { get { return Raw[0x05]; } set { Raw[0x5] = (byte)value; } }
+                public int WX { get => Raw[0x04]; set => Raw[0x4] = (byte)value; }
+                public int WY { get => Raw[0x05]; set => Raw[0x5] = (byte)value; }
 
                 // Either 0 or 1, only in X/Y
-                public int U06 { get { return BitConverter.ToUInt16(Raw, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); } }
+                public int U06 { get => BitConverter.ToUInt16(Raw, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); }
                 // Coordinates have some upper-bit usage it seems...
-                public int X { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
-                public int Z { get { return BitConverter.ToInt16(Raw, 0x0A); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0A); } }
-                public int Y { get { return BitConverter.ToUInt16(Raw, 0x0C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); } }
+                public int X { get => BitConverter.ToUInt16(Raw, 0x08); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); }
+                public int Z { get => BitConverter.ToInt16(Raw, 0x0A); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0A); }
+                public int Y { get => BitConverter.ToUInt16(Raw, 0x0C); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); }
 
                 public decimal pX => (decimal)X / 18;
                 public decimal pY => (decimal)Y / 18;
 
                 // Stretches RIGHT
-                public int Width { get { return BitConverter.ToInt16(Raw, 0x0E); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0E); } }
+                public int Width { get => BitConverter.ToInt16(Raw, 0x0E); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0E); }
                 // Stretches DOWN
-                public int Height { get { return BitConverter.ToInt16(Raw, 0x10); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); } }
+                public int Height { get => BitConverter.ToInt16(Raw, 0x10); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); }
                 // Not sure.
-                public int U12 { get { return BitConverter.ToInt16(Raw, 0x12); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); } }
+                public int U12 { get => BitConverter.ToInt16(Raw, 0x12); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); }
 
                 // 0x14-0x15 Unused
                 // 0x16-0x17 Unused
@@ -552,24 +552,24 @@ namespace pk3DS
             public class EntityTrigger1
             {
                 // Usable Attributes
-                public int Script { get { return BitConverter.ToUInt16(Raw, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); } }
-                public int U2 { get { return BitConverter.ToUInt16(Raw, 0x02); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); } }
-                public int Constant { get { return BitConverter.ToUInt16(Raw, 0x04); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x04); } }
+                public int Script { get => BitConverter.ToUInt16(Raw, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); }
+                public int U2 { get => BitConverter.ToUInt16(Raw, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); }
+                public int Constant { get => BitConverter.ToUInt16(Raw, 0x04); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x04); }
 
                 // 0 or 1 for type2, 0/5-8 for type1
-                public int U6 { get { return BitConverter.ToUInt16(Raw, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); } }
+                public int U6 { get => BitConverter.ToUInt16(Raw, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); }
                 // 0 or 1, always 0 in ORAS
-                public int U8 { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
+                public int U8 { get => BitConverter.ToUInt16(Raw, 0x08); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); }
                 
                 // 0x0A-0x0B unused
 
-                public int X { get { return BitConverter.ToUInt16(Raw, 0x0C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); } }
-                public int Y { get { return BitConverter.ToUInt16(Raw, 0x0E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0E); } }
+                public int X { get => BitConverter.ToUInt16(Raw, 0x0C); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); }
+                public int Y { get => BitConverter.ToUInt16(Raw, 0x0E); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0E); }
 
-                public int Width { get { return BitConverter.ToInt16(Raw, 0x10); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); } }
-                public int Height { get { return BitConverter.ToInt16(Raw, 0x12); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); } }
-                public int U14 { get { return BitConverter.ToInt16(Raw, 0x14); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); } }
-                public int U16 { get { return BitConverter.ToInt16(Raw, 0x16); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); } }
+                public int Width { get => BitConverter.ToInt16(Raw, 0x10); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); }
+                public int Height { get => BitConverter.ToInt16(Raw, 0x12); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); }
+                public int U14 { get => BitConverter.ToInt16(Raw, 0x14); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); }
+                public int U16 { get => BitConverter.ToInt16(Raw, 0x16); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); }
 
                 public byte[] Raw;
                 public byte[] OriginalData;
@@ -587,24 +587,24 @@ namespace pk3DS
             public class EntityTrigger2
             {
                 // Usable Attributes
-                public int Script { get { return BitConverter.ToUInt16(Raw, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); } }
-                public int U2 { get { return BitConverter.ToUInt16(Raw, 0x02); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); } }
-                public int Constant { get { return BitConverter.ToUInt16(Raw, 0x04); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x04); } }
+                public int Script { get => BitConverter.ToUInt16(Raw, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x00); }
+                public int U2 { get => BitConverter.ToUInt16(Raw, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); }
+                public int Constant { get => BitConverter.ToUInt16(Raw, 0x04); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x04); }
 
                 // 0 or 1 for type2, 0/5-8 for type1
-                public int U6 { get { return BitConverter.ToUInt16(Raw, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); } }
+                public int U6 { get => BitConverter.ToUInt16(Raw, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); }
                 // 0 or 1, always 0 in ORAS
-                public int U8 { get { return BitConverter.ToUInt16(Raw, 0x08); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); } }
+                public int U8 { get => BitConverter.ToUInt16(Raw, 0x08); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); }
 
                 // 0x0A-0x0B unused
 
-                public int X { get { return BitConverter.ToUInt16(Raw, 0x0C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); } }
-                public int Y { get { return BitConverter.ToUInt16(Raw, 0x0E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0E); } }
+                public int X { get => BitConverter.ToUInt16(Raw, 0x0C); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); }
+                public int Y { get => BitConverter.ToUInt16(Raw, 0x0E); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0E); }
 
-                public int Width { get { return BitConverter.ToInt16(Raw, 0x10); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); } }
-                public int Height { get { return BitConverter.ToInt16(Raw, 0x12); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); } }
-                public int U14 { get { return BitConverter.ToInt16(Raw, 0x14); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); } }
-                public int U16 { get { return BitConverter.ToInt16(Raw, 0x16); } set { BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); } }
+                public int Width { get => BitConverter.ToInt16(Raw, 0x10); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); }
+                public int Height { get => BitConverter.ToInt16(Raw, 0x12); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); }
+                public int U14 { get => BitConverter.ToInt16(Raw, 0x14); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x14); }
+                public int U16 { get => BitConverter.ToInt16(Raw, 0x16); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x16); }
 
                 public byte[] Raw;
                 public byte[] OriginalData;
@@ -614,10 +614,7 @@ namespace pk3DS
                     Raw = data ?? new byte[Size];
                     OriginalData = (byte[])Raw.Clone();
                 }
-                public byte[] Write()
-                {
-                    return Raw;
-                }
+                public byte[] Write() => Raw;
             }
         }
         public class ZoneScript

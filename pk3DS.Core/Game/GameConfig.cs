@@ -205,6 +205,7 @@ namespace pk3DS.Core
         public TextVariableCode getVariableName(int value) { return Variables.FirstOrDefault(v => v.Code == value); }
 
         private TextReference getGameText(TextName name) { return GameText.FirstOrDefault(f => f.Name == name); }
+        public TextData getTextData(TextName file) => new TextData(getText(file));
         public string[] getText(TextName file)
         {
             return (string[])GameTextStrings[getGameText(file).Index].Clone();
