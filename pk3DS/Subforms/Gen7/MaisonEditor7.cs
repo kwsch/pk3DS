@@ -39,7 +39,8 @@ namespace pk3DS
         private bool dumping;
         private void Setup()
         {
-            foreach (string s in trClass) CB_Class.Items.Add(s);
+            for (int i = 0; i < trClass.Length; i++)
+                CB_Class.Items.Add($"{trClass[i]} - {i:000}");
             foreach (string s in specieslist) CB_Species.Items.Add(s);
             foreach (string s in movelist) CB_Move1.Items.Add(s);
             foreach (string s in movelist) CB_Move2.Items.Add(s);
@@ -47,7 +48,8 @@ namespace pk3DS
             foreach (string s in movelist) CB_Move4.Items.Add(s);
             foreach (string s in natures) CB_Nature.Items.Add(s);
             foreach (string s in itemlist) CB_Item.Items.Add(s);
-            foreach (string s in trNames) CB_Trainer.Items.Add(s ?? "UNKNOWN");
+            for (int i = 0; i < trNames.Length; i++)
+                CB_Trainer.Items.Add($"{trNames[i] ?? "UNKNOWN"} - {i:000}");
             for (int i = 0; i < pkFiles.Length; i++) CB_Pokemon.Items.Add(i.ToString());
 
             CB_Trainer.SelectedIndex = 1;
