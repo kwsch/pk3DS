@@ -57,6 +57,8 @@ namespace pk3DS.Core.Randomizers
         private int[] GetRandomLevels(Learnset set, int count)
         {
             int[] levels = new int[count];
+            if (count == 0)
+                return levels;
             if (Spread)
             {
                 levels[0] = 1;
