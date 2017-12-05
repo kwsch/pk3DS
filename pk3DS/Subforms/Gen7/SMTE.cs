@@ -700,7 +700,7 @@ namespace pk3DS
             pkm.Species = CB_Species.SelectedIndex;
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
-            var moves = learn.GetCurrentMoves(pkm.Species, pkm.Form, 4);
+            var moves = learn.GetCurrentMoves(pkm.Species, pkm.Form, pkm.Level, 4);
             SetMoves(moves);
         }
         private void B_Clear_Click(object sender, EventArgs e) => SetMoves(new int[4]);
