@@ -193,6 +193,13 @@ namespace pk3DS.Core.Randomizers
             list.AddRange(Enumerable.Range(722, 67));
             if (L) list.AddRange(Enumerable.Range(785, 16)); // Tapus, Legends, UBs
             if (E) list.AddRange(Enumerable.Range(801, 2)); // Magearna, Marshadow
+
+            if (MaxSpeciesID == 807) // USUM
+            {
+                if (L) list.AddRange(Enumerable.Range(803, 4)); // USUM UBs
+                if (E) list.AddRange(Enumerable.Range(807, 1)); // Zeraora
+            }
+
         }
 
         public int[] RandomSpeciesList => Enumerable.Range(1, MaxSpeciesID).ToArray();
