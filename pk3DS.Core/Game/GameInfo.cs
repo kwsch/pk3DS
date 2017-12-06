@@ -41,11 +41,11 @@
 
         private void LoadSM()
         {
-            MaxSpeciesID = Legal.MaxSpeciesID_7;
-            MaxMoveID = Legal.MaxMoveID_7;
-            MaxItemID = Legal.MaxItemID_7;
+            MaxSpeciesID = Legal.MaxSpeciesID_7_SM;
+            MaxMoveID = Legal.MaxMoveID_7_SM;
+            MaxItemID = Legal.MaxItemID_7_SM;
             HeldItems = Legal.HeldItems_SM;
-            MaxAbilityID = Legal.MaxAbilityID_7;
+            MaxAbilityID = Legal.MaxAbilityID_7_SM;
         }
 
         private void LoadUSUM()
@@ -53,8 +53,8 @@
             MaxSpeciesID = Legal.MaxSpeciesID_7_USUM;
             MaxMoveID = Legal.MaxMoveID_7_USUM;
             MaxItemID = Legal.MaxItemID_7_USUM;
-            HeldItems = Legal.HeldItems_SM;
-            MaxAbilityID = Legal.MaxAbilityID_7;
+            HeldItems = Legal.HeldItems_USUM;
+            MaxAbilityID = Legal.MaxAbilityID_7_USUM;
         }
     }
 }
