@@ -114,7 +114,7 @@ namespace pk3DS.Core
             921, 922, 923, 924, 925, 926
         };
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
-        internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_USUM).ToArray();
+        internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(HeldItems_SM).Concat(Pouch_ZCrystalHeld_USUM).ToArray();
         internal static readonly int[] AlolanOriginForms =
         {
             019, // Rattata

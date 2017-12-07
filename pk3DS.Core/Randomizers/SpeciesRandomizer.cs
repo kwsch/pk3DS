@@ -157,7 +157,7 @@ namespace pk3DS.Core.Randomizers
 
             if (L)
             {
-                list.AddRange(Enumerable.Range(243, 3)); // Dogs
+                list.AddRange(Enumerable.Range(243, 3)); // Beasts
                 list.AddRange(Enumerable.Range(249, 2)); // Lugia & Ho-Oh
             }
             if (E) list.Add(251); // Celebi
@@ -173,20 +173,20 @@ namespace pk3DS.Core.Randomizers
         private void AddGen4Species(List<int> list)
         {
             list.AddRange(Enumerable.Range(387, 93));
-            if (L) list.AddRange(Enumerable.Range(480, 9)); //
-            if (E) list.AddRange(Enumerable.Range(489, 5)); //
+            if (L) list.AddRange(Enumerable.Range(480, 9)); // Sinnoh Legends
+            if (E) list.AddRange(Enumerable.Range(489, 5)); // Phione, Manaphy, Darkrai, Shaymin, Arceus
         }
         private void AddGen5Species(List<int> list)
         {
             list.AddRange(Enumerable.Range(495, 143));
-            if (L) list.AddRange(Enumerable.Range(638, 9)); list.Add(494); // 
-            if (E) list.AddRange(Enumerable.Range(647, 3)); // 
+            if (L) list.AddRange(Enumerable.Range(638, 9)); list.Add(494); // Unova Legends
+            if (E) list.AddRange(Enumerable.Range(647, 3)); // Keldeo, Meloetta, Genesect
         }
         private void AddGen6Species(List<int> list)
         {
             list.AddRange(Enumerable.Range(650, 66));
-            if (L) list.AddRange(Enumerable.Range(716, 3)); // 
-            if (E) list.AddRange(Enumerable.Range(719, 3)); // 
+            if (L) list.AddRange(Enumerable.Range(716, 3)); // Kalos Legends
+            if (E) list.AddRange(Enumerable.Range(719, 3)); // Diancie, Hoopa, Volcanion
         }
         private void AddGen7Species(List<int> list)
         {
@@ -196,8 +196,8 @@ namespace pk3DS.Core.Randomizers
 
             if (MaxSpeciesID == 807) // USUM
             {
-                if (L) list.AddRange(Enumerable.Range(803, 4)); // USUM UBs
-                if (E) list.AddRange(Enumerable.Range(807, 1)); // Zeraora
+                if (L) list.AddRange(Enumerable.Range(803, 4)); // Poipole, Naganadel, Stakataka, Blacephalon
+                if (E) list.Add(807); // Zeraora
             }
 
         }
