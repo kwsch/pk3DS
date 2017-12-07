@@ -12,8 +12,8 @@ namespace pk3DS.Core
         private const int FILECOUNT_ORASDEMO = 301;
         private const int FILECOUNT_ORAS = 299;
         private const int FILECOUNT_SMDEMO = 239;
-        private const int FILECOUNT_SM = 311; // only a guess for now
-        private const int FILECOUNT_USUM = 333; // only a guess for now
+        private const int FILECOUNT_SM = 311;
+        private const int FILECOUNT_USUM = 333;
         public readonly GameVersion Version = GameVersion.Invalid;
 
         public GARCReference[] Files { get; private set; }
@@ -237,7 +237,7 @@ namespace pk3DS.Core
         public bool ORAS => Version == GameVersion.ORAS || Version == GameVersion.ORASDEMO;
         public bool SM => Version == GameVersion.SM || Version == GameVersion.SMDEMO;
         public bool USUM => Version == GameVersion.USUM;
-        public int MaxSpeciesID => XY || ORAS ? 721 : SM ? 802 : 807;
+        public int MaxSpeciesID => XY || ORAS ? Legal.MaxSpeciesID_6 : SM ? Legal.MaxSpeciesID_7_SM : Legal.MaxSpeciesID_7_USUM;
         public int GARCVersion => XY || ORAS ? GARC.VER_4 : GARC.VER_6;
         public int Generation
         {

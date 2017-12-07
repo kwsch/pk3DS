@@ -5,16 +5,17 @@ namespace pk3DS.Core
 {
     public static partial class Legal
     {
-        internal const int MaxSpeciesID_7 = 802;
-        internal const int MaxMoveID_7 = 720;
-        internal const int MaxItemID_7 = 920;
-        internal const int MaxAbilityID_7 = 232;
-        internal const int MaxBallID_7 = 0x1A; // 26
+        internal const int MaxSpeciesID_7_SM = 802;
+        internal const int MaxMoveID_7_SM = 719;
+        internal const int MaxItemID_7_SM = 920;
+        internal const int MaxAbilityID_7_SM = 232;
+        internal const int MaxBallID_7_SM = 0x1A; // 26
         internal const int MaxGameID_7 = 41; // Crystal (VC?)
 
-        internal const int MaxSpeciesID_7_USUM = 802;
-        internal const int MaxMoveID_7_USUM = 720;
-        internal const int MaxItemID_7_USUM = 920;
+        internal const int MaxSpeciesID_7_USUM = 807;
+        internal const int MaxMoveID_7_USUM = 728;
+        internal const int MaxItemID_7_USUM = 959;
+        internal const int MaxAbilityID_7_USUM = 233;
 
         #region Met Locations
 
@@ -106,7 +107,14 @@ namespace pk3DS.Core
         internal static readonly ushort[] Pouch_ZCrystalHeld_SM = { // Piece
             776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
         };
+        internal static readonly ushort[] Pouch_ZCrystal_USUM = { // Bead
+            927, 928, 929, 930, 931, 932
+        };
+        internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = { // Piece
+            921, 922, 923, 924, 925, 926
+        };
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
+        internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(HeldItems_SM).Concat(Pouch_ZCrystalHeld_USUM).ToArray();
         internal static readonly int[] AlolanOriginForms =
         {
             019, // Rattata
@@ -114,7 +122,7 @@ namespace pk3DS.Core
             027, // Sandshrew
             028, // Sandslash
             037, // Vulpix
-            038, // Ninetails
+            038, // Ninetales
             050, // Diglett
             051, // Dugtrio
             052, // Meowth
@@ -204,7 +212,7 @@ namespace pk3DS.Core
             715, // Fairy Gem
         };
         #endregion
-        internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7+1).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
+        internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7_SM+1).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
 
         public static readonly HashSet<int> Totem_Alolan = new HashSet<int>
         {
