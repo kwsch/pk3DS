@@ -271,6 +271,7 @@ namespace pk3DS.Core
             {
                 case 'n': vals.Add('\n'); return vals;
                 case '\\': vals.Add('\\'); return vals;
+                case '[': vals.Add('['); return vals;
                 case 'r': vals.AddRange(new ushort[] { KEY_VARIABLE, 1, KEY_TEXTRETURN }); return vals;
                 case 'c': vals.AddRange(new ushort[] { KEY_VARIABLE, 1, KEY_TEXTCLEAR }); return vals;
                 default: throw new Exception("Invalid terminated line: \\" + esc);
