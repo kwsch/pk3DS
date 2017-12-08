@@ -334,6 +334,7 @@ namespace pk3DS
 
             var specrand = getRandomizer();
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
+            var items = Randomizer.getRandomItemList();
 
             // Assign Species
             for (int i = 0; i < 3; i++)
@@ -341,6 +342,9 @@ namespace pk3DS
                 var t = Gifts[i];
                 t.Species = specrand.GetRandomSpecies(oldStarters[i]);
                 t.Form = formrand.GetRandomForme(t.Species);
+
+                if (CHK_Item.Checked)
+                    t.HeldItem = items[Util.rnd32() % items.Length];
 
                 // no level boosting
             }
@@ -362,12 +366,16 @@ namespace pk3DS
             var specrand = getRandomizer();
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
+            var items = Randomizer.getRandomItemList();
 
             for (int i = 3; i < Gifts.Length; i++) // Skip Starters
             {
                 var t = Gifts[i];
                 t.Species = specrand.GetRandomSpecies(t.Species);
                 t.Form = formrand.GetRandomForme(t.Species);
+
+                if (CHK_Item.Checked)
+                    t.HeldItem = items[Util.rnd32() % items.Length];
 
                 if (CHK_Level.Checked)
                     t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
@@ -378,6 +386,9 @@ namespace pk3DS
                 t.Form = formrand.GetRandomForme(t.Species);
                 t.RelearnMoves = move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
 
+                if (CHK_Item.Checked)
+                    t.HeldItem = items[Util.rnd32() % items.Length];
+
                 if (CHK_Level.Checked)
                     t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
             }
@@ -386,6 +397,9 @@ namespace pk3DS
                 t.Species = specrand.GetRandomSpecies(t.Species);
                 t.Form = formrand.GetRandomForme(t.Species);
                 t.TradeRequestSpecies = specrand.GetRandomSpecies(t.TradeRequestSpecies);
+
+                if (CHK_Item.Checked)
+                    t.HeldItem = items[Util.rnd32() % items.Length];
 
                 if (CHK_Level.Checked)
                     t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);

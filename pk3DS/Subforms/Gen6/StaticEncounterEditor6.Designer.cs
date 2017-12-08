@@ -65,6 +65,7 @@
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
+            this.CHK_Item = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Ability)).BeginInit();
@@ -334,6 +335,7 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.CHK_Item);
             this.GB_Tweak.Controls.Add(this.L_RandOpt);
             this.GB_Tweak.Controls.Add(this.CHK_BST);
             this.GB_Tweak.Controls.Add(this.CHK_E);
@@ -346,7 +348,7 @@
             this.GB_Tweak.Controls.Add(this.CHK_G1);
             this.GB_Tweak.Location = new System.Drawing.Point(7, 67);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 100);
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 107);
             this.GB_Tweak.TabIndex = 509;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
@@ -501,6 +503,16 @@
             this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
+            // CHK_Item
+            // 
+            this.CHK_Item.AutoSize = true;
+            this.CHK_Item.Location = new System.Drawing.Point(9, 81);
+            this.CHK_Item.Name = "CHK_Item";
+            this.CHK_Item.Size = new System.Drawing.Size(119, 17);
+            this.CHK_Item.TabIndex = 295;
+            this.CHK_Item.Text = "Random Held Items";
+            this.CHK_Item.UseVisualStyleBackColor = true;
+            // 
             // StaticEncounterEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -573,5 +585,6 @@
         private System.Windows.Forms.CheckBox CHK_G3;
         private System.Windows.Forms.CheckBox CHK_G2;
         private System.Windows.Forms.CheckBox CHK_G1;
+        private System.Windows.Forms.CheckBox CHK_Item;
     }
 }

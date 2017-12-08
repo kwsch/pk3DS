@@ -187,20 +187,27 @@ namespace pk3DS
                 rBST = CHK_BST.Checked,
             };
             specrand.Initialize();
+            var helditems = Randomizer.getRandomItemList();
             for (int i = 0; i < LB_Gifts.Items.Count; i++)
             {
                 LB_Gifts.SelectedIndex = i;
                 int species = CB_Species.SelectedIndex;
-                if (MegaDictionary.Values.Any(z => z.Contains(CB_HeldItem.SelectedIndex))) // mega stone gift pkm (only lucario?)
+
+                if (MegaDictionary.Values.Any(z => z.Contains(CB_HeldItem.SelectedIndex))) // Mega Stone Gifts (Lucario, Latias/Latios)
                 {
                     if (!CHK_Mega.Checked)
-                        continue; // skip Lucario, battle needs to mega evolve
+                        continue; // skip Lucario, battle needs to Mega Evolve
 
                     int[] items = GetRandomMega(out species);
                     CB_HeldItem.SelectedIndex = items[Util.rand.Next(0, items.Length)];
                 }
                 else
+                {
                     species = specrand.GetRandomSpecies(species);
+
+                    if (CHK_Item.Checked)
+                        CB_HeldItem.SelectedIndex = helditems[Util.rnd32() % helditems.Length];
+                }
 
                 CB_Species.SelectedIndex = species;
                 NUD_Form.Value = formrand.GetRandomForme(species);
