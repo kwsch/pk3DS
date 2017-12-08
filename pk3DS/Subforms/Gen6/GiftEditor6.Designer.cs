@@ -78,6 +78,7 @@
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
+            this.CHK_Item = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV2)).BeginInit();
@@ -561,9 +562,9 @@
             // 
             this.L_Mega.Location = new System.Drawing.Point(26, 190);
             this.L_Mega.Name = "L_Mega";
-            this.L_Mega.Size = new System.Drawing.Size(101, 33);
+            this.L_Mega.Size = new System.Drawing.Size(113, 33);
             this.L_Mega.TabIndex = 512;
-            this.L_Mega.Text = "XY - Lucario\nORAS - Lati@s";
+            this.L_Mega.Text = "XY - Lucario\nORAS - Latias/Latios";
             this.L_Mega.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CHK_Mega
@@ -580,6 +581,7 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.CHK_Item);
             this.GB_Tweak.Controls.Add(this.L_RandOpt);
             this.GB_Tweak.Controls.Add(this.CHK_BST);
             this.GB_Tweak.Controls.Add(this.CHK_E);
@@ -592,7 +594,7 @@
             this.GB_Tweak.Controls.Add(this.CHK_G1);
             this.GB_Tweak.Location = new System.Drawing.Point(7, 62);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 100);
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 108);
             this.GB_Tweak.TabIndex = 509;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
@@ -747,6 +749,16 @@
             this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
+            // CHK_Item
+            // 
+            this.CHK_Item.AutoSize = true;
+            this.CHK_Item.Location = new System.Drawing.Point(9, 81);
+            this.CHK_Item.Name = "CHK_Item";
+            this.CHK_Item.Size = new System.Drawing.Size(119, 17);
+            this.CHK_Item.TabIndex = 296;
+            this.CHK_Item.Text = "Random Held Items";
+            this.CHK_Item.UseVisualStyleBackColor = true;
+            // 
             // GiftEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -839,5 +851,6 @@
         private System.Windows.Forms.CheckBox CHK_G1;
         private System.Windows.Forms.CheckBox CHK_Mega;
         private System.Windows.Forms.Label L_Mega;
+        private System.Windows.Forms.CheckBox CHK_Item;
     }
 }

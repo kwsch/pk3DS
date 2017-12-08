@@ -139,6 +139,7 @@ namespace pk3DS
                 rBST = CHK_BST.Checked,
             };
             specrand.Initialize();
+            var items = Randomizer.getRandomItemList();
             for (int i = 0; i < LB_Encounters.Items.Count; i++)
             {
                 LB_Encounters.SelectedIndex = i;
@@ -148,6 +149,9 @@ namespace pk3DS
                 CB_Species.SelectedIndex = species;
                 NUD_Form.Value = formrand.GetRandomForme(species);
                 NUD_Gender.Value = 0; // random
+
+                if (CHK_Item.Checked)
+                    CB_HeldItem.SelectedIndex = items[Util.rnd32() % items.Length];
 
                 if (CHK_Level.Checked)
                     NUD_Level.Value = Randomizer.getModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
