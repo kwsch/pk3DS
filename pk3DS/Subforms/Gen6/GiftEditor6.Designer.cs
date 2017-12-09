@@ -66,6 +66,7 @@
             this.L_Mega = new System.Windows.Forms.Label();
             this.CHK_Mega = new System.Windows.Forms.CheckBox();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_Item = new System.Windows.Forms.CheckBox();
             this.L_RandOpt = new System.Windows.Forms.Label();
             this.CHK_BST = new System.Windows.Forms.CheckBox();
             this.CHK_E = new System.Windows.Forms.CheckBox();
@@ -78,7 +79,6 @@
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
-            this.CHK_Item = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV2)).BeginInit();
@@ -594,10 +594,22 @@
             this.GB_Tweak.Controls.Add(this.CHK_G1);
             this.GB_Tweak.Location = new System.Drawing.Point(7, 62);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 108);
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 99);
             this.GB_Tweak.TabIndex = 509;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
+            // 
+            // CHK_Item
+            // 
+            this.CHK_Item.AutoSize = true;
+            this.CHK_Item.Checked = true;
+            this.CHK_Item.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Item.Location = new System.Drawing.Point(9, 79);
+            this.CHK_Item.Name = "CHK_Item";
+            this.CHK_Item.Size = new System.Drawing.Size(119, 17);
+            this.CHK_Item.TabIndex = 296;
+            this.CHK_Item.Text = "Random Held Items";
+            this.CHK_Item.UseVisualStyleBackColor = true;
             // 
             // L_RandOpt
             // 
@@ -748,16 +760,6 @@
             this.CHK_Level.TabIndex = 302;
             this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Item
-            // 
-            this.CHK_Item.AutoSize = true;
-            this.CHK_Item.Location = new System.Drawing.Point(9, 81);
-            this.CHK_Item.Name = "CHK_Item";
-            this.CHK_Item.Size = new System.Drawing.Size(119, 17);
-            this.CHK_Item.TabIndex = 296;
-            this.CHK_Item.Text = "Random Held Items";
-            this.CHK_Item.UseVisualStyleBackColor = true;
             // 
             // GiftEditor6
             // 

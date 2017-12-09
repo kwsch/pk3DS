@@ -343,6 +343,9 @@ namespace pk3DS
                 t.Species = specrand.GetRandomSpecies(oldStarters[i]);
                 t.Form = formrand.GetRandomForme(t.Species);
 
+                if (CHK_AllowMega.Checked)
+                    formrand.AllowMega = true;
+
                 if (CHK_Item.Checked)
                     t.HeldItem = items[Util.rnd32() % items.Length];
 
