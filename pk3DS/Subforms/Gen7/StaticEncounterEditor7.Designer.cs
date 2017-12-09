@@ -77,6 +77,7 @@
             this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.B_RandAll = new System.Windows.Forms.Button();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_Item = new System.Windows.Forms.CheckBox();
             this.CHK_G7 = new System.Windows.Forms.CheckBox();
             this.L_RandOpt = new System.Windows.Forms.Label();
             this.CHK_BST = new System.Windows.Forms.CheckBox();
@@ -91,7 +92,7 @@
             this.B_Starters = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.CHK_Item = new System.Windows.Forms.CheckBox();
+            this.CHK_AllowMega = new System.Windows.Forms.CheckBox();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GGender)).BeginInit();
@@ -682,6 +683,7 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.CHK_AllowMega);
             this.GB_Tweak.Controls.Add(this.CHK_Item);
             this.GB_Tweak.Controls.Add(this.CHK_G7);
             this.GB_Tweak.Controls.Add(this.L_RandOpt);
@@ -696,10 +698,22 @@
             this.GB_Tweak.Controls.Add(this.CHK_G1);
             this.GB_Tweak.Location = new System.Drawing.Point(52, 100);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 100);
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 130);
             this.GB_Tweak.TabIndex = 508;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
+            // 
+            // CHK_Item
+            // 
+            this.CHK_Item.AutoSize = true;
+            this.CHK_Item.Checked = true;
+            this.CHK_Item.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Item.Location = new System.Drawing.Point(9, 94);
+            this.CHK_Item.Name = "CHK_Item";
+            this.CHK_Item.Size = new System.Drawing.Size(119, 17);
+            this.CHK_Item.TabIndex = 297;
+            this.CHK_Item.Text = "Random Held Items";
+            this.CHK_Item.UseVisualStyleBackColor = true;
             // 
             // CHK_G7
             // 
@@ -858,15 +872,15 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // CHK_Item
+            // CHK_AllowMega
             // 
-            this.CHK_Item.AutoSize = true;
-            this.CHK_Item.Location = new System.Drawing.Point(128, 79);
-            this.CHK_Item.Name = "CHK_Item";
-            this.CHK_Item.Size = new System.Drawing.Size(119, 17);
-            this.CHK_Item.TabIndex = 297;
-            this.CHK_Item.Text = "Random Held Items";
-            this.CHK_Item.UseVisualStyleBackColor = true;
+            this.CHK_AllowMega.AutoSize = true;
+            this.CHK_AllowMega.Location = new System.Drawing.Point(9, 109);
+            this.CHK_AllowMega.Name = "CHK_AllowMega";
+            this.CHK_AllowMega.Size = new System.Drawing.Size(155, 17);
+            this.CHK_AllowMega.TabIndex = 298;
+            this.CHK_AllowMega.Text = "Allow Random Mega Forms";
+            this.CHK_AllowMega.UseVisualStyleBackColor = true;
             // 
             // StaticEncounterEditor7
             // 
@@ -969,5 +983,6 @@
         private System.Windows.Forms.NumericUpDown NUD_GGender;
         private System.Windows.Forms.CheckBox CHK_G_Lock;
         private System.Windows.Forms.CheckBox CHK_Item;
+        private System.Windows.Forms.CheckBox CHK_AllowMega;
     }
 }

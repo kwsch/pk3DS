@@ -150,6 +150,9 @@ namespace pk3DS
                 NUD_Form.Value = formrand.GetRandomForme(species);
                 NUD_Gender.Value = 0; // random
 
+                if (CHK_AllowMega.Checked)
+                    formrand.AllowMega = true;
+
                 if (CHK_Item.Checked)
                     CB_HeldItem.SelectedIndex = items[Util.rnd32() % items.Length];
 
