@@ -183,6 +183,74 @@ namespace pk3DS.Core
             185, // Aether Foundation: Faba
         };
 
+        public static readonly int[] SpecialClasses_USUM =
+{
+            030, // Pokémon Trainer: Hau
+            031, // Island Kahuna: Hala
+            038, // Captain: Ilima
+            042, // Trial Guide: Ben
+            044, // Captain: Lana
+            045, // Captain: Mallow
+            049, // Island Kahuna: Olivia
+            051, // Island Kahuna: Hapu
+            071, // Aether President: Lusamine
+            072, // Aether Branch Chief: Faba
+            076, // Team Skull Boss: Guzma
+            078, // Team Skull Admin: Plumeria
+            079, // Pokémon Trainer: Plumeria
+            080, // Elite Four: Kahili
+            081, // Pokémon Trainer: [~ 157]
+            082, // Aether President: Lusamine
+            083, // Pokémon Trainer: Red
+            084, // Pokémon Trainer: Blue
+            085, // Pokémon Trainer: Sina
+            086, // Pokémon Trainer: Dexio
+            088, // Pokémon Trainer: Anabel
+            092, // Pro Wrestler: The Royal
+            093, // Pokémon Trainer: Molayne
+            099, // Pokémon Trainer: Molayne
+            100, // Pokémon Trainer: Hau
+            101, // Pokémon Trainer: Hau
+            102, // Pokémon Trainer: Gladion
+            103, // Pokémon Trainer: Gladion
+            107, // Elite Four: Acerola
+            109, // Elite Four: Hala
+            110, // Elite Four: Olivia
+            111, // Pokémon Professor: Kukui
+            139, // GAME FREAK: Morimoto
+            140, // Pokémon Trainer: Guzma
+            141, // Island Kahuna: Nanu
+            142, // Captain: Sophocles
+            143, // Pokémon Trainer: Ryuki
+            153, // Captain: Mina
+            162, // Aether Foundation: Faba
+            164, // Island Kahuna: Hapu
+            165, // Pokémon Professor: Kukui
+            185, // Aether Foundation: Faba
+            186, // Pokémon Trainer: Sophocles
+            187, // Pokémon Trainer: Giovanni
+            188, // Pokémon Trainer: Kukui
+            189, // Pokémon Trainer: Lillie
+            190, // Pokémon Trainer: Giovanni
+            191, // Elite Four: Molayne
+            192, // Ultra Recon Squad: Soliera
+            193, // Ultra Recon Squad: Dulse
+            194, // Pokémon Trainer: Hau
+            198, // Team Aqua: Archie
+            199, // Team Galactic: Cyrus
+            200, // Team Magma: Maxie
+            201, // Team Plasma: Ghetsis
+            202, // Team Flare: Lysandre
+            204, // Kantonian Gym: Leader
+            205, // GAME FREAK: Iwao
+            206, // Team Rainbow Rocket: Giovanni
+            207, // Pokémon Trainer: Lillie
+            219, // Pokémon Trainer: Guzma
+            220, // Aether President: Lusamine
+            221, // Pokémon Trainer: Hau
+            222, // Pokémon Trainer: Hau
+        };
+
         public static readonly int[] Model_XY =
         {
             018, // Team Flare (Aliana)
