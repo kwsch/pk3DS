@@ -23,6 +23,7 @@ namespace pk3DS
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             MegaDictionary = GiftEditor6.GetMegaDictionary(Main.Config);
             rModelRestricted = Main.Config.ORAS ? Legal.Model_AO : Legal.Model_XY;
+            rXYBlacklist = Legal.Ignore_AO;
 
             InitializeComponent();
             // String Fetching
@@ -533,6 +534,7 @@ namespace pk3DS
         public static int rDMGCount, rSTABCount;
         private int[] mEvoTypes;
         private static int[] rModelRestricted;
+        private static int[] rXYBlacklist;
         private string[] rImportant;
         private readonly List<string> Tags = new List<string>();
         private readonly Dictionary<string, int> TagTypes = new Dictionary<string, int>();
@@ -726,7 +728,7 @@ namespace pk3DS
                 int randClass() => (int) (rnd32() % rModelRestricted.Length);
                 t.Class = rModelRestricted[randClass()];
             }
-            else 
+            else
             if (
                 rClass // Classes selected to be randomized
                 && (!rOnlySingles || t.BattleType == 0) //  Nonsingles only get changed if rOnlySingles
@@ -738,6 +740,12 @@ namespace pk3DS
                 // Ensure the Random Class isn't an exclusive class
                 while (rIgnoreClass.Contains(rv) || trClass[rv].StartsWith("[~")); // don't allow disallowed classes
                 t.Class = rv;
+
+                if (Main.Config.ORAS && rXYBlacklist.Contains(t.Class)) // Classes 0-126 are leftover from XY and some can crash the game; skip all of them
+                {
+                    for (int i = 127; i <= 279; i++)
+                        t.Class = i;
+                }
             }
         }
         private static void RandomizeTrainerPrizeItem(trdata6 t)
