@@ -18,6 +18,7 @@ namespace pk3DS
         private readonly LearnsetRandomizer learn = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
         private readonly trdata7[] Trainers;
         private string[][] AltForms;
+        private static int[] TrainerClasses_7;
         private int index = -1;
         private PictureBox[] pba;
 
@@ -52,6 +53,8 @@ namespace pk3DS
 
             CB_TrainerID.SelectedIndex = 0;
             CB_Moves.SelectedIndex = 0;
+
+            TrainerClasses_7 = Main.Config.USUM ? Legal.SpecialClasses_USUM : Legal.SpecialClasses_SM;
         }
 
         private int GetSlot(object sender)
@@ -617,8 +620,11 @@ namespace pk3DS
                     do
                     {
                         rv = (int) (Util.rnd32()%CB_Trainer_Class.Items.Count);
-                    } while (/*trClass[rv].StartsWith("[~") || */Legal.SpecialClasses_SM.Contains(rv) && !CHK_IgnoreSpecialClass.Checked);
-                    // don't allow disallowed classes
+                    } while (/*trClass[rv].StartsWith("[~") || */TrainerClasses_7.Contains(rv) && CHK_IgnoreSpecialClass.Checked); // don't allow disallowed classes
+
+                    if (Main.Config.USUM && rv == 082) // Mother Beast Lusamine; unused in USUM and can crash game
+                        continue;
+
                     tr.TrainerClass = (byte) rv;
                 }
 
