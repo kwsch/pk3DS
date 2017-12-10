@@ -157,22 +157,30 @@ namespace pk3DS
         private void B_RandomTM_Click(object sender, EventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize TMs?", "Move compatibility will be the same as the base TMs.") != DialogResult.Yes) return;
-            if(CHK_RandomizeHM.Checked)
+            if (CHK_RandomizeHM.Checked)
                 if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomizing HMs can halt story progression!", "Continue anyway?") != DialogResult.Yes) return;
 
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
 
-            int[] banned = { 15, 19, 57, 70, 127, 249, 291, 148, 290 }; // Moves with overworld effects
+            int[] hm_xy = { 15, 19, 57, 70, 127 }; // Cut, Fly, Surf, Strength, Waterfall
+            int[] hm_oras = { 15, 19, 57, 70, 127, 249, 291 }; // + Rock Smash, Dive
+            int[] field = { 148, 249, 290 }; // Flash (TM70), Rock Smash (XY TM94), Secret Power (ORAS TM94)
             int ctr = 0;
 
             for (int i = 0; i < dgvTM.Rows.Count; i++)
             {
                 int val = Array.IndexOf(movelist, dgvTM.Rows[i].Cells[1].Value);
-                if (banned.Contains(val)) continue;
-                while (banned.Contains(randomMoves[ctr])) ctr++;
 
-                dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
+                if (CHK_RandomizeField.Checked)
+                    dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]]; // randomize everything
+
+                else
+                {
+                    if (hm_xy.Contains(val) || hm_oras.Contains(val) || field.Contains(val)) continue; // skip HMs and Field Moves
+                    while (hm_xy.Contains(randomMoves[ctr]) || hm_oras.Contains(randomMoves[ctr]) || field.Contains(randomMoves[ctr])) ctr++;
+                    dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
+                }
             }
 
             if (CHK_RandomizeHM.Checked)
