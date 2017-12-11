@@ -73,60 +73,96 @@ namespace pk3DS.Core
             public int Offset, Length;
         }
 
-        public string[] Lines
+        public byte[] this[int index]
+        {
+            get
+            {
+                ushort key = GetLineKey(index);
+                var line = LineOffsets[index];
+                byte[] EncryptedLineData = new byte[line.Length * 2];
+                Array.Copy(Data, line.Offset, EncryptedLineData, 0, EncryptedLineData.Length);
+
+                return cryptLineData(EncryptedLineData, key);
+            }
+        }
+
+        private static ushort GetLineKey(int index)
+        {
+            ushort key = KEY_BASE;
+            for (int i = 0; i < index; i++)
+                key += KEY_ADVANCE;
+            return key;
+        }
+
+        public byte[][] LineData
         {
             get
             {
                 ushort key = KEY_BASE;
-                string[] result = new string[LineCount];
+                byte[][] result = new byte[LineCount][];
                 LineInfo[] lines = LineOffsets;
                 for (int i = 0; i < lines.Length; i++)
                 {
                     byte[] EncryptedLineData = new byte[lines[i].Length * 2];
                     Array.Copy(Data, lines[i].Offset, EncryptedLineData, 0, EncryptedLineData.Length);
-                    byte[] DecryptedLineData = cryptLineData(EncryptedLineData, key);
-                    result[i] = getLineString(Config, DecryptedLineData);
+
+                    result[i] = cryptLineData(EncryptedLineData, key);
                     key += KEY_ADVANCE;
                 }
                 return result;
             }
             set
             {
-                if (value == null)
-                    value = new string[0];
-
-                ushort key = KEY_BASE;
+                // rebuild LineInfo
                 LineInfo[] lines = new LineInfo[value.Length];
-
-                // Get Line Data
-                byte[][] lineData = new byte[lines.Length][];
-                int sdo = (int)SectionDataOffset;
                 int bytesUsed = 0;
                 for (int i = 0; i < lines.Length; i++)
                 {
-                    string text = (value[i] ?? "").Trim();
-                    if (text.Length == 0 && SETEMPTYTEXT)
-                        text = $"[~ {i}]";
-                    byte[] DecryptedLineData = getLineData(Config, text);
-                    lineData[i] = cryptLineData(DecryptedLineData, key);
-                    if (lineData[i].Length % 4 == 2)
-                        Array.Resize(ref lineData[i], lineData[i].Length + 2);
-                    key += KEY_ADVANCE;
-                    lines[i] = new LineInfo { Offset = 4 + 8 * value.Length + bytesUsed, Length = DecryptedLineData.Length / 2 };
-                    bytesUsed += lineData[i].Length;
+                    lines[i] = new LineInfo {Offset = 4 + 8 * value.Length + bytesUsed, Length = value[i].Length / 2};
+                    bytesUsed += value[i].Length;
                 }
 
                 // Apply Line Data
+                int sdo = (int)SectionDataOffset;
                 Array.Resize(ref Data, sdo + 4 + 8 * value.Length + bytesUsed);
-                LineOffsets = lines; // Handled by LineInfo[] set {}
-                lineData.SelectMany(i => i).ToArray().CopyTo(Data, Data.Length - bytesUsed);
+                LineOffsets = lines;
+                value.SelectMany(i => i).ToArray().CopyTo(Data, Data.Length - bytesUsed);
                 TotalLength = SectionLength = (uint)(Data.Length - sdo);
                 LineCount = (ushort)value.Length;
             }
         }
+        public string[] Lines
+        {
+            get => LineData.Select(z => getLineString(Config, z)).ToArray();
+            set => LineData = ConvertLinesToData(value);
+        }
+
+        private byte[][] ConvertLinesToData(string[] value)
+        {
+            if (value == null)
+                value = new string[0];
+            ushort key = KEY_BASE;
+
+            // Get Line Data
+            byte[][] lineData = new byte[value.Length][];
+            for (int i = 0; i < value.Length; i++)
+            {
+                string text = (value[i] ?? "").Trim();
+                if (text.Length == 0 && SETEMPTYTEXT)
+                    text = $"[~ {i}]";
+                byte[] DecryptedLineData = getLineData(Config, text);
+                lineData[i] = cryptLineData(DecryptedLineData, key);
+                if (lineData[i].Length % 4 == 2)
+                    Array.Resize(ref lineData[i], lineData[i].Length + 2);
+                key += KEY_ADVANCE;
+            }
+
+            return lineData;
+        }
+
         public byte[] Data;
 
-        private byte[] cryptLineData(byte[] data, ushort key)
+        private static byte[] cryptLineData(byte[] data, ushort key)
         {
             byte[] result = new byte[data.Length];
             for (int i = 0; i < result.Length; i += 2)
