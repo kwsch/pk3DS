@@ -40,8 +40,9 @@
             this.dgvTM.AllowUserToDeleteRows = false;
             this.dgvTM.AllowUserToResizeColumns = false;
             this.dgvTM.AllowUserToResizeRows = false;
-            this.dgvTM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.dgvTM.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvTM.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTM.Location = new System.Drawing.Point(9, 25);
             this.dgvTM.Name = "dgvTM";
@@ -67,7 +68,7 @@
             this.B_RTM.UseVisualStyleBackColor = true;
             this.B_RTM.Click += new System.EventHandler(this.B_RandomTM_Click);
             // 
-            // TMHMEditor7
+            // TMEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -78,7 +79,7 @@
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(520, 670);
             this.MinimumSize = new System.Drawing.Size(275, 370);
-            this.Name = "TMHMEditor7";
+            this.Name = "TMEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "TM Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);

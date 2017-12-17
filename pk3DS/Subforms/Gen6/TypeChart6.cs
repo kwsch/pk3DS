@@ -48,13 +48,17 @@ namespace pk3DS
         {
             GetCoordinate((PictureBox)sender, e, out int X, out int Y);
             int index = Y * TypeCount + X;
-
+            if (index >= chart.Length)
+                return;
             updateLabel(X, Y, chart[index]);
         }
         private void clickMouse(object sender, MouseEventArgs e)
         {
             GetCoordinate((PictureBox)sender, e, out int X, out int Y);
             int index = Y * TypeCount + X;
+            if (index >= chart.Length)
+                return;
+
             chart[index] = ToggleEffectiveness(chart[index], e.Button == MouseButtons.Left);
 
             updateLabel(X, Y, chart[index]);
@@ -62,6 +66,8 @@ namespace pk3DS
         }
         private void updateLabel(int X, int Y, int value)
         {
+            if (value >= effects.Length || X >= types.Length || Y >= types.Length)
+                return; // clicking and moving outside the box has invalid values
             L_Hover.Text = $"[{X:00}x{Y:00}: {value:00}] {types[Y]} attacking {types[X]} {effects[value]}";
         }
         private readonly string[] effects =
