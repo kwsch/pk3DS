@@ -349,6 +349,9 @@ namespace pk3DS
                 if (CHK_Item.Checked)
                     t.HeldItem = items[Util.rnd32() % items.Length];
 
+                if (CHK_RemoveShinyLock.Checked)
+                    t.ShinyLock = false; // in case any user modifications locked the starters
+
                 // no level boosting
             }
 
@@ -382,6 +385,9 @@ namespace pk3DS
 
                 if (CHK_Level.Checked)
                     t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
+
+                if (CHK_RemoveShinyLock.Checked)
+                    t.ShinyLock = false;
             }
             foreach (EncounterStatic7 t in Encounters)
             {
@@ -394,6 +400,9 @@ namespace pk3DS
 
                 if (CHK_Level.Checked)
                     t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
+
+                if (CHK_RemoveShinyLock.Checked)
+                    t.ShinyLock = false;
             }
             foreach (EncounterTrade7 t in Trades)
             {
