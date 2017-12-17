@@ -158,6 +158,9 @@ namespace pk3DS
 
                 if (CHK_Level.Checked)
                     NUD_Level.Value = Randomizer.getModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
+
+                if (CHK_RemoveShinyLock.Checked)
+                    CHK_NoShiny.Checked = false;
             }
             WinFormsUtil.Alert("Randomized all Static Encounters according to specification!");
         }

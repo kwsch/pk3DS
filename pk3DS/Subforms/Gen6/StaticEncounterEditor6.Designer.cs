@@ -53,6 +53,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_AllowMega = new System.Windows.Forms.CheckBox();
             this.CHK_Item = new System.Windows.Forms.CheckBox();
             this.L_RandOpt = new System.Windows.Forms.Label();
             this.CHK_BST = new System.Windows.Forms.CheckBox();
@@ -66,7 +67,7 @@
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
-            this.CHK_AllowMega = new System.Windows.Forms.CheckBox();
+            this.CHK_RemoveShinyLock = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Ability)).BeginInit();
@@ -336,6 +337,7 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.CHK_RemoveShinyLock);
             this.GB_Tweak.Controls.Add(this.CHK_AllowMega);
             this.GB_Tweak.Controls.Add(this.CHK_Item);
             this.GB_Tweak.Controls.Add(this.L_RandOpt);
@@ -350,10 +352,20 @@
             this.GB_Tweak.Controls.Add(this.CHK_G1);
             this.GB_Tweak.Location = new System.Drawing.Point(7, 58);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 114);
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 129);
             this.GB_Tweak.TabIndex = 509;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
+            // 
+            // CHK_AllowMega
+            // 
+            this.CHK_AllowMega.AutoSize = true;
+            this.CHK_AllowMega.Location = new System.Drawing.Point(9, 94);
+            this.CHK_AllowMega.Name = "CHK_AllowMega";
+            this.CHK_AllowMega.Size = new System.Drawing.Size(155, 17);
+            this.CHK_AllowMega.TabIndex = 296;
+            this.CHK_AllowMega.Text = "Allow Random Mega Forms";
+            this.CHK_AllowMega.UseVisualStyleBackColor = true;
             // 
             // CHK_Item
             // 
@@ -517,15 +529,15 @@
             this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
-            // CHK_AllowMega
+            // CHK_RemoveShinyLock
             // 
-            this.CHK_AllowMega.AutoSize = true;
-            this.CHK_AllowMega.Location = new System.Drawing.Point(9, 94);
-            this.CHK_AllowMega.Name = "CHK_AllowMega";
-            this.CHK_AllowMega.Size = new System.Drawing.Size(155, 17);
-            this.CHK_AllowMega.TabIndex = 296;
-            this.CHK_AllowMega.Text = "Allow Random Mega Forms";
-            this.CHK_AllowMega.UseVisualStyleBackColor = true;
+            this.CHK_RemoveShinyLock.AutoSize = true;
+            this.CHK_RemoveShinyLock.Location = new System.Drawing.Point(9, 109);
+            this.CHK_RemoveShinyLock.Name = "CHK_RemoveShinyLock";
+            this.CHK_RemoveShinyLock.Size = new System.Drawing.Size(127, 17);
+            this.CHK_RemoveShinyLock.TabIndex = 297;
+            this.CHK_RemoveShinyLock.Text = "Remove Shiny Locks";
+            this.CHK_RemoveShinyLock.UseVisualStyleBackColor = true;
             // 
             // StaticEncounterEditor6
             // 
@@ -601,5 +613,6 @@
         private System.Windows.Forms.CheckBox CHK_G1;
         private System.Windows.Forms.CheckBox CHK_Item;
         private System.Windows.Forms.CheckBox CHK_AllowMega;
+        private System.Windows.Forms.CheckBox CHK_RemoveShinyLock;
     }
 }
