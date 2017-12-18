@@ -234,6 +234,8 @@ namespace pk3DS
 
             loading = true;
             var entry = Encounters[eEntry];
+            var iv = entry.IVs;
+            var ev = entry.EVs;
             CB_ESpecies.SelectedIndex = entry.Species;
             CB_EHeldItem.SelectedIndex = entry.HeldItem;
             NUD_ELevel.Value = entry.Level;
@@ -244,18 +246,21 @@ namespace pk3DS
             CB_EMove1.SelectedIndex = moves[1];
             CB_EMove2.SelectedIndex = moves[2];
             CB_EMove3.SelectedIndex = moves[3];
-            NUD_IV0.Value = entry.IVs[0];
-            NUD_IV1.Value = entry.IVs[1];
-            NUD_IV2.Value = entry.IVs[2];
-            NUD_IV3.Value = entry.IVs[3];
-            NUD_IV4.Value = entry.IVs[4];
-            NUD_IV5.Value = entry.IVs[5];
-            NUD_EV0.Value = entry.EVs[0];
-            NUD_EV1.Value = entry.EVs[1];
-            NUD_EV2.Value = entry.EVs[2];
-            NUD_EV3.Value = entry.EVs[3];
-            NUD_EV4.Value = entry.EVs[4];
-            NUD_EV5.Value = entry.EVs[5];
+
+            NUD_IV0.Value = iv[0];
+            NUD_IV1.Value = iv[1];
+            NUD_IV2.Value = iv[2];
+            NUD_IV3.Value = iv[3];
+            NUD_IV4.Value = iv[4];
+            NUD_IV5.Value = iv[5];
+
+            NUD_EV0.Value = ev[0];
+            NUD_EV1.Value = ev[1];
+            NUD_EV2.Value = ev[2];
+            NUD_EV3.Value = ev[3];
+            NUD_EV4.Value = ev[4];
+            NUD_EV5.Value = ev[5];
+
             CHK_ShinyLock.Checked = entry.ShinyLock;
             CHK_IV3.Checked = entry.IV3;
             CB_Nature.SelectedIndex = entry.Nature;
@@ -269,11 +274,12 @@ namespace pk3DS
                 return;
 
             var entry = Encounters[eEntry];
+            var iv = entry.IVs;
+            var ev = entry.EVs;
             entry.Species = CB_ESpecies.SelectedIndex;
             entry.HeldItem = CB_EHeldItem.SelectedIndex;
             entry.Level = (int)NUD_ELevel.Value;
             entry.Form = (int)NUD_EForm.Value;
-
             entry.RelearnMoves = new[]
             {
                 CB_EMove0.SelectedIndex,
@@ -281,18 +287,23 @@ namespace pk3DS
                 CB_EMove2.SelectedIndex,
                 CB_EMove3.SelectedIndex,
             };
-            entry.IVs[0] = (int)NUD_IV0.Value;
-            entry.IVs[1] = (int)NUD_IV1.Value;
-            entry.IVs[2] = (int)NUD_IV2.Value;
-            entry.IVs[3] = (int)NUD_IV3.Value;
-            entry.IVs[4] = (int)NUD_IV4.Value;
-            entry.IVs[5] = (int)NUD_IV5.Value;
-            entry.EVs[0] = (int)NUD_EV0.Value;
-            entry.EVs[1] = (int)NUD_EV1.Value;
-            entry.EVs[2] = (int)NUD_EV2.Value;
-            entry.EVs[3] = (int)NUD_EV3.Value;
-            entry.EVs[4] = (int)NUD_EV4.Value;
-            entry.EVs[5] = (int)NUD_EV5.Value;
+
+            iv[0] = (int)NUD_IV0.Value;
+            iv[1] = (int)NUD_IV1.Value;
+            iv[2] = (int)NUD_IV2.Value;
+            iv[3] = (int)NUD_IV3.Value;
+            iv[4] = (int)NUD_IV4.Value;
+            iv[5] = (int)NUD_IV5.Value;
+            entry.IVs = iv;
+
+            ev[0] = (int)NUD_EV0.Value;
+            ev[1] = (int)NUD_EV1.Value;
+            ev[2] = (int)NUD_EV2.Value;
+            ev[3] = (int)NUD_EV3.Value;
+            ev[4] = (int)NUD_EV4.Value;
+            ev[5] = (int)NUD_EV5.Value;
+            entry.EVs = ev;
+
             entry.ShinyLock = CHK_ShinyLock.Checked;
             entry.Nature = CB_Nature.SelectedIndex;
             entry.Aura = CB_Aura.SelectedIndex;

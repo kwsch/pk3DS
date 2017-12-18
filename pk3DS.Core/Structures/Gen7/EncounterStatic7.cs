@@ -108,7 +108,8 @@ namespace pk3DS.Core.Structures
                     Data[i + 0x15] = (byte)Convert.ToSByte(value[i]);
             }
         }
-        public int[] EVs {
+        public int[] EVs
+        {
             get => new int[]
             {
                 (byte) Data[0x1B], (byte) Data[0x1C], (byte) Data[0x1D], (byte) Data[0x1E], (byte) Data[0x1F], (byte) Data[0x20]
@@ -118,7 +119,7 @@ namespace pk3DS.Core.Structures
                 if (value.Length != 6)
                     return;
                 for (int i = 0; i < 6; i++)
-                    Data[i + 0x15] = (byte)Convert.ToSByte(value[i]);
+                    Data[i + 0x1B] = (byte)value[i];
             }
         }
         public int Aura
