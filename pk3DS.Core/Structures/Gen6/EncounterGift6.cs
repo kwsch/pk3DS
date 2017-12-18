@@ -29,6 +29,8 @@ namespace pk3DS.Core.Structures
         // All
         public byte uLast;
 
+        public bool ShinyLock { get { return (Data[0x6] & 2) >> 1 == 1; } set { Data[0x6] = (byte)(Data[0x6] & ~2 | (value ? 2 : 0)); } }
+
         public EncounterGift6(byte[] data, bool oras)
         {
             Data = data;
