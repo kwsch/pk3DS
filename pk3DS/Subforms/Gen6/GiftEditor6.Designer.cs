@@ -79,6 +79,7 @@
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
+            this.CHK_ShinyLock = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV2)).BeginInit();
@@ -142,14 +143,14 @@
             // CB_HeldItem
             // 
             this.CB_HeldItem.FormattingEnabled = true;
-            this.CB_HeldItem.Location = new System.Drawing.Point(106, 30);
+            this.CB_HeldItem.Location = new System.Drawing.Point(106, 28);
             this.CB_HeldItem.Name = "CB_HeldItem";
             this.CB_HeldItem.Size = new System.Drawing.Size(121, 21);
             this.CB_HeldItem.TabIndex = 470;
             // 
             // NUD_IV0
             // 
-            this.NUD_IV0.Location = new System.Drawing.Point(112, 141);
+            this.NUD_IV0.Location = new System.Drawing.Point(139, 152);
             this.NUD_IV0.Maximum = new decimal(new int[] {
             31,
             0,
@@ -171,7 +172,7 @@
             // 
             // NUD_IV1
             // 
-            this.NUD_IV1.Location = new System.Drawing.Point(112, 164);
+            this.NUD_IV1.Location = new System.Drawing.Point(139, 175);
             this.NUD_IV1.Maximum = new decimal(new int[] {
             31,
             0,
@@ -193,7 +194,7 @@
             // 
             // NUD_IV2
             // 
-            this.NUD_IV2.Location = new System.Drawing.Point(112, 187);
+            this.NUD_IV2.Location = new System.Drawing.Point(139, 198);
             this.NUD_IV2.Maximum = new decimal(new int[] {
             31,
             0,
@@ -215,7 +216,7 @@
             // 
             // NUD_IV3
             // 
-            this.NUD_IV3.Location = new System.Drawing.Point(193, 141);
+            this.NUD_IV3.Location = new System.Drawing.Point(220, 152);
             this.NUD_IV3.Maximum = new decimal(new int[] {
             31,
             0,
@@ -237,7 +238,7 @@
             // 
             // NUD_IV4
             // 
-            this.NUD_IV4.Location = new System.Drawing.Point(193, 164);
+            this.NUD_IV4.Location = new System.Drawing.Point(220, 175);
             this.NUD_IV4.Maximum = new decimal(new int[] {
             31,
             0,
@@ -259,7 +260,7 @@
             // 
             // NUD_IV5
             // 
-            this.NUD_IV5.Location = new System.Drawing.Point(193, 187);
+            this.NUD_IV5.Location = new System.Drawing.Point(220, 198);
             this.NUD_IV5.Maximum = new decimal(new int[] {
             31,
             0,
@@ -290,7 +291,7 @@
             // 
             // L_HeldItem
             // 
-            this.L_HeldItem.Location = new System.Drawing.Point(6, 29);
+            this.L_HeldItem.Location = new System.Drawing.Point(6, 27);
             this.L_HeldItem.Name = "L_HeldItem";
             this.L_HeldItem.Size = new System.Drawing.Size(94, 21);
             this.L_HeldItem.TabIndex = 478;
@@ -299,7 +300,7 @@
             // 
             // NUD_Level
             // 
-            this.NUD_Level.Location = new System.Drawing.Point(106, 57);
+            this.NUD_Level.Location = new System.Drawing.Point(133, 77);
             this.NUD_Level.Name = "NUD_Level";
             this.NUD_Level.Size = new System.Drawing.Size(41, 20);
             this.NUD_Level.TabIndex = 479;
@@ -311,7 +312,7 @@
             // 
             // L_Level
             // 
-            this.L_Level.Location = new System.Drawing.Point(7, 55);
+            this.L_Level.Location = new System.Drawing.Point(38, 75);
             this.L_Level.Name = "L_Level";
             this.L_Level.Size = new System.Drawing.Size(94, 21);
             this.L_Level.TabIndex = 480;
@@ -320,14 +321,14 @@
             // 
             // NUD_Form
             // 
-            this.NUD_Form.Location = new System.Drawing.Point(193, 57);
+            this.NUD_Form.Location = new System.Drawing.Point(220, 77);
             this.NUD_Form.Name = "NUD_Form";
             this.NUD_Form.Size = new System.Drawing.Size(34, 20);
             this.NUD_Form.TabIndex = 481;
             // 
             // L_Form
             // 
-            this.L_Form.Location = new System.Drawing.Point(99, 55);
+            this.L_Form.Location = new System.Drawing.Point(126, 75);
             this.L_Form.Name = "L_Form";
             this.L_Form.Size = new System.Drawing.Size(94, 21);
             this.L_Form.TabIndex = 482;
@@ -336,7 +337,7 @@
             // 
             // L_HP
             // 
-            this.L_HP.Location = new System.Drawing.Point(18, 139);
+            this.L_HP.Location = new System.Drawing.Point(45, 150);
             this.L_HP.Name = "L_HP";
             this.L_HP.Size = new System.Drawing.Size(94, 21);
             this.L_HP.TabIndex = 483;
@@ -345,7 +346,7 @@
             // 
             // L_ATK
             // 
-            this.L_ATK.Location = new System.Drawing.Point(18, 162);
+            this.L_ATK.Location = new System.Drawing.Point(45, 173);
             this.L_ATK.Name = "L_ATK";
             this.L_ATK.Size = new System.Drawing.Size(94, 21);
             this.L_ATK.TabIndex = 484;
@@ -354,7 +355,7 @@
             // 
             // L_DEF
             // 
-            this.L_DEF.Location = new System.Drawing.Point(18, 185);
+            this.L_DEF.Location = new System.Drawing.Point(45, 196);
             this.L_DEF.Name = "L_DEF";
             this.L_DEF.Size = new System.Drawing.Size(94, 21);
             this.L_DEF.TabIndex = 485;
@@ -363,7 +364,7 @@
             // 
             // L_SPA
             // 
-            this.L_SPA.Location = new System.Drawing.Point(99, 139);
+            this.L_SPA.Location = new System.Drawing.Point(126, 150);
             this.L_SPA.Name = "L_SPA";
             this.L_SPA.Size = new System.Drawing.Size(94, 21);
             this.L_SPA.TabIndex = 486;
@@ -372,7 +373,7 @@
             // 
             // L_SPE
             // 
-            this.L_SPE.Location = new System.Drawing.Point(99, 185);
+            this.L_SPE.Location = new System.Drawing.Point(126, 196);
             this.L_SPE.Name = "L_SPE";
             this.L_SPE.Size = new System.Drawing.Size(94, 21);
             this.L_SPE.TabIndex = 487;
@@ -381,7 +382,7 @@
             // 
             // L_SPD
             // 
-            this.L_SPD.Location = new System.Drawing.Point(99, 162);
+            this.L_SPD.Location = new System.Drawing.Point(126, 173);
             this.L_SPD.Name = "L_SPD";
             this.L_SPD.Size = new System.Drawing.Size(94, 21);
             this.L_SPD.TabIndex = 488;
@@ -390,7 +391,7 @@
             // 
             // L_Nature
             // 
-            this.L_Nature.Location = new System.Drawing.Point(7, 77);
+            this.L_Nature.Location = new System.Drawing.Point(37, 97);
             this.L_Nature.Name = "L_Nature";
             this.L_Nature.Size = new System.Drawing.Size(94, 21);
             this.L_Nature.TabIndex = 490;
@@ -399,7 +400,7 @@
             // 
             // NUD_Nature
             // 
-            this.NUD_Nature.Location = new System.Drawing.Point(106, 79);
+            this.NUD_Nature.Location = new System.Drawing.Point(133, 99);
             this.NUD_Nature.Maximum = new decimal(new int[] {
             24,
             0,
@@ -421,7 +422,7 @@
             // 
             // L_Ability
             // 
-            this.L_Ability.Location = new System.Drawing.Point(99, 77);
+            this.L_Ability.Location = new System.Drawing.Point(126, 97);
             this.L_Ability.Name = "L_Ability";
             this.L_Ability.Size = new System.Drawing.Size(94, 21);
             this.L_Ability.TabIndex = 493;
@@ -430,7 +431,7 @@
             // 
             // NUD_Ability
             // 
-            this.NUD_Ability.Location = new System.Drawing.Point(193, 79);
+            this.NUD_Ability.Location = new System.Drawing.Point(220, 99);
             this.NUD_Ability.Maximum = new decimal(new int[] {
             2,
             0,
@@ -447,7 +448,7 @@
             // 
             // L_Gender
             // 
-            this.L_Gender.Location = new System.Drawing.Point(99, 100);
+            this.L_Gender.Location = new System.Drawing.Point(126, 120);
             this.L_Gender.Name = "L_Gender";
             this.L_Gender.Size = new System.Drawing.Size(94, 21);
             this.L_Gender.TabIndex = 495;
@@ -456,7 +457,7 @@
             // 
             // NUD_Gender
             // 
-            this.NUD_Gender.Location = new System.Drawing.Point(193, 102);
+            this.NUD_Gender.Location = new System.Drawing.Point(220, 122);
             this.NUD_Gender.Maximum = new decimal(new int[] {
             2,
             0,
@@ -489,6 +490,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.CHK_ShinyLock);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.L_DEF);
             this.tabPage1.Controls.Add(this.L_ATK);
@@ -761,6 +763,16 @@
             this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
+            // CHK_ShinyLock
+            // 
+            this.CHK_ShinyLock.AutoSize = true;
+            this.CHK_ShinyLock.Location = new System.Drawing.Point(106, 54);
+            this.CHK_ShinyLock.Name = "CHK_ShinyLock";
+            this.CHK_ShinyLock.Size = new System.Drawing.Size(79, 17);
+            this.CHK_ShinyLock.TabIndex = 503;
+            this.CHK_ShinyLock.Text = "Shiny Lock";
+            this.CHK_ShinyLock.UseVisualStyleBackColor = true;
+            // 
             // GiftEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -854,5 +866,6 @@
         private System.Windows.Forms.CheckBox CHK_Mega;
         private System.Windows.Forms.Label L_Mega;
         private System.Windows.Forms.CheckBox CHK_Item;
+        private System.Windows.Forms.CheckBox CHK_ShinyLock;
     }
 }
