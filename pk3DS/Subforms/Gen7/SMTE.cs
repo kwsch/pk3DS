@@ -592,6 +592,7 @@ namespace pk3DS
                 E = CHK_E.Checked,
                 L = CHK_L.Checked,
                 rBST = CHK_BST.Checked,
+                rEXP = false,
             };
             rnd.Initialize();
 
