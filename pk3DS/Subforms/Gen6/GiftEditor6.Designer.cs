@@ -60,6 +60,7 @@
             this.B_RandAll = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.CHK_ShinyLock = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.L_Hint = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -79,7 +80,7 @@
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
-            this.CHK_ShinyLock = new System.Windows.Forms.CheckBox();
+            this.CHK_RemoveShinyLock = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_IV2)).BeginInit();
@@ -527,6 +528,16 @@
             this.tabPage1.Text = "Editor";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // CHK_ShinyLock
+            // 
+            this.CHK_ShinyLock.AutoSize = true;
+            this.CHK_ShinyLock.Location = new System.Drawing.Point(106, 54);
+            this.CHK_ShinyLock.Name = "CHK_ShinyLock";
+            this.CHK_ShinyLock.Size = new System.Drawing.Size(79, 17);
+            this.CHK_ShinyLock.TabIndex = 503;
+            this.CHK_ShinyLock.Text = "Shiny Lock";
+            this.CHK_ShinyLock.UseVisualStyleBackColor = true;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -583,6 +594,7 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.CHK_RemoveShinyLock);
             this.GB_Tweak.Controls.Add(this.CHK_Item);
             this.GB_Tweak.Controls.Add(this.L_RandOpt);
             this.GB_Tweak.Controls.Add(this.CHK_BST);
@@ -594,9 +606,9 @@
             this.GB_Tweak.Controls.Add(this.CHK_G3);
             this.GB_Tweak.Controls.Add(this.CHK_G2);
             this.GB_Tweak.Controls.Add(this.CHK_G1);
-            this.GB_Tweak.Location = new System.Drawing.Point(7, 62);
+            this.GB_Tweak.Location = new System.Drawing.Point(7, 52);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 99);
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 113);
             this.GB_Tweak.TabIndex = 509;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
@@ -763,15 +775,15 @@
             this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
-            // CHK_ShinyLock
+            // CHK_RemoveShinyLock
             // 
-            this.CHK_ShinyLock.AutoSize = true;
-            this.CHK_ShinyLock.Location = new System.Drawing.Point(106, 54);
-            this.CHK_ShinyLock.Name = "CHK_ShinyLock";
-            this.CHK_ShinyLock.Size = new System.Drawing.Size(79, 17);
-            this.CHK_ShinyLock.TabIndex = 503;
-            this.CHK_ShinyLock.Text = "Shiny Lock";
-            this.CHK_ShinyLock.UseVisualStyleBackColor = true;
+            this.CHK_RemoveShinyLock.AutoSize = true;
+            this.CHK_RemoveShinyLock.Location = new System.Drawing.Point(9, 94);
+            this.CHK_RemoveShinyLock.Name = "CHK_RemoveShinyLock";
+            this.CHK_RemoveShinyLock.Size = new System.Drawing.Size(127, 17);
+            this.CHK_RemoveShinyLock.TabIndex = 297;
+            this.CHK_RemoveShinyLock.Text = "Random Shiny Locks";
+            this.CHK_RemoveShinyLock.UseVisualStyleBackColor = true;
             // 
             // GiftEditor6
             // 
@@ -867,5 +879,6 @@
         private System.Windows.Forms.Label L_Mega;
         private System.Windows.Forms.CheckBox CHK_Item;
         private System.Windows.Forms.CheckBox CHK_ShinyLock;
+        private System.Windows.Forms.CheckBox CHK_RemoveShinyLock;
     }
 }
