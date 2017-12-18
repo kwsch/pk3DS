@@ -281,6 +281,18 @@ namespace pk3DS
                 CB_EMove2.SelectedIndex,
                 CB_EMove3.SelectedIndex,
             };
+            entry.IVs[0] = (int)NUD_IV0.Value;
+            entry.IVs[1] = (int)NUD_IV1.Value;
+            entry.IVs[2] = (int)NUD_IV2.Value;
+            entry.IVs[3] = (int)NUD_IV3.Value;
+            entry.IVs[4] = (int)NUD_IV4.Value;
+            entry.IVs[5] = (int)NUD_IV5.Value;
+            entry.EVs[0] = (int)NUD_EV0.Value;
+            entry.EVs[1] = (int)NUD_EV1.Value;
+            entry.EVs[2] = (int)NUD_EV2.Value;
+            entry.EVs[3] = (int)NUD_EV3.Value;
+            entry.EVs[4] = (int)NUD_EV4.Value;
+            entry.EVs[5] = (int)NUD_EV5.Value;
             entry.ShinyLock = CHK_ShinyLock.Checked;
             entry.Nature = CB_Nature.SelectedIndex;
             entry.Aura = CB_Aura.SelectedIndex;
