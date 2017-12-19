@@ -98,6 +98,7 @@ namespace pk3DS
                 Shedinja = true,
 
                 rBST = CHK_BST.Checked,
+                rEXP = false,
             };
             RSTE.rSpeciesRand.Initialize();
 
