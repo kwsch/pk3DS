@@ -73,7 +73,7 @@ namespace pk3DS.Core.Randomizers
                 loopctr++;
             return newSpecies;
         }
-        private bool GetIsTypeMatch(int newSpecies, int type) => SpeciesStat[newSpecies].Types.Any(z => z == type) || loopctr > 9000;
+        private bool GetIsTypeMatch(int newSpecies, int type) => type == -1 || SpeciesStat[newSpecies].Types.Any(z => z == type) || loopctr > 9000;
 
         public int GetRandomSpecies(int oldSpecies)
         {
@@ -118,11 +118,11 @@ namespace pk3DS.Core.Randomizers
         {
             if (!rBST)
                 return false;
-            // Base stat total has to be close
+            // Base stat total has to be close to original BST
             int expand = loopctr / MaxSpeciesID;
-            int lo = pkm.BST * l / (h + expand);
-            int hi = pkm.BST * (h + expand) / l;
-            return lo > oldpkm.BST || oldpkm.BST > hi;
+            int lo = oldpkm.BST * l / (h + expand);
+            int hi = oldpkm.BST * (h + expand) / l;
+            return lo > pkm.BST || pkm.BST > hi;
         }
 
         private int[] InitializeSpeciesList()
