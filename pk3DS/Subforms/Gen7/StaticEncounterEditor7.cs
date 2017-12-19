@@ -108,7 +108,9 @@ namespace pk3DS
                 CB_EMove3.Items.Add(s);
                 CB_SpecialMove.Items.Add(s);
             }
-            
+
+            CB_GNature.Items.Add("Random");
+            CB_GNature.Items.AddRange(natures.Take(25).ToArray());
             CB_ENature.Items.Add("Random");
             CB_ENature.Items.AddRange(natures.Take(25).ToArray());
             CB_TNature.Items.AddRange(natures.Take(25).ToArray());
@@ -213,6 +215,7 @@ namespace pk3DS
             NUD_GLevel.Value = entry.Level;
             NUD_GForm.Value = entry.Form;
             NUD_GGender.Value = entry.Gender;
+            CB_GNature.SelectedIndex = entry.Nature + 1;
             CB_SpecialMove.SelectedIndex = entry.SpecialMove;
             CHK_G_Lock.Checked = entry.ShinyLock;
             CHK_GIV3.Checked = entry.IV3;
@@ -231,6 +234,7 @@ namespace pk3DS
             entry.Level = (int)NUD_GLevel.Value;
             entry.Form = (int)NUD_GForm.Value;
             entry.Gender = (int) NUD_GGender.Value;
+            entry.Nature = (sbyte)(CB_GNature.SelectedIndex - 1);
             entry.SpecialMove = CB_SpecialMove.SelectedIndex;
             entry.ShinyLock = CHK_G_Lock.Checked;
             entry.IsEgg = CHK_IsEgg.Checked;
@@ -387,7 +391,7 @@ namespace pk3DS
                 entry.Species = cb.SelectedIndex;
                 LB_Encounter.Items[eEntry] = getEntryText(entry, eEntry);
             }
-            else if(sender == CB_TSpecies)
+            else if (sender == CB_TSpecies)
             {
                 var entry = Trades[tEntry];
                 entry.Species = cb.SelectedIndex;
