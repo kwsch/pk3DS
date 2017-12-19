@@ -21,6 +21,29 @@ namespace pk3DS
         private readonly string[] types = Main.Config.getText(TextName.Types);
         private readonly int[] oldStarters;
 
+        private readonly string[] aura =
+        {
+            "(None)",
+            "Attack (+1)",
+            "Attack (+2)",
+            "Attack (+3)",
+            "Defense (+1)",
+            "Defense (+2)",
+            "Defense (+3)",
+            "Sp. Attack (+1)",
+            "Sp. Attack (+2)",
+            "Sp. Attack (+3)",
+            "Sp. Defense (+1)",
+            "Sp. Defense (+2)",
+            "Sp. Defense (+3)",
+            "Speed (+1)",
+            "Speed (+2)",
+            "Speed (+3)",
+            "All Stats (+1)",
+            "All Stats (+2)",
+            "All Stats (+3)",
+        };
+
         public StaticEncounterEditor7(byte[][] infiles)
         {
             InitializeComponent();
@@ -84,6 +107,11 @@ namespace pk3DS
                 CB_EMove2.Items.Add(s);
                 CB_EMove3.Items.Add(s);
             }
+
+            CB_Nature.Items.Add("Random");
+            CB_Nature.Items.AddRange(natures.Take(25).ToArray());
+
+            foreach (string s in aura) CB_Aura.Items.Add(s);
 
             getListBoxEntries();
             LB_Gift.SelectedIndex = 0;
@@ -206,6 +234,8 @@ namespace pk3DS
 
             loading = true;
             var entry = Encounters[eEntry];
+            var iv = entry.IVs;
+            var ev = entry.EVs;
             CB_ESpecies.SelectedIndex = entry.Species;
             CB_EHeldItem.SelectedIndex = entry.HeldItem;
             NUD_ELevel.Value = entry.Level;
@@ -216,7 +246,25 @@ namespace pk3DS
             CB_EMove1.SelectedIndex = moves[1];
             CB_EMove2.SelectedIndex = moves[2];
             CB_EMove3.SelectedIndex = moves[3];
+
+            NUD_IV0.Value = iv[0];
+            NUD_IV1.Value = iv[1];
+            NUD_IV2.Value = iv[2];
+            NUD_IV3.Value = iv[3];
+            NUD_IV4.Value = iv[4];
+            NUD_IV5.Value = iv[5];
+
+            NUD_EV0.Value = ev[0];
+            NUD_EV1.Value = ev[1];
+            NUD_EV2.Value = ev[2];
+            NUD_EV3.Value = ev[3];
+            NUD_EV4.Value = ev[4];
+            NUD_EV5.Value = ev[5];
+
             CHK_ShinyLock.Checked = entry.ShinyLock;
+            CHK_IV3.Checked = entry.IV3;
+            CB_Nature.SelectedIndex = entry.Nature;
+            CB_Aura.SelectedIndex = entry.Aura;
 
             loading = false;
         }
@@ -226,11 +274,12 @@ namespace pk3DS
                 return;
 
             var entry = Encounters[eEntry];
+            var iv = entry.IVs;
+            var ev = entry.EVs;
             entry.Species = CB_ESpecies.SelectedIndex;
             entry.HeldItem = CB_EHeldItem.SelectedIndex;
             entry.Level = (int)NUD_ELevel.Value;
             entry.Form = (int)NUD_EForm.Value;
-
             entry.RelearnMoves = new[]
             {
                 CB_EMove0.SelectedIndex,
@@ -238,7 +287,26 @@ namespace pk3DS
                 CB_EMove2.SelectedIndex,
                 CB_EMove3.SelectedIndex,
             };
+
+            iv[0] = (int)NUD_IV0.Value;
+            iv[1] = (int)NUD_IV1.Value;
+            iv[2] = (int)NUD_IV2.Value;
+            iv[3] = (int)NUD_IV3.Value;
+            iv[4] = (int)NUD_IV4.Value;
+            iv[5] = (int)NUD_IV5.Value;
+            entry.IVs = iv;
+
+            ev[0] = (int)NUD_EV0.Value;
+            ev[1] = (int)NUD_EV1.Value;
+            ev[2] = (int)NUD_EV2.Value;
+            ev[3] = (int)NUD_EV3.Value;
+            ev[4] = (int)NUD_EV4.Value;
+            ev[5] = (int)NUD_EV5.Value;
+            entry.EVs = ev;
+
             entry.ShinyLock = CHK_ShinyLock.Checked;
+            entry.Nature = CB_Nature.SelectedIndex;
+            entry.Aura = CB_Aura.SelectedIndex;
         }
         private void getTrade()
         {

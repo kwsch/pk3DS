@@ -42,6 +42,37 @@
             this.NUD_GLevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Gift = new System.Windows.Forms.ListBox();
             this.Tab_Encounters = new System.Windows.Forms.TabPage();
+            this.CHK_IV3 = new System.Windows.Forms.CheckBox();
+            this.CB_Nature = new System.Windows.Forms.ComboBox();
+            this.L_Nature = new System.Windows.Forms.Label();
+            this.GB_EVs = new System.Windows.Forms.GroupBox();
+            this.NUD_EV5 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_EV4 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_EV3 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_EV2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_EV1 = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.NUD_EV0 = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.GB_IVs = new System.Windows.Forms.GroupBox();
+            this.L_HP = new System.Windows.Forms.Label();
+            this.NUD_IV3 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_IV4 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_IV5 = new System.Windows.Forms.NumericUpDown();
+            this.L_SPD = new System.Windows.Forms.Label();
+            this.L_SPE = new System.Windows.Forms.Label();
+            this.L_SPA = new System.Windows.Forms.Label();
+            this.NUD_IV2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_IV1 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_IV0 = new System.Windows.Forms.NumericUpDown();
+            this.L_ATK = new System.Windows.Forms.Label();
+            this.L_DEF = new System.Windows.Forms.Label();
+            this.L_Aura = new System.Windows.Forms.Label();
+            this.CB_Aura = new System.Windows.Forms.ComboBox();
             this.CHK_ShinyLock = new System.Windows.Forms.CheckBox();
             this.GB_EMoves = new System.Windows.Forms.GroupBox();
             this.CB_EMove3 = new System.Windows.Forms.ComboBox();
@@ -77,6 +108,7 @@
             this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.B_RandAll = new System.Windows.Forms.Button();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_RemoveShinyLock = new System.Windows.Forms.CheckBox();
             this.CHK_AllowMega = new System.Windows.Forms.CheckBox();
             this.CHK_Item = new System.Windows.Forms.CheckBox();
             this.CHK_G7 = new System.Windows.Forms.CheckBox();
@@ -93,13 +125,27 @@
             this.B_Starters = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.CHK_RemoveShinyLock = new System.Windows.Forms.CheckBox();
+            this.L_GGender = new System.Windows.Forms.Label();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GGender)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GLevel)).BeginInit();
             this.Tab_Encounters.SuspendLayout();
+            this.GB_EVs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EV5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EV4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EV3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EV2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EV1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EV0)).BeginInit();
+            this.GB_IVs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_IV3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_IV4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_IV5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_IV2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_IV1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_IV0)).BeginInit();
             this.GB_EMoves.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ELevel)).BeginInit();
@@ -124,11 +170,12 @@
             this.TC_Tabs.Location = new System.Drawing.Point(12, 12);
             this.TC_Tabs.Name = "TC_Tabs";
             this.TC_Tabs.SelectedIndex = 0;
-            this.TC_Tabs.Size = new System.Drawing.Size(395, 347);
+            this.TC_Tabs.Size = new System.Drawing.Size(506, 463);
             this.TC_Tabs.TabIndex = 0;
             // 
             // Tab_Gifts
             // 
+            this.Tab_Gifts.Controls.Add(this.L_GGender);
             this.Tab_Gifts.Controls.Add(this.NUD_GGender);
             this.Tab_Gifts.Controls.Add(this.CHK_G_Lock);
             this.Tab_Gifts.Controls.Add(this.CB_GHeldItem);
@@ -142,24 +189,24 @@
             this.Tab_Gifts.Controls.Add(this.LB_Gift);
             this.Tab_Gifts.Location = new System.Drawing.Point(4, 22);
             this.Tab_Gifts.Name = "Tab_Gifts";
-            this.Tab_Gifts.Size = new System.Drawing.Size(387, 321);
+            this.Tab_Gifts.Size = new System.Drawing.Size(498, 437);
             this.Tab_Gifts.TabIndex = 2;
             this.Tab_Gifts.Text = "Gifts";
             this.Tab_Gifts.UseVisualStyleBackColor = true;
             // 
             // NUD_GGender
             // 
-            this.NUD_GGender.Location = new System.Drawing.Point(230, 137);
+            this.NUD_GGender.Location = new System.Drawing.Point(187, 74);
             this.NUD_GGender.Maximum = new decimal(new int[] {
-            255,
+            2,
             0,
             0,
             0});
             this.NUD_GGender.Name = "NUD_GGender";
-            this.NUD_GGender.Size = new System.Drawing.Size(48, 20);
+            this.NUD_GGender.Size = new System.Drawing.Size(34, 20);
             this.NUD_GGender.TabIndex = 20;
             this.NUD_GGender.Value = new decimal(new int[] {
-            100,
+            2,
             0,
             0,
             0});
@@ -167,7 +214,7 @@
             // CHK_G_Lock
             // 
             this.CHK_G_Lock.AutoSize = true;
-            this.CHK_G_Lock.Location = new System.Drawing.Point(230, 114);
+            this.CHK_G_Lock.Location = new System.Drawing.Point(187, 119);
             this.CHK_G_Lock.Name = "CHK_G_Lock";
             this.CHK_G_Lock.Size = new System.Drawing.Size(79, 17);
             this.CHK_G_Lock.TabIndex = 19;
@@ -177,16 +224,16 @@
             // CB_GHeldItem
             // 
             this.CB_GHeldItem.FormattingEnabled = true;
-            this.CB_GHeldItem.Location = new System.Drawing.Point(230, 87);
+            this.CB_GHeldItem.Location = new System.Drawing.Point(187, 96);
             this.CB_GHeldItem.Name = "CB_GHeldItem";
             this.CB_GHeldItem.Size = new System.Drawing.Size(121, 21);
             this.CB_GHeldItem.TabIndex = 8;
             // 
             // L_GHeldItem
             // 
-            this.L_GHeldItem.Location = new System.Drawing.Point(124, 85);
+            this.L_GHeldItem.Location = new System.Drawing.Point(131, 94);
             this.L_GHeldItem.Name = "L_GHeldItem";
-            this.L_GHeldItem.Size = new System.Drawing.Size(100, 23);
+            this.L_GHeldItem.Size = new System.Drawing.Size(55, 23);
             this.L_GHeldItem.TabIndex = 7;
             this.L_GHeldItem.Text = "Held Item:";
             this.L_GHeldItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -194,7 +241,7 @@
             // CB_GSpecies
             // 
             this.CB_GSpecies.FormattingEnabled = true;
-            this.CB_GSpecies.Location = new System.Drawing.Point(230, 18);
+            this.CB_GSpecies.Location = new System.Drawing.Point(187, 7);
             this.CB_GSpecies.Name = "CB_GSpecies";
             this.CB_GSpecies.Size = new System.Drawing.Size(121, 21);
             this.CB_GSpecies.TabIndex = 6;
@@ -202,16 +249,16 @@
             // 
             // L_GForm
             // 
-            this.L_GForm.Location = new System.Drawing.Point(124, 62);
+            this.L_GForm.Location = new System.Drawing.Point(131, 49);
             this.L_GForm.Name = "L_GForm";
-            this.L_GForm.Size = new System.Drawing.Size(100, 23);
+            this.L_GForm.Size = new System.Drawing.Size(55, 23);
             this.L_GForm.TabIndex = 5;
             this.L_GForm.Text = "Form:";
             this.L_GForm.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_GForm
             // 
-            this.NUD_GForm.Location = new System.Drawing.Point(230, 65);
+            this.NUD_GForm.Location = new System.Drawing.Point(187, 52);
             this.NUD_GForm.Maximum = new decimal(new int[] {
             255,
             0,
@@ -228,25 +275,25 @@
             // 
             // L_GLevel
             // 
-            this.L_GLevel.Location = new System.Drawing.Point(124, 39);
+            this.L_GLevel.Location = new System.Drawing.Point(131, 27);
             this.L_GLevel.Name = "L_GLevel";
-            this.L_GLevel.Size = new System.Drawing.Size(100, 23);
+            this.L_GLevel.Size = new System.Drawing.Size(55, 23);
             this.L_GLevel.TabIndex = 3;
             this.L_GLevel.Text = "Level:";
             this.L_GLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_GSpecies
             // 
-            this.L_GSpecies.Location = new System.Drawing.Point(124, 16);
+            this.L_GSpecies.Location = new System.Drawing.Point(131, 5);
             this.L_GSpecies.Name = "L_GSpecies";
-            this.L_GSpecies.Size = new System.Drawing.Size(100, 23);
+            this.L_GSpecies.Size = new System.Drawing.Size(55, 23);
             this.L_GSpecies.TabIndex = 2;
             this.L_GSpecies.Text = "Species:";
             this.L_GSpecies.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_GLevel
             // 
-            this.NUD_GLevel.Location = new System.Drawing.Point(230, 42);
+            this.NUD_GLevel.Location = new System.Drawing.Point(187, 30);
             this.NUD_GLevel.Maximum = new decimal(new int[] {
             255,
             0,
@@ -268,12 +315,19 @@
             this.LB_Gift.FormattingEnabled = true;
             this.LB_Gift.Location = new System.Drawing.Point(3, 3);
             this.LB_Gift.Name = "LB_Gift";
-            this.LB_Gift.Size = new System.Drawing.Size(115, 316);
+            this.LB_Gift.Size = new System.Drawing.Size(115, 433);
             this.LB_Gift.TabIndex = 0;
             this.LB_Gift.SelectedIndexChanged += new System.EventHandler(this.LB_Gift_SelectedIndexChanged);
             // 
             // Tab_Encounters
             // 
+            this.Tab_Encounters.Controls.Add(this.CHK_IV3);
+            this.Tab_Encounters.Controls.Add(this.CB_Nature);
+            this.Tab_Encounters.Controls.Add(this.L_Nature);
+            this.Tab_Encounters.Controls.Add(this.GB_EVs);
+            this.Tab_Encounters.Controls.Add(this.GB_IVs);
+            this.Tab_Encounters.Controls.Add(this.L_Aura);
+            this.Tab_Encounters.Controls.Add(this.CB_Aura);
             this.Tab_Encounters.Controls.Add(this.CHK_ShinyLock);
             this.Tab_Encounters.Controls.Add(this.GB_EMoves);
             this.Tab_Encounters.Controls.Add(this.CB_EHeldItem);
@@ -288,15 +342,443 @@
             this.Tab_Encounters.Location = new System.Drawing.Point(4, 22);
             this.Tab_Encounters.Name = "Tab_Encounters";
             this.Tab_Encounters.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Encounters.Size = new System.Drawing.Size(387, 321);
+            this.Tab_Encounters.Size = new System.Drawing.Size(498, 437);
             this.Tab_Encounters.TabIndex = 0;
             this.Tab_Encounters.Text = "Encounters";
             this.Tab_Encounters.UseVisualStyleBackColor = true;
             // 
+            // CHK_IV3
+            // 
+            this.CHK_IV3.AutoSize = true;
+            this.CHK_IV3.Location = new System.Drawing.Point(187, 160);
+            this.CHK_IV3.Name = "CHK_IV3";
+            this.CHK_IV3.Size = new System.Drawing.Size(42, 17);
+            this.CHK_IV3.TabIndex = 504;
+            this.CHK_IV3.Text = "3IV";
+            this.CHK_IV3.UseVisualStyleBackColor = true;
+            // 
+            // CB_Nature
+            // 
+            this.CB_Nature.FormattingEnabled = true;
+            this.CB_Nature.Location = new System.Drawing.Point(187, 97);
+            this.CB_Nature.Name = "CB_Nature";
+            this.CB_Nature.Size = new System.Drawing.Size(121, 21);
+            this.CB_Nature.TabIndex = 503;
+            // 
+            // L_Nature
+            // 
+            this.L_Nature.Location = new System.Drawing.Point(131, 95);
+            this.L_Nature.Name = "L_Nature";
+            this.L_Nature.Size = new System.Drawing.Size(55, 23);
+            this.L_Nature.TabIndex = 502;
+            this.L_Nature.Text = "Nature:";
+            this.L_Nature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // GB_EVs
+            // 
+            this.GB_EVs.Controls.Add(this.NUD_EV5);
+            this.GB_EVs.Controls.Add(this.NUD_EV4);
+            this.GB_EVs.Controls.Add(this.NUD_EV3);
+            this.GB_EVs.Controls.Add(this.NUD_EV2);
+            this.GB_EVs.Controls.Add(this.NUD_EV1);
+            this.GB_EVs.Controls.Add(this.label2);
+            this.GB_EVs.Controls.Add(this.label7);
+            this.GB_EVs.Controls.Add(this.label6);
+            this.GB_EVs.Controls.Add(this.NUD_EV0);
+            this.GB_EVs.Controls.Add(this.label3);
+            this.GB_EVs.Controls.Add(this.label4);
+            this.GB_EVs.Controls.Add(this.label5);
+            this.GB_EVs.Location = new System.Drawing.Point(284, 295);
+            this.GB_EVs.Name = "GB_EVs";
+            this.GB_EVs.Size = new System.Drawing.Size(160, 112);
+            this.GB_EVs.TabIndex = 501;
+            this.GB_EVs.TabStop = false;
+            this.GB_EVs.Text = "EVs";
+            // 
+            // NUD_EV5
+            // 
+            this.NUD_EV5.Location = new System.Drawing.Point(111, 82);
+            this.NUD_EV5.Maximum = new decimal(new int[] {
+            252,
+            0,
+            0,
+            0});
+            this.NUD_EV5.Name = "NUD_EV5";
+            this.NUD_EV5.Size = new System.Drawing.Size(40, 20);
+            this.NUD_EV5.TabIndex = 515;
+            this.NUD_EV5.Value = new decimal(new int[] {
+            252,
+            0,
+            0,
+            0});
+            // 
+            // NUD_EV4
+            // 
+            this.NUD_EV4.Location = new System.Drawing.Point(111, 51);
+            this.NUD_EV4.Maximum = new decimal(new int[] {
+            252,
+            0,
+            0,
+            0});
+            this.NUD_EV4.Name = "NUD_EV4";
+            this.NUD_EV4.Size = new System.Drawing.Size(40, 20);
+            this.NUD_EV4.TabIndex = 516;
+            this.NUD_EV4.Value = new decimal(new int[] {
+            252,
+            0,
+            0,
+            0});
+            // 
+            // NUD_EV3
+            // 
+            this.NUD_EV3.Location = new System.Drawing.Point(111, 20);
+            this.NUD_EV3.Maximum = new decimal(new int[] {
+            252,
+            0,
+            0,
+            0});
+            this.NUD_EV3.Name = "NUD_EV3";
+            this.NUD_EV3.Size = new System.Drawing.Size(40, 20);
+            this.NUD_EV3.TabIndex = 514;
+            this.NUD_EV3.Value = new decimal(new int[] {
+            252,
+            0,
+            0,
+            0});
+            // 
+            // NUD_EV2
+            // 
+            this.NUD_EV2.Location = new System.Drawing.Point(33, 82);
+            this.NUD_EV2.Maximum = new decimal(new int[] {
+            252,
+            0,
+            0,
+            0});
+            this.NUD_EV2.Name = "NUD_EV2";
+            this.NUD_EV2.Size = new System.Drawing.Size(40, 20);
+            this.NUD_EV2.TabIndex = 502;
+            this.NUD_EV2.Value = new decimal(new int[] {
+            252,
+            0,
+            0,
+            0});
+            // 
+            // NUD_EV1
+            // 
+            this.NUD_EV1.Location = new System.Drawing.Point(33, 51);
+            this.NUD_EV1.Maximum = new decimal(new int[] {
+            252,
+            0,
+            0,
+            0});
+            this.NUD_EV1.Name = "NUD_EV1";
+            this.NUD_EV1.Size = new System.Drawing.Size(40, 20);
+            this.NUD_EV1.TabIndex = 513;
+            this.NUD_EV1.Value = new decimal(new int[] {
+            252,
+            0,
+            0,
+            0});
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(4, 18);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 21);
+            this.label2.TabIndex = 507;
+            this.label2.Text = "HP:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(4, 80);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(29, 21);
+            this.label7.TabIndex = 509;
+            this.label7.Text = "Def:";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(7, 49);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(26, 21);
+            this.label6.TabIndex = 508;
+            this.label6.Text = "Atk:";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_EV0
+            // 
+            this.NUD_EV0.Location = new System.Drawing.Point(33, 20);
+            this.NUD_EV0.Maximum = new decimal(new int[] {
+            252,
+            0,
+            0,
+            0});
+            this.NUD_EV0.Name = "NUD_EV0";
+            this.NUD_EV0.Size = new System.Drawing.Size(40, 20);
+            this.NUD_EV0.TabIndex = 501;
+            this.NUD_EV0.Value = new decimal(new int[] {
+            252,
+            0,
+            0,
+            0});
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(79, 49);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(31, 21);
+            this.label3.TabIndex = 512;
+            this.label3.Text = "SpD:";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(79, 80);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(31, 21);
+            this.label4.TabIndex = 511;
+            this.label4.Text = "Spe:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(79, 18);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(31, 21);
+            this.label5.TabIndex = 510;
+            this.label5.Text = "SpA:";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // GB_IVs
+            // 
+            this.GB_IVs.Controls.Add(this.L_HP);
+            this.GB_IVs.Controls.Add(this.NUD_IV3);
+            this.GB_IVs.Controls.Add(this.NUD_IV4);
+            this.GB_IVs.Controls.Add(this.NUD_IV5);
+            this.GB_IVs.Controls.Add(this.L_SPD);
+            this.GB_IVs.Controls.Add(this.L_SPE);
+            this.GB_IVs.Controls.Add(this.L_SPA);
+            this.GB_IVs.Controls.Add(this.NUD_IV2);
+            this.GB_IVs.Controls.Add(this.NUD_IV1);
+            this.GB_IVs.Controls.Add(this.NUD_IV0);
+            this.GB_IVs.Controls.Add(this.L_ATK);
+            this.GB_IVs.Controls.Add(this.L_DEF);
+            this.GB_IVs.Location = new System.Drawing.Point(129, 295);
+            this.GB_IVs.Name = "GB_IVs";
+            this.GB_IVs.Size = new System.Drawing.Size(148, 112);
+            this.GB_IVs.TabIndex = 21;
+            this.GB_IVs.TabStop = false;
+            this.GB_IVs.Text = "IVs";
+            // 
+            // L_HP
+            // 
+            this.L_HP.Location = new System.Drawing.Point(4, 16);
+            this.L_HP.Name = "L_HP";
+            this.L_HP.Size = new System.Drawing.Size(29, 21);
+            this.L_HP.TabIndex = 495;
+            this.L_HP.Text = "HP:";
+            this.L_HP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_IV3
+            // 
+            this.NUD_IV3.Location = new System.Drawing.Point(104, 18);
+            this.NUD_IV3.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.NUD_IV3.Minimum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            -2147483648});
+            this.NUD_IV3.Name = "NUD_IV3";
+            this.NUD_IV3.Size = new System.Drawing.Size(34, 20);
+            this.NUD_IV3.TabIndex = 492;
+            this.NUD_IV3.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // NUD_IV4
+            // 
+            this.NUD_IV4.Location = new System.Drawing.Point(104, 49);
+            this.NUD_IV4.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.NUD_IV4.Minimum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            -2147483648});
+            this.NUD_IV4.Name = "NUD_IV4";
+            this.NUD_IV4.Size = new System.Drawing.Size(34, 20);
+            this.NUD_IV4.TabIndex = 493;
+            this.NUD_IV4.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // NUD_IV5
+            // 
+            this.NUD_IV5.Location = new System.Drawing.Point(104, 80);
+            this.NUD_IV5.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.NUD_IV5.Minimum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            -2147483648});
+            this.NUD_IV5.Name = "NUD_IV5";
+            this.NUD_IV5.Size = new System.Drawing.Size(34, 20);
+            this.NUD_IV5.TabIndex = 494;
+            this.NUD_IV5.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // L_SPD
+            // 
+            this.L_SPD.Location = new System.Drawing.Point(73, 47);
+            this.L_SPD.Name = "L_SPD";
+            this.L_SPD.Size = new System.Drawing.Size(31, 21);
+            this.L_SPD.TabIndex = 500;
+            this.L_SPD.Text = "SpD:";
+            this.L_SPD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_SPE
+            // 
+            this.L_SPE.Location = new System.Drawing.Point(73, 78);
+            this.L_SPE.Name = "L_SPE";
+            this.L_SPE.Size = new System.Drawing.Size(31, 21);
+            this.L_SPE.TabIndex = 499;
+            this.L_SPE.Text = "Spe:";
+            this.L_SPE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_SPA
+            // 
+            this.L_SPA.Location = new System.Drawing.Point(73, 16);
+            this.L_SPA.Name = "L_SPA";
+            this.L_SPA.Size = new System.Drawing.Size(31, 21);
+            this.L_SPA.TabIndex = 498;
+            this.L_SPA.Text = "SpA:";
+            this.L_SPA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_IV2
+            // 
+            this.NUD_IV2.Location = new System.Drawing.Point(33, 80);
+            this.NUD_IV2.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.NUD_IV2.Minimum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            -2147483648});
+            this.NUD_IV2.Name = "NUD_IV2";
+            this.NUD_IV2.Size = new System.Drawing.Size(34, 20);
+            this.NUD_IV2.TabIndex = 491;
+            this.NUD_IV2.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // NUD_IV1
+            // 
+            this.NUD_IV1.Location = new System.Drawing.Point(33, 49);
+            this.NUD_IV1.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.NUD_IV1.Minimum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            -2147483648});
+            this.NUD_IV1.Name = "NUD_IV1";
+            this.NUD_IV1.Size = new System.Drawing.Size(34, 20);
+            this.NUD_IV1.TabIndex = 490;
+            this.NUD_IV1.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // NUD_IV0
+            // 
+            this.NUD_IV0.Location = new System.Drawing.Point(33, 18);
+            this.NUD_IV0.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.NUD_IV0.Minimum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            -2147483648});
+            this.NUD_IV0.Name = "NUD_IV0";
+            this.NUD_IV0.Size = new System.Drawing.Size(34, 20);
+            this.NUD_IV0.TabIndex = 489;
+            this.NUD_IV0.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // L_ATK
+            // 
+            this.L_ATK.Location = new System.Drawing.Point(7, 47);
+            this.L_ATK.Name = "L_ATK";
+            this.L_ATK.Size = new System.Drawing.Size(26, 21);
+            this.L_ATK.TabIndex = 496;
+            this.L_ATK.Text = "Atk:";
+            this.L_ATK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_DEF
+            // 
+            this.L_DEF.Location = new System.Drawing.Point(4, 78);
+            this.L_DEF.Name = "L_DEF";
+            this.L_DEF.Size = new System.Drawing.Size(29, 21);
+            this.L_DEF.TabIndex = 497;
+            this.L_DEF.Text = "Def:";
+            this.L_DEF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Aura
+            // 
+            this.L_Aura.Location = new System.Drawing.Point(131, 118);
+            this.L_Aura.Name = "L_Aura";
+            this.L_Aura.Size = new System.Drawing.Size(55, 23);
+            this.L_Aura.TabIndex = 22;
+            this.L_Aura.Text = "Aura:";
+            this.L_Aura.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Aura
+            // 
+            this.CB_Aura.FormattingEnabled = true;
+            this.CB_Aura.Location = new System.Drawing.Point(187, 120);
+            this.CB_Aura.Name = "CB_Aura";
+            this.CB_Aura.Size = new System.Drawing.Size(121, 21);
+            this.CB_Aura.TabIndex = 21;
+            // 
             // CHK_ShinyLock
             // 
             this.CHK_ShinyLock.AutoSize = true;
-            this.CHK_ShinyLock.Location = new System.Drawing.Point(218, 232);
+            this.CHK_ShinyLock.Location = new System.Drawing.Point(187, 145);
             this.CHK_ShinyLock.Name = "CHK_ShinyLock";
             this.CHK_ShinyLock.Size = new System.Drawing.Size(79, 17);
             this.CHK_ShinyLock.TabIndex = 18;
@@ -309,7 +791,7 @@
             this.GB_EMoves.Controls.Add(this.CB_EMove2);
             this.GB_EMoves.Controls.Add(this.CB_EMove1);
             this.GB_EMoves.Controls.Add(this.CB_EMove0);
-            this.GB_EMoves.Location = new System.Drawing.Point(218, 114);
+            this.GB_EMoves.Location = new System.Drawing.Point(129, 177);
             this.GB_EMoves.Name = "GB_EMoves";
             this.GB_EMoves.Size = new System.Drawing.Size(133, 112);
             this.GB_EMoves.TabIndex = 17;
@@ -351,16 +833,16 @@
             // CB_EHeldItem
             // 
             this.CB_EHeldItem.FormattingEnabled = true;
-            this.CB_EHeldItem.Location = new System.Drawing.Point(230, 87);
+            this.CB_EHeldItem.Location = new System.Drawing.Point(187, 74);
             this.CB_EHeldItem.Name = "CB_EHeldItem";
             this.CB_EHeldItem.Size = new System.Drawing.Size(121, 21);
             this.CB_EHeldItem.TabIndex = 16;
             // 
             // L_EHeldItem
             // 
-            this.L_EHeldItem.Location = new System.Drawing.Point(124, 85);
+            this.L_EHeldItem.Location = new System.Drawing.Point(131, 72);
             this.L_EHeldItem.Name = "L_EHeldItem";
-            this.L_EHeldItem.Size = new System.Drawing.Size(100, 23);
+            this.L_EHeldItem.Size = new System.Drawing.Size(55, 23);
             this.L_EHeldItem.TabIndex = 15;
             this.L_EHeldItem.Text = "Held Item:";
             this.L_EHeldItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -368,7 +850,7 @@
             // CB_ESpecies
             // 
             this.CB_ESpecies.FormattingEnabled = true;
-            this.CB_ESpecies.Location = new System.Drawing.Point(230, 18);
+            this.CB_ESpecies.Location = new System.Drawing.Point(187, 7);
             this.CB_ESpecies.Name = "CB_ESpecies";
             this.CB_ESpecies.Size = new System.Drawing.Size(121, 21);
             this.CB_ESpecies.TabIndex = 14;
@@ -376,16 +858,16 @@
             // 
             // L_EForm
             // 
-            this.L_EForm.Location = new System.Drawing.Point(124, 62);
+            this.L_EForm.Location = new System.Drawing.Point(131, 49);
             this.L_EForm.Name = "L_EForm";
-            this.L_EForm.Size = new System.Drawing.Size(100, 23);
+            this.L_EForm.Size = new System.Drawing.Size(55, 23);
             this.L_EForm.TabIndex = 13;
             this.L_EForm.Text = "Form:";
             this.L_EForm.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_EForm
             // 
-            this.NUD_EForm.Location = new System.Drawing.Point(230, 65);
+            this.NUD_EForm.Location = new System.Drawing.Point(187, 52);
             this.NUD_EForm.Maximum = new decimal(new int[] {
             255,
             0,
@@ -402,25 +884,25 @@
             // 
             // L_ELevel
             // 
-            this.L_ELevel.Location = new System.Drawing.Point(124, 39);
+            this.L_ELevel.Location = new System.Drawing.Point(131, 27);
             this.L_ELevel.Name = "L_ELevel";
-            this.L_ELevel.Size = new System.Drawing.Size(100, 23);
+            this.L_ELevel.Size = new System.Drawing.Size(55, 23);
             this.L_ELevel.TabIndex = 11;
             this.L_ELevel.Text = "Level:";
             this.L_ELevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_ESpecies
             // 
-            this.L_ESpecies.Location = new System.Drawing.Point(124, 16);
+            this.L_ESpecies.Location = new System.Drawing.Point(131, 5);
             this.L_ESpecies.Name = "L_ESpecies";
-            this.L_ESpecies.Size = new System.Drawing.Size(100, 23);
+            this.L_ESpecies.Size = new System.Drawing.Size(55, 23);
             this.L_ESpecies.TabIndex = 10;
             this.L_ESpecies.Text = "Species:";
             this.L_ESpecies.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_ELevel
             // 
-            this.NUD_ELevel.Location = new System.Drawing.Point(230, 42);
+            this.NUD_ELevel.Location = new System.Drawing.Point(187, 30);
             this.NUD_ELevel.Maximum = new decimal(new int[] {
             255,
             0,
@@ -442,7 +924,7 @@
             this.LB_Encounter.FormattingEnabled = true;
             this.LB_Encounter.Location = new System.Drawing.Point(3, 3);
             this.LB_Encounter.Name = "LB_Encounter";
-            this.LB_Encounter.Size = new System.Drawing.Size(115, 316);
+            this.LB_Encounter.Size = new System.Drawing.Size(115, 433);
             this.LB_Encounter.TabIndex = 1;
             this.LB_Encounter.SelectedIndexChanged += new System.EventHandler(this.LB_Encounter_SelectedIndexChanged);
             // 
@@ -465,7 +947,7 @@
             this.Tab_Trades.Location = new System.Drawing.Point(4, 22);
             this.Tab_Trades.Name = "Tab_Trades";
             this.Tab_Trades.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Trades.Size = new System.Drawing.Size(387, 321);
+            this.Tab_Trades.Size = new System.Drawing.Size(498, 437);
             this.Tab_Trades.TabIndex = 1;
             this.Tab_Trades.Text = "Trades";
             this.Tab_Trades.UseVisualStyleBackColor = true;
@@ -490,7 +972,7 @@
             // L_TTID
             // 
             this.L_TTID.AutoSize = true;
-            this.L_TTID.Location = new System.Drawing.Point(268, 113);
+            this.L_TTID.Location = new System.Drawing.Point(250, 100);
             this.L_TTID.Name = "L_TTID";
             this.L_TTID.Size = new System.Drawing.Size(28, 13);
             this.L_TTID.TabIndex = 27;
@@ -499,7 +981,7 @@
             // 
             // L_TID
             // 
-            this.L_TID.Location = new System.Drawing.Point(124, 108);
+            this.L_TID.Location = new System.Drawing.Point(136, 94);
             this.L_TID.Name = "L_TID";
             this.L_TID.Size = new System.Drawing.Size(50, 23);
             this.L_TID.TabIndex = 26;
@@ -508,17 +990,17 @@
             // 
             // NUD_TID
             // 
-            this.NUD_TID.Location = new System.Drawing.Point(180, 111);
+            this.NUD_TID.Location = new System.Drawing.Point(187, 97);
             this.NUD_TID.Maximum = new decimal(new int[] {
-            -1,
+            999999,
             0,
             0,
             0});
             this.NUD_TID.Name = "NUD_TID";
-            this.NUD_TID.Size = new System.Drawing.Size(82, 20);
+            this.NUD_TID.Size = new System.Drawing.Size(59, 20);
             this.NUD_TID.TabIndex = 25;
             this.NUD_TID.Value = new decimal(new int[] {
-            -1,
+            123456,
             0,
             0,
             0});
@@ -527,16 +1009,16 @@
             // CB_THeldItem
             // 
             this.CB_THeldItem.FormattingEnabled = true;
-            this.CB_THeldItem.Location = new System.Drawing.Point(230, 87);
+            this.CB_THeldItem.Location = new System.Drawing.Point(187, 74);
             this.CB_THeldItem.Name = "CB_THeldItem";
             this.CB_THeldItem.Size = new System.Drawing.Size(121, 21);
             this.CB_THeldItem.TabIndex = 24;
             // 
             // L_THeldItem
             // 
-            this.L_THeldItem.Location = new System.Drawing.Point(124, 85);
+            this.L_THeldItem.Location = new System.Drawing.Point(131, 72);
             this.L_THeldItem.Name = "L_THeldItem";
-            this.L_THeldItem.Size = new System.Drawing.Size(100, 23);
+            this.L_THeldItem.Size = new System.Drawing.Size(55, 23);
             this.L_THeldItem.TabIndex = 23;
             this.L_THeldItem.Text = "Held Item:";
             this.L_THeldItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -544,7 +1026,7 @@
             // CB_TSpecies
             // 
             this.CB_TSpecies.FormattingEnabled = true;
-            this.CB_TSpecies.Location = new System.Drawing.Point(230, 18);
+            this.CB_TSpecies.Location = new System.Drawing.Point(187, 7);
             this.CB_TSpecies.Name = "CB_TSpecies";
             this.CB_TSpecies.Size = new System.Drawing.Size(121, 21);
             this.CB_TSpecies.TabIndex = 22;
@@ -552,16 +1034,16 @@
             // 
             // L_TForm
             // 
-            this.L_TForm.Location = new System.Drawing.Point(124, 62);
+            this.L_TForm.Location = new System.Drawing.Point(131, 49);
             this.L_TForm.Name = "L_TForm";
-            this.L_TForm.Size = new System.Drawing.Size(100, 23);
+            this.L_TForm.Size = new System.Drawing.Size(55, 23);
             this.L_TForm.TabIndex = 21;
             this.L_TForm.Text = "Form:";
             this.L_TForm.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_TForm
             // 
-            this.NUD_TForm.Location = new System.Drawing.Point(230, 65);
+            this.NUD_TForm.Location = new System.Drawing.Point(187, 52);
             this.NUD_TForm.Maximum = new decimal(new int[] {
             255,
             0,
@@ -578,25 +1060,25 @@
             // 
             // L_TLevel
             // 
-            this.L_TLevel.Location = new System.Drawing.Point(124, 39);
+            this.L_TLevel.Location = new System.Drawing.Point(131, 27);
             this.L_TLevel.Name = "L_TLevel";
-            this.L_TLevel.Size = new System.Drawing.Size(100, 23);
+            this.L_TLevel.Size = new System.Drawing.Size(55, 23);
             this.L_TLevel.TabIndex = 19;
             this.L_TLevel.Text = "Level:";
             this.L_TLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_TSpecies
             // 
-            this.L_TSpecies.Location = new System.Drawing.Point(124, 16);
+            this.L_TSpecies.Location = new System.Drawing.Point(131, 5);
             this.L_TSpecies.Name = "L_TSpecies";
-            this.L_TSpecies.Size = new System.Drawing.Size(100, 23);
+            this.L_TSpecies.Size = new System.Drawing.Size(55, 23);
             this.L_TSpecies.TabIndex = 18;
             this.L_TSpecies.Text = "Species:";
             this.L_TSpecies.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_TLevel
             // 
-            this.NUD_TLevel.Location = new System.Drawing.Point(230, 42);
+            this.NUD_TLevel.Location = new System.Drawing.Point(187, 30);
             this.NUD_TLevel.Maximum = new decimal(new int[] {
             255,
             0,
@@ -618,7 +1100,7 @@
             this.LB_Trade.FormattingEnabled = true;
             this.LB_Trade.Location = new System.Drawing.Point(3, 3);
             this.LB_Trade.Name = "LB_Trade";
-            this.LB_Trade.Size = new System.Drawing.Size(115, 316);
+            this.LB_Trade.Size = new System.Drawing.Size(115, 433);
             this.LB_Trade.TabIndex = 2;
             this.LB_Trade.SelectedIndexChanged += new System.EventHandler(this.LB_Trade_SelectedIndexChanged);
             // 
@@ -632,7 +1114,7 @@
             this.Tab_Randomizer.Location = new System.Drawing.Point(4, 22);
             this.Tab_Randomizer.Name = "Tab_Randomizer";
             this.Tab_Randomizer.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Randomizer.Size = new System.Drawing.Size(387, 321);
+            this.Tab_Randomizer.Size = new System.Drawing.Size(498, 437);
             this.Tab_Randomizer.TabIndex = 3;
             this.Tab_Randomizer.Text = "Randomizer Options";
             this.Tab_Randomizer.UseVisualStyleBackColor = true;
@@ -645,7 +1127,7 @@
             0,
             0,
             131072});
-            this.NUD_LevelBoost.Location = new System.Drawing.Point(231, 65);
+            this.NUD_LevelBoost.Location = new System.Drawing.Point(301, 111);
             this.NUD_LevelBoost.Maximum = new decimal(new int[] {
             3,
             0,
@@ -665,7 +1147,7 @@
             this.CHK_Level.AutoSize = true;
             this.CHK_Level.Checked = true;
             this.CHK_Level.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Level.Location = new System.Drawing.Point(99, 66);
+            this.CHK_Level.Location = new System.Drawing.Point(169, 112);
             this.CHK_Level.Name = "CHK_Level";
             this.CHK_Level.Size = new System.Drawing.Size(130, 17);
             this.CHK_Level.TabIndex = 510;
@@ -674,7 +1156,7 @@
             // 
             // B_RandAll
             // 
-            this.B_RandAll.Location = new System.Drawing.Point(132, 243);
+            this.B_RandAll.Location = new System.Drawing.Point(202, 289);
             this.B_RandAll.Name = "B_RandAll";
             this.B_RandAll.Size = new System.Drawing.Size(122, 23);
             this.B_RandAll.TabIndex = 509;
@@ -698,12 +1180,22 @@
             this.GB_Tweak.Controls.Add(this.CHK_G3);
             this.GB_Tweak.Controls.Add(this.CHK_G2);
             this.GB_Tweak.Controls.Add(this.CHK_G1);
-            this.GB_Tweak.Location = new System.Drawing.Point(52, 91);
+            this.GB_Tweak.Location = new System.Drawing.Point(122, 137);
             this.GB_Tweak.Name = "GB_Tweak";
             this.GB_Tweak.Size = new System.Drawing.Size(258, 144);
             this.GB_Tweak.TabIndex = 508;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
+            // 
+            // CHK_RemoveShinyLock
+            // 
+            this.CHK_RemoveShinyLock.AutoSize = true;
+            this.CHK_RemoveShinyLock.Location = new System.Drawing.Point(9, 124);
+            this.CHK_RemoveShinyLock.Name = "CHK_RemoveShinyLock";
+            this.CHK_RemoveShinyLock.Size = new System.Drawing.Size(127, 17);
+            this.CHK_RemoveShinyLock.TabIndex = 299;
+            this.CHK_RemoveShinyLock.Text = "Remove Shiny Locks";
+            this.CHK_RemoveShinyLock.UseVisualStyleBackColor = true;
             // 
             // CHK_AllowMega
             // 
@@ -856,7 +1348,7 @@
             // 
             // B_Starters
             // 
-            this.B_Starters.Location = new System.Drawing.Point(132, 272);
+            this.B_Starters.Location = new System.Drawing.Point(202, 318);
             this.B_Starters.Name = "B_Starters";
             this.B_Starters.Size = new System.Drawing.Size(122, 23);
             this.B_Starters.TabIndex = 9;
@@ -866,7 +1358,7 @@
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(328, 365);
+            this.B_Save.Location = new System.Drawing.Point(435, 445);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 1;
@@ -876,7 +1368,7 @@
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(247, 365);
+            this.B_Cancel.Location = new System.Drawing.Point(354, 445);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 2;
@@ -884,21 +1376,20 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // CHK_RemoveShinyLock
+            // L_GGender
             // 
-            this.CHK_RemoveShinyLock.AutoSize = true;
-            this.CHK_RemoveShinyLock.Location = new System.Drawing.Point(9, 124);
-            this.CHK_RemoveShinyLock.Name = "CHK_RemoveShinyLock";
-            this.CHK_RemoveShinyLock.Size = new System.Drawing.Size(127, 17);
-            this.CHK_RemoveShinyLock.TabIndex = 299;
-            this.CHK_RemoveShinyLock.Text = "Remove Shiny Locks";
-            this.CHK_RemoveShinyLock.UseVisualStyleBackColor = true;
+            this.L_GGender.Location = new System.Drawing.Point(131, 71);
+            this.L_GGender.Name = "L_GGender";
+            this.L_GGender.Size = new System.Drawing.Size(55, 23);
+            this.L_GGender.TabIndex = 21;
+            this.L_GGender.Text = "Gender:";
+            this.L_GGender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // StaticEncounterEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(419, 395);
+            this.ClientSize = new System.Drawing.Size(530, 511);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.TC_Tabs);
@@ -912,6 +1403,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GLevel)).EndInit();
             this.Tab_Encounters.ResumeLayout(false);
             this.Tab_Encounters.PerformLayout();
+            this.GB_EVs.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EV5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EV4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EV3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EV2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EV1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EV0)).EndInit();
+            this.GB_IVs.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_IV3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_IV4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_IV5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_IV2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_IV1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_IV0)).EndInit();
             this.GB_EMoves.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ELevel)).EndInit();
@@ -997,5 +1502,37 @@
         private System.Windows.Forms.CheckBox CHK_Item;
         private System.Windows.Forms.CheckBox CHK_AllowMega;
         private System.Windows.Forms.CheckBox CHK_RemoveShinyLock;
+        private System.Windows.Forms.Label L_Aura;
+        private System.Windows.Forms.ComboBox CB_Aura;
+        private System.Windows.Forms.Label L_DEF;
+        private System.Windows.Forms.Label L_ATK;
+        private System.Windows.Forms.Label L_HP;
+        private System.Windows.Forms.NumericUpDown NUD_IV0;
+        private System.Windows.Forms.NumericUpDown NUD_IV1;
+        private System.Windows.Forms.NumericUpDown NUD_IV2;
+        private System.Windows.Forms.Label L_SPA;
+        private System.Windows.Forms.Label L_SPE;
+        private System.Windows.Forms.Label L_SPD;
+        private System.Windows.Forms.NumericUpDown NUD_IV5;
+        private System.Windows.Forms.NumericUpDown NUD_IV4;
+        private System.Windows.Forms.NumericUpDown NUD_IV3;
+        private System.Windows.Forms.GroupBox GB_EVs;
+        private System.Windows.Forms.NumericUpDown NUD_EV5;
+        private System.Windows.Forms.NumericUpDown NUD_EV4;
+        private System.Windows.Forms.NumericUpDown NUD_EV3;
+        private System.Windows.Forms.NumericUpDown NUD_EV2;
+        private System.Windows.Forms.NumericUpDown NUD_EV1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown NUD_EV0;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox GB_IVs;
+        private System.Windows.Forms.ComboBox CB_Nature;
+        private System.Windows.Forms.Label L_Nature;
+        private System.Windows.Forms.CheckBox CHK_IV3;
+        private System.Windows.Forms.Label L_GGender;
     }
 }

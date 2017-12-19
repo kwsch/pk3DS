@@ -215,6 +215,9 @@ namespace pk3DS
                 NUD_Form.Value = formrand.GetRandomForme(species);
                 NUD_Gender.Value = 0; // random
 
+                if (CHK_RemoveShinyLock.Checked)
+                    CHK_ShinyLock.Checked = false;
+
                 if (CHK_Level.Checked)
                     NUD_Level.Value = Randomizer.getModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
             }
