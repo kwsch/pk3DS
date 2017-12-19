@@ -106,10 +106,14 @@ namespace pk3DS
                 CB_EMove1.Items.Add(s);
                 CB_EMove2.Items.Add(s);
                 CB_EMove3.Items.Add(s);
+                CB_SpecialMove.Items.Add(s);
             }
 
-            CB_Nature.Items.Add("Random");
-            CB_Nature.Items.AddRange(natures.Take(25).ToArray());
+            CB_GNature.Items.Add("Random");
+            CB_GNature.Items.AddRange(natures.Take(25).ToArray());
+            CB_ENature.Items.Add("Random");
+            CB_ENature.Items.AddRange(natures.Take(25).ToArray());
+            CB_TNature.Items.AddRange(natures.Take(25).ToArray());
 
             foreach (string s in aura) CB_Aura.Items.Add(s);
 
@@ -211,7 +215,12 @@ namespace pk3DS
             NUD_GLevel.Value = entry.Level;
             NUD_GForm.Value = entry.Form;
             NUD_GGender.Value = entry.Gender;
+            CB_GNature.SelectedIndex = entry.Nature + 1;
+            CB_SpecialMove.SelectedIndex = entry.SpecialMove;
             CHK_G_Lock.Checked = entry.ShinyLock;
+            CHK_GIV3.Checked = entry.IV3;
+            CHK_IsEgg.Checked = entry.IsEgg;
+
             loading = false;
         }
         private void setGift()
@@ -225,7 +234,10 @@ namespace pk3DS
             entry.Level = (int)NUD_GLevel.Value;
             entry.Form = (int)NUD_GForm.Value;
             entry.Gender = (int) NUD_GGender.Value;
+            entry.Nature = (sbyte)(CB_GNature.SelectedIndex - 1);
+            entry.SpecialMove = CB_SpecialMove.SelectedIndex;
             entry.ShinyLock = CHK_G_Lock.Checked;
+            entry.IsEgg = CHK_IsEgg.Checked;
         }
         private void getEncounter()
         {
@@ -247,12 +259,12 @@ namespace pk3DS
             CB_EMove2.SelectedIndex = moves[2];
             CB_EMove3.SelectedIndex = moves[3];
 
-            NUD_IV0.Value = iv[0];
-            NUD_IV1.Value = iv[1];
-            NUD_IV2.Value = iv[2];
-            NUD_IV3.Value = iv[3];
-            NUD_IV4.Value = iv[4];
-            NUD_IV5.Value = iv[5];
+            NUD_EIV0.Value = iv[0];
+            NUD_EIV1.Value = iv[1];
+            NUD_EIV2.Value = iv[2];
+            NUD_EIV3.Value = iv[3];
+            NUD_EIV4.Value = iv[4];
+            NUD_EIV5.Value = iv[5];
 
             NUD_EV0.Value = ev[0];
             NUD_EV1.Value = ev[1];
@@ -262,8 +274,8 @@ namespace pk3DS
             NUD_EV5.Value = ev[5];
 
             CHK_ShinyLock.Checked = entry.ShinyLock;
-            CHK_IV3.Checked = entry.IV3;
-            CB_Nature.SelectedIndex = entry.Nature;
+            CHK_EIV3.Checked = entry.IV3;
+            CB_ENature.SelectedIndex = entry.Nature;
             CB_Aura.SelectedIndex = entry.Aura;
 
             loading = false;
@@ -288,12 +300,12 @@ namespace pk3DS
                 CB_EMove3.SelectedIndex,
             };
 
-            iv[0] = (int)NUD_IV0.Value;
-            iv[1] = (int)NUD_IV1.Value;
-            iv[2] = (int)NUD_IV2.Value;
-            iv[3] = (int)NUD_IV3.Value;
-            iv[4] = (int)NUD_IV4.Value;
-            iv[5] = (int)NUD_IV5.Value;
+            iv[0] = (int)NUD_EIV0.Value;
+            iv[1] = (int)NUD_EIV1.Value;
+            iv[2] = (int)NUD_EIV2.Value;
+            iv[3] = (int)NUD_EIV3.Value;
+            iv[4] = (int)NUD_EIV4.Value;
+            iv[5] = (int)NUD_EIV5.Value;
             entry.IVs = iv;
 
             ev[0] = (int)NUD_EV0.Value;
@@ -305,7 +317,7 @@ namespace pk3DS
             entry.EVs = ev;
 
             entry.ShinyLock = CHK_ShinyLock.Checked;
-            entry.Nature = CB_Nature.SelectedIndex;
+            entry.Nature = CB_ENature.SelectedIndex;
             entry.Aura = CB_Aura.SelectedIndex;
         }
         private void getTrade()
@@ -315,13 +327,22 @@ namespace pk3DS
 
             loading = true;
             var entry = Trades[tEntry];
+            var iv = entry.IVs;
             CB_TSpecies.SelectedIndex = entry.Species;
             CB_THeldItem.SelectedIndex = entry.HeldItem;
             NUD_TLevel.Value = entry.Level;
             NUD_TForm.Value = entry.Form;
-            
+            CB_TNature.SelectedIndex = entry.Nature;
+
             NUD_TID.Value = entry.ID;
             CB_TRequest.SelectedIndex = entry.TradeRequestSpecies;
+
+            NUD_TIV0.Value = iv[0];
+            NUD_TIV1.Value = iv[1];
+            NUD_TIV2.Value = iv[2];
+            NUD_TIV3.Value = iv[3];
+            NUD_TIV4.Value = iv[4];
+            NUD_TIV5.Value = iv[5];
 
             loading = false;
         }
@@ -331,13 +352,23 @@ namespace pk3DS
                 return;
 
             var entry = Trades[tEntry];
+            var iv = entry.IVs;
             entry.Species = CB_TSpecies.SelectedIndex;
             entry.HeldItem = CB_THeldItem.SelectedIndex;
             entry.Level = (int)NUD_TLevel.Value;
             entry.Form = (int)NUD_TForm.Value;
+            entry.Nature = CB_TNature.SelectedIndex;
 
-            entry.ID = (uint)NUD_TID.Value;
+            entry.TID = (int)NUD_TID.Value;
             entry.TradeRequestSpecies = CB_TRequest.SelectedIndex;
+
+            iv[0] = (int)NUD_TIV0.Value;
+            iv[1] = (int)NUD_TIV1.Value;
+            iv[2] = (int)NUD_TIV2.Value;
+            iv[3] = (int)NUD_TIV3.Value;
+            iv[4] = (int)NUD_TIV4.Value;
+            iv[5] = (int)NUD_TIV5.Value;
+            entry.IVs = iv;
         }
         
         private void changeSpecies(object sender, EventArgs e)
@@ -360,7 +391,7 @@ namespace pk3DS
                 entry.Species = cb.SelectedIndex;
                 LB_Encounter.Items[eEntry] = getEntryText(entry, eEntry);
             }
-            else if(sender == CB_TSpecies)
+            else if (sender == CB_TSpecies)
             {
                 var entry = Trades[tEntry];
                 entry.Species = cb.SelectedIndex;
@@ -369,7 +400,7 @@ namespace pk3DS
         }
         private void changeTID(object sender, EventArgs e)
         {
-            L_TTID.Text = $"TID: {NUD_TID.Value % 100000:000000}";
+            L_TTID.Text = $"Gen 7 ID: {NUD_TID.Value % 100000:000000}";
         }
 
         // Randomization
@@ -441,6 +472,7 @@ namespace pk3DS
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
             var items = Randomizer.getRandomItemList();
+            var aurarand = aura;
 
             for (int i = 3; i < Gifts.Length; i++) // Skip Starters
             {
