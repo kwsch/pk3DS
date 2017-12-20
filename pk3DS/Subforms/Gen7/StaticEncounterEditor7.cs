@@ -176,7 +176,7 @@ namespace pk3DS
 
         private string getEntryText(int species, int entry)
         {
-            return $"{entry.ToString("00")} - {specieslist[species]}";
+            return $"{entry:00} - {specieslist[species]}";
         }
         private string getEntryText(EncounterStatic enc, int entry)
         {

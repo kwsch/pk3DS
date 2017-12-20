@@ -52,12 +52,14 @@ namespace pk3DS.Core.Structures
             set => Data[0x6] = (byte)(Data[0x6] & ~0xC | ((value & 3) << 2));
         }
         public int Ability
-        { get => (Data[0x6] & 0x70) >> 4;
+        {
+            get => (Data[0x6] & 0x70) >> 4;
             set => Data[0x6] = (byte)(Data[0x6] & ~0x70 | ((value & 7) << 4));
         }
 
         public bool _7
-        { get => (Data[0x7] & 1) >> 0 == 1;
+        {
+            get => (Data[0x7] & 1) >> 0 == 1;
             set => Data[0x7] = (byte)(Data[0x7] & ~1 | (value ? 1 : 0));
         }
         public bool _7_1
@@ -96,10 +98,7 @@ namespace pk3DS.Core.Structures
 
         public int[] IVs
         {
-            get => new int[]
-            {
-                (sbyte) Data[0x15], (sbyte) Data[0x16], (sbyte) Data[0x17], (sbyte) Data[0x18], (sbyte) Data[0x19], (sbyte) Data[0x1A]
-            };
+            get => new int[] { (sbyte) Data[0x15], (sbyte) Data[0x16], (sbyte) Data[0x17], (sbyte) Data[0x18], (sbyte) Data[0x19], (sbyte) Data[0x1A] };
             set
             {
                 if (value.Length != 6)
@@ -110,10 +109,7 @@ namespace pk3DS.Core.Structures
         }
         public int[] EVs
         {
-            get => new int[]
-            {
-                (byte) Data[0x1B], (byte) Data[0x1C], (byte) Data[0x1D], (byte) Data[0x1E], (byte) Data[0x1F], (byte) Data[0x20]
-            };
+            get => new int[] { Data[0x1B], Data[0x1C], Data[0x1D], Data[0x1E], Data[0x1F], Data[0x20] };
             set
             {
                 if (value.Length != 6)

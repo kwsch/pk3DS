@@ -33,11 +33,9 @@ namespace pk3DS.Core
         }
 
         // Randomization
-        public static Random rand = new Random();
-        public static uint rnd32()
-        {
-            return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
-        }
+        public static Random rand { get; private set; } = new Random();
+        public static void ReseedRand(int seed) => rand = new Random(seed);
+        public static uint rnd32() => (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
 
         // Data Retrieval
         public static int ToInt32(string value)

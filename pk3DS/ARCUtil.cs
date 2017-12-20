@@ -6,7 +6,7 @@ using System.Text;
 
 namespace pk3DS.ARCUtil
 {
-    public class ARC
+    public static class ARC
     {
         // Multi Type Archive Handling
         internal static bool onefile = true;

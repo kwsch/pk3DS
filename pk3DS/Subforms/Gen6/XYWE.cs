@@ -495,11 +495,8 @@ namespace pk3DS
             }
             TabControl_EncounterData.TabPages[0].Show();
         }
-        internal static Random rand = new Random();
-        internal static uint rnd32()
-        {
-            return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
-        }
+
+        internal static uint rnd32() => Util.rnd32();
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {

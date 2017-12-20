@@ -8,7 +8,7 @@ namespace pk3DS.Core.Randomizers
 {
     public class PersonalRandomizer : IRandomizer
     {
-        private static readonly Random rnd = new Random();
+        private readonly Random rnd = Util.rand;
 
         private const decimal LearnTMPercent = 35; // Average Learnable TMs is 35.260.
         private const decimal LearnTypeTutorPercent = 2; //136 special tutor moves learnable by species in Untouched ORAS.

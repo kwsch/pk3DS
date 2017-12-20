@@ -131,11 +131,7 @@ namespace pk3DS
             Setup();
         }
         private string[][] AltForms;
-        internal static readonly Random rand = new Random();
-        internal static uint rnd32()
-        {
-            return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
-        }
+        internal static uint rnd32() => Util.rnd32();
         private bool start = true;
         private bool loading = true;
         private int index = -1;

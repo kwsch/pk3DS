@@ -59,7 +59,7 @@ namespace pk3DS
             for (int i = 0; i < EncounterData.Length; i++)
             {
                 EncounterData[i] = new EncounterStatic6(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray());
-                LB_Encounters.Items.Add($"{i.ToString("00")} - {specieslist[EncounterData[i].Species]}");
+                LB_Encounters.Items.Add($"{i:00} - {specieslist[EncounterData[i].Species]}");
             }
             loaded = true;
             LB_Encounters.SelectedIndex = 0;

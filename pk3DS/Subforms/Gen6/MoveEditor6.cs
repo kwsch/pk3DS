@@ -174,7 +174,7 @@ namespace pk3DS
             }
 
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize Moves? Cannot undo.", "Double check options on the right before continuing.") != DialogResult.Yes) return;
-            Random rnd = new Random();
+            Random rnd = Util.rand;
             for (int i = 0; i < CB_Move.Items.Count; i++)
             {
                 CB_Move.SelectedIndex = i; // Get new Move

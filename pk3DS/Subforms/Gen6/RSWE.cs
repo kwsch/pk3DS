@@ -304,11 +304,7 @@ namespace pk3DS
             //Preload Tabs
             PreloadTabs();
         }
-        internal static Random rand = new Random();
-        internal static uint rnd32()
-        {
-            return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
-        }
+        internal static uint rnd32() => Util.rnd32();
 
         private void openQuick(string[] encdata)
         {
