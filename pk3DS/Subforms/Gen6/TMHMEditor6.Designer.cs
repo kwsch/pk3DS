@@ -35,8 +35,10 @@
             this.B_RTM = new System.Windows.Forms.Button();
             this.CHK_RandomizeHM = new System.Windows.Forms.CheckBox();
             this.CHK_RandomizeField = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHM)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvTM
@@ -73,7 +75,7 @@
             this.dgvHM.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHM.Location = new System.Drawing.Point(256, 25);
             this.dgvHM.Name = "dgvHM";
-            this.dgvHM.Size = new System.Drawing.Size(240, 265);
+            this.dgvHM.Size = new System.Drawing.Size(240, 231);
             this.dgvHM.TabIndex = 3;
             // 
             // L_HM
@@ -98,7 +100,7 @@
             // CHK_RandomizeHM
             // 
             this.CHK_RandomizeHM.AutoSize = true;
-            this.CHK_RandomizeHM.Location = new System.Drawing.Point(256, 294);
+            this.CHK_RandomizeHM.Location = new System.Drawing.Point(13, 19);
             this.CHK_RandomizeHM.Name = "CHK_RandomizeHM";
             this.CHK_RandomizeHM.Size = new System.Drawing.Size(104, 17);
             this.CHK_RandomizeHM.TabIndex = 280;
@@ -108,20 +110,30 @@
             // CHK_RandomizeField
             // 
             this.CHK_RandomizeField.AutoSize = true;
-            this.CHK_RandomizeField.Location = new System.Drawing.Point(256, 311);
+            this.CHK_RandomizeField.Location = new System.Drawing.Point(13, 36);
             this.CHK_RandomizeField.Name = "CHK_RandomizeField";
             this.CHK_RandomizeField.Size = new System.Drawing.Size(139, 17);
             this.CHK_RandomizeField.TabIndex = 281;
             this.CHK_RandomizeField.Text = "Randomize Field Moves";
             this.CHK_RandomizeField.UseVisualStyleBackColor = true;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.CHK_RandomizeHM);
+            this.groupBox1.Controls.Add(this.CHK_RandomizeField);
+            this.groupBox1.Location = new System.Drawing.Point(256, 262);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(240, 63);
+            this.groupBox1.TabIndex = 282;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Randomization Settings";
+            // 
             // TMHMEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 332);
-            this.Controls.Add(this.CHK_RandomizeField);
-            this.Controls.Add(this.CHK_RandomizeHM);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.B_RTM);
             this.Controls.Add(this.L_HM);
             this.Controls.Add(this.dgvHM);
@@ -136,6 +148,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHM)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -150,5 +164,6 @@
         private System.Windows.Forms.Button B_RTM;
         private System.Windows.Forms.CheckBox CHK_RandomizeHM;
         private System.Windows.Forms.CheckBox CHK_RandomizeField;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

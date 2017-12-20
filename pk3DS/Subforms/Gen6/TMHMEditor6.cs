@@ -22,6 +22,7 @@ namespace pk3DS
             movelist[0] = "";
             setupDGV();
             getList();
+            RandSettings.GetFormSettings(this, groupBox1.Controls);
         }
 
         private static readonly byte[] Signature = {0xD4, 0x00, 0xAE, 0x02, 0xAF, 0x02, 0xB0, 0x02};
@@ -152,6 +153,7 @@ namespace pk3DS
         {
             setList();
             File.WriteAllBytes(codebin, data);
+            RandSettings.SetFormSettings(this, groupBox1.Controls);
         }
 
         private void B_RandomTM_Click(object sender, EventArgs e)
