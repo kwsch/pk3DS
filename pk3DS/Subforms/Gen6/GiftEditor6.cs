@@ -26,7 +26,7 @@ namespace pk3DS
             MegaDictionary = megaDictionary;
 
             specieslist[0] = "---";
-            abilitylist[0] = itemlist[0] = movelist[0] = "(None)"; // blank == -1
+            itemlist[0] = "(None)"; // blank == -1
 
             CB_Species.Items.Clear();
             foreach (string s in specieslist)
@@ -34,6 +34,8 @@ namespace pk3DS
             CB_HeldItem.Items.Clear();
             foreach (string s in itemlist)
                 CB_HeldItem.Items.Add(s);
+            CB_Nature.Items.Add("Random");
+            CB_Nature.Items.AddRange(natureslist.Take(25).ToArray());
 
             loadData();
         }
@@ -54,6 +56,7 @@ namespace pk3DS
         private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+        private readonly string[] natureslist = Main.Config.getText(TextName.Natures);
         private readonly Dictionary<int, int[]> MegaDictionary;
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -132,11 +135,12 @@ namespace pk3DS
         {
             bool oldloaded = loaded;
             loaded = false;
+
             CB_Species.SelectedIndex = GiftData[entry].Species;
             CB_HeldItem.SelectedIndex = GiftData[entry].HeldItem;
             NUD_Level.Value = GiftData[entry].Level;
             NUD_Form.Value = GiftData[entry].Form;
-            NUD_Nature.Value = GiftData[entry].Nature;
+            CB_Nature.SelectedIndex = GiftData[entry].Nature + 1;
             NUD_Ability.Value = GiftData[entry].Ability;
             NUD_Gender.Value = GiftData[entry].Gender;
             CHK_ShinyLock.Checked = GiftData[entry].ShinyLock;
@@ -147,6 +151,10 @@ namespace pk3DS
             NUD_IV3.Value = GiftData[entry].IVs[3];
             NUD_IV4.Value = GiftData[entry].IVs[4];
             NUD_IV5.Value = GiftData[entry].IVs[5];
+
+            if (GiftData[entry].HeldItem < 0)
+                CB_HeldItem.SelectedIndex = 0; // no item = 0xFFFF, set to 0 (None)
+
             loaded |= oldloaded;
         }
         private void saveEntry()
@@ -155,7 +163,7 @@ namespace pk3DS
             GiftData[entry].HeldItem = CB_HeldItem.SelectedIndex;
             GiftData[entry].Level = (byte)NUD_Level.Value;
             GiftData[entry].Form = (byte)NUD_Form.Value;
-            GiftData[entry].Nature = (sbyte)NUD_Nature.Value;
+            GiftData[entry].Nature = (sbyte)(CB_Nature.SelectedIndex - 1);
             GiftData[entry].Ability = (sbyte)NUD_Ability.Value;
             GiftData[entry].Gender = (sbyte)NUD_Gender.Value;
             GiftData[entry].ShinyLock = CHK_ShinyLock.Checked;
@@ -197,7 +205,7 @@ namespace pk3DS
 
                 if (MegaDictionary.Values.Any(z => z.Contains(CB_HeldItem.SelectedIndex))) // Mega Stone Gifts (Lucario, Latias/Latios)
                 {
-                    if (!CHK_Mega.Checked)
+                    if (!CHK_ReplaceMega.Checked)
                         continue; // skip Lucario, battle needs to Mega Evolve
 
                     int[] items = GetRandomMega(out species);
@@ -211,9 +219,16 @@ namespace pk3DS
                         CB_HeldItem.SelectedIndex = helditems[Util.rnd32() % helditems.Length];
                 }
 
+                if (CHK_AllowMega.Checked)
+                    formrand.AllowMega = true;
+
                 CB_Species.SelectedIndex = species;
                 NUD_Form.Value = formrand.GetRandomForme(species);
                 NUD_Gender.Value = 0; // random
+                CB_Nature.SelectedIndex = 0; // random
+
+                if (MegaDictionary.Values.Any(z => z.Contains(CB_HeldItem.SelectedIndex)) && NUD_Form.Value > 0)
+                    NUD_Form.Value = 0; // don't allow Mega Stone Gifts to be form 1
 
                 if (CHK_RemoveShinyLock.Checked)
                     CHK_ShinyLock.Checked = false;
@@ -288,6 +303,18 @@ namespace pk3DS
         {
             int index = LB_Gifts.SelectedIndex;
             LB_Gifts.Items[index] = index.ToString("00") + " - " + CB_Species.Text;
+        }
+
+        private void ModifyLevels(object sender, EventArgs e)
+        {
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify all current Levels?", "Cannot undo.") != DialogResult.Yes) return;
+
+            for (int i = 0; i < LB_Gifts.Items.Count; i++)
+            {
+                LB_Gifts.SelectedIndex = i;
+                NUD_Level.Value = Randomizer.getModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
+            }
+            WinFormsUtil.Alert("Modified all Levels according to specification!");
         }
     }
 }

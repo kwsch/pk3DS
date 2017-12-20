@@ -448,10 +448,11 @@ namespace pk3DS
                 if (CHK_Item.Checked)
                     t.HeldItem = items[Util.rnd32() % items.Length];
 
+                if (CHK_Level.Checked)
+                    t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
+
                 if (CHK_RemoveShinyLock.Checked)
                     t.ShinyLock = false; // in case any user modifications locked the starters
-
-                // no level boosting
             }
 
             getListBoxEntries();
@@ -472,13 +473,15 @@ namespace pk3DS
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
             var items = Randomizer.getRandomItemList();
-            var aurarand = aura;
 
             for (int i = 3; i < Gifts.Length; i++) // Skip Starters
             {
                 var t = Gifts[i];
                 t.Species = specrand.GetRandomSpecies(t.Species);
                 t.Form = formrand.GetRandomForme(t.Species);
+
+                if (CHK_AllowMega.Checked)
+                    formrand.AllowMega = true;
 
                 if (CHK_Item.Checked)
                     t.HeldItem = items[Util.rnd32() % items.Length];
@@ -495,6 +498,9 @@ namespace pk3DS
                 t.Form = formrand.GetRandomForme(t.Species);
                 t.RelearnMoves = move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
 
+                if (CHK_AllowMega.Checked)
+                    formrand.AllowMega = true;
+
                 if (CHK_Item.Checked)
                     t.HeldItem = items[Util.rnd32() % items.Length];
 
@@ -509,6 +515,9 @@ namespace pk3DS
                 t.Species = specrand.GetRandomSpecies(t.Species);
                 t.Form = formrand.GetRandomForme(t.Species);
                 t.TradeRequestSpecies = specrand.GetRandomSpecies(t.TradeRequestSpecies);
+
+                if (CHK_AllowMega.Checked)
+                    formrand.AllowMega = true;
 
                 if (CHK_Item.Checked)
                     t.HeldItem = items[Util.rnd32() % items.Length];
@@ -576,6 +585,31 @@ namespace pk3DS
             var g = Gifts.Select(z => z.GetSummary() + $" // {specieslist[z.Species]} @ ???");
             var s = Encounters.Select(z => z.GetSummary() + $" // {specieslist[z.Species]} @ ???");
             Clipboard.SetText(string.Join(Environment.NewLine, g.Concat(s)));
+        }
+
+        private void ModifyLevels(object sender, EventArgs e)
+        {
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify all current Levels?", "Cannot undo.") != DialogResult.Yes) return;
+
+            // encounter
+            for (int i = 0; i < LB_Encounter.Items.Count; i++)
+            {
+                LB_Encounter.SelectedIndex = i;
+                NUD_ELevel.Value = Randomizer.getModifiedLevel((int)NUD_ELevel.Value, NUD_LevelBoost.Value);
+            }
+            // gift
+            for (int i = 0; i < LB_Gift.Items.Count; i++)
+            {
+                LB_Gift.SelectedIndex = i;
+                NUD_GLevel.Value = Randomizer.getModifiedLevel((int)NUD_GLevel.Value, NUD_LevelBoost.Value);
+            }
+            // trade
+            for (int i = 0; i < LB_Trade.Items.Count; i++)
+            {
+                LB_Trade.SelectedIndex = i;
+                NUD_TLevel.Value = Randomizer.getModifiedLevel((int)NUD_TLevel.Value, NUD_LevelBoost.Value);
+            }
+            WinFormsUtil.Alert("Modified all Levels according to specification!");
         }
     }
 }
