@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -54,6 +55,9 @@ namespace pk3DS
             string[] args = Environment.GetCommandLineArgs();
             string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0])?.ToLower() : "";
             skipBoth = filename.IndexOf("3DSkip", StringComparison.Ordinal) >= 0;
+
+            if (File.Exists(RandSettings.FileName))
+                RandSettings.Load(File.ReadAllLines(RandSettings.FileName));
         }
         internal static GameConfig Config;
         public static string RomFSPath;
@@ -128,6 +132,12 @@ namespace pk3DS
             string[][] files = Config.GameTextStrings;
             g.Files = files.Select(x => TextFile.getBytes(Config, x)).ToArray();
             g.Save();
+
+            try
+            {
+                File.WriteAllLines(RandSettings.FileName, RandSettings.Save(), Encoding.Unicode);
+            }
+            catch { }
         }
 
         private void openQuick(string path)
