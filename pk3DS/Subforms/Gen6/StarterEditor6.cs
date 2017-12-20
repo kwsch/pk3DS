@@ -45,6 +45,7 @@ namespace pk3DS
 
             Width = Main.Config.ORAS ? Width : Width/2 + 2;
             loadData();
+            RandSettings.GetFormSettings(this, groupBox1.Controls);
         }
         private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllPoke3Select.cro");
         private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
@@ -62,6 +63,7 @@ namespace pk3DS
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveData();
+            RandSettings.SetFormSettings(this, groupBox1.Controls);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

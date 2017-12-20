@@ -39,6 +39,9 @@
             this.L_Max = new System.Windows.Forms.Label();
             this.L_Table = new System.Windows.Forms.Label();
             this.GB_Encounters = new System.Windows.Forms.GroupBox();
+            this.B_PasteAll = new System.Windows.Forms.Button();
+            this.B_Paste = new System.Windows.Forms.Button();
+            this.B_Copy = new System.Windows.Forms.Button();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
             this.CB_SlotRand = new System.Windows.Forms.ComboBox();
             this.L_SOS = new System.Windows.Forms.Label();
@@ -256,9 +259,6 @@
             this.CB_TableID = new System.Windows.Forms.ComboBox();
             this.B_Export = new System.Windows.Forms.Button();
             this.CopySOS = new System.Windows.Forms.Button();
-            this.B_Copy = new System.Windows.Forms.Button();
-            this.B_Paste = new System.Windows.Forms.Button();
-            this.B_PasteAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Min)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Max)).BeginInit();
             this.GB_Encounters.SuspendLayout();
@@ -687,6 +687,38 @@
             this.GB_Encounters.TabIndex = 430;
             this.GB_Encounters.TabStop = false;
             this.GB_Encounters.Text = "Encounters (100%)";
+            // 
+            // B_PasteAll
+            // 
+            this.B_PasteAll.Enabled = false;
+            this.B_PasteAll.Location = new System.Drawing.Point(206, 359);
+            this.B_PasteAll.Name = "B_PasteAll";
+            this.B_PasteAll.Size = new System.Drawing.Size(90, 40);
+            this.B_PasteAll.TabIndex = 510;
+            this.B_PasteAll.Text = "Paste To All (Location)";
+            this.B_PasteAll.UseVisualStyleBackColor = true;
+            this.B_PasteAll.Click += new System.EventHandler(this.B_PasteAll_Click);
+            // 
+            // B_Paste
+            // 
+            this.B_Paste.Enabled = false;
+            this.B_Paste.Location = new System.Drawing.Point(110, 359);
+            this.B_Paste.Name = "B_Paste";
+            this.B_Paste.Size = new System.Drawing.Size(90, 40);
+            this.B_Paste.TabIndex = 509;
+            this.B_Paste.Text = "Paste Current Table";
+            this.B_Paste.UseVisualStyleBackColor = true;
+            this.B_Paste.Click += new System.EventHandler(this.B_Paste_Click);
+            // 
+            // B_Copy
+            // 
+            this.B_Copy.Location = new System.Drawing.Point(14, 359);
+            this.B_Copy.Name = "B_Copy";
+            this.B_Copy.Size = new System.Drawing.Size(90, 40);
+            this.B_Copy.TabIndex = 508;
+            this.B_Copy.Text = "Copy Current Table";
+            this.B_Copy.UseVisualStyleBackColor = true;
+            this.B_Copy.Click += new System.EventHandler(this.B_Copy_Click);
             // 
             // GB_Tweak
             // 
@@ -3052,38 +3084,6 @@
             this.CopySOS.UseVisualStyleBackColor = true;
             this.CopySOS.Click += new System.EventHandler(this.CopySOS_Click);
             // 
-            // B_Copy
-            // 
-            this.B_Copy.Location = new System.Drawing.Point(14, 359);
-            this.B_Copy.Name = "B_Copy";
-            this.B_Copy.Size = new System.Drawing.Size(90, 40);
-            this.B_Copy.TabIndex = 508;
-            this.B_Copy.Text = "Copy Current Table";
-            this.B_Copy.UseVisualStyleBackColor = true;
-            this.B_Copy.Click += new System.EventHandler(this.B_Copy_Click);
-            // 
-            // B_Paste
-            // 
-            this.B_Paste.Enabled = false;
-            this.B_Paste.Location = new System.Drawing.Point(110, 359);
-            this.B_Paste.Name = "B_Paste";
-            this.B_Paste.Size = new System.Drawing.Size(90, 40);
-            this.B_Paste.TabIndex = 509;
-            this.B_Paste.Text = "Paste Current Table";
-            this.B_Paste.UseVisualStyleBackColor = true;
-            this.B_Paste.Click += new System.EventHandler(this.B_Paste_Click);
-            // 
-            // B_PasteAll
-            // 
-            this.B_PasteAll.Enabled = false;
-            this.B_PasteAll.Location = new System.Drawing.Point(206, 359);
-            this.B_PasteAll.Name = "B_PasteAll";
-            this.B_PasteAll.Size = new System.Drawing.Size(90, 40);
-            this.B_PasteAll.TabIndex = 510;
-            this.B_PasteAll.Text = "Paste To All (Location)";
-            this.B_PasteAll.UseVisualStyleBackColor = true;
-            this.B_PasteAll.Click += new System.EventHandler(this.B_PasteAll_Click);
-            // 
             // SMWE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3105,6 +3105,7 @@
             this.Controls.Add(this.CB_LocationID);
             this.Name = "SMWE";
             this.Text = "Sun/Moon Wild Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SMWE_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Min)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Max)).EndInit();
             this.GB_Encounters.ResumeLayout(false);

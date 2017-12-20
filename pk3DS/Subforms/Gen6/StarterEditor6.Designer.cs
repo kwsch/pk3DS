@@ -61,6 +61,7 @@
             this.L_Set2 = new System.Windows.Forms.Label();
             this.CHK_Gen = new System.Windows.Forms.CheckBox();
             this.CHK_BST = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G1_0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G1_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G1_2)).BeginInit();
@@ -73,6 +74,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_G4_2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G4_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G4_0)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // PB_G1_0
@@ -413,7 +415,7 @@
             // CHK_Gen
             // 
             this.CHK_Gen.AutoSize = true;
-            this.CHK_Gen.Location = new System.Drawing.Point(93, 314);
+            this.CHK_Gen.Location = new System.Drawing.Point(16, 15);
             this.CHK_Gen.Name = "CHK_Gen";
             this.CHK_Gen.Size = new System.Drawing.Size(104, 17);
             this.CHK_Gen.TabIndex = 471;
@@ -425,20 +427,30 @@
             this.CHK_BST.AutoSize = true;
             this.CHK_BST.Checked = true;
             this.CHK_BST.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_BST.Location = new System.Drawing.Point(93, 328);
+            this.CHK_BST.Location = new System.Drawing.Point(16, 29);
             this.CHK_BST.Name = "CHK_BST";
             this.CHK_BST.Size = new System.Drawing.Size(108, 17);
             this.CHK_BST.TabIndex = 472;
             this.CHK_BST.Text = "Keep Similar BST";
             this.CHK_BST.UseVisualStyleBackColor = true;
             // 
-            // Starters
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.CHK_BST);
+            this.groupBox1.Controls.Add(this.CHK_Gen);
+            this.groupBox1.Location = new System.Drawing.Point(93, 306);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(200, 45);
+            this.groupBox1.TabIndex = 473;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Randomizer Settings";
+            // 
+            // StarterEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(804, 352);
-            this.Controls.Add(this.CHK_BST);
-            this.Controls.Add(this.CHK_Gen);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.L_Set2);
             this.Controls.Add(this.L_Set4);
             this.Controls.Add(this.L_Set3);
@@ -488,6 +500,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_G4_2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G4_1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G4_0)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -528,6 +542,6 @@
         private System.Windows.Forms.Label L_Set2;
         private System.Windows.Forms.CheckBox CHK_Gen;
         private System.Windows.Forms.CheckBox CHK_BST;
-
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

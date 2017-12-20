@@ -270,6 +270,7 @@ namespace pk3DS
             };
             RSWE_Load();
             openQuick(Directory.GetFiles("encdata"));
+            RandSettings.GetFormSettings(this, GB_Tweak.Controls);
         }
         private readonly ComboBox[] spec;
         private readonly NumericUpDown[] min;

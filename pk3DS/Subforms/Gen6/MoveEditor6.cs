@@ -15,6 +15,7 @@ namespace pk3DS
 
             InitializeComponent();
             Setup();
+            RandSettings.GetFormSettings(this, groupBox1.Controls);
         }
         private byte[][] files;
         private readonly string[] types = Main.Config.getText(TextName.Types);
@@ -163,6 +164,7 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setEntry();
+            RandSettings.SetFormSettings(this, groupBox1.Controls);
         }
 
         private void B_RandAll_Click(object sender, EventArgs e)

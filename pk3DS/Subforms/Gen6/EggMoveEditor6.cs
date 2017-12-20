@@ -34,6 +34,7 @@ namespace pk3DS
             CB_Species.ValueMember = "Value";
             CB_Species.DataSource = newlist;
             CB_Species.SelectedIndex = 0;
+            RandSettings.GetFormSettings(this, groupBox1.Controls);
         }
         private readonly byte[][] files;
         private int entry = -1;
@@ -154,6 +155,7 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setList();
+            RandSettings.SetFormSettings(this, groupBox1.Controls);
         }
         private void calcStats()
         {

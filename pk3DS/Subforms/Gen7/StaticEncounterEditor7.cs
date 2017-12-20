@@ -125,6 +125,7 @@ namespace pk3DS
             // Select last tab (Randomization) by default in case info already randomized.
             TC_Tabs.SelectedIndex = TC_Tabs.TabCount - 1;
 
+            RandSettings.GetFormSettings(this, Tab_Randomizer.Controls);
             // ExportEncounters();
         }
         private void getListBoxEntries()
@@ -153,6 +154,7 @@ namespace pk3DS
             setEncounter();
             setTrade();
             saveData();
+            RandSettings.SetFormSettings(this, Tab_Randomizer.Controls);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

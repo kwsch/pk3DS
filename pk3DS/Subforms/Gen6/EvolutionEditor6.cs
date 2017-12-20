@@ -77,6 +77,7 @@ namespace pk3DS
             CB_Species.Items.RemoveAt(0);
 
             CB_Species.SelectedIndex = 0;
+            RandSettings.GetFormSettings(this, GB_Randomizer.Controls);
         }
         private readonly byte[][] files;
         private readonly ComboBox[] pb;
@@ -181,6 +182,7 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setList();
+            RandSettings.SetFormSettings(this, GB_Randomizer.Controls);
         }
 
         private void changeMethod(object sender, EventArgs e)

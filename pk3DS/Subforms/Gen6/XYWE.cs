@@ -275,6 +275,7 @@ namespace pk3DS
             };
             Load_XYWE();
             openQuick(Directory.GetFiles("encdata"));
+            RandSettings.GetFormSettings(this, GB_Tweak.Controls);
         }
         private readonly ComboBox[] spec;
         private readonly NumericUpDown[] min;
@@ -659,6 +660,11 @@ namespace pk3DS
             // Enable Interface... modification complete.
             Enabled = true;
             WinFormsUtil.Alert("Modified all Level ranges according to specification!", "Press the Dump Tables button to view the new Level ranges!");
+        }
+
+        private void XYWE_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            RandSettings.SetFormSettings(this, GB_Tweak.Controls);
         }
     }
 }

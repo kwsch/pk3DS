@@ -17,6 +17,7 @@ namespace pk3DS
             foreach (string tclass in trClass.Where(tclass => !trClassnorep.Contains(tclass) && !tclass.StartsWith("[~")))
                 trClassnorep.Add(tclass);
             trClassnorep.Sort();
+            RandSettings.GetFormSettings(this, Controls);
         }
 
         private string[] trName = Main.Config.getText(TextName.TrainerNames);
@@ -103,6 +104,7 @@ namespace pk3DS
             RSTE.rSpeciesRand.Initialize();
 
             RSTE.rDoRand = true;
+            RandSettings.SetFormSettings(this, Controls);
             Close();
         }
 

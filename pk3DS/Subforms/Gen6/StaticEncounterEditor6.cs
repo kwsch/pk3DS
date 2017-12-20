@@ -32,6 +32,7 @@ namespace pk3DS
             foreach (string s in itemlist)
                 CB_HeldItem.Items.Add(s);
             loadData();
+            RandSettings.GetFormSettings(this, tabPage2.Controls);
         }
         private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
         private byte[] FieldData;
@@ -45,6 +46,7 @@ namespace pk3DS
         {
             saveEntry();
             saveData();
+            RandSettings.SetFormSettings(this, tabPage2.Controls);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

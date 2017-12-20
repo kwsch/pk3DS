@@ -35,14 +35,16 @@ namespace pk3DS
             return result.ToArray();
         }
 
-        public static void LoadFormSettings(Form form, Control.ControlCollection controls)
+        public static void GetFormSettings(Form form, Control.ControlCollection controls)
         {
             if (!Settings.TryGetValue(form.Name, out var list))
                 return;
 
             foreach (Control ctrl in controls)
             {
-                LoadFormSettings(form, ctrl.Controls);
+                GetFormSettings(form, ctrl.Controls);
+                if (string.IsNullOrWhiteSpace(ctrl.Name))
+                    continue;
                 var pair = list.FirstOrDefault(z => ctrl.Name == z.Name);
                 if (pair == null)
                     continue;
@@ -50,7 +52,7 @@ namespace pk3DS
                 TryGetValue(ctrl, pair.Value);
             }
         }
-        public static void SaveFormSettings(Form form, Control.ControlCollection controls)
+        public static void SetFormSettings(Form form, Control.ControlCollection controls)
         {
             if (!Settings.TryGetValue(form.Name, out var list))
             {
@@ -60,7 +62,9 @@ namespace pk3DS
 
             foreach (Control ctrl in controls)
             {
-                SaveFormSettings(form, ctrl.Controls);
+                SetFormSettings(form, ctrl.Controls);
+                if (string.IsNullOrWhiteSpace(ctrl.Name))
+                    continue;
                 var pair = list.FirstOrDefault(z => ctrl.Name == z.Name) ?? new NameValue(ctrl.Name);
                 if (TrySetValue(ctrl, pair) && !list.Contains(pair))
                     list.Add(pair);

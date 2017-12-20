@@ -38,6 +38,7 @@ namespace pk3DS
 
             Setup(); //Turn string resources into arrays
             CB_Species.SelectedIndex = 1;
+            RandSettings.GetFormSettings(this, TP_Randomizer.Controls);
         }
         #region Global Variables
         private readonly string mode = Main.Config.ORAS ? "ORAS" : "XY";
@@ -441,6 +442,7 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             if (entry > -1) saveEntry();
+            RandSettings.SetFormSettings(this, TP_Randomizer.Controls);
         }
     }
 }

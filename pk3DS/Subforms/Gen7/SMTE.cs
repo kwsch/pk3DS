@@ -55,6 +55,7 @@ namespace pk3DS
             CB_Moves.SelectedIndex = 0;
 
             TrainerClasses_7 = Main.Config.USUM ? Legal.SpecialClasses_USUM : Legal.SpecialClasses_SM;
+            RandSettings.GetFormSettings(this, Tab_Misc.Controls);
         }
 
         private int GetSlot(object sender)
@@ -401,6 +402,7 @@ namespace pk3DS
             if (TrainerNames.Modified)
                 Main.Config.setText(TextName.TrainerNames, TrainerNames.Lines);
             base.OnFormClosing(e);
+            RandSettings.SetFormSettings(this, Tab_Misc.Controls);
         }
 
         // Dumping

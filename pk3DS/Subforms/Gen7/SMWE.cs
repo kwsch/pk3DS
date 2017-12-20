@@ -39,6 +39,7 @@ namespace pk3DS
             Areas = areas.OrderBy(a => a.Zones[0].Name).ToArray();
 
             LoadData();
+            RandSettings.GetFormSettings(this, GB_Tweak.Controls);
 
             // ExportEncounters("um", "uu");
         }
@@ -529,6 +530,11 @@ namespace pk3DS
                     yield return ms.ToArray();
                 }
             }
+        }
+
+        private void SMWE_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            RandSettings.SetFormSettings(this, GB_Tweak.Controls);
         }
     }
 

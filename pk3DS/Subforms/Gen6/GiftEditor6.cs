@@ -36,6 +36,7 @@ namespace pk3DS
                 CB_HeldItem.Items.Add(s);
             CB_Nature.Items.Add("Random");
             CB_Nature.Items.AddRange(natureslist.Take(25).ToArray());
+            RandSettings.GetFormSettings(this, tabPage2.Controls);
 
             loadData();
         }
@@ -62,6 +63,7 @@ namespace pk3DS
         {
             saveEntry();
             saveData();
+            RandSettings.SetFormSettings(this, tabPage2.Controls);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

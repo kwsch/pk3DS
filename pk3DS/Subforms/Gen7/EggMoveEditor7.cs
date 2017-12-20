@@ -51,6 +51,7 @@ namespace pk3DS
             CB_Species.DataSource = newlist;
 
             CB_Species.SelectedIndex = 0;
+            RandSettings.GetFormSettings(this, groupBox1.Controls);
         }
 
         private readonly EggMoves7[] entries;
@@ -170,6 +171,7 @@ namespace pk3DS
         {
             setList();
             entries.Select(z => z.Write()).ToArray().CopyTo(files, 0);
+            RandSettings.SetFormSettings(this, groupBox1.Controls);
         }
 
         private void B_Goto_Click(object sender, EventArgs e)

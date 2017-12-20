@@ -33,6 +33,7 @@ namespace pk3DS
             
             Setup();
             CB_Species.SelectedIndex = 1;
+            RandSettings.GetFormSettings(this, TP_Randomizer.Controls);
         }
         #region Global Variables
         private readonly byte[][] files;
@@ -431,6 +432,7 @@ namespace pk3DS
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             if (entry > -1) saveEntry();
+            RandSettings.SetFormSettings(this, TP_Randomizer.Controls);
         }
     }
 }
