@@ -90,6 +90,8 @@
             this.B_Static = new System.Windows.Forms.Button();
             this.Tab_Output = new System.Windows.Forms.TabPage();
             this.L_Status = new System.Windows.Forms.Label();
+            this.randomizationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setInt32SeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.TC_RomFS.SuspendLayout();
             this.Tab_RomFS.SuspendLayout();
@@ -236,7 +238,8 @@
             this.Menu_Restore,
             this.Menu_Misc,
             this.Menu_Rebuild,
-            this.Menu_SMDH});
+            this.Menu_SMDH,
+            this.randomizationToolStripMenuItem});
             this.Menu_Tools.Name = "Menu_Tools";
             this.Menu_Tools.Size = new System.Drawing.Size(47, 20);
             this.Menu_Tools.Text = "Tools";
@@ -363,7 +366,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_Lang});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(146, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_Lang
@@ -389,14 +392,14 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(146, 22);
+            this.Menu_About.Size = new System.Drawing.Size(152, 22);
             this.Menu_About.Text = "A&bout pk3DS";
             this.Menu_About.Click += new System.EventHandler(this.L_About_Click);
             // 
             // Menu_GARCs
             // 
             this.Menu_GARCs.Name = "Menu_GARCs";
-            this.Menu_GARCs.Size = new System.Drawing.Size(146, 22);
+            this.Menu_GARCs.Size = new System.Drawing.Size(152, 22);
             this.Menu_GARCs.Text = "About GARCs";
             this.Menu_GARCs.Click += new System.EventHandler(this.L_GARCInfo_Click);
             // 
@@ -728,6 +731,21 @@
             this.L_Status.TabIndex = 14;
             this.L_Status.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // randomizationToolStripMenuItem
+            // 
+            this.randomizationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.setInt32SeedToolStripMenuItem});
+            this.randomizationToolStripMenuItem.Name = "randomizationToolStripMenuItem";
+            this.randomizationToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.randomizationToolStripMenuItem.Text = "Randomization";
+            // 
+            // setInt32SeedToolStripMenuItem
+            // 
+            this.setInt32SeedToolStripMenuItem.Name = "setInt32SeedToolStripMenuItem";
+            this.setInt32SeedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.setInt32SeedToolStripMenuItem.Text = "Set int32 seed";
+            this.setInt32SeedToolStripMenuItem.Click += new System.EventHandler(this.setInt32SeedToolStripMenuItem_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -824,5 +842,7 @@
         private System.Windows.Forms.Button B_ShinyRate;
         private System.Windows.Forms.Button B_Royal;
         private System.Windows.Forms.Button B_TM;
+        private System.Windows.Forms.ToolStripMenuItem randomizationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setInt32SeedToolStripMenuItem;
     }
 }

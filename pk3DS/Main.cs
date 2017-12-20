@@ -1241,5 +1241,22 @@ namespace pk3DS
             }
             catch { }
         }
+
+        private void setInt32SeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Reseed RNG?", "If yes, copy the 32 bit (not hex) integer seed to the clipboard before hitting Yes."))
+                return;
+
+            string val = string.Empty;
+            try { val = Clipboard.GetText(); }
+            catch { }
+            if (int.TryParse(val, out int seed))
+            {
+                Util.ReseedRand(seed);
+                WinFormsUtil.Alert($"Reseeded RNG to seed: {seed}");
+                return;
+            }
+            WinFormsUtil.Alert("Unable to set seed.");
+        }
     }
 }
