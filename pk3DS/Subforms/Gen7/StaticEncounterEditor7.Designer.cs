@@ -30,6 +30,8 @@
         {
             this.TC_Tabs = new System.Windows.Forms.TabControl();
             this.Tab_Gifts = new System.Windows.Forms.TabPage();
+            this.CB_GNature = new System.Windows.Forms.ComboBox();
+            this.L_GNature = new System.Windows.Forms.Label();
             this.CHK_IsEgg = new System.Windows.Forms.CheckBox();
             this.CHK_GIV3 = new System.Windows.Forms.CheckBox();
             this.CB_SpecialMove = new System.Windows.Forms.ComboBox();
@@ -124,6 +126,7 @@
             this.NUD_TLevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Trade = new System.Windows.Forms.ListBox();
             this.Tab_Randomizer = new System.Windows.Forms.TabPage();
+            this.B_ModifyLevel = new System.Windows.Forms.Button();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.B_RandAll = new System.Windows.Forms.Button();
@@ -145,8 +148,6 @@
             this.B_Starters = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.CB_GNature = new System.Windows.Forms.ComboBox();
-            this.L_GNature = new System.Windows.Forms.Label();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GGender)).BeginInit();
@@ -228,6 +229,23 @@
             this.Tab_Gifts.Text = "Gifts";
             this.Tab_Gifts.UseVisualStyleBackColor = true;
             // 
+            // CB_GNature
+            // 
+            this.CB_GNature.FormattingEnabled = true;
+            this.CB_GNature.Location = new System.Drawing.Point(187, 119);
+            this.CB_GNature.Name = "CB_GNature";
+            this.CB_GNature.Size = new System.Drawing.Size(121, 21);
+            this.CB_GNature.TabIndex = 511;
+            // 
+            // L_GNature
+            // 
+            this.L_GNature.Location = new System.Drawing.Point(131, 117);
+            this.L_GNature.Name = "L_GNature";
+            this.L_GNature.Size = new System.Drawing.Size(55, 23);
+            this.L_GNature.TabIndex = 510;
+            this.L_GNature.Text = "Nature:";
+            this.L_GNature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // CHK_IsEgg
             // 
             this.CHK_IsEgg.AutoSize = true;
@@ -285,11 +303,6 @@
             this.NUD_GGender.Name = "NUD_GGender";
             this.NUD_GGender.Size = new System.Drawing.Size(34, 20);
             this.NUD_GGender.TabIndex = 20;
-            this.NUD_GGender.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
             // 
             // CHK_G_Lock
             // 
@@ -374,11 +387,6 @@
             // NUD_GLevel
             // 
             this.NUD_GLevel.Location = new System.Drawing.Point(187, 30);
-            this.NUD_GLevel.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
             this.NUD_GLevel.Name = "NUD_GLevel";
             this.NUD_GLevel.Size = new System.Drawing.Size(48, 20);
             this.NUD_GLevel.TabIndex = 1;
@@ -983,11 +991,6 @@
             // NUD_ELevel
             // 
             this.NUD_ELevel.Location = new System.Drawing.Point(187, 30);
-            this.NUD_ELevel.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
             this.NUD_ELevel.Name = "NUD_ELevel";
             this.NUD_ELevel.Size = new System.Drawing.Size(48, 20);
             this.NUD_ELevel.TabIndex = 9;
@@ -1281,9 +1284,9 @@
             this.L_TTID.AutoSize = true;
             this.L_TTID.Location = new System.Drawing.Point(252, 123);
             this.L_TTID.Name = "L_TTID";
-            this.L_TTID.Size = new System.Drawing.Size(28, 13);
+            this.L_TTID.Size = new System.Drawing.Size(53, 13);
             this.L_TTID.TabIndex = 27;
-            this.L_TTID.Text = "TID:";
+            this.L_TTID.Text = "Gen 7 ID:";
             this.L_TTID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // L_TID
@@ -1386,11 +1389,6 @@
             // NUD_TLevel
             // 
             this.NUD_TLevel.Location = new System.Drawing.Point(187, 30);
-            this.NUD_TLevel.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
             this.NUD_TLevel.Name = "NUD_TLevel";
             this.NUD_TLevel.Size = new System.Drawing.Size(48, 20);
             this.NUD_TLevel.TabIndex = 17;
@@ -1413,6 +1411,7 @@
             // 
             // Tab_Randomizer
             // 
+            this.Tab_Randomizer.Controls.Add(this.B_ModifyLevel);
             this.Tab_Randomizer.Controls.Add(this.NUD_LevelBoost);
             this.Tab_Randomizer.Controls.Add(this.CHK_Level);
             this.Tab_Randomizer.Controls.Add(this.B_RandAll);
@@ -1426,6 +1425,16 @@
             this.Tab_Randomizer.Text = "Randomizer Options";
             this.Tab_Randomizer.UseVisualStyleBackColor = true;
             // 
+            // B_ModifyLevel
+            // 
+            this.B_ModifyLevel.Location = new System.Drawing.Point(316, 111);
+            this.B_ModifyLevel.Name = "B_ModifyLevel";
+            this.B_ModifyLevel.Size = new System.Drawing.Size(70, 23);
+            this.B_ModifyLevel.TabIndex = 512;
+            this.B_ModifyLevel.Text = "× Current";
+            this.B_ModifyLevel.UseVisualStyleBackColor = true;
+            this.B_ModifyLevel.Click += new System.EventHandler(this.ModifyLevels);
+            // 
             // NUD_LevelBoost
             // 
             this.NUD_LevelBoost.DecimalPlaces = 2;
@@ -1434,7 +1443,7 @@
             0,
             0,
             131072});
-            this.NUD_LevelBoost.Location = new System.Drawing.Point(301, 110);
+            this.NUD_LevelBoost.Location = new System.Drawing.Point(267, 112);
             this.NUD_LevelBoost.Maximum = new decimal(new int[] {
             3,
             0,
@@ -1454,7 +1463,7 @@
             this.CHK_Level.AutoSize = true;
             this.CHK_Level.Checked = true;
             this.CHK_Level.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Level.Location = new System.Drawing.Point(169, 111);
+            this.CHK_Level.Location = new System.Drawing.Point(135, 113);
             this.CHK_Level.Name = "CHK_Level";
             this.CHK_Level.Size = new System.Drawing.Size(130, 17);
             this.CHK_Level.TabIndex = 510;
@@ -1487,9 +1496,9 @@
             this.GB_Tweak.Controls.Add(this.CHK_G3);
             this.GB_Tweak.Controls.Add(this.CHK_G2);
             this.GB_Tweak.Controls.Add(this.CHK_G1);
-            this.GB_Tweak.Location = new System.Drawing.Point(122, 136);
+            this.GB_Tweak.Location = new System.Drawing.Point(129, 135);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 144);
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 145);
             this.GB_Tweak.TabIndex = 508;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
@@ -1683,23 +1692,6 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // CB_GNature
-            // 
-            this.CB_GNature.FormattingEnabled = true;
-            this.CB_GNature.Location = new System.Drawing.Point(187, 119);
-            this.CB_GNature.Name = "CB_GNature";
-            this.CB_GNature.Size = new System.Drawing.Size(121, 21);
-            this.CB_GNature.TabIndex = 511;
-            // 
-            // L_GNature
-            // 
-            this.L_GNature.Location = new System.Drawing.Point(131, 117);
-            this.L_GNature.Name = "L_GNature";
-            this.L_GNature.Size = new System.Drawing.Size(55, 23);
-            this.L_GNature.TabIndex = 510;
-            this.L_GNature.Text = "Nature:";
-            this.L_GNature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // StaticEncounterEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1877,5 +1869,6 @@
         private System.Windows.Forms.CheckBox CHK_GIV3;
         private System.Windows.Forms.ComboBox CB_GNature;
         private System.Windows.Forms.Label L_GNature;
+        private System.Windows.Forms.Button B_ModifyLevel;
     }
 }
