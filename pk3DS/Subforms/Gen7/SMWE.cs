@@ -143,6 +143,7 @@ namespace pk3DS
             if (loadingdata)
                 return;
             loadingdata = true;
+
             var Map = Areas[CB_LocationID.SelectedIndex];
             GB_Encounters.Enabled = Map.HasTables;
             if (!Map.HasTables)
@@ -151,26 +152,37 @@ namespace pk3DS
                 return;
             }
             CurrentTable = new EncounterTable(Map.Tables[CB_TableID.SelectedIndex].Data);
-            NUP_Min.Value = CurrentTable.MinLevel;
-            NUP_Max.Minimum = CurrentTable.MinLevel;
-            NUP_Max.Value = CurrentTable.MaxLevel;
-            for (int slot = 0; slot < CurrentTable.Encounter7s.Length; slot++)
-            for (int i = 0; i < CurrentTable.Encounter7s[slot].Length; i++)
-            {
-                var sl = CurrentTable.Encounter7s[slot];
-                if (slot == 8)
-                    sl = CurrentTable.AdditionalSOS;
-                rate_spec[i].Value = CurrentTable.Rates[i];
-                cb_spec[slot][i].SelectedIndex = (int)sl[i].Species;
-                nup_spec[slot][i].Value = (int)sl[i].Forme;
-            }
-            loadingdata = false;
+            LoadTable(CurrentTable);
 
-            int base_id = CB_TableID.SelectedIndex/2;
+            loadingdata = false;
+            RefreshTableImages(Map);
+        }
+
+        private void RefreshTableImages(Area7 Map)
+        {
+            int base_id = CB_TableID.SelectedIndex / 2;
             base_id *= 2;
             PB_DayTable.Image = Map.Tables[base_id].GetTableImg(font);
             PB_NightTable.Image = Map.Tables[base_id + 1].GetTableImg(font);
         }
+
+        private void LoadTable(EncounterTable table)
+        {
+            NUP_Min.Value = table.MinLevel;
+            NUP_Max.Minimum = table.MinLevel;
+            NUP_Max.Value = table.MaxLevel;
+            for (int slot = 0; slot < table.Encounter7s.Length; slot++)
+            for (int i = 0; i < table.Encounter7s[slot].Length; i++)
+            {
+                var sl = table.Encounter7s[slot];
+                if (slot == 8)
+                    sl = table.AdditionalSOS;
+                rate_spec[i].Value = table.Rates[i];
+                cb_spec[slot][i].SelectedIndex = (int)sl[i].Species;
+                nup_spec[slot][i].Value = (int)sl[i].Forme;
+            }
+        }
+
         private void UpdateMinMax(object sender, EventArgs e)
         {
             if (loadingdata)
@@ -202,13 +214,15 @@ namespace pk3DS
 
             var cb_l = cb_spec[table];
             var nup_l = nup_spec[table];
+            var species = (uint) cb_l[slot].SelectedIndex;
+            var form = (uint) nup_l[slot].Value;
             if (table == 8)
             {
-                CurrentTable.AdditionalSOS[slot].Species = (uint)cb_l[slot].SelectedIndex;
-                CurrentTable.AdditionalSOS[slot].Forme = (uint)nup_l[slot].Value;
+                CurrentTable.AdditionalSOS[slot].Species = species;
+                CurrentTable.AdditionalSOS[slot].Forme = form;
             }
-            CurrentTable.Encounter7s[table][slot].Species = (uint)cb_l[slot].SelectedIndex;
-            CurrentTable.Encounter7s[table][slot].Forme = (uint)nup_l[slot].Value;
+            CurrentTable.Encounter7s[table][slot].Species = species;
+            CurrentTable.Encounter7s[table][slot].Forme = form;
 
             using (var g = Graphics.FromImage(cur_img))
             {
@@ -255,6 +269,51 @@ namespace pk3DS
             GB_Encounters.Text = $"Encounters ({sum}%)";
         }
 
+        private byte[] CopyTable;
+        private int CopyCount;
+        private void B_Copy_Click(object sender, EventArgs e)
+        {
+            var Map = Areas[CB_LocationID.SelectedIndex];
+            if (!Map.HasTables)
+            {
+                WinFormsUtil.Alert("No tables to copy.");
+                return;
+            }
+            CurrentTable.Write();
+            CopyTable = (byte[])CurrentTable.Data.Clone();
+            CopyCount = CurrentTable.Encounter7s[0].Count(z => z.Species != 0);
+            B_Paste.Enabled = B_PasteAll.Enabled = true;
+            WinFormsUtil.Alert("Copied table data.");
+        }
+        private void B_Paste_Click(object sender, EventArgs e)
+        {
+            var Map = Areas[CB_LocationID.SelectedIndex];
+            if (!Map.HasTables)
+            {
+                WinFormsUtil.Alert("No table to paste to.");
+                return;
+            }
+            CurrentTable.Reset(CopyTable);
+            loadingdata = true;
+            LoadTable(CurrentTable);
+            var area = Areas[CB_LocationID.SelectedIndex];
+            area.Tables[CB_TableID.SelectedIndex] = CurrentTable;
+            loadingdata = false;
+            RefreshTableImages(Map);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+        private void B_PasteAll_Click(object sender, EventArgs e)
+        {
+            var Map = Areas[CB_LocationID.SelectedIndex];
+            if (!Map.HasTables)
+            {
+                WinFormsUtil.Alert("No table to paste to.");
+                return;
+            }
+            B_Paste_Click(sender, e);
+            foreach (var t in Map.Tables.Where(t => CopyCount == t.Encounter7s[0].Count(z => z.Species != 0)))
+                t.Reset(CopyTable);
+        }
         private void B_Save_Click(object sender, EventArgs e)
         {
             var sum = TotalEncounterRate;

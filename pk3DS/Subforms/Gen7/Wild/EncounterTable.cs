@@ -19,6 +19,14 @@ namespace pk3DS
         {
             Rates = new int[10];
             Encounter7s = new Encounter7[9][];
+            AdditionalSOS = new Encounter7[6];
+            Data = (byte[])t.Clone();
+            Reset();
+        }
+
+        public void Reset()
+        {
+            var t = Data;
             MinLevel = t[0];
             MaxLevel = t[1];
 
@@ -33,12 +41,10 @@ namespace pk3DS
                     Encounter7s[i][j] = new Encounter7(BitConverter.ToUInt32(t, ofs + 4 * j));
             }
 
-            AdditionalSOS = new Encounter7[6];
             for (var i = 0; i < AdditionalSOS.Length; i++)
                 AdditionalSOS[i] = new Encounter7(BitConverter.ToUInt32(t, 0x14C + 4 * i));
 
             Encounter7s[8] = AdditionalSOS;
-            Data = (byte[])t.Clone();
         }
 
         /// <summary>
@@ -118,6 +124,12 @@ namespace pk3DS
             var list = distincts.OrderBy(e => specToRate[e.RawValue]).Reverse();
             var summaries = list.Select(e => $"{e.GetSummary(speciesList)} ({specToRate[e.RawValue]}%)");
             return string.Join(", ", summaries);
+        }
+
+        public void Reset(byte[] data)
+        {
+            Buffer.BlockCopy(data, 0, Data, 0, 0x164);
+            Reset();
         }
     }
 }

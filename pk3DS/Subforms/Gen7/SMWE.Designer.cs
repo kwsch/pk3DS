@@ -256,6 +256,9 @@
             this.CB_TableID = new System.Windows.Forms.ComboBox();
             this.B_Export = new System.Windows.Forms.Button();
             this.CopySOS = new System.Windows.Forms.Button();
+            this.B_Copy = new System.Windows.Forms.Button();
+            this.B_Paste = new System.Windows.Forms.Button();
+            this.B_PasteAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Min)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Max)).BeginInit();
             this.GB_Encounters.SuspendLayout();
@@ -478,6 +481,9 @@
             // 
             // GB_Encounters
             // 
+            this.GB_Encounters.Controls.Add(this.B_PasteAll);
+            this.GB_Encounters.Controls.Add(this.B_Paste);
+            this.GB_Encounters.Controls.Add(this.B_Copy);
             this.GB_Encounters.Controls.Add(this.GB_Tweak);
             this.GB_Encounters.Controls.Add(this.PB_NightIcon);
             this.GB_Encounters.Controls.Add(this.PB_DayIcon);
@@ -701,9 +707,9 @@
             this.GB_Tweak.Controls.Add(this.B_LevelPlus);
             this.GB_Tweak.Controls.Add(this.NUD_LevelAmp);
             this.GB_Tweak.Controls.Add(this.CHK_Level);
-            this.GB_Tweak.Location = new System.Drawing.Point(14, 388);
+            this.GB_Tweak.Location = new System.Drawing.Point(14, 405);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(282, 159);
+            this.GB_Tweak.Size = new System.Drawing.Size(282, 150);
             this.GB_Tweak.TabIndex = 507;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
@@ -937,7 +943,7 @@
             // 
             // NUP_WeatherForme6
             // 
-            this.NUP_WeatherForme6.Location = new System.Drawing.Point(216, 346);
+            this.NUP_WeatherForme6.Location = new System.Drawing.Point(219, 333);
             this.NUP_WeatherForme6.Maximum = new decimal(new int[] {
             31,
             0,
@@ -949,7 +955,7 @@
             // 
             // NUP_WeatherForme3
             // 
-            this.NUP_WeatherForme3.Location = new System.Drawing.Point(108, 320);
+            this.NUP_WeatherForme3.Location = new System.Drawing.Point(111, 307);
             this.NUP_WeatherForme3.Maximum = new decimal(new int[] {
             31,
             0,
@@ -964,14 +970,14 @@
             this.CB_WeatherEnc6.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_WeatherEnc6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_WeatherEnc6.FormattingEnabled = true;
-            this.CB_WeatherEnc6.Location = new System.Drawing.Point(141, 345);
+            this.CB_WeatherEnc6.Location = new System.Drawing.Point(144, 332);
             this.CB_WeatherEnc6.Name = "CB_WeatherEnc6";
             this.CB_WeatherEnc6.Size = new System.Drawing.Size(72, 21);
             this.CB_WeatherEnc6.TabIndex = 502;
             // 
             // NUP_WeatherForme5
             // 
-            this.NUP_WeatherForme5.Location = new System.Drawing.Point(108, 346);
+            this.NUP_WeatherForme5.Location = new System.Drawing.Point(111, 333);
             this.NUP_WeatherForme5.Maximum = new decimal(new int[] {
             31,
             0,
@@ -986,14 +992,14 @@
             this.CB_WeatherEnc5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_WeatherEnc5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_WeatherEnc5.FormattingEnabled = true;
-            this.CB_WeatherEnc5.Location = new System.Drawing.Point(33, 345);
+            this.CB_WeatherEnc5.Location = new System.Drawing.Point(36, 332);
             this.CB_WeatherEnc5.Name = "CB_WeatherEnc5";
             this.CB_WeatherEnc5.Size = new System.Drawing.Size(72, 21);
             this.CB_WeatherEnc5.TabIndex = 500;
             // 
             // NUP_WeatherForme4
             // 
-            this.NUP_WeatherForme4.Location = new System.Drawing.Point(217, 320);
+            this.NUP_WeatherForme4.Location = new System.Drawing.Point(220, 307);
             this.NUP_WeatherForme4.Maximum = new decimal(new int[] {
             31,
             0,
@@ -1008,7 +1014,7 @@
             this.CB_WeatherEnc4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_WeatherEnc4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_WeatherEnc4.FormattingEnabled = true;
-            this.CB_WeatherEnc4.Location = new System.Drawing.Point(142, 319);
+            this.CB_WeatherEnc4.Location = new System.Drawing.Point(145, 306);
             this.CB_WeatherEnc4.Name = "CB_WeatherEnc4";
             this.CB_WeatherEnc4.Size = new System.Drawing.Size(72, 21);
             this.CB_WeatherEnc4.TabIndex = 498;
@@ -1018,14 +1024,14 @@
             this.CB_WeatherEnc3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_WeatherEnc3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_WeatherEnc3.FormattingEnabled = true;
-            this.CB_WeatherEnc3.Location = new System.Drawing.Point(33, 319);
+            this.CB_WeatherEnc3.Location = new System.Drawing.Point(36, 306);
             this.CB_WeatherEnc3.Name = "CB_WeatherEnc3";
             this.CB_WeatherEnc3.Size = new System.Drawing.Size(72, 21);
             this.CB_WeatherEnc3.TabIndex = 497;
             // 
             // NUP_WeatherForme2
             // 
-            this.NUP_WeatherForme2.Location = new System.Drawing.Point(217, 293);
+            this.NUP_WeatherForme2.Location = new System.Drawing.Point(220, 280);
             this.NUP_WeatherForme2.Maximum = new decimal(new int[] {
             31,
             0,
@@ -1040,14 +1046,14 @@
             this.CB_WeatherEnc2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_WeatherEnc2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_WeatherEnc2.FormattingEnabled = true;
-            this.CB_WeatherEnc2.Location = new System.Drawing.Point(142, 292);
+            this.CB_WeatherEnc2.Location = new System.Drawing.Point(145, 279);
             this.CB_WeatherEnc2.Name = "CB_WeatherEnc2";
             this.CB_WeatherEnc2.Size = new System.Drawing.Size(72, 21);
             this.CB_WeatherEnc2.TabIndex = 495;
             // 
             // NUP_WeatherForme1
             // 
-            this.NUP_WeatherForme1.Location = new System.Drawing.Point(108, 293);
+            this.NUP_WeatherForme1.Location = new System.Drawing.Point(111, 280);
             this.NUP_WeatherForme1.Maximum = new decimal(new int[] {
             31,
             0,
@@ -1062,7 +1068,7 @@
             this.CB_WeatherEnc1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_WeatherEnc1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_WeatherEnc1.FormattingEnabled = true;
-            this.CB_WeatherEnc1.Location = new System.Drawing.Point(33, 292);
+            this.CB_WeatherEnc1.Location = new System.Drawing.Point(36, 279);
             this.CB_WeatherEnc1.Name = "CB_WeatherEnc1";
             this.CB_WeatherEnc1.Size = new System.Drawing.Size(72, 21);
             this.CB_WeatherEnc1.TabIndex = 493;
@@ -1070,7 +1076,7 @@
             // L_AddSOS
             // 
             this.L_AddSOS.AutoSize = true;
-            this.L_AddSOS.Location = new System.Drawing.Point(12, 269);
+            this.L_AddSOS.Location = new System.Drawing.Point(15, 256);
             this.L_AddSOS.Name = "L_AddSOS";
             this.L_AddSOS.Size = new System.Drawing.Size(76, 13);
             this.L_AddSOS.TabIndex = 492;
@@ -3046,6 +3052,38 @@
             this.CopySOS.UseVisualStyleBackColor = true;
             this.CopySOS.Click += new System.EventHandler(this.CopySOS_Click);
             // 
+            // B_Copy
+            // 
+            this.B_Copy.Location = new System.Drawing.Point(14, 359);
+            this.B_Copy.Name = "B_Copy";
+            this.B_Copy.Size = new System.Drawing.Size(90, 40);
+            this.B_Copy.TabIndex = 508;
+            this.B_Copy.Text = "Copy Current Table";
+            this.B_Copy.UseVisualStyleBackColor = true;
+            this.B_Copy.Click += new System.EventHandler(this.B_Copy_Click);
+            // 
+            // B_Paste
+            // 
+            this.B_Paste.Enabled = false;
+            this.B_Paste.Location = new System.Drawing.Point(110, 359);
+            this.B_Paste.Name = "B_Paste";
+            this.B_Paste.Size = new System.Drawing.Size(90, 40);
+            this.B_Paste.TabIndex = 509;
+            this.B_Paste.Text = "Paste Current Table";
+            this.B_Paste.UseVisualStyleBackColor = true;
+            this.B_Paste.Click += new System.EventHandler(this.B_Paste_Click);
+            // 
+            // B_PasteAll
+            // 
+            this.B_PasteAll.Enabled = false;
+            this.B_PasteAll.Location = new System.Drawing.Point(206, 359);
+            this.B_PasteAll.Name = "B_PasteAll";
+            this.B_PasteAll.Size = new System.Drawing.Size(90, 40);
+            this.B_PasteAll.TabIndex = 510;
+            this.B_PasteAll.Text = "Paste To All (Location)";
+            this.B_PasteAll.UseVisualStyleBackColor = true;
+            this.B_PasteAll.Click += new System.EventHandler(this.B_PasteAll_Click);
+            // 
             // SMWE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3409,5 +3447,8 @@
         private System.Windows.Forms.Button CopySOS;
         private System.Windows.Forms.Label L_SOS;
         private System.Windows.Forms.ComboBox CB_SlotRand;
+        private System.Windows.Forms.Button B_PasteAll;
+        private System.Windows.Forms.Button B_Paste;
+        private System.Windows.Forms.Button B_Copy;
     }
 }

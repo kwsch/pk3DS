@@ -38,7 +38,7 @@ namespace pk3DS.Core.Randomizers
         public bool L = false;
         public bool E = false;
         public bool Shedinja = false;
-        public bool rEXP = true;
+        public bool rEXP = false;
         public bool rBST = true;
         public bool rType = false;
         #endregion
