@@ -53,13 +53,17 @@ namespace pk3DS
         public static void SaveFormSettings(Form form, Control.ControlCollection controls)
         {
             if (!Settings.TryGetValue(form.Name, out var list))
-                return;
+            {
+                list = new List<NameValue>();
+                Settings.Add(form.Name, list);
+            }
 
             foreach (Control ctrl in controls)
             {
                 SaveFormSettings(form, ctrl.Controls);
                 var pair = list.FirstOrDefault(z => ctrl.Name == z.Name) ?? new NameValue(ctrl.Name);
-                TrySetValue(ctrl, pair);
+                if (TrySetValue(ctrl, pair) && !list.Contains(pair))
+                    list.Add(pair);
             }
         }
         private static void TryGetValue(Control ctrl, string s)
@@ -83,22 +87,22 @@ namespace pk3DS
                     break;
             }
         }
-        private static void TrySetValue(Control ctrl, NameValue v)
+        private static bool TrySetValue(Control ctrl, NameValue v)
         {
             switch (ctrl)
             {
                 case NumericUpDown nud:
                     v.Value = nud.Value.ToString(CultureInfo.InvariantCulture);
-                    break;
+                    return true;
                 case ComboBox cb:
                     v.Value = cb.SelectedIndex.ToString();
-                    break;
+                    return true;
                 case CheckBox ck:
                     v.Value = ck.Checked.ToString();
-                    break;
+                    return true;
                 default:
                     System.Diagnostics.Debug.WriteLine($"{ctrl.Name}: unknown control type.");
-                    break;
+                    return false;
             }
         }
 
