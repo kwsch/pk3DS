@@ -472,7 +472,6 @@ namespace pk3DS
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
             var items = Randomizer.getRandomItemList();
-            var aurarand = aura;
 
             for (int i = 3; i < Gifts.Length; i++) // Skip Starters
             {

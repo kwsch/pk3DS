@@ -92,16 +92,19 @@ namespace pk3DS
         {
             bool oldloaded = loaded;
             loaded = false;
+
             CB_Species.SelectedIndex = EncounterData[entry].Species;
             CB_HeldItem.SelectedIndex = EncounterData[entry].HeldItem;
             NUD_Level.Value = EncounterData[entry].Level;
             NUD_Form.Value = EncounterData[entry].Form;
             NUD_Ability.Value = EncounterData[entry].Ability;
             NUD_Gender.Value = EncounterData[entry].Gender;
+            CHK_ShinyLock.Checked = EncounterData[entry].ShinyLock;
+            CHK_IV3.Checked = EncounterData[entry].IV3;
 
-            CHK_NoShiny.Checked = EncounterData[entry].ShinyLock;
-            CHK_3IV.Checked = EncounterData[entry].IV3;
-            CHK_3IV_2.Checked = EncounterData[entry].IV3_1;
+            if (EncounterData[entry].HeldItem < 0)
+                CB_HeldItem.SelectedIndex = 0; // no item = 0xFFFF, set to 0 (None)
+
             loaded |= oldloaded;
         }
         private void saveEntry()
@@ -112,10 +115,8 @@ namespace pk3DS
             EncounterData[entry].Form = (byte)NUD_Form.Value;
             EncounterData[entry].Ability = (sbyte)NUD_Ability.Value;
             EncounterData[entry].Gender = (sbyte)NUD_Gender.Value;
-
-            EncounterData[entry].ShinyLock = CHK_NoShiny.Checked;
-            EncounterData[entry].IV3 = CHK_3IV.Checked;
-            EncounterData[entry].IV3_1 = CHK_3IV_2.Checked;
+            EncounterData[entry].ShinyLock = CHK_ShinyLock.Checked;
+            EncounterData[entry].IV3 = CHK_IV3.Checked;
         }
 
         private void B_RandAll_Click(object sender, EventArgs e)
@@ -160,7 +161,7 @@ namespace pk3DS
                     NUD_Level.Value = Randomizer.getModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
 
                 if (CHK_RemoveShinyLock.Checked)
-                    CHK_NoShiny.Checked = false;
+                    CHK_ShinyLock.Checked = false;
             }
             WinFormsUtil.Alert("Randomized all Static Encounters according to specification!");
         }
@@ -169,6 +170,18 @@ namespace pk3DS
         {
             int index = LB_Encounters.SelectedIndex;
             LB_Encounters.Items[index] = index.ToString("00") + " - " + CB_Species.Text;
+        }
+
+        private void ModifyLevels(object sender, EventArgs e)
+        {
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify all current Levels?", "Cannot undo.") != DialogResult.Yes) return;
+
+            for (int i = 0; i < LB_Encounters.Items.Count; i++)
+            {
+                LB_Encounters.SelectedIndex = i;
+                NUD_Level.Value = Randomizer.getModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
+            }
+            WinFormsUtil.Alert("Modified all Levels according to specification!");
         }
     }
 }
