@@ -16,7 +16,7 @@ namespace pk3DS
             int ctr = 0;
             while (ctr < lines.Length)
             {
-                string formname = lines[0];
+                string formname = lines[ctr];
                 int end = Array.FindIndex(lines, ctr, string.IsNullOrWhiteSpace);
                 var list = GetList(lines, ctr + 1, end - 1);
                 Settings.Add(formname, list);
