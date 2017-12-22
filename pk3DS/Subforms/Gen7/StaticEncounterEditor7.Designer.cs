@@ -148,6 +148,7 @@
             this.B_Starters = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
+            this.CHK_RandomAura = new System.Windows.Forms.CheckBox();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GGender)).BeginInit();
@@ -1427,7 +1428,7 @@
             // 
             // B_ModifyLevel
             // 
-            this.B_ModifyLevel.Location = new System.Drawing.Point(316, 111);
+            this.B_ModifyLevel.Location = new System.Drawing.Point(306, 101);
             this.B_ModifyLevel.Name = "B_ModifyLevel";
             this.B_ModifyLevel.Size = new System.Drawing.Size(70, 23);
             this.B_ModifyLevel.TabIndex = 512;
@@ -1443,7 +1444,7 @@
             0,
             0,
             131072});
-            this.NUD_LevelBoost.Location = new System.Drawing.Point(267, 112);
+            this.NUD_LevelBoost.Location = new System.Drawing.Point(257, 102);
             this.NUD_LevelBoost.Maximum = new decimal(new int[] {
             3,
             0,
@@ -1463,7 +1464,7 @@
             this.CHK_Level.AutoSize = true;
             this.CHK_Level.Checked = true;
             this.CHK_Level.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Level.Location = new System.Drawing.Point(135, 113);
+            this.CHK_Level.Location = new System.Drawing.Point(125, 103);
             this.CHK_Level.Name = "CHK_Level";
             this.CHK_Level.Size = new System.Drawing.Size(130, 17);
             this.CHK_Level.TabIndex = 510;
@@ -1472,7 +1473,7 @@
             // 
             // B_RandAll
             // 
-            this.B_RandAll.Location = new System.Drawing.Point(202, 289);
+            this.B_RandAll.Location = new System.Drawing.Point(192, 289);
             this.B_RandAll.Name = "B_RandAll";
             this.B_RandAll.Size = new System.Drawing.Size(122, 23);
             this.B_RandAll.TabIndex = 509;
@@ -1482,6 +1483,7 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.CHK_RandomAura);
             this.GB_Tweak.Controls.Add(this.CHK_RemoveShinyLock);
             this.GB_Tweak.Controls.Add(this.CHK_AllowMega);
             this.GB_Tweak.Controls.Add(this.CHK_Item);
@@ -1496,9 +1498,9 @@
             this.GB_Tweak.Controls.Add(this.CHK_G3);
             this.GB_Tweak.Controls.Add(this.CHK_G2);
             this.GB_Tweak.Controls.Add(this.CHK_G1);
-            this.GB_Tweak.Location = new System.Drawing.Point(129, 135);
+            this.GB_Tweak.Location = new System.Drawing.Point(119, 125);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 145);
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 160);
             this.GB_Tweak.TabIndex = 508;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
@@ -1664,7 +1666,7 @@
             // 
             // B_Starters
             // 
-            this.B_Starters.Location = new System.Drawing.Point(202, 318);
+            this.B_Starters.Location = new System.Drawing.Point(192, 318);
             this.B_Starters.Name = "B_Starters";
             this.B_Starters.Size = new System.Drawing.Size(122, 23);
             this.B_Starters.TabIndex = 9;
@@ -1691,6 +1693,16 @@
             this.B_Cancel.Text = "Cancel";
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            // 
+            // CHK_RandomAura
+            // 
+            this.CHK_RandomAura.AutoSize = true;
+            this.CHK_RandomAura.Location = new System.Drawing.Point(9, 139);
+            this.CHK_RandomAura.Name = "CHK_RandomAura";
+            this.CHK_RandomAura.Size = new System.Drawing.Size(172, 17);
+            this.CHK_RandomAura.TabIndex = 300;
+            this.CHK_RandomAura.Text = "Random Totem Pokémon Aura";
+            this.CHK_RandomAura.UseVisualStyleBackColor = true;
             // 
             // StaticEncounterEditor7
             // 
@@ -1870,5 +1882,6 @@
         private System.Windows.Forms.ComboBox CB_GNature;
         private System.Windows.Forms.Label L_GNature;
         private System.Windows.Forms.Button B_ModifyLevel;
+        private System.Windows.Forms.CheckBox CHK_RandomAura;
     }
 }
