@@ -512,14 +512,8 @@ namespace pk3DS
                 if (CHK_RemoveShinyLock.Checked)
                     t.ShinyLock = false;
 
-                if (CHK_RandomAura.Checked)
-                {
-                    if (t.Aura == 0)
-                        continue; // don't apply aura to a pkm without it
-
-                    CB_Aura.Items.AddRange(aura.Take(0).ToArray()); // don't allow (None) as an option; temporarily remove
-                    t.Aura = (int)(Util.rnd32() % CB_Aura.Items.Count);
-                }
+                if (CHK_RandomAura.Checked && t.Aura != 0) // don't apply aura to a pkm without it
+                    t.Aura = Util.rand.Next(1, CB_Aura.Items.Count); // don't allow none
             }
             foreach (EncounterTrade7 t in Trades)
             {
