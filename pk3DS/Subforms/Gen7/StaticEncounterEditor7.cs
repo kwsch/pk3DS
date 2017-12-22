@@ -108,14 +108,13 @@ namespace pk3DS
                 CB_EMove3.Items.Add(s);
                 CB_SpecialMove.Items.Add(s);
             }
+            foreach (string s in aura) CB_Aura.Items.Add(s);
 
             CB_GNature.Items.Add("Random");
             CB_GNature.Items.AddRange(natures.Take(25).ToArray());
             CB_ENature.Items.Add("Random");
             CB_ENature.Items.AddRange(natures.Take(25).ToArray());
             CB_TNature.Items.AddRange(natures.Take(25).ToArray());
-
-            foreach (string s in aura) CB_Aura.Items.Add(s);
 
             getListBoxEntries();
             LB_Gift.SelectedIndex = 0;
@@ -416,7 +415,7 @@ namespace pk3DS
                 G4 = CHK_G4.Checked,
                 G5 = CHK_G5.Checked,
                 G6 = CHK_G6.Checked,
-                G7 = false,
+                G7 = CHK_G7.Checked,
 
                 E = CHK_E.Checked,
                 L = CHK_L.Checked,
@@ -443,6 +442,7 @@ namespace pk3DS
                 var t = Gifts[i];
                 t.Species = specrand.GetRandomSpecies(oldStarters[i]);
                 t.Form = formrand.GetRandomForme(t.Species);
+                t.Nature = -1; // random
 
                 if (CHK_AllowMega.Checked)
                     formrand.AllowMega = true;
@@ -455,6 +455,9 @@ namespace pk3DS
 
                 if (CHK_RemoveShinyLock.Checked)
                     t.ShinyLock = false; // in case any user modifications locked the starters
+
+                if (CHK_SpecialMove.Checked)
+                    t.SpecialMove = Util.rand.Next(1, CB_SpecialMove.Items.Count); // don't allow none
             }
 
             getListBoxEntries();
@@ -481,6 +484,7 @@ namespace pk3DS
                 var t = Gifts[i];
                 t.Species = specrand.GetRandomSpecies(t.Species);
                 t.Form = formrand.GetRandomForme(t.Species);
+                t.Nature = -1; // random
 
                 if (CHK_AllowMega.Checked)
                     formrand.AllowMega = true;
@@ -493,12 +497,16 @@ namespace pk3DS
 
                 if (CHK_RemoveShinyLock.Checked)
                     t.ShinyLock = false;
+
+                if (CHK_SpecialMove.Checked)
+                    t.SpecialMove = Util.rand.Next(1, CB_SpecialMove.Items.Count); // don't allow none
             }
             foreach (EncounterStatic7 t in Encounters)
             {
                 t.Species = specrand.GetRandomSpecies(t.Species);
                 t.Form = formrand.GetRandomForme(t.Species);
                 t.RelearnMoves = move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
+                t.Nature = 0; // random
 
                 if (CHK_AllowMega.Checked)
                     formrand.AllowMega = true;
@@ -520,6 +528,7 @@ namespace pk3DS
                 t.Species = specrand.GetRandomSpecies(t.Species);
                 t.Form = formrand.GetRandomForme(t.Species);
                 t.TradeRequestSpecies = specrand.GetRandomSpecies(t.TradeRequestSpecies);
+                t.Nature = (int)(Util.rnd32() % CB_TNature.Items.Count); // randomly selected
 
                 if (CHK_AllowMega.Checked)
                     formrand.AllowMega = true;
