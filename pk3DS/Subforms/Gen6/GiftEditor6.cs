@@ -59,6 +59,20 @@ namespace pk3DS
         private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
         private readonly string[] natureslist = Main.Config.getText(TextName.Natures);
         private readonly Dictionary<int, int[]> MegaDictionary;
+
+        private readonly string[] ability =
+        {
+            "Random (1 or 2)",
+            "Ability 1",
+            "Ability 2",
+            "Hidden Ability",
+        };
+        private readonly string[] gender =
+        {
+            "Random/Genderless",
+            "Male",
+            "Female",
+        };
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveEntry();
@@ -80,6 +94,10 @@ namespace pk3DS
                 GiftData[i] = new EncounterGift6(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray(), Main.Config.ORAS);
                 LB_Gifts.Items.Add($"{i:00} - {specieslist[GiftData[i].Species]}");
             }
+
+            foreach (var s in ability) CB_Ability.Items.Add(s);
+            foreach (var s in gender) CB_Gender.Items.Add(s);
+
             loaded = true;
             LB_Gifts.SelectedIndex = 0;
         }
@@ -143,8 +161,8 @@ namespace pk3DS
             NUD_Level.Value = GiftData[entry].Level;
             NUD_Form.Value = GiftData[entry].Form;
             CB_Nature.SelectedIndex = GiftData[entry].Nature + 1;
-            NUD_Ability.Value = GiftData[entry].Ability;
-            NUD_Gender.Value = GiftData[entry].Gender;
+            CB_Ability.SelectedIndex = GiftData[entry].Ability + 1;
+            CB_Gender.SelectedIndex = GiftData[entry].Gender;
             CHK_ShinyLock.Checked = GiftData[entry].ShinyLock;
 
             NUD_IV0.Value = GiftData[entry].IVs[0];
@@ -166,8 +184,8 @@ namespace pk3DS
             GiftData[entry].Level = (byte)NUD_Level.Value;
             GiftData[entry].Form = (byte)NUD_Form.Value;
             GiftData[entry].Nature = (sbyte)(CB_Nature.SelectedIndex - 1);
-            GiftData[entry].Ability = (sbyte)NUD_Ability.Value;
-            GiftData[entry].Gender = (sbyte)NUD_Gender.Value;
+            GiftData[entry].Ability = (sbyte)(CB_Ability.SelectedIndex - 1);
+            GiftData[entry].Gender = (sbyte)CB_Gender.SelectedIndex;
             GiftData[entry].ShinyLock = CHK_ShinyLock.Checked;
 
             GiftData[entry].IVs[0] = (sbyte)NUD_IV0.Value;
@@ -226,7 +244,7 @@ namespace pk3DS
 
                 CB_Species.SelectedIndex = species;
                 NUD_Form.Value = formrand.GetRandomForme(species);
-                NUD_Gender.Value = 0; // random
+                CB_Gender.SelectedIndex = 0; // random
                 CB_Nature.SelectedIndex = 0; // random
 
                 if (MegaDictionary.Values.Any(z => z.Contains(CB_HeldItem.SelectedIndex)) && NUD_Form.Value > 0)
@@ -237,6 +255,9 @@ namespace pk3DS
 
                 if (CHK_Level.Checked)
                     NUD_Level.Value = Randomizer.getModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
+
+                if (CHK_RandomAbility.Checked)
+                    CB_Ability.SelectedIndex = (Util.rand.Next(1, 4)); // 1, 2 , or H
             }
             WinFormsUtil.Alert("Randomized all Gift Pokémon according to specification!");
         }

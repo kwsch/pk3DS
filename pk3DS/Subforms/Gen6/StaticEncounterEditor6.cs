@@ -42,6 +42,20 @@ namespace pk3DS
         private EncounterStatic6[] EncounterData;
         private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+
+        private readonly string[] ability =
+        {
+            "Random (1 or 2)",
+            "Ability 1",
+            "Ability 2",
+            "Hidden Ability",
+        };
+        private readonly string[] gender =
+        {
+            "Random/Genderless",
+            "Male",
+            "Female",
+        };
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveEntry();
@@ -63,6 +77,10 @@ namespace pk3DS
                 EncounterData[i] = new EncounterStatic6(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray());
                 LB_Encounters.Items.Add($"{i:00} - {specieslist[EncounterData[i].Species]}");
             }
+
+            foreach (var s in ability) CB_Ability.Items.Add(s);
+            foreach (var s in gender) CB_Gender.Items.Add(s);
+
             loaded = true;
             LB_Encounters.SelectedIndex = 0;
         }
@@ -99,8 +117,8 @@ namespace pk3DS
             CB_HeldItem.SelectedIndex = EncounterData[entry].HeldItem;
             NUD_Level.Value = EncounterData[entry].Level;
             NUD_Form.Value = EncounterData[entry].Form;
-            NUD_Ability.Value = EncounterData[entry].Ability;
-            NUD_Gender.Value = EncounterData[entry].Gender;
+            CB_Ability.SelectedIndex = EncounterData[entry].Ability;
+            CB_Gender.SelectedIndex = EncounterData[entry].Gender;
             CHK_ShinyLock.Checked = EncounterData[entry].ShinyLock;
             CHK_IV3.Checked = EncounterData[entry].IV3;
 
@@ -115,8 +133,8 @@ namespace pk3DS
             EncounterData[entry].HeldItem = CB_HeldItem.SelectedIndex;
             EncounterData[entry].Level = (byte)NUD_Level.Value;
             EncounterData[entry].Form = (byte)NUD_Form.Value;
-            EncounterData[entry].Ability = (sbyte)NUD_Ability.Value;
-            EncounterData[entry].Gender = (sbyte)NUD_Gender.Value;
+            EncounterData[entry].Ability = (sbyte)CB_Ability.SelectedIndex;
+            EncounterData[entry].Gender = (sbyte)CB_Gender.SelectedIndex;
             EncounterData[entry].ShinyLock = CHK_ShinyLock.Checked;
             EncounterData[entry].IV3 = CHK_IV3.Checked;
         }
@@ -151,7 +169,7 @@ namespace pk3DS
                 species = specrand.GetRandomSpecies(species);
                 CB_Species.SelectedIndex = species;
                 NUD_Form.Value = formrand.GetRandomForme(species);
-                NUD_Gender.Value = 0; // random
+                CB_Gender.SelectedIndex = 0; // random
 
                 if (CHK_AllowMega.Checked)
                     formrand.AllowMega = true;
@@ -164,6 +182,9 @@ namespace pk3DS
 
                 if (CHK_RemoveShinyLock.Checked)
                     CHK_ShinyLock.Checked = false;
+
+                if (CHK_RandomAbility.Checked)
+                    CB_Ability.SelectedIndex = (Util.rand.Next(1, 4)); // 1, 2 , or H
             }
             WinFormsUtil.Alert("Randomized all Static Encounters according to specification!");
         }
