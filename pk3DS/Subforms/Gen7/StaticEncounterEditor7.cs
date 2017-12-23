@@ -21,6 +21,13 @@ namespace pk3DS
         private readonly string[] types = Main.Config.getText(TextName.Types);
         private readonly int[] oldStarters;
 
+        private readonly string[] ability =
+        {
+            "Random (1 or 2)",
+            "Ability 1",
+            "Ability 2",
+            "Hidden Ability",
+        };
         private readonly string[] aura =
         {
             "(None)",
@@ -93,6 +100,12 @@ namespace pk3DS
                 CB_ESpecies.Items.Add(s);
                 CB_TSpecies.Items.Add(s);
                 CB_TRequest.Items.Add(s);
+            }
+            foreach (var s in ability)
+            {
+                CB_GAbility.Items.Add(s);
+                CB_EAbility.Items.Add(s);
+                CB_TAbility.Items.Add(s);
             }
             foreach (var s in itemlist)
             {
@@ -215,7 +228,7 @@ namespace pk3DS
             CB_GHeldItem.SelectedIndex = entry.HeldItem;
             NUD_GLevel.Value = entry.Level;
             NUD_GForm.Value = entry.Form;
-            NUD_GGender.Value = entry.Gender;
+            CB_GAbility.SelectedIndex = entry.Ability + 1;
             CB_GNature.SelectedIndex = entry.Nature + 1;
             CB_SpecialMove.SelectedIndex = entry.SpecialMove;
             CHK_G_Lock.Checked = entry.ShinyLock;
@@ -234,7 +247,7 @@ namespace pk3DS
             entry.HeldItem = CB_GHeldItem.SelectedIndex;
             entry.Level = (int)NUD_GLevel.Value;
             entry.Form = (int)NUD_GForm.Value;
-            entry.Gender = (int) NUD_GGender.Value;
+            entry.Ability = (sbyte)(CB_GAbility.SelectedIndex - 1);
             entry.Nature = (sbyte)(CB_GNature.SelectedIndex - 1);
             entry.SpecialMove = CB_SpecialMove.SelectedIndex;
             entry.ShinyLock = CHK_G_Lock.Checked;
@@ -253,6 +266,8 @@ namespace pk3DS
             CB_EHeldItem.SelectedIndex = entry.HeldItem;
             NUD_ELevel.Value = entry.Level;
             NUD_EForm.Value = entry.Form;
+            NUD_EGender.Value = entry.Gender;
+            CB_EAbility.SelectedIndex = entry.Ability;
 
             int[] moves = entry.RelearnMoves;
             CB_EMove0.SelectedIndex = moves[0];
@@ -293,6 +308,8 @@ namespace pk3DS
             entry.HeldItem = CB_EHeldItem.SelectedIndex;
             entry.Level = (int)NUD_ELevel.Value;
             entry.Form = (int)NUD_EForm.Value;
+            entry.Gender = (int)NUD_EGender.Value;
+            entry.Ability = CB_EAbility.SelectedIndex;
             entry.RelearnMoves = new[]
             {
                 CB_EMove0.SelectedIndex,
@@ -333,6 +350,8 @@ namespace pk3DS
             CB_THeldItem.SelectedIndex = entry.HeldItem;
             NUD_TLevel.Value = entry.Level;
             NUD_TForm.Value = entry.Form;
+            NUD_TGender.Value = entry.Gender;
+            CB_TAbility.SelectedIndex = entry.Ability + 1;
             CB_TNature.SelectedIndex = entry.Nature;
 
             NUD_TID.Value = entry.ID;
@@ -358,6 +377,8 @@ namespace pk3DS
             entry.HeldItem = CB_THeldItem.SelectedIndex;
             entry.Level = (int)NUD_TLevel.Value;
             entry.Form = (int)NUD_TForm.Value;
+            entry.Gender = (int)NUD_TGender.Value;
+            entry.Ability = (CB_TAbility.SelectedIndex - 1);
             entry.Nature = CB_TNature.SelectedIndex;
 
             entry.TID = (int)NUD_TID.Value;
@@ -458,6 +479,9 @@ namespace pk3DS
 
                 if (CHK_SpecialMove.Checked)
                     t.SpecialMove = Util.rand.Next(1, CB_SpecialMove.Items.Count); // don't allow none
+
+                if (CHK_RandomAbility.Checked)
+                    t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2 , or H
             }
 
             getListBoxEntries();
@@ -500,12 +524,16 @@ namespace pk3DS
 
                 if (CHK_SpecialMove.Checked)
                     t.SpecialMove = Util.rand.Next(1, CB_SpecialMove.Items.Count); // don't allow none
+
+                if (CHK_RandomAbility.Checked)
+                    t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2 , or H
             }
             foreach (EncounterStatic7 t in Encounters)
             {
                 t.Species = specrand.GetRandomSpecies(t.Species);
                 t.Form = formrand.GetRandomForme(t.Species);
                 t.RelearnMoves = move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
+                t.Gender = 0; // random
                 t.Nature = 0; // random
 
                 if (CHK_AllowMega.Checked)
@@ -522,6 +550,9 @@ namespace pk3DS
 
                 if (CHK_RandomAura.Checked && t.Aura != 0) // don't apply aura to a pkm without it
                     t.Aura = Util.rand.Next(1, CB_Aura.Items.Count); // don't allow none
+
+                if (CHK_RandomAbility.Checked)
+                    t.Ability = (sbyte)(Util.rand.Next(1, 4)); // 1, 2 , or H
             }
             foreach (EncounterTrade7 t in Trades)
             {
@@ -538,6 +569,9 @@ namespace pk3DS
 
                 if (CHK_Level.Checked)
                     t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
+
+                if (CHK_RandomAbility.Checked)
+                    t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2 , or H
             }
 
             getListBoxEntries();

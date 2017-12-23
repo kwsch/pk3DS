@@ -34,12 +34,13 @@
             this.B_RandAll = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.CHK_ShinyLock = new System.Windows.Forms.CheckBox();
             this.L_Gender = new System.Windows.Forms.Label();
-            this.CB_Species = new System.Windows.Forms.ComboBox();
-            this.NUD_Gender = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Ability = new System.Windows.Forms.NumericUpDown();
+            this.CB_Gender = new System.Windows.Forms.ComboBox();
             this.L_Ability = new System.Windows.Forms.Label();
+            this.CB_Ability = new System.Windows.Forms.ComboBox();
+            this.CHK_IV3 = new System.Windows.Forms.CheckBox();
+            this.CHK_ShinyLock = new System.Windows.Forms.CheckBox();
+            this.CB_Species = new System.Windows.Forms.ComboBox();
             this.L_Species = new System.Windows.Forms.Label();
             this.L_HeldItem = new System.Windows.Forms.Label();
             this.NUD_Level = new System.Windows.Forms.NumericUpDown();
@@ -50,6 +51,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.B_ModifyLevel = new System.Windows.Forms.Button();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_RandomAbility = new System.Windows.Forms.CheckBox();
             this.CHK_RemoveShinyLock = new System.Windows.Forms.CheckBox();
             this.CHK_AllowMega = new System.Windows.Forms.CheckBox();
             this.CHK_Item = new System.Windows.Forms.CheckBox();
@@ -65,11 +67,8 @@
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
-            this.CHK_IV3 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Gender)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Ability)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).BeginInit();
             this.tabPage2.SuspendLayout();
@@ -133,13 +132,13 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.L_Gender);
+            this.tabPage1.Controls.Add(this.CB_Gender);
+            this.tabPage1.Controls.Add(this.L_Ability);
+            this.tabPage1.Controls.Add(this.CB_Ability);
             this.tabPage1.Controls.Add(this.CHK_IV3);
             this.tabPage1.Controls.Add(this.CHK_ShinyLock);
-            this.tabPage1.Controls.Add(this.L_Gender);
             this.tabPage1.Controls.Add(this.CB_Species);
-            this.tabPage1.Controls.Add(this.NUD_Gender);
-            this.tabPage1.Controls.Add(this.NUD_Ability);
-            this.tabPage1.Controls.Add(this.L_Ability);
             this.tabPage1.Controls.Add(this.L_Species);
             this.tabPage1.Controls.Add(this.L_HeldItem);
             this.tabPage1.Controls.Add(this.NUD_Level);
@@ -155,24 +154,59 @@
             this.tabPage1.Text = "Editor";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // CHK_ShinyLock
-            // 
-            this.CHK_ShinyLock.AutoSize = true;
-            this.CHK_ShinyLock.Location = new System.Drawing.Point(65, 141);
-            this.CHK_ShinyLock.Name = "CHK_ShinyLock";
-            this.CHK_ShinyLock.Size = new System.Drawing.Size(79, 17);
-            this.CHK_ShinyLock.TabIndex = 519;
-            this.CHK_ShinyLock.Text = "Shiny Lock";
-            this.CHK_ShinyLock.UseVisualStyleBackColor = true;
-            // 
             // L_Gender
             // 
             this.L_Gender.Location = new System.Drawing.Point(9, 96);
             this.L_Gender.Name = "L_Gender";
             this.L_Gender.Size = new System.Drawing.Size(55, 23);
-            this.L_Gender.TabIndex = 518;
+            this.L_Gender.TabIndex = 526;
             this.L_Gender.Text = "Gender:";
             this.L_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Gender
+            // 
+            this.CB_Gender.FormattingEnabled = true;
+            this.CB_Gender.Location = new System.Drawing.Point(65, 97);
+            this.CB_Gender.Name = "CB_Gender";
+            this.CB_Gender.Size = new System.Drawing.Size(121, 21);
+            this.CB_Gender.TabIndex = 525;
+            // 
+            // L_Ability
+            // 
+            this.L_Ability.Location = new System.Drawing.Point(9, 73);
+            this.L_Ability.Name = "L_Ability";
+            this.L_Ability.Size = new System.Drawing.Size(55, 23);
+            this.L_Ability.TabIndex = 524;
+            this.L_Ability.Text = "Ability:";
+            this.L_Ability.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Ability
+            // 
+            this.CB_Ability.FormattingEnabled = true;
+            this.CB_Ability.Location = new System.Drawing.Point(65, 74);
+            this.CB_Ability.Name = "CB_Ability";
+            this.CB_Ability.Size = new System.Drawing.Size(121, 21);
+            this.CB_Ability.TabIndex = 523;
+            // 
+            // CHK_IV3
+            // 
+            this.CHK_IV3.AutoSize = true;
+            this.CHK_IV3.Location = new System.Drawing.Point(65, 158);
+            this.CHK_IV3.Name = "CHK_IV3";
+            this.CHK_IV3.Size = new System.Drawing.Size(42, 17);
+            this.CHK_IV3.TabIndex = 522;
+            this.CHK_IV3.Text = "3IV";
+            this.CHK_IV3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_ShinyLock
+            // 
+            this.CHK_ShinyLock.AutoSize = true;
+            this.CHK_ShinyLock.Location = new System.Drawing.Point(65, 143);
+            this.CHK_ShinyLock.Name = "CHK_ShinyLock";
+            this.CHK_ShinyLock.Size = new System.Drawing.Size(79, 17);
+            this.CHK_ShinyLock.TabIndex = 519;
+            this.CHK_ShinyLock.Text = "Shiny Lock";
+            this.CHK_ShinyLock.UseVisualStyleBackColor = true;
             // 
             // CB_Species
             // 
@@ -181,44 +215,6 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(121, 21);
             this.CB_Species.TabIndex = 506;
-            // 
-            // NUD_Gender
-            // 
-            this.NUD_Gender.Location = new System.Drawing.Point(65, 96);
-            this.NUD_Gender.Maximum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.NUD_Gender.Name = "NUD_Gender";
-            this.NUD_Gender.Size = new System.Drawing.Size(41, 20);
-            this.NUD_Gender.TabIndex = 517;
-            // 
-            // NUD_Ability
-            // 
-            this.NUD_Ability.Location = new System.Drawing.Point(65, 74);
-            this.NUD_Ability.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.NUD_Ability.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
-            this.NUD_Ability.Name = "NUD_Ability";
-            this.NUD_Ability.Size = new System.Drawing.Size(41, 20);
-            this.NUD_Ability.TabIndex = 515;
-            // 
-            // L_Ability
-            // 
-            this.L_Ability.Location = new System.Drawing.Point(9, 71);
-            this.L_Ability.Name = "L_Ability";
-            this.L_Ability.Size = new System.Drawing.Size(55, 23);
-            this.L_Ability.TabIndex = 516;
-            this.L_Ability.Text = "Ability:";
-            this.L_Ability.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Species
             // 
@@ -231,7 +227,7 @@
             // 
             // L_HeldItem
             // 
-            this.L_HeldItem.Location = new System.Drawing.Point(9, 117);
+            this.L_HeldItem.Location = new System.Drawing.Point(9, 119);
             this.L_HeldItem.Name = "L_HeldItem";
             this.L_HeldItem.Size = new System.Drawing.Size(55, 23);
             this.L_HeldItem.TabIndex = 509;
@@ -271,7 +267,7 @@
             // CB_HeldItem
             // 
             this.CB_HeldItem.FormattingEnabled = true;
-            this.CB_HeldItem.Location = new System.Drawing.Point(65, 118);
+            this.CB_HeldItem.Location = new System.Drawing.Point(65, 120);
             this.CB_HeldItem.Name = "CB_HeldItem";
             this.CB_HeldItem.Size = new System.Drawing.Size(121, 21);
             this.CB_HeldItem.TabIndex = 507;
@@ -309,6 +305,7 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.CHK_RandomAbility);
             this.GB_Tweak.Controls.Add(this.CHK_RemoveShinyLock);
             this.GB_Tweak.Controls.Add(this.CHK_AllowMega);
             this.GB_Tweak.Controls.Add(this.CHK_Item);
@@ -324,15 +321,25 @@
             this.GB_Tweak.Controls.Add(this.CHK_G1);
             this.GB_Tweak.Location = new System.Drawing.Point(5, 83);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 129);
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 147);
             this.GB_Tweak.TabIndex = 509;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
             // 
+            // CHK_RandomAbility
+            // 
+            this.CHK_RandomAbility.AutoSize = true;
+            this.CHK_RandomAbility.Location = new System.Drawing.Point(9, 109);
+            this.CHK_RandomAbility.Name = "CHK_RandomAbility";
+            this.CHK_RandomAbility.Size = new System.Drawing.Size(183, 17);
+            this.CHK_RandomAbility.TabIndex = 303;
+            this.CHK_RandomAbility.Text = "Random Abilities (1, 2, or Hidden)";
+            this.CHK_RandomAbility.UseVisualStyleBackColor = true;
+            // 
             // CHK_RemoveShinyLock
             // 
             this.CHK_RemoveShinyLock.AutoSize = true;
-            this.CHK_RemoveShinyLock.Location = new System.Drawing.Point(9, 109);
+            this.CHK_RemoveShinyLock.Location = new System.Drawing.Point(9, 94);
             this.CHK_RemoveShinyLock.Name = "CHK_RemoveShinyLock";
             this.CHK_RemoveShinyLock.Size = new System.Drawing.Size(127, 17);
             this.CHK_RemoveShinyLock.TabIndex = 297;
@@ -342,7 +349,7 @@
             // CHK_AllowMega
             // 
             this.CHK_AllowMega.AutoSize = true;
-            this.CHK_AllowMega.Location = new System.Drawing.Point(9, 94);
+            this.CHK_AllowMega.Location = new System.Drawing.Point(9, 125);
             this.CHK_AllowMega.Name = "CHK_AllowMega";
             this.CHK_AllowMega.Size = new System.Drawing.Size(155, 17);
             this.CHK_AllowMega.TabIndex = 296;
@@ -511,16 +518,6 @@
             this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
-            // CHK_IV3
-            // 
-            this.CHK_IV3.AutoSize = true;
-            this.CHK_IV3.Location = new System.Drawing.Point(65, 156);
-            this.CHK_IV3.Name = "CHK_IV3";
-            this.CHK_IV3.Size = new System.Drawing.Size(42, 17);
-            this.CHK_IV3.TabIndex = 522;
-            this.CHK_IV3.Text = "3IV";
-            this.CHK_IV3.UseVisualStyleBackColor = true;
-            // 
             // StaticEncounterEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -541,8 +538,6 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Gender)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Ability)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).EndInit();
             this.tabPage2.ResumeLayout(false);
@@ -580,11 +575,7 @@
         private System.Windows.Forms.CheckBox CHK_AllowMega;
         private System.Windows.Forms.CheckBox CHK_RemoveShinyLock;
         private System.Windows.Forms.CheckBox CHK_ShinyLock;
-        private System.Windows.Forms.Label L_Gender;
         private System.Windows.Forms.ComboBox CB_Species;
-        private System.Windows.Forms.NumericUpDown NUD_Gender;
-        private System.Windows.Forms.NumericUpDown NUD_Ability;
-        private System.Windows.Forms.Label L_Ability;
         private System.Windows.Forms.Label L_Species;
         private System.Windows.Forms.Label L_HeldItem;
         private System.Windows.Forms.NumericUpDown NUD_Level;
@@ -594,5 +585,10 @@
         private System.Windows.Forms.NumericUpDown NUD_Form;
         private System.Windows.Forms.Button B_ModifyLevel;
         private System.Windows.Forms.CheckBox CHK_IV3;
+        private System.Windows.Forms.Label L_Gender;
+        private System.Windows.Forms.ComboBox CB_Gender;
+        private System.Windows.Forms.Label L_Ability;
+        private System.Windows.Forms.ComboBox CB_Ability;
+        private System.Windows.Forms.CheckBox CHK_RandomAbility;
     }
 }
