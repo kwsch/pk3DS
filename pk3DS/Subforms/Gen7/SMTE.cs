@@ -624,7 +624,7 @@ namespace pk3DS
                         rv = (int) (Util.rnd32()%CB_Trainer_Class.Items.Count);
                     } while (/*trClass[rv].StartsWith("[~") || */TrainerClasses_7.Contains(rv) && CHK_IgnoreSpecialClass.Checked); // don't allow disallowed classes
 
-                    if (Main.Config.USUM && rv == 082) // Mother Beast Lusamine; unused in USUM and can crash game
+                    if (rv == 082) // Lusamine 2 (Aether President - 082) can crash Multi Battles, skip
                         continue;
 
                     tr.TrainerClass = (byte) rv;
