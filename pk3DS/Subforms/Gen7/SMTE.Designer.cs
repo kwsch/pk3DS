@@ -180,6 +180,8 @@
             this.CHK_RandomItems = new System.Windows.Forms.CheckBox();
             this.CHK_STAB = new System.Windows.Forms.CheckBox();
             this.Tab_Trainer1 = new System.Windows.Forms.TabPage();
+            this.NUD_ForceFullyEvolved = new System.Windows.Forms.NumericUpDown();
+            this.CHK_ForceFullyEvolved = new System.Windows.Forms.CheckBox();
             this.L_MinPKM = new System.Windows.Forms.Label();
             this.L_MaxPKM = new System.Windows.Forms.Label();
             this.NUD_RMin = new System.Windows.Forms.NumericUpDown();
@@ -188,6 +190,7 @@
             this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
             this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
             this.CHK_RandomClass = new System.Windows.Forms.CheckBox();
+            this.CHK_6PKM = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -235,6 +238,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Damage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_STAB)).BeginInit();
             this.Tab_Trainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMax)).BeginInit();
             this.SuspendLayout();
@@ -1979,6 +1983,9 @@
             // 
             // Tab_Trainer1
             // 
+            this.Tab_Trainer1.Controls.Add(this.CHK_6PKM);
+            this.Tab_Trainer1.Controls.Add(this.NUD_ForceFullyEvolved);
+            this.Tab_Trainer1.Controls.Add(this.CHK_ForceFullyEvolved);
             this.Tab_Trainer1.Controls.Add(this.L_MinPKM);
             this.Tab_Trainer1.Controls.Add(this.L_MaxPKM);
             this.Tab_Trainer1.Controls.Add(this.NUD_RMin);
@@ -1993,6 +2000,34 @@
             this.Tab_Trainer1.TabIndex = 2;
             this.Tab_Trainer1.Text = "Trainer";
             this.Tab_Trainer1.UseVisualStyleBackColor = true;
+            // 
+            // NUD_ForceFullyEvolved
+            // 
+            this.NUD_ForceFullyEvolved.Location = new System.Drawing.Point(165, 111);
+            this.NUD_ForceFullyEvolved.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_ForceFullyEvolved.Name = "NUD_ForceFullyEvolved";
+            this.NUD_ForceFullyEvolved.Size = new System.Drawing.Size(40, 20);
+            this.NUD_ForceFullyEvolved.TabIndex = 340;
+            this.NUD_ForceFullyEvolved.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // CHK_ForceFullyEvolved
+            // 
+            this.CHK_ForceFullyEvolved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_ForceFullyEvolved.AutoSize = true;
+            this.CHK_ForceFullyEvolved.Location = new System.Drawing.Point(6, 113);
+            this.CHK_ForceFullyEvolved.Name = "CHK_ForceFullyEvolved";
+            this.CHK_ForceFullyEvolved.Size = new System.Drawing.Size(160, 17);
+            this.CHK_ForceFullyEvolved.TabIndex = 339;
+            this.CHK_ForceFullyEvolved.Text = "Force Fully Evolved at Level";
+            this.CHK_ForceFullyEvolved.UseVisualStyleBackColor = true;
             // 
             // L_MinPKM
             // 
@@ -2060,7 +2095,7 @@
             // 
             this.CHK_RandomMegaForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_RandomMegaForm.AutoSize = true;
-            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(6, 73);
+            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(6, 76);
             this.CHK_RandomMegaForm.Name = "CHK_RandomMegaForm";
             this.CHK_RandomMegaForm.Size = new System.Drawing.Size(127, 17);
             this.CHK_RandomMegaForm.TabIndex = 333;
@@ -2106,6 +2141,17 @@
             this.CHK_RandomClass.Text = "Random Trainer Classes";
             this.CHK_RandomClass.UseVisualStyleBackColor = true;
             this.CHK_RandomClass.CheckedChanged += new System.EventHandler(this.CHK_RandomClass_CheckedChanged);
+            // 
+            // CHK_6PKM
+            // 
+            this.CHK_6PKM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_6PKM.AutoSize = true;
+            this.CHK_6PKM.Location = new System.Drawing.Point(6, 94);
+            this.CHK_6PKM.Name = "CHK_6PKM";
+            this.CHK_6PKM.Size = new System.Drawing.Size(183, 17);
+            this.CHK_6PKM.TabIndex = 341;
+            this.CHK_6PKM.Text = "6 Pokémon for Important Trainers";
+            this.CHK_6PKM.UseVisualStyleBackColor = true;
             // 
             // SMTE
             // 
@@ -2184,6 +2230,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_STAB)).EndInit();
             this.Tab_Trainer1.ResumeLayout(false);
             this.Tab_Trainer1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMax)).EndInit();
             this.ResumeLayout(false);
@@ -2350,6 +2397,9 @@
         private System.Windows.Forms.NumericUpDown NUD_Damage;
         private System.Windows.Forms.CheckBox CHK_Flag;
         private System.Windows.Forms.CheckBox CHK_NoFixedDamage;
+        private System.Windows.Forms.NumericUpDown NUD_ForceFullyEvolved;
+        private System.Windows.Forms.CheckBox CHK_ForceFullyEvolved;
+        private System.Windows.Forms.CheckBox CHK_6PKM;
     }
 }
 

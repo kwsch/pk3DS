@@ -18,7 +18,9 @@ namespace pk3DS
         private readonly LearnsetRandomizer learn = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
         private readonly trdata7[] Trainers;
         private string[][] AltForms;
-        private static int[] TrainerClasses_7;
+        private static int[] TrainerClasses;
+        private static int[] ImportantTrainers;
+        private static int[] FinalEvo;
         private int index = -1;
         private PictureBox[] pba;
 
@@ -34,6 +36,7 @@ namespace pk3DS
         private readonly string[] trClass = Main.Config.getText(TextName.TrainerClasses);
         private readonly TextData trText = Main.Config.getTextData(TextName.TrainerText);
         private readonly TextData TrainerNames;
+        
 
         public SMTE(byte[][] trc, byte[][] trd, byte[][] trp)
         {
@@ -54,7 +57,9 @@ namespace pk3DS
             CB_TrainerID.SelectedIndex = 0;
             CB_Moves.SelectedIndex = 0;
 
-            TrainerClasses_7 = Main.Config.USUM ? Legal.SpecialClasses_USUM : Legal.SpecialClasses_SM;
+            TrainerClasses = Main.Config.USUM ? Legal.SpecialClasses_USUM : Legal.SpecialClasses_SM;
+            ImportantTrainers = Main.Config.USUM ? Legal.ImportantTrainers_USUM : Legal.ImportantTrainers_SM;
+            FinalEvo = Main.Config.USUM ? Legal.FinalEvolutions_USUM : Legal.FinalEvolutions_SM;
             RandSettings.GetFormSettings(this, Tab_Misc.Controls);
         }
 
@@ -622,7 +627,7 @@ namespace pk3DS
                     do
                     {
                         rv = (int) (Util.rnd32()%CB_Trainer_Class.Items.Count);
-                    } while (/*trClass[rv].StartsWith("[~") || */TrainerClasses_7.Contains(rv) && CHK_IgnoreSpecialClass.Checked); // don't allow disallowed classes
+                    } while (/*trClass[rv].StartsWith("[~") || */TrainerClasses.Contains(rv) && CHK_IgnoreSpecialClass.Checked); // don't allow disallowed classes
 
                     if (rv == 082) // Lusamine 2 (Aether President - 082) can crash Multi Battles, skip
                         continue;
@@ -630,12 +635,13 @@ namespace pk3DS
                     tr.TrainerClass = (byte) rv;
                 }
 
+                var avgBST = (int)tr.Pokemon.Average(pk => Main.SpeciesStat[pk.Species].BST);
+                int avgLevel = (int)tr.Pokemon.Average(pk => pk.Level);
+                var pinfo = Main.SpeciesStat.OrderBy(pk => Math.Abs(avgBST - pk.BST)).First();
+                int avgSpec = Array.IndexOf(Main.SpeciesStat, pinfo);
+
                 if (tr.NumPokemon < NUD_RMin.Value)
                 {
-                    var avgBST = (int)tr.Pokemon.Average(pk => Main.SpeciesStat[pk.Species].BST);
-                    int avgLevel = (int)tr.Pokemon.Average(pk => pk.Level);
-                    var pinfo = Main.SpeciesStat.OrderBy(pk => Math.Abs(avgBST - pk.BST)).First();
-                    int avgSpec = Array.IndexOf(Main.SpeciesStat, pinfo);
                     for (int p = tr.NumPokemon; p < NUD_RMin.Value; p++)
                         tr.Pokemon.Add(new trpoke7
                         {
@@ -648,6 +654,16 @@ namespace pk3DS
                 {
                     tr.Pokemon.RemoveRange((int)NUD_RMax.Value, (int)(tr.NumPokemon - NUD_RMax.Value));
                     tr.NumPokemon = (int)NUD_RMax.Value;
+                }
+                if (CHK_6PKM.Checked && ImportantTrainers.Contains(tr.ID))
+                {
+                    for (int g = tr.NumPokemon; g < 6; g++)
+                        tr.Pokemon.Add(new trpoke7
+                        {
+                            Species = rnd.GetRandomSpecies(avgSpec),
+                            Level = avgLevel,
+                        });
+                    tr.NumPokemon = 6;
                 }
 
                 // PKM Properties
@@ -670,6 +686,16 @@ namespace pk3DS
                         pk.Ability = (int)Util.rnd32()%4;
                     if (CHK_MaxDiffPKM.Checked)
                         pk.IVs = new[] {31, 31, 31, 31, 31, 31};
+
+                    if (CHK_ForceFullyEvolved.Checked && pk.Level >= NUD_ForceFullyEvolved.Value)
+                    {
+                        if (!FinalEvo.Contains(pk.Species))
+                        {
+                            int randFinalEvo() => (int)(Util.rnd32() % FinalEvo.Length);
+                            pk.Species = FinalEvo[randFinalEvo()];
+                            pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
+                        }
+                    }
 
                     switch (CB_Moves.SelectedIndex)
                     {
