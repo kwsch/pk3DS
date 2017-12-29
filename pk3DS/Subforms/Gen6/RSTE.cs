@@ -15,6 +15,7 @@ namespace pk3DS
 {
     public partial class RSTE : Form
     {
+        private readonly LearnsetRandomizer learn = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
         public RSTE(byte[][] trc, byte[][] trd, byte[][] trp)
         {
             trclass = trc;
@@ -630,7 +631,7 @@ namespace pk3DS
                 InitializeTrainerTeamInfo(t, rImportant[i] == null);
                 RandomizeTrainerAIClass(t, trClass);
                 RandomizeTrainerPrizeItem(t);
-                RandomizeTeam(t, move, itemvals, type, mevo, typerand);
+                RandomizeTeam(t, move, learn, itemvals, type, mevo, typerand);
 
                 trdata[i] = t.Write();
                 trpoke[i] = t.WriteTeam();
@@ -639,7 +640,7 @@ namespace pk3DS
             WinFormsUtil.Alert("Randomized all Trainers according to specification!", "Press the Dump to .TXT button to view the new Trainer information!");
         }
 
-        private static void RandomizeTeam(trdata6 t, MoveRandomizer move, ushort[] itemvals, int type, bool mevo, bool typerand)
+        private static void RandomizeTeam(trdata6 t, MoveRandomizer move, LearnsetRandomizer learn, ushort[] itemvals, int type, bool mevo, bool typerand)
         {
             int last = t.Team.Length - 1;
             for (int p = 0; p < t.Team.Length; p++)
@@ -682,9 +683,19 @@ namespace pk3DS
                 else if (rItem)
                     pk.Item = itemvals[rnd32() % itemvals.Length];
 
+                // random
                 if (rMove)
                 {
                     var pkMoves = move.GetRandomMoveset(pk.Species, 4);
+                    for (int m = 0; m < 4; m++)
+                        pk.Moves[m] = (ushort)pkMoves[m];
+                }
+
+                // levelup
+                if (rNoMove)
+                {
+                    t.Moves = true;
+                    var pkMoves = learn.GetCurrentMoves(pk.Species, pk.Form, pk.Level, 4);
                     for (int m = 0; m < 4; m++)
                         pk.Moves[m] = (ushort)pkMoves[m];
                 }
