@@ -1,67 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using pk3DS.Core.CTR;
 
 namespace pk3DS.ARCUtil
 {
     public static class ARC
     {
-        // Multi Type Archive Handling
-        internal static bool onefile = true;
-        internal static SARC analyzeSARC(string path)
+        private static SARC analyzeSARC(string path)
         {
-            SARC sarc = new SARC
-            {
-                FileName = Path.GetFileNameWithoutExtension(path),
-                FilePath = Path.GetDirectoryName(path),
-                Extension = Path.GetExtension(path)
-            };
-            BinaryReader br = new BinaryReader(File.OpenRead(path));
-            sarc.valid = true;
-            sarc.Signature = new string(br.ReadChars(4));
-            if (sarc.Signature != "SARC")
-            {
-                sarc.valid = false;
-                return sarc;
-            }
-            sarc.HeaderSize = br.ReadUInt16();
-            sarc.Endianness = br.ReadUInt16();
-            sarc.FileSize = br.ReadUInt32();
-            sarc.DataOffset = br.ReadUInt32();
-            sarc.Unknown = br.ReadUInt32();
-            sarc.SFat = new SFAT { Signature = new string(br.ReadChars(4)) };
-            if (sarc.SFat.Signature != "SFAT")
-            {
-                sarc.valid = false;
-                return sarc;
-            }
-            sarc.SFat.HeaderSize = br.ReadUInt16();
-            sarc.SFat.EntryCount = br.ReadUInt16();
-            sarc.SFat.HashMult = br.ReadUInt32();
-            sarc.SFat.Entries = new List<SFATEntry>();
-            for (int i = 0; i < sarc.SFat.EntryCount; i++)
-            {
-                SFATEntry s = new SFATEntry
-                {
-                    FileNameHash = br.ReadUInt32(),
-                    FileNameOffset = br.ReadUInt32(),
-                    FileDataStart = br.ReadUInt32(),
-                    FileDataEnd = br.ReadUInt32()
-                };
-                sarc.SFat.Entries.Add(s);
-            }
-            sarc.SFnt = new SFNT { Signature = new string(br.ReadChars(4)) };
-            if (sarc.SFnt.Signature != "SFNT")
-            {
-                sarc.valid = false;
-                return sarc;
-            }
-            sarc.SFnt.HeaderSize = br.ReadUInt16();
-            sarc.SFnt.Unknown = br.ReadUInt16();
-            sarc.SFnt.StringOffset = (uint)br.BaseStream.Position;
-            return sarc;
+            try { return new SARC(path); }
+            catch { return new SARC(); }
         }
         internal static ShuffleARC AnalyzeShuffle(string path)
         {
@@ -430,73 +382,86 @@ namespace pk3DS.ARCUtil
             }
             else if (sharc.valid)
             {
-                ret += "New Shuffle Archive with " + sharc.FileCount + " files." + Environment.NewLine;
-                string dir = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar + sharc.FileName + "_" + Path.DirectorySeparatorChar;
-                if (!Directory.Exists(dir))
-                {
-                    Console.WriteLine("Making dir: " + dir);
-                    Directory.CreateDirectory(dir);
-                }
-
-                string diglen = "".PadLeft((int)(Math.Log10(sharc.FileCount) + 1), '0');
-                for (int i = 0; i < sharc.FileCount; i++)
-                {
-                    var fs = File.OpenRead(path);
-                    fs.Seek(sharc.Files[i].Offset, SeekOrigin.Begin);
-                    byte[] fileBuffer = new byte[sharc.Files[i].Length];
-                    fs.Read(fileBuffer, 0, fileBuffer.Length);
-                    fs.Close();
-                    uint check = 0;
-                    for (int j = 0; j < fileBuffer.Length; j += 4)
-                        check += BitConverter.ToUInt32(fileBuffer, j);
-                    Console.WriteLine(i.ToString(diglen) + ": " + check.ToString("X8"));
-                    File.WriteAllBytes(dir + i.ToString(diglen) + ".zip", fileBuffer);
-                    ret += "Extracted " + i.ToString(diglen) + " (Offset: " + sharc.Files[i].Offset.ToString("X8") + ", Len: " + sharc.Files[i].Length.ToString("X8") + ")." + Environment.NewLine;
-                }
-                ret += Environment.NewLine;
+                UnpackShuffleARC(path, sharc, ret);
             }
-            else if (sarc.valid)
-            {
-                ret = "New SARC with " + sarc.SFat.EntryCount + " files." + Environment.NewLine;
-                string dir = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar + sarc.FileName + "_" + Path.DirectorySeparatorChar;
-                if (!Directory.Exists(dir))
-                {
-                    Console.WriteLine("Making dir: " + dir);
-                    Directory.CreateDirectory(dir);
-                }
-
-                foreach (SFATEntry t in sarc.SFat.Entries)
-                {
-                    var fs = File.OpenRead(path);
-                    uint FileLen = t.FileDataEnd - t.FileDataStart;
-                    fs.Seek(t.FileDataStart + sarc.DataOffset, SeekOrigin.Begin);
-                    byte[] fileBuffer = new byte[FileLen];
-                    fs.Read(fileBuffer, 0, (int)FileLen);
-                    fs.Seek(sarc.SFnt.StringOffset, SeekOrigin.Begin);
-                    fs.Seek((t.FileNameOffset & 0x00FFFFFF) * 4, SeekOrigin.Current);
-                    StringBuilder sb = new StringBuilder();
-                    for (char c = (char)fs.ReadByte(); c != 0; c = (char)fs.ReadByte())
-                    {
-                        sb.Append(c);
-                    }
-                    string FileName = sb.ToString().Replace('/', Path.DirectorySeparatorChar);
-                    fs.Close();
-                    string FileDir = Path.GetDirectoryName(dir + FileName) + Path.DirectorySeparatorChar;
-                    if (!Directory.Exists(FileDir))
-                    {
-                        Console.WriteLine("Making dir: " + FileDir);
-                        Directory.CreateDirectory(FileDir);
-                    }
-                    File.WriteAllBytes(dir + FileName, fileBuffer);
-                }
-            }
+            else if (sarc.Valid)
+                UnpackSARC(path, sarc);
             else
             {
                 ret = "Not a valid .DARC/.FARC/.SARC/.GAR/Shuffle Archive file";
             }
             return ret;
         }
-        
+
+        private static bool UnpackShuffleARC(string path, ShuffleARC sharc, string ret)
+        {
+            Debug.WriteLine($"New Shuffle Archive with {sharc.FileCount} files.");
+            string dir = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar + sharc.FileName + "_" + Path.DirectorySeparatorChar;
+            if (!Directory.Exists(dir))
+            {
+                Console.WriteLine("Making dir: " + dir);
+                Directory.CreateDirectory(dir);
+            }
+
+            string diglen = "".PadLeft((int)(Math.Log10(sharc.FileCount) + 1), '0');
+            for (int i = 0; i < sharc.FileCount; i++)
+            {
+                var fs = File.OpenRead(path);
+                fs.Seek(sharc.Files[i].Offset, SeekOrigin.Begin);
+                byte[] fileBuffer = new byte[sharc.Files[i].Length];
+                fs.Read(fileBuffer, 0, fileBuffer.Length);
+                fs.Close();
+                uint check = 0;
+                for (int j = 0; j < fileBuffer.Length; j += 4)
+                    check += BitConverter.ToUInt32(fileBuffer, j);
+                Console.WriteLine(i.ToString(diglen) + ": " + check.ToString("X8"));
+                File.WriteAllBytes(dir + i.ToString(diglen) + ".zip", fileBuffer);
+                Debug.WriteLine($"Extracted {i.ToString(diglen)} (Offset: {sharc.Files[i].Offset:X8}, Len: {sharc.Files[i].Length:X8}).");
+            }
+            return true;
+        }
+
+        private static bool UnpackSARC(string path, SARC sarc)
+        {
+            Debug.WriteLine($"New SARC with {sarc.SFAT.EntryCount} files.");
+            string dir = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar + sarc.FileName + "_" + Path.DirectorySeparatorChar;
+            if (!Directory.Exists(dir))
+            {
+                Debug.WriteLine($"Making dir: {dir}");
+                Directory.CreateDirectory(dir);
+            }
+
+            var fs = File.OpenRead(path);
+            foreach (SFATEntry t in sarc.SFAT.Entries)
+            {
+                // Read File Data
+                uint FileLen = t.FileDataEnd - t.FileDataStart;
+                fs.Seek(t.FileDataStart + sarc.DataOffset, SeekOrigin.Begin);
+                byte[] fileBuffer = new byte[FileLen];
+                fs.Read(fileBuffer, 0, (int)FileLen);
+
+                // Read File Name
+                fs.Seek(sarc.SFNT.StringOffset, SeekOrigin.Begin);
+                fs.Seek((t.FileNameOffset & 0x00FFFFFF) * 4, SeekOrigin.Current);
+                StringBuilder sb = new StringBuilder();
+                for (char c = (char)fs.ReadByte(); c != 0; c = (char)fs.ReadByte())
+                    sb.Append(c);
+
+                // Write File
+                string FileName = sb.ToString().Replace('/', Path.DirectorySeparatorChar);
+                string FileDir = Path.GetDirectoryName(dir + FileName) + Path.DirectorySeparatorChar;
+                if (!Directory.Exists(FileDir))
+                {
+                    Console.WriteLine($"Making dir: {FileDir}");
+                    Directory.CreateDirectory(FileDir);
+                }
+                File.WriteAllBytes(dir + FileName, fileBuffer);
+            }
+            fs.Close();
+
+            return true;
+        }
+
         // Unpacking
         internal static string unpackDARC(string path, string outFolder = null, bool delete = true)
         {
@@ -666,45 +631,6 @@ namespace pk3DS.ARCUtil
         public uint Length;
 
         public string Name;
-    }
-
-    public class SARC
-    {
-        public string Signature;
-        public ushort HeaderSize = 0x14;
-        public ushort Endianness;
-        public uint FileSize;
-        public uint DataOffset;
-        public uint Unknown;
-        public SFAT SFat;
-        public SFNT SFnt;
-
-        public string FileName;
-        public string FilePath;
-        public string Extension;
-        public bool valid;
-    }
-    public class SFAT
-    {
-        public string Signature;
-        public ushort HeaderSize;
-        public ushort EntryCount;
-        public uint HashMult;
-        public List<SFATEntry> Entries;
-    }
-    public class SFATEntry
-    {
-        public uint FileNameHash;
-        public uint FileNameOffset;
-        public uint FileDataStart;
-        public uint FileDataEnd;
-    }
-    public class SFNT
-    {
-        public string Signature;
-        public ushort HeaderSize;
-        public ushort Unknown;
-        public uint StringOffset;
     }
 
     public class ShuffleARC
