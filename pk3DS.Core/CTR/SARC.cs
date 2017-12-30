@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -153,6 +152,30 @@ namespace pk3DS.Core.CTR
 
             var filepath = Path.Combine(outpath, name);
             File.WriteAllBytes(filepath, data);
+        }
+
+        /// <summary>
+        /// Dumps the contents of the <see cref="SARC"/> to a provided folder. If no location is provided, it will dump to the SARC's location.
+        /// </summary>
+        /// <param name="path">Path to create dump folder in</param>
+        /// <param name="folder">Folder to dump contents to</param>
+        public void Dump(string path = null, string folder = null)
+        {
+            path = path ?? FilePath;
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+            if (File.Exists(path))
+                path = Path.GetDirectoryName(path);
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+
+            folder = folder ?? FileName ?? "sarc";
+            string dir = Path.Combine(path, folder);
+
+            Directory.CreateDirectory(dir);
+
+            foreach (SFATEntry t in SFAT.Entries)
+                ExportFile(t, dir);
         }
 
         private string GetFileName(int offset)
