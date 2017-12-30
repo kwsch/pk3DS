@@ -1,10 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace pk3DS.Core.CTR
 {
-    public class SARC
+    /// <summary>
+    /// Simple (?) ARChive
+    /// </summary>
+    public class SARC : IDisposable
     {
         private const string Identifier = nameof(SARC);
 
@@ -24,28 +29,61 @@ namespace pk3DS.Core.CTR
         public string Extension;
         public readonly bool Valid;
 
+        /// <summary>
+        /// The required <see cref="Magic"/> matches the first 4 bytes of the file data.
+        /// </summary>
         public bool SigMatches => Magic == Identifier;
+        private readonly Stream stream;
+        private readonly BinaryReader br;
 
+        /// <summary>
+        /// Initializes an empty <see cref="SARC"/>.
+        /// </summary>
         public SARC()
         {
             SFAT = new SFAT();
             SFNT = new SFNT();
         }
+        /// <summary>
+        /// Initializes a <see cref="SARC"/> from a file location.
+        /// </summary>
+        /// <param name="path"></param>
         public SARC(string path)
         {
-            FileName = Path.GetFileNameWithoutExtension(path);
-            FilePath = Path.GetDirectoryName(path);
-            Extension = Path.GetExtension(path);
+            SetFileInfo(path);
 
-            using (var br = new BinaryReader(File.OpenRead(path)))
-            {
-                ReadHeader(br);
-                SFAT = new SFAT(br);
-                SFNT = new SFNT(br);
-            }
+            stream = File.OpenRead(path);
+            br = new BinaryReader(stream);
+            ReadSARC();
             Valid = true;
         }
-        private void ReadHeader(BinaryReader br)
+        /// <summary>
+        /// Initializes a <see cref="SARC"/> from a provided stream.
+        /// </summary>
+        /// <param name="fs"></param>
+        public SARC(Stream fs)
+        {
+            stream = fs;
+            br = new BinaryReader(stream);
+            ReadSARC();
+            Valid = true;
+        }
+        /// <summary>
+        /// Initializes a <see cref="SARC"/> from a provided array.
+        /// </summary>
+        /// <param name="data"></param>
+        public SARC(byte[] data)
+        {
+            stream = new MemoryStream(data);
+            br = new BinaryReader(stream);
+            ReadSARC();
+            Valid = true;
+        }
+
+        /// <summary>
+        /// Reads the contents of the <see cref="SARC"/> header and file info tables.
+        /// </summary>
+        private void ReadSARC()
         {
             Magic = new string(br.ReadChars(4));
             if (!SigMatches)
@@ -56,11 +94,119 @@ namespace pk3DS.Core.CTR
             FileSize = br.ReadUInt32();
             DataOffset = br.ReadUInt32();
             Unknown = br.ReadUInt32();
+
+            SFAT = new SFAT(br);
+            SFNT = new SFNT(br);
+        }
+
+        /// <summary>
+        /// Sets File information for the original file.
+        /// </summary>
+        /// <param name="path"></param>
+        public void SetFileInfo(string path)
+        {
+            FileName = Path.GetFileNameWithoutExtension(path);
+            FilePath = Path.GetDirectoryName(path);
+            Extension = Path.GetExtension(path);
+        }
+
+        /// <summary>
+        /// Gets the entry filename for a given <see cref="SFATEntry"/>.
+        /// </summary>
+        /// <param name="entry">Entry to fetch data for</param>
+        /// <returns>File Name</returns>
+        public string GetFileName(SFATEntry entry) => GetFileName(entry.FileNameOffset);
+
+        /// <summary>
+        /// Gets the entry data for a given <see cref="SFATEntry"/>,
+        /// </summary>
+        /// <param name="entry">Entry to fetch data for</param>
+        /// <returns>Data array</returns>
+        public byte[] GetData(SFATEntry entry) => GetData(entry.FileDataStart, entry.FileDataLength);
+        /// <summary>
+        /// Overwrites the entry data, assuming the size is the exact same.
+        /// </summary>
+        /// <param name="entry">File entry to overwrite</param>
+        /// <param name="data">Data to write</param>
+        public void SetData(SFATEntry entry, byte[] data)
+        {
+            if (data.Length != entry.FileDataLength)
+                throw new ArgumentException(nameof(data.Length));
+            SetData(entry.FileDataStart, data);
+        }
+        /// <summary>
+        /// Exports the entry data for a given <see cref="SFATEntry"/> at a provided path with its assigned <see cref="SFATEntry"/> file name via the <see cref="SFNT"/> name table.
+        /// </summary>
+        /// <param name="t">Entry to export</param>
+        /// <param name="outpath">Path to export to. If left null, will output to the <see cref="SARC"/> FilePath, if it is assigned.</param>
+        public void ExportFile(SFATEntry t, string outpath = null)
+        {
+            outpath = outpath ?? FilePath;
+            byte[] data = GetData(t);
+            string name = GetFileName(t);
+
+            string dir = Path.GetDirectoryName(name);
+            if (dir == null)
+                throw new ArgumentException(name);
+            string location = Path.Combine(outpath, dir);
+            Directory.CreateDirectory(location);
+
+            var filepath = Path.Combine(outpath, name);
+            File.WriteAllBytes(filepath, data);
+        }
+
+        private string GetFileName(int offset)
+        {
+            stream.Seek(SFNT.StringOffset, SeekOrigin.Begin);
+            stream.Seek((offset & 0x00FFFFFF) * 4, SeekOrigin.Current);
+            StringBuilder sb = new StringBuilder();
+            for (char c = (char)stream.ReadByte(); c != 0; c = (char)stream.ReadByte())
+                sb.Append(c);
+
+            string name = sb.ToString().Replace('/', Path.DirectorySeparatorChar);
+            return name;
+        }
+        private void SetFileName(int offset, string value)
+        {
+            var str = value.Replace(Path.DirectorySeparatorChar, '/');
+            stream.Seek(SFNT.StringOffset, SeekOrigin.Begin);
+            stream.Seek((offset & 0x00FFFFFF) * 4, SeekOrigin.Current);
+            foreach (var b in str)
+                stream.WriteByte((byte)b);
+            stream.WriteByte((byte)'\0');
+        }
+        private byte[] GetData(int offset, int length)
+        {
+            byte[] fileBuffer = new byte[length];
+            stream.Seek(offset + DataOffset, SeekOrigin.Begin);
+            stream.Read(fileBuffer, 0, length);
+            return fileBuffer;
+        }
+        private void SetData(int offset, byte[] data)
+        {
+            stream.Seek(offset + DataOffset, SeekOrigin.Begin);
+            stream.Write(data, 0, data.Length);
+        }
+
+        /// <summary>
+        /// Disposes of the <see cref="stream"/> and <see cref="br"/> objects and frees the <see cref="FileName"/> if originally loaded from that location.
+        /// </summary>
+        public void Dispose()
+        {
+            stream?.Dispose();
+            br?.Dispose();
         }
     }
+
+    /// <summary>
+    /// <see cref="SARC"/> File Access Table
+    /// </summary>
     public class SFAT
     {
         public const string Identifier = nameof(SFAT);
+        /// <summary>
+        /// The required <see cref="Magic"/> matches the first 4 bytes of the file data.
+        /// </summary>
         public bool SigMatches => Magic == Identifier;
 
         public string Magic;
@@ -85,9 +231,15 @@ namespace pk3DS.Core.CTR
                 Entries.Add(new SFATEntry(br));
         }
     }
+    /// <summary>
+    /// <see cref="SARC"/> File Name Table
+    /// </summary>
     public class SFNT
     {
         public const string Identifier = nameof(SFNT);
+        /// <summary>
+        /// The required <see cref="Magic"/> matches the first 4 bytes of the file data.
+        /// </summary>
         public bool SigMatches => Magic == Identifier;
 
         public string Magic;
@@ -107,19 +259,24 @@ namespace pk3DS.Core.CTR
             StringOffset = (uint)br.BaseStream.Position;
         }
     }
+    /// <summary>
+    /// <see cref="SARC"/> File Access Table (<see cref="SFAT"/>) Entry
+    /// </summary>
     public class SFATEntry
     {
         public uint FileNameHash;
-        public uint FileNameOffset;
-        public uint FileDataStart;
-        public uint FileDataEnd;
+        public int FileNameOffset;
+        public int FileDataStart;
+        public int FileDataEnd;
+
+        public int FileDataLength => FileDataEnd - FileDataStart;
 
         public SFATEntry(BinaryReader br)
         {
             FileNameHash = br.ReadUInt32();
-            FileNameOffset = br.ReadUInt32();
-            FileDataStart = br.ReadUInt32();
-            FileDataEnd = br.ReadUInt32();
+            FileNameOffset = br.ReadInt32();
+            FileDataStart = br.ReadInt32();
+            FileDataEnd = br.ReadInt32();
         }
     }
 }

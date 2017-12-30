@@ -385,7 +385,7 @@ namespace pk3DS.ARCUtil
                 UnpackShuffleARC(path, sharc, ret);
             }
             else if (sarc.Valid)
-                UnpackSARC(path, sarc);
+                UnpackSARC(sarc);
             else
             {
                 ret = "Not a valid .DARC/.FARC/.SARC/.GAR/Shuffle Archive file";
@@ -421,43 +421,16 @@ namespace pk3DS.ARCUtil
             return true;
         }
 
-        private static bool UnpackSARC(string path, SARC sarc)
+        public static bool UnpackSARC(SARC sarc)
         {
             Debug.WriteLine($"New SARC with {sarc.SFAT.EntryCount} files.");
-            string dir = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar + sarc.FileName + "_" + Path.DirectorySeparatorChar;
-            if (!Directory.Exists(dir))
-            {
-                Debug.WriteLine($"Making dir: {dir}");
-                Directory.CreateDirectory(dir);
-            }
 
-            var fs = File.OpenRead(path);
+            string outfolder = $"{sarc.FileName}_sarc";
+            string outpath = Path.Combine(sarc.FilePath, outfolder);
+            Directory.CreateDirectory(outpath);
+
             foreach (SFATEntry t in sarc.SFAT.Entries)
-            {
-                // Read File Data
-                uint FileLen = t.FileDataEnd - t.FileDataStart;
-                fs.Seek(t.FileDataStart + sarc.DataOffset, SeekOrigin.Begin);
-                byte[] fileBuffer = new byte[FileLen];
-                fs.Read(fileBuffer, 0, (int)FileLen);
-
-                // Read File Name
-                fs.Seek(sarc.SFNT.StringOffset, SeekOrigin.Begin);
-                fs.Seek((t.FileNameOffset & 0x00FFFFFF) * 4, SeekOrigin.Current);
-                StringBuilder sb = new StringBuilder();
-                for (char c = (char)fs.ReadByte(); c != 0; c = (char)fs.ReadByte())
-                    sb.Append(c);
-
-                // Write File
-                string FileName = sb.ToString().Replace('/', Path.DirectorySeparatorChar);
-                string FileDir = Path.GetDirectoryName(dir + FileName) + Path.DirectorySeparatorChar;
-                if (!Directory.Exists(FileDir))
-                {
-                    Console.WriteLine($"Making dir: {FileDir}");
-                    Directory.CreateDirectory(FileDir);
-                }
-                File.WriteAllBytes(dir + FileName, fileBuffer);
-            }
-            fs.Close();
+                sarc.ExportFile(t, outpath);
 
             return true;
         }
