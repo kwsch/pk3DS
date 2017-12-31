@@ -72,6 +72,8 @@ namespace pk3DS
             RSTE.rGymE4Only = CHK_GymE4Only.Checked;
             RSTE.r6PKM = CHK_6PKM.Checked;
             RSTE.rRandomMegas = CHK_RandomMegaForm.Checked;
+            RSTE.rForceFullyEvolved = CHK_ForceFullyEvolved.Checked;
+            RSTE.rForceFullyEvolvedLevel = NUD_Force.Value;
 
             if (CHK_StoryMEvos.Checked)
             {
