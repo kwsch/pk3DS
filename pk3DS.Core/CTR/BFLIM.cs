@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -57,7 +56,6 @@ namespace pk3DS.Core.CTR
                     continue;
 
                 var val = pixels[i];
-                Debug.WriteLine($"Writing {val:X8} for coord: X:{coord.X} | Y{coord.Y}");
                 uint o = 4 * (coord.X + coord.Y * Footer.Width);
                 array[o + 0] = (byte)(val & 0xFF);
                 array[o + 1] = (byte)(val >> 8 & 0xFF);
@@ -69,6 +67,13 @@ namespace pk3DS.Core.CTR
         public uint[] GetPixels()
         {
             return PixelConverter.GetPixels(PixelData, Footer.Format).ToArray();
+        }
+        public byte[] GetPixelsRaw()
+        {
+            var pix = GetPixels();
+            byte[] raw = new byte[pix.Length * 4];
+            Buffer.BlockCopy(pix, 0, raw, 0, raw.Length);
+            return raw;
         }
     }
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
@@ -296,10 +301,9 @@ namespace pk3DS.Core.CTR
         {
             Width = (uint)BCLIM.nlpo2(BCLIM.gcm(width, 8));
             Height = (uint)BCLIM.nlpo2(BCLIM.gcm(height, 8));
-            Debug.WriteLine($"Base Size = Width: {Width}, Height = {Height}");
 
-            PanelsPerWidth = (uint)BCLIM.gcm(orientation == BFLIMOrientation.None ? width : height, 8) / 8;
-            Debug.WriteLine($"PPW: {PanelsPerWidth}");
+            uint stride = orientation == BFLIMOrientation.None ? Width : Height;
+            PanelsPerWidth = (uint)BCLIM.gcm((int)stride, 8) / 8;
 
             _orientation = orientation;
         }
@@ -322,7 +326,7 @@ namespace pk3DS.Core.CTR
         }
     }
 
-    public class Coordinate
+    public struct Coordinate
     {
         public uint X { get; private set; }
         public uint Y { get; private set; }
