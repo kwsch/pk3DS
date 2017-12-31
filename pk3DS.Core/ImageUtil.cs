@@ -20,7 +20,7 @@ namespace pk3DS.Core
         public static Bitmap GetBitmap(this BFLIM bflim, bool crop = true)
         {
             if (bflim.Format == BFLIMEncoding.ETC1 || bflim.Format == BFLIMEncoding.ETC1A4)
-                return GetBitmapETC(bflim);
+                return GetBitmapETC(bflim, crop);
             var data = bflim.GetImageData(crop);
             return GetBitmap(data, bflim.Footer.Width, bflim.Footer.Height);
         }
@@ -37,21 +37,37 @@ namespace pk3DS.Core
             return bmp;
         }
 
-        public static Bitmap GetBitmapETC(BCLIM.CLIM bclim)
+        public static Bitmap GetBitmapETC(BCLIM.CLIM bclim, bool crop = true) => GetBitmapETC(bclim, bclim.Data, bclim.FileFormat == 0x0B, crop);
+        public static Bitmap GetBitmapETC(BFLIM bflim, bool crop = true) => GetBitmapETC(bflim, bflim.PixelData, bflim.Footer.Format == BFLIMEncoding.ETC1A4, crop);
+
+        private static Bitmap GetBitmapETC(IXLIM bflim, byte[] data, bool etc1a4, bool crop = true)
         {
             ETC1.CheckETC1Lib();
-
-            Bitmap img = new Bitmap(Math.Max(BCLIM.nlpo2(bclim.Width), 16), Math.Max(BCLIM.nlpo2(bclim.Height), 16));
-            try { return DecodeETC(bclim, img, bclim.Data, bclim.FileFormat == 0x0B); }
-            catch { return img; }
+            try
+            {
+                var width = Math.Max(BCLIM.nlpo2(bflim.Width), 16);
+                var height = Math.Max(BCLIM.nlpo2(bflim.Height), 16);
+                Bitmap img = new Bitmap(width, height);
+                img = DecodeETC(bflim, img, data, etc1a4);
+                return crop ? CropBMP(bflim, img) : img;
+            }
+            catch { return null; }
         }
-        public static Bitmap GetBitmapETC(BFLIM bflim)
-        {
-            ETC1.CheckETC1Lib();
 
-            Bitmap img = new Bitmap(Math.Max(BCLIM.nlpo2(bflim.Width), 16), Math.Max(BCLIM.nlpo2(bflim.Height), 16));
-            try { return DecodeETC(bflim, img, bflim.PixelData, bflim.Footer.Format == BFLIMEncoding.ETC1A4); }
-            catch { return img; }
+        private static Bitmap CropBMP(IXLIM bclim, Bitmap img)
+        {
+            Rectangle cropRect = new Rectangle(0, 0, bclim.Width, bclim.Height);
+            Bitmap src = img;
+            Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
+
+            using (Graphics g = Graphics.FromImage(target))
+            {
+                g.DrawImage(src, new Rectangle(0, 0, target.Width, target.Height),
+                    cropRect,
+                    GraphicsUnit.Pixel);
+            }
+            Console.WriteLine($"Returning cropped {target.Width}");
+            return target;
         }
 
         private static Bitmap DecodeETC(IXLIM bclim, Bitmap img, byte[] textureData, bool etc1A4)
@@ -99,6 +115,9 @@ namespace pk3DS.Core
                     img.SetPixel(i, j, Color.FromArgb(imgData[k + 3], imgData[k], imgData[k + 1], imgData[k + 2]));
                 }
             }
+            if (bclim is BFLIM)
+                return img;
+
             // Image is 13  instead of 12
             //          24             34
             img.RotateFlip(RotateFlipType.Rotate90FlipX);
