@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace pk3DS.Core.CTR
 {
@@ -37,18 +39,20 @@ namespace pk3DS.Core.CTR
         /// </summary>
         public byte[] GetImageData()
         {
+            var orienter = new BFLIMOrienter(Footer.Width, Footer.Height, Footer.Orientation);
             uint[] pixels = GetPixels();
 
-            int p = gcm(Footer.Width, 8) / 8;
-            if (p == 0) p = 1;
             // uint[] -> byte[]
             byte[] array = new byte[Footer.Width * Footer.Height * 4];
-            for (int i = 0; i < array.Length; i += 4)
+            for (uint i = 0; i < pixels.Length; i++)
             {
-                int o = GetOffset((uint)i, Footer.Width, p);
-                if (o + 3 >= array.Length)
+                var coord = orienter.Get(i);
+                if (coord.X >= Footer.Width || coord.Y >= Footer.Height)
                     continue;
-                var val = pixels[i / 4];
+
+                var val = pixels[i];
+                Debug.WriteLine($"Writing {val:X8} for coord: X:{coord.X} | Y{coord.Y}");
+                uint o = 4 * (coord.X + coord.Y * Footer.Width);
                 array[o + 0] = (byte)(val & 0xFF);
                 array[o + 1] = (byte)(val >> 8 & 0xFF);
                 array[o + 2] = (byte)(val >> 16 & 0xFF);
@@ -58,66 +62,19 @@ namespace pk3DS.Core.CTR
         }
         public uint[] GetPixels()
         {
-            return PixelConverter.GetPixels(PixelData, (BFLIMEncoding)Footer.Format).ToArray();
-        }
-
-        internal static int gcm(int n, int m)
-        {
-            return (n + m - 1) / m * m;
-        }
-        private int GetOffset(uint i, ushort footerWidth, int p)
-        {
-            BCLIM.d2xy(i % 64, out uint x, out uint y);
-            var tile = i / 64;
-
-            // Shift Tile Coordinate into Tilemap
-            x += (uint)(tile % p) * 8;
-            y += (uint)(tile / p) * 8;
-            if (x > footerWidth)
-                return int.MaxValue;
-
-            return 4 * (int)(x + y * footerWidth);
-        }
-
-        /// <summary>
-        /// Decimal Ordinate In to X / Y Coordinate Out
-        /// </summary>
-        /// <param name="d">Loop integer which will be decoded to X/Y</param>
-        /// <param name="x">Output X coordinate</param>
-        /// <param name="y">Output Y coordinate</param>
-        internal static void d2xy(uint d, out uint x, out uint y)
-        {
-            x = d;
-            y = x >> 1;
-            x &= 0x55555555;
-            y &= 0x55555555;
-            x |= x >> 1;
-            y |= y >> 1;
-            x &= 0x33333333;
-            y &= 0x33333333;
-            x |= x >> 2;
-            y |= y >> 2;
-            x &= 0x0f0f0f0f;
-            y &= 0x0f0f0f0f;
-            x |= x >> 4;
-            y |= y >> 4;
-            x &= 0x00ff00ff;
-            y &= 0x00ff00ff;
-            x |= x >> 8;
-            y |= y >> 8;
-            x &= 0x0000ffff;
-            y &= 0x0000ffff;
+            return PixelConverter.GetPixels(PixelData, Footer.Format).ToArray();
         }
     }
-
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct FLIM
     {
         public const int SIZE = 40;
+        public const string Identifier = "FLIM";
         public bool Valid => LittleEndian && Magic == 0x4D_49_4C_46; // FLIM
         public bool LittleEndian => BOM == 0xFEFF;
         public bool BigEndian => BOM == 0xFFFE;
 
-        public uint Magic;        // FLIM
+        public uint Magic;          // FLIM
         public ushort BOM;          // 0xFFFE
         public ushort HeaderLength; // always 0x14
         public int Version;
@@ -129,27 +86,27 @@ namespace pk3DS.Core.CTR
         public ushort Width;
         public ushort Height;
         public short Alignment;
-        public byte Format;
-        public byte Orientation;
+        public BFLIMEncoding Format;
+        public BFLIMOrientation Orientation;
         public uint DataSize;
     }
 
-    public enum BFLIMEncoding
+    public enum BFLIMEncoding : byte
     {
-        L8_UNORM              = 0x00, // 8    Luminance
-        A8_UNORM              = 0x01, // 8    Alpha
-        LA4_UNORM             = 0x02, // 8    Luminance + Alpha
-        LA8_UNORM             = 0x03, // 16   Luminance + Alpha
-        HILO8                 = 0x04, // 16   ?
-        RGB565_UNORM          = 0x05, // 16   Color
-        RGBX8_UNORM           = 0x06, // 24   Color
-        RGB5A1_UNORM          = 0x07, // 16   Color + Alpha
-        RGBA4_UNORM           = 0x08, // 16   Color + Alpha
-        RGBA8_UNORM           = 0x09, // 32   Color + Alpha
-        ETC1_UNORM            = 0x0A, // 4    Color
-        ETC1A4_UNORM          = 0x0B, // 8    Color + Alpha
-        L4_UNORM              = 0x0C, // 4    Luminance
-        A4_UNORM              = 0x0D, // 4    Alpha
+        L8        = 0x00, // 8    Luminance
+        A8        = 0x01, // 8    Alpha
+        LA4       = 0x02, // 8    Luminance + Alpha
+        LA8       = 0x03, // 16   Luminance + Alpha
+        HILO8     = 0x04, // 16   ?
+        RGB565    = 0x05, // 16   Color
+        RGBX8     = 0x06, // 24   Color
+        RGB5A1    = 0x07, // 16   Color + Alpha
+        RGBA4     = 0x08, // 16   Color + Alpha
+        RGBA8     = 0x09, // 32   Color + Alpha
+        ETC1      = 0x0A, // 4    Color
+        ETC1A4    = 0x0B, // 8    Color + Alpha
+        L4        = 0x0C, // 4    Luminance
+        A4        = 0x0D, // 4    Alpha
     }
 
     public static class PixelConverter
@@ -188,14 +145,14 @@ namespace pk3DS.Core.CTR
             byte a = byte.MaxValue, r = 0, g = 0, b = 0;
             switch (e)
             {
-                case BFLIMEncoding.L4_UNORM:
-                case BFLIMEncoding.L8_UNORM:
+                case BFLIMEncoding.L4:
+                case BFLIMEncoding.L8:
                 {
                     r = g = b = (byte)val;
                     break;
                 }
-                case BFLIMEncoding.A4_UNORM:
-                case BFLIMEncoding.A8_UNORM:
+                case BFLIMEncoding.A4:
+                case BFLIMEncoding.A8:
                 {
                     r = g = b = 0xFF;
                     a = (byte)val;
@@ -208,27 +165,27 @@ namespace pk3DS.Core.CTR
                     b = byte.MaxValue;
                     break;
                 }
-                case BFLIMEncoding.LA4_UNORM:
+                case BFLIMEncoding.LA4:
                 {
                     r = g = b = (byte)(val >> 4);
                     a = (byte)(val & 0x0F);
                     break;
                 }
-                case BFLIMEncoding.LA8_UNORM:
+                case BFLIMEncoding.LA8:
                 {
                     r = g = b = (byte)(val >> 8);
                     a = (byte)val;
                     break;
                 }
-                case BFLIMEncoding.RGBX8_UNORM:
+                case BFLIMEncoding.RGBX8:
                 {
                     return val | 0xFF000000;
                 }
-                case BFLIMEncoding.RGBA8_UNORM:
+                case BFLIMEncoding.RGBA8:
                 {
                     return val;
                 }
-                case BFLIMEncoding.RGBA4_UNORM:
+                case BFLIMEncoding.RGBA4:
                 {
                     a = (byte)(0x11 * (val & 0xf));
                     r = (byte)(0x11 * ((val >> 12) & 0xf));
@@ -236,14 +193,14 @@ namespace pk3DS.Core.CTR
                     b = (byte)(0x11 * ((val >> 4) & 0xf));
                     break;
                 }
-                case BFLIMEncoding.RGB565_UNORM:
+                case BFLIMEncoding.RGB565:
                 {
                     r = Convert5To8[(val >> 11) & 0x1F];
                     g = (byte)(((val >> 5) & 0x3F) * 4);
                     b = Convert5To8[val & 0x1F];
                     break;
                 }
-                case BFLIMEncoding.RGB5A1_UNORM:
+                case BFLIMEncoding.RGB5A1:
                 {
                     r = Convert5To8[(val >> 11) & 0x1F];
                     g = Convert5To8[(val >> 6) & 0x1F];
@@ -290,26 +247,95 @@ namespace pk3DS.Core.CTR
         private const int BPP_4 = 4;
         private static readonly HashSet<BFLIMEncoding> _32 = new HashSet<BFLIMEncoding>
         {
-            BFLIMEncoding.RGBA8_UNORM,
+            BFLIMEncoding.RGBA8,
         };
         private static readonly HashSet<BFLIMEncoding> _24 = new HashSet<BFLIMEncoding>
         {
-            BFLIMEncoding.RGBX8_UNORM,
+            BFLIMEncoding.RGBX8,
         };
         private static readonly HashSet<BFLIMEncoding> _16 = new HashSet<BFLIMEncoding>
         {
-            BFLIMEncoding.LA8_UNORM,
+            BFLIMEncoding.LA8,
             BFLIMEncoding.HILO8,
-            BFLIMEncoding.RGB565_UNORM,
-            BFLIMEncoding.RGB5A1_UNORM,
-            BFLIMEncoding.RGBA4_UNORM,
+            BFLIMEncoding.RGB565,
+            BFLIMEncoding.RGB5A1,
+            BFLIMEncoding.RGBA4,
         };
         private static readonly HashSet<BFLIMEncoding> _8 = new HashSet<BFLIMEncoding>
         {
-            BFLIMEncoding.L8_UNORM,
-            BFLIMEncoding.A8_UNORM,
-            BFLIMEncoding.LA4_UNORM,
-            BFLIMEncoding.ETC1A4_UNORM,
+            BFLIMEncoding.L8,
+            BFLIMEncoding.A8,
+            BFLIMEncoding.LA4,
+            BFLIMEncoding.ETC1A4,
         };
+    }
+
+    [Flags]
+    public enum BFLIMOrientation : byte
+    {
+        None = 0,
+        Rotate90 = 4,
+        Transpose = 8,
+    }
+
+    public class BFLIMOrienter
+    {
+        readonly BFLIMOrientation _orientation;
+
+        public uint Width { get; }
+        public uint Height { get; }
+        public uint PanelsPerWidth { get; }
+        
+        public BFLIMOrienter(int width, int height, BFLIMOrientation orientation)
+        {
+            Width = (uint)BCLIM.nlpo2(BCLIM.gcm(width, 8));
+            Height = (uint)BCLIM.nlpo2(BCLIM.gcm(height, 8));
+            Debug.WriteLine($"Base Size = Width: {Width}, Height = {Height}");
+
+            PanelsPerWidth = (uint)BCLIM.gcm(orientation == BFLIMOrientation.None ? width : height, 8) / 8;
+            Debug.WriteLine($"PPW: {PanelsPerWidth}");
+
+            _orientation = orientation;
+        }
+
+        public Coordinate Get(uint i)
+        {
+            BCLIM.d2xy(i & 0x3F, out uint x, out uint y);
+
+            // Shift Tile Coordinate into Tilemap
+            var tile = i >> 6;
+            x |= (tile % PanelsPerWidth) << 3;
+            y |= (tile / PanelsPerWidth) << 3;
+
+            var coord = new Coordinate(x, y);
+            if (_orientation.HasFlag(BFLIMOrientation.Rotate90))
+                coord.Rotate90(Height);
+            if (_orientation.HasFlag(BFLIMOrientation.Transpose))
+                coord.Transpose();
+            return coord;
+        }
+    }
+
+    public class Coordinate
+    {
+        public uint X { get; private set; }
+        public uint Y { get; private set; }
+
+        public Coordinate(uint x, uint y)
+        {
+            X = x; Y = y;
+        }
+        public void Transpose()
+        {
+            var tmp = X;
+            X = Y;
+            Y = tmp;
+        }
+        public void Rotate90(uint height)
+        {
+            var tmp = X;
+            X = Y;
+            Y = height - 1 - tmp;
+        }
     }
 }
