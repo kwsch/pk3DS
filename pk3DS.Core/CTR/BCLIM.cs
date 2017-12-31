@@ -2,8 +2,6 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices;
-using pk3DS.Core.Properties; // For other projects, replace this line with the namespace that contains your ETC1Lib.dll resource.
 
 namespace pk3DS.Core.CTR
 {
@@ -103,7 +101,7 @@ namespace pk3DS.Core.CTR
                 // PKM XY Format 7 (Color Palette)
                 img = getIMG_XY7(bclim);
             else if (f == 10 || f == 11)
-                img = getIMG_ETC(bclim);
+                img = ImageUtil.GetBitmapETC(bclim);
             else
                 img = getIMG(bclim);
 
@@ -190,7 +188,7 @@ namespace pk3DS.Core.CTR
             if (bclim.FileFormat == 7 && BitConverter.ToUInt16(bclim.Data, 0) == 2) // XY7
                 return getIMG_XY7(bclim);
             if (bclim.FileFormat == 10 || bclim.FileFormat == 11) // Use ETC1 to get image instead.
-                return getIMG_ETC(bclim);
+                return ImageUtil.GetBitmapETC(bclim);
             // New Image
             int w = nlpo2(gcm(bclim.Width, 8));
             int h = nlpo2(gcm(bclim.Height, 8));
@@ -249,102 +247,6 @@ namespace pk3DS.Core.CTR
                     }
                 }
             }
-            return img;
-        }
-        public static Bitmap getIMG_ETC(CLIM bclim)
-        {
-            Bitmap img = new Bitmap(Math.Max(nlpo2(bclim.Width), 16), Math.Max(nlpo2(bclim.Height), 16));
-            string dllpath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\ETC1Lib.dll";
-            if (!File.Exists(dllpath)) File.WriteAllBytes(dllpath, Resources.ETC1Lib);
-
-            try
-            {
-                /* http://jul.rustedlogic.net/thread.php?id=17312
-                 * Much of this code is taken/modified from Tharsis. Thank you to Tharsis's creator, xdaniel.
-                 * https://github.com/xdanieldzd/Tharsis
-                 */
-
-                /* Get compressed data & handle to it */
-                byte[] textureData = bclim.Data;
-                //textureData = switchEndianness(textureData, 0x10);
-                ushort[] input = new ushort[textureData.Length/sizeof (ushort)];
-                Buffer.BlockCopy(textureData, 0, input, 0, textureData.Length);
-                GCHandle pInput = GCHandle.Alloc(input, GCHandleType.Pinned);
-
-                /* Marshal data around, invoke ETC1.dll for conversion, etc */
-                uint size1 = 0;
-                UInt16 w = (ushort)img.Width, h = (ushort)img.Height;
-
-                ETC1.ConvertETC1(IntPtr.Zero, ref size1, IntPtr.Zero, w, h, bclim.FileFormat == 0xB); // true = etc1a4, false = etc1
-                // System.Diagnostics.Debug.WriteLine(size1);
-                uint[] output = new uint[size1];
-                GCHandle pOutput = GCHandle.Alloc(output, GCHandleType.Pinned);
-                ETC1.ConvertETC1(pOutput.AddrOfPinnedObject(), ref size1, pInput.AddrOfPinnedObject(), w, h, bclim.FileFormat == 0xB);
-                pOutput.Free();
-                pInput.Free();
-
-
-                /* Unscramble if needed // could probably be done in ETC1Lib.dll, it's probably pretty ugly, but whatever... */
-                /* Non-square code blocks could need some cleanup, verification, etc. as well... */
-                uint[] finalized = new uint[output.Length];
-
-                // Act if it's square because BCLIM swizzling is stupid
-                Buffer.BlockCopy(output, 0, finalized, 0, finalized.Length);
-
-                byte[] tmp = new byte[finalized.Length];
-                Buffer.BlockCopy(finalized, 0, tmp, 0, tmp.Length);
-                byte[] imgData = tmp;
-
-                for (int i = 0; i < w; i++)
-                {
-                    for (int j = 0; j < h; j++)
-                    {
-                        int k = (j + i*img.Height)*4;
-                        img.SetPixel(i, j, Color.FromArgb(imgData[k + 3], imgData[k], imgData[k + 1], imgData[k + 2]));
-                    }
-                }
-                // Image is 13  instead of 12
-                //          24             34
-                img.RotateFlip(RotateFlipType.Rotate90FlipX);
-                if (w > h)
-                {
-                    // Image is now in appropriate order, but the shifting is messed up. Let's fix that.
-                    Bitmap img2 = new Bitmap(Math.Max(nlpo2(bclim.Width), 16), Math.Max(nlpo2(bclim.Height), 16));
-                    for (int y = 0; y < Math.Max(nlpo2(bclim.Width), 16); y += 8)
-                    {
-                        for (int x = 0; x < Math.Max(nlpo2(bclim.Height), 16); x++)
-                        {
-                            for (int j = 0; j < 8; j++)
-                                // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.
-                            {
-                                int x1 = (x + y/8*h)%img2.Width; // Reshift x
-                                int y1 = (x + y/8*h)/img2.Width*8; // Reshift y
-                                img2.SetPixel(x1, y1 + j, img.GetPixel(x, y + j)); // Reswizzle
-                            }
-                        }
-                    }
-                    img = img2;
-                }
-                else if (h > w)
-                {
-                    Bitmap img2 = new Bitmap(Math.Max(nlpo2(bclim.Width), 16), Math.Max(nlpo2(bclim.Height), 16));
-                    for (int y = 0; y < Math.Max(nlpo2(bclim.Width), 16); y += 8)
-                    {
-                        for (int x = 0; x < Math.Max(nlpo2(bclim.Height), 16); x++)
-                        {
-                            for (int j = 0; j < 8; j++)
-                                // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.
-                            {
-                                int x1 = x%img2.Width; // Reshift x
-                                int y1 = (x + y/8*h)/img2.Width*8; // Reshift y
-                                img2.SetPixel(x1, y1 + j, img.GetPixel(x, y + j)); // Reswizzle
-                            }
-                        }
-                    }
-                    img = img2;
-                }
-            }
-            catch { }
             return img;
         }
 
@@ -865,10 +767,10 @@ namespace pk3DS.Core.CTR
                 return bclim;
             }
         }
-        public struct CLIM
+        public struct CLIM : IXLIM
         {
-            public uint Magic;        // CLIM = 0x4D494C43
-            public UInt16 BOM;          // 0xFFFE
+            public uint Magic { get; set; }// CLIM = 0x4D494C43
+            public ushort BOM;          // 0xFFFE
             public uint CLIMLength;   // HeaderLength - 14
             public int TileWidth;       // 1<<[[n]]
             public int TileHeight;      // 1<<[[n]]
@@ -877,12 +779,12 @@ namespace pk3DS.Core.CTR
 
             public char[] imag;         // imag = 0x67616D69
             public uint imagLength;   // HeaderLength - 10
-            public UInt16 Width;        // Final Dimensions
-            public UInt16 Height;       // Final Dimensions
+            public ushort Width { get; set; }      // Final Dimensions
+            public ushort Height { get; set; }     // Final Dimensions
             public int FileFormat;    // ??
             public uint dataLength;   // Pixel Data Region Length
 
-            public byte[] Data;
+            public byte[] Data { get; set; }
 
             public int BaseSize;
 

@@ -6,10 +6,15 @@ using System.Runtime.InteropServices;
 
 namespace pk3DS.Core.CTR
 {
-    public class BFLIM
+    public class BFLIM : IXLIM
     {
         public byte[] PixelData;
         public FLIM Footer;
+
+        public uint Magic { get => Footer.Magic; set => Footer.Magic = value; }
+        public ushort Width { get => Footer.Width; set => Footer.Width = value; }
+        public ushort Height { get => Footer.Height; set => Footer.Height = value; }
+        public BFLIMEncoding Format { get => Footer.Format; set => Footer.Format = value; }
 
         public BFLIM(Stream data) => ReadBFLIM(data);
         public BFLIM(byte[] data)
@@ -77,7 +82,7 @@ namespace pk3DS.Core.CTR
         }
     }
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    public struct FLIM
+    public struct FLIM : IXLIM
     {
         public const int SIZE = 40;
         public const string Identifier = "FLIM";
@@ -85,7 +90,7 @@ namespace pk3DS.Core.CTR
         public bool LittleEndian => BOM == 0xFEFF;
         public bool BigEndian => BOM == 0xFFFE;
 
-        public uint Magic;          // FLIM
+        public uint Magic { get; set; }          // FLIM
         public ushort BOM;          // 0xFFFE
         public ushort HeaderLength; // always 0x14
         public int Version;
@@ -94,8 +99,8 @@ namespace pk3DS.Core.CTR
 
         public uint imag; // imag = 67616D69
         public uint imagLength; // always 0x10
-        public ushort Width;
-        public ushort Height;
+        public ushort Width { get; set; }
+        public ushort Height { get; set; }
         public short Alignment;
         public BFLIMEncoding Format;
         public BFLIMOrientation Orientation;
