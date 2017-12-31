@@ -25,6 +25,7 @@ namespace pk3DS
             MegaDictionary = GiftEditor6.GetMegaDictionary(Main.Config);
             rModelRestricted = Main.Config.ORAS ? Legal.Model_AO : Legal.Model_XY;
             rTrainerClasses = Legal.TrainerClasses_AO;
+            rFinalEvo = Legal.FinalEvolutions_6;
 
             InitializeComponent();
             // String Fetching
@@ -510,7 +511,7 @@ namespace pk3DS
             CB_Battle_Type.Items.Add("Double");
             CB_Battle_Type.Items.Add("Triple");
             CB_Battle_Type.Items.Add("Rotation");
-            CB_Battle_Type.Items.Add("Horde");
+            if (Main.Config.ORAS) CB_Battle_Type.Items.Add("Horde");
             megaEvos = Main.Config.ORAS 
                 ? new[] { 15, 18, 80, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 380, 381, 428, 475, 531, 719, 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 } 
                 : new[] { 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 };
@@ -522,7 +523,7 @@ namespace pk3DS
 
         public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rAbility, rDiffAI, 
             rDiffIV, rClass, rGift, rItem, rDoRand, rRandomMegas, rGymE4Only,
-            rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM;
+            rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM, rForceFullyEvolved;
         public static bool rNoFixedDamage;
         internal static bool[] rThemedClasses = { };
         private static string[] rTags;
@@ -532,15 +533,17 @@ namespace pk3DS
         private int[] mEvoTypes;
         private static int[] rModelRestricted;
         private static int[] rTrainerClasses;
+        private static int[] rFinalEvo;
         private string[] rImportant;
         private readonly List<string> Tags = new List<string>();
         private readonly Dictionary<string, int> TagTypes = new Dictionary<string, int>();
         public static int[] sL; // Random Species List
-        public static decimal rGiftPercent, rLevelMultiplier;
+        public static decimal rGiftPercent, rLevelMultiplier, rForceFullyEvolvedLevel;
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             rPKM = rMove = rAbility = rDiffAI = rDiffIV = rClass = rGift = rItem = rDoRand = false; // init to false
-            rGiftPercent = 0; // 0
+            rGiftPercent = 0;
+            rForceFullyEvolvedLevel = 0;
             new TrainerRand().ShowDialog(); // Open Randomizer Config to get config vals
             if (rDoRand)
                 Randomize();
@@ -698,6 +701,16 @@ namespace pk3DS
                     var pkMoves = learn.GetCurrentMoves(pk.Species, pk.Form, pk.Level, 4);
                     for (int m = 0; m < 4; m++)
                         pk.Moves[m] = (ushort)pkMoves[m];
+                }
+
+                if (rForceFullyEvolved && pk.Level >= rForceFullyEvolvedLevel)
+                {
+                    if (!rFinalEvo.Contains(pk.Species))
+                    {
+                        int randFinalEvo() => (int)(Util.rnd32() % rFinalEvo.Length);
+                        pk.Species = (ushort)rFinalEvo[randFinalEvo()];
+                        pk.Form = (ushort)Randomizer.GetRandomForme(pk.Species, rRandomMegas, true, Main.SpeciesStat);
+                    }
                 }
             }
         }
