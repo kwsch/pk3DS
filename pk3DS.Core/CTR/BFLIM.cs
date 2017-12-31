@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -143,26 +142,14 @@ namespace pk3DS.Core.CTR
         LA8_UNORM             = 0x03, // 16   Luminance + Alpha
         HILO8                 = 0x04, // 16   ?
         RGB565_UNORM          = 0x05, // 16   Color
-        RGBX8_UNORM           = 0x06, // 32   Color
+        RGBX8_UNORM           = 0x06, // 24   Color
         RGB5A1_UNORM          = 0x07, // 16   Color + Alpha
         RGBA4_UNORM           = 0x08, // 16   Color + Alpha
         RGBA8_UNORM           = 0x09, // 32   Color + Alpha
         ETC1_UNORM            = 0x0A, // 4    Color
         ETC1A4_UNORM          = 0x0B, // 8    Color + Alpha
-        BC1_UNORM             = 0x0C, // 4    Color + Alpha
-        BC2_UNORM             = 0x0D, // 8    Color + Alpha
-        BC3_UNORM             = 0x0E, // 8    Color + Alpha
-        BC4L_UNORM            = 0x0F, // 4    Luminance
-        BC4A_UNORM            = 0x10, // 4    Alpha
-        BC5_UNORM             = 0x11, // 8    Red + Green + Alpha
-        L4_UNORM              = 0x12, // 4    Luminance
-        A4_UNORM              = 0x13, // 4    Alpha
-        RGBA8_SRGB            = 0x14, // 32   Color + Alpha
-        BC1_SRGB              = 0x15, // 4    Color + Alpha
-        BC2_SRGB              = 0x16, // 8    Color + Alpha
-        BC3_SRGB              = 0x17, // 8    Color + Alpha
-        RGB10A2_UNORM         = 0x18, // 32   Color + Alpha
-        RGB565_INDIRECT_UNORM = 0x19, // 16   Color?
+        L4_UNORM              = 0x0C, // 4    Luminance
+        A4_UNORM              = 0x0D, // 4    Alpha
     }
 
     public static class PixelConverter
@@ -201,15 +188,24 @@ namespace pk3DS.Core.CTR
             byte a = byte.MaxValue, r = 0, g = 0, b = 0;
             switch (e)
             {
+                case BFLIMEncoding.L4_UNORM:
                 case BFLIMEncoding.L8_UNORM:
                 {
                     r = g = b = (byte)val;
                     break;
                 }
+                case BFLIMEncoding.A4_UNORM:
                 case BFLIMEncoding.A8_UNORM:
                 {
                     r = g = b = 0xFF;
                     a = (byte)val;
+                    break;
+                }
+                case BFLIMEncoding.HILO8:
+                {
+                    r = (byte)(val >> 8);
+                    g = (byte)(val & 0xFF);
+                    b = byte.MaxValue;
                     break;
                 }
                 case BFLIMEncoding.LA4_UNORM:
@@ -224,6 +220,10 @@ namespace pk3DS.Core.CTR
                     a = (byte)val;
                     break;
                 }
+                case BFLIMEncoding.RGBX8_UNORM:
+                {
+                    return val | 0xFF000000;
+                }
                 case BFLIMEncoding.RGBA8_UNORM:
                 {
                     return val;
@@ -233,7 +233,7 @@ namespace pk3DS.Core.CTR
                     a = (byte)(0x11 * (val & 0xf));
                     r = (byte)(0x11 * ((val >> 12) & 0xf));
                     g = (byte)(0x11 * ((val >> 8) & 0xf));
-                    b= (byte)(0x11 * ((val >> 4) & 0xf));
+                    b = (byte)(0x11 * ((val >> 4) & 0xf));
                     break;
                 }
                 case BFLIMEncoding.RGB565_UNORM:
@@ -248,7 +248,7 @@ namespace pk3DS.Core.CTR
                     r = Convert5To8[(val >> 11) & 0x1F];
                     g = Convert5To8[(val >> 6) & 0x1F];
                     b = Convert5To8[(val >> 1) & 0x1F];
-                    a = (val & 0x0001) == 1 ? byte.MaxValue : byte.MinValue;
+                    a = (val & 1) == 1 ? byte.MaxValue : byte.MinValue;
                     break;
                 }
                 default:
@@ -263,6 +263,8 @@ namespace pk3DS.Core.CTR
             {
                 case BPP_32:
                     return BitConverter.ToUInt32(raw, offset);
+                case BPP_24:
+                    return BitConverter.ToUInt32(raw, offset) & 0x00FFFFFF;
                 case BPP_16:
                     return BitConverter.ToUInt16(raw, offset);
                 default:
@@ -273,6 +275,8 @@ namespace pk3DS.Core.CTR
         {
             if (_32.Contains(e))
                 return BPP_32;
+            if (_24.Contains(e))
+                return BPP_24;
             if (_16.Contains(e))
                 return BPP_16;
             if (_8.Contains(e))
@@ -280,22 +284,23 @@ namespace pk3DS.Core.CTR
             return BPP_4;
         }
         private const int BPP_32 = 32;
+        private const int BPP_24 = 24;
         private const int BPP_16 = 16;
         private const int BPP_8 = 8;
         private const int BPP_4 = 4;
         private static readonly HashSet<BFLIMEncoding> _32 = new HashSet<BFLIMEncoding>
         {
-            BFLIMEncoding.RGBX8_UNORM,
             BFLIMEncoding.RGBA8_UNORM,
-            BFLIMEncoding.RGBA8_SRGB,
-            BFLIMEncoding.RGB10A2_UNORM,
+        };
+        private static readonly HashSet<BFLIMEncoding> _24 = new HashSet<BFLIMEncoding>
+        {
+            BFLIMEncoding.RGBX8_UNORM,
         };
         private static readonly HashSet<BFLIMEncoding> _16 = new HashSet<BFLIMEncoding>
         {
             BFLIMEncoding.LA8_UNORM,
             BFLIMEncoding.HILO8,
             BFLIMEncoding.RGB565_UNORM,
-            BFLIMEncoding.RGB565_INDIRECT_UNORM,
             BFLIMEncoding.RGB5A1_UNORM,
             BFLIMEncoding.RGBA4_UNORM,
         };
@@ -305,11 +310,6 @@ namespace pk3DS.Core.CTR
             BFLIMEncoding.A8_UNORM,
             BFLIMEncoding.LA4_UNORM,
             BFLIMEncoding.ETC1A4_UNORM,
-            BFLIMEncoding.BC2_UNORM,
-            BFLIMEncoding.BC3_UNORM,
-            BFLIMEncoding.BC5_UNORM,
-            BFLIMEncoding.BC2_SRGB,
-            BFLIMEncoding.BC3_SRGB,
         };
     }
 }
