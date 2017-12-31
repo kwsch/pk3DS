@@ -37,10 +37,16 @@ namespace pk3DS.Core.CTR
         /// <summary>
         /// ARGB 32bpp
         /// </summary>
-        public byte[] GetImageData()
+        public byte[] GetImageData(bool crop = true)
         {
             var orienter = new BFLIMOrienter(Footer.Width, Footer.Height, Footer.Orientation);
             uint[] pixels = GetPixels();
+
+            if (!crop)
+            {
+                Footer.Width = (ushort)orienter.Width;
+                Footer.Height = (ushort)orienter.Height;
+            }
 
             // uint[] -> byte[]
             byte[] array = new byte[Footer.Width * Footer.Height * 4];
