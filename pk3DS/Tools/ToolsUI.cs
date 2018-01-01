@@ -39,30 +39,44 @@ namespace pk3DS
         private void tabMain_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            string path = files[0]; // open first D&D
+            foreach (var path in files)
+                HandleDrop(sender, path);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
 
+        private void HandleDrop(object sender, string path)
+        {
             if (sender == PB_Unpack)
                 openARC(path, pBar1);
             else if (sender == PB_BCLIM)
                 openIMG(path);
             else if (sender == PB_Repack)
                 saveARC(path);
-            else try {
+            else
+                DecompressLZSS_BLZ(path);
+        }
+
+        private void DecompressLZSS_BLZ(string path)
+        {
+            try
+            {
                 LZSS.Decompress(path, Path.Combine(Path.GetDirectoryName(path), "dec_" + Path.GetFileName(path)));
                 File.Delete(path);
-                System.Media.SystemSounds.Asterisk.Play();
-            } catch { try { if (threads < 1)
-                new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; WinFormsUtil.Alert("Decompressed!"); }).Start();
-            } catch { WinFormsUtil.Error("Unable to process file."); threads = 0; } }
+            }
+            catch
+            {
+                try
+                {
+                    if (threads < 1)
+                        new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; WinFormsUtil.Alert("Decompressed!"); }).Start();
+                }
+                catch { WinFormsUtil.Error("Unable to process file."); threads = 0; }
+            }
         }
-        private void dropHover(object sender, EventArgs e)
-        {
-            (sender as Panel).BackColor = Color.Gray;
-        }
-        private void dropLeave(object sender, EventArgs e)
-        {
-            (sender as Panel).BackColor = Color.Transparent;
-        }
+
+        private void dropHover(object sender, EventArgs e) => ((Panel) sender).BackColor = Color.Gray;
+        private void dropLeave(object sender, EventArgs e) => ((Panel) sender).BackColor = Color.Transparent;
+
         private void openIMG(string path)
         {
             var img = BCLIM.makeBMP(path, CHK_PNG.Checked);
@@ -145,6 +159,28 @@ namespace pk3DS
                         batchRenameExtension(newFolder);
                     }
                 }
+                else if (first4.SequenceEqual(BitConverter.GetBytes(0x54594C41))) // ALYT
+                {
+                    if (threads > 0) { WinFormsUtil.Alert("Please wait for all operations to finish first."); return; }
+                    new Thread(() =>
+                    {
+                        threads++;
+                        var alyt = new ALYT(File.ReadAllBytes(path));
+                        var sarc = new SARC(alyt.Data) // rip out sarc
+                        {
+                            FileName = Path.GetFileNameWithoutExtension(path) + "_sarc",
+                            FilePath = Path.GetDirectoryName(path)
+                        };
+                        if (!sarc.Valid)
+                            return;
+                        var files = sarc.Dump();
+                        foreach (string file in files)
+                        {
+                            // openARC(file, pBar1, true);
+                        }
+                        threads--;
+                    }).Start();
+                }
                 else if (first4.SequenceEqual(BitConverter.GetBytes(0x47415243))) // GARC
                 {
                     if (threads > 0) { WinFormsUtil.Alert("Please wait for all operations to finish first."); return; }
@@ -160,7 +196,6 @@ namespace pk3DS
                         { WinFormsUtil.Alert("Unpacking failed."); return; }
                         System.Media.SystemSounds.Asterisk.Play();
                     }).Start();
-                    return;
                 }
                 else if (ARC.analyze(path).valid) // DARC
                 {
@@ -175,10 +210,10 @@ namespace pk3DS
                     newFolder = folderPath + "_d";
                     bool r = Core.CTR.DARC.darc2files(darcData, newFolder);
                     if (!r)
-                    { WinFormsUtil.Alert("Unpacking failed."); return; }
+                    { WinFormsUtil.Alert("Unpacking failed.");  }
                 }
                 else if (!recursing)
-                { WinFormsUtil.Alert("File is not a darc or a mini packed file:" + Environment.NewLine + path); return;}
+                { WinFormsUtil.Alert("File is not a darc or a mini packed file:" + Environment.NewLine + path);;}
 
             }
             catch (Exception e)
@@ -187,7 +222,6 @@ namespace pk3DS
                     WinFormsUtil.Error("File error:" + Environment.NewLine + path, e.ToString());
                 threads = 0;
             }
-            System.Media.SystemSounds.Asterisk.Play();
         }
         private void saveARC(string path)
         {
