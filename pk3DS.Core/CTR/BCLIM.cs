@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 
 namespace pk3DS.Core.CTR
@@ -84,48 +83,37 @@ namespace pk3DS.Core.CTR
             CLIM bclim = analyze(path);
             if (bclim.Magic != 0x4D494C43)
             {
-                System.Media.SystemSounds.Beep.Play(); 
+                System.Media.SystemSounds.Beep.Play();
                 return null;
             }
 
-            // Interpret data.
-            int f = bclim.FileFormat;
-            if (f > 13)
-            {
-                System.Media.SystemSounds.Exclamation.Play(); 
-                return null; 
-            }
 
-            Bitmap img;
-            if (f == 7 && BitConverter.ToUInt16(bclim.Data, 0) == 2)
-                // PKM XY Format 7 (Color Palette)
-                img = getIMG_XY7(bclim);
-            else if (f == 10 || f == 11)
-                img = ImageUtil.GetBitmapETC(bclim);
-            else
-                img = getIMG(bclim);
-
-            if (img == null) return null;
-            Rectangle cropRect = new Rectangle(0, 0, bclim.Width, bclim.Height);
-            Bitmap CropBMP = new Bitmap(cropRect.Width, cropRect.Height);
-            using (Graphics g = Graphics.FromImage(CropBMP))
-            {
-                g.DrawImage(img, 
-                            new Rectangle(0, 0, CropBMP.Width, CropBMP.Height),
-                            cropRect,
-                            GraphicsUnit.Pixel);
-            }
-            if (!autosave) return !crop ? img : CropBMP;
-
-            using (MemoryStream ms = new MemoryStream())
-            {
-                //error will throw from here
-                CropBMP.Save(ms, ImageFormat.Png);
-                byte[] data = ms.ToArray();
-                File.WriteAllBytes(bclim.FilePath + "\\" + bclim.FileName + ".png", data);
-            }
-            return !crop ? img : CropBMP;
+            Bitmap img = GetBCLIMImage(bclim);
+            if (img == null)
+                return null;
+            if (crop)
+                img = ImageUtil.CropBMP(bclim, img);
+            if (autosave)
+                img.Save(Path.Combine(bclim.FilePath, $"{bclim.FileName}.png"));
+            return img;
         }
+
+        private static Bitmap GetBCLIMImage(CLIM bclim)
+        {
+            int f = bclim.FileFormat;
+            switch (f)
+            {
+                case 7 when BitConverter.ToUInt16(bclim.Data, 0) == 2: // PKM XY Format 7 (Color Palette)
+                    return getIMG_XY7(bclim);
+                case 0xA: case 0xB:
+                    return ImageUtil.GetBitmapETC(bclim);
+                default:
+                    if (f > 0xD) // unsupported formats
+                        return null;
+                    return getIMG(bclim);
+            }
+        }
+
         // Bitmap Data Writing
         public static Bitmap getIMG(int width, int height, byte[] bytes, int f)
         {
@@ -272,7 +260,7 @@ namespace pk3DS.Core.CTR
                 int h = gcm(img.Height, 8);
                     w = Math.Max(nlpo2(w), nlpo2(h));
                     h = w;
-                byte[] pixelarray = new Byte[w * h];
+                byte[] pixelarray = new byte[w * h];
 
                 const int colorformat = 2;
                 int ctr = 1;

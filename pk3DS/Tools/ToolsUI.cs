@@ -99,14 +99,7 @@ namespace pk3DS
                     var dir = Path.GetDirectoryName(path);
                     var fn = Path.GetFileNameWithoutExtension(path);
                     var outpath = Path.Combine(dir, $"{fn}.png");
-
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        //error will throw from here
-                        ((Bitmap)img).Save(ms, ImageFormat.Png);
-                        byte[] data = ms.ToArray();
-                        File.WriteAllBytes(outpath, data);
-                    }
+                    img.Save(outpath);
                 }
             }
             PB_BCLIM.Size = new Size(img.Width + 2, img.Height + 2);
