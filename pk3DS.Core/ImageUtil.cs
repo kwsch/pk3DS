@@ -54,7 +54,7 @@ namespace pk3DS.Core
             catch { return null; }
         }
 
-        private static Bitmap CropBMP(IXLIM bclim, Bitmap img)
+        public static Bitmap CropBMP(IXLIM bclim, Bitmap img)
         {
             Rectangle cropRect = new Rectangle(0, 0, bclim.Width, bclim.Height);
             Bitmap src = img;

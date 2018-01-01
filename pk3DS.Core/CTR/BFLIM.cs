@@ -195,11 +195,18 @@ namespace pk3DS.Core.CTR
                 }
                 case BFLIMEncoding.RGBX8:
                 {
-                    return val | 0xFF000000;
+                    r = (byte)(val >> 16);
+                    g = (byte)(val >> 8);
+                    b = (byte)(val >> 0);
+                    break;
                 }
                 case BFLIMEncoding.RGBA8:
                 {
-                    return val;
+                    r = (byte)(val >> 24);
+                    g = (byte)(val >> 16);
+                    b = (byte)(val >> 8);
+                    a = (byte) val;
+                    break;
                 }
                 case BFLIMEncoding.RGBA4:
                 {
