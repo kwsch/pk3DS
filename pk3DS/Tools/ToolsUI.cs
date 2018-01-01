@@ -2,10 +2,12 @@
 using pk3DS.Core.CTR;
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using pk3DS.Core;
 
 namespace pk3DS
 {
@@ -64,7 +66,35 @@ namespace pk3DS
         private void openIMG(string path)
         {
             var img = BCLIM.makeBMP(path, CHK_PNG.Checked);
-            if (img == null) return;
+            if (img == null)
+            {
+                try
+                {
+                    var flim = new BFLIM(path);
+                    if (!flim.Footer.Valid)
+                        return;
+                    img = flim.GetBitmap();
+                }
+                catch (Exception ree)
+                {
+                    Console.WriteLine(ree.Message);
+                    return;
+                }
+                if (CHK_PNG.Checked)
+                {
+                    var dir = Path.GetDirectoryName(path);
+                    var fn = Path.GetFileNameWithoutExtension(path);
+                    var outpath = Path.Combine(dir, $"{fn}.png");
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        //error will throw from here
+                        ((Bitmap)img).Save(ms, ImageFormat.Png);
+                        byte[] data = ms.ToArray();
+                        File.WriteAllBytes(outpath, data);
+                    }
+                }
+            }
             PB_BCLIM.Size = new Size(img.Width + 2, img.Height + 2);
             PB_BCLIM.BackgroundImage = img;
         }
