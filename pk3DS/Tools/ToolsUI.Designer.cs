@@ -47,6 +47,8 @@
             // 
             // PB_Unpack
             // 
+            this.PB_Unpack.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.PB_Unpack.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Unpack.Location = new System.Drawing.Point(12, 25);
             this.PB_Unpack.Name = "PB_Unpack";
@@ -85,6 +87,8 @@
             // 
             // PB_Repack
             // 
+            this.PB_Repack.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.PB_Repack.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Repack.Location = new System.Drawing.Point(168, 124);
             this.PB_Repack.Name = "PB_Repack";

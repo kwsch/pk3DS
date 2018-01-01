@@ -97,6 +97,14 @@ namespace pk3DS
             }
             PB_BCLIM.Size = new Size(img.Width + 2, img.Height + 2);
             PB_BCLIM.BackgroundImage = img;
+            int leftpad = PB_BCLIM.Location.X;
+            int suggestedWidth = leftpad * 2 + PB_BCLIM.Width + 10;
+            if (Width < suggestedWidth)
+                Width = suggestedWidth;
+
+            int suggestedHeight = PB_BCLIM.Location.Y + PB_BCLIM.Height + leftpad + 30;
+            if (Height < suggestedHeight)
+                Height = suggestedHeight;
         }
 
         internal static volatile int threads;
