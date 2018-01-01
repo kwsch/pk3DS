@@ -138,7 +138,7 @@ namespace pk3DS.Core.CTR
         /// </summary>
         /// <param name="t">Entry to export</param>
         /// <param name="outpath">Path to export to. If left null, will output to the <see cref="SARC"/> FilePath, if it is assigned.</param>
-        public void ExportFile(SFATEntry t, string outpath = null)
+        public string ExportFile(SFATEntry t, string outpath = null)
         {
             outpath = outpath ?? FilePath;
             byte[] data = GetData(t);
@@ -152,6 +152,7 @@ namespace pk3DS.Core.CTR
 
             var filepath = Path.Combine(outpath, name);
             File.WriteAllBytes(filepath, data);
+            return outpath;
         }
 
         /// <summary>
@@ -159,7 +160,7 @@ namespace pk3DS.Core.CTR
         /// </summary>
         /// <param name="path">Path to create dump folder in</param>
         /// <param name="folder">Folder to dump contents to</param>
-        public void Dump(string path = null, string folder = null)
+        public IEnumerable<string> Dump(string path = null, string folder = null)
         {
             path = path ?? FilePath;
             if (path == null)
@@ -175,7 +176,7 @@ namespace pk3DS.Core.CTR
             Directory.CreateDirectory(dir);
 
             foreach (SFATEntry t in SFAT.Entries)
-                ExportFile(t, dir);
+                yield return ExportFile(t, dir);
         }
 
         private string GetFileName(int offset)
