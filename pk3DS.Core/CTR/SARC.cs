@@ -152,7 +152,7 @@ namespace pk3DS.Core.CTR
 
             var filepath = Path.Combine(outpath, name);
             File.WriteAllBytes(filepath, data);
-            return outpath;
+            return filepath;
         }
 
         /// <summary>
