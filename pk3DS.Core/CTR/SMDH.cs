@@ -147,7 +147,7 @@ namespace pk3DS.Core.CTR
         public SmallIcon(BinaryReader br)
         {
             Bytes = br.ReadBytes(0x480);
-            Icon = BCLIM.getIMG(24, 24, Bytes, 0x5);
+            Icon = ImageUtil.GetBitmap(Bytes, 24, 24);
         }
         public void Write(BinaryWriter bw)
         {
@@ -157,7 +157,7 @@ namespace pk3DS.Core.CTR
         {
             if (img.Width != Icon.Width || img.Height != Icon.Height) return false;
             Icon = img;
-            Bytes = BCLIM.getPixelData(Icon, 0x5);
+            Bytes = ImageUtil.GetPixelData(Icon);
             return true;
         }
     }
@@ -169,7 +169,7 @@ namespace pk3DS.Core.CTR
         public LargeIcon(BinaryReader br)
         {
             Bytes = br.ReadBytes(0x1200);
-            Icon = BCLIM.getIMG(48, 48, Bytes, 0x5);
+            Icon = ImageUtil.GetBitmap(Bytes, 48, 48);
         }
         public void Write(BinaryWriter bw)
         {
@@ -179,7 +179,7 @@ namespace pk3DS.Core.CTR
         {
             if (img.Width != Icon.Width || img.Height != Icon.Height) return false;
             Icon = img;
-            Bytes = BCLIM.getPixelData(Icon, 0x5);
+            Bytes = ImageUtil.GetPixelData(Icon);
             return true;
         }
     }

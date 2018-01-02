@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using pk3DS.Core;
 
 namespace pk3DS
 {
@@ -113,18 +114,8 @@ namespace pk3DS
 
             // Load file
             byte[] data = darc.Data.Skip((int)(darc.Entries[entry].DataOffset - darc.Header.FileDataOffset)).Take((int)darc.Entries[entry].DataLength).ToArray();
-            BCLIM.CLIM bclim = BCLIM.analyze(data, filename);
-            Image img = BCLIM.getIMG(bclim);
-
-            Rectangle cropRect = new Rectangle(0, 0, bclim.Width, bclim.Height);
-            Bitmap CropBMP = new Bitmap(cropRect.Width, cropRect.Height);
-            using (Graphics g = Graphics.FromImage(CropBMP))
-            {
-                g.DrawImage(img,
-                            new Rectangle(0, 0, CropBMP.Width, CropBMP.Height),
-                            cropRect,
-                            GraphicsUnit.Pixel);
-            }
+            BCLIM bclim = BCLIM.analyze(data, filename);
+            Image CropBMP = bclim.GetBitmap();
 
             PB_Image.Image = CropBMP;
             // store image locally for saving if need be

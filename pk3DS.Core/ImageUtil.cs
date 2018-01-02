@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using pk3DS.Core.CTR;
+using pk3DS.Core.CTR.Images;
+using static pk3DS.Core.CTR.Images.XLIMUtil;
 
 namespace pk3DS.Core
 {
@@ -17,7 +19,7 @@ namespace pk3DS.Core
         /// <param name="bflim">Image data</param>
         /// <param name="crop">Crop the image area to the actual dimensions</param>
         /// <returns>Human visible data</returns>
-        public static Bitmap GetBitmap(this BFLIM bflim, bool crop = true)
+        public static Bitmap GetBitmap(this BXLIM bflim, bool crop = true)
         {
             if (bflim.Format == XLIMEncoding.ETC1 || bflim.Format == XLIMEncoding.ETC1A4)
                 return GetBitmapETC(bflim, crop);
@@ -28,25 +30,33 @@ namespace pk3DS.Core
         {
             return new Bitmap(width, height, stride, format, Marshal.UnsafeAddrOfPinnedArrayElement(data, 0));
         }
-
-        public static Bitmap GetBitmapETC(BCLIM.CLIM bclim, bool crop = true) => GetBitmapETC(bclim, bclim.Data, bclim.FileFormat == 0x0B, crop);
-        public static Bitmap GetBitmapETC(BFLIM bflim, bool crop = true) => GetBitmapETC(bflim, bflim.PixelData, bflim.Footer.Format == XLIMEncoding.ETC1A4, crop);
-
-        private static Bitmap GetBitmapETC(IXLIM bflim, byte[] data, bool etc1a4, bool crop = true)
+        public static byte[] GetPixelData(Bitmap bitmap)
         {
+            var argbData = new byte[bitmap.Width * bitmap.Height * 4];
+            var bd = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
+            Marshal.Copy(bd.Scan0, argbData, 0, bitmap.Width * bitmap.Height * 4);
+            bitmap.UnlockBits(bd);
+            return argbData;
+        }
+
+        public static Bitmap GetBitmapETC(BXLIM bxlim, bool crop = true)
+        {
+            bool etc1a4 = bxlim.Footer.Format == XLIMEncoding.ETC1A4;
+            byte[] data = bxlim.PixelData;
             ETC1.CheckETC1Lib();
+
             try
             {
-                var width = Math.Max(BCLIM.nlpo2(bflim.Width), 16);
-                var height = Math.Max(BCLIM.nlpo2(bflim.Height), 16);
+                var width = Math.Max(nlpo2(bxlim.Width), 16);
+                var height = Math.Max(nlpo2(bxlim.Height), 16);
                 Bitmap img = new Bitmap(width, height);
-                img = DecodeETC(bflim, img, data, etc1a4);
-                return crop ? CropBMP(bflim, img) : img;
+                img = DecodeETC(bxlim, img, data, etc1a4);
+                return crop ? CropBMP(bxlim, img) : img;
             }
             catch { return null; }
         }
 
-        public static Bitmap CropBMP(IXLIM bclim, Bitmap img)
+        public static Bitmap CropBMP(IXLIMHeader bclim, Bitmap img)
         {
             Rectangle cropRect = new Rectangle(0, 0, bclim.Width, bclim.Height);
             Bitmap src = img;
@@ -62,7 +72,7 @@ namespace pk3DS.Core
             return target;
         }
 
-        private static Bitmap DecodeETC(IXLIM bclim, Bitmap img, byte[] textureData, bool etc1A4)
+        private static Bitmap DecodeETC(IXLIMHeader bclim, Bitmap img, byte[] textureData, bool etc1A4)
         {
             /* http://jul.rustedlogic.net/thread.php?id=17312
              * Much of this code is taken/modified from Tharsis. Thank you to Tharsis's creator, xdaniel.
@@ -116,10 +126,10 @@ namespace pk3DS.Core
             if (w > h)
             {
                 // Image is now in appropriate order, but the shifting is messed up. Let's fix that.
-                Bitmap img2 = new Bitmap(Math.Max(BCLIM.nlpo2(bclim.Width), 16), Math.Max(BCLIM.nlpo2(bclim.Height), 16));
-                for (int y = 0; y < Math.Max(BCLIM.nlpo2(bclim.Width), 16); y += 8)
+                Bitmap img2 = new Bitmap(Math.Max(nlpo2(bclim.Width), 16), Math.Max(nlpo2(bclim.Height), 16));
+                for (int y = 0; y < Math.Max(nlpo2(bclim.Width), 16); y += 8)
                 {
-                    for (int x = 0; x < Math.Max(BCLIM.nlpo2(bclim.Height), 16); x++)
+                    for (int x = 0; x < Math.Max(nlpo2(bclim.Height), 16); x++)
                     {
                         for (int j = 0; j < 8; j++)
                         // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.
@@ -134,10 +144,10 @@ namespace pk3DS.Core
             }
             else if (h > w)
             {
-                Bitmap img2 = new Bitmap(Math.Max(BCLIM.nlpo2(bclim.Width), 16), Math.Max(BCLIM.nlpo2(bclim.Height), 16));
-                for (int y = 0; y < Math.Max(BCLIM.nlpo2(bclim.Width), 16); y += 8)
+                Bitmap img2 = new Bitmap(Math.Max(nlpo2(bclim.Width), 16), Math.Max(nlpo2(bclim.Height), 16));
+                for (int y = 0; y < Math.Max(nlpo2(bclim.Width), 16); y += 8)
                 {
-                    for (int x = 0; x < Math.Max(BCLIM.nlpo2(bclim.Height), 16); x++)
+                    for (int x = 0; x < Math.Max(nlpo2(bclim.Height), 16); x++)
                     {
                         for (int j = 0; j < 8; j++)
                         // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.

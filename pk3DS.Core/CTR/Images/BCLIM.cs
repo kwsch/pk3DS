@@ -1,22 +1,75 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using pk3DS.Core.CTR.Images;
 
 namespace pk3DS.Core.CTR
 {
-    public static class BCLIM
+    public class BCLIM : BXLIM
     {
-        public static void openFile(string path, bool autosave = false, bool crop = true, char format = 'X')
+        public BCLIM(Stream data) => ReadBCLIM(data);
+        public BCLIM(byte[] data)
         {
-            // Handle file
-            if (!File.Exists(path)) throw new Exception("Can only accept files, not folders");
-            string ext = Path.GetExtension(path);
-            if (ext == ".png")
-                makeBCLIM(path, format);
-            else if (ext == ".bin" || ext == ".bclim")
-                makeBMP(path, autosave, crop);
+            using (var ms = new MemoryStream(data))
+                ReadBCLIM(ms);
+        }
+        public BCLIM(string path)
+        {
+            var data = File.ReadAllBytes(path);
+            using (var ms = new MemoryStream(data))
+                ReadBCLIM(ms);
         }
 
+        private void ReadBCLIM(Stream ms)
+        {
+            PixelData = new byte[ms.Length - FLIMHeader.SIZE];
+            ms.Read(PixelData, 0, PixelData.Length);
+            var footer = new byte[FLIMHeader.SIZE];
+            ms.Read(footer, 0, footer.Length);
+            Footer = footer.ToStructure<CLIMHeader>();
+        }
+
+        public override uint[] GetPixels()
+        {
+            if (Format == (XLIMEncoding)7 && BitConverter.ToUInt16(PixelData, 0) == 2) // Gen6 Palette
+                return GetPixelsViaPalette();
+            return base.GetPixels();
+        }
+
+        private uint[] GetPixelsViaPalette()
+        {
+            using (var ms = new MemoryStream(PixelData))
+            using (var br = new BinaryReader(ms))
+            {
+                if (br.ReadUInt16() != 2) return null;
+
+                // read palette
+                int count = br.ReadUInt16();
+                uint[] colors = new uint[count];
+                for (int i = 0; i < colors.Length; i++)
+                    colors[i] = PixelConverter.GetDecodedPixelValue(br.ReadUInt16(), XLIMEncoding.RGB565);
+
+                // read pixels
+                bool half = colors.Length < 0x10;
+                uint[] pixels = new uint[BaseSize * BaseSize];
+                for (int i = 0; i < pixels.Length; i++)
+                {
+                    var b = br.ReadByte();
+                    if (!half)
+                    {
+                        pixels[i] = colors[b];
+                    }
+                    else
+                    {
+                        pixels[i++] = colors[b & 0xF];
+                        pixels[i] = colors[b >> 4];
+                    }
+                }
+                return pixels;
+            }
+        }
+
+        // todo: move System.Drawing utilization out, make encoding generic for bflim
         public static byte[] IMGToBCLIM(Image img, char fc)
         {
             Bitmap mBitmap = new Bitmap(img);
@@ -80,161 +133,20 @@ namespace pk3DS.Core.CTR
         }
         public static Image makeBMP(string path, bool autosave = false, bool crop = true)
         {
-            CLIM bclim = analyze(path);
+            BCLIM bclim = analyze(path);
             if (bclim.Magic != 0x4D494C43)
             {
                 System.Media.SystemSounds.Beep.Play();
                 return null;
             }
 
-
-            Bitmap img = GetBCLIMImage(bclim);
+            Bitmap img = bclim.GetBitmap(crop);
             if (img == null)
                 return null;
             if (crop)
                 img = ImageUtil.CropBMP(bclim, img);
             if (autosave)
                 img.Save(Path.Combine(bclim.FilePath, $"{bclim.FileName}.png"));
-            return img;
-        }
-
-        private static Bitmap GetBCLIMImage(CLIM bclim)
-        {
-            int f = bclim.FileFormat;
-            switch (f)
-            {
-                case 7 when BitConverter.ToUInt16(bclim.Data, 0) == 2: // PKM XY Format 7 (Color Palette)
-                    return getIMG_XY7(bclim);
-                case 0xA: case 0xB:
-                    return ImageUtil.GetBitmapETC(bclim);
-                default:
-                    if (f > 0xD) // unsupported formats
-                        return null;
-                    return getIMG(bclim);
-            }
-        }
-
-        // Bitmap Data Writing
-        public static Bitmap getIMG(int width, int height, byte[] bytes, int f)
-        {
-            Bitmap img = new Bitmap(width, height);
-            int area = img.Width * img.Height;
-            // Tiles Per Width
-            int p = gcm(img.Width, 8) / 8;
-            if (p == 0) p = 1;
-            using (Stream BitmapStream = new MemoryStream(bytes))
-            using (BinaryReader br = new BinaryReader(BitmapStream))
-            for (uint i = 0; i < area; i++) // for every pixel
-            {
-                uint x;
-                uint y;
-                d2xy(i % 64, out x, out y);
-                uint tile = i / 64;
-
-                // Shift Tile Coordinate into Tilemap
-                x += (uint)(tile % p) * 8;
-                y += (uint)(tile / p) * 8;
-
-                // Get Color
-                Color c;
-                switch (f)
-                {
-                    case 0x0:  // L8        // 8bit/1 byte
-                    case 0x1:  // A8
-                    case 0x2:  // LA4
-                        c = DecodeColor(br.ReadByte(), f);
-                        break;
-                    case 0x3:  // LA8       // 16bit/2 byte
-                    case 0x4:  // HILO8
-                    case 0x5:  // RGB565
-                    case 0x8:  // RGBA4444
-                    case 0x7:  // RGBA5551
-                        c = DecodeColor(br.ReadUInt16(), f);
-                        break;
-                    case 0x6:  // RGB8:     // 24bit
-                        byte[] data = br.ReadBytes(3); Array.Resize(ref data, 4);
-                        c = DecodeColor(BitConverter.ToUInt32(data, 0), f);
-                        break;
-                    case 0x9:  // RGBA8888
-                        c = DecodeColor(br.ReadUInt32(), f);
-                        break;
-                    case 0xC:  // L4
-                    case 0xD:  // A4        // 4bit - Do 2 pixels at a time.
-                        uint val = br.ReadByte();
-                        img.SetPixel((int)x, (int)y, DecodeColor(val & 0xF, f)); // lowest bits for the low pixel
-                        i++; x++;
-                        c = DecodeColor(val >> 4, f);   // highest bits for the high pixel
-                        break;
-                    default: throw new Exception("Invalid FileFormat.");
-                }
-                img.SetPixel((int)x, (int)y, c);
-            }
-            return img;
-        }
-        public static Bitmap getIMG(CLIM bclim)
-        {
-            if (bclim.FileFormat == 7 && BitConverter.ToUInt16(bclim.Data, 0) == 2) // XY7
-                return getIMG_XY7(bclim);
-            if (bclim.FileFormat == 10 || bclim.FileFormat == 11) // Use ETC1 to get image instead.
-                return ImageUtil.GetBitmapETC(bclim);
-            // New Image
-            int w = nlpo2(gcm(bclim.Width, 8));
-            int h = nlpo2(gcm(bclim.Height, 8));
-            int f = bclim.FileFormat;
-            int area = w * h;
-            if (f == 9 && area > bclim.Data.Length / 4)
-            {
-                w = gcm(bclim.Width, 8);
-                h = gcm(bclim.Height, 8);
-            }
-            // Build Image
-            return getIMG(w, h, bclim.Data, f);
-        }
-        public static Bitmap getIMG_XY7(CLIM bclim)
-        {
-            Bitmap img = new Bitmap(bclim.BaseSize, bclim.BaseSize);
-            using (Stream BitmapStream = new MemoryStream(bclim.Data))
-            using (BinaryReader br = new BinaryReader(BitmapStream))
-            {
-                // Fetch Color stuff.
-                if (br.ReadUInt16() != 2) return null;
-                ushort colors = br.ReadUInt16();
-                Color[] ca = new Color[colors];
-                for (int i = 0; i < colors; i++)
-                    ca[i] = DecodeColor(br.ReadUInt16(), 7);
-
-                // Coordinates
-                // Colors
-                // Tiles Per Width
-                int p = gcm(img.Width, 8) / 8;
-                if (p == 0) p = 1;
-
-                for (uint i = 0; i < bclim.BaseSize * bclim.BaseSize; i++) // for every pixel
-                {
-                    uint x;
-                    uint y;
-                    d2xy(i % 64, out x, out y);
-                    uint tile = i / 64;
-
-                    // Shift Tile Coordinate into Tilemap
-                    x += (uint)(tile % p) * 8;
-                    y += (uint)(tile / p) * 8;
-
-                    byte val = br.ReadByte();
-                    if (colors <= 0x10) // Handle 2 pixels at a time
-                    {
-                        img.SetPixel((int)x, (int)y, ca[val >> 4]);
-                        x++; i++; val &= 0xF;
-                        img.SetPixel((int)x, (int)y, ca[val]);
-                    }
-                    else //1bpp instead of .5, handle 2 pixels at a time the same way for no reason
-                    {
-                        img.SetPixel((int)x, (int)y, ca[val]);
-                        x++; i++; val = br.ReadByte();
-                        img.SetPixel((int)x, (int)y, ca[val]);
-                    }
-                }
-            }
             return img;
         }
 
@@ -256,10 +168,10 @@ namespace pk3DS.Core.CTR
                 if (colors > 70) throw new Exception("Too many colors");
 
                 // Set up a new reverse image to build into.
-                int w = gcm(img.Width, 8);
-                int h = gcm(img.Height, 8);
-                    w = Math.Max(nlpo2(w), nlpo2(h));
-                    h = w;
+                int w = XLIMUtil.gcm(img.Width, 8);
+                int h = XLIMUtil.gcm(img.Height, 8);
+                w = Math.Max(XLIMUtil.nlpo2(w), XLIMUtil.nlpo2(h));
+                h = w;
                 byte[] pixelarray = new byte[w * h];
 
                 const int colorformat = 2;
@@ -267,7 +179,7 @@ namespace pk3DS.Core.CTR
 
                 pcs[0] = Color.FromArgb(0, 0xFF, 0xFF, 0xFF);
 
-                int p = gcm(w, 8) / 8;
+                int p = XLIMUtil.gcm(w, 8) / 8;
                 if (p == 0) p = 1;
                 int d = 0;
                 for (uint i = 0; i < pixelarray.Length; i++)
@@ -276,7 +188,7 @@ namespace pk3DS.Core.CTR
                     // Get Tile Coordinate
                     uint x;
                     uint y;
-                    d2xy(i % 64, out x, out y);
+                    XLIMOrienter.d2xy(i % 64, out x, out y);
 
                     // Get Shift Tile
                     uint tile = i / 64;
@@ -314,12 +226,12 @@ namespace pk3DS.Core.CTR
                 bz.Write((ushort)colorformat); bz.Write((ushort)ctr);
                 // Write Colors
                 for (int i = 0; i < ctr; i++)
-                    bz.Write(GetRGBA5551(pcs[i]));      // Write byte array.
+                    bz.Write((ushort)GetRGBA5551(pcs[i]));      // Write byte array.
                 // Write Pixel Data
                 for (uint i = 0; i < d; i++)
                     bz.Write(pixelarray[i]);
                 // Write Padding
-                while (pixelcolors.Length < nlpo2((int)pixelcolors.Length))
+                while (pixelcolors.Length < XLIMUtil.nlpo2((int)pixelcolors.Length))
                     bz.Write((byte)0);
                 // Copy to main CLIM.
                 pixelcolors.Position = 0; pixelcolors.CopyTo(ms);
@@ -333,6 +245,24 @@ namespace pk3DS.Core.CTR
             bz.Flush();
         }
 
+        public static byte[] MakePixelData(byte[] input, ref int w, ref int h, XLIMOrientation x = XLIMOrientation.None)
+        {
+            int width = w;
+            w = XLIMUtil.nlpo2(w);
+            h = XLIMUtil.nlpo2(h);
+            if (!(Math.Min(w, h) < 32))
+                w = h = Math.Max(w, h); // resize
+
+            byte[] pixels = new byte[w * h * 4];
+            var orienter = new XLIMOrienter(w, h, x);
+            for (uint i = 0; i < pixels.Length / 4; i++)
+            {
+                var c = orienter.Get(i);
+                var offset = c.X * 4 + c.Y * width;
+                Array.Copy(input, offset, pixels, i * 4, 4);
+            }
+            return pixels;
+        }
         public static byte[] getPixelData(Bitmap img, int format, bool rectangle = true)
         {
             int w = img.Width;
@@ -344,25 +274,23 @@ namespace pk3DS.Core.CTR
                 // Square Format Checks
                 if (rectangle && Math.Min(img.Width, img.Height) < 32)
                 {
-                    w = nlpo2(img.Width);
-                    h = nlpo2(img.Height);
+                    w = XLIMUtil.nlpo2(img.Width);
+                    h = XLIMUtil.nlpo2(img.Height);
                 }
                 else
                 {
-                    w = h = Math.Max(nlpo2(w), nlpo2(h)); // else resize
+                    w = h = Math.Max(XLIMUtil.nlpo2(w), XLIMUtil.nlpo2(h)); // else resize
                 }
             }
 
             using (MemoryStream mz = new MemoryStream())
             using (BinaryWriter bz = new BinaryWriter(mz))
             {
-                int p = gcm(w, 8) / 8;
+                int p = XLIMUtil.gcm(w, 8) / 8;
                 if (p == 0) p = 1;
                 for (uint i = 0; i < w * h; i++)
                 {
-                    uint x;
-                    uint y;
-                    d2xy(i % 64, out x, out y);
+                    XLIMOrienter.d2xy(i % 64, out uint x, out uint y);
 
                     // Get Shift Tile
                     uint tile = i / 64;
@@ -380,44 +308,44 @@ namespace pk3DS.Core.CTR
 
                     switch (format)
                     {
-                        case 0: bz.Write(GetL8(c)); break;                // L8
-                        case 1: bz.Write(GetA8(c)); break;                // A8
-                        case 2: bz.Write(GetLA4(c)); break;               // LA4(4)
-                        case 3: bz.Write(GetLA8(c)); break;             // LA8(8)
-                        case 4: bz.Write(GetHILO8(c)); break;           // HILO8
-                        case 5: bz.Write(GetRGB565(c)); break;          // RGB565
+                        case 0: bz.Write((byte)GetL8(c)); break;                // L8
+                        case 1: bz.Write((byte)GetA8(c)); break;                // A8
+                        case 2: bz.Write((byte)GetLA4(c)); break;               // LA4(4)
+                        case 3: bz.Write((ushort)GetLA8(c)); break;             // LA8(8)
+                        case 4: bz.Write((ushort)GetHILO8(c)); break;           // HILO8
+                        case 5: bz.Write((ushort)GetRGB565(c)); break;          // RGB565
                         case 6:
-                            {
-                                bz.Write(c.B);
-                                bz.Write(c.G);
-                                bz.Write(c.R); break;
-                            }
-                        case 7: bz.Write(GetRGBA5551(c)); break;        // RGBA5551
-                        case 8: bz.Write(GetRGBA4444(c)); break;        // RGBA4444
-                        case 9: bz.Write(GetRGBA8888(c)); break;          // RGBA8
+                        {
+                            bz.Write(c.B);
+                            bz.Write(c.G);
+                            bz.Write(c.R); break;
+                        }
+                        case 7: bz.Write((ushort)GetRGBA5551(c)); break;        // RGBA5551
+                        case 8: bz.Write((ushort)GetRGBA4444(c)); break;        // RGBA4444
+                        case 9: bz.Write((uint)GetRGBA8888(c)); break;          // RGBA8
                         case 10: throw new Exception("ETC1 not supported.");
                         case 11: throw new Exception("ETC1A4 not supported.");
                         case 12:
-                            {
-                                byte val = (byte)(GetL8(c) / 0x11); // First Pix    // L4
-                                { c = img.GetPixel((int)x, (int)y); if (c.A == 0) c = Color.FromArgb(0, 0, 0, 0); }
-                                val |= (byte)((GetL8(c) / 0x11) << 4); i++;
-                                bz.Write(val); break;
-                            }
+                        {
+                            byte val = (byte)(GetL8(c) / 0x11); // First Pix    // L4
+                            { c = img.GetPixel((int)x, (int)y); if (c.A == 0) c = Color.FromArgb(0, 0, 0, 0); }
+                            val |= (byte)((GetL8(c) / 0x11) << 4); i++;
+                            bz.Write(val); break;
+                        }
                         case 13:
-                            {
-                                byte val = (byte)(GetA8(c) / 0x11); // First Pix    // L4
-                                { c = img.GetPixel((int)x, (int)y); }
-                                val |= (byte)((GetA8(c) / 0x11) << 4); i++;
-                                bz.Write(val); break;
-                            }
+                        {
+                            byte val = (byte)(GetA8(c) / 0x11); // First Pix    // L4
+                            { c = img.GetPixel((int)x, (int)y); }
+                            val |= (byte)((GetA8(c) / 0x11) << 4); i++;
+                            bz.Write(val); break;
+                        }
                     }
                 }
                 if (!perfect)
-                    while (mz.Length < nlpo2((int)mz.Length)) // pad
+                    while (mz.Length < XLIMUtil.nlpo2((int)mz.Length)) // pad
                         bz.Write((byte)0);
                 return mz.ToArray();
-            }            
+            }
         }
         public static int getColorCount(Bitmap img)
         {
@@ -435,72 +363,6 @@ namespace pk3DS.Core.CTR
                 colorct++;
             }
             return colorct;
-        }
-
-
-        internal static readonly int[] Convert5To8 = { 0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
-                                              0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
-                                              0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
-                                              0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF };
-
-        private static Color DecodeColor(uint val, int format)
-        {
-            int alpha = 0xFF, red, green, blue;
-            switch (format)
-            {
-                case 0: // L8
-                    return Color.FromArgb(alpha, (byte)val, (byte)val, (byte)val);
-                case 1: // A8
-                    return Color.FromArgb((byte)val, alpha, alpha, alpha);
-                case 2: // LA4
-                    red = (byte)(val >> 4);
-                    alpha = (byte)(val & 0x0F);
-                    return Color.FromArgb(alpha, red, red, red);
-                case 3: // LA8
-                    red = (byte)(val >> 8 & 0xFF);
-                    alpha = (byte)(val & 0xFF);
-                    return Color.FromArgb(alpha, red, red, red);
-                case 4: // HILO8
-                    red = (byte)(val >> 8);
-                    green = (byte)(val & 0xFF);
-                    return Color.FromArgb(alpha, red, green, 0xFF);
-                case 5: // RGB565
-                    red = Convert5To8[(val >> 11) & 0x1F];
-                    green = (byte)(((val >> 5) & 0x3F) * 4);
-                    blue = Convert5To8[val & 0x1F];
-                    return Color.FromArgb(alpha, red, green, blue);
-                case 6: // RGB8
-                    red = (byte)((val >> 16) & 0xFF);
-                    green = (byte)((val >> 8) & 0xFF);
-                    blue = (byte)(val & 0xFF);
-                    return Color.FromArgb(alpha, red, green, blue);
-                case 7: // RGBA5551
-                    red = Convert5To8[(val >> 11) & 0x1F];
-                    green = Convert5To8[(val >> 6) & 0x1F];
-                    blue = Convert5To8[(val >> 1) & 0x1F];
-                    alpha = (val & 0x0001) == 1 ? 0xFF : 0x00;
-                    return Color.FromArgb(alpha, red, green, blue);
-                case 8: // RGBA4444
-                    alpha = (byte)(0x11 * (val & 0xf));
-                    red = (byte)(0x11 * ((val >> 12) & 0xf));
-                    green = (byte)(0x11 * ((val >> 8) & 0xf));
-                    blue = (byte)(0x11 * ((val >> 4) & 0xf));
-                    return Color.FromArgb(alpha, red, green, blue);
-                case 9: // RGBA8888
-                    red = (byte)((val >> 24) & 0xFF);
-                    green = (byte)((val >> 16) & 0xFF);
-                    blue = (byte)((val >> 8) & 0xFF);
-                    alpha = (byte)(val & 0xFF);
-                    return Color.FromArgb(alpha, red, green, blue);
-                // case 10:
-                // case 11:
-                case 12: // L4
-                    return Color.FromArgb(alpha, (byte)(val * 0x11), (byte)(val * 0x11), (byte)(val * 0x11));
-                case 13: // A4
-                    return Color.FromArgb((byte)(val * 0x11), alpha, alpha, alpha);
-                default:
-                    return Color.White;
-            }
         }
 
         // Color Conversion
@@ -573,219 +435,28 @@ namespace pk3DS.Core.CTR
         {
 
             byte[] Convert8to5 = { 0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
-                                   0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
-                                   0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
-                                   0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF };
+                0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
+                0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
+                0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF };
             byte i = 0;
             while (colorval > Convert8to5[i]) i++;
             return i;
         }
-        internal static uint DM2X(uint code)
-        {
-            return C11(code >> 0);
-        }
-        internal static uint DM2Y(uint code)
-        {
-            return C11(code >> 1);
-        }
-        internal static uint C11(uint x)
-        {
-            x &= 0x55555555;                  // x = -f-e -d-c -b-a -9-8 -7-6 -5-4 -3-2 -1-0
-            x = (x ^ (x >> 1)) & 0x33333333; // x = --fe --dc --ba --98 --76 --54 --32 --10
-            x = (x ^ (x >> 2)) & 0x0f0f0f0f; // x = ---- fedc ---- ba98 ---- 7654 ---- 3210
-            x = (x ^ (x >> 4)) & 0x00ff00ff; // x = ---- ---- fedc ba98 ---- ---- 7654 3210
-            x = (x ^ (x >> 8)) & 0x0000ffff; // x = ---- ---- ---- ---- fedc ba98 7654 3210
-            return x;
-        }
-        
-        /// <summary>
-        /// Greatest common multiple (to round up)
-        /// </summary>
-        /// <param name="n">Number to round-up.</param>
-        /// <param name="m">Multiple to round-up to.</param>
-        /// <returns>Rounded up number.</returns>
-        internal static int gcm(int n, int m)
-        {
-            return (n + m - 1) / m * m;
-        }
-        /// <summary>
-        /// Next Largest Power of 2
-        /// </summary>
-        /// <param name="x">Input to round up to next 2^n</param>
-        /// <returns>2^n > x && x > 2^(n-1) </returns>
-        internal static int nlpo2(int x)
-        {
-            x--; // comment out to always take the next biggest power of two, even if x is already a power of two
-            x |= x >> 1;
-            x |= x >> 2;
-            x |= x >> 4;
-            x |= x >> 8;
-            x |= x >> 16;
-            return x+1;
-        }
 
-        // Morton Translation
-        /// <summary>
-        /// Combines X/Y Coordinates to a decimal ordinate.
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        internal static uint xy2d(uint x, uint y)
+        public static BCLIM analyze(byte[] data, string shortPath)
         {
-	        x &= 0x0000ffff;
-	        y &= 0x0000ffff;
-	        x |= x << 8;
-	        y |= y << 8;
-	        x &= 0x00ff00ff;
-	        y &= 0x00ff00ff;
-	        x |= x << 4;
-	        y |= y << 4;
-	        x &= 0x0f0f0f0f;
-	        y &= 0x0f0f0f0f;
-	        x |= x << 2;
-	        y |= y << 2;
-	        x &= 0x33333333;
-	        y &= 0x33333333;
-	        x |= x << 1;
-	        y |= y << 1;
-	        x &= 0x55555555;
-	        y &= 0x55555555;
-	        return x | (y << 1);
-        }
-        /// <summary>
-    /// Decimal Ordinate In to X / Y Coordinate Out
-    /// </summary>
-    /// <param name="d">Loop integer which will be decoded to X/Y</param>
-    /// <param name="x">Output X coordinate</param>
-    /// <param name="y">Output Y coordinate</param>
-        internal static void d2xy(uint d, out uint x, out uint y)
-        {
-	        x = d;
-	        y = x >> 1;
-	        x &= 0x55555555;
-	        y &= 0x55555555;
-	        x |= x >> 1;
-	        y |= y >> 1;
-	        x &= 0x33333333;
-	        y &= 0x33333333;
-	        x |= x >> 2;
-	        y |= y >> 2;
-	        x &= 0x0f0f0f0f;
-	        y &= 0x0f0f0f0f;
-	        x |= x >> 4;
-	        y |= y >> 4;
-	        x &= 0x00ff00ff;
-	        y &= 0x00ff00ff;
-	        x |= x >> 8;
-	        y |= y >> 8;
-	        x &= 0x0000ffff;
-	        y &= 0x0000ffff;
-        }
-
-        public static CLIM analyze(byte[] data, string shortPath)
-        {
-            CLIM bclim = new CLIM
+            BCLIM bclim = new BCLIM(data)
             {
                 FileName = Path.GetFileNameWithoutExtension(shortPath),
                 FilePath = Path.GetDirectoryName(shortPath),
                 Extension = Path.GetExtension(shortPath)
             };
-            byte[] byteArray = data;
-            using (BinaryReader br = new BinaryReader(new MemoryStream(byteArray)))
-            {
-                br.BaseStream.Seek(br.BaseStream.Length - 0x28, SeekOrigin.Begin);
-                bclim.Magic = br.ReadUInt32();
-
-                bclim.BOM = br.ReadUInt16();
-                bclim.CLIMLength = br.ReadUInt32();
-                bclim.TileWidth = 2 << br.ReadByte();
-                bclim.TileHeight = 2 << br.ReadByte();
-                bclim.totalLength = br.ReadUInt32();
-                bclim.Count = br.ReadUInt32();
-
-                bclim.imag = br.ReadChars(4);
-                bclim.imagLength = br.ReadUInt32();
-                bclim.Width = br.ReadUInt16();
-                bclim.Height = br.ReadUInt16();
-                bclim.FileFormat = br.ReadInt32();
-                bclim.dataLength = br.ReadUInt32();
-
-                bclim.BaseSize = Math.Max(nlpo2(bclim.Width), nlpo2(bclim.Height));
-
-                br.BaseStream.Seek(0, SeekOrigin.Begin);
-                bclim.Data = br.ReadBytes((int)bclim.dataLength);
-
-                return bclim;
-            }
+            return bclim;
         }
-        public static CLIM analyze(string path)
+        public static BCLIM analyze(string path)
         {
-            CLIM bclim = new CLIM
-            {
-                FileName = Path.GetFileNameWithoutExtension(path),
-                FilePath = Path.GetDirectoryName(path),
-                Extension = Path.GetExtension(path)
-            };
-            byte[] byteArray = File.ReadAllBytes(path);
-            using (BinaryReader br = new BinaryReader(new MemoryStream(byteArray)))
-            {
-                br.BaseStream.Seek(br.BaseStream.Length - 0x28, SeekOrigin.Begin);
-                bclim.Magic = br.ReadUInt32();
-
-                bclim.BOM = br.ReadUInt16();
-                bclim.CLIMLength = br.ReadUInt32();
-                bclim.TileWidth = 2 << br.ReadByte();
-                bclim.TileHeight = 2 << br.ReadByte();
-                bclim.totalLength = br.ReadUInt32();
-                bclim.Count = br.ReadUInt32();
-
-                bclim.imag = br.ReadChars(4);
-                bclim.imagLength = br.ReadUInt32();
-                bclim.Width = br.ReadUInt16();
-                bclim.Height = br.ReadUInt16();
-                bclim.FileFormat = br.ReadInt32();
-                bclim.dataLength = br.ReadUInt32();
-
-                bclim.BaseSize = Math.Max(nlpo2(bclim.Width), nlpo2(bclim.Height));
-
-                br.BaseStream.Seek(0, SeekOrigin.Begin);
-                bclim.Data = br.ReadBytes((int)bclim.dataLength);
-
-                return bclim;
-            }
-        }
-        public struct CLIM : IXLIM
-        {
-            public uint Magic { get; set; }// CLIM = 0x4D494C43
-            public ushort BOM;          // 0xFFFE
-            public uint CLIMLength;   // HeaderLength - 14
-            public int TileWidth;       // 1<<[[n]]
-            public int TileHeight;      // 1<<[[n]]
-            public uint totalLength;  // Total Length of file
-            public uint Count;        // "1" , guessing it's just Count.
-
-            public char[] imag;         // imag = 0x67616D69
-            public uint imagLength;   // HeaderLength - 10
-            public ushort Width { get; set; }      // Final Dimensions
-            public ushort Height { get; set; }     // Final Dimensions
-            public int FileFormat;    // ??
-            public uint dataLength;   // Pixel Data Region Length
-
-            public byte[] Data { get; set; }
-
-            public int BaseSize;
-
-            //// Contained Data
-            //public int ColorFormat;
-            //public int ColorCount;
-            //public Color[] Colors;
-
-            //public int[] Pixels;
-
-            public string FileName;
-            public string FilePath;
-            public string Extension;
+            byte[] data = File.ReadAllBytes(path);
+            return analyze(data, path);
         }
     }
 }
