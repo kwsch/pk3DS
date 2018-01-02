@@ -19,26 +19,18 @@ namespace pk3DS.Core
         /// <returns>Human visible data</returns>
         public static Bitmap GetBitmap(this BFLIM bflim, bool crop = true)
         {
-            if (bflim.Format == BFLIMEncoding.ETC1 || bflim.Format == BFLIMEncoding.ETC1A4)
+            if (bflim.Format == XLIMEncoding.ETC1 || bflim.Format == XLIMEncoding.ETC1A4)
                 return GetBitmapETC(bflim, crop);
             var data = bflim.GetImageData(crop);
             return GetBitmap(data, bflim.Footer.Width, bflim.Footer.Height);
         }
-        public static Bitmap GetBitmap(byte[] data, int width, int height)
+        public static Bitmap GetBitmap(byte[] data, int width, int height, int stride = 4, PixelFormat format = PixelFormat.Format32bppArgb)
         {
-            var bmp = new Bitmap(width, height);
-            var rect = new Rectangle(0, 0, width, height);
-            var bmpData = bmp.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-
-            var ptr = bmpData.Scan0;
-            Marshal.Copy(data, 0, ptr, data.Length);
-            bmp.UnlockBits(bmpData);
-
-            return bmp;
+            return new Bitmap(width, height, stride, format, Marshal.UnsafeAddrOfPinnedArrayElement(data, 0));
         }
 
         public static Bitmap GetBitmapETC(BCLIM.CLIM bclim, bool crop = true) => GetBitmapETC(bclim, bclim.Data, bclim.FileFormat == 0x0B, crop);
-        public static Bitmap GetBitmapETC(BFLIM bflim, bool crop = true) => GetBitmapETC(bflim, bflim.PixelData, bflim.Footer.Format == BFLIMEncoding.ETC1A4, crop);
+        public static Bitmap GetBitmapETC(BFLIM bflim, bool crop = true) => GetBitmapETC(bflim, bflim.PixelData, bflim.Footer.Format == XLIMEncoding.ETC1A4, crop);
 
         private static Bitmap GetBitmapETC(IXLIM bflim, byte[] data, bool etc1a4, bool crop = true)
         {

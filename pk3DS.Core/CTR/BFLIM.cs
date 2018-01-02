@@ -14,7 +14,7 @@ namespace pk3DS.Core.CTR
         public uint Magic { get => Footer.Magic; set => Footer.Magic = value; }
         public ushort Width { get => Footer.Width; set => Footer.Width = value; }
         public ushort Height { get => Footer.Height; set => Footer.Height = value; }
-        public BFLIMEncoding Format { get => Footer.Format; set => Footer.Format = value; }
+        public XLIMEncoding Format { get => Footer.Format; set => Footer.Format = value; }
 
         public BFLIM(Stream data) => ReadBFLIM(data);
         public BFLIM(byte[] data)
@@ -102,12 +102,12 @@ namespace pk3DS.Core.CTR
         public ushort Width { get; set; }
         public ushort Height { get; set; }
         public short Alignment;
-        public BFLIMEncoding Format;
+        public XLIMEncoding Format;
         public BFLIMOrientation Orientation;
         public uint DataSize;
     }
 
-    public enum BFLIMEncoding : byte
+    public enum XLIMEncoding : byte
     {
         L8        = 0x00, // 8    Luminance
         A8        = 0x01, // 8    Alpha
@@ -127,7 +127,20 @@ namespace pk3DS.Core.CTR
 
     public static class PixelConverter
     {
-        public static IEnumerable<uint> GetPixels(byte[] raw, BFLIMEncoding e)
+        private const int BPP_32 = 32;
+        private const int BPP_24 = 24;
+        private const int BPP_16 = 16;
+        private const int BPP_8 = 8;
+        private const int BPP_4 = 4;
+
+        internal static readonly byte[] Convert5To8 = {
+            0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
+            0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
+            0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
+            0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF
+        };
+
+        public static IEnumerable<uint> GetPixels(byte[] raw, XLIMEncoding e)
         {
             int bpp = e.GetBitsPerPixel();
             if (bpp == BPP_4)
@@ -149,58 +162,52 @@ namespace pk3DS.Core.CTR
             }
         }
 
-        internal static readonly byte[] Convert5To8 = {
-            0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
-            0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
-            0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
-            0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF
-        };
 
-        private static uint GetDecodedPixelValue(uint val, BFLIMEncoding e)
+        private static uint GetDecodedPixelValue(uint val, XLIMEncoding e)
         {
             byte a = byte.MaxValue, r = 0, g = 0, b = 0;
             switch (e)
             {
-                case BFLIMEncoding.L4:
-                case BFLIMEncoding.L8:
+                case XLIMEncoding.L4:
+                case XLIMEncoding.L8:
                 {
                     r = g = b = (byte)val;
                     break;
                 }
-                case BFLIMEncoding.A4:
-                case BFLIMEncoding.A8:
+                case XLIMEncoding.A4:
+                case XLIMEncoding.A8:
                 {
                     r = g = b = 0xFF;
                     a = (byte)val;
                     break;
                 }
-                case BFLIMEncoding.HILO8:
+                case XLIMEncoding.HILO8:
                 {
                     r = (byte)(val >> 8);
                     g = (byte)(val & 0xFF);
                     b = byte.MaxValue;
                     break;
                 }
-                case BFLIMEncoding.LA4:
+                case XLIMEncoding.LA4:
                 {
                     r = g = b = (byte)(val >> 4);
                     a = (byte)(val & 0x0F);
                     break;
                 }
-                case BFLIMEncoding.LA8:
+                case XLIMEncoding.LA8:
                 {
                     r = g = b = (byte)(val >> 8);
                     a = (byte)val;
                     break;
                 }
-                case BFLIMEncoding.RGBX8:
+                case XLIMEncoding.RGBX8:
                 {
                     r = (byte)(val >> 16);
                     g = (byte)(val >> 8);
                     b = (byte)(val >> 0);
                     break;
                 }
-                case BFLIMEncoding.RGBA8:
+                case XLIMEncoding.RGBA8:
                 {
                     r = (byte)(val >> 24);
                     g = (byte)(val >> 16);
@@ -208,7 +215,7 @@ namespace pk3DS.Core.CTR
                     a = (byte) val;
                     break;
                 }
-                case BFLIMEncoding.RGBA4:
+                case XLIMEncoding.RGBA4:
                 {
                     a = (byte)(0x11 * (val & 0xf));
                     r = (byte)(0x11 * ((val >> 12) & 0xf));
@@ -216,14 +223,14 @@ namespace pk3DS.Core.CTR
                     b = (byte)(0x11 * ((val >> 4) & 0xf));
                     break;
                 }
-                case BFLIMEncoding.RGB565:
+                case XLIMEncoding.RGB565:
                 {
                     r = Convert5To8[(val >> 11) & 0x1F];
                     g = (byte)(((val >> 5) & 0x3F) * 4);
                     b = Convert5To8[val & 0x1F];
                     break;
                 }
-                case BFLIMEncoding.RGB5A1:
+                case XLIMEncoding.RGB5A1:
                 {
                     r = Convert5To8[(val >> 11) & 0x1F];
                     g = Convert5To8[(val >> 6) & 0x1F];
@@ -232,7 +239,7 @@ namespace pk3DS.Core.CTR
                     break;
                 }
                 default:
-                    throw new FormatException($"Unsupported {nameof(BFLIMEncoding)} value = {e}");
+                    throw new FormatException($"Unsupported {nameof(XLIMEncoding)} value = {e}");
             }
             return (uint)((a << 24) | (r << 16) | (g << 8) | b);
         }
@@ -251,7 +258,7 @@ namespace pk3DS.Core.CTR
                     return raw[offset];
             }
         }
-        public static int GetBitsPerPixel(this BFLIMEncoding e)
+        public static int GetBitsPerPixel(this XLIMEncoding e)
         {
             if (_32.Contains(e))
                 return BPP_32;
@@ -263,33 +270,29 @@ namespace pk3DS.Core.CTR
                 return BPP_8;
             return BPP_4;
         }
-        private const int BPP_32 = 32;
-        private const int BPP_24 = 24;
-        private const int BPP_16 = 16;
-        private const int BPP_8 = 8;
-        private const int BPP_4 = 4;
-        private static readonly HashSet<BFLIMEncoding> _32 = new HashSet<BFLIMEncoding>
+
+        private static readonly HashSet<XLIMEncoding> _32 = new HashSet<XLIMEncoding> 
         {
-            BFLIMEncoding.RGBA8,
+            XLIMEncoding.RGBA8,
         };
-        private static readonly HashSet<BFLIMEncoding> _24 = new HashSet<BFLIMEncoding>
+        private static readonly HashSet<XLIMEncoding> _24 = new HashSet<XLIMEncoding>
         {
-            BFLIMEncoding.RGBX8,
+            XLIMEncoding.RGBX8,
         };
-        private static readonly HashSet<BFLIMEncoding> _16 = new HashSet<BFLIMEncoding>
+        private static readonly HashSet<XLIMEncoding> _16 = new HashSet<XLIMEncoding>
         {
-            BFLIMEncoding.LA8,
-            BFLIMEncoding.HILO8,
-            BFLIMEncoding.RGB565,
-            BFLIMEncoding.RGB5A1,
-            BFLIMEncoding.RGBA4,
+            XLIMEncoding.LA8,
+            XLIMEncoding.HILO8,
+            XLIMEncoding.RGB565,
+            XLIMEncoding.RGB5A1,
+            XLIMEncoding.RGBA4,
         };
-        private static readonly HashSet<BFLIMEncoding> _8 = new HashSet<BFLIMEncoding>
+        private static readonly HashSet<XLIMEncoding> _8 = new HashSet<XLIMEncoding>
         {
-            BFLIMEncoding.L8,
-            BFLIMEncoding.A8,
-            BFLIMEncoding.LA4,
-            BFLIMEncoding.ETC1A4,
+            XLIMEncoding.L8,
+            XLIMEncoding.A8,
+            XLIMEncoding.LA4,
+            XLIMEncoding.ETC1A4,
         };
     }
 
