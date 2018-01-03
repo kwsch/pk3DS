@@ -41,6 +41,7 @@ namespace pk3DS
 
             RSTE.rMove = CB_Moves.SelectedIndex == 1;
             RSTE.rNoMove = CB_Moves.SelectedIndex == 2;
+            RSTE.rHighPower = CB_Moves.SelectedIndex == 3;
             if (RSTE.rMove)
             {
                 RSTE.rDMG = CHK_Damage.Checked;
@@ -73,7 +74,7 @@ namespace pk3DS
             RSTE.r6PKM = CHK_6PKM.Checked;
             RSTE.rRandomMegas = CHK_RandomMegaForm.Checked;
             RSTE.rForceFullyEvolved = CHK_ForceFullyEvolved.Checked;
-            RSTE.rForceFullyEvolvedLevel = NUD_Force.Value;
+            RSTE.rForceFullyEvolvedLevel = NUD_ForceFullyEvolved.Value;
 
             if (CHK_StoryMEvos.Checked)
             {

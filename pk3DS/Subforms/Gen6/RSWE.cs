@@ -803,5 +803,10 @@ namespace pk3DS
             Enabled = true;
             WinFormsUtil.Alert("Modified all Level ranges according to specification!", "Press the Dump Tables button to view the new Level ranges!");
         }
+
+        private void RSWE_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            RandSettings.SetFormSettings(this, GB_Tweak.Controls);
+        }
     }
 }

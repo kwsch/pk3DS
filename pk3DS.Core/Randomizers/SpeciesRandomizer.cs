@@ -164,33 +164,33 @@ namespace pk3DS.Core.Randomizers
         }
         private void AddGen3Species(List<int> list)
         {
-            list.AddRange(Enumerable.Range(252, 40));
-            list.AddRange(Enumerable.Range(293, 84));
+            list.AddRange(Enumerable.Range(252, 40)); // Treecko - Ninjask
+            list.AddRange(Enumerable.Range(293, 84)); // Whismur - Metagross
             if (Shedinja) list.Add(292); // Shedinja
             if (L) list.AddRange(Enumerable.Range(377, 8)); // Regi, Lati, Mascot
             if (E) list.AddRange(Enumerable.Range(385, 2)); // Jirachi/Deoxys
         }
         private void AddGen4Species(List<int> list)
         {
-            list.AddRange(Enumerable.Range(387, 93));
+            list.AddRange(Enumerable.Range(387, 93)); // Turtwig - Rotom
             if (L) list.AddRange(Enumerable.Range(480, 9)); // Sinnoh Legends
             if (E) list.AddRange(Enumerable.Range(489, 5)); // Phione, Manaphy, Darkrai, Shaymin, Arceus
         }
         private void AddGen5Species(List<int> list)
         {
-            list.AddRange(Enumerable.Range(495, 143));
-            if (L) list.AddRange(Enumerable.Range(638, 9)); list.Add(494); // Unova Legends
-            if (E) list.AddRange(Enumerable.Range(647, 3)); // Keldeo, Meloetta, Genesect
+            list.AddRange(Enumerable.Range(495, 143)); // Snivy - Volcarona
+            if (L) list.AddRange(Enumerable.Range(638, 9)); // Unova Legends
+            if (E) list.Add(494); list.AddRange(Enumerable.Range(647, 3)); // Victini, Keldeo, Meloetta, Genesect
         }
         private void AddGen6Species(List<int> list)
         {
-            list.AddRange(Enumerable.Range(650, 66));
+            list.AddRange(Enumerable.Range(650, 66)); // Chespin - Noivern
             if (L) list.AddRange(Enumerable.Range(716, 3)); // Kalos Legends
             if (E) list.AddRange(Enumerable.Range(719, 3)); // Diancie, Hoopa, Volcanion
         }
         private void AddGen7Species(List<int> list)
         {
-            list.AddRange(Enumerable.Range(722, 67));
+            list.AddRange(Enumerable.Range(722, 67)); // Rowlet - Kommo-o
             if (L) list.AddRange(Enumerable.Range(785, 16)); // Tapus, Legends, UBs
             if (E) list.AddRange(Enumerable.Range(801, 2)); // Magearna, Marshadow
 

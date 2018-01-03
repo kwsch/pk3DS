@@ -66,41 +66,6 @@ namespace pk3DS.Core
         public static readonly int[] SpecialClasses_ORAS =
         {
             #region Classes
-            000, // Pokémon Trainer
-            001, // Pokémon Trainer
-            004, // Leader
-            035, // Elite Four
-            036, // Elite Four
-            037, // Elite Four
-            038, // Elite Four
-            039, // Leader
-            040, // Leader
-            041, // Leader
-            042, // Leader
-            043, // Leader
-            044, // Leader
-            045, // Leader
-            053, // Champion
-            055, // Pokémon Trainer
-            056, // Pokémon Trainer
-            057, // Pokémon Trainer
-            064, // Battle Chatelaine
-            065, // Battle Chatelaine
-            066, // Battle Chatelaine
-            067, // Battle Chatelaine
-            081, // Team Flare Boss
-            102, // Pokémon Trainer
-            103, // Pokémon Trainer
-            104, // Pokémon Trainer
-            105, // Pokémon Professor
-            109, // Pokémon Trainer
-            110, // Pokémon Trainer
-            119, // Pokémon Trainer
-            120, // Pokémon Trainer
-            121, // Pokémon Trainer
-            124, // Team Flare Boss
-            125, // Successor
-            126, // Leader
             127, // Pokémon Trainer
             128, // Pokémon Trainer
             174, // Aqua Leader
@@ -137,7 +102,6 @@ namespace pk3DS.Core
             279, // Pokémon Trainer
             #endregion
         };
-
         public static readonly int[] SpecialClasses_SM =
         {
             030, // Pokémon Trainer: Hau
@@ -184,7 +148,7 @@ namespace pk3DS.Core
         };
 
         public static readonly int[] SpecialClasses_USUM =
-{
+        {
             030, // Pokémon Trainer: Hau
             031, // Island Kahuna: Hala
             038, // Captain: Ilima
@@ -250,7 +214,6 @@ namespace pk3DS.Core
             221, // Pokémon Trainer: Hau
             222, // Pokémon Trainer: Hau
         };
-
         public static readonly int[] Model_XY =
         {
             018, // Team Flare (Aliana)
@@ -281,7 +244,6 @@ namespace pk3DS.Core
             192, // Pokémon Trainer (Wally)
             219, // Pokémon Trainer (Steven)
             221, // Lorekeeper (Zinnia)
-            267, // Pokémon Trainer (Zinnia)
             272, // Pokémon Trainer (Wally)
         };
         public static readonly int[] TrainerClasses_AO =
@@ -306,7 +268,6 @@ namespace pk3DS.Core
             217, 218, 219, 220, 221, 222, 235, 236, 238, 239, 240, 241, 349, 350, 351, 352, 356, 357, 358, 359, 360, 371, 372, 392, 396, 398, 400, 401, 403, 405, 409, 410, 413, 414, 415, 416, 417,
             418, 419, 435, 438, 439, 440, 441, 447, 448, 449, 450, 451, 452, 467, 477, 478, 479, 481, 482, 483, 484,
         };
-
         public static readonly int[] ImportantTrainers_USUM =
         {
             012, 013, 014, 023, 052, 076, 077, 078, 079, 081, 082, 083, 084, 089, 090, 131, 132, 138, 144, 146, 149, 153, 154, 156, 159, 160, 185, 215, 216, 217, 218, 219, 220, 221, 222, 235, 236,
@@ -314,7 +275,10 @@ namespace pk3DS.Core
             490, 494, 495, 496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 541, 542, 543, 555, 556, 557, 558, 559, 560, 561, 562, 572, 573, 578, 580, 582, 583, 630, 644, 645, 647,
             648, 649, 650, 651, 652,
         };
-
+        /// <summary>
+        /// All final evolutions, excluding Event-exclusive Forms that do not evolve (Pikachu, Floette, etc). Used for forcing fully evolved species.
+        /// Overrides all other randomizer settings, allowing all Generations and Legendary/Mythical Pokemon as well.
+        /// </summary>
         public static readonly int[] FinalEvolutions_6 =
         {
             003, 006, 009, 012, 015, 018, 020, 022, 024, 026, 028, 028, 031, 034, 036, 038, 040, 045, 047, 049, 051, 053, 055, 057, 059, 062, 065, 068, 071, 073, 076, 078, 080, 083, 085, 087, 089,
@@ -329,13 +293,11 @@ namespace pk3DS.Core
             635, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 652, 655, 658, 660, 663, 666, 668, 671, 673, 675, 676, 678, 681, 683, 685, 687, 689, 691, 693, 695, 697, 699, 700,
             701, 702, 703, 706, 707, 709, 711, 713, 715, 716, 717, 718,
         };
-
         public static readonly int[] FinalEvolutions_SM = FinalEvolutions_6.Concat(new int[]
         {
             724, 727, 730, 733, 735, 738, 740, 741, 743, 745, 746, 748, 750, 752, 754, 756, 758, 760, 763, 764, 765, 766, 768, 770, 771,
             773, 774, 775, 776, 777, 779, 780, 781, 784, 785, 786, 787, 788, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802,
         }).ToArray();
-
         public static readonly int[] FinalEvolutions_USUM = FinalEvolutions_SM.Concat(new int[]
         {
             804, 805, 806, 807,

@@ -180,6 +180,7 @@
             this.CHK_RandomItems = new System.Windows.Forms.CheckBox();
             this.CHK_STAB = new System.Windows.Forms.CheckBox();
             this.Tab_Trainer1 = new System.Windows.Forms.TabPage();
+            this.CHK_6PKM = new System.Windows.Forms.CheckBox();
             this.NUD_ForceFullyEvolved = new System.Windows.Forms.NumericUpDown();
             this.CHK_ForceFullyEvolved = new System.Windows.Forms.CheckBox();
             this.L_MinPKM = new System.Windows.Forms.Label();
@@ -190,7 +191,6 @@
             this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
             this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
             this.CHK_RandomClass = new System.Windows.Forms.CheckBox();
-            this.CHK_6PKM = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -1874,7 +1874,7 @@
             "High Powered Attacks"});
             this.CB_Moves.Location = new System.Drawing.Point(52, 8);
             this.CB_Moves.Name = "CB_Moves";
-            this.CB_Moves.Size = new System.Drawing.Size(121, 21);
+            this.CB_Moves.Size = new System.Drawing.Size(135, 21);
             this.CB_Moves.TabIndex = 337;
             this.CB_Moves.SelectedIndexChanged += new System.EventHandler(this.CB_Moves_SelectedIndexChanged);
             // 
@@ -2000,6 +2000,17 @@
             this.Tab_Trainer1.TabIndex = 2;
             this.Tab_Trainer1.Text = "Trainer";
             this.Tab_Trainer1.UseVisualStyleBackColor = true;
+            // 
+            // CHK_6PKM
+            // 
+            this.CHK_6PKM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_6PKM.AutoSize = true;
+            this.CHK_6PKM.Location = new System.Drawing.Point(6, 94);
+            this.CHK_6PKM.Name = "CHK_6PKM";
+            this.CHK_6PKM.Size = new System.Drawing.Size(183, 17);
+            this.CHK_6PKM.TabIndex = 341;
+            this.CHK_6PKM.Text = "6 Pokémon for Important Trainers";
+            this.CHK_6PKM.UseVisualStyleBackColor = true;
             // 
             // NUD_ForceFullyEvolved
             // 
@@ -2141,17 +2152,6 @@
             this.CHK_RandomClass.Text = "Random Trainer Classes";
             this.CHK_RandomClass.UseVisualStyleBackColor = true;
             this.CHK_RandomClass.CheckedChanged += new System.EventHandler(this.CHK_RandomClass_CheckedChanged);
-            // 
-            // CHK_6PKM
-            // 
-            this.CHK_6PKM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CHK_6PKM.AutoSize = true;
-            this.CHK_6PKM.Location = new System.Drawing.Point(6, 94);
-            this.CHK_6PKM.Name = "CHK_6PKM";
-            this.CHK_6PKM.Size = new System.Drawing.Size(183, 17);
-            this.CHK_6PKM.TabIndex = 341;
-            this.CHK_6PKM.Text = "6 Pokémon for Important Trainers";
-            this.CHK_6PKM.UseVisualStyleBackColor = true;
             // 
             // SMTE
             // 

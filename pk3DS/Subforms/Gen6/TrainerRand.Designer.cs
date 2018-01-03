@@ -42,11 +42,12 @@
             this.NUD_Level = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.NUD_ForceFullyEvolved = new System.Windows.Forms.NumericUpDown();
             this.CHK_GymE4Only = new System.Windows.Forms.CheckBox();
-            this.CHK_RandomMegaForm = new System.Windows.Forms.CheckBox();
-            this.CHK_6PKM = new System.Windows.Forms.CheckBox();
+            this.CHK_ForceFullyEvolved = new System.Windows.Forms.CheckBox();
             this.CHK_GymTrainers = new System.Windows.Forms.CheckBox();
             this.CHK_StoryMEvos = new System.Windows.Forms.CheckBox();
+            this.CHK_RandomMegaForm = new System.Windows.Forms.CheckBox();
             this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
             this.CHK_BST = new System.Windows.Forms.CheckBox();
             this.CHK_E = new System.Windows.Forms.CheckBox();
@@ -57,6 +58,7 @@
             this.CHK_G3 = new System.Windows.Forms.CheckBox();
             this.CHK_G2 = new System.Windows.Forms.CheckBox();
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
+            this.CHK_6PKM = new System.Windows.Forms.CheckBox();
             this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
             this.CHK_OnlySingles = new System.Windows.Forms.CheckBox();
             this.NUD_Damage = new System.Windows.Forms.NumericUpDown();
@@ -66,14 +68,12 @@
             this.CB_Moves = new System.Windows.Forms.ComboBox();
             this.L_Moves = new System.Windows.Forms.Label();
             this.CHK_NoFixedDamage = new System.Windows.Forms.CheckBox();
-            this.NUD_Force = new System.Windows.Forms.NumericUpDown();
-            this.CHK_ForceFullyEvolved = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftPercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             this.GB_Tweak.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Damage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_STAB)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Force)).BeginInit();
             this.SuspendLayout();
             // 
             // CHK_RandomPKM
@@ -260,7 +260,7 @@
             // 
             this.GB_Tweak.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.GB_Tweak.Controls.Add(this.NUD_Force);
+            this.GB_Tweak.Controls.Add(this.NUD_ForceFullyEvolved);
             this.GB_Tweak.Controls.Add(this.CHK_GymE4Only);
             this.GB_Tweak.Controls.Add(this.CHK_ForceFullyEvolved);
             this.GB_Tweak.Controls.Add(this.CHK_GymTrainers);
@@ -283,6 +283,19 @@
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Options";
             // 
+            // NUD_ForceFullyEvolved
+            // 
+            this.NUD_ForceFullyEvolved.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.NUD_ForceFullyEvolved.Location = new System.Drawing.Point(168, 97);
+            this.NUD_ForceFullyEvolved.Name = "NUD_ForceFullyEvolved";
+            this.NUD_ForceFullyEvolved.Size = new System.Drawing.Size(43, 20);
+            this.NUD_ForceFullyEvolved.TabIndex = 334;
+            this.NUD_ForceFullyEvolved.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
             // CHK_GymE4Only
             // 
             this.CHK_GymE4Only.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -295,28 +308,16 @@
             this.CHK_GymE4Only.Text = "Theme Gym/E4 Only";
             this.CHK_GymE4Only.UseVisualStyleBackColor = true;
             // 
-            // CHK_RandomMegaForm
+            // CHK_ForceFullyEvolved
             // 
-            this.CHK_RandomMegaForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CHK_RandomMegaForm.AutoSize = true;
-            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(9, 81);
-            this.CHK_RandomMegaForm.Name = "CHK_RandomMegaForm";
-            this.CHK_RandomMegaForm.Size = new System.Drawing.Size(127, 17);
-            this.CHK_RandomMegaForm.TabIndex = 294;
-            this.CHK_RandomMegaForm.Text = "Random Mega Forms";
-            this.CHK_RandomMegaForm.UseVisualStyleBackColor = true;
-            // 
-            // CHK_6PKM
-            // 
-            this.CHK_6PKM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CHK_6PKM.AutoSize = true;
-            this.CHK_6PKM.Location = new System.Drawing.Point(21, 215);
-            this.CHK_6PKM.Name = "CHK_6PKM";
-            this.CHK_6PKM.Size = new System.Drawing.Size(183, 17);
-            this.CHK_6PKM.TabIndex = 293;
-            this.CHK_6PKM.Text = "6 Pokémon for Important Trainers";
-            this.CHK_6PKM.UseVisualStyleBackColor = true;
-            this.CHK_6PKM.CheckedChanged += new System.EventHandler(this.CHK_6PKM_CheckedChanged);
+            this.CHK_ForceFullyEvolved.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.CHK_ForceFullyEvolved.AutoSize = true;
+            this.CHK_ForceFullyEvolved.Location = new System.Drawing.Point(9, 99);
+            this.CHK_ForceFullyEvolved.Name = "CHK_ForceFullyEvolved";
+            this.CHK_ForceFullyEvolved.Size = new System.Drawing.Size(160, 17);
+            this.CHK_ForceFullyEvolved.TabIndex = 333;
+            this.CHK_ForceFullyEvolved.Text = "Force Fully Evolved at Level";
+            this.CHK_ForceFullyEvolved.UseVisualStyleBackColor = true;
             // 
             // CHK_GymTrainers
             // 
@@ -342,6 +343,17 @@
             this.CHK_StoryMEvos.TabIndex = 291;
             this.CHK_StoryMEvos.Text = "Ensure Story Mega Evolutions";
             this.CHK_StoryMEvos.UseVisualStyleBackColor = true;
+            // 
+            // CHK_RandomMegaForm
+            // 
+            this.CHK_RandomMegaForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_RandomMegaForm.AutoSize = true;
+            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(9, 81);
+            this.CHK_RandomMegaForm.Name = "CHK_RandomMegaForm";
+            this.CHK_RandomMegaForm.Size = new System.Drawing.Size(127, 17);
+            this.CHK_RandomMegaForm.TabIndex = 294;
+            this.CHK_RandomMegaForm.Text = "Random Mega Forms";
+            this.CHK_RandomMegaForm.UseVisualStyleBackColor = true;
             // 
             // CHK_TypeTheme
             // 
@@ -461,6 +473,18 @@
             this.CHK_G1.Text = "Gen 1";
             this.CHK_G1.UseVisualStyleBackColor = true;
             // 
+            // CHK_6PKM
+            // 
+            this.CHK_6PKM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_6PKM.AutoSize = true;
+            this.CHK_6PKM.Location = new System.Drawing.Point(21, 215);
+            this.CHK_6PKM.Name = "CHK_6PKM";
+            this.CHK_6PKM.Size = new System.Drawing.Size(183, 17);
+            this.CHK_6PKM.TabIndex = 293;
+            this.CHK_6PKM.Text = "6 Pokémon for Important Trainers";
+            this.CHK_6PKM.UseVisualStyleBackColor = true;
+            this.CHK_6PKM.CheckedChanged += new System.EventHandler(this.CHK_6PKM_CheckedChanged);
+            // 
             // CHK_IgnoreSpecialClass
             // 
             this.CHK_IgnoreSpecialClass.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -557,10 +581,11 @@
             this.CB_Moves.Items.AddRange(new object[] {
             "Don\'t Modify",
             "Randomize All",
-            "Use Levelup Only"});
+            "Use Levelup Only",
+            "High Powered Attacks"});
             this.CB_Moves.Location = new System.Drawing.Point(67, 251);
             this.CB_Moves.Name = "CB_Moves";
-            this.CB_Moves.Size = new System.Drawing.Size(121, 21);
+            this.CB_Moves.Size = new System.Drawing.Size(135, 21);
             this.CB_Moves.TabIndex = 330;
             this.CB_Moves.SelectedIndexChanged += new System.EventHandler(this.changeMoveRandomization);
             // 
@@ -585,30 +610,6 @@
             this.CHK_NoFixedDamage.TabIndex = 332;
             this.CHK_NoFixedDamage.Text = "No Fixed Damage Moves (Dragon Rage/Sonic Boom)";
             this.CHK_NoFixedDamage.UseVisualStyleBackColor = true;
-            // 
-            // NUD_Force
-            // 
-            this.NUD_Force.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.NUD_Force.Location = new System.Drawing.Point(169, 98);
-            this.NUD_Force.Name = "NUD_Force";
-            this.NUD_Force.Size = new System.Drawing.Size(43, 20);
-            this.NUD_Force.TabIndex = 334;
-            this.NUD_Force.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            // 
-            // CHK_ForceFullyEvolved
-            // 
-            this.CHK_ForceFullyEvolved.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.CHK_ForceFullyEvolved.AutoSize = true;
-            this.CHK_ForceFullyEvolved.Location = new System.Drawing.Point(9, 99);
-            this.CHK_ForceFullyEvolved.Name = "CHK_ForceFullyEvolved";
-            this.CHK_ForceFullyEvolved.Size = new System.Drawing.Size(160, 17);
-            this.CHK_ForceFullyEvolved.TabIndex = 333;
-            this.CHK_ForceFullyEvolved.Text = "Force Fully Evolved at Level";
-            this.CHK_ForceFullyEvolved.UseVisualStyleBackColor = true;
             // 
             // TrainerRand
             // 
@@ -650,9 +651,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).EndInit();
             this.GB_Tweak.ResumeLayout(false);
             this.GB_Tweak.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Damage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_STAB)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Force)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -698,7 +699,7 @@
         private System.Windows.Forms.CheckBox CHK_RandomMegaForm;
         private System.Windows.Forms.CheckBox CHK_GymE4Only;
         private System.Windows.Forms.CheckBox CHK_NoFixedDamage;
-        private System.Windows.Forms.NumericUpDown NUD_Force;
+        private System.Windows.Forms.NumericUpDown NUD_ForceFullyEvolved;
         private System.Windows.Forms.CheckBox CHK_ForceFullyEvolved;
     }
 }
