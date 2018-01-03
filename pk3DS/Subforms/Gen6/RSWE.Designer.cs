@@ -26218,6 +26218,7 @@
             this.MinimumSize = new System.Drawing.Size(964, 454);
             this.Name = "RSWE";
             this.Text = "ORAS Wild Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RSWE_FormClosing);
             this.TabPage_Horde.ResumeLayout(false);
             this.TabPage_Horde.PerformLayout();
             this.GB_Tweak.ResumeLayout(false);

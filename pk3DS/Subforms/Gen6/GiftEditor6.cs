@@ -319,8 +319,6 @@ namespace pk3DS
             {475, new[] {756}}, // Gallade @ Galladite
             {531, new[] {757}}, // Audino @ Audinite
             {719, new[] {764}}, // Diancie @ Diancite
-
-            {384, new[] {-620}}, // Rayquaza @ Dragon Ascent
         };
         private void changeSpecies(object sender, EventArgs e)
         {

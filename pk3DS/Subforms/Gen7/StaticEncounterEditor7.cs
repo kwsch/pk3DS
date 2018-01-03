@@ -481,7 +481,7 @@ namespace pk3DS
                     t.SpecialMove = Util.rand.Next(1, CB_SpecialMove.Items.Count); // don't allow none
 
                 if (CHK_RandomAbility.Checked)
-                    t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2 , or H
+                    t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H
             }
 
             getListBoxEntries();
@@ -526,7 +526,7 @@ namespace pk3DS
                     t.SpecialMove = Util.rand.Next(1, CB_SpecialMove.Items.Count); // don't allow none
 
                 if (CHK_RandomAbility.Checked)
-                    t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2 , or H
+                    t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H
             }
             foreach (EncounterStatic7 t in Encounters)
             {
@@ -552,7 +552,7 @@ namespace pk3DS
                     t.Aura = Util.rand.Next(1, CB_Aura.Items.Count); // don't allow none
 
                 if (CHK_RandomAbility.Checked)
-                    t.Ability = (sbyte)(Util.rand.Next(1, 4)); // 1, 2 , or H
+                    t.Ability = (sbyte)(Util.rand.Next(1, 4)); // 1, 2, or H
             }
             foreach (EncounterTrade7 t in Trades)
             {
@@ -571,7 +571,7 @@ namespace pk3DS
                     t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
 
                 if (CHK_RandomAbility.Checked)
-                    t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2 , or H
+                    t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H
             }
 
             getListBoxEntries();

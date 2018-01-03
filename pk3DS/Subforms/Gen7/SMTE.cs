@@ -230,8 +230,7 @@ namespace pk3DS
             CB_HPType.SelectedIndex = 0;
 
             CB_Nature.Items.Clear();
-            foreach (string s in natures)
-                CB_Nature.Items.Add(s);
+            CB_Nature.Items.AddRange(natures.Take(25).ToArray());
 
             CB_Item.Items.Clear();
             foreach (string s in itemlist)
@@ -671,10 +670,11 @@ namespace pk3DS
                 {
                     if (CHK_RandomPKM.Checked)
                     {
-                        int Type = CHK_TypeTheme.Checked ? (int)Util.rnd32()%17 : -1;
+                        int Type = CHK_TypeTheme.Checked ? (int)Util.rnd32() % 17 : -1;
                         pk.Species = rnd.GetRandomSpeciesType(pk.Species, Type);
                         pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
-                        pk.Gender = 0; // Random Gender
+                        pk.Gender = 0; // random
+                        pk.Nature = (int)(Util.rnd32() % CB_Nature.Items.Count); // random
                     }
                     if (CHK_Level.Checked)
                         pk.Level = Randomizer.getModifiedLevel(pk.Level, NUD_LevelBoost.Value);
@@ -686,15 +686,12 @@ namespace pk3DS
                         pk.Ability = (int)Util.rnd32()%4;
                     if (CHK_MaxDiffPKM.Checked)
                         pk.IVs = new[] {31, 31, 31, 31, 31, 31};
-
-                    if (CHK_ForceFullyEvolved.Checked && pk.Level >= NUD_ForceFullyEvolved.Value)
+                    
+                    if (CHK_ForceFullyEvolved.Checked && pk.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(pk.Species))
                     {
-                        if (!FinalEvo.Contains(pk.Species))
-                        {
-                            int randFinalEvo() => (int)(Util.rnd32() % FinalEvo.Length);
-                            pk.Species = FinalEvo[randFinalEvo()];
-                            pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
-                        }
+                        int randFinalEvo() => (int)(Util.rnd32() % FinalEvo.Length);
+                        pk.Species = FinalEvo[randFinalEvo()];
+                        pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
                     }
 
                     switch (CB_Moves.SelectedIndex)

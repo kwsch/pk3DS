@@ -521,7 +521,7 @@ namespace pk3DS
             readFile();
         }
 
-        public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rAbility, rDiffAI, 
+        public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rHighPower, rAbility, rDiffAI, 
             rDiffIV, rClass, rGift, rItem, rDoRand, rRandomMegas, rGymE4Only,
             rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM, rForceFullyEvolved;
         public static bool rNoFixedDamage;
@@ -686,6 +686,13 @@ namespace pk3DS
                 else if (rItem)
                     pk.Item = itemvals[rnd32() % itemvals.Length];
 
+                if (rForceFullyEvolved && pk.Level >= rForceFullyEvolvedLevel && !rFinalEvo.Contains(pk.Species))
+                {
+                    int randFinalEvo() => (int)(Util.rnd32() % rFinalEvo.Length);
+                    pk.Species = (ushort)rFinalEvo[randFinalEvo()];
+                    pk.Form = (ushort)Randomizer.GetRandomForme(pk.Species, rRandomMegas, true, Main.SpeciesStat);
+                }
+
                 // random
                 if (rMove)
                 {
@@ -703,14 +710,12 @@ namespace pk3DS
                         pk.Moves[m] = (ushort)pkMoves[m];
                 }
 
-                if (rForceFullyEvolved && pk.Level >= rForceFullyEvolvedLevel)
+                // high-power attacks
+                if (rHighPower)
                 {
-                    if (!rFinalEvo.Contains(pk.Species))
-                    {
-                        int randFinalEvo() => (int)(Util.rnd32() % rFinalEvo.Length);
-                        pk.Species = (ushort)rFinalEvo[randFinalEvo()];
-                        pk.Form = (ushort)Randomizer.GetRandomForme(pk.Species, rRandomMegas, true, Main.SpeciesStat);
-                    }
+                    var pkMoves = learn.GetHighPoweredMoves(pk.Species, pk.Form, 4);
+                    for (int m = 0; m < 4; m++)
+                        pk.Moves[m] = (ushort)pkMoves[m];
                 }
             }
         }

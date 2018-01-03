@@ -599,14 +599,21 @@ namespace pk3DS
                     case 6:
                         files = new[] { "encdata" };
                         if (Config.ORAS)
+                        {
+                            Enabled = false;
                             action = () => new RSWE().ShowDialog();
+                        }
                         else if (Config.XY)
+                        {
+                            Enabled = false;
                             action = () => new XYWE().ShowDialog();
+                        }
                         else return;
 
                         fileGet(files, false);
                         Invoke(action);
                         fileSet(files);
+                        Enabled = true;
                         break;
                     case 7:
                         Invoke((MethodInvoker)delegate { Enabled = false; });
