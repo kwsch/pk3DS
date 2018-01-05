@@ -191,6 +191,8 @@
             this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
             this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
             this.CHK_RandomClass = new System.Windows.Forms.CheckBox();
+            this.NUD_ForceHighPower = new System.Windows.Forms.NumericUpDown();
+            this.CHK_ForceHighPower = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -241,6 +243,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceHighPower)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_TrainerID
@@ -1808,6 +1811,8 @@
             // 
             // Tab_PKM2
             // 
+            this.Tab_PKM2.Controls.Add(this.CHK_ForceHighPower);
+            this.Tab_PKM2.Controls.Add(this.NUD_ForceHighPower);
             this.Tab_PKM2.Controls.Add(this.CHK_NoFixedDamage);
             this.Tab_PKM2.Controls.Add(this.CHK_BeneficialEVs);
             this.Tab_PKM2.Controls.Add(this.L_Moves);
@@ -1832,7 +1837,7 @@
             this.CHK_NoFixedDamage.AutoSize = true;
             this.CHK_NoFixedDamage.Checked = true;
             this.CHK_NoFixedDamage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_NoFixedDamage.Location = new System.Drawing.Point(6, 31);
+            this.CHK_NoFixedDamage.Location = new System.Drawing.Point(6, 86);
             this.CHK_NoFixedDamage.Name = "CHK_NoFixedDamage";
             this.CHK_NoFixedDamage.Size = new System.Drawing.Size(281, 17);
             this.CHK_NoFixedDamage.TabIndex = 340;
@@ -1845,7 +1850,7 @@
             this.CHK_BeneficialEVs.AutoSize = true;
             this.CHK_BeneficialEVs.Checked = true;
             this.CHK_BeneficialEVs.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_BeneficialEVs.Location = new System.Drawing.Point(201, 115);
+            this.CHK_BeneficialEVs.Location = new System.Drawing.Point(201, 118);
             this.CHK_BeneficialEVs.Name = "CHK_BeneficialEVs";
             this.CHK_BeneficialEVs.Size = new System.Drawing.Size(75, 17);
             this.CHK_BeneficialEVs.TabIndex = 339;
@@ -1856,7 +1861,7 @@
             // 
             this.L_Moves.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.L_Moves.AutoSize = true;
-            this.L_Moves.Location = new System.Drawing.Point(6, 11);
+            this.L_Moves.Location = new System.Drawing.Point(6, 7);
             this.L_Moves.Name = "L_Moves";
             this.L_Moves.Size = new System.Drawing.Size(42, 13);
             this.L_Moves.TabIndex = 338;
@@ -1870,9 +1875,8 @@
             this.CB_Moves.Items.AddRange(new object[] {
             "Don\'t Modify",
             "Randomize All",
-            "Use Levelup Only",
-            "High Powered Attacks"});
-            this.CB_Moves.Location = new System.Drawing.Point(52, 8);
+            "Use Levelup Only"});
+            this.CB_Moves.Location = new System.Drawing.Point(52, 4);
             this.CB_Moves.Name = "CB_Moves";
             this.CB_Moves.Size = new System.Drawing.Size(135, 21);
             this.CB_Moves.TabIndex = 337;
@@ -1884,7 +1888,7 @@
             this.CHK_MaxDiffPKM.AutoSize = true;
             this.CHK_MaxDiffPKM.Checked = true;
             this.CHK_MaxDiffPKM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(201, 99);
+            this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(201, 102);
             this.CHK_MaxDiffPKM.Name = "CHK_MaxDiffPKM";
             this.CHK_MaxDiffPKM.Size = new System.Drawing.Size(64, 17);
             this.CHK_MaxDiffPKM.TabIndex = 332;
@@ -1894,7 +1898,7 @@
             // NUD_Damage
             // 
             this.NUD_Damage.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.NUD_Damage.Location = new System.Drawing.Point(201, 49);
+            this.NUD_Damage.Location = new System.Drawing.Point(211, 45);
             this.NUD_Damage.Maximum = new decimal(new int[] {
             4,
             0,
@@ -1915,7 +1919,7 @@
             this.CHK_RandomAbilities.AutoSize = true;
             this.CHK_RandomAbilities.Checked = true;
             this.CHK_RandomAbilities.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomAbilities.Location = new System.Drawing.Point(6, 115);
+            this.CHK_RandomAbilities.Location = new System.Drawing.Point(6, 118);
             this.CHK_RandomAbilities.Name = "CHK_RandomAbilities";
             this.CHK_RandomAbilities.Size = new System.Drawing.Size(193, 17);
             this.CHK_RandomAbilities.TabIndex = 331;
@@ -1925,7 +1929,7 @@
             // NUD_STAB
             // 
             this.NUD_STAB.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.NUD_STAB.Location = new System.Drawing.Point(201, 70);
+            this.NUD_STAB.Location = new System.Drawing.Point(211, 66);
             this.NUD_STAB.Maximum = new decimal(new int[] {
             4,
             0,
@@ -1946,7 +1950,7 @@
             this.CHK_Damage.AutoSize = true;
             this.CHK_Damage.Checked = true;
             this.CHK_Damage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Damage.Location = new System.Drawing.Point(6, 51);
+            this.CHK_Damage.Location = new System.Drawing.Point(6, 46);
             this.CHK_Damage.Name = "CHK_Damage";
             this.CHK_Damage.Size = new System.Drawing.Size(192, 17);
             this.CHK_Damage.TabIndex = 334;
@@ -1960,7 +1964,7 @@
             this.CHK_RandomItems.AutoSize = true;
             this.CHK_RandomItems.Checked = true;
             this.CHK_RandomItems.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomItems.Location = new System.Drawing.Point(6, 99);
+            this.CHK_RandomItems.Location = new System.Drawing.Point(6, 102);
             this.CHK_RandomItems.Name = "CHK_RandomItems";
             this.CHK_RandomItems.Size = new System.Drawing.Size(119, 17);
             this.CHK_RandomItems.TabIndex = 330;
@@ -1973,7 +1977,7 @@
             this.CHK_STAB.AutoSize = true;
             this.CHK_STAB.Checked = true;
             this.CHK_STAB.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_STAB.Location = new System.Drawing.Point(6, 70);
+            this.CHK_STAB.Location = new System.Drawing.Point(6, 66);
             this.CHK_STAB.Name = "CHK_STAB";
             this.CHK_STAB.Size = new System.Drawing.Size(172, 17);
             this.CHK_STAB.TabIndex = 335;
@@ -2153,6 +2157,35 @@
             this.CHK_RandomClass.UseVisualStyleBackColor = true;
             this.CHK_RandomClass.CheckedChanged += new System.EventHandler(this.CHK_RandomClass_CheckedChanged);
             // 
+            // NUD_ForceHighPower
+            // 
+            this.NUD_ForceHighPower.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.NUD_ForceHighPower.Location = new System.Drawing.Point(211, 24);
+            this.NUD_ForceHighPower.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_ForceHighPower.Name = "NUD_ForceHighPower";
+            this.NUD_ForceHighPower.Size = new System.Drawing.Size(35, 20);
+            this.NUD_ForceHighPower.TabIndex = 341;
+            this.NUD_ForceHighPower.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // CHK_ForceHighPower
+            // 
+            this.CHK_ForceHighPower.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.CHK_ForceHighPower.AutoSize = true;
+            this.CHK_ForceHighPower.Location = new System.Drawing.Point(6, 26);
+            this.CHK_ForceHighPower.Name = "CHK_ForceHighPower";
+            this.CHK_ForceHighPower.Size = new System.Drawing.Size(203, 17);
+            this.CHK_ForceHighPower.TabIndex = 342;
+            this.CHK_ForceHighPower.Text = "Force High-Powered Attacks at Level";
+            this.CHK_ForceHighPower.UseVisualStyleBackColor = true;
+            // 
             // SMTE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2233,6 +2266,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceHighPower)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2400,6 +2434,8 @@
         private System.Windows.Forms.NumericUpDown NUD_ForceFullyEvolved;
         private System.Windows.Forms.CheckBox CHK_ForceFullyEvolved;
         private System.Windows.Forms.CheckBox CHK_6PKM;
+        private System.Windows.Forms.CheckBox CHK_ForceHighPower;
+        private System.Windows.Forms.NumericUpDown NUD_ForceHighPower;
     }
 }
 
