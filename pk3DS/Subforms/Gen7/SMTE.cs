@@ -21,6 +21,8 @@ namespace pk3DS
         private static int[] TrainerClasses;
         private static int[] ImportantTrainers;
         private static int[] FinalEvo;
+        private static int[] ReplaceLegend;
+        private static Dictionary<int, int[]> MegaDictionary;
         private int index = -1;
         private PictureBox[] pba;
 
@@ -56,10 +58,13 @@ namespace pk3DS
 
             CB_TrainerID.SelectedIndex = 0;
             CB_Moves.SelectedIndex = 0;
+            CHK_ReplaceLegend.Visible = Main.Config.USUM; // Team Rainbow Rocket only in USUM
+            MegaDictionary = GiftEditor6.GetMegaDictionary(Main.Config);
 
             TrainerClasses = Main.Config.USUM ? Legal.SpecialClasses_USUM : Legal.SpecialClasses_SM;
             ImportantTrainers = Main.Config.USUM ? Legal.ImportantTrainers_USUM : Legal.ImportantTrainers_SM;
             FinalEvo = Main.Config.USUM ? Legal.FinalEvolutions_USUM : Legal.FinalEvolutions_SM;
+            ReplaceLegend = Legal.Legendary_Mythical;
             RandSettings.GetFormSettings(this, Tab_Misc.Controls);
         }
 
@@ -671,8 +676,33 @@ namespace pk3DS
                     if (CHK_RandomPKM.Checked)
                     {
                         int Type = CHK_TypeTheme.Checked ? (int)Util.rnd32() % 17 : -1;
-                        pk.Species = rnd.GetRandomSpeciesType(pk.Species, Type);
-                        pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
+
+                        // replaces Megas with another Mega (Dexio and Lysandre in USUM)
+                        if (MegaDictionary.Values.Any(z => z.Contains(pk.Item)))
+                        {
+                            int species = pk.Species;
+                            int[] mega = GetRandomMega(out species);
+                            pk.Species = species;
+                            pk.Item = mega[Util.rand.Next(0, mega.Length)];
+                            pk.Form = 0; // allow it to Mega Evolve naturally
+                        }
+
+                        // replaces Team Rainbow Rocket Legendaries with another Legendary
+                        else if (CHK_ReplaceLegend.Checked && ReplaceLegend.Contains(pk.Species))
+                        {
+                            int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
+                            pk.Species = ReplaceLegend[randLegend()];
+                            pk.Item = items[Util.rnd32() % items.Length];
+                            pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
+                        }
+                        
+                        // every other pkm
+                        else
+                        {
+                            pk.Species = rnd.GetRandomSpeciesType(pk.Species, Type);
+                            pk.Item = items[Util.rnd32() % items.Length];
+                            pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
+                        }
                         pk.Gender = 0; // random
                         pk.Nature = (int)(Util.rnd32() % CB_Nature.Items.Count); // random
                     }
@@ -680,10 +710,8 @@ namespace pk3DS
                         pk.Level = Randomizer.getModifiedLevel(pk.Level, NUD_LevelBoost.Value);
                     if (CHK_RandomShiny.Checked)
                         pk.Shiny = Util.rand.Next(0, 100 + 1) < NUD_Shiny.Value;
-                    if (CHK_RandomItems.Checked)
-                        pk.Item = items[Util.rnd32()%items.Length];
                     if (CHK_RandomAbilities.Checked)
-                        pk.Ability = (int)Util.rnd32()%4;
+                        pk.Ability = (int)Util.rnd32() % 4;
                     if (CHK_MaxDiffPKM.Checked)
                         pk.IVs = new[] {31, 31, 31, 31, 31, 31};
                     
@@ -782,6 +810,12 @@ namespace pk3DS
         private void CHK_Level_CheckedChanged(object sender, EventArgs e)
         {
             NUD_LevelBoost.Enabled = CHK_Level.Checked;
+        }
+        private int[] GetRandomMega(out int species)
+        {
+            int rnd = Util.rand.Next(0, MegaDictionary.Count - 1);
+            species = MegaDictionary.Keys.ElementAt(rnd);
+            return MegaDictionary.Values.ElementAt(rnd);
         }
     }
 }
