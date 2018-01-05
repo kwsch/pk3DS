@@ -113,9 +113,9 @@
             this.CHK_RandomAbilities.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_RandomAbilities.Location = new System.Drawing.Point(21, 339);
             this.CHK_RandomAbilities.Name = "CHK_RandomAbilities";
-            this.CHK_RandomAbilities.Size = new System.Drawing.Size(193, 17);
+            this.CHK_RandomAbilities.Size = new System.Drawing.Size(183, 17);
             this.CHK_RandomAbilities.TabIndex = 7;
-            this.CHK_RandomAbilities.Text = "Random Abilities (Including Hidden)";
+            this.CHK_RandomAbilities.Text = "Random Abilities (1, 2, or Hidden)";
             this.CHK_RandomAbilities.UseVisualStyleBackColor = true;
             // 
             // CHK_RandomGift

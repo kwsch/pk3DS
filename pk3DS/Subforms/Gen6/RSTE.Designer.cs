@@ -303,7 +303,7 @@
             // checkBox_Healer
             // 
             this.checkBox_Healer.AutoSize = true;
-            this.checkBox_Healer.Location = new System.Drawing.Point(7, 35);
+            this.checkBox_Healer.Location = new System.Drawing.Point(7, 49);
             this.checkBox_Healer.Name = "checkBox_Healer";
             this.checkBox_Healer.Size = new System.Drawing.Size(57, 17);
             this.checkBox_Healer.TabIndex = 58;
@@ -415,7 +415,7 @@
             // checkBox_Moves
             // 
             this.checkBox_Moves.AutoSize = true;
-            this.checkBox_Moves.Location = new System.Drawing.Point(7, 58);
+            this.checkBox_Moves.Location = new System.Drawing.Point(7, 65);
             this.checkBox_Moves.Name = "checkBox_Moves";
             this.checkBox_Moves.Size = new System.Drawing.Size(58, 17);
             this.checkBox_Moves.TabIndex = 40;
