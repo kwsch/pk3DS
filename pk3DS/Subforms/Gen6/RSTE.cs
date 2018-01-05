@@ -521,7 +521,7 @@ namespace pk3DS
             readFile();
         }
 
-        public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rHighPower, rAbility, rDiffAI, 
+        public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rForceHighPower, rAbility, rDiffAI, 
             rDiffIV, rClass, rGift, rItem, rDoRand, rRandomMegas, rGymE4Only,
             rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM, rForceFullyEvolved;
         public static bool rNoFixedDamage;
@@ -538,7 +538,7 @@ namespace pk3DS
         private readonly List<string> Tags = new List<string>();
         private readonly Dictionary<string, int> TagTypes = new Dictionary<string, int>();
         public static int[] sL; // Random Species List
-        public static decimal rGiftPercent, rLevelMultiplier, rForceFullyEvolvedLevel;
+        public static decimal rGiftPercent, rLevelMultiplier, rForceFullyEvolvedLevel, rForceHighPowerLevel;
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             rPKM = rMove = rAbility = rDiffAI = rDiffIV = rClass = rGift = rItem = rDoRand = false; // init to false
@@ -711,7 +711,7 @@ namespace pk3DS
                 }
 
                 // high-power attacks
-                if (rHighPower)
+                if (rForceHighPower && pk.Level >= rForceHighPowerLevel)
                 {
                     var pkMoves = learn.GetHighPoweredMoves(pk.Species, pk.Form, 4);
                     for (int m = 0; m < 4; m++)

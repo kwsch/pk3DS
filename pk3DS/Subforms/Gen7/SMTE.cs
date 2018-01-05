@@ -702,10 +702,12 @@ namespace pk3DS
                         case 2: // Current LevelUp
                             pk.Moves = learn.GetCurrentMoves(pk.Species, pk.Form, pk.Level, 4);
                             break;
-                        case 3: // High Attacks
-                            pk.Moves = learn.GetHighPoweredMoves(pk.Species, pk.Form, 4);
-                            break;
                     }
+
+                    // high-power attacks
+                    if (CHK_ForceHighPower.Checked && pk.Level >= NUD_ForceHighPower.Value)
+                        pk.Moves = learn.GetHighPoweredMoves(pk.Species, pk.Form, 4);
+
                     // sanitize moves
                     if (CB_Moves.SelectedIndex > 1) // learn source
                     {
