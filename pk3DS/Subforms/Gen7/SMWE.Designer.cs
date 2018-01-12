@@ -259,6 +259,11 @@
             this.CB_TableID = new System.Windows.Forms.ComboBox();
             this.B_Export = new System.Windows.Forms.Button();
             this.CopySOS = new System.Windows.Forms.Button();
+            this.L_Weather0 = new System.Windows.Forms.Label();
+            this.L_Weather1 = new System.Windows.Forms.Label();
+            this.L_Rain = new System.Windows.Forms.Label();
+            this.L_Hail = new System.Windows.Forms.Label();
+            this.L_Sand = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Min)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Max)).BeginInit();
             this.GB_Encounters.SuspendLayout();
@@ -481,6 +486,11 @@
             // 
             // GB_Encounters
             // 
+            this.GB_Encounters.Controls.Add(this.L_Sand);
+            this.GB_Encounters.Controls.Add(this.L_Hail);
+            this.GB_Encounters.Controls.Add(this.L_Rain);
+            this.GB_Encounters.Controls.Add(this.L_Weather1);
+            this.GB_Encounters.Controls.Add(this.L_Weather0);
             this.GB_Encounters.Controls.Add(this.B_PasteAll);
             this.GB_Encounters.Controls.Add(this.B_Paste);
             this.GB_Encounters.Controls.Add(this.B_Copy);
@@ -975,7 +985,7 @@
             // 
             // NUP_WeatherForme6
             // 
-            this.NUP_WeatherForme6.Location = new System.Drawing.Point(219, 333);
+            this.NUP_WeatherForme6.Location = new System.Drawing.Point(220, 332);
             this.NUP_WeatherForme6.Maximum = new decimal(new int[] {
             31,
             0,
@@ -1002,7 +1012,7 @@
             this.CB_WeatherEnc6.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_WeatherEnc6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_WeatherEnc6.FormattingEnabled = true;
-            this.CB_WeatherEnc6.Location = new System.Drawing.Point(144, 332);
+            this.CB_WeatherEnc6.Location = new System.Drawing.Point(145, 332);
             this.CB_WeatherEnc6.Name = "CB_WeatherEnc6";
             this.CB_WeatherEnc6.Size = new System.Drawing.Size(72, 21);
             this.CB_WeatherEnc6.TabIndex = 502;
@@ -3084,6 +3094,51 @@
             this.CopySOS.UseVisualStyleBackColor = true;
             this.CopySOS.Click += new System.EventHandler(this.CopySOS_Click);
             // 
+            // L_Weather0
+            // 
+            this.L_Weather0.AutoSize = true;
+            this.L_Weather0.Location = new System.Drawing.Point(114, 264);
+            this.L_Weather0.Name = "L_Weather0";
+            this.L_Weather0.Size = new System.Drawing.Size(21, 13);
+            this.L_Weather0.TabIndex = 511;
+            this.L_Weather0.Text = "1%";
+            // 
+            // L_Weather1
+            // 
+            this.L_Weather1.AutoSize = true;
+            this.L_Weather1.Location = new System.Drawing.Point(222, 264);
+            this.L_Weather1.Name = "L_Weather1";
+            this.L_Weather1.Size = new System.Drawing.Size(27, 13);
+            this.L_Weather1.TabIndex = 512;
+            this.L_Weather1.Text = "10%";
+            // 
+            // L_Rain
+            // 
+            this.L_Rain.AutoSize = true;
+            this.L_Rain.Location = new System.Drawing.Point(254, 282);
+            this.L_Rain.Name = "L_Rain";
+            this.L_Rain.Size = new System.Drawing.Size(29, 13);
+            this.L_Rain.TabIndex = 513;
+            this.L_Rain.Text = "Rain";
+            // 
+            // L_Hail
+            // 
+            this.L_Hail.AutoSize = true;
+            this.L_Hail.Location = new System.Drawing.Point(254, 309);
+            this.L_Hail.Name = "L_Hail";
+            this.L_Hail.Size = new System.Drawing.Size(25, 13);
+            this.L_Hail.TabIndex = 514;
+            this.L_Hail.Text = "Hail";
+            // 
+            // L_Sand
+            // 
+            this.L_Sand.AutoSize = true;
+            this.L_Sand.Location = new System.Drawing.Point(254, 335);
+            this.L_Sand.Name = "L_Sand";
+            this.L_Sand.Size = new System.Drawing.Size(32, 13);
+            this.L_Sand.TabIndex = 515;
+            this.L_Sand.Text = "Sand";
+            // 
             // SMWE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3451,5 +3506,10 @@
         private System.Windows.Forms.Button B_PasteAll;
         private System.Windows.Forms.Button B_Paste;
         private System.Windows.Forms.Button B_Copy;
+        private System.Windows.Forms.Label L_Sand;
+        private System.Windows.Forms.Label L_Hail;
+        private System.Windows.Forms.Label L_Rain;
+        private System.Windows.Forms.Label L_Weather1;
+        private System.Windows.Forms.Label L_Weather0;
     }
 }

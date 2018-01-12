@@ -41,6 +41,13 @@ namespace pk3DS
             LoadData();
             RandSettings.GetFormSettings(this, GB_Tweak.Controls);
 
+            var weather = string.Format("If weather is active, create a random number.{0}If 0, use slot 0.{0}If <= 10, use slot 1.{0}Else, pick an SOS table and a slot.", Environment.NewLine);
+            new ToolTip().SetToolTip(L_AddSOS, weather);
+            var sos = new[] {L_SOS1, L_SOS2, L_SOS3, L_SOS4, L_SOS5, L_SOS6, L_SOS7};
+            var rates = new[] {1,1,1, 10,10,10, 67};
+            for (int i = 0; i < sos.Length; i++)
+                new ToolTip().SetToolTip(sos[i], $"Table Selection Rate: {rates[i]}%");
+
             // ExportEncounters("um", "uu");
         }
 
