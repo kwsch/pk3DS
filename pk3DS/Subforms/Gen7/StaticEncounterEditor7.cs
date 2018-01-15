@@ -20,6 +20,7 @@ namespace pk3DS
         private readonly string[] natures = Main.Config.getText(TextName.Natures);
         private readonly string[] types = Main.Config.getText(TextName.Types);
         private readonly int[] oldStarters;
+        private static int[] ReplaceLegend;
 
         private readonly string[] ability =
         {
@@ -133,6 +134,8 @@ namespace pk3DS
             LB_Gift.SelectedIndex = 0;
             LB_Encounter.SelectedIndex = 0;
             LB_Trade.SelectedIndex = 0;
+
+            ReplaceLegend = Main.Config.USUM ? Legal.Legendary_Mythical_USUM : Legal.Legendary_Mythical_SM;
 
             // Select last tab (Randomization) by default in case info already randomized.
             TC_Tabs.SelectedIndex = TC_Tabs.TabCount - 1;
@@ -506,7 +509,18 @@ namespace pk3DS
             for (int i = 3; i < Gifts.Length; i++) // Skip Starters
             {
                 var t = Gifts[i];
-                t.Species = specrand.GetRandomSpecies(t.Species);
+
+                // replace Legendaries with another Legendary
+                if (CHK_ReplaceLegend.Checked && ReplaceLegend.Contains(t.Species))
+                {
+                    int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
+                    t.Species = ReplaceLegend[randLegend()];
+                }
+
+                // every other entry
+                else
+                    t.Species = specrand.GetRandomSpecies(t.Species);
+
                 t.Form = formrand.GetRandomForme(t.Species);
                 t.Nature = -1; // random
 
@@ -530,7 +544,17 @@ namespace pk3DS
             }
             foreach (EncounterStatic7 t in Encounters)
             {
-                t.Species = specrand.GetRandomSpecies(t.Species);
+                // replace Legendaries with another Legendary
+                if (CHK_ReplaceLegend.Checked && ReplaceLegend.Contains(t.Species))
+                {
+                    int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
+                    t.Species = ReplaceLegend[randLegend()];
+                }
+
+                // every other entry
+                else
+                    t.Species = specrand.GetRandomSpecies(t.Species);
+
                 t.Form = formrand.GetRandomForme(t.Species);
                 t.RelearnMoves = move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
                 t.Gender = 0; // random
