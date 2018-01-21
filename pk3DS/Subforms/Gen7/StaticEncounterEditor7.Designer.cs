@@ -49,6 +49,8 @@
             this.NUD_GLevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Gift = new System.Windows.Forms.ListBox();
             this.Tab_Encounters = new System.Windows.Forms.TabPage();
+            this.L_EGender = new System.Windows.Forms.Label();
+            this.NUD_EGender = new System.Windows.Forms.NumericUpDown();
             this.CB_EAbility = new System.Windows.Forms.ComboBox();
             this.L_EAbility = new System.Windows.Forms.Label();
             this.CHK_EIV3 = new System.Windows.Forms.CheckBox();
@@ -98,6 +100,8 @@
             this.NUD_ELevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Encounter = new System.Windows.Forms.ListBox();
             this.Tab_Trades = new System.Windows.Forms.TabPage();
+            this.L_TGender = new System.Windows.Forms.Label();
+            this.NUD_TGender = new System.Windows.Forms.NumericUpDown();
             this.CB_TAbility = new System.Windows.Forms.ComboBox();
             this.L_TAbility = new System.Windows.Forms.Label();
             this.CB_TNature = new System.Windows.Forms.ComboBox();
@@ -155,15 +159,13 @@
             this.B_Starters = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.L_EGender = new System.Windows.Forms.Label();
-            this.NUD_EGender = new System.Windows.Forms.NumericUpDown();
-            this.L_TGender = new System.Windows.Forms.Label();
-            this.NUD_TGender = new System.Windows.Forms.NumericUpDown();
+            this.CHK_ReplaceLegend = new System.Windows.Forms.CheckBox();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GLevel)).BeginInit();
             this.Tab_Encounters.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EGender)).BeginInit();
             this.GB_EEVs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EV5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EV4)).BeginInit();
@@ -182,6 +184,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ELevel)).BeginInit();
             this.Tab_Trades.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TGender)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TIV3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TIV4)).BeginInit();
@@ -195,8 +198,6 @@
             this.Tab_Randomizer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).BeginInit();
             this.GB_Tweak.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_EGender)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_TGender)).BeginInit();
             this.SuspendLayout();
             // 
             // TC_Tabs
@@ -446,6 +447,27 @@
             this.Tab_Encounters.TabIndex = 0;
             this.Tab_Encounters.Text = "Encounters";
             this.Tab_Encounters.UseVisualStyleBackColor = true;
+            // 
+            // L_EGender
+            // 
+            this.L_EGender.Location = new System.Drawing.Point(131, 71);
+            this.L_EGender.Name = "L_EGender";
+            this.L_EGender.Size = new System.Drawing.Size(55, 23);
+            this.L_EGender.TabIndex = 519;
+            this.L_EGender.Text = "Gender:";
+            this.L_EGender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_EGender
+            // 
+            this.NUD_EGender.Location = new System.Drawing.Point(187, 74);
+            this.NUD_EGender.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.NUD_EGender.Name = "NUD_EGender";
+            this.NUD_EGender.Size = new System.Drawing.Size(34, 20);
+            this.NUD_EGender.TabIndex = 518;
             // 
             // CB_EAbility
             // 
@@ -1071,6 +1093,27 @@
             this.Tab_Trades.Text = "Trades";
             this.Tab_Trades.UseVisualStyleBackColor = true;
             // 
+            // L_TGender
+            // 
+            this.L_TGender.Location = new System.Drawing.Point(131, 71);
+            this.L_TGender.Name = "L_TGender";
+            this.L_TGender.Size = new System.Drawing.Size(55, 23);
+            this.L_TGender.TabIndex = 523;
+            this.L_TGender.Text = "Gender:";
+            this.L_TGender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_TGender
+            // 
+            this.NUD_TGender.Location = new System.Drawing.Point(187, 74);
+            this.NUD_TGender.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.NUD_TGender.Name = "NUD_TGender";
+            this.NUD_TGender.Size = new System.Drawing.Size(34, 20);
+            this.NUD_TGender.TabIndex = 522;
+            // 
             // CB_TAbility
             // 
             this.CB_TAbility.FormattingEnabled = true;
@@ -1522,7 +1565,7 @@
             // 
             // B_RandAll
             // 
-            this.B_RandAll.Location = new System.Drawing.Point(192, 321);
+            this.B_RandAll.Location = new System.Drawing.Point(192, 330);
             this.B_RandAll.Name = "B_RandAll";
             this.B_RandAll.Size = new System.Drawing.Size(122, 23);
             this.B_RandAll.TabIndex = 509;
@@ -1532,6 +1575,7 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.CHK_ReplaceLegend);
             this.GB_Tweak.Controls.Add(this.CHK_RandomAbility);
             this.GB_Tweak.Controls.Add(this.CHK_SpecialMove);
             this.GB_Tweak.Controls.Add(this.CHK_RandomAura);
@@ -1551,7 +1595,7 @@
             this.GB_Tweak.Controls.Add(this.CHK_G1);
             this.GB_Tweak.Location = new System.Drawing.Point(119, 113);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 193);
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 205);
             this.GB_Tweak.TabIndex = 508;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
@@ -1747,7 +1791,7 @@
             // 
             // B_Starters
             // 
-            this.B_Starters.Location = new System.Drawing.Point(192, 350);
+            this.B_Starters.Location = new System.Drawing.Point(192, 359);
             this.B_Starters.Name = "B_Starters";
             this.B_Starters.Size = new System.Drawing.Size(122, 23);
             this.B_Starters.TabIndex = 9;
@@ -1775,47 +1819,17 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // L_EGender
+            // CHK_ReplaceLegend
             // 
-            this.L_EGender.Location = new System.Drawing.Point(131, 71);
-            this.L_EGender.Name = "L_EGender";
-            this.L_EGender.Size = new System.Drawing.Size(55, 23);
-            this.L_EGender.TabIndex = 519;
-            this.L_EGender.Text = "Gender:";
-            this.L_EGender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_EGender
-            // 
-            this.NUD_EGender.Location = new System.Drawing.Point(187, 74);
-            this.NUD_EGender.Maximum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.NUD_EGender.Name = "NUD_EGender";
-            this.NUD_EGender.Size = new System.Drawing.Size(34, 20);
-            this.NUD_EGender.TabIndex = 518;
-            // 
-            // L_TGender
-            // 
-            this.L_TGender.Location = new System.Drawing.Point(131, 71);
-            this.L_TGender.Name = "L_TGender";
-            this.L_TGender.Size = new System.Drawing.Size(55, 23);
-            this.L_TGender.TabIndex = 523;
-            this.L_TGender.Text = "Gender:";
-            this.L_TGender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_TGender
-            // 
-            this.NUD_TGender.Location = new System.Drawing.Point(187, 74);
-            this.NUD_TGender.Maximum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.NUD_TGender.Name = "NUD_TGender";
-            this.NUD_TGender.Size = new System.Drawing.Size(34, 20);
-            this.NUD_TGender.TabIndex = 522;
+            this.CHK_ReplaceLegend.AutoSize = true;
+            this.CHK_ReplaceLegend.Checked = true;
+            this.CHK_ReplaceLegend.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_ReplaceLegend.Location = new System.Drawing.Point(9, 186);
+            this.CHK_ReplaceLegend.Name = "CHK_ReplaceLegend";
+            this.CHK_ReplaceLegend.Size = new System.Drawing.Size(242, 17);
+            this.CHK_ReplaceLegend.TabIndex = 303;
+            this.CHK_ReplaceLegend.Text = "Replace Legendaries with Another Legendary";
+            this.CHK_ReplaceLegend.UseVisualStyleBackColor = true;
             // 
             // StaticEncounterEditor7
             // 
@@ -1834,6 +1848,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GLevel)).EndInit();
             this.Tab_Encounters.ResumeLayout(false);
             this.Tab_Encounters.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_EGender)).EndInit();
             this.GB_EEVs.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EV5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EV4)).EndInit();
@@ -1853,6 +1868,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ELevel)).EndInit();
             this.Tab_Trades.ResumeLayout(false);
             this.Tab_Trades.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_TGender)).EndInit();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TIV3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TIV4)).EndInit();
@@ -1868,8 +1884,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).EndInit();
             this.GB_Tweak.ResumeLayout(false);
             this.GB_Tweak.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_EGender)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_TGender)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2007,5 +2021,6 @@
         private System.Windows.Forms.NumericUpDown NUD_EGender;
         private System.Windows.Forms.Label L_TGender;
         private System.Windows.Forms.NumericUpDown NUD_TGender;
+        private System.Windows.Forms.CheckBox CHK_ReplaceLegend;
     }
 }

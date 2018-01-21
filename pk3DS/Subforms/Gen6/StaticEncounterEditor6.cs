@@ -42,6 +42,7 @@ namespace pk3DS
         private EncounterStatic6[] EncounterData;
         private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+        private static int[] ReplaceLegend;
 
         private readonly string[] ability =
         {
@@ -80,6 +81,8 @@ namespace pk3DS
 
             foreach (var s in ability) CB_Ability.Items.Add(s);
             foreach (var s in gender) CB_Gender.Items.Add(s);
+
+            ReplaceLegend = Legal.Legendary_Mythical_6;
 
             loaded = true;
             LB_Encounters.SelectedIndex = 0;
@@ -164,9 +167,19 @@ namespace pk3DS
             for (int i = 0; i < LB_Encounters.Items.Count; i++)
             {
                 LB_Encounters.SelectedIndex = i;
-
                 int species = CB_Species.SelectedIndex;
-                species = specrand.GetRandomSpecies(species);
+
+                // replace Legendaries with another Legendary
+                if (CHK_ReplaceLegend.Checked && ReplaceLegend.Contains(species))
+                {
+                    int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
+                    species = ReplaceLegend[randLegend()];
+                }
+
+                // every other entry
+                else
+                    species = specrand.GetRandomSpecies(species);
+                
                 CB_Species.SelectedIndex = species;
                 NUD_Form.Value = formrand.GetRandomForme(species);
                 CB_Gender.SelectedIndex = 0; // random

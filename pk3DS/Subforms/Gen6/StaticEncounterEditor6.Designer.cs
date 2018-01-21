@@ -67,6 +67,7 @@
             this.CHK_G1 = new System.Windows.Forms.CheckBox();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
+            this.CHK_ReplaceLegend = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
@@ -305,6 +306,7 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.CHK_ReplaceLegend);
             this.GB_Tweak.Controls.Add(this.CHK_RandomAbility);
             this.GB_Tweak.Controls.Add(this.CHK_RemoveShinyLock);
             this.GB_Tweak.Controls.Add(this.CHK_AllowMega);
@@ -321,7 +323,7 @@
             this.GB_Tweak.Controls.Add(this.CHK_G1);
             this.GB_Tweak.Location = new System.Drawing.Point(5, 83);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 147);
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 160);
             this.GB_Tweak.TabIndex = 509;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
@@ -518,6 +520,18 @@
             this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
+            // CHK_ReplaceLegend
+            // 
+            this.CHK_ReplaceLegend.AutoSize = true;
+            this.CHK_ReplaceLegend.Checked = true;
+            this.CHK_ReplaceLegend.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_ReplaceLegend.Location = new System.Drawing.Point(9, 140);
+            this.CHK_ReplaceLegend.Name = "CHK_ReplaceLegend";
+            this.CHK_ReplaceLegend.Size = new System.Drawing.Size(242, 17);
+            this.CHK_ReplaceLegend.TabIndex = 304;
+            this.CHK_ReplaceLegend.Text = "Replace Legendaries with Another Legendary";
+            this.CHK_ReplaceLegend.UseVisualStyleBackColor = true;
+            // 
             // StaticEncounterEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -590,5 +604,6 @@
         private System.Windows.Forms.Label L_Ability;
         private System.Windows.Forms.ComboBox CB_Ability;
         private System.Windows.Forms.CheckBox CHK_RandomAbility;
+        private System.Windows.Forms.CheckBox CHK_ReplaceLegend;
     }
 }

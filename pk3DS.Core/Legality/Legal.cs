@@ -302,10 +302,22 @@ namespace pk3DS.Core
         {
             804, 805, 806, 807,
         }).ToArray();
-        public static readonly int[] Legendary_Mythical =
+        /// <summary>
+        /// All Legendary and Mythical Pokemon. Used for Legendary-for-Legendary replacement.
+        /// Does not include un-evolved species in the array due to potential error with Force Fully Evolved.
+        /// </summary>
+        public static readonly int[] Legendary_Mythical_6 =
         {
             144, 145, 146, 150, 151, 243, 244, 245, 249, 250, 251, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 638,
-            639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 716, 717, 718, 719, 720, 721, 785, 786, 787, 788, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802, 804, 805, 806, 807
+            639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 716, 717, 718, 719, 720, 721,
         };
+        public static readonly int[] Legendary_Mythical_SM = Legendary_Mythical_6.Concat(new int[]
+        {
+            785, 786, 787, 788, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802,
+        }).ToArray();
+        public static readonly int[] Legendary_Mythical_USUM = Legendary_Mythical_SM.Concat(new int[]
+        {
+            804, 805, 806, 807
+        }).ToArray();
     }
 }

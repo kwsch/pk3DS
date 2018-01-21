@@ -64,7 +64,7 @@ namespace pk3DS
             TrainerClasses = Main.Config.USUM ? Legal.SpecialClasses_USUM : Legal.SpecialClasses_SM;
             ImportantTrainers = Main.Config.USUM ? Legal.ImportantTrainers_USUM : Legal.ImportantTrainers_SM;
             FinalEvo = Main.Config.USUM ? Legal.FinalEvolutions_USUM : Legal.FinalEvolutions_SM;
-            ReplaceLegend = Legal.Legendary_Mythical;
+            ReplaceLegend = Legal.Legendary_Mythical_USUM;
             RandSettings.GetFormSettings(this, Tab_Misc.Controls);
         }
 
