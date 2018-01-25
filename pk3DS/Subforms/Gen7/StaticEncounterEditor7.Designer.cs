@@ -138,7 +138,8 @@
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.B_RandAll = new System.Windows.Forms.Button();
-            this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.GB_Rand = new System.Windows.Forms.GroupBox();
+            this.CHK_ReplaceLegend = new System.Windows.Forms.CheckBox();
             this.CHK_RandomAbility = new System.Windows.Forms.CheckBox();
             this.CHK_SpecialMove = new System.Windows.Forms.CheckBox();
             this.CHK_RandomAura = new System.Windows.Forms.CheckBox();
@@ -146,7 +147,6 @@
             this.CHK_AllowMega = new System.Windows.Forms.CheckBox();
             this.CHK_Item = new System.Windows.Forms.CheckBox();
             this.CHK_G7 = new System.Windows.Forms.CheckBox();
-            this.L_RandOpt = new System.Windows.Forms.Label();
             this.CHK_BST = new System.Windows.Forms.CheckBox();
             this.CHK_E = new System.Windows.Forms.CheckBox();
             this.CHK_L = new System.Windows.Forms.CheckBox();
@@ -159,7 +159,11 @@
             this.B_Starters = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.CHK_ReplaceLegend = new System.Windows.Forms.CheckBox();
+            this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_BasicStarter = new System.Windows.Forms.CheckBox();
+            this.CHK_ForceTotem = new System.Windows.Forms.CheckBox();
+            this.NUD_ForceFullyEvolved = new System.Windows.Forms.NumericUpDown();
+            this.CHK_ForceFullyEvolved = new System.Windows.Forms.CheckBox();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).BeginInit();
@@ -197,7 +201,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TLevel)).BeginInit();
             this.Tab_Randomizer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).BeginInit();
+            this.GB_Rand.SuspendLayout();
             this.GB_Tweak.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).BeginInit();
             this.SuspendLayout();
             // 
             // TC_Tabs
@@ -1504,11 +1510,12 @@
             // 
             // Tab_Randomizer
             // 
+            this.Tab_Randomizer.Controls.Add(this.GB_Tweak);
             this.Tab_Randomizer.Controls.Add(this.B_ModifyLevel);
             this.Tab_Randomizer.Controls.Add(this.NUD_LevelBoost);
             this.Tab_Randomizer.Controls.Add(this.CHK_Level);
             this.Tab_Randomizer.Controls.Add(this.B_RandAll);
-            this.Tab_Randomizer.Controls.Add(this.GB_Tweak);
+            this.Tab_Randomizer.Controls.Add(this.GB_Rand);
             this.Tab_Randomizer.Controls.Add(this.B_Starters);
             this.Tab_Randomizer.Location = new System.Drawing.Point(4, 22);
             this.Tab_Randomizer.Name = "Tab_Randomizer";
@@ -1520,7 +1527,7 @@
             // 
             // B_ModifyLevel
             // 
-            this.B_ModifyLevel.Location = new System.Drawing.Point(306, 89);
+            this.B_ModifyLevel.Location = new System.Drawing.Point(306, 49);
             this.B_ModifyLevel.Name = "B_ModifyLevel";
             this.B_ModifyLevel.Size = new System.Drawing.Size(70, 23);
             this.B_ModifyLevel.TabIndex = 512;
@@ -1536,7 +1543,7 @@
             0,
             0,
             131072});
-            this.NUD_LevelBoost.Location = new System.Drawing.Point(257, 90);
+            this.NUD_LevelBoost.Location = new System.Drawing.Point(257, 50);
             this.NUD_LevelBoost.Maximum = new decimal(new int[] {
             3,
             0,
@@ -1556,7 +1563,7 @@
             this.CHK_Level.AutoSize = true;
             this.CHK_Level.Checked = true;
             this.CHK_Level.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Level.Location = new System.Drawing.Point(125, 91);
+            this.CHK_Level.Location = new System.Drawing.Point(125, 51);
             this.CHK_Level.Name = "CHK_Level";
             this.CHK_Level.Size = new System.Drawing.Size(130, 17);
             this.CHK_Level.TabIndex = 510;
@@ -1565,7 +1572,7 @@
             // 
             // B_RandAll
             // 
-            this.B_RandAll.Location = new System.Drawing.Point(192, 330);
+            this.B_RandAll.Location = new System.Drawing.Point(192, 369);
             this.B_RandAll.Name = "B_RandAll";
             this.B_RandAll.Size = new System.Drawing.Size(122, 23);
             this.B_RandAll.TabIndex = 509;
@@ -1573,37 +1580,46 @@
             this.B_RandAll.UseVisualStyleBackColor = true;
             this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
             // 
-            // GB_Tweak
+            // GB_Rand
             // 
-            this.GB_Tweak.Controls.Add(this.CHK_ReplaceLegend);
-            this.GB_Tweak.Controls.Add(this.CHK_RandomAbility);
-            this.GB_Tweak.Controls.Add(this.CHK_SpecialMove);
-            this.GB_Tweak.Controls.Add(this.CHK_RandomAura);
-            this.GB_Tweak.Controls.Add(this.CHK_RemoveShinyLock);
-            this.GB_Tweak.Controls.Add(this.CHK_AllowMega);
-            this.GB_Tweak.Controls.Add(this.CHK_Item);
-            this.GB_Tweak.Controls.Add(this.CHK_G7);
-            this.GB_Tweak.Controls.Add(this.L_RandOpt);
-            this.GB_Tweak.Controls.Add(this.CHK_BST);
-            this.GB_Tweak.Controls.Add(this.CHK_E);
-            this.GB_Tweak.Controls.Add(this.CHK_L);
-            this.GB_Tweak.Controls.Add(this.CHK_G6);
-            this.GB_Tweak.Controls.Add(this.CHK_G5);
-            this.GB_Tweak.Controls.Add(this.CHK_G4);
-            this.GB_Tweak.Controls.Add(this.CHK_G3);
-            this.GB_Tweak.Controls.Add(this.CHK_G2);
-            this.GB_Tweak.Controls.Add(this.CHK_G1);
-            this.GB_Tweak.Location = new System.Drawing.Point(119, 113);
-            this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 205);
-            this.GB_Tweak.TabIndex = 508;
-            this.GB_Tweak.TabStop = false;
-            this.GB_Tweak.Text = "Extra Randomization Tweaks";
+            this.GB_Rand.Controls.Add(this.CHK_SpecialMove);
+            this.GB_Rand.Controls.Add(this.CHK_RandomAbility);
+            this.GB_Rand.Controls.Add(this.CHK_RandomAura);
+            this.GB_Rand.Controls.Add(this.CHK_AllowMega);
+            this.GB_Rand.Controls.Add(this.CHK_Item);
+            this.GB_Rand.Controls.Add(this.CHK_G7);
+            this.GB_Rand.Controls.Add(this.CHK_BST);
+            this.GB_Rand.Controls.Add(this.CHK_E);
+            this.GB_Rand.Controls.Add(this.CHK_L);
+            this.GB_Rand.Controls.Add(this.CHK_G6);
+            this.GB_Rand.Controls.Add(this.CHK_G5);
+            this.GB_Rand.Controls.Add(this.CHK_G4);
+            this.GB_Rand.Controls.Add(this.CHK_G3);
+            this.GB_Rand.Controls.Add(this.CHK_G2);
+            this.GB_Rand.Controls.Add(this.CHK_G1);
+            this.GB_Rand.Location = new System.Drawing.Point(119, 73);
+            this.GB_Rand.Name = "GB_Rand";
+            this.GB_Rand.Size = new System.Drawing.Size(258, 155);
+            this.GB_Rand.TabIndex = 508;
+            this.GB_Rand.TabStop = false;
+            this.GB_Rand.Text = "Randomizer Options";
+            // 
+            // CHK_ReplaceLegend
+            // 
+            this.CHK_ReplaceLegend.AutoSize = true;
+            this.CHK_ReplaceLegend.Checked = true;
+            this.CHK_ReplaceLegend.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_ReplaceLegend.Location = new System.Drawing.Point(6, 15);
+            this.CHK_ReplaceLegend.Name = "CHK_ReplaceLegend";
+            this.CHK_ReplaceLegend.Size = new System.Drawing.Size(242, 17);
+            this.CHK_ReplaceLegend.TabIndex = 303;
+            this.CHK_ReplaceLegend.Text = "Replace Legendaries with Another Legendary";
+            this.CHK_ReplaceLegend.UseVisualStyleBackColor = true;
             // 
             // CHK_RandomAbility
             // 
             this.CHK_RandomAbility.AutoSize = true;
-            this.CHK_RandomAbility.Location = new System.Drawing.Point(9, 124);
+            this.CHK_RandomAbility.Location = new System.Drawing.Point(9, 120);
             this.CHK_RandomAbility.Name = "CHK_RandomAbility";
             this.CHK_RandomAbility.Size = new System.Drawing.Size(183, 17);
             this.CHK_RandomAbility.TabIndex = 302;
@@ -1613,7 +1629,7 @@
             // CHK_SpecialMove
             // 
             this.CHK_SpecialMove.AutoSize = true;
-            this.CHK_SpecialMove.Location = new System.Drawing.Point(9, 155);
+            this.CHK_SpecialMove.Location = new System.Drawing.Point(9, 135);
             this.CHK_SpecialMove.Name = "CHK_SpecialMove";
             this.CHK_SpecialMove.Size = new System.Drawing.Size(197, 17);
             this.CHK_SpecialMove.TabIndex = 301;
@@ -1623,7 +1639,7 @@
             // CHK_RandomAura
             // 
             this.CHK_RandomAura.AutoSize = true;
-            this.CHK_RandomAura.Location = new System.Drawing.Point(9, 140);
+            this.CHK_RandomAura.Location = new System.Drawing.Point(9, 105);
             this.CHK_RandomAura.Name = "CHK_RandomAura";
             this.CHK_RandomAura.Size = new System.Drawing.Size(172, 17);
             this.CHK_RandomAura.TabIndex = 300;
@@ -1633,7 +1649,9 @@
             // CHK_RemoveShinyLock
             // 
             this.CHK_RemoveShinyLock.AutoSize = true;
-            this.CHK_RemoveShinyLock.Location = new System.Drawing.Point(9, 109);
+            this.CHK_RemoveShinyLock.Checked = true;
+            this.CHK_RemoveShinyLock.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_RemoveShinyLock.Location = new System.Drawing.Point(6, 79);
             this.CHK_RemoveShinyLock.Name = "CHK_RemoveShinyLock";
             this.CHK_RemoveShinyLock.Size = new System.Drawing.Size(127, 17);
             this.CHK_RemoveShinyLock.TabIndex = 299;
@@ -1643,7 +1661,7 @@
             // CHK_AllowMega
             // 
             this.CHK_AllowMega.AutoSize = true;
-            this.CHK_AllowMega.Location = new System.Drawing.Point(9, 171);
+            this.CHK_AllowMega.Location = new System.Drawing.Point(9, 90);
             this.CHK_AllowMega.Name = "CHK_AllowMega";
             this.CHK_AllowMega.Size = new System.Drawing.Size(155, 17);
             this.CHK_AllowMega.TabIndex = 298;
@@ -1655,7 +1673,7 @@
             this.CHK_Item.AutoSize = true;
             this.CHK_Item.Checked = true;
             this.CHK_Item.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Item.Location = new System.Drawing.Point(9, 94);
+            this.CHK_Item.Location = new System.Drawing.Point(9, 75);
             this.CHK_Item.Name = "CHK_Item";
             this.CHK_Item.Size = new System.Drawing.Size(119, 17);
             this.CHK_Item.TabIndex = 297;
@@ -1667,26 +1685,17 @@
             this.CHK_G7.AutoSize = true;
             this.CHK_G7.Checked = true;
             this.CHK_G7.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G7.Location = new System.Drawing.Point(9, 79);
+            this.CHK_G7.Location = new System.Drawing.Point(9, 60);
             this.CHK_G7.Name = "CHK_G7";
             this.CHK_G7.Size = new System.Drawing.Size(55, 17);
             this.CHK_G7.TabIndex = 296;
             this.CHK_G7.Text = "Gen 7";
             this.CHK_G7.UseVisualStyleBackColor = true;
             // 
-            // L_RandOpt
-            // 
-            this.L_RandOpt.AutoSize = true;
-            this.L_RandOpt.Location = new System.Drawing.Point(6, 16);
-            this.L_RandOpt.Name = "L_RandOpt";
-            this.L_RandOpt.Size = new System.Drawing.Size(105, 13);
-            this.L_RandOpt.TabIndex = 294;
-            this.L_RandOpt.Text = "Randomizer Options:";
-            // 
             // CHK_BST
             // 
             this.CHK_BST.AutoSize = true;
-            this.CHK_BST.Location = new System.Drawing.Point(128, 64);
+            this.CHK_BST.Location = new System.Drawing.Point(128, 45);
             this.CHK_BST.Name = "CHK_BST";
             this.CHK_BST.Size = new System.Drawing.Size(117, 17);
             this.CHK_BST.TabIndex = 288;
@@ -1698,7 +1707,7 @@
             this.CHK_E.AutoSize = true;
             this.CHK_E.Checked = true;
             this.CHK_E.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_E.Location = new System.Drawing.Point(128, 49);
+            this.CHK_E.Location = new System.Drawing.Point(128, 30);
             this.CHK_E.Name = "CHK_E";
             this.CHK_E.Size = new System.Drawing.Size(98, 17);
             this.CHK_E.TabIndex = 287;
@@ -1710,7 +1719,7 @@
             this.CHK_L.AutoSize = true;
             this.CHK_L.Checked = true;
             this.CHK_L.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_L.Location = new System.Drawing.Point(128, 34);
+            this.CHK_L.Location = new System.Drawing.Point(128, 15);
             this.CHK_L.Name = "CHK_L";
             this.CHK_L.Size = new System.Drawing.Size(98, 17);
             this.CHK_L.TabIndex = 286;
@@ -1722,7 +1731,7 @@
             this.CHK_G6.AutoSize = true;
             this.CHK_G6.Checked = true;
             this.CHK_G6.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G6.Location = new System.Drawing.Point(67, 64);
+            this.CHK_G6.Location = new System.Drawing.Point(67, 45);
             this.CHK_G6.Name = "CHK_G6";
             this.CHK_G6.Size = new System.Drawing.Size(55, 17);
             this.CHK_G6.TabIndex = 285;
@@ -1734,7 +1743,7 @@
             this.CHK_G5.AutoSize = true;
             this.CHK_G5.Checked = true;
             this.CHK_G5.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G5.Location = new System.Drawing.Point(67, 49);
+            this.CHK_G5.Location = new System.Drawing.Point(67, 30);
             this.CHK_G5.Name = "CHK_G5";
             this.CHK_G5.Size = new System.Drawing.Size(55, 17);
             this.CHK_G5.TabIndex = 284;
@@ -1746,7 +1755,7 @@
             this.CHK_G4.AutoSize = true;
             this.CHK_G4.Checked = true;
             this.CHK_G4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G4.Location = new System.Drawing.Point(67, 34);
+            this.CHK_G4.Location = new System.Drawing.Point(67, 15);
             this.CHK_G4.Name = "CHK_G4";
             this.CHK_G4.Size = new System.Drawing.Size(55, 17);
             this.CHK_G4.TabIndex = 283;
@@ -1758,7 +1767,7 @@
             this.CHK_G3.AutoSize = true;
             this.CHK_G3.Checked = true;
             this.CHK_G3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G3.Location = new System.Drawing.Point(9, 64);
+            this.CHK_G3.Location = new System.Drawing.Point(9, 45);
             this.CHK_G3.Name = "CHK_G3";
             this.CHK_G3.Size = new System.Drawing.Size(55, 17);
             this.CHK_G3.TabIndex = 282;
@@ -1770,7 +1779,7 @@
             this.CHK_G2.AutoSize = true;
             this.CHK_G2.Checked = true;
             this.CHK_G2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G2.Location = new System.Drawing.Point(9, 49);
+            this.CHK_G2.Location = new System.Drawing.Point(9, 30);
             this.CHK_G2.Name = "CHK_G2";
             this.CHK_G2.Size = new System.Drawing.Size(55, 17);
             this.CHK_G2.TabIndex = 281;
@@ -1782,7 +1791,7 @@
             this.CHK_G1.AutoSize = true;
             this.CHK_G1.Checked = true;
             this.CHK_G1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G1.Location = new System.Drawing.Point(9, 34);
+            this.CHK_G1.Location = new System.Drawing.Point(9, 15);
             this.CHK_G1.Name = "CHK_G1";
             this.CHK_G1.Size = new System.Drawing.Size(55, 17);
             this.CHK_G1.TabIndex = 280;
@@ -1791,7 +1800,7 @@
             // 
             // B_Starters
             // 
-            this.B_Starters.Location = new System.Drawing.Point(192, 359);
+            this.B_Starters.Location = new System.Drawing.Point(192, 398);
             this.B_Starters.Name = "B_Starters";
             this.B_Starters.Size = new System.Drawing.Size(122, 23);
             this.B_Starters.TabIndex = 9;
@@ -1819,17 +1828,70 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // CHK_ReplaceLegend
+            // GB_Tweak
             // 
-            this.CHK_ReplaceLegend.AutoSize = true;
-            this.CHK_ReplaceLegend.Checked = true;
-            this.CHK_ReplaceLegend.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_ReplaceLegend.Location = new System.Drawing.Point(9, 186);
-            this.CHK_ReplaceLegend.Name = "CHK_ReplaceLegend";
-            this.CHK_ReplaceLegend.Size = new System.Drawing.Size(242, 17);
-            this.CHK_ReplaceLegend.TabIndex = 303;
-            this.CHK_ReplaceLegend.Text = "Replace Legendaries with Another Legendary";
-            this.CHK_ReplaceLegend.UseVisualStyleBackColor = true;
+            this.GB_Tweak.Controls.Add(this.CHK_RemoveShinyLock);
+            this.GB_Tweak.Controls.Add(this.NUD_ForceFullyEvolved);
+            this.GB_Tweak.Controls.Add(this.CHK_ForceTotem);
+            this.GB_Tweak.Controls.Add(this.CHK_ForceFullyEvolved);
+            this.GB_Tweak.Controls.Add(this.CHK_BasicStarter);
+            this.GB_Tweak.Controls.Add(this.CHK_ReplaceLegend);
+            this.GB_Tweak.Location = new System.Drawing.Point(119, 245);
+            this.GB_Tweak.Name = "GB_Tweak";
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 100);
+            this.GB_Tweak.TabIndex = 509;
+            this.GB_Tweak.TabStop = false;
+            this.GB_Tweak.Text = "Extra Tweaks";
+            // 
+            // CHK_BasicStarter
+            // 
+            this.CHK_BasicStarter.AutoSize = true;
+            this.CHK_BasicStarter.Checked = true;
+            this.CHK_BasicStarter.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_BasicStarter.Location = new System.Drawing.Point(6, 31);
+            this.CHK_BasicStarter.Name = "CHK_BasicStarter";
+            this.CHK_BasicStarter.Size = new System.Drawing.Size(217, 17);
+            this.CHK_BasicStarter.TabIndex = 304;
+            this.CHK_BasicStarter.Text = "Basic Starter Pokémon with 2 Evolutions";
+            this.CHK_BasicStarter.UseVisualStyleBackColor = true;
+            // 
+            // CHK_ForceTotem
+            // 
+            this.CHK_ForceTotem.AutoSize = true;
+            this.CHK_ForceTotem.Location = new System.Drawing.Point(6, 47);
+            this.CHK_ForceTotem.Name = "CHK_ForceTotem";
+            this.CHK_ForceTotem.Size = new System.Drawing.Size(200, 17);
+            this.CHK_ForceTotem.TabIndex = 305;
+            this.CHK_ForceTotem.Text = "Force Fully Evolved Totem Pokémon";
+            this.CHK_ForceTotem.UseVisualStyleBackColor = true;
+            // 
+            // NUD_ForceFullyEvolved
+            // 
+            this.NUD_ForceFullyEvolved.Location = new System.Drawing.Point(165, 62);
+            this.NUD_ForceFullyEvolved.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_ForceFullyEvolved.Name = "NUD_ForceFullyEvolved";
+            this.NUD_ForceFullyEvolved.Size = new System.Drawing.Size(40, 20);
+            this.NUD_ForceFullyEvolved.TabIndex = 514;
+            this.NUD_ForceFullyEvolved.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // CHK_ForceFullyEvolved
+            // 
+            this.CHK_ForceFullyEvolved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_ForceFullyEvolved.AutoSize = true;
+            this.CHK_ForceFullyEvolved.Location = new System.Drawing.Point(6, 63);
+            this.CHK_ForceFullyEvolved.Name = "CHK_ForceFullyEvolved";
+            this.CHK_ForceFullyEvolved.Size = new System.Drawing.Size(160, 17);
+            this.CHK_ForceFullyEvolved.TabIndex = 513;
+            this.CHK_ForceFullyEvolved.Text = "Force Fully Evolved at Level";
+            this.CHK_ForceFullyEvolved.UseVisualStyleBackColor = true;
             // 
             // StaticEncounterEditor7
             // 
@@ -1882,8 +1944,11 @@
             this.Tab_Randomizer.ResumeLayout(false);
             this.Tab_Randomizer.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).EndInit();
+            this.GB_Rand.ResumeLayout(false);
+            this.GB_Rand.PerformLayout();
             this.GB_Tweak.ResumeLayout(false);
             this.GB_Tweak.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1934,9 +1999,8 @@
         private System.Windows.Forms.ComboBox CB_TRequest;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage Tab_Randomizer;
-        private System.Windows.Forms.GroupBox GB_Tweak;
+        private System.Windows.Forms.GroupBox GB_Rand;
         private System.Windows.Forms.CheckBox CHK_G7;
-        private System.Windows.Forms.Label L_RandOpt;
         private System.Windows.Forms.CheckBox CHK_BST;
         private System.Windows.Forms.CheckBox CHK_E;
         private System.Windows.Forms.CheckBox CHK_L;
@@ -2022,5 +2086,10 @@
         private System.Windows.Forms.Label L_TGender;
         private System.Windows.Forms.NumericUpDown NUD_TGender;
         private System.Windows.Forms.CheckBox CHK_ReplaceLegend;
+        private System.Windows.Forms.GroupBox GB_Tweak;
+        private System.Windows.Forms.CheckBox CHK_ForceTotem;
+        private System.Windows.Forms.CheckBox CHK_BasicStarter;
+        private System.Windows.Forms.NumericUpDown NUD_ForceFullyEvolved;
+        private System.Windows.Forms.CheckBox CHK_ForceFullyEvolved;
     }
 }

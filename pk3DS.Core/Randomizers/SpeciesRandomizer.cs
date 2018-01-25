@@ -190,8 +190,14 @@ namespace pk3DS.Core.Randomizers
         }
         private void AddGen7Species(List<int> list)
         {
-            list.AddRange(Enumerable.Range(722, 67)); // Rowlet - Kommo-o
-            if (L) list.AddRange(Enumerable.Range(785, 16)); // Tapus, Legends, UBs
+            list.AddRange(Enumerable.Range(722, 50)); // Rowlet - Pyukumuku
+            list.AddRange(Enumerable.Range(774, 11)); // Minior - Kommo-o
+
+            if (L)
+            {
+                list.AddRange(Enumerable.Range(772, 2)); // Type: Null, Silvally
+                list.AddRange(Enumerable.Range(785, 16)); // Tapus, Legends, UBs
+            }
             if (E) list.AddRange(Enumerable.Range(801, 2)); // Magearna, Marshadow
 
             if (MaxSpeciesID == 807) // USUM

@@ -60,6 +60,7 @@ namespace pk3DS
         private byte[] FieldData;
         private readonly int Count = Main.Config.ORAS ? 4 : 2;
         private int offset;
+        private static int[] BasicStarter;
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveData();
@@ -78,6 +79,7 @@ namespace pk3DS
             offset = BitConverter.ToInt32(Data, 0xb8);
             if (!Main.Config.ORAS) // XY have 0x10 bytes of zeroes
                 offset += 0x10;
+            BasicStarter = Legal.BasicStarters_6;
             for (int i = 0; i < Count; i++)
             {
                 Labels[i].Visible = true;
@@ -161,15 +163,19 @@ namespace pk3DS
                     L = false,
                     E = false,
                     Shedinja = false,
-
-                    rBST = CHK_BST.Checked,
                 };
                 rand.Initialize();
                 // Assign Species
                 for (int j = 0; j < 3; j++)
                 {
                     int oldSpecies = BitConverter.ToUInt16(Data, offset + (i * 3 + j) * 0x54);
-                    Choices[i][j].SelectedIndex = rand.GetRandomSpecies(oldSpecies);
+                    if (CHK_BasicStarter.Checked)
+                    {
+                        int basic() => (int)(Util.rnd32() % BasicStarter.Length);
+                        Choices[i][j].SelectedIndex = BasicStarter[basic()];
+                    }
+                    else
+                        Choices[i][j].SelectedIndex = rand.GetRandomSpecies(oldSpecies);
                 }
             }
 

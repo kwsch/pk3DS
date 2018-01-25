@@ -59,6 +59,7 @@ namespace pk3DS
         private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
         private readonly string[] natureslist = Main.Config.getText(TextName.Natures);
         private readonly Dictionary<int, int[]> MegaDictionary;
+        private static int[] FinalEvo;
 
         private readonly string[] ability =
         {
@@ -97,6 +98,7 @@ namespace pk3DS
 
             foreach (var s in ability) CB_Ability.Items.Add(s);
             foreach (var s in gender) CB_Gender.Items.Add(s);
+            FinalEvo = Legal.FinalEvolutions_6;
 
             loaded = true;
             LB_Gifts.SelectedIndex = 0;
@@ -242,11 +244,6 @@ namespace pk3DS
                 if (CHK_AllowMega.Checked)
                     formrand.AllowMega = true;
 
-                CB_Species.SelectedIndex = species;
-                NUD_Form.Value = formrand.GetRandomForme(species);
-                CB_Gender.SelectedIndex = 0; // random
-                CB_Nature.SelectedIndex = 0; // random
-
                 if (MegaDictionary.Values.Any(z => z.Contains(CB_HeldItem.SelectedIndex)) && NUD_Form.Value > 0)
                     NUD_Form.Value = 0; // don't allow Mega Stone Gifts to be form 1
 
@@ -258,6 +255,17 @@ namespace pk3DS
 
                 if (CHK_RandomAbility.Checked)
                     CB_Ability.SelectedIndex = (Util.rand.Next(1, 4)); // 1, 2 , or H
+
+                if (CHK_ForceFullyEvolved.Checked && NUD_Level.Value >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(species))
+                {
+                    int randFinalEvo() => (int)(Util.rnd32() % FinalEvo.Length);
+                    species = FinalEvo[randFinalEvo()];
+                }
+
+                CB_Species.SelectedIndex = species;
+                NUD_Form.Value = formrand.GetRandomForme(species);
+                CB_Gender.SelectedIndex = 0; // random
+                CB_Nature.SelectedIndex = 0; // random
             }
             WinFormsUtil.Alert("Randomized all Gift Pokémon according to specification!");
         }

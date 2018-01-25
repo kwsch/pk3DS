@@ -60,8 +60,8 @@
             this.L_Set4 = new System.Windows.Forms.Label();
             this.L_Set2 = new System.Windows.Forms.Label();
             this.CHK_Gen = new System.Windows.Forms.CheckBox();
-            this.CHK_BST = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CHK_BasicStarter = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G1_0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G1_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G1_2)).BeginInit();
@@ -338,7 +338,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(717, 317);
+            this.B_Save.Location = new System.Drawing.Point(711, 331);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 464;
@@ -349,7 +349,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(636, 317);
+            this.B_Cancel.Location = new System.Drawing.Point(711, 309);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 465;
@@ -360,7 +360,7 @@
             // B_Randomize
             // 
             this.B_Randomize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_Randomize.Location = new System.Drawing.Point(12, 317);
+            this.B_Randomize.Location = new System.Drawing.Point(12, 320);
             this.B_Randomize.Name = "B_Randomize";
             this.B_Randomize.Size = new System.Drawing.Size(75, 23);
             this.B_Randomize.TabIndex = 466;
@@ -422,28 +422,28 @@
             this.CHK_Gen.Text = "Keep Same Gen";
             this.CHK_Gen.UseVisualStyleBackColor = true;
             // 
-            // CHK_BST
-            // 
-            this.CHK_BST.AutoSize = true;
-            this.CHK_BST.Checked = true;
-            this.CHK_BST.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_BST.Location = new System.Drawing.Point(16, 29);
-            this.CHK_BST.Name = "CHK_BST";
-            this.CHK_BST.Size = new System.Drawing.Size(108, 17);
-            this.CHK_BST.TabIndex = 472;
-            this.CHK_BST.Text = "Keep Similar BST";
-            this.CHK_BST.UseVisualStyleBackColor = true;
-            // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.CHK_BST);
+            this.groupBox1.Controls.Add(this.CHK_BasicStarter);
             this.groupBox1.Controls.Add(this.CHK_Gen);
             this.groupBox1.Location = new System.Drawing.Point(93, 306);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 45);
+            this.groupBox1.Size = new System.Drawing.Size(153, 48);
             this.groupBox1.TabIndex = 473;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Randomizer Settings";
+            // 
+            // CHK_BasicStarter
+            // 
+            this.CHK_BasicStarter.AutoSize = true;
+            this.CHK_BasicStarter.Checked = true;
+            this.CHK_BasicStarter.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_BasicStarter.Location = new System.Drawing.Point(16, 29);
+            this.CHK_BasicStarter.Name = "CHK_BasicStarter";
+            this.CHK_BasicStarter.Size = new System.Drawing.Size(134, 17);
+            this.CHK_BasicStarter.TabIndex = 474;
+            this.CHK_BasicStarter.Text = "Basic Starter Pokémon";
+            this.CHK_BasicStarter.UseVisualStyleBackColor = true;
             // 
             // StarterEditor6
             // 
@@ -541,7 +541,7 @@
         private System.Windows.Forms.Label L_Set4;
         private System.Windows.Forms.Label L_Set2;
         private System.Windows.Forms.CheckBox CHK_Gen;
-        private System.Windows.Forms.CheckBox CHK_BST;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox CHK_BasicStarter;
     }
 }
