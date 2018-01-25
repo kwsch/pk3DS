@@ -42,6 +42,7 @@ namespace pk3DS
         private EncounterStatic6[] EncounterData;
         private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+        private static int[] FinalEvo;
         private static int[] ReplaceLegend;
 
         private readonly string[] ability =
@@ -81,7 +82,7 @@ namespace pk3DS
 
             foreach (var s in ability) CB_Ability.Items.Add(s);
             foreach (var s in gender) CB_Gender.Items.Add(s);
-
+            FinalEvo = Legal.FinalEvolutions_6;
             ReplaceLegend = Legal.Legendary_Mythical_6;
 
             loaded = true;
@@ -179,10 +180,6 @@ namespace pk3DS
                 // every other entry
                 else
                     species = specrand.GetRandomSpecies(species);
-                
-                CB_Species.SelectedIndex = species;
-                NUD_Form.Value = formrand.GetRandomForme(species);
-                CB_Gender.SelectedIndex = 0; // random
 
                 if (CHK_AllowMega.Checked)
                     formrand.AllowMega = true;
@@ -198,6 +195,16 @@ namespace pk3DS
 
                 if (CHK_RandomAbility.Checked)
                     CB_Ability.SelectedIndex = (Util.rand.Next(1, 4)); // 1, 2 , or H
+
+                if (CHK_ForceFullyEvolved.Checked && NUD_Level.Value >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(species))
+                {
+                    int randFinalEvo() => (int)(Util.rnd32() % FinalEvo.Length);
+                    species = FinalEvo[randFinalEvo()];
+                }
+
+                CB_Species.SelectedIndex = species;
+                NUD_Form.Value = formrand.GetRandomForme(species);
+                CB_Gender.SelectedIndex = 0; // random
             }
             WinFormsUtil.Alert("Randomized all Static Encounters according to specification!");
         }

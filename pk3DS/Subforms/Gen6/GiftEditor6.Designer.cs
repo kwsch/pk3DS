@@ -43,6 +43,10 @@
             this.B_RandAll = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.L_Gender = new System.Windows.Forms.Label();
+            this.CB_Gender = new System.Windows.Forms.ComboBox();
+            this.L_Ability = new System.Windows.Forms.Label();
+            this.CB_Ability = new System.Windows.Forms.ComboBox();
             this.CB_Nature = new System.Windows.Forms.ComboBox();
             this.GB_EIVs = new System.Windows.Forms.GroupBox();
             this.L_HP = new System.Windows.Forms.Label();
@@ -61,6 +65,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.B_ModifyLevel = new System.Windows.Forms.Button();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_RandomAbility = new System.Windows.Forms.CheckBox();
             this.CHK_RemoveShinyLock = new System.Windows.Forms.CheckBox();
             this.CHK_AllowMega = new System.Windows.Forms.CheckBox();
             this.CHK_Item = new System.Windows.Forms.CheckBox();
@@ -78,11 +83,8 @@
             this.CHK_ReplaceMega = new System.Windows.Forms.CheckBox();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
-            this.L_Gender = new System.Windows.Forms.Label();
-            this.CB_Gender = new System.Windows.Forms.ComboBox();
-            this.L_Ability = new System.Windows.Forms.Label();
-            this.CB_Ability = new System.Windows.Forms.ComboBox();
-            this.CHK_RandomAbility = new System.Windows.Forms.CheckBox();
+            this.NUD_ForceFullyEvolved = new System.Windows.Forms.NumericUpDown();
+            this.CHK_ForceFullyEvolved = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -97,6 +99,7 @@
             this.tabPage2.SuspendLayout();
             this.GB_Tweak.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -259,6 +262,40 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Editor";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // L_Gender
+            // 
+            this.L_Gender.Location = new System.Drawing.Point(9, 96);
+            this.L_Gender.Name = "L_Gender";
+            this.L_Gender.Size = new System.Drawing.Size(55, 23);
+            this.L_Gender.TabIndex = 532;
+            this.L_Gender.Text = "Gender:";
+            this.L_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Gender
+            // 
+            this.CB_Gender.FormattingEnabled = true;
+            this.CB_Gender.Location = new System.Drawing.Point(65, 97);
+            this.CB_Gender.Name = "CB_Gender";
+            this.CB_Gender.Size = new System.Drawing.Size(121, 21);
+            this.CB_Gender.TabIndex = 531;
+            // 
+            // L_Ability
+            // 
+            this.L_Ability.Location = new System.Drawing.Point(9, 73);
+            this.L_Ability.Name = "L_Ability";
+            this.L_Ability.Size = new System.Drawing.Size(55, 23);
+            this.L_Ability.TabIndex = 530;
+            this.L_Ability.Text = "Ability:";
+            this.L_Ability.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Ability
+            // 
+            this.CB_Ability.FormattingEnabled = true;
+            this.CB_Ability.Location = new System.Drawing.Point(65, 74);
+            this.CB_Ability.Name = "CB_Ability";
+            this.CB_Ability.Size = new System.Drawing.Size(121, 21);
+            this.CB_Ability.TabIndex = 529;
             // 
             // CB_Nature
             // 
@@ -513,6 +550,8 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.NUD_ForceFullyEvolved);
+            this.GB_Tweak.Controls.Add(this.CHK_ForceFullyEvolved);
             this.GB_Tweak.Controls.Add(this.CHK_RandomAbility);
             this.GB_Tweak.Controls.Add(this.CHK_RemoveShinyLock);
             this.GB_Tweak.Controls.Add(this.CHK_AllowMega);
@@ -527,12 +566,22 @@
             this.GB_Tweak.Controls.Add(this.CHK_G3);
             this.GB_Tweak.Controls.Add(this.CHK_G2);
             this.GB_Tweak.Controls.Add(this.CHK_G1);
-            this.GB_Tweak.Location = new System.Drawing.Point(5, 71);
+            this.GB_Tweak.Location = new System.Drawing.Point(5, 57);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 147);
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 170);
             this.GB_Tweak.TabIndex = 513;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
+            // 
+            // CHK_RandomAbility
+            // 
+            this.CHK_RandomAbility.AutoSize = true;
+            this.CHK_RandomAbility.Location = new System.Drawing.Point(9, 110);
+            this.CHK_RandomAbility.Name = "CHK_RandomAbility";
+            this.CHK_RandomAbility.Size = new System.Drawing.Size(183, 17);
+            this.CHK_RandomAbility.TabIndex = 298;
+            this.CHK_RandomAbility.Text = "Random Abilities (1, 2, or Hidden)";
+            this.CHK_RandomAbility.UseVisualStyleBackColor = true;
             // 
             // CHK_RemoveShinyLock
             // 
@@ -737,49 +786,33 @@
             this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
-            // L_Gender
+            // NUD_ForceFullyEvolved
             // 
-            this.L_Gender.Location = new System.Drawing.Point(9, 96);
-            this.L_Gender.Name = "L_Gender";
-            this.L_Gender.Size = new System.Drawing.Size(55, 23);
-            this.L_Gender.TabIndex = 532;
-            this.L_Gender.Text = "Gender:";
-            this.L_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.NUD_ForceFullyEvolved.Location = new System.Drawing.Point(168, 141);
+            this.NUD_ForceFullyEvolved.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_ForceFullyEvolved.Name = "NUD_ForceFullyEvolved";
+            this.NUD_ForceFullyEvolved.Size = new System.Drawing.Size(40, 20);
+            this.NUD_ForceFullyEvolved.TabIndex = 518;
+            this.NUD_ForceFullyEvolved.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
             // 
-            // CB_Gender
+            // CHK_ForceFullyEvolved
             // 
-            this.CB_Gender.FormattingEnabled = true;
-            this.CB_Gender.Location = new System.Drawing.Point(65, 97);
-            this.CB_Gender.Name = "CB_Gender";
-            this.CB_Gender.Size = new System.Drawing.Size(121, 21);
-            this.CB_Gender.TabIndex = 531;
-            // 
-            // L_Ability
-            // 
-            this.L_Ability.Location = new System.Drawing.Point(9, 73);
-            this.L_Ability.Name = "L_Ability";
-            this.L_Ability.Size = new System.Drawing.Size(55, 23);
-            this.L_Ability.TabIndex = 530;
-            this.L_Ability.Text = "Ability:";
-            this.L_Ability.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_Ability
-            // 
-            this.CB_Ability.FormattingEnabled = true;
-            this.CB_Ability.Location = new System.Drawing.Point(65, 74);
-            this.CB_Ability.Name = "CB_Ability";
-            this.CB_Ability.Size = new System.Drawing.Size(121, 21);
-            this.CB_Ability.TabIndex = 529;
-            // 
-            // CHK_RandomAbility
-            // 
-            this.CHK_RandomAbility.AutoSize = true;
-            this.CHK_RandomAbility.Location = new System.Drawing.Point(9, 110);
-            this.CHK_RandomAbility.Name = "CHK_RandomAbility";
-            this.CHK_RandomAbility.Size = new System.Drawing.Size(183, 17);
-            this.CHK_RandomAbility.TabIndex = 298;
-            this.CHK_RandomAbility.Text = "Random Abilities (1, 2, or Hidden)";
-            this.CHK_RandomAbility.UseVisualStyleBackColor = true;
+            this.CHK_ForceFullyEvolved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_ForceFullyEvolved.AutoSize = true;
+            this.CHK_ForceFullyEvolved.Location = new System.Drawing.Point(9, 142);
+            this.CHK_ForceFullyEvolved.Name = "CHK_ForceFullyEvolved";
+            this.CHK_ForceFullyEvolved.Size = new System.Drawing.Size(160, 17);
+            this.CHK_ForceFullyEvolved.TabIndex = 517;
+            this.CHK_ForceFullyEvolved.Text = "Force Fully Evolved at Level";
+            this.CHK_ForceFullyEvolved.UseVisualStyleBackColor = true;
             // 
             // GiftEditor6
             // 
@@ -815,6 +848,7 @@
             this.GB_Tweak.ResumeLayout(false);
             this.GB_Tweak.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -876,5 +910,7 @@
         private System.Windows.Forms.Label L_Ability;
         private System.Windows.Forms.ComboBox CB_Ability;
         private System.Windows.Forms.CheckBox CHK_RandomAbility;
+        private System.Windows.Forms.NumericUpDown NUD_ForceFullyEvolved;
+        private System.Windows.Forms.CheckBox CHK_ForceFullyEvolved;
     }
 }

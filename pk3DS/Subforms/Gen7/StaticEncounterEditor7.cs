@@ -20,7 +20,9 @@ namespace pk3DS
         private readonly string[] natures = Main.Config.getText(TextName.Natures);
         private readonly string[] types = Main.Config.getText(TextName.Types);
         private readonly int[] oldStarters;
+        private static int[] FinalEvo;
         private static int[] ReplaceLegend;
+        private static int[] BasicStarter;
 
         private readonly string[] ability =
         {
@@ -51,6 +53,9 @@ namespace pk3DS
             "All Stats (+2)",
             "All Stats (+3)",
         };
+
+        private static int[] Totem = { 020, 105, 735, 738, 743, 746, 752, 754, 758, 777, 778, 784 }; // Totem battles
+        private static int[] UnevolvedLegend = { 772, 789, 803 }; // Type: Null, Cosmog, Poipole gifts
 
         public StaticEncounterEditor7(byte[][] infiles)
         {
@@ -134,8 +139,9 @@ namespace pk3DS
             LB_Gift.SelectedIndex = 0;
             LB_Encounter.SelectedIndex = 0;
             LB_Trade.SelectedIndex = 0;
-
+            FinalEvo = Main.Config.USUM ? Legal.FinalEvolutions_USUM : Legal.FinalEvolutions_SM;
             ReplaceLegend = Main.Config.USUM ? Legal.Legendary_Mythical_USUM : Legal.Legendary_Mythical_SM;
+            BasicStarter = Legal.BasicStarters_7;
 
             // Select last tab (Randomization) by default in case info already randomized.
             TC_Tabs.SelectedIndex = TC_Tabs.TabCount - 1;
@@ -464,7 +470,17 @@ namespace pk3DS
             for (int i = 0; i < 3; i++)
             {
                 var t = Gifts[i];
-                t.Species = specrand.GetRandomSpecies(oldStarters[i]);
+
+                // Pokemon with 2 evolutions
+                if (CHK_BasicStarter.Checked)
+                {
+                    int basic() => (int)(Util.rnd32() % BasicStarter.Length);
+                    t.Species = BasicStarter[basic()];
+                }
+
+                else
+                    t.Species = specrand.GetRandomSpecies(oldStarters[i]);
+                
                 t.Form = formrand.GetRandomForme(t.Species);
                 t.Nature = -1; // random
 
@@ -505,13 +521,14 @@ namespace pk3DS
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
             var items = Randomizer.getRandomItemList();
+            int randFinalEvo() => (int)(Util.rnd32() % FinalEvo.Length);
 
             for (int i = 3; i < Gifts.Length; i++) // Skip Starters
             {
                 var t = Gifts[i];
 
-                // replace Legendaries with another Legendary
-                if (CHK_ReplaceLegend.Checked && ReplaceLegend.Contains(t.Species))
+                // replace Legendaries with another Legendary, including unevolved Legendary gifts
+                if (CHK_ReplaceLegend.Checked && (ReplaceLegend.Contains(t.Species)) || (UnevolvedLegend.Contains(t.Species)))
                 {
                     int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
                     t.Species = ReplaceLegend[randLegend()];
@@ -541,6 +558,12 @@ namespace pk3DS
 
                 if (CHK_RandomAbility.Checked)
                     t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H
+                
+                if (CHK_ForceFullyEvolved.Checked && t.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(t.Species))
+                {
+                    t.Species = FinalEvo[randFinalEvo()];
+                    t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
+                }
             }
             foreach (EncounterStatic7 t in Encounters)
             {
@@ -550,6 +573,10 @@ namespace pk3DS
                     int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
                     t.Species = ReplaceLegend[randLegend()];
                 }
+
+                // fully evolved Totems
+                else if (CHK_ForceTotem.Checked && Totem.Contains(t.Species))
+                    t.Species = FinalEvo[randFinalEvo()];
 
                 // every other entry
                 else
@@ -577,6 +604,12 @@ namespace pk3DS
 
                 if (CHK_RandomAbility.Checked)
                     t.Ability = (sbyte)(Util.rand.Next(1, 4)); // 1, 2, or H
+                
+                if (CHK_ForceFullyEvolved.Checked && t.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(t.Species))
+                {
+                    t.Species = FinalEvo[randFinalEvo()];
+                    t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
+                }
             }
             foreach (EncounterTrade7 t in Trades)
             {
@@ -596,6 +629,12 @@ namespace pk3DS
 
                 if (CHK_RandomAbility.Checked)
                     t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H
+                
+                if (CHK_ForceFullyEvolved.Checked && t.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(t.Species))
+                {
+                    t.Species = FinalEvo[randFinalEvo()];
+                    t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
+                }
             }
 
             getListBoxEntries();
