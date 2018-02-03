@@ -758,6 +758,7 @@ namespace pk3DS
                 rClass // Classes selected to be randomized
                 && (!rOnlySingles || t.BattleType == 0) //  Nonsingles only get changed if rOnlySingles
                 && !rIgnoreClass.Contains(t.Class) // Current class isn't a special class
+                && Main.Config.XY
                 )
             {
                 int randClass() => (int)(rnd32() % trClass.Length);
@@ -765,12 +766,11 @@ namespace pk3DS
                 // Ensure the Random Class isn't an exclusive class
                 while (rIgnoreClass.Contains(rv) || trClass[rv].StartsWith("[~")); // don't allow disallowed classes
                 t.Class = rv;
-
-                if (Main.Config.ORAS && t.Class <= 126) // 0 to 126 from XY, re-randomize to something from ORAS
-                {
-                    int fixClass() => (int)(rnd32() % rTrainerClasses.Length);
-                    t.Class = rTrainerClasses[fixClass()];
-                }
+            }
+            else if (Main.Config.ORAS) // don't allow XY-only classes
+            {
+                    int randClass() => (int)(rnd32() % rTrainerClasses.Length);
+                    t.Class = rTrainerClasses[randClass()];
             }
         }
         private static void RandomizeTrainerPrizeItem(trdata6 t)
@@ -795,49 +795,54 @@ namespace pk3DS
         {
             string[] tags = Enumerable.Repeat("", trdata.Length).ToArray();
             ImportantTrainers = true;
-            //Rival Battles
+
+            // Rival Battles
             TagTrainer(tags, "RIVAL1", 289, 292, 295, 298, 527, 530, 674, 677, 699, 906); // Rival w/ Grass Starter
             TagTrainer(tags, "RIVAL2", 290, 293, 296, 299, 528, 531, 675, 678, 700, 907); // Rival w/ Fire Starter
             TagTrainer(tags, "RIVAL3", 291, 294, 297, 300, 529, 532, 676, 679, 701, 908); // Rival w/ Water Starter
 
-            //Aqua Admins
-            TagTrainer(tags, "AQUA1", 178, 231, 266);              // Archie
-            TagTrainer(tags, "AQUA2", 683, 684, 685, 686, 687);    // Matt
-            TagTrainer(tags, "AQUA3", 688, 689, 690);              // Shelly
+            // Aqua Admins
+            TagTrainer(tags, "AQUA1", 178, 231, 266);           // Archie
+            TagTrainer(tags, "AQUA2", 683, 684, 685, 686, 687); // Matt
+            TagTrainer(tags, "AQUA3", 688, 689, 690);           // Shelly
 
-            //Magma Admins
-            TagTrainer(tags, "MAGMA1", 235, 236, 271);             // Maxie
-            TagTrainer(tags, "MAGMA2", 694, 695, 696, 697, 698);   // Courney
-            TagTrainer(tags, "MAGMA3", 691, 692, 693);             // Tabitha
+            // Magma Admins
+            TagTrainer(tags, "MAGMA1", 235, 236, 271);           // Maxie
+            TagTrainer(tags, "MAGMA2", 694, 695, 696, 697, 698); // Courney
+            TagTrainer(tags, "MAGMA3", 691, 692, 693);           // Tabitha
 
-            //Gym Leaders
-            TagTrainer(tags, "GYM1", 561);         // Roxanne
-            TagTrainer(tags, "GYM2", 563);         // Brawly
-            TagTrainer(tags, "GYM3", 567);         // Wattson
-            TagTrainer(tags, "GYM4", 569);         // Flannery
-            TagTrainer(tags, "GYM5", 570);         // Norman
-            TagTrainer(tags, "GYM6", 571);         // Winona
-            TagTrainer(tags, "GYM7", 552);         // Liza & Tate
-            TagTrainer(tags, "GYM8", 572, 943);    // Wallace
+            // Gym Leaders
+            TagTrainer(tags, "GYM1", 561);      // Roxanne
+            TagTrainer(tags, "GYM2", 563);      // Brawly
+            TagTrainer(tags, "GYM3", 567);      // Wattson
+            TagTrainer(tags, "GYM4", 569);      // Flannery
+            TagTrainer(tags, "GYM5", 570);      // Norman
+            TagTrainer(tags, "GYM6", 571);      // Winona
+            TagTrainer(tags, "GYM7", 552);      // Liza & Tate
+            TagTrainer(tags, "GYM8", 572, 943); // Wallace
 
-            //Elite 4
-            TagTrainer(tags, "ELITE1", 553, 909);  // Sidney
-            TagTrainer(tags, "ELITE2", 554, 910);  // Phoebe
-            TagTrainer(tags, "ELITE3", 555, 911);  // Glacia
-            TagTrainer(tags, "ELITE4", 556, 912);  // Drake
+            // Elite Four
+            TagTrainer(tags, "ELITE1", 553, 909);             // Sidney
+            TagTrainer(tags, "ELITE2", 554, 910);             // Phoebe
+            TagTrainer(tags, "ELITE3", 555, 911);             // Glacia
+            TagTrainer(tags, "ELITE4", 556, 912);             // Drake
             TagTrainer(tags, "CHAMPION", 557, 680, 913, 942); // Champion Steven
 
-            //Wally
+            // Wally
             TagTrainer(tags, "WALLY", 518, 583, 944, 945, 946, 947);
 
-            //Zinnia
+            // Zinnia
             TagTrainer(tags, "LOREKEEPER", 713, 898);
+
+            // Aarune
+            TagTrainer(tags, "EXPERT", 856, 857);
 
             ImportantTrainers = false;
             TagTrainer(tags, "RIVAL1", 1, 4); // Rival w/ Grass Starter
             TagTrainer(tags, "RIVAL2", 2, 5); // Rival w/ Fire Starter
             TagTrainer(tags, "RIVAL3", 3, 6); // Rival w/ Water Starter
-            //Gym Trainers (Tagged in order of appearance on Bulbapedia's lists)
+
+            // Gym Trainers (Tagged in order of appearance on Bulbapedia's lists)
             if (rTypeGymTrainers)
             {
                 TagTrainer(tags, "GYM1", 562, 22, 667);
@@ -855,49 +860,62 @@ namespace pk3DS
         {
             string[] tags = Enumerable.Repeat("", trdata.Length).ToArray();
             ImportantTrainers = true;
-            //Rival Battles
+
+            // Rival Battles
             TagTrainer(tags, "RIVAL1", 130, 184, 329, 332, 335, 338, 341, 435, 519, 604, 575, 578, 581, 584, 587, 590, 593, 596, 599, 607); // Rival w/ Fire Starter
             TagTrainer(tags, "RIVAL2", 131, 185, 330, 333, 336, 339, 342, 436, 520, 605, 576, 579, 582, 585, 588, 591, 594, 597, 600, 608); // Rival w/ Water Starter
             TagTrainer(tags, "RIVAL3", 132, 186, 331, 334, 337, 340, 343, 437, 521, 606, 577, 580, 583, 586, 589, 592, 595, 598, 601, 609); // Rival w/ Grass Starter
 
-            //Important Flare Members
-            TagTrainer(tags, "FLAREBOSS", 303, 525, 526);   // Lysandre
-            TagTrainer(tags, "FLARE1", 175, 344);           // Aliana
-            TagTrainer(tags, "FLARE2", 350, 351);           // Bryony
-            TagTrainer(tags, "FLARE3", 348, 349);           // Celosia
-            TagTrainer(tags, "FLARE4", 346, 347);           // Mable
-            TagTrainer(tags, "FLARE5", 345);                // Xerosic
+            // Team Flare Admins
+            TagTrainer(tags, "FLAREBOSS", 303, 525, 526); // Lysandre
+            TagTrainer(tags, "FLARE1", 175, 344);         // Aliana
+            TagTrainer(tags, "FLARE2", 350, 351);         // Bryony
+            TagTrainer(tags, "FLARE3", 348, 349);         // Celosia
+            TagTrainer(tags, "FLARE4", 346, 347);         // Mable
+            TagTrainer(tags, "FLARE5", 345);              // Xerosic
 
-            //Gym Leaders
-            TagTrainer(tags, "GYM1", 6, 254, 262);              // Viola
-            TagTrainer(tags, "GYM2", 76, 261, 279);             // Grant
-            TagTrainer(tags, "GYM3", 21, 188, 255, 263, 613);   // Korrina
-            TagTrainer(tags, "GYM4", 22, 256, 264);             // Ramos
-            TagTrainer(tags, "GYM5", 23, 257, 265);             // Clemont
-            TagTrainer(tags, "GYM6", 24, 258, 266);             // Valerie
-            TagTrainer(tags, "GYM7", 25, 259, 267);             // Olympia
-            TagTrainer(tags, "GYM8", 26, 260, 268);             // Wulfric
+            // Gym Leaders
+            TagTrainer(tags, "GYM1", 6, 254, 262);       // Viola
+            TagTrainer(tags, "GYM2", 76, 261, 279);      // Grant
+            TagTrainer(tags, "GYM3", 21, 255, 263, 613); // Korrina
+            TagTrainer(tags, "GYM4", 22, 256, 264);      // Ramos
+            TagTrainer(tags, "GYM5", 23, 257, 265);      // Clemont
+            TagTrainer(tags, "GYM6", 24, 258, 266);      // Valerie
+            TagTrainer(tags, "GYM7", 25, 259, 267);      // Olympia
+            TagTrainer(tags, "GYM8", 26, 260, 268);      // Wulfric
 
-            //Elite 4
-            TagTrainer(tags, "ELITE1", 269, 273, 507);  // Malva
-            TagTrainer(tags, "ELITE2", 271, 275);       // Siebold
-            TagTrainer(tags, "ELITE3", 187, 272);       // Wikstrom
-            TagTrainer(tags, "ELITE4", 270, 274);       // Drasna
-            TagTrainer(tags, "CHAMPION", 276, 277);     // Champion Diantha
+            // Elite Four
+            TagTrainer(tags, "ELITE1", 269, 273, 507); // Malva
+            TagTrainer(tags, "ELITE2", 271, 275);      // Siebold
+            TagTrainer(tags, "ELITE3", 187, 272);      // Wikstrom
+            TagTrainer(tags, "ELITE4", 270, 274);      // Drasna
+            TagTrainer(tags, "CHAMPION", 276, 277);    // Champion Diantha
 
-            //"Friends"
-            TagTrainer(tags, "SHAUNA", 137, 138, 139, 321, 322, 323);
+            // Friends
+            TagTrainer(tags, "SHAUNA", 321, 322, 323);
             TagTrainer(tags, "TREVOR", 325, 439);
             TagTrainer(tags, "TIERNO", 324, 438, 573);
 
-            //Prof
+            // Professor
             TagTrainer(tags, "PROFESSOR", 327, 328);
 
-            //Suspicious Trainer ???
+            // Suspicious Trainer ???
             TagTrainer(tags, "ESSENTIA", 503, 504, 505, 511, 512, 513, 514, 515); // Emma
 
+            // AZ
+            TagTrainer(tags, "AZ", 602);
+
+            // Battle Chatelaines
+            TagTrainer(tags, "CHATELAINE1", 559); // Nita
+            TagTrainer(tags, "CHATELAINE2", 560); // Evelyn
+            TagTrainer(tags, "CHATELAINE3", 561); // Dana
+            TagTrainer(tags, "CHATELAINE4", 562); // Morgan
+
             ImportantTrainers = false;
-            //Gym Trainers (Tagged in order of appearance on Bulbapedia's lists)
+            TagTrainer(tags, "SHAUNA", 137, 138, 139);
+            TagTrainer(tags, "GYM3", 188);
+
+            // Gym Trainers (Tagged in order of appearance on Bulbapedia's lists)
             if (rTypeGymTrainers)
             {
                 TagTrainer(tags, "GYM1", 39, 40, 48);
