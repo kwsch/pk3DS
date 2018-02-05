@@ -69,14 +69,10 @@ namespace pk3DS
             foreach (ComboBox cb in mb) { foreach (string s in evolutionMethods) cb.Items.Add(s); }
             foreach (ComboBox cb in rb) { foreach (string s in specieslist) cb.Items.Add(s); }
 
-            sortedspecies = (string[])specieslist.Clone();
-            Array.Sort(sortedspecies);
-
             CB_Species.Items.Clear();
-            foreach (string s in sortedspecies) CB_Species.Items.Add(s);
-            CB_Species.Items.RemoveAt(0);
+            foreach (string s in specieslist) CB_Species.Items.Add(s);
 
-            CB_Species.SelectedIndex = 0;
+            CB_Species.SelectedIndex = 1;
             RandSettings.GetFormSettings(this, GB_Randomizer.Controls);
         }
         private readonly byte[][] files;
@@ -85,7 +81,6 @@ namespace pk3DS
         private readonly ComboBox[] mb;
         private readonly PictureBox[] pic;
         private int entry = -1;
-        private readonly string[] sortedspecies;
         private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
         private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
@@ -102,7 +97,7 @@ namespace pk3DS
             for (int i = 0; i < evo.PossibleEvolutions.Length; i++)
             {
                 if (evo.PossibleEvolutions[i].Method > 34) return; // Invalid!
-
+                
                 mb[i].SelectedIndex = evo.PossibleEvolutions[i].Method; // Which will trigger the params cb to reload the valid params list
                 pb[i].SelectedIndex = evo.PossibleEvolutions[i].Argument;
                 rb[i].SelectedIndex = evo.PossibleEvolutions[i].Species;
@@ -145,6 +140,21 @@ namespace pk3DS
             getList();
 
             WinFormsUtil.Alert("All Pokémon's Evolutions have been randomized!");
+        }
+        private void B_Trade_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Remove all trade evolutions?", "Evolution methods will be altered so that evolutions will be possible with only one game."))
+                return;
+
+            setList();
+            var evos = files.Select(z => new EvolutionSet6(z)).ToArray();
+            var evoRand = new EvolutionRandomizer(Main.Config, evos);
+            evoRand.Randomizer.Initialize();
+            evoRand.ExecuteTrade();
+            evos.Select(z => z.Write()).ToArray().CopyTo(files, 0);
+            getList();
+
+            WinFormsUtil.Alert("All trade evolutions have been removed!", "Trade evolutions will now occur after reaching a certain Level, or after leveling up while holding its appropriate trade item.");
         }
         private void B_Dump_Click(object sender, EventArgs e)
         {
@@ -216,7 +226,7 @@ namespace pk3DS
                 case 3: // Moves
                     { foreach (string t in movelist) pb[op].Items.Add(t); break; }
                 case 4: // Species
-                    { for (int i = 0; i < sortedspecies.Length; i++) pb[op].Items.Add(specieslist[i]); break; }
+                    { for (int i = 0; i < specieslist.Length; i++) pb[op].Items.Add(specieslist[i]); break; }
                 case 5: // 0-255 (Beauty)
                     { for (int i = 0; i <= 255; i++) pb[op].Items.Add(i.ToString()); break; }
                 case 6:
