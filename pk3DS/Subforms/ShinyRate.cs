@@ -93,7 +93,7 @@ namespace pk3DS
 
             if (index < 0)
             {
-                checkBox1.Enabled = checkBox1.Visible = false;
+                CHK_EverythingShiny.Enabled = CHK_EverythingShiny.Visible = false;
                 return;
             }
 
@@ -102,19 +102,19 @@ namespace pk3DS
 
             if (!original && !always) // oh no
             {
-                checkBox1.Enabled = checkBox1.Visible = false;
+                CHK_EverythingShiny.Enabled = CHK_EverythingShiny.Visible = false;
                 return;
             }
 
-            checkBox1.Checked = always;
+            CHK_EverythingShiny.Checked = always;
         }
 
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
         private void B_Save_Click(object sender, EventArgs e)
         {
             writeCodePatch();
-            if (checkBox1.Enabled)
-                exefsData[alwaysIndex] = (byte)(checkBox1.Checked ? 0xEA : 0x0A);
+            if (CHK_EverythingShiny.Enabled)
+                exefsData[alwaysIndex] = (byte)(CHK_EverythingShiny.Checked ? 0xEA : 0x0A);
             File.WriteAllBytes(codebin, exefsData);
             Close();
         }

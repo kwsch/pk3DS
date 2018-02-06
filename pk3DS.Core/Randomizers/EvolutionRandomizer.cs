@@ -16,7 +16,6 @@ namespace pk3DS.Core.Randomizers
             Randomizer = new SpeciesRandomizer(Config);
         }
 
-
         public void Execute()
         {
             for (var i = 0; i < Evolutions.Length; i++)
@@ -50,7 +49,7 @@ namespace pk3DS.Core.Randomizers
             var evos = evo.PossibleEvolutions;
             foreach (EvolutionMethod v in evos)
             {
-                if ((Config.XY || Config.ORAS) && v.Method == 5) // Gen 6 uses Argument rather than Level
+                if (Config.Generation == 6 && v.Method == 5) // Gen 6 uses Argument rather than Level
                 {
                     if (i == 708 || i == 710) // Phantump/Pumpkaboo
                         v.Argument = 20;
@@ -59,9 +58,9 @@ namespace pk3DS.Core.Randomizers
                     v.Method = 4; // trade -> level up
                 }
 
-                if ((Config.SM || Config.USUM) && v.Method == 5)
+                else if (Config.Generation == 7 && v.Method == 5)
                 {
-                    if (i == 708 || i == 710 || i == 876 || i == 877 | i == 878) // Phantump/Pumpkaboo forms
+                    if (i == 708 || i == 710 || i == 871 || i == 872 || i == 873 || i == 876 || i == 877 || i == 878) // Phantump/Pumpkaboo forms
                         v.Level = 20;
                     else
                         v.Level = 30;
