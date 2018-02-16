@@ -480,9 +480,6 @@ namespace pk3DS
 
                 else
                     t.Species = specrand.GetRandomSpecies(oldStarters[i]);
-                
-                t.Form = formrand.GetRandomForme(t.Species);
-                t.Nature = -1; // random
 
                 if (CHK_AllowMega.Checked)
                     formrand.AllowMega = true;
@@ -494,13 +491,16 @@ namespace pk3DS
                     t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
 
                 if (CHK_RemoveShinyLock.Checked)
-                    t.ShinyLock = false; // in case any user modifications locked the starters
+                    t.ShinyLock = false;
 
                 if (CHK_SpecialMove.Checked)
                     t.SpecialMove = Util.rand.Next(1, CB_SpecialMove.Items.Count); // don't allow none
 
                 if (CHK_RandomAbility.Checked)
                     t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H
+
+                t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
+                t.Nature = -1; // random
             }
 
             getListBoxEntries();
@@ -522,24 +522,19 @@ namespace pk3DS
             var move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
             var items = Randomizer.getRandomItemList();
             int randFinalEvo() => (int)(Util.rnd32() % FinalEvo.Length);
+            int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
 
             for (int i = 3; i < Gifts.Length; i++) // Skip Starters
             {
                 var t = Gifts[i];
 
-                // replace Legendaries with another Legendary, including unevolved Legendary gifts
-                if (CHK_ReplaceLegend.Checked && (ReplaceLegend.Contains(t.Species)) || (UnevolvedLegend.Contains(t.Species)))
-                {
-                    int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
+                // Legendary-for-Legendary
+                if (CHK_ReplaceLegend.Checked && ReplaceLegend.Contains(t.Species) || UnevolvedLegend.Contains(t.Species))
                     t.Species = ReplaceLegend[randLegend()];
-                }
 
                 // every other entry
                 else
                     t.Species = specrand.GetRandomSpecies(t.Species);
-
-                t.Form = formrand.GetRandomForme(t.Species);
-                t.Nature = -1; // random
 
                 if (CHK_AllowMega.Checked)
                     formrand.AllowMega = true;
@@ -560,19 +555,16 @@ namespace pk3DS
                     t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H
                 
                 if (CHK_ForceFullyEvolved.Checked && t.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(t.Species))
-                {
                     t.Species = FinalEvo[randFinalEvo()];
-                    t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
-                }
+
+                t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
+                t.Nature = -1; // random
             }
             foreach (EncounterStatic7 t in Encounters)
             {
-                // replace Legendaries with another Legendary
+                // Legendary-for-Legendary
                 if (CHK_ReplaceLegend.Checked && ReplaceLegend.Contains(t.Species))
-                {
-                    int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
                     t.Species = ReplaceLegend[randLegend()];
-                }
 
                 // fully evolved Totems
                 else if (CHK_ForceTotem.Checked && Totem.Contains(t.Species))
@@ -581,11 +573,6 @@ namespace pk3DS
                 // every other entry
                 else
                     t.Species = specrand.GetRandomSpecies(t.Species);
-
-                t.Form = formrand.GetRandomForme(t.Species);
-                t.RelearnMoves = move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
-                t.Gender = 0; // random
-                t.Nature = 0; // random
 
                 if (CHK_AllowMega.Checked)
                     formrand.AllowMega = true;
@@ -606,17 +593,17 @@ namespace pk3DS
                     t.Ability = (sbyte)(Util.rand.Next(1, 4)); // 1, 2, or H
                 
                 if (CHK_ForceFullyEvolved.Checked && t.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(t.Species))
-                {
                     t.Species = FinalEvo[randFinalEvo()];
-                    t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
-                }
+
+                t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
+                t.RelearnMoves = move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
+                t.Gender = 0; // random
+                t.Nature = 0; // random
             }
             foreach (EncounterTrade7 t in Trades)
             {
                 t.Species = specrand.GetRandomSpecies(t.Species);
-                t.Form = formrand.GetRandomForme(t.Species);
                 t.TradeRequestSpecies = specrand.GetRandomSpecies(t.TradeRequestSpecies);
-                t.Nature = (int)(Util.rnd32() % CB_TNature.Items.Count); // randomly selected
 
                 if (CHK_AllowMega.Checked)
                     formrand.AllowMega = true;
@@ -631,10 +618,10 @@ namespace pk3DS
                     t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H
                 
                 if (CHK_ForceFullyEvolved.Checked && t.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(t.Species))
-                {
-                    t.Species = FinalEvo[randFinalEvo()];
-                    t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
-                }
+                    t.Species = FinalEvo[randFinalEvo()]; // only do offered species to be fair
+
+                t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
+                t.Nature = (int)(Util.rnd32() % CB_TNature.Items.Count); // randomly selected
             }
 
             getListBoxEntries();
@@ -701,20 +688,17 @@ namespace pk3DS
         private void ModifyLevels(object sender, EventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify all current Levels?", "Cannot undo.") != DialogResult.Yes) return;
-
-            // encounter
+            
             for (int i = 0; i < LB_Encounter.Items.Count; i++)
             {
                 LB_Encounter.SelectedIndex = i;
                 NUD_ELevel.Value = Randomizer.getModifiedLevel((int)NUD_ELevel.Value, NUD_LevelBoost.Value);
             }
-            // gift
             for (int i = 0; i < LB_Gift.Items.Count; i++)
             {
                 LB_Gift.SelectedIndex = i;
                 NUD_GLevel.Value = Randomizer.getModifiedLevel((int)NUD_GLevel.Value, NUD_LevelBoost.Value);
             }
-            // trade
             for (int i = 0; i < LB_Trade.Items.Count; i++)
             {
                 LB_Trade.SelectedIndex = i;
