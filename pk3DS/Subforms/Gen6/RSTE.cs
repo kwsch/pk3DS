@@ -746,10 +746,8 @@ namespace pk3DS
             if (rOnlySingles)
                 t.AI &= 7;
 
-            if (rClass && rModelRestricted.Contains(t.Class)) // Classes selected to be randomized
+            if (rClass && rModelRestricted.Contains(t.Class)) // shuffle classes with 3D models
             {
-                //if (rIgnoreClass.Any()) // ignored special classes
-                //    return;
                 int randClass() => (int) (rnd32() % rModelRestricted.Length);
                 t.Class = rModelRestricted[randClass()];
             }
@@ -767,10 +765,12 @@ namespace pk3DS
                 while (rIgnoreClass.Contains(rv) || trClass[rv].StartsWith("[~")); // don't allow disallowed classes
                 t.Class = rv;
             }
-            else if (Main.Config.ORAS) // don't allow XY-only classes
+            else if (rClass && Main.Config.ORAS) // special handling, can't allow XY classes
             {
-                    int randClass() => (int)(rnd32() % rTrainerClasses.Length);
-                    t.Class = rTrainerClasses[randClass()];
+                int randClass() => (int)(rnd32() % rTrainerClasses.Length);
+                if (rOnlySingles && t.BattleType != 0) return; // only singles if specified
+                if (rIgnoreClass.Contains(t.Class) && rTrainerClasses.Contains(t.Class)) return; // don't change important trainers if specified
+                t.Class = rTrainerClasses[randClass()];
             }
         }
         private static void RandomizeTrainerPrizeItem(trdata6 t)
