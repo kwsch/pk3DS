@@ -743,10 +743,8 @@ namespace pk3DS
         {
             if (rDiffAI)
                 t.AI |= 7; // Set first 3 bits, keep any other flag if present
-            if (rOnlySingles)
-                t.AI &= 7;
 
-            if (rClass && rModelRestricted.Contains(t.Class)) // shuffle classes with 3D models
+            if (rClass && rModelRestricted.Contains(t.Class) && !rIgnoreClass.Contains(t.Class)) // shuffle classes with 3D models
             {
                 int randClass() => (int) (rnd32() % rModelRestricted.Length);
                 t.Class = rModelRestricted[randClass()];
@@ -808,7 +806,7 @@ namespace pk3DS
 
             // Magma Admins
             TagTrainer(tags, "MAGMA1", 235, 236, 271);           // Maxie
-            TagTrainer(tags, "MAGMA2", 694, 695, 696, 697, 698); // Courney
+            TagTrainer(tags, "MAGMA2", 694, 695, 696, 697, 698); // Courtney
             TagTrainer(tags, "MAGMA3", 691, 692, 693);           // Tabitha
 
             // Gym Leaders
