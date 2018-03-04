@@ -7,10 +7,9 @@ namespace pk3DS.Core
     {
         public static T ToStructure<T>(this byte[] bytes) where T : struct
         {
-            GCHandle handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
-            T obj = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
-            handle.Free();
-            return obj;
+            var handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
+            try { return (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T)); }
+            finally { handle.Free(); }
         }
         public static byte[] ToBytes<T>(this T obj) where T : struct
         {

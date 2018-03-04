@@ -781,6 +781,7 @@ namespace pk3DS
                         break;
                 }
                 g.Save();
+                Config.InitializeMoves();
             }).Start();
         }
         private void B_LevelUp_Click(object sender, EventArgs e)
@@ -788,8 +789,7 @@ namespace pk3DS
             if (threadActive()) return;
             new Thread(() =>
             {
-                var g = Config.getGARCData("levelup");
-                byte[][] d = g.Files;
+                byte[][] d = Config.GARCLearnsets.Files;
                 switch (Config.Generation)
                 {
                     case 6:
@@ -799,8 +799,9 @@ namespace pk3DS
                         Invoke((Action)(() => new LevelUpEditor7(d).ShowDialog()));
                         break;
                 }
-                g.Files = d;
-                g.Save();
+                Config.GARCLearnsets.Files = d;
+                Config.GARCLearnsets.Save();
+                Config.InitializePersonal();
             }).Start();
         }
         private void B_EggMove_Click(object sender, EventArgs e)
