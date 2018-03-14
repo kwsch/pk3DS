@@ -200,11 +200,11 @@ namespace pk3DS.Core
 
         public string RomFS, ExeFS;
 
-        public GARCReference getGARCReference(string name) { return Files.FirstOrDefault(f => f.Name == name); }
-        public TextVariableCode getVariableCode(string name) { return Variables.FirstOrDefault(v => v.Name == name); }
-        public TextVariableCode getVariableName(int value) { return Variables.FirstOrDefault(v => v.Code == value); }
+        public GARCReference getGARCReference(string name) { return Files?.FirstOrDefault(f => f.Name == name); }
+        public TextVariableCode getVariableCode(string name) { return Variables?.FirstOrDefault(v => v.Name == name); }
+        public TextVariableCode getVariableName(int value) { return Variables?.FirstOrDefault(v => v.Code == value); }
 
-        private TextReference getGameText(TextName name) { return GameText.FirstOrDefault(f => f.Name == name); }
+        private TextReference getGameText(TextName name) { return GameText?.FirstOrDefault(f => f.Name == name); }
         public TextData getTextData(TextName file) => new TextData(getText(file));
         public string[] getText(TextName file)
         {
