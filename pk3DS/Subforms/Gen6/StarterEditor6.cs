@@ -160,8 +160,8 @@ namespace pk3DS
                     G5 = !CHK_Gen.Checked || gen == 5,
                     G6 = !CHK_Gen.Checked || gen == 6,
 
-                    L = false,
-                    E = false,
+                    L = CHK_L.Checked,
+                    E = CHK_E.Checked,
                     Shedinja = false,
                 };
                 rand.Initialize();
@@ -175,7 +175,7 @@ namespace pk3DS
                         Choices[i][j].SelectedIndex = BasicStarter[basic()];
                     }
                     else
-                        Choices[i][j].SelectedIndex = rand.GetRandomSpecies(oldSpecies);
+                        Choices[i][j].SelectedIndex = rand.GetRandomSpecies(i);
                 }
             }
 

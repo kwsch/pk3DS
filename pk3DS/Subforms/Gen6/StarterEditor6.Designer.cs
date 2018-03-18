@@ -53,7 +53,6 @@
             this.CB_G4_0 = new System.Windows.Forms.ComboBox();
             this.PB_G4_0 = new System.Windows.Forms.PictureBox();
             this.B_Save = new System.Windows.Forms.Button();
-            this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Randomize = new System.Windows.Forms.Button();
             this.L_Set1 = new System.Windows.Forms.Label();
             this.L_Set3 = new System.Windows.Forms.Label();
@@ -61,7 +60,10 @@
             this.L_Set2 = new System.Windows.Forms.Label();
             this.CHK_Gen = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CHK_E = new System.Windows.Forms.CheckBox();
+            this.CHK_L = new System.Windows.Forms.CheckBox();
             this.CHK_BasicStarter = new System.Windows.Forms.CheckBox();
+            this.B_Cancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G1_0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G1_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_G1_2)).BeginInit();
@@ -79,7 +81,7 @@
             // 
             // PB_G1_0
             // 
-            this.PB_G1_0.Location = new System.Drawing.Point(12, 30);
+            this.PB_G1_0.Location = new System.Drawing.Point(12, 20);
             this.PB_G1_0.Name = "PB_G1_0";
             this.PB_G1_0.Size = new System.Drawing.Size(120, 90);
             this.PB_G1_0.TabIndex = 440;
@@ -90,7 +92,7 @@
             this.CB_G1_0.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_G1_0.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_G1_0.FormattingEnabled = true;
-            this.CB_G1_0.Location = new System.Drawing.Point(12, 126);
+            this.CB_G1_0.Location = new System.Drawing.Point(12, 116);
             this.CB_G1_0.Name = "CB_G1_0";
             this.CB_G1_0.Size = new System.Drawing.Size(120, 21);
             this.CB_G1_0.TabIndex = 441;
@@ -101,7 +103,7 @@
             this.CB_G1_1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_G1_1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_G1_1.FormattingEnabled = true;
-            this.CB_G1_1.Location = new System.Drawing.Point(138, 126);
+            this.CB_G1_1.Location = new System.Drawing.Point(138, 116);
             this.CB_G1_1.Name = "CB_G1_1";
             this.CB_G1_1.Size = new System.Drawing.Size(120, 21);
             this.CB_G1_1.TabIndex = 443;
@@ -109,7 +111,7 @@
             // 
             // PB_G1_1
             // 
-            this.PB_G1_1.Location = new System.Drawing.Point(138, 30);
+            this.PB_G1_1.Location = new System.Drawing.Point(138, 20);
             this.PB_G1_1.Name = "PB_G1_1";
             this.PB_G1_1.Size = new System.Drawing.Size(120, 90);
             this.PB_G1_1.TabIndex = 442;
@@ -120,7 +122,7 @@
             this.CB_G1_2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_G1_2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_G1_2.FormattingEnabled = true;
-            this.CB_G1_2.Location = new System.Drawing.Point(264, 126);
+            this.CB_G1_2.Location = new System.Drawing.Point(264, 116);
             this.CB_G1_2.Name = "CB_G1_2";
             this.CB_G1_2.Size = new System.Drawing.Size(120, 21);
             this.CB_G1_2.TabIndex = 445;
@@ -128,7 +130,7 @@
             // 
             // PB_G1_2
             // 
-            this.PB_G1_2.Location = new System.Drawing.Point(264, 30);
+            this.PB_G1_2.Location = new System.Drawing.Point(264, 20);
             this.PB_G1_2.Name = "PB_G1_2";
             this.PB_G1_2.Size = new System.Drawing.Size(120, 90);
             this.PB_G1_2.TabIndex = 444;
@@ -140,7 +142,7 @@
             this.CB_G2_2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_G2_2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_G2_2.FormattingEnabled = true;
-            this.CB_G2_2.Location = new System.Drawing.Point(264, 279);
+            this.CB_G2_2.Location = new System.Drawing.Point(264, 254);
             this.CB_G2_2.Name = "CB_G2_2";
             this.CB_G2_2.Size = new System.Drawing.Size(120, 21);
             this.CB_G2_2.TabIndex = 451;
@@ -149,7 +151,7 @@
             // PB_G2_2
             // 
             this.PB_G2_2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.PB_G2_2.Location = new System.Drawing.Point(264, 183);
+            this.PB_G2_2.Location = new System.Drawing.Point(264, 158);
             this.PB_G2_2.Name = "PB_G2_2";
             this.PB_G2_2.Size = new System.Drawing.Size(120, 90);
             this.PB_G2_2.TabIndex = 450;
@@ -161,7 +163,7 @@
             this.CB_G2_1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_G2_1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_G2_1.FormattingEnabled = true;
-            this.CB_G2_1.Location = new System.Drawing.Point(138, 279);
+            this.CB_G2_1.Location = new System.Drawing.Point(138, 254);
             this.CB_G2_1.Name = "CB_G2_1";
             this.CB_G2_1.Size = new System.Drawing.Size(120, 21);
             this.CB_G2_1.TabIndex = 449;
@@ -170,7 +172,7 @@
             // PB_G2_1
             // 
             this.PB_G2_1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.PB_G2_1.Location = new System.Drawing.Point(138, 183);
+            this.PB_G2_1.Location = new System.Drawing.Point(138, 158);
             this.PB_G2_1.Name = "PB_G2_1";
             this.PB_G2_1.Size = new System.Drawing.Size(120, 90);
             this.PB_G2_1.TabIndex = 448;
@@ -182,7 +184,7 @@
             this.CB_G2_0.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_G2_0.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_G2_0.FormattingEnabled = true;
-            this.CB_G2_0.Location = new System.Drawing.Point(12, 279);
+            this.CB_G2_0.Location = new System.Drawing.Point(12, 254);
             this.CB_G2_0.Name = "CB_G2_0";
             this.CB_G2_0.Size = new System.Drawing.Size(120, 21);
             this.CB_G2_0.TabIndex = 447;
@@ -191,7 +193,7 @@
             // PB_G2_0
             // 
             this.PB_G2_0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.PB_G2_0.Location = new System.Drawing.Point(12, 183);
+            this.PB_G2_0.Location = new System.Drawing.Point(12, 158);
             this.PB_G2_0.Name = "PB_G2_0";
             this.PB_G2_0.Size = new System.Drawing.Size(120, 90);
             this.PB_G2_0.TabIndex = 446;
@@ -203,7 +205,7 @@
             this.CB_G3_2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_G3_2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_G3_2.FormattingEnabled = true;
-            this.CB_G3_2.Location = new System.Drawing.Point(672, 126);
+            this.CB_G3_2.Location = new System.Drawing.Point(672, 116);
             this.CB_G3_2.Name = "CB_G3_2";
             this.CB_G3_2.Size = new System.Drawing.Size(120, 21);
             this.CB_G3_2.TabIndex = 457;
@@ -213,7 +215,7 @@
             // PB_G3_2
             // 
             this.PB_G3_2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PB_G3_2.Location = new System.Drawing.Point(672, 30);
+            this.PB_G3_2.Location = new System.Drawing.Point(672, 20);
             this.PB_G3_2.Name = "PB_G3_2";
             this.PB_G3_2.Size = new System.Drawing.Size(120, 90);
             this.PB_G3_2.TabIndex = 456;
@@ -226,7 +228,7 @@
             this.CB_G3_1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_G3_1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_G3_1.FormattingEnabled = true;
-            this.CB_G3_1.Location = new System.Drawing.Point(546, 126);
+            this.CB_G3_1.Location = new System.Drawing.Point(546, 116);
             this.CB_G3_1.Name = "CB_G3_1";
             this.CB_G3_1.Size = new System.Drawing.Size(120, 21);
             this.CB_G3_1.TabIndex = 455;
@@ -236,7 +238,7 @@
             // PB_G3_1
             // 
             this.PB_G3_1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PB_G3_1.Location = new System.Drawing.Point(546, 30);
+            this.PB_G3_1.Location = new System.Drawing.Point(546, 20);
             this.PB_G3_1.Name = "PB_G3_1";
             this.PB_G3_1.Size = new System.Drawing.Size(120, 90);
             this.PB_G3_1.TabIndex = 454;
@@ -249,7 +251,7 @@
             this.CB_G3_0.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_G3_0.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_G3_0.FormattingEnabled = true;
-            this.CB_G3_0.Location = new System.Drawing.Point(420, 126);
+            this.CB_G3_0.Location = new System.Drawing.Point(420, 116);
             this.CB_G3_0.Name = "CB_G3_0";
             this.CB_G3_0.Size = new System.Drawing.Size(120, 21);
             this.CB_G3_0.TabIndex = 453;
@@ -259,7 +261,7 @@
             // PB_G3_0
             // 
             this.PB_G3_0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PB_G3_0.Location = new System.Drawing.Point(420, 30);
+            this.PB_G3_0.Location = new System.Drawing.Point(420, 20);
             this.PB_G3_0.Name = "PB_G3_0";
             this.PB_G3_0.Size = new System.Drawing.Size(120, 90);
             this.PB_G3_0.TabIndex = 452;
@@ -272,7 +274,7 @@
             this.CB_G4_2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_G4_2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_G4_2.FormattingEnabled = true;
-            this.CB_G4_2.Location = new System.Drawing.Point(672, 279);
+            this.CB_G4_2.Location = new System.Drawing.Point(672, 254);
             this.CB_G4_2.Name = "CB_G4_2";
             this.CB_G4_2.Size = new System.Drawing.Size(120, 21);
             this.CB_G4_2.TabIndex = 463;
@@ -282,7 +284,7 @@
             // PB_G4_2
             // 
             this.PB_G4_2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.PB_G4_2.Location = new System.Drawing.Point(672, 183);
+            this.PB_G4_2.Location = new System.Drawing.Point(672, 158);
             this.PB_G4_2.Name = "PB_G4_2";
             this.PB_G4_2.Size = new System.Drawing.Size(120, 90);
             this.PB_G4_2.TabIndex = 462;
@@ -295,7 +297,7 @@
             this.CB_G4_1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_G4_1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_G4_1.FormattingEnabled = true;
-            this.CB_G4_1.Location = new System.Drawing.Point(546, 279);
+            this.CB_G4_1.Location = new System.Drawing.Point(546, 254);
             this.CB_G4_1.Name = "CB_G4_1";
             this.CB_G4_1.Size = new System.Drawing.Size(120, 21);
             this.CB_G4_1.TabIndex = 461;
@@ -305,7 +307,7 @@
             // PB_G4_1
             // 
             this.PB_G4_1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.PB_G4_1.Location = new System.Drawing.Point(546, 183);
+            this.PB_G4_1.Location = new System.Drawing.Point(546, 158);
             this.PB_G4_1.Name = "PB_G4_1";
             this.PB_G4_1.Size = new System.Drawing.Size(120, 90);
             this.PB_G4_1.TabIndex = 460;
@@ -318,7 +320,7 @@
             this.CB_G4_0.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_G4_0.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_G4_0.FormattingEnabled = true;
-            this.CB_G4_0.Location = new System.Drawing.Point(420, 279);
+            this.CB_G4_0.Location = new System.Drawing.Point(420, 254);
             this.CB_G4_0.Name = "CB_G4_0";
             this.CB_G4_0.Size = new System.Drawing.Size(120, 21);
             this.CB_G4_0.TabIndex = 459;
@@ -328,7 +330,7 @@
             // PB_G4_0
             // 
             this.PB_G4_0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.PB_G4_0.Location = new System.Drawing.Point(420, 183);
+            this.PB_G4_0.Location = new System.Drawing.Point(420, 158);
             this.PB_G4_0.Name = "PB_G4_0";
             this.PB_G4_0.Size = new System.Drawing.Size(120, 90);
             this.PB_G4_0.TabIndex = 458;
@@ -338,7 +340,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(711, 306);
+            this.B_Save.Location = new System.Drawing.Point(722, 308);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 464;
@@ -346,25 +348,14 @@
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
-            // B_Cancel
-            // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(711, 328);
-            this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(75, 23);
-            this.B_Cancel.TabIndex = 465;
-            this.B_Cancel.Text = "Cancel";
-            this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
-            // 
             // B_Randomize
             // 
             this.B_Randomize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_Randomize.Location = new System.Drawing.Point(12, 320);
+            this.B_Randomize.Location = new System.Drawing.Point(22, 299);
             this.B_Randomize.Name = "B_Randomize";
-            this.B_Randomize.Size = new System.Drawing.Size(75, 23);
+            this.B_Randomize.Size = new System.Drawing.Size(87, 35);
             this.B_Randomize.TabIndex = 466;
-            this.B_Randomize.Text = "Randomize!";
+            this.B_Randomize.Text = "Randomize\nAll Starters";
             this.B_Randomize.UseVisualStyleBackColor = true;
             this.B_Randomize.Click += new System.EventHandler(this.B_Randomize_Click);
             // 
@@ -372,7 +363,7 @@
             // 
             this.L_Set1.AutoSize = true;
             this.L_Set1.ForeColor = System.Drawing.Color.Red;
-            this.L_Set1.Location = new System.Drawing.Point(9, 14);
+            this.L_Set1.Location = new System.Drawing.Point(9, 4);
             this.L_Set1.Name = "L_Set1";
             this.L_Set1.Size = new System.Drawing.Size(32, 13);
             this.L_Set1.TabIndex = 467;
@@ -383,7 +374,7 @@
             this.L_Set3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Set3.AutoSize = true;
             this.L_Set3.ForeColor = System.Drawing.Color.Green;
-            this.L_Set3.Location = new System.Drawing.Point(416, 14);
+            this.L_Set3.Location = new System.Drawing.Point(416, 4);
             this.L_Set3.Name = "L_Set3";
             this.L_Set3.Size = new System.Drawing.Size(32, 13);
             this.L_Set3.TabIndex = 468;
@@ -395,7 +386,7 @@
             this.L_Set4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Set4.AutoSize = true;
             this.L_Set4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.L_Set4.Location = new System.Drawing.Point(416, 167);
+            this.L_Set4.Location = new System.Drawing.Point(416, 142);
             this.L_Set4.Name = "L_Set4";
             this.L_Set4.Size = new System.Drawing.Size(32, 13);
             this.L_Set4.TabIndex = 469;
@@ -406,7 +397,7 @@
             // 
             this.L_Set2.AutoSize = true;
             this.L_Set2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.L_Set2.Location = new System.Drawing.Point(9, 167);
+            this.L_Set2.Location = new System.Drawing.Point(9, 142);
             this.L_Set2.Name = "L_Set2";
             this.L_Set2.Size = new System.Drawing.Size(32, 13);
             this.L_Set2.TabIndex = 470;
@@ -424,14 +415,36 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.CHK_E);
+            this.groupBox1.Controls.Add(this.CHK_L);
             this.groupBox1.Controls.Add(this.CHK_BasicStarter);
             this.groupBox1.Controls.Add(this.CHK_Gen);
-            this.groupBox1.Location = new System.Drawing.Point(93, 306);
+            this.groupBox1.Location = new System.Drawing.Point(124, 280);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(153, 48);
+            this.groupBox1.Size = new System.Drawing.Size(153, 77);
             this.groupBox1.TabIndex = 473;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Randomizer Settings";
+            // 
+            // CHK_E
+            // 
+            this.CHK_E.AutoSize = true;
+            this.CHK_E.Location = new System.Drawing.Point(16, 57);
+            this.CHK_E.Name = "CHK_E";
+            this.CHK_E.Size = new System.Drawing.Size(98, 17);
+            this.CHK_E.TabIndex = 476;
+            this.CHK_E.Text = "Event Legends";
+            this.CHK_E.UseVisualStyleBackColor = true;
+            // 
+            // CHK_L
+            // 
+            this.CHK_L.AutoSize = true;
+            this.CHK_L.Location = new System.Drawing.Point(16, 43);
+            this.CHK_L.Name = "CHK_L";
+            this.CHK_L.Size = new System.Drawing.Size(98, 17);
+            this.CHK_L.TabIndex = 475;
+            this.CHK_L.Text = "Game Legends";
+            this.CHK_L.UseVisualStyleBackColor = true;
             // 
             // CHK_BasicStarter
             // 
@@ -444,6 +457,17 @@
             this.CHK_BasicStarter.TabIndex = 474;
             this.CHK_BasicStarter.Text = "Basic Starter Pokémon";
             this.CHK_BasicStarter.UseVisualStyleBackColor = true;
+            // 
+            // B_Cancel
+            // 
+            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Cancel.Location = new System.Drawing.Point(722, 330);
+            this.B_Cancel.Name = "B_Cancel";
+            this.B_Cancel.Size = new System.Drawing.Size(75, 23);
+            this.B_Cancel.TabIndex = 465;
+            this.B_Cancel.Text = "Cancel";
+            this.B_Cancel.UseVisualStyleBackColor = true;
+            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
             // StarterEditor6
             // 
@@ -534,7 +558,6 @@
         private System.Windows.Forms.ComboBox CB_G4_0;
         private System.Windows.Forms.PictureBox PB_G4_0;
         private System.Windows.Forms.Button B_Save;
-        private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Randomize;
         private System.Windows.Forms.Label L_Set1;
         private System.Windows.Forms.Label L_Set3;
@@ -543,5 +566,8 @@
         private System.Windows.Forms.CheckBox CHK_Gen;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox CHK_BasicStarter;
+        private System.Windows.Forms.CheckBox CHK_E;
+        private System.Windows.Forms.CheckBox CHK_L;
+        private System.Windows.Forms.Button B_Cancel;
     }
 }
