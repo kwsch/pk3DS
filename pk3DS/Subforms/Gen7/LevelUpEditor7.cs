@@ -88,7 +88,7 @@ namespace pk3DS
             dgv.Rows.Clear();
             byte[] input = files[entry];
             if (input.Length <= 4) { files[entry] = BitConverter.GetBytes(-1); return; }
-            pkm = new Learnset7(input);
+            pkm = new Learnset6(input);
 
             dgv.Rows.Add(pkm.Count);
 
@@ -132,7 +132,7 @@ namespace pk3DS
         private void B_RandAll_Click(object sender, EventArgs e)
         {
             setList();
-            var sets = files.Select(z => new Learnset7(z)).ToArray();
+            var sets = files.Select(z => new Learnset6(z)).ToArray();
             var banned = new List<int>(new[] {165, 621, 464}.Concat(Legal.Z_Moves)); // Struggle, Hyperspace Fury, Dark Void
             if (CHK_NoFixedDamage.Checked)
                 banned.AddRange(MoveRandomizer.FixedDamageMoves);

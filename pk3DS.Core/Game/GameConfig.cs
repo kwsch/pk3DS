@@ -135,7 +135,7 @@ namespace pk3DS.Core
                     Learnsets = GARCLearnsets.Files.Select(file => new Learnset6(file)).ToArray();
                     break;
                 case 7:
-                    Learnsets = GARCLearnsets.Files.Select(file => new Learnset7(file)).ToArray();
+                    Learnsets = GARCLearnsets.Files.Select(file => new Learnset6(file)).ToArray();
                     break;
             }
         }
