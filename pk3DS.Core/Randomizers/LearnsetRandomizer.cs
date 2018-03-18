@@ -106,7 +106,7 @@ namespace pk3DS.Core.Randomizers
         public int[] GetCurrentMoves(int species, int form, int level, int count = 4)
         {
             int i = Config.Personal.getFormeIndex(species, form);
-            var moves = Learnsets[i].getCurrentMoves(level);
+            var moves = Learnsets[i].GetEncounterMoves(level);
             Array.Resize(ref moves, count);
             return moves;
         }
