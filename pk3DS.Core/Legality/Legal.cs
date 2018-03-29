@@ -26,6 +26,11 @@ namespace pk3DS.Core
             000, // Pokémon Trainer
             001, // Pokémon Trainer
             004, // Leader
+            018, // Team Flare
+            019, // Team Flare
+            020, // Team Flare
+            021, // Team Flare
+            022, // Team Flare
             035, // Elite Four
             036, // Elite Four
             037, // Elite Four
@@ -45,10 +50,19 @@ namespace pk3DS.Core
             065, // Battle Chatelaine
             066, // Battle Chatelaine
             067, // Battle Chatelaine
+            081, // Team Flare
             102, // Pokémon Trainer
             103, // Pokémon Trainer
             104, // Pokémon Trainer
             105, // Pokémon Professor
+            139, // Marchioness
+            140, // Marquis
+            141, // Marchioness
+            142, // Marquis
+            143, // Marquis
+            144, // Marchioness
+            145, // Marchioness
+            146, // Marquis
             151, // Grand Duchess
             160, // Pokémon Trainer
             161, // Pokémon Trainer
@@ -72,7 +86,12 @@ namespace pk3DS.Core
             127, // Pokémon Trainer
             128, // Pokémon Trainer
             174, // Aqua Leader
+            175, // Aqua Admin
             178, // Magma Leader
+            180, // Magma Admin
+            182, // Magma Admin
+            186, // Aqua Admin
+            187, // Magma Admin
             192, // Pokémon Trainer
             194, // Elite Four
             195, // Elite Four
@@ -88,9 +107,11 @@ namespace pk3DS.Core
             206, // Leaders
             207, // Leader
             219, // Pokémon Trainer
+            221, // Lorekeeper
             232, // Pokémon Trainer
             233, // Pokémon Trainer
             234, // Pokémon Trainer
+            236, // Secret Base Expert
             267, // Pokémon Trainer
             268, // Sootopolitan
             270, // Pokémon Trainer
@@ -107,153 +128,183 @@ namespace pk3DS.Core
         };
         public static readonly int[] SpecialClasses_SM =
         {
-            030, // Pokémon Trainer: Hau
-            031, // Island Kahuna: Hala
-            038, // Captain: Ilima
-            042, // Trial Guide: Ben
-            044, // Captain: Lana
-            045, // Captain: Mallow
-            049, // Island Kahuna: Olivia
-            051, // Island Kahuna: Hapu
-            071, // Aether President: Lusamine
-            072, // Aether Branch Chief: Faba
-            076, // Team Skull Boss: Guzma
-            078, // Team Skull Admin: Plumeria
-            079, // Pokémon Trainer: Plumeria
-            080, // Elite Four: Kahili
-            081, // Pokémon Trainer: [~ 157]
-            082, // Aether President: Lusamine
-            083, // Pokémon Trainer: Red
-            084, // Pokémon Trainer: Blue
-            085, // Pokémon Trainer: Sina
-            086, // Pokémon Trainer: Dexio
-            088, // Pokémon Trainer: Anabel
-            092, // Pro Wrestler: The Royal
-            093, // Pokémon Trainer: Molayne
-            099, // Pokémon Trainer: Molayne
-            100, // Pokémon Trainer: Hau
-            101, // Pokémon Trainer: Hau
-            102, // Pokémon Trainer: Gladion
-            103, // Pokémon Trainer: Gladion
-            107, // Elite Four: Acerola
-            109, // Elite Four: Hala
-            110, // Elite Four: Olivia
-            111, // Pokémon Professor: Kukui
-            139, // GAME FREAK: Morimoto
-            141, // Island Kahuna: Nanu
-            142, // Captain: Sophocles
-            143, // Pokémon Trainer: Ryuki
-            153, // Captain: Mina
-            162, // Aether Foundation: Faba
-            164, // Island Kahuna: Hapu
-            165, // Pokémon Professor: Kukui
-            185, // Aether Foundation: Faba
+            #region Classes
+            000, // Pokémon Trainer
+            001, // Pokémon Trainer
+            030, // Pokémon Trainer
+            031, // Island Kahuna
+            038, // Captain
+            040, // Pokémon Trainer
+            041, // Pokémon Trainer
+            043, // Captain
+            044, // Captain
+            045, // Captain
+            046, // Captain
+            047, // Captain
+            048, // Captain
+            049, // Island Kahuna
+            050, // Island Kahuna
+            051, // Island Kahuna
+            071, // Aether President
+            072, // Aether Branch Chief
+            076, // Team Skull Boss
+            077, // Pokémon Trainer
+            078, // Team Skull Admin
+            079, // Pokémon Trainer
+            080, // Elite Four
+            081, // Pokémon Trainer
+            082, // Aether President
+            083, // Pokémon Trainer
+            084, // Pokémon Trainer
+            085, // Pokémon Trainer
+            086, // Pokémon Trainer
+            087, // Pokémon Trainer
+            088, // Pokémon Trainer
+            089, // Pokémon Trainer
+            090, // Pokémon Trainer
+            091, // Pokémon Trainer
+            092, // Pro Wrestler
+            093, // Pokémon Trainer
+            097, // Pokémon Trainer
+            098, // Pokémon Trainer
+            099, // Pokémon Trainer
+            100, // Pokémon Trainer
+            101, // Pokémon Trainer
+            102, // Pokémon Trainer
+            103, // Pokémon Trainer
+            104, // Pokémon Trainer
+            105, // Pokémon Trainer
+            106, // Pokémon Trainer
+            107, // Elite Four
+            108, // Pokémon Trainer
+            109, // Elite Four
+            110, // Elite Four
+            111, // Pokémon Professor
+            128, // Pokémon Trainer
+            139, // GAME FREAK
+            140, // Pokémon Trainer
+            141, // Island Kahuna
+            142, // Captain
+            143, // Pokémon Trainer
+            150, // Pokémon Trainer
+            153, // Captain
+            154, // Pokémon Professor
+            164, // Island Kahuna
+            166, // Pokémon Trainer
+            167, // Pokémon Trainer
+            168, // Pokémon Trainer
+            169, // Pokémon Trainer
+            170, // Pokémon Trainer
+            171, // Pokémon Trainer
+            165, // Pokémon Professor
+            183, // Battle Legend
+            184, // Battle Legend
+            #endregion
         };
 
         public static readonly int[] SpecialClasses_USUM =
         {
-            030, // Pokémon Trainer: Hau
-            031, // Island Kahuna: Hala
-            038, // Captain: Ilima
-            042, // Trial Guide: Ben
-            044, // Captain: Lana
-            045, // Captain: Mallow
-            049, // Island Kahuna: Olivia
-            051, // Island Kahuna: Hapu
-            071, // Aether President: Lusamine
-            072, // Aether Branch Chief: Faba
-            076, // Team Skull Boss: Guzma
-            078, // Team Skull Admin: Plumeria
-            079, // Pokémon Trainer: Plumeria
-            080, // Elite Four: Kahili
-            081, // Pokémon Trainer: [~ 157]
-            082, // Aether President: Lusamine
-            083, // Pokémon Trainer: Red
-            084, // Pokémon Trainer: Blue
-            085, // Pokémon Trainer: Sina
-            086, // Pokémon Trainer: Dexio
-            088, // Pokémon Trainer: Anabel
-            092, // Pro Wrestler: The Royal
-            093, // Pokémon Trainer: Molayne
-            099, // Pokémon Trainer: Molayne
-            100, // Pokémon Trainer: Hau
-            101, // Pokémon Trainer: Hau
-            102, // Pokémon Trainer: Gladion
-            103, // Pokémon Trainer: Gladion
-            107, // Elite Four: Acerola
-            109, // Elite Four: Hala
-            110, // Elite Four: Olivia
-            111, // Pokémon Professor: Kukui
-            139, // GAME FREAK: Morimoto
-            140, // Pokémon Trainer: Guzma
-            141, // Island Kahuna: Nanu
-            142, // Captain: Sophocles
-            143, // Pokémon Trainer: Ryuki
-            153, // Captain: Mina
-            162, // Aether Foundation: Faba
-            164, // Island Kahuna: Hapu
-            165, // Pokémon Professor: Kukui
-            185, // Aether Foundation: Faba
-            186, // Pokémon Trainer: Sophocles
-            187, // Pokémon Trainer: Giovanni
-            188, // Pokémon Trainer: Kukui
-            189, // Pokémon Trainer: Lillie
-            190, // Pokémon Trainer: Giovanni
-            191, // Elite Four: Molayne
-            192, // Ultra Recon Squad: Soliera
-            193, // Ultra Recon Squad: Dulse
-            194, // Pokémon Trainer: Hau
-            198, // Team Aqua: Archie
-            199, // Team Galactic: Cyrus
-            200, // Team Magma: Maxie
-            201, // Team Plasma: Ghetsis
-            202, // Team Flare: Lysandre
-            204, // Kantonian Gym: Leader
-            205, // GAME FREAK: Iwao
-            206, // Team Rainbow Rocket: Giovanni
-            207, // Pokémon Trainer: Lillie
-            219, // Pokémon Trainer: Guzma
-            220, // Aether President: Lusamine
-            221, // Pokémon Trainer: Hau
-            222, // Pokémon Trainer: Hau
+            #region Classes
+            000, // Pokémon Trainer
+            001, // Pokémon Trainer
+            030, // Pokémon Trainer
+            031, // Island Kahuna
+            038, // Captain
+            040, // Pokémon Trainer
+            041, // Pokémon Trainer
+            043, // Captain
+            044, // Captain
+            045, // Captain
+            046, // Captain
+            047, // Captain
+            048, // Captain
+            049, // Island Kahuna
+            050, // Island Kahuna
+            051, // Island Kahuna
+            071, // Aether President
+            072, // Aether Branch Chief
+            076, // Team Skull Boss
+            077, // Pokémon Trainer
+            078, // Team Skull Admin
+            079, // Pokémon Trainer
+            080, // Elite Four
+            081, // Pokémon Trainer
+            082, // Aether President
+            083, // Pokémon Trainer
+            084, // Pokémon Trainer
+            085, // Pokémon Trainer
+            086, // Pokémon Trainer
+            087, // Pokémon Trainer
+            088, // Pokémon Trainer
+            089, // Pokémon Trainer
+            090, // Pokémon Trainer
+            091, // Pokémon Trainer
+            092, // Pro Wrestler
+            093, // Pokémon Trainer
+            097, // Pokémon Trainer
+            098, // Pokémon Trainer
+            099, // Pokémon Trainer
+            100, // Pokémon Trainer
+            101, // Pokémon Trainer
+            102, // Pokémon Trainer
+            103, // Pokémon Trainer
+            104, // Pokémon Trainer
+            105, // Pokémon Trainer
+            106, // Pokémon Trainer
+            107, // Elite Four
+            108, // Pokémon Trainer
+            109, // Elite Four
+            110, // Elite Four
+            111, // Pokémon Professor
+            128, // Pokémon Trainer
+            139, // GAME FREAK
+            140, // Pokémon Trainer
+            141, // Island Kahuna
+            142, // Captain
+            143, // Pokémon Trainer
+            150, // Pokémon Trainer
+            153, // Captain
+            154, // Pokémon Professor
+            164, // Island Kahuna
+            166, // Pokémon Trainer
+            167, // Pokémon Trainer
+            168, // Pokémon Trainer
+            169, // Pokémon Trainer
+            170, // Pokémon Trainer
+            171, // Pokémon Trainer
+            165, // Pokémon Professor
+            183, // Battle Legend
+            184, // Battle Legend
+            186, // Pokémon Trainer
+            187, // Pokémon Trainer
+            188, // Pokémon Trainer
+            189, // Pokémon Trainer
+            190, // Pokémon Trainer
+            191, // Elite Four
+            192, // Ultra Recon Squad
+            193, // Ultra Recon Squad
+            194, // Pokémon Trainer
+            198, // Team Aqua
+            199, // Team Galactic
+            200, // Team Magma
+            201, // Team Plasma
+            202, // Team Flare
+            205, // GAME FREAK
+            206, // Team Rainbow Rocket
+            207, // Pokémon Trainer
+            219, // Pokémon Trainer
+            220, // Aether President
+            221, // Pokémon Trainer
+            222, // Pokémon Trainer
+            #endregion
         };
         public static readonly int[] Model_XY =
         {
-            018, // Team Flare (Aliana)
-            019, // Team Flare (Bryony)
-            020, // Team Flare (Celosia)
-            021, // Team Flare (Mable)
-            022, // Team Flare (Xerosic)
-            055, // Pokémon Trainer (Shauna)
-            056, // Pokémon Trainer (Tierno)
-            057, // Pokémon Trainer (Trevor)
-            077, // Team Flare (Admin)
-            078, // Team Flare (Admin)
-            079, // Team Flare (Grunt)
-            080, // Team Flare (Grunt)
-            102, // Pokémon Trainer (AZ)
-            103, // Pokémon Trainer (Calem)
-            104, // Pokémon Trainer (Serena)
-            105, // Pokémon Profoessor (Sycamore)
-            175, // Team Flare Boss (Lysandre)
+            018, 019, 020, 021, 022, 055, 056, 057, 077, 078, 079, 080, 081, 102, 103, 104, 105, 107, 108, 173, 174, 175
         };
         public static readonly int[] Model_AO =
         {
-            127, // Pokémon Trainer (Brendan)
-            128, // Pokémon Trainer (May)
-            174, // Aqua Leader (Archie)
-            178, // Magma Leader (Maxie)
-            198, // Champion (Steven)
-            221, // Lorekeeper (Zinnia)
-            272, // Pokémon Trainer (Wally)
-        };
-        public static readonly int[] TrainerClasses_AO =
-        {
-            064, 065, 066, 067, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160,
-            161, 163, 164, 165, 166, 167, 168, 169, 170, 171, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 192, 193, 194, 195, 196, 197, 198, 199, 200,
-            201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237,
-            238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274,
-            275, 276, 277, 278, 279
+            127, 128, 174, 178, 192, 198, 219, 272, 277
         };
         public static readonly int[] Z_Moves =
         {

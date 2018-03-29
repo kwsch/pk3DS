@@ -465,6 +465,7 @@ namespace pk3DS
             var specrand = getRandomizer();
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var items = Randomizer.getRandomItemList();
+            int[] banned = Legal.Z_Moves.Concat(new int[] { 165, 621 }).ToArray();
 
             // Assign Species
             for (int i = 0; i < 3; i++)
@@ -494,7 +495,11 @@ namespace pk3DS
                     t.ShinyLock = false;
 
                 if (CHK_SpecialMove.Checked)
-                    t.SpecialMove = Util.rand.Next(1, CB_SpecialMove.Items.Count); // don't allow none
+                {
+                    int rv = Util.rand.Next(1, CB_SpecialMove.Items.Count);
+                    if (banned.Contains(rv)) continue; // disallow banned moves
+                    t.SpecialMove = rv;
+                }
 
                 if (CHK_RandomAbility.Checked)
                     t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H
@@ -521,6 +526,7 @@ namespace pk3DS
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
             var items = Randomizer.getRandomItemList();
+            int[] banned = Legal.Z_Moves.Concat(new int[] { 165, 621 }).ToArray();
             int randFinalEvo() => (int)(Util.rnd32() % FinalEvo.Length);
             int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
 
@@ -549,7 +555,11 @@ namespace pk3DS
                     t.ShinyLock = false;
 
                 if (CHK_SpecialMove.Checked)
-                    t.SpecialMove = Util.rand.Next(1, CB_SpecialMove.Items.Count); // don't allow none
+                {
+                    int rv = Util.rand.Next(1, CB_SpecialMove.Items.Count);
+                    if (banned.Contains(rv)) continue; // disallow banned moves
+                    t.SpecialMove = rv;
+                }
 
                 if (CHK_RandomAbility.Checked)
                     t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H

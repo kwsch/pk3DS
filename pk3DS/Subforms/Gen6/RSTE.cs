@@ -24,7 +24,6 @@ namespace pk3DS
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             MegaDictionary = GiftEditor6.GetMegaDictionary(Main.Config);
             rModelRestricted = Main.Config.ORAS ? Legal.Model_AO : Legal.Model_XY;
-            rTrainerClasses = Legal.TrainerClasses_AO;
             rFinalEvo = Legal.FinalEvolutions_6;
 
             InitializeComponent();
@@ -532,7 +531,6 @@ namespace pk3DS
         public static int rDMGCount, rSTABCount;
         private int[] mEvoTypes;
         private static int[] rModelRestricted;
-        private static int[] rTrainerClasses;
         private static int[] rFinalEvo;
         private string[] rImportant;
         private readonly List<string> Tags = new List<string>();
@@ -754,21 +752,14 @@ namespace pk3DS
                 rClass // Classes selected to be randomized
                 && (!rOnlySingles || t.BattleType == 0) //  Nonsingles only get changed if rOnlySingles
                 && !rIgnoreClass.Contains(t.Class) // Current class isn't a special class
-                && Main.Config.XY
                 )
             {
                 int randClass() => (int)(rnd32() % trClass.Length);
                 int rv; do { rv = randClass(); }
                 // Ensure the Random Class isn't an exclusive class
                 while (rIgnoreClass.Contains(rv) || trClass[rv].StartsWith("[~")); // don't allow disallowed classes
+                if (Main.Config.ORAS && (rv >= 0 && rv <= 126)) return; // disallow XY classes in ORAS
                 t.Class = rv;
-            }
-            else if (rClass && Main.Config.ORAS) // special handling, can't allow XY classes
-            {
-                int randClass() => (int)(rnd32() % rTrainerClasses.Length);
-                if (rOnlySingles && t.BattleType != 0) return; // only singles if specified
-                if (rIgnoreClass.Contains(t.Class) && rTrainerClasses.Contains(t.Class)) return; // don't change important trainers if specified
-                t.Class = rTrainerClasses[randClass()];
             }
         }
         private static void RandomizeTrainerPrizeItem(trdata6 t)
