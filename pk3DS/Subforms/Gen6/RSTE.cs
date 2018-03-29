@@ -725,15 +725,14 @@ namespace pk3DS
 
             // Copy the last slot to random pokemon
             int lastPKM = Math.Max(t.NumPokemon - 1, 0); // 0,1-6 => 0-5 (never is 0)
-
             t.NumPokemon = 6;
             Array.Resize(ref t.Team, t.NumPokemon);
             for (int f = lastPKM + 1; f < t.NumPokemon; f++)
             {
-                t.Team[f] = // clone last pkm then increment level by 1
+                t.Team[f] = // clone last pkm, keeping an average level for all 6
                     new trdata6.Pokemon(t.Team[lastPKM].Write(t.Item, t.Moves), t.Item, t.Moves)
                     {
-                        Level = (ushort) Math.Min(t.Team[f - 1].Level + 1, 100)
+                        Level = t.Team[f - 1].Level
                     };
             }
         }

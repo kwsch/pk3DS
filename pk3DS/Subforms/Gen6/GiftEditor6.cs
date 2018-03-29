@@ -231,21 +231,18 @@ namespace pk3DS
                         continue; // skip Lucario, battle needs to Mega Evolve
 
                     int[] items = GetRandomMega(out species);
+                    NUD_Form.Value = 0;
                     CB_HeldItem.SelectedIndex = items[Util.rand.Next(0, items.Length)];
                 }
                 else
                 {
                     species = specrand.GetRandomSpecies(species);
-
                     if (CHK_Item.Checked)
                         CB_HeldItem.SelectedIndex = helditems[Util.rnd32() % helditems.Length];
                 }
 
                 if (CHK_AllowMega.Checked)
                     formrand.AllowMega = true;
-
-                if (MegaDictionary.Values.Any(z => z.Contains(CB_HeldItem.SelectedIndex)) && NUD_Form.Value > 0)
-                    NUD_Form.Value = 0; // don't allow Mega Stone Gifts to be form 1
 
                 if (CHK_RemoveShinyLock.Checked)
                     CHK_ShinyLock.Checked = false;
@@ -266,6 +263,9 @@ namespace pk3DS
                 NUD_Form.Value = formrand.GetRandomForme(species);
                 CB_Gender.SelectedIndex = 0; // random
                 CB_Nature.SelectedIndex = 0; // random
+
+                if (MegaDictionary.Values.Any(z => z.Contains(CB_HeldItem.SelectedIndex)) && NUD_Form.Value != 0)
+                    NUD_Form.Value = 0; // don't allow mega gifts to be form 1
             }
             WinFormsUtil.Alert("Randomized all Gift Pokémon according to specification!");
         }
@@ -302,6 +302,8 @@ namespace pk3DS
             {310, new[] {682}}, // Manectric @ Manectite
             {354, new[] {668}}, // Banette @ Banettite
             {359, new[] {677}}, // Absol @ Absolite
+            {380, new[] {684}}, // Latias @ Latiasite
+            {381, new[] {685}}, // Latios @ Latiosite
             {445, new[] {683}}, // Garchomp @ Garchompite
             {448, new[] {673}}, // Lucario @ Lucarionite
             {460, new[] {674}}, // Abomasnow @ Abomasite
@@ -321,8 +323,6 @@ namespace pk3DS
             {362, new[] {763}}, // Glalie @ Glalitite
             {373, new[] {769}}, // Salamence @ Salamencite
             {376, new[] {758}}, // Metagross @ Metagrossite
-            {380, new[] {684}}, // Latias @ Latiasite
-            {381, new[] {685}}, // Latios @ Latiosite
             {428, new[] {768}}, // Lopunny @ Lopunnite
             {475, new[] {756}}, // Gallade @ Galladite
             {531, new[] {757}}, // Audino @ Audinite
