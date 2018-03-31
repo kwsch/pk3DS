@@ -10,7 +10,7 @@ namespace pk3DS.ARCUtil
 {
     public static class ARC
     {
-        private static SARC analyzeSARC(string path)
+        public static SARC analyzeSARC(string path)
         {
             try { return new SARC(path); }
             catch { return new SARC(); }

@@ -205,6 +205,15 @@ namespace pk3DS
                     if (!r)
                     { WinFormsUtil.Alert("Unpacking failed.");  }
                 }
+                else if (ARC.analyzeSARC(path).Valid)
+                {
+                    var sarc = ARC.analyzeSARC(path);
+                    Console.WriteLine($"New SARC with {sarc.SFAT.EntryCount} files.");
+                    foreach (var z in sarc.Dump(path))
+                    {
+                        
+                    }
+                }
                 else if (!recursing)
                 { WinFormsUtil.Alert("File is not a darc or a mini packed file:" + Environment.NewLine + path);;}
 
