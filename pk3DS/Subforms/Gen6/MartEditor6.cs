@@ -55,8 +55,8 @@ namespace pk3DS
             ? new byte[] // ORAS
             {
                 3, 10, 14, 17, 18, 19, 19, 19, 19, // General
-                3, // Unused
-                7, 6, 4, 3, 8,
+                1,
+                9, 6, 4, 3, 8,
                 8, 3, 3, 4,
                 3, 6, 8,
                 5, 4
@@ -81,9 +81,9 @@ namespace pk3DS
 
         readonly string[] locations = Main.Config.ORAS
             ? new[] // ORAS
-            { 
-                "No Badges", "1 Badge", "2 Badges", "3 Badges", "4 Badges", "5 Badges", "6 Badges", "7 Badges", "8 Badges",
-                "Unused",
+            {
+                "No Badges [After Pokédex]", "1 Badge", "2 Badges", "3 Badges", "4 Badges", "5 Badges", "6 Badges", "7 Badges", "8 Badges",
+                "No Badges [Before Pokédex]",
                 "Slateport Market [Incenses]", "Slateport Market [Vitamins]", "Slateport Market [TMs]", "Rustboro City [Poké Balls]", "Slateport City [X Items]",
                 "Mauville City [TMs]", "Verdanturf Town [Poké Balls]", "Fallarbor Town [Poké Balls]", "Lavaridge Town [Herbs]", 
                 "Lilycove Dept Store, 2F Left [Run Away Items]", "Lilycove Dept Store, 3F Left [Vitamins]", "Lilycove Dept Store, 3F Right [X Items]",
@@ -180,7 +180,7 @@ namespace pk3DS
             Util.Shuffle(validItems);
 
             bool specialOnly = DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize only special marts?", "Will leave regular necessities intact.");
-            int start = specialOnly ? 9 : 0;
+            int start = specialOnly ? 10 : 0;
             for (int i = start; i < CB_Location.Items.Count; i++)
             {
                 CB_Location.SelectedIndex = i;
