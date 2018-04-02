@@ -81,9 +81,9 @@ namespace pk3DS
             "Seafolk Village [TMs]",
             "Konikoni City [TMs]",
             "Konikoni City [Stones]",
-            "Thrifty Megamart 1 [Poké Balls]",
-            "Thrifty Megamart 2 [Misc]",
-            "Thrifty Megamart 3 [Strange Souvenir]"
+            "Thrifty Megamart, Left [Poké Balls]",
+            "Thrifty Megamart, Middle [Misc]",
+            "Thrifty Megamart, Right [Strange Souvenir]"
         };
 
         private readonly int[] entriesBP =
