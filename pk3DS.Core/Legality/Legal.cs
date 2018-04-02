@@ -304,7 +304,7 @@ namespace pk3DS.Core
         };
         public static readonly int[] Model_AO =
         {
-            127, 128, 174, 178, 192, 198, 219, 272, 277
+            127, 128, 174, 178, 192, 198, 219, 221, 267, 272, 277, 278, 279
         };
         public static readonly int[] Z_Moves =
         {

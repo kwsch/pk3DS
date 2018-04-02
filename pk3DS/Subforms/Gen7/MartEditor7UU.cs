@@ -62,9 +62,9 @@ namespace pk3DS
             "Seafolk Village [TMs]",
             "Konikoni City [TMs]",
             "Konikoni City [Stones]",
-            "Thrifty Megamart 1 [Poké Balls]",
-            "Thrifty Megamart 2 [Misc]",
-            "Thrifty Megamart 3 [Strange Souvenir]",
+            "Thrifty Megamart, Left [Poké Balls]",
+            "Thrifty Megamart, Middle [Misc]",
+            "Thrifty Megamart, Right [Strange Souvenir]",
             "Route 3 [X Items]",
             "Konikoni City [X Items]",
             "Tapu Village [X Items]",
@@ -78,7 +78,7 @@ namespace pk3DS
             "Battle Tree [Trade Evolution Items]",
             "Battle Tree [Held Items]",
             "Battle Tree [Mega Stones]",
-            "Medicine"
+            "Beaches [Medicine]"
         };
         private readonly string[] locationsTutor =
         {

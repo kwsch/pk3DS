@@ -51,19 +51,13 @@ namespace pk3DS.Core.Randomizers
             {
                 if (Config.Generation == 6 && v.Method == 5) // Gen 6 uses Argument rather than Level
                 {
-                    if (i == 708 || i == 710) // Phantump/Pumpkaboo
-                        v.Argument = 20;
-                    else
-                        v.Argument = 30;
+                    v.Argument = 30;
                     v.Method = 4; // trade -> level up
                 }
 
                 else if (Config.Generation == 7 && v.Method == 5)
                 {
-                    if (i == 708 || i == 710 || i == 871 || i == 872 || i == 873 || i == 876 || i == 877 || i == 878) // Phantump/Pumpkaboo forms
-                        v.Level = 20;
-                    else
-                        v.Level = 30;
+                    v.Level = 30;
                     v.Method = 4; // trade -> level up
                 }
                 

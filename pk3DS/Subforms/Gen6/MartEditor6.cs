@@ -59,11 +59,11 @@ namespace pk3DS
                 9, 6, 4, 3, 8,
                 8, 3, 3, 4,
                 3, 6, 8,
-                5, 4
+                7, 4
             }
             : new byte[] // XY
             {
-                3, 10, 14, 17, 18, 19, 19, 19, 19, // General
+                2, 11, 14, 17, 18, 19, 19, 19, 19, // General
                 1, // Unused
                 4, 10, 3, 9, 1, 1, // Misc
                 3, 3, // Balls
@@ -82,19 +82,19 @@ namespace pk3DS
         readonly string[] locations = Main.Config.ORAS
             ? new[] // ORAS
             {
-                "No Badges [After Pokédex]", "1 Badge", "2 Badges", "3 Badges", "4 Badges", "5 Badges", "6 Badges", "7 Badges", "8 Badges",
-                "No Badges [Before Pokédex]",
+                "No Gym Badges [After Pokédex]", "1 Gym Badge", "2 Gym Badges", "3 Gym Badges", "4 Gym Badges", "5 Gym Badges", "6 Gym Badges", "7 Gym Badges", "8 Gym Badges",
+                "No Gym Badges [Before Pokédex]",
                 "Slateport Market [Incenses]", "Slateport Market [Vitamins]", "Slateport Market [TMs]", "Rustboro City [Poké Balls]", "Slateport City [X Items]",
-                "Mauville City [TMs]", "Verdanturf Town [Poké Balls]", "Fallarbor Town [Poké Balls]", "Lavaridge Town [Herbs]", 
+                "Mauville City [TMs]", "Verdanturf Town [Poké Balls]", "Fallarbor Town [Poké Balls]", "Lavaridge Town [Herbs]",
                 "Lilycove Dept Store, 2F Left [Run Away Items]", "Lilycove Dept Store, 3F Left [Vitamins]", "Lilycove Dept Store, 3F Right [X Items]",
-                "Lilycove Dept Store, 4F Left [Offensive TMs]", "Lilycove Dept Store, 4F Right [Defensive TMs]" 
+                "Lilycove Dept Store, 4F Left [Offensive TMs]", "Lilycove Dept Store, 4F Right [Defensive TMs]"
             }
             : new[] // XY
             {
-                "No Badges", "1 Badge", "2 Badges", "3 Badges", "4 Badges", "5 Badges", "6 Badges", "7 Badges", "8 Badges",
+                "No Gym Badges", "1 Gym Badge", "2 Gym Badges", "3 Gym Badges", "4 Gym Badges", "5 Gym Badges", "6 Gym Badges", "7 Gym Badges", "8 Gym Badges",
                 "Unused",
-                "Herbs", "Poké Balls", "Stones", "Incenses", "Aquacorde Town [Poké Ball]", "Aquacorde Town [Potion]",
-                "Lumiose City North Boulevard [Poké Balls]", "Cyllage City [Poké Balls]", 
+                "Lumiose City [Herboriste]", "Lumiose City [Poké Ball Boutique]", "Lumiose City [Stone Emporium]", "Coumarine City [Incenses]", "Aquacorde Town [Poké Ball]", "Aquacorde Town [Potion]",
+                "Lumiose City North Boulevard [Poké Balls]", "Cyllage City [Poké Balls]",
                 "Shalour City [TMs]", "Lumiose City South Boulevard [TMs]",
                 "Laverre City [Vitamins]",
                 "Snowbelle City [Poké Balls]",
