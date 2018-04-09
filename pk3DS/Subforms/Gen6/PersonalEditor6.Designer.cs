@@ -144,6 +144,7 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
+            this.CHK_Shuffle = new System.Windows.Forms.CheckBox();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -1149,6 +1150,7 @@
             // 
             // GB_Randomizer
             // 
+            this.GB_Randomizer.Controls.Add(this.CHK_Shuffle);
             this.GB_Randomizer.Controls.Add(this.L_Same);
             this.GB_Randomizer.Controls.Add(this.NUD_Egg);
             this.GB_Randomizer.Controls.Add(this.CHK_WGuard);
@@ -1182,7 +1184,7 @@
             // L_Same
             // 
             this.L_Same.AutoSize = true;
-            this.L_Same.Location = new System.Drawing.Point(216, 101);
+            this.L_Same.Location = new System.Drawing.Point(216, 97);
             this.L_Same.Name = "L_Same";
             this.L_Same.Size = new System.Drawing.Size(48, 13);
             this.L_Same.TabIndex = 23;
@@ -1190,7 +1192,7 @@
             // 
             // NUD_Egg
             // 
-            this.NUD_Egg.Location = new System.Drawing.Point(267, 99);
+            this.NUD_Egg.Location = new System.Drawing.Point(267, 95);
             this.NUD_Egg.Name = "NUD_Egg";
             this.NUD_Egg.Size = new System.Drawing.Size(46, 20);
             this.NUD_Egg.TabIndex = 22;
@@ -1203,7 +1205,7 @@
             // CHK_WGuard
             // 
             this.CHK_WGuard.AutoSize = true;
-            this.CHK_WGuard.Location = new System.Drawing.Point(118, 49);
+            this.CHK_WGuard.Location = new System.Drawing.Point(118, 45);
             this.CHK_WGuard.Name = "CHK_WGuard";
             this.CHK_WGuard.Size = new System.Drawing.Size(96, 17);
             this.CHK_WGuard.TabIndex = 10;
@@ -1215,7 +1217,7 @@
             this.CHK_Ability.AutoSize = true;
             this.CHK_Ability.Checked = true;
             this.CHK_Ability.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Ability.Location = new System.Drawing.Point(118, 34);
+            this.CHK_Ability.Location = new System.Drawing.Point(118, 30);
             this.CHK_Ability.Name = "CHK_Ability";
             this.CHK_Ability.Size = new System.Drawing.Size(61, 17);
             this.CHK_Ability.TabIndex = 1;
@@ -1228,7 +1230,7 @@
             this.CHK_ORASTutors.AutoSize = true;
             this.CHK_ORASTutors.Checked = true;
             this.CHK_ORASTutors.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_ORASTutors.Location = new System.Drawing.Point(219, 50);
+            this.CHK_ORASTutors.Location = new System.Drawing.Point(219, 46);
             this.CHK_ORASTutors.Name = "CHK_ORASTutors";
             this.CHK_ORASTutors.Size = new System.Drawing.Size(120, 17);
             this.CHK_ORASTutors.TabIndex = 9;
@@ -1240,7 +1242,7 @@
             this.CHK_Tutors.AutoSize = true;
             this.CHK_Tutors.Checked = true;
             this.CHK_Tutors.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Tutors.Location = new System.Drawing.Point(219, 34);
+            this.CHK_Tutors.Location = new System.Drawing.Point(219, 30);
             this.CHK_Tutors.Name = "CHK_Tutors";
             this.CHK_Tutors.Size = new System.Drawing.Size(94, 17);
             this.CHK_Tutors.TabIndex = 8;
@@ -1252,7 +1254,7 @@
             this.CHK_rSPE.AutoSize = true;
             this.CHK_rSPE.Checked = true;
             this.CHK_rSPE.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rSPE.Location = new System.Drawing.Point(51, 64);
+            this.CHK_rSPE.Location = new System.Drawing.Point(51, 60);
             this.CHK_rSPE.Name = "CHK_rSPE";
             this.CHK_rSPE.Size = new System.Drawing.Size(45, 17);
             this.CHK_rSPE.TabIndex = 19;
@@ -1264,7 +1266,7 @@
             this.CHK_Type.AutoSize = true;
             this.CHK_Type.Checked = true;
             this.CHK_Type.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Type.Location = new System.Drawing.Point(118, 65);
+            this.CHK_Type.Location = new System.Drawing.Point(118, 61);
             this.CHK_Type.Name = "CHK_Type";
             this.CHK_Type.Size = new System.Drawing.Size(55, 17);
             this.CHK_Type.TabIndex = 6;
@@ -1276,7 +1278,7 @@
             this.CHK_rSPD.AutoSize = true;
             this.CHK_rSPD.Checked = true;
             this.CHK_rSPD.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rSPD.Location = new System.Drawing.Point(6, 64);
+            this.CHK_rSPD.Location = new System.Drawing.Point(6, 60);
             this.CHK_rSPD.Name = "CHK_rSPD";
             this.CHK_rSPD.Size = new System.Drawing.Size(47, 17);
             this.CHK_rSPD.TabIndex = 18;
@@ -1288,7 +1290,7 @@
             this.CHK_rSPA.AutoSize = true;
             this.CHK_rSPA.Checked = true;
             this.CHK_rSPA.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rSPA.Location = new System.Drawing.Point(51, 49);
+            this.CHK_rSPA.Location = new System.Drawing.Point(51, 45);
             this.CHK_rSPA.Name = "CHK_rSPA";
             this.CHK_rSPA.Size = new System.Drawing.Size(46, 17);
             this.CHK_rSPA.TabIndex = 17;
@@ -1298,7 +1300,7 @@
             // L_SingleType
             // 
             this.L_SingleType.AutoSize = true;
-            this.L_SingleType.Location = new System.Drawing.Point(115, 82);
+            this.L_SingleType.Location = new System.Drawing.Point(115, 78);
             this.L_SingleType.Name = "L_SingleType";
             this.L_SingleType.Size = new System.Drawing.Size(77, 13);
             this.L_SingleType.TabIndex = 21;
@@ -1309,7 +1311,7 @@
             this.CHK_rDEF.AutoSize = true;
             this.CHK_rDEF.Checked = true;
             this.CHK_rDEF.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rDEF.Location = new System.Drawing.Point(6, 49);
+            this.CHK_rDEF.Location = new System.Drawing.Point(6, 45);
             this.CHK_rDEF.Name = "CHK_rDEF";
             this.CHK_rDEF.Size = new System.Drawing.Size(43, 17);
             this.CHK_rDEF.TabIndex = 16;
@@ -1321,7 +1323,7 @@
             this.CHK_rATK.AutoSize = true;
             this.CHK_rATK.Checked = true;
             this.CHK_rATK.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rATK.Location = new System.Drawing.Point(51, 34);
+            this.CHK_rATK.Location = new System.Drawing.Point(51, 30);
             this.CHK_rATK.Name = "CHK_rATK";
             this.CHK_rATK.Size = new System.Drawing.Size(42, 17);
             this.CHK_rATK.TabIndex = 15;
@@ -1330,7 +1332,7 @@
             // 
             // NUD_TypePercent
             // 
-            this.NUD_TypePercent.Location = new System.Drawing.Point(134, 98);
+            this.NUD_TypePercent.Location = new System.Drawing.Point(134, 94);
             this.NUD_TypePercent.Name = "NUD_TypePercent";
             this.NUD_TypePercent.Size = new System.Drawing.Size(46, 20);
             this.NUD_TypePercent.TabIndex = 20;
@@ -1345,7 +1347,7 @@
             this.CHK_rHP.AutoSize = true;
             this.CHK_rHP.Checked = true;
             this.CHK_rHP.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rHP.Location = new System.Drawing.Point(6, 34);
+            this.CHK_rHP.Location = new System.Drawing.Point(6, 30);
             this.CHK_rHP.Name = "CHK_rHP";
             this.CHK_rHP.Size = new System.Drawing.Size(41, 17);
             this.CHK_rHP.TabIndex = 14;
@@ -1357,7 +1359,7 @@
             this.CHK_HM.AutoSize = true;
             this.CHK_HM.Checked = true;
             this.CHK_HM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_HM.Location = new System.Drawing.Point(267, 19);
+            this.CHK_HM.Location = new System.Drawing.Point(267, 15);
             this.CHK_HM.Name = "CHK_HM";
             this.CHK_HM.Size = new System.Drawing.Size(43, 17);
             this.CHK_HM.TabIndex = 7;
@@ -1367,7 +1369,7 @@
             // L_StatDev
             // 
             this.L_StatDev.AutoSize = true;
-            this.L_StatDev.Location = new System.Drawing.Point(6, 82);
+            this.L_StatDev.Location = new System.Drawing.Point(6, 90);
             this.L_StatDev.Name = "L_StatDev";
             this.L_StatDev.Size = new System.Drawing.Size(67, 13);
             this.L_StatDev.TabIndex = 4;
@@ -1378,7 +1380,7 @@
             this.CHK_TM.AutoSize = true;
             this.CHK_TM.Checked = true;
             this.CHK_TM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_TM.Location = new System.Drawing.Point(219, 19);
+            this.CHK_TM.Location = new System.Drawing.Point(219, 15);
             this.CHK_TM.Name = "CHK_TM";
             this.CHK_TM.Size = new System.Drawing.Size(42, 17);
             this.CHK_TM.TabIndex = 0;
@@ -1387,7 +1389,7 @@
             // 
             // NUD_StatDev
             // 
-            this.NUD_StatDev.Location = new System.Drawing.Point(27, 98);
+            this.NUD_StatDev.Location = new System.Drawing.Point(27, 106);
             this.NUD_StatDev.Name = "NUD_StatDev";
             this.NUD_StatDev.Size = new System.Drawing.Size(46, 20);
             this.NUD_StatDev.TabIndex = 3;
@@ -1402,7 +1404,7 @@
             this.CHK_Stats.AutoSize = true;
             this.CHK_Stats.Checked = true;
             this.CHK_Stats.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Stats.Location = new System.Drawing.Point(6, 19);
+            this.CHK_Stats.Location = new System.Drawing.Point(6, 15);
             this.CHK_Stats.Name = "CHK_Stats";
             this.CHK_Stats.Size = new System.Drawing.Size(106, 17);
             this.CHK_Stats.TabIndex = 2;
@@ -1415,7 +1417,7 @@
             this.CHK_EggGroup.AutoSize = true;
             this.CHK_EggGroup.Checked = true;
             this.CHK_EggGroup.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_EggGroup.Location = new System.Drawing.Point(219, 81);
+            this.CHK_EggGroup.Location = new System.Drawing.Point(219, 77);
             this.CHK_EggGroup.Name = "CHK_EggGroup";
             this.CHK_EggGroup.Size = new System.Drawing.Size(77, 17);
             this.CHK_EggGroup.TabIndex = 13;
@@ -1427,7 +1429,7 @@
             this.CHK_CatchRate.AutoSize = true;
             this.CHK_CatchRate.Checked = true;
             this.CHK_CatchRate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_CatchRate.Location = new System.Drawing.Point(219, 66);
+            this.CHK_CatchRate.Location = new System.Drawing.Point(219, 62);
             this.CHK_CatchRate.Name = "CHK_CatchRate";
             this.CHK_CatchRate.Size = new System.Drawing.Size(80, 17);
             this.CHK_CatchRate.TabIndex = 11;
@@ -1439,7 +1441,7 @@
             this.CHK_Item.AutoSize = true;
             this.CHK_Item.Checked = true;
             this.CHK_Item.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Item.Location = new System.Drawing.Point(118, 19);
+            this.CHK_Item.Location = new System.Drawing.Point(118, 15);
             this.CHK_Item.Name = "CHK_Item";
             this.CHK_Item.Size = new System.Drawing.Size(76, 17);
             this.CHK_Item.TabIndex = 5;
@@ -1473,6 +1475,18 @@
             this.B_Dump.Text = "Dump All";
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
+            // 
+            // CHK_Shuffle
+            // 
+            this.CHK_Shuffle.AutoSize = true;
+            this.CHK_Shuffle.Checked = true;
+            this.CHK_Shuffle.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Shuffle.Location = new System.Drawing.Point(6, 75);
+            this.CHK_Shuffle.Name = "CHK_Shuffle";
+            this.CHK_Shuffle.Size = new System.Drawing.Size(86, 17);
+            this.CHK_Shuffle.TabIndex = 24;
+            this.CHK_Shuffle.Text = "Shuffle Stats";
+            this.CHK_Shuffle.UseVisualStyleBackColor = true;
             // 
             // PersonalEditor6
             // 
@@ -1630,5 +1644,6 @@
         private System.Windows.Forms.CheckBox CHK_CatchRateMod;
         private System.Windows.Forms.Label L_CatchRateMod;
         private System.Windows.Forms.NumericUpDown NUD_CatchRateMod;
+        private System.Windows.Forms.CheckBox CHK_Shuffle;
     }
 }
