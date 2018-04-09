@@ -165,15 +165,16 @@ namespace pk3DS
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
 
-            int[] hm_xy = { 15, 19, 57, 70, 127 }; // Cut, Fly, Surf, Strength, Waterfall
-            int[] hm_oras = { 15, 19, 57, 70, 127, 249, 291 }; // + Rock Smash, Dive
+            int[] hm_xy = { 015, 019, 057, 070, 127 }; // Cut, Fly, Surf, Strength, Waterfall
+            int[] hm_oras = { 015, 019, 057, 070, 127, 249, 291 }; // + Rock Smash, Dive
             int[] field = { 148, 249, 290 }; // Flash (TM70), Rock Smash (XY TM94), Secret Power (ORAS TM94)
+            int[] banned = { 165, 464 }; // Struggle and Hyperspace Fury
             int ctr = 0;
 
             for (int i = 0; i < dgvTM.Rows.Count; i++)
             {
                 int val = Array.IndexOf(movelist, dgvTM.Rows[i].Cells[1].Value);
-
+                if (banned.Contains(val)) continue;
                 if (CHK_RandomizeField.Checked)
                     dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]]; // randomize everything
 

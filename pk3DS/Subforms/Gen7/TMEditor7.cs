@@ -116,7 +116,7 @@ namespace pk3DS
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
 
-            int[] banned = Legal.Z_Moves;
+            int[] banned = Legal.Z_Moves.Concat(new int[] { 165, 464, 621 }).ToArray();
             int ctr = 0;
 
             for (int i = 0; i < dgvTM.Rows.Count; i++)

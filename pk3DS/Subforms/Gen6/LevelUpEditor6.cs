@@ -157,6 +157,20 @@ namespace pk3DS
             getList();
             WinFormsUtil.Alert("All Pokémon's Level Up Moves have been randomized!");
         }
+        private void B_Metronome_Click(object sender, EventArgs e)
+        {
+            // clear all data, then only assign Metronome at Lv1
+            for (int i = 0; i < CB_Species.Items.Count; i++)
+            {
+                CB_Species.SelectedIndex = i;
+                dgv.Rows.Clear();
+                dgv.Rows.Add();
+                dgv.Rows[0].Cells[0].Value = 1;
+                dgv.Rows[0].Cells[1].Value = movelist[118];
+            }
+            CB_Species.SelectedIndex = 0;
+            WinFormsUtil.Alert("All Pokémon now only know the move Metronome!", "It is recommended that you open the Move Editor and set the Base PP for Metronome to 40.");
+        }
         private void B_Dump_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Dump all Level Up Moves to Text File?"))
