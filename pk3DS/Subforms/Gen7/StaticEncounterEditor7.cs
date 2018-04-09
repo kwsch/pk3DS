@@ -465,7 +465,7 @@ namespace pk3DS
             var specrand = getRandomizer();
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var items = Randomizer.getRandomItemList();
-            int[] banned = Legal.Z_Moves.Concat(new int[] { 165, 621 }).ToArray();
+            int[] banned = Legal.Z_Moves.Concat(new int[] {165, 464, 621}).ToArray();
 
             // Assign Species
             for (int i = 0; i < 3; i++)

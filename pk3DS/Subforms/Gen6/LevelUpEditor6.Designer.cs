@@ -48,6 +48,7 @@
             this.CHK_STAB = new System.Windows.Forms.CheckBox();
             this.CHK_HMs = new System.Windows.Forms.CheckBox();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
+            this.B_Metronome = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Moves)).BeginInit();
@@ -64,7 +65,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Location = new System.Drawing.Point(12, 41);
+            this.dgv.Location = new System.Drawing.Point(4, 41);
             this.dgv.Name = "dgv";
             this.dgv.Size = new System.Drawing.Size(282, 359);
             this.dgv.TabIndex = 0;
@@ -74,7 +75,7 @@
             this.CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Species.FormattingEnabled = true;
-            this.CB_Species.Location = new System.Drawing.Point(66, 12);
+            this.CB_Species.Location = new System.Drawing.Point(58, 12);
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(121, 21);
             this.CB_Species.TabIndex = 1;
@@ -83,7 +84,7 @@
             // L_Species
             // 
             this.L_Species.AutoSize = true;
-            this.L_Species.Location = new System.Drawing.Point(12, 15);
+            this.L_Species.Location = new System.Drawing.Point(4, 15);
             this.L_Species.Name = "L_Species";
             this.L_Species.Size = new System.Drawing.Size(48, 13);
             this.L_Species.TabIndex = 2;
@@ -92,9 +93,9 @@
             // B_RandAll
             // 
             this.B_RandAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_RandAll.Location = new System.Drawing.Point(300, 10);
+            this.B_RandAll.Location = new System.Drawing.Point(292, 10);
             this.B_RandAll.Name = "B_RandAll";
-            this.B_RandAll.Size = new System.Drawing.Size(95, 23);
+            this.B_RandAll.Size = new System.Drawing.Size(103, 23);
             this.B_RandAll.TabIndex = 4;
             this.B_RandAll.Text = "Randomize!";
             this.B_RandAll.UseVisualStyleBackColor = true;
@@ -102,7 +103,7 @@
             // 
             // B_Dump
             // 
-            this.B_Dump.Location = new System.Drawing.Point(248, 10);
+            this.B_Dump.Location = new System.Drawing.Point(240, 10);
             this.B_Dump.Name = "B_Dump";
             this.B_Dump.Size = new System.Drawing.Size(46, 23);
             this.B_Dump.TabIndex = 5;
@@ -127,9 +128,9 @@
             this.groupBox1.Controls.Add(this.NUD_STAB);
             this.groupBox1.Controls.Add(this.CHK_STAB);
             this.groupBox1.Controls.Add(this.CHK_HMs);
-            this.groupBox1.Location = new System.Drawing.Point(300, 39);
+            this.groupBox1.Location = new System.Drawing.Point(296, 65);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(95, 362);
+            this.groupBox1.Size = new System.Drawing.Size(95, 343);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
@@ -141,7 +142,7 @@
             this.CHK_NoFixedDamage.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_NoFixedDamage.Location = new System.Drawing.Point(5, 271);
             this.CHK_NoFixedDamage.Name = "CHK_NoFixedDamage";
-            this.CHK_NoFixedDamage.Size = new System.Drawing.Size(68, 43);
+            this.CHK_NoFixedDamage.Size = new System.Drawing.Size(95, 69);
             this.CHK_NoFixedDamage.TabIndex = 14;
             this.CHK_NoFixedDamage.Text = "No Fixed\nDamage\nMoves\n(Dragon Rage\n+ Sonic Boom)";
             this.CHK_NoFixedDamage.UseVisualStyleBackColor = true;
@@ -292,17 +293,29 @@
             // 
             // PB_MonSprite
             // 
-            this.PB_MonSprite.Location = new System.Drawing.Point(193, 5);
+            this.PB_MonSprite.Location = new System.Drawing.Point(185, 5);
             this.PB_MonSprite.Name = "PB_MonSprite";
             this.PB_MonSprite.Size = new System.Drawing.Size(40, 30);
             this.PB_MonSprite.TabIndex = 90;
             this.PB_MonSprite.TabStop = false;
+            // 
+            // B_Metronome
+            // 
+            this.B_Metronome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Metronome.Location = new System.Drawing.Point(292, 36);
+            this.B_Metronome.Name = "B_Metronome";
+            this.B_Metronome.Size = new System.Drawing.Size(103, 23);
+            this.B_Metronome.TabIndex = 91;
+            this.B_Metronome.Text = "Metronome Mode";
+            this.B_Metronome.UseVisualStyleBackColor = true;
+            this.B_Metronome.Click += new System.EventHandler(this.B_Metronome_Click);
             // 
             // LevelUpEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 412);
+            this.Controls.Add(this.B_Metronome);
             this.Controls.Add(this.PB_MonSprite);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.B_Dump);
@@ -350,5 +363,6 @@
         private System.Windows.Forms.PictureBox PB_MonSprite;
         private System.Windows.Forms.CheckBox CHK_4MovesLvl1;
         private System.Windows.Forms.CheckBox CHK_NoFixedDamage;
+        private System.Windows.Forms.Button B_Metronome;
     }
 }
