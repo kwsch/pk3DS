@@ -90,8 +90,9 @@
             this.L_0x21 = new System.Windows.Forms.Label();
             this.B_RandAll = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.CHK_Type = new System.Windows.Forms.CheckBox();
             this.CHK_Category = new System.Windows.Forms.CheckBox();
+            this.CHK_Type = new System.Windows.Forms.CheckBox();
+            this.B_Metronome = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_HitMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_HitMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Priority)).BeginInit();
@@ -804,22 +805,12 @@
             // 
             this.groupBox1.Controls.Add(this.CHK_Category);
             this.groupBox1.Controls.Add(this.CHK_Type);
-            this.groupBox1.Location = new System.Drawing.Point(333, 33);
+            this.groupBox1.Location = new System.Drawing.Point(333, 60);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(98, 342);
+            this.groupBox1.Size = new System.Drawing.Size(98, 55);
             this.groupBox1.TabIndex = 64;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
-            // 
-            // CHK_Type
-            // 
-            this.CHK_Type.AutoSize = true;
-            this.CHK_Type.Location = new System.Drawing.Point(6, 19);
-            this.CHK_Type.Name = "CHK_Type";
-            this.CHK_Type.Size = new System.Drawing.Size(50, 17);
-            this.CHK_Type.TabIndex = 0;
-            this.CHK_Type.Text = "Type";
-            this.CHK_Type.UseVisualStyleBackColor = true;
             // 
             // CHK_Category
             // 
@@ -831,11 +822,32 @@
             this.CHK_Category.Text = "Category";
             this.CHK_Category.UseVisualStyleBackColor = true;
             // 
-            // Moves
+            // CHK_Type
+            // 
+            this.CHK_Type.AutoSize = true;
+            this.CHK_Type.Location = new System.Drawing.Point(6, 19);
+            this.CHK_Type.Name = "CHK_Type";
+            this.CHK_Type.Size = new System.Drawing.Size(50, 17);
+            this.CHK_Type.TabIndex = 0;
+            this.CHK_Type.Text = "Type";
+            this.CHK_Type.UseVisualStyleBackColor = true;
+            // 
+            // B_Metronome
+            // 
+            this.B_Metronome.Location = new System.Drawing.Point(333, 33);
+            this.B_Metronome.Name = "B_Metronome";
+            this.B_Metronome.Size = new System.Drawing.Size(98, 23);
+            this.B_Metronome.TabIndex = 66;
+            this.B_Metronome.Text = "Metronome Mode";
+            this.B_Metronome.UseVisualStyleBackColor = true;
+            this.B_Metronome.Click += new System.EventHandler(this.B_Metronome_Click);
+            // 
+            // MoveEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(439, 382);
+            this.ClientSize = new System.Drawing.Size(439, 381);
+            this.Controls.Add(this.B_Metronome);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.B_RandAll);
             this.Controls.Add(this.L_0x21);
@@ -889,7 +901,7 @@
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(455, 420);
             this.MinimumSize = new System.Drawing.Size(355, 420);
-            this.Name = "MoveEditor6";
+            this.Name = "MoveEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Move Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
@@ -991,5 +1003,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox CHK_Category;
         private System.Windows.Forms.CheckBox CHK_Type;
+        private System.Windows.Forms.Button B_Metronome;
     }
 }

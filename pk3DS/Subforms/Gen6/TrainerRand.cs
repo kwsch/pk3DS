@@ -41,6 +41,7 @@ namespace pk3DS
 
             RSTE.rMove = CB_Moves.SelectedIndex == 1;
             RSTE.rNoMove = CB_Moves.SelectedIndex == 2;
+            RSTE.rMetronome = CB_Moves.SelectedIndex == 3;
             if (RSTE.rMove)
             {
                 RSTE.rDMG = CHK_Damage.Checked;

@@ -362,7 +362,17 @@ namespace pk3DS
                 if (CHK_Growth.Checked)
                     CB_EXPGroup.SelectedIndex = 5;
                 if (CHK_EXP.Checked)
-                    TB_BaseExp.Text = ((float)NUD_EXP.Value*(Convert.ToUInt16(TB_BaseExp.Text)/100f)).ToString("000");
+                    TB_BaseExp.Text = ((float)NUD_EXP.Value * (Convert.ToUInt16(TB_BaseExp.Text) / 100f)).ToString("000");
+
+                if (CHK_NoTutor.Checked)
+                {
+                    foreach (int tm in CLB_TM.CheckedIndices)
+                        CLB_TM.SetItemCheckState(tm, CheckState.Unchecked);
+                    foreach (int mt in CLB_MoveTutors.CheckedIndices)
+                        CLB_MoveTutors.SetItemCheckState(mt, CheckState.Unchecked);
+                    foreach (int ao in CLB_BeachTutors.CheckedIndices)
+                        CLB_BeachTutors.SetItemCheckState(ao, CheckState.Unchecked);
+                }
 
                 if (CHK_QuickHatch.Checked)
                     TB_HatchCycles.Text = 1.ToString();

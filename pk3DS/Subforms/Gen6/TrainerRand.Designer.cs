@@ -584,7 +584,8 @@
             this.CB_Moves.Items.AddRange(new object[] {
             "Don\'t Modify",
             "Randomize All",
-            "Use Levelup Only"});
+            "Use Levelup Only",
+            "Metronome Mode"});
             this.CB_Moves.Location = new System.Drawing.Point(67, 223);
             this.CB_Moves.Name = "CB_Moves";
             this.CB_Moves.Size = new System.Drawing.Size(135, 21);

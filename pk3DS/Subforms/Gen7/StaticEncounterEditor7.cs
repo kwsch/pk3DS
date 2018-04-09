@@ -494,7 +494,7 @@ namespace pk3DS
                 if (CHK_RemoveShinyLock.Checked)
                     t.ShinyLock = false;
 
-                if (CHK_SpecialMove.Checked)
+                if (CHK_SpecialMove.Checked && !CHK_Metronome.Checked)
                 {
                     int rv = Util.rand.Next(1, CB_SpecialMove.Items.Count);
                     if (banned.Contains(rv)) continue; // disallow banned moves
@@ -556,9 +556,14 @@ namespace pk3DS
 
                 if (CHK_SpecialMove.Checked)
                 {
-                    int rv = Util.rand.Next(1, CB_SpecialMove.Items.Count);
-                    if (banned.Contains(rv)) continue; // disallow banned moves
-                    t.SpecialMove = rv;
+                    if (CHK_Metronome.Checked)
+                        t.SpecialMove = 0; // remove Surf Pikachu's special move
+                    else
+                    {
+                        int rv = Util.rand.Next(1, CB_SpecialMove.Items.Count);
+                        if (banned.Contains(rv)) continue; // disallow banned moves
+                        t.SpecialMove = rv;
+                    }
                 }
 
                 if (CHK_RandomAbility.Checked)
@@ -605,8 +610,12 @@ namespace pk3DS
                 if (CHK_ForceFullyEvolved.Checked && t.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(t.Species))
                     t.Species = FinalEvo[randFinalEvo()];
 
+                if (CHK_Metronome.Checked)
+                    t.RelearnMoves = new[] { 118, 0, 0, 0 };
+                else
+                    t.RelearnMoves = move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
+
                 t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
-                t.RelearnMoves = move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
                 t.Gender = 0; // random
                 t.Nature = 0; // random
             }

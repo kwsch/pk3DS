@@ -130,9 +130,10 @@
             this.CHK_NoEV = new System.Windows.Forms.CheckBox();
             this.B_ModAll = new System.Windows.Forms.Button();
             this.GB_Randomizer = new System.Windows.Forms.GroupBox();
-            this.CHK_BeachTutors = new System.Windows.Forms.CheckBox();
+            this.CHK_Shuffle = new System.Windows.Forms.CheckBox();
             this.L_Same = new System.Windows.Forms.Label();
             this.NUD_Egg = new System.Windows.Forms.NumericUpDown();
+            this.CHK_BeachTutors = new System.Windows.Forms.CheckBox();
             this.CHK_WGuard = new System.Windows.Forms.CheckBox();
             this.CHK_Ability = new System.Windows.Forms.CheckBox();
             this.CHK_Tutors = new System.Windows.Forms.CheckBox();
@@ -156,7 +157,7 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
-            this.CHK_Shuffle = new System.Windows.Forms.CheckBox();
+            this.CHK_NoTutor = new System.Windows.Forms.CheckBox();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -1118,6 +1119,7 @@
             // 
             // GB_Modifier
             // 
+            this.GB_Modifier.Controls.Add(this.CHK_NoTutor);
             this.GB_Modifier.Controls.Add(this.CHK_CatchRateMod);
             this.GB_Modifier.Controls.Add(this.L_CatchRateMod);
             this.GB_Modifier.Controls.Add(this.NUD_CatchRateMod);
@@ -1325,17 +1327,17 @@
             this.GB_Randomizer.TabStop = false;
             this.GB_Randomizer.Text = "Randomizer Options";
             // 
-            // CHK_BeachTutors
+            // CHK_Shuffle
             // 
-            this.CHK_BeachTutors.AutoSize = true;
-            this.CHK_BeachTutors.Checked = true;
-            this.CHK_BeachTutors.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_BeachTutors.Location = new System.Drawing.Point(219, 46);
-            this.CHK_BeachTutors.Name = "CHK_BeachTutors";
-            this.CHK_BeachTutors.Size = new System.Drawing.Size(90, 17);
-            this.CHK_BeachTutors.TabIndex = 24;
-            this.CHK_BeachTutors.Text = "Beach Tutors";
-            this.CHK_BeachTutors.UseVisualStyleBackColor = true;
+            this.CHK_Shuffle.AutoSize = true;
+            this.CHK_Shuffle.Checked = true;
+            this.CHK_Shuffle.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Shuffle.Location = new System.Drawing.Point(6, 75);
+            this.CHK_Shuffle.Name = "CHK_Shuffle";
+            this.CHK_Shuffle.Size = new System.Drawing.Size(86, 17);
+            this.CHK_Shuffle.TabIndex = 25;
+            this.CHK_Shuffle.Text = "Shuffle Stats";
+            this.CHK_Shuffle.UseVisualStyleBackColor = true;
             // 
             // L_Same
             // 
@@ -1357,6 +1359,18 @@
             0,
             0,
             0});
+            // 
+            // CHK_BeachTutors
+            // 
+            this.CHK_BeachTutors.AutoSize = true;
+            this.CHK_BeachTutors.Checked = true;
+            this.CHK_BeachTutors.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_BeachTutors.Location = new System.Drawing.Point(219, 46);
+            this.CHK_BeachTutors.Name = "CHK_BeachTutors";
+            this.CHK_BeachTutors.Size = new System.Drawing.Size(90, 17);
+            this.CHK_BeachTutors.TabIndex = 24;
+            this.CHK_BeachTutors.Text = "Beach Tutors";
+            this.CHK_BeachTutors.UseVisualStyleBackColor = true;
             // 
             // CHK_WGuard
             // 
@@ -1620,17 +1634,15 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
-            // CHK_Shuffle
+            // CHK_NoTutor
             // 
-            this.CHK_Shuffle.AutoSize = true;
-            this.CHK_Shuffle.Checked = true;
-            this.CHK_Shuffle.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Shuffle.Location = new System.Drawing.Point(6, 75);
-            this.CHK_Shuffle.Name = "CHK_Shuffle";
-            this.CHK_Shuffle.Size = new System.Drawing.Size(86, 17);
-            this.CHK_Shuffle.TabIndex = 25;
-            this.CHK_Shuffle.Text = "Shuffle Stats";
-            this.CHK_Shuffle.UseVisualStyleBackColor = true;
+            this.CHK_NoTutor.AutoSize = true;
+            this.CHK_NoTutor.Location = new System.Drawing.Point(6, 95);
+            this.CHK_NoTutor.Name = "CHK_NoTutor";
+            this.CHK_NoTutor.Size = new System.Drawing.Size(190, 17);
+            this.CHK_NoTutor.TabIndex = 21;
+            this.CHK_NoTutor.Text = "Remove All TM/Tutor Compatibility";
+            this.CHK_NoTutor.UseVisualStyleBackColor = true;
             // 
             // PersonalEditor7
             // 
@@ -1802,5 +1814,6 @@
         private System.Windows.Forms.CheckedListBox CLB_BeachTutors;
         private System.Windows.Forms.CheckBox CHK_BeachTutors;
         private System.Windows.Forms.CheckBox CHK_Shuffle;
+        private System.Windows.Forms.CheckBox CHK_NoTutor;
     }
 }
