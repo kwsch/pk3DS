@@ -134,16 +134,21 @@
             this.NUD_TLevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Trade = new System.Windows.Forms.ListBox();
             this.Tab_Randomizer = new System.Windows.Forms.TabPage();
+            this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_RemoveShinyLock = new System.Windows.Forms.CheckBox();
+            this.NUD_ForceFullyEvolved = new System.Windows.Forms.NumericUpDown();
+            this.CHK_ForceTotem = new System.Windows.Forms.CheckBox();
+            this.CHK_ForceFullyEvolved = new System.Windows.Forms.CheckBox();
+            this.CHK_BasicStarter = new System.Windows.Forms.CheckBox();
+            this.CHK_ReplaceLegend = new System.Windows.Forms.CheckBox();
             this.B_ModifyLevel = new System.Windows.Forms.Button();
             this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
             this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.B_RandAll = new System.Windows.Forms.Button();
             this.GB_Rand = new System.Windows.Forms.GroupBox();
-            this.CHK_ReplaceLegend = new System.Windows.Forms.CheckBox();
-            this.CHK_RandomAbility = new System.Windows.Forms.CheckBox();
             this.CHK_SpecialMove = new System.Windows.Forms.CheckBox();
+            this.CHK_RandomAbility = new System.Windows.Forms.CheckBox();
             this.CHK_RandomAura = new System.Windows.Forms.CheckBox();
-            this.CHK_RemoveShinyLock = new System.Windows.Forms.CheckBox();
             this.CHK_AllowMega = new System.Windows.Forms.CheckBox();
             this.CHK_Item = new System.Windows.Forms.CheckBox();
             this.CHK_G7 = new System.Windows.Forms.CheckBox();
@@ -159,11 +164,7 @@
             this.B_Starters = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.GB_Tweak = new System.Windows.Forms.GroupBox();
-            this.CHK_BasicStarter = new System.Windows.Forms.CheckBox();
-            this.CHK_ForceTotem = new System.Windows.Forms.CheckBox();
-            this.NUD_ForceFullyEvolved = new System.Windows.Forms.NumericUpDown();
-            this.CHK_ForceFullyEvolved = new System.Windows.Forms.CheckBox();
+            this.CHK_Metronome = new System.Windows.Forms.CheckBox();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).BeginInit();
@@ -200,10 +201,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TLevel)).BeginInit();
             this.Tab_Randomizer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).BeginInit();
-            this.GB_Rand.SuspendLayout();
             this.GB_Tweak.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).BeginInit();
+            this.GB_Rand.SuspendLayout();
             this.SuspendLayout();
             // 
             // TC_Tabs
@@ -1525,6 +1526,96 @@
             this.Tab_Randomizer.Text = "Randomizer Options";
             this.Tab_Randomizer.UseVisualStyleBackColor = true;
             // 
+            // GB_Tweak
+            // 
+            this.GB_Tweak.Controls.Add(this.CHK_Metronome);
+            this.GB_Tweak.Controls.Add(this.CHK_RemoveShinyLock);
+            this.GB_Tweak.Controls.Add(this.NUD_ForceFullyEvolved);
+            this.GB_Tweak.Controls.Add(this.CHK_ForceTotem);
+            this.GB_Tweak.Controls.Add(this.CHK_ForceFullyEvolved);
+            this.GB_Tweak.Controls.Add(this.CHK_BasicStarter);
+            this.GB_Tweak.Controls.Add(this.CHK_ReplaceLegend);
+            this.GB_Tweak.Location = new System.Drawing.Point(119, 245);
+            this.GB_Tweak.Name = "GB_Tweak";
+            this.GB_Tweak.Size = new System.Drawing.Size(258, 115);
+            this.GB_Tweak.TabIndex = 509;
+            this.GB_Tweak.TabStop = false;
+            this.GB_Tweak.Text = "Extra Tweaks";
+            // 
+            // CHK_RemoveShinyLock
+            // 
+            this.CHK_RemoveShinyLock.AutoSize = true;
+            this.CHK_RemoveShinyLock.Checked = true;
+            this.CHK_RemoveShinyLock.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_RemoveShinyLock.Location = new System.Drawing.Point(6, 79);
+            this.CHK_RemoveShinyLock.Name = "CHK_RemoveShinyLock";
+            this.CHK_RemoveShinyLock.Size = new System.Drawing.Size(127, 17);
+            this.CHK_RemoveShinyLock.TabIndex = 299;
+            this.CHK_RemoveShinyLock.Text = "Remove Shiny Locks";
+            this.CHK_RemoveShinyLock.UseVisualStyleBackColor = true;
+            // 
+            // NUD_ForceFullyEvolved
+            // 
+            this.NUD_ForceFullyEvolved.Location = new System.Drawing.Point(165, 62);
+            this.NUD_ForceFullyEvolved.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_ForceFullyEvolved.Name = "NUD_ForceFullyEvolved";
+            this.NUD_ForceFullyEvolved.Size = new System.Drawing.Size(40, 20);
+            this.NUD_ForceFullyEvolved.TabIndex = 514;
+            this.NUD_ForceFullyEvolved.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // CHK_ForceTotem
+            // 
+            this.CHK_ForceTotem.AutoSize = true;
+            this.CHK_ForceTotem.Location = new System.Drawing.Point(6, 47);
+            this.CHK_ForceTotem.Name = "CHK_ForceTotem";
+            this.CHK_ForceTotem.Size = new System.Drawing.Size(200, 17);
+            this.CHK_ForceTotem.TabIndex = 305;
+            this.CHK_ForceTotem.Text = "Force Fully Evolved Totem Pokémon";
+            this.CHK_ForceTotem.UseVisualStyleBackColor = true;
+            // 
+            // CHK_ForceFullyEvolved
+            // 
+            this.CHK_ForceFullyEvolved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_ForceFullyEvolved.AutoSize = true;
+            this.CHK_ForceFullyEvolved.Location = new System.Drawing.Point(6, 63);
+            this.CHK_ForceFullyEvolved.Name = "CHK_ForceFullyEvolved";
+            this.CHK_ForceFullyEvolved.Size = new System.Drawing.Size(160, 17);
+            this.CHK_ForceFullyEvolved.TabIndex = 513;
+            this.CHK_ForceFullyEvolved.Text = "Force Fully Evolved at Level";
+            this.CHK_ForceFullyEvolved.UseVisualStyleBackColor = true;
+            // 
+            // CHK_BasicStarter
+            // 
+            this.CHK_BasicStarter.AutoSize = true;
+            this.CHK_BasicStarter.Checked = true;
+            this.CHK_BasicStarter.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_BasicStarter.Location = new System.Drawing.Point(6, 31);
+            this.CHK_BasicStarter.Name = "CHK_BasicStarter";
+            this.CHK_BasicStarter.Size = new System.Drawing.Size(217, 17);
+            this.CHK_BasicStarter.TabIndex = 304;
+            this.CHK_BasicStarter.Text = "Basic Starter Pokémon with 2 Evolutions";
+            this.CHK_BasicStarter.UseVisualStyleBackColor = true;
+            // 
+            // CHK_ReplaceLegend
+            // 
+            this.CHK_ReplaceLegend.AutoSize = true;
+            this.CHK_ReplaceLegend.Checked = true;
+            this.CHK_ReplaceLegend.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_ReplaceLegend.Location = new System.Drawing.Point(6, 15);
+            this.CHK_ReplaceLegend.Name = "CHK_ReplaceLegend";
+            this.CHK_ReplaceLegend.Size = new System.Drawing.Size(242, 17);
+            this.CHK_ReplaceLegend.TabIndex = 303;
+            this.CHK_ReplaceLegend.Text = "Replace Legendaries with Another Legendary";
+            this.CHK_ReplaceLegend.UseVisualStyleBackColor = true;
+            // 
             // B_ModifyLevel
             // 
             this.B_ModifyLevel.Location = new System.Drawing.Point(306, 49);
@@ -1604,17 +1695,15 @@
             this.GB_Rand.TabStop = false;
             this.GB_Rand.Text = "Randomizer Options";
             // 
-            // CHK_ReplaceLegend
+            // CHK_SpecialMove
             // 
-            this.CHK_ReplaceLegend.AutoSize = true;
-            this.CHK_ReplaceLegend.Checked = true;
-            this.CHK_ReplaceLegend.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_ReplaceLegend.Location = new System.Drawing.Point(6, 15);
-            this.CHK_ReplaceLegend.Name = "CHK_ReplaceLegend";
-            this.CHK_ReplaceLegend.Size = new System.Drawing.Size(242, 17);
-            this.CHK_ReplaceLegend.TabIndex = 303;
-            this.CHK_ReplaceLegend.Text = "Replace Legendaries with Another Legendary";
-            this.CHK_ReplaceLegend.UseVisualStyleBackColor = true;
+            this.CHK_SpecialMove.AutoSize = true;
+            this.CHK_SpecialMove.Location = new System.Drawing.Point(9, 135);
+            this.CHK_SpecialMove.Name = "CHK_SpecialMove";
+            this.CHK_SpecialMove.Size = new System.Drawing.Size(197, 17);
+            this.CHK_SpecialMove.TabIndex = 301;
+            this.CHK_SpecialMove.Text = "Random Gift Move for Gift Pokémon";
+            this.CHK_SpecialMove.UseVisualStyleBackColor = true;
             // 
             // CHK_RandomAbility
             // 
@@ -1626,16 +1715,6 @@
             this.CHK_RandomAbility.Text = "Random Abilities (1, 2, or Hidden)";
             this.CHK_RandomAbility.UseVisualStyleBackColor = true;
             // 
-            // CHK_SpecialMove
-            // 
-            this.CHK_SpecialMove.AutoSize = true;
-            this.CHK_SpecialMove.Location = new System.Drawing.Point(9, 135);
-            this.CHK_SpecialMove.Name = "CHK_SpecialMove";
-            this.CHK_SpecialMove.Size = new System.Drawing.Size(197, 17);
-            this.CHK_SpecialMove.TabIndex = 301;
-            this.CHK_SpecialMove.Text = "Random Gift Move for Gift Pokémon";
-            this.CHK_SpecialMove.UseVisualStyleBackColor = true;
-            // 
             // CHK_RandomAura
             // 
             this.CHK_RandomAura.AutoSize = true;
@@ -1645,18 +1724,6 @@
             this.CHK_RandomAura.TabIndex = 300;
             this.CHK_RandomAura.Text = "Random Totem Pokémon Aura";
             this.CHK_RandomAura.UseVisualStyleBackColor = true;
-            // 
-            // CHK_RemoveShinyLock
-            // 
-            this.CHK_RemoveShinyLock.AutoSize = true;
-            this.CHK_RemoveShinyLock.Checked = true;
-            this.CHK_RemoveShinyLock.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RemoveShinyLock.Location = new System.Drawing.Point(6, 79);
-            this.CHK_RemoveShinyLock.Name = "CHK_RemoveShinyLock";
-            this.CHK_RemoveShinyLock.Size = new System.Drawing.Size(127, 17);
-            this.CHK_RemoveShinyLock.TabIndex = 299;
-            this.CHK_RemoveShinyLock.Text = "Remove Shiny Locks";
-            this.CHK_RemoveShinyLock.UseVisualStyleBackColor = true;
             // 
             // CHK_AllowMega
             // 
@@ -1828,70 +1895,15 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // GB_Tweak
+            // CHK_Metronome
             // 
-            this.GB_Tweak.Controls.Add(this.CHK_RemoveShinyLock);
-            this.GB_Tweak.Controls.Add(this.NUD_ForceFullyEvolved);
-            this.GB_Tweak.Controls.Add(this.CHK_ForceTotem);
-            this.GB_Tweak.Controls.Add(this.CHK_ForceFullyEvolved);
-            this.GB_Tweak.Controls.Add(this.CHK_BasicStarter);
-            this.GB_Tweak.Controls.Add(this.CHK_ReplaceLegend);
-            this.GB_Tweak.Location = new System.Drawing.Point(119, 245);
-            this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(258, 100);
-            this.GB_Tweak.TabIndex = 509;
-            this.GB_Tweak.TabStop = false;
-            this.GB_Tweak.Text = "Extra Tweaks";
-            // 
-            // CHK_BasicStarter
-            // 
-            this.CHK_BasicStarter.AutoSize = true;
-            this.CHK_BasicStarter.Checked = true;
-            this.CHK_BasicStarter.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_BasicStarter.Location = new System.Drawing.Point(6, 31);
-            this.CHK_BasicStarter.Name = "CHK_BasicStarter";
-            this.CHK_BasicStarter.Size = new System.Drawing.Size(217, 17);
-            this.CHK_BasicStarter.TabIndex = 304;
-            this.CHK_BasicStarter.Text = "Basic Starter Pokémon with 2 Evolutions";
-            this.CHK_BasicStarter.UseVisualStyleBackColor = true;
-            // 
-            // CHK_ForceTotem
-            // 
-            this.CHK_ForceTotem.AutoSize = true;
-            this.CHK_ForceTotem.Location = new System.Drawing.Point(6, 47);
-            this.CHK_ForceTotem.Name = "CHK_ForceTotem";
-            this.CHK_ForceTotem.Size = new System.Drawing.Size(200, 17);
-            this.CHK_ForceTotem.TabIndex = 305;
-            this.CHK_ForceTotem.Text = "Force Fully Evolved Totem Pokémon";
-            this.CHK_ForceTotem.UseVisualStyleBackColor = true;
-            // 
-            // NUD_ForceFullyEvolved
-            // 
-            this.NUD_ForceFullyEvolved.Location = new System.Drawing.Point(165, 62);
-            this.NUD_ForceFullyEvolved.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NUD_ForceFullyEvolved.Name = "NUD_ForceFullyEvolved";
-            this.NUD_ForceFullyEvolved.Size = new System.Drawing.Size(40, 20);
-            this.NUD_ForceFullyEvolved.TabIndex = 514;
-            this.NUD_ForceFullyEvolved.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            // 
-            // CHK_ForceFullyEvolved
-            // 
-            this.CHK_ForceFullyEvolved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CHK_ForceFullyEvolved.AutoSize = true;
-            this.CHK_ForceFullyEvolved.Location = new System.Drawing.Point(6, 63);
-            this.CHK_ForceFullyEvolved.Name = "CHK_ForceFullyEvolved";
-            this.CHK_ForceFullyEvolved.Size = new System.Drawing.Size(160, 17);
-            this.CHK_ForceFullyEvolved.TabIndex = 513;
-            this.CHK_ForceFullyEvolved.Text = "Force Fully Evolved at Level";
-            this.CHK_ForceFullyEvolved.UseVisualStyleBackColor = true;
+            this.CHK_Metronome.AutoSize = true;
+            this.CHK_Metronome.Location = new System.Drawing.Point(6, 95);
+            this.CHK_Metronome.Name = "CHK_Metronome";
+            this.CHK_Metronome.Size = new System.Drawing.Size(109, 17);
+            this.CHK_Metronome.TabIndex = 515;
+            this.CHK_Metronome.Text = "Metronome Mode";
+            this.CHK_Metronome.UseVisualStyleBackColor = true;
             // 
             // StaticEncounterEditor7
             // 
@@ -1943,12 +1955,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TLevel)).EndInit();
             this.Tab_Randomizer.ResumeLayout(false);
             this.Tab_Randomizer.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).EndInit();
-            this.GB_Rand.ResumeLayout(false);
-            this.GB_Rand.PerformLayout();
             this.GB_Tweak.ResumeLayout(false);
             this.GB_Tweak.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).EndInit();
+            this.GB_Rand.ResumeLayout(false);
+            this.GB_Rand.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2091,5 +2103,6 @@
         private System.Windows.Forms.CheckBox CHK_BasicStarter;
         private System.Windows.Forms.NumericUpDown NUD_ForceFullyEvolved;
         private System.Windows.Forms.CheckBox CHK_ForceFullyEvolved;
+        private System.Windows.Forms.CheckBox CHK_Metronome;
     }
 }

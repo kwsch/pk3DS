@@ -10,8 +10,6 @@ namespace pk3DS
         {
             files = infiles;
             movelist[0] = "";
-            sortedmoves = (string[])movelist.Clone();
-            Array.Sort(sortedmoves);
 
             InitializeComponent();
             Setup();
@@ -21,7 +19,6 @@ namespace pk3DS
         private readonly string[] types = Main.Config.getText(TextName.Types);
         private readonly string[] moveflavor = Main.Config.getText(TextName.MoveFlavor);
         private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
-        private readonly string[] sortedmoves;
         private readonly string[] MoveCategories = { "Status", "Physical", "Special", };
         private readonly string[] StatCategories = { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
 
@@ -48,7 +45,7 @@ namespace pk3DS
             "Affect One Side of the Field", "Forces Target to Switch", "Unique Effect",  };
         private void Setup()
         {
-            foreach (string s in sortedmoves) CB_Move.Items.Add(s);
+            foreach (string s in movelist) CB_Move.Items.Add(s);
             foreach (string s in types) CB_Type.Items.Add(s);
             foreach (string s in MoveCategories) CB_Category.Items.Add(s);
             foreach (string s in StatCategories) CB_Stat1.Items.Add(s);
@@ -191,6 +188,21 @@ namespace pk3DS
                     CB_Type.SelectedIndex = rnd.Next(0, 18);
             }
             WinFormsUtil.Alert("All Moves have been randomized!");
+        }
+        private void B_Metronome_Click(object sender, EventArgs e)
+        {
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Play using Metronome Mode?", "This will set the Base PP for every other Move to 0!") != DialogResult.Yes) return;
+
+            for (int i = 0; i < CB_Move.Items.Count; i++)
+            {
+                CB_Move.SelectedIndex = i;
+                if (CB_Move.SelectedIndex != 117)
+                    NUD_PP.Value = 0;
+                if (CB_Move.SelectedIndex == 117)
+                    NUD_PP.Value = 40;
+            }
+            CB_Move.SelectedIndex = 0;
+            WinFormsUtil.Alert("All Moves have had their Base PP values modified!");
         }
     }
 }

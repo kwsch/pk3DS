@@ -119,8 +119,8 @@ namespace pk3DS
                 Array.Copy(species, temp_species, temp_species.Length);
                 species = temp_species;
 
-                CLB_OrasTutors.Visible =
-                CLB_OrasTutors.Enabled =
+                CLB_ORASTutors.Visible =
+                CLB_ORASTutors.Enabled =
                 L_ORASTutors.Visible = false;
                 CHK_ORASTutors.Visible = false;
             }
@@ -128,16 +128,16 @@ namespace pk3DS
             {
                 CLB_MoveTutors.Items.Add(moves[tutormoves[tutormoves.Length - 1]]); //Dragon's Ascent
                 foreach (ushort tm in tutor1)
-                    CLB_OrasTutors.Items.Add(moves[tm]);
+                    CLB_ORASTutors.Items.Add(moves[tm]);
                 foreach (ushort tm in tutor2)
-                    CLB_OrasTutors.Items.Add(moves[tm]);
+                    CLB_ORASTutors.Items.Add(moves[tm]);
                 foreach (ushort tm in tutor3)
-                    CLB_OrasTutors.Items.Add(moves[tm]);
+                    CLB_ORASTutors.Items.Add(moves[tm]);
                 foreach (ushort tm in tutor4)
-                    CLB_OrasTutors.Items.Add(moves[tm]);
+                    CLB_ORASTutors.Items.Add(moves[tm]);
 
-                CLB_OrasTutors.Visible = 
-                CLB_OrasTutors.Enabled = 
+                CLB_ORASTutors.Visible = 
+                CLB_ORASTutors.Enabled = 
                 L_ORASTutors.Visible = true;
             }
             for (int i = 0; i < species.Length; i++)
@@ -248,7 +248,7 @@ namespace pk3DS
                 int ctr = 0;
                 for (int i = 0; i < len.Length; i++)
                     for (int b = 0; b < len[i]; b++)
-                        CLB_OrasTutors.SetItemChecked(ctr++, pkm.SpecialTutors[i][b]);
+                        CLB_ORASTutors.SetItemChecked(ctr++, pkm.SpecialTutors[i][b]);
             }
         }
         private void readEntry()
@@ -326,7 +326,7 @@ namespace pk3DS
             int ctr = 0;
             for (int i = 0; i < 4; i++)
                 for (int t = 0; t < len[i]; t++)
-                    pkm.SpecialTutors[i][t] = CLB_OrasTutors.GetItemChecked(ctr++);
+                    pkm.SpecialTutors[i][t] = CLB_ORASTutors.GetItemChecked(ctr++);
         }
         private void saveEntry()
         {
@@ -378,11 +378,22 @@ namespace pk3DS
                 if (CHK_Growth.Checked)
                     CB_EXPGroup.SelectedIndex = 5;
                 if (CHK_EXP.Checked)
-                    TB_BaseExp.Text = ((float)NUD_EXP.Value*(Convert.ToUInt16(TB_BaseExp.Text)/100f)).ToString("000");
+                    TB_BaseExp.Text = ((float)NUD_EXP.Value * (Convert.ToUInt16(TB_BaseExp.Text) / 100f)).ToString("000");
+
+                if (CHK_NoTutor.Checked)
+                {
+                    // preserve HM compatiblity to ensure story progression
+                    for (int tm = 0; tm <= 100; tm++)
+                        CLB_TMHM.SetItemCheckState(tm, CheckState.Unchecked);
+                    foreach (int mt in CLB_MoveTutors.CheckedIndices)
+                        CLB_MoveTutors.SetItemCheckState(mt, CheckState.Unchecked);
+                    foreach (int ao in CLB_ORASTutors.CheckedIndices)
+                        CLB_ORASTutors.SetItemCheckState(ao, CheckState.Unchecked);
+                }
 
                 if (CHK_QuickHatch.Checked)
                     TB_HatchCycles.Text = 1.ToString();
-                if(CHK_CatchRateMod.Checked)
+                if (CHK_CatchRateMod.Checked)
                     TB_CatchRate.Text = ((int)NUD_CatchRateMod.Value).ToString();
             }
             CB_Species.SelectedIndex = 1;

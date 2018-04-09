@@ -102,7 +102,7 @@
             this.L_ORASTutors = new System.Windows.Forms.Label();
             this.L_Special = new System.Windows.Forms.Label();
             this.L_TMHM = new System.Windows.Forms.Label();
-            this.CLB_OrasTutors = new System.Windows.Forms.CheckedListBox();
+            this.CLB_ORASTutors = new System.Windows.Forms.CheckedListBox();
             this.CLB_MoveTutors = new System.Windows.Forms.CheckedListBox();
             this.CLB_TMHM = new System.Windows.Forms.CheckedListBox();
             this.TP_Randomizer = new System.Windows.Forms.TabPage();
@@ -118,6 +118,7 @@
             this.CHK_NoEV = new System.Windows.Forms.CheckBox();
             this.B_ModAll = new System.Windows.Forms.Button();
             this.GB_Randomizer = new System.Windows.Forms.GroupBox();
+            this.CHK_Shuffle = new System.Windows.Forms.CheckBox();
             this.L_Same = new System.Windows.Forms.Label();
             this.NUD_Egg = new System.Windows.Forms.NumericUpDown();
             this.CHK_WGuard = new System.Windows.Forms.CheckBox();
@@ -144,7 +145,7 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
-            this.CHK_Shuffle = new System.Windows.Forms.CheckBox();
+            this.CHK_NoTutor = new System.Windows.Forms.CheckBox();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -927,7 +928,7 @@
             this.TP_MoveTutors.Controls.Add(this.L_ORASTutors);
             this.TP_MoveTutors.Controls.Add(this.L_Special);
             this.TP_MoveTutors.Controls.Add(this.L_TMHM);
-            this.TP_MoveTutors.Controls.Add(this.CLB_OrasTutors);
+            this.TP_MoveTutors.Controls.Add(this.CLB_ORASTutors);
             this.TP_MoveTutors.Controls.Add(this.CLB_MoveTutors);
             this.TP_MoveTutors.Controls.Add(this.CLB_TMHM);
             this.TP_MoveTutors.Location = new System.Drawing.Point(4, 22);
@@ -966,17 +967,17 @@
             this.L_TMHM.TabIndex = 5;
             this.L_TMHM.Text = "TM/HM:";
             // 
-            // CLB_OrasTutors
+            // CLB_ORASTutors
             // 
-            this.CLB_OrasTutors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.CLB_ORASTutors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.CLB_OrasTutors.Enabled = false;
-            this.CLB_OrasTutors.FormattingEnabled = true;
-            this.CLB_OrasTutors.Location = new System.Drawing.Point(301, 19);
-            this.CLB_OrasTutors.Name = "CLB_OrasTutors";
-            this.CLB_OrasTutors.Size = new System.Drawing.Size(133, 319);
-            this.CLB_OrasTutors.TabIndex = 4;
-            this.CLB_OrasTutors.Visible = false;
+            this.CLB_ORASTutors.Enabled = false;
+            this.CLB_ORASTutors.FormattingEnabled = true;
+            this.CLB_ORASTutors.Location = new System.Drawing.Point(301, 19);
+            this.CLB_ORASTutors.Name = "CLB_ORASTutors";
+            this.CLB_ORASTutors.Size = new System.Drawing.Size(133, 319);
+            this.CLB_ORASTutors.TabIndex = 4;
+            this.CLB_ORASTutors.Visible = false;
             // 
             // CLB_MoveTutors
             // 
@@ -1013,6 +1014,7 @@
             // 
             // GB_Modifier
             // 
+            this.GB_Modifier.Controls.Add(this.CHK_NoTutor);
             this.GB_Modifier.Controls.Add(this.CHK_CatchRateMod);
             this.GB_Modifier.Controls.Add(this.L_CatchRateMod);
             this.GB_Modifier.Controls.Add(this.NUD_CatchRateMod);
@@ -1180,6 +1182,18 @@
             this.GB_Randomizer.TabIndex = 418;
             this.GB_Randomizer.TabStop = false;
             this.GB_Randomizer.Text = "Randomizer Options";
+            // 
+            // CHK_Shuffle
+            // 
+            this.CHK_Shuffle.AutoSize = true;
+            this.CHK_Shuffle.Checked = true;
+            this.CHK_Shuffle.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Shuffle.Location = new System.Drawing.Point(6, 75);
+            this.CHK_Shuffle.Name = "CHK_Shuffle";
+            this.CHK_Shuffle.Size = new System.Drawing.Size(86, 17);
+            this.CHK_Shuffle.TabIndex = 24;
+            this.CHK_Shuffle.Text = "Shuffle Stats";
+            this.CHK_Shuffle.UseVisualStyleBackColor = true;
             // 
             // L_Same
             // 
@@ -1476,17 +1490,15 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
-            // CHK_Shuffle
+            // CHK_NoTutor
             // 
-            this.CHK_Shuffle.AutoSize = true;
-            this.CHK_Shuffle.Checked = true;
-            this.CHK_Shuffle.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_Shuffle.Location = new System.Drawing.Point(6, 75);
-            this.CHK_Shuffle.Name = "CHK_Shuffle";
-            this.CHK_Shuffle.Size = new System.Drawing.Size(86, 17);
-            this.CHK_Shuffle.TabIndex = 24;
-            this.CHK_Shuffle.Text = "Shuffle Stats";
-            this.CHK_Shuffle.UseVisualStyleBackColor = true;
+            this.CHK_NoTutor.AutoSize = true;
+            this.CHK_NoTutor.Location = new System.Drawing.Point(6, 95);
+            this.CHK_NoTutor.Name = "CHK_NoTutor";
+            this.CHK_NoTutor.Size = new System.Drawing.Size(212, 17);
+            this.CHK_NoTutor.TabIndex = 20;
+            this.CHK_NoTutor.Text = "Remove All TM/HM/Tutor Compatibility";
+            this.CHK_NoTutor.UseVisualStyleBackColor = true;
             // 
             // PersonalEditor6
             // 
@@ -1600,7 +1612,7 @@
         private System.Windows.Forms.Label L_BST;
 		private System.Windows.Forms.TextBox TB_BST;
         private System.Windows.Forms.CheckedListBox CLB_TMHM;
-        private System.Windows.Forms.CheckedListBox CLB_OrasTutors;
+        private System.Windows.Forms.CheckedListBox CLB_ORASTutors;
         private System.Windows.Forms.CheckedListBox CLB_MoveTutors;
         private System.Windows.Forms.Label L_ORASTutors;
         private System.Windows.Forms.Label L_Special;
@@ -1645,5 +1657,6 @@
         private System.Windows.Forms.Label L_CatchRateMod;
         private System.Windows.Forms.NumericUpDown NUD_CatchRateMod;
         private System.Windows.Forms.CheckBox CHK_Shuffle;
+        private System.Windows.Forms.CheckBox CHK_NoTutor;
     }
 }

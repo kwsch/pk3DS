@@ -520,7 +520,7 @@ namespace pk3DS
             readFile();
         }
 
-        public static bool rPKM, rSmart, rLevel, rMove, rNoMove, rForceHighPower, rAbility, rDiffAI, 
+        public static bool rPKM, rSmart, rLevel, rMove, rMetronome, rNoMove, rForceHighPower, rAbility, rDiffAI, 
             rDiffIV, rClass, rGift, rItem, rDoRand, rRandomMegas, rGymE4Only,
             rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM, rForceFullyEvolved;
         public static bool rNoFixedDamage;
@@ -539,7 +539,7 @@ namespace pk3DS
         public static decimal rGiftPercent, rLevelMultiplier, rForceFullyEvolvedLevel, rForceHighPowerLevel;
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            rPKM = rMove = rAbility = rDiffAI = rDiffIV = rClass = rGift = rItem = rDoRand = false; // init to false
+            rPKM = rMove = rMetronome = rAbility = rDiffAI = rDiffIV = rClass = rGift = rItem = rDoRand = false; // init to false
             rGiftPercent = 0;
             rForceFullyEvolvedLevel = 0;
             new TrainerRand().ShowDialog(); // Open Randomizer Config to get config vals
@@ -708,8 +708,16 @@ namespace pk3DS
                         pk.Moves[m] = (ushort)pkMoves[m];
                 }
 
+                if (rMetronome)
+                {
+                    t.Moves = true;
+                    var pkMoves = new[] { 118, 0, 0, 0 };
+                    for (int m = 0; m < 4; m++)
+                        pk.Moves[m] = (ushort)pkMoves[m];
+                }
+
                 // high-power attacks
-                if (rForceHighPower && pk.Level >= rForceHighPowerLevel)
+                if (rForceHighPower && pk.Level >= rForceHighPowerLevel && !rMetronome)
                 {
                     var pkMoves = learn.GetHighPoweredMoves(pk.Species, pk.Form, 4);
                     for (int m = 0; m < 4; m++)
