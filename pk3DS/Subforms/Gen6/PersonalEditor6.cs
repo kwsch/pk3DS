@@ -346,6 +346,7 @@ namespace pk3DS
                 ModifyCatchRate = CHK_CatchRate.Checked,
                 ModifyEggGroup = CHK_EggGroup.Checked,
                 ModifyStats = CHK_Stats.Checked,
+                ShuffleStats = CHK_Shuffle.Checked,
                 StatsToRandomize = rstat_boxes.Select(g => g.Checked).ToArray(),
                 ModifyAbilities = CHK_Ability.Checked,
                 ModifyLearnsetTM = CHK_TM.Checked,

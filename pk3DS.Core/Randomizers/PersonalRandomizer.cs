@@ -32,6 +32,7 @@ namespace pk3DS.Core.Randomizers
         public bool AllowWonderGuard = true;
 
         public bool ModifyStats = true;
+        public bool ShuffleStats = true;
         public decimal StatDeviation = 25;
         public bool[] StatsToRandomize = { true, true, true, true, true, true };
 
@@ -70,6 +71,8 @@ namespace pk3DS.Core.Randomizers
                 RandomizeSpecialTutors(z);
             if (ModifyStats)
                 RandomizeStats(z);
+            if (ShuffleStats)
+                RandomShuffledStats(z);
             if (ModifyAbilities)
                 RandomizeAbilities(z);
             if (ModifyEggGroup)
@@ -158,6 +161,16 @@ namespace pk3DS.Core.Randomizers
                 var h = Math.Min(255, (int) (stats[i] * (1 + StatDeviation / 100)));
                 stats[i] = Math.Max(5, rnd.Next(l, h));
             }
+            z.Stats = stats;
+        }
+        private void RandomShuffledStats(PersonalInfo z)
+        {
+            // Fiddle with Base Stats, don't muck with Shedinja.
+            var stats = z.Stats;
+            if (stats[0] == 1)
+                return;
+            for (int i = 0; i < stats.Length; i++)
+                Util.Shuffle(stats);
             z.Stats = stats;
         }
 
