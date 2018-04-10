@@ -201,7 +201,6 @@ namespace pk3DS.Core
             184, // Battle Legend
             #endregion
         };
-
         public static readonly int[] SpecialClasses_USUM =
         {
             #region Classes

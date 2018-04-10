@@ -306,7 +306,7 @@ namespace pk3DS
 
             pkm.FormeSprite = Convert.ToUInt16(TB_FormeSprite.Text);
             pkm.FormeCount = Convert.ToByte(TB_FormeCount.Text);
-            pkm.Color = (byte) (Convert.ToByte(CB_Color.SelectedIndex) | (Convert.ToByte(TB_RawColor.Text) & 0xF0));
+            pkm.Color = (byte)(Convert.ToByte(CB_Color.SelectedIndex) | (Convert.ToByte(TB_RawColor.Text) & 0xF0));
             pkm.BaseEXP = Convert.ToUInt16(TB_BaseExp.Text);
 
             decimal h; decimal.TryParse(TB_Height.Text, out h);
@@ -337,6 +337,7 @@ namespace pk3DS
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Enhancements tab.") != DialogResult.Yes) return;
             saveEntry();
 
             // input settings
@@ -364,10 +365,12 @@ namespace pk3DS
             Main.SpeciesStat.Select(z => z.Write()).ToArray().CopyTo(files, 0);
 
             readEntry();
-            WinFormsUtil.Alert("All relevant Pokémon Personal Entries have been randomized!");
+            WinFormsUtil.Alert("Randomized all Pokémon Personal data entries according to specification!", "Press the Dump All button to view the new Personal data!");
         }
         private void B_ModifyAll(object sender, EventArgs e)
         {
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify all? Cannot undo.", "Double check Modification settings in the Enhancements tab.") != DialogResult.Yes) return;
+
             for (int i = 1; i < CB_Species.Items.Count; i++)
             {
                 CB_Species.SelectedIndex = i; // Get new Species
@@ -397,7 +400,7 @@ namespace pk3DS
                     TB_CatchRate.Text = ((int)NUD_CatchRateMod.Value).ToString();
             }
             CB_Species.SelectedIndex = 1;
-            WinFormsUtil.Alert("All species modified according to specification!");
+            WinFormsUtil.Alert("Modified all Pokémon Personal data entries according to specification!", "Press the Dump All button to view the new Personal data!");
         }
         private bool dumping;
         private void B_Dump_Click(object sender, EventArgs e)

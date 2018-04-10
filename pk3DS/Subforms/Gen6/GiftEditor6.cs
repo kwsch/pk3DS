@@ -231,7 +231,6 @@ namespace pk3DS
                         continue; // skip Lucario, battle needs to Mega Evolve
 
                     int[] items = GetRandomMega(out species);
-                    NUD_Form.Value = 0;
                     CB_HeldItem.SelectedIndex = items[Util.rand.Next(0, items.Length)];
                 }
                 else

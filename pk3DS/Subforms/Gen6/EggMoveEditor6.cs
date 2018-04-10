@@ -123,7 +123,7 @@ namespace pk3DS
             rand.Execute();
             sets.Select(z => z.Write()).ToArray().CopyTo(files, 0);
             getList();
-            WinFormsUtil.Alert("All Pokémon's Egg Moves have been randomized!");
+            WinFormsUtil.Alert("All Pokémon's Egg Moves have been randomized!", "Press the Dump button to see the new Egg Moves!");
         }
         private void B_Dump_Click(object sender, EventArgs e)
         {
