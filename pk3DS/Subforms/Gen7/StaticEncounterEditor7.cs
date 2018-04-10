@@ -465,7 +465,7 @@ namespace pk3DS
             var specrand = getRandomizer();
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var items = Randomizer.getRandomItemList();
-            int[] banned = Legal.Z_Moves.Concat(new int[] {165, 464, 621}).ToArray();
+            int[] banned = Legal.Z_Moves.Concat(new int[] { 165, 464, 621 }).ToArray();
 
             // Assign Species
             for (int i = 0; i < 3; i++)
@@ -496,8 +496,9 @@ namespace pk3DS
 
                 if (CHK_SpecialMove.Checked && !CHK_Metronome.Checked)
                 {
-                    int rv = Util.rand.Next(1, CB_SpecialMove.Items.Count);
-                    if (banned.Contains(rv)) continue; // disallow banned moves
+                    int rv;
+                    do { rv = Util.rand.Next(1, CB_SpecialMove.Items.Count); }
+                    while (banned.Contains(rv)) ;
                     t.SpecialMove = rv;
                 }
 
@@ -526,7 +527,7 @@ namespace pk3DS
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
             var items = Randomizer.getRandomItemList();
-            int[] banned = Legal.Z_Moves.Concat(new int[] { 165, 621 }).ToArray();
+            int[] banned = Legal.Z_Moves.Concat(new int[] { 165, 464, 621 }).ToArray();
             int randFinalEvo() => (int)(Util.rnd32() % FinalEvo.Length);
             int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
 
@@ -560,8 +561,9 @@ namespace pk3DS
                         t.SpecialMove = 0; // remove Surf Pikachu's special move
                     else
                     {
-                        int rv = Util.rand.Next(1, CB_SpecialMove.Items.Count);
-                        if (banned.Contains(rv)) continue; // disallow banned moves
+                        int rv;
+                        do { rv = Util.rand.Next(1, CB_SpecialMove.Items.Count); }
+                        while (banned.Contains(rv));
                         t.SpecialMove = rv;
                     }
                 }

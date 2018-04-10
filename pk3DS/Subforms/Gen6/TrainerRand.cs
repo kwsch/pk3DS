@@ -118,7 +118,7 @@ namespace pk3DS
             GB_Tweak.Enabled = 
                 CHK_G1.Checked = CHK_G2.Checked = CHK_G3.Checked = 
                 CHK_G4.Checked = CHK_G5.Checked = CHK_G6.Checked = 
-                CHK_L.Checked = CHK_E.Checked = CHK_StoryMEvos.Checked = 
+                CHK_L.Checked = CHK_E.Checked = CHK_StoryMEvos.Checked = CHK_ForceFullyEvolved.Checked =
                 CHK_RandomPKM.Checked;
 
             CHK_TypeTheme.Checked = CHK_GymTrainers.Checked = CHK_GymE4Only.Checked = 
@@ -162,8 +162,8 @@ namespace pk3DS
             CHK_Damage.Enabled = CHK_STAB.Enabled =
             NUD_Damage.Enabled = NUD_STAB.Enabled = CB_Moves.SelectedIndex == 1;
 
-            //if (CB_Moves.SelectedIndex == 0)
-            //    CHK_6PKM.Checked = false;
+            CHK_ForceHighPower.Enabled = CHK_ForceHighPower.Checked = NUD_ForceHighPower.Enabled =
+            CHK_NoFixedDamage.Enabled = CHK_NoFixedDamage.Checked = (CB_Moves.SelectedIndex == 1 || CB_Moves.SelectedIndex == 2);
         }
         private void CHK_6PKM_CheckedChanged(object sender, EventArgs e)
         {

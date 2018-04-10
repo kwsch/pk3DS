@@ -639,6 +639,9 @@ namespace pk3DS
         private void B_OWSE_Click(object sender, EventArgs e)
         {
             if (threadActive()) return;
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
+                        "The OverWorld/Script Editor is not recommended for most users and is still a work-in-progress.", "Continue anyway?"))
+                return;
             switch (Config.Generation)
             {
                 case 6:

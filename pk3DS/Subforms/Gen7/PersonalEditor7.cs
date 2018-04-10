@@ -194,8 +194,7 @@ namespace pk3DS
 
             TB_FormeCount.Text = pkm.FormeCount.ToString("000");
             TB_FormeSprite.Text = pkm.FormeSprite.ToString("000");
-
-            TB_RawColor.Text = pkm.Color.ToString("000");
+            
             CB_Color.SelectedIndex = pkm.Color & 0xF;
 
             TB_BaseExp.Text = pkm.BaseEXP.ToString("000");
@@ -281,7 +280,7 @@ namespace pk3DS
 
             pkm.FormeSprite = Convert.ToUInt16(TB_FormeSprite.Text);
             pkm.FormeCount = Convert.ToByte(TB_FormeCount.Text);
-            pkm.Color = (byte) (Convert.ToByte(CB_Color.SelectedIndex) | (Convert.ToByte(TB_RawColor.Text) & 0xF0));
+            pkm.Color = (Convert.ToByte(CB_Color.SelectedIndex));
             pkm.BaseEXP = Convert.ToUInt16(TB_BaseExp.Text);
 
             decimal h; decimal.TryParse(TB_Height.Text, out h);
@@ -321,6 +320,7 @@ namespace pk3DS
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Enhancements tab.") != DialogResult.Yes) return;
             saveEntry();
             
             // input settings
@@ -334,7 +334,7 @@ namespace pk3DS
                 StatsToRandomize = rstat_boxes.Select(g => g.Checked).ToArray(),
                 ModifyAbilities = CHK_Ability.Checked,
                 ModifyLearnsetTM = CHK_TM.Checked,
-                ModifyLearnsetHM = CHK_HM.Checked,
+                ModifyLearnsetHM = false, // no HMs in Gen 7
                 ModifyLearnsetTypeTutors = CHK_Tutors.Checked,
                 ModifyLearnsetMoveTutors = Main.Config.USUM && CHK_BeachTutors.Checked,
                 ModifyTypes = CHK_Type.Checked,
@@ -348,10 +348,12 @@ namespace pk3DS
             Main.SpeciesStat.Select(z => z.Write()).ToArray().CopyTo(files, 0);
 
             readEntry();
-            WinFormsUtil.Alert("All relevant Pokémon Personal Entries have been randomized!");
+            WinFormsUtil.Alert("Randomized all Pokémon Personal data entries according to specification!", "Press the Dump All button to view the new Personal data!");
         }
         private void B_ModifyAll(object sender, EventArgs e)
         {
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify all? Cannot undo.", "Double check Modification settings in the Enhancements tab.") != DialogResult.Yes) return;
+
             for (int i = 1; i < CB_Species.Items.Count; i++)
             {
                 CB_Species.SelectedIndex = i; // Get new Species
@@ -378,11 +380,11 @@ namespace pk3DS
                     TB_HatchCycles.Text = 1.ToString();
                 if (CHK_CallRate.Checked)
                     TB_CallRate.Text = ((int)NUD_CallRate.Value).ToString();
-                if(CHK_CatchRateMod.Checked)
+                if (CHK_CatchRateMod.Checked)
                     TB_CatchRate.Text = ((int)NUD_CatchRateMod.Value).ToString();
             }
             CB_Species.SelectedIndex = 1;
-            WinFormsUtil.Alert("All species modified according to specification!");
+            WinFormsUtil.Alert("Modified all Pokémon Personal data entries according to specification!", "Press the Dump All button to view the new Personal data!");
         }
         private bool dumping;
         private void B_Dump_Click(object sender, EventArgs e)

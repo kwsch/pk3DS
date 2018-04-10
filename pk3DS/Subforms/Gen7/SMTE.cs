@@ -736,7 +736,7 @@ namespace pk3DS
                     }
 
                     // high-power attacks
-                    if (CHK_ForceHighPower.Checked && pk.Level >= NUD_ForceHighPower.Value && CB_Moves.SelectedIndex != 3)
+                    if (CHK_ForceHighPower.Checked && pk.Level >= NUD_ForceHighPower.Value)
                         pk.Moves = learn.GetHighPoweredMoves(pk.Species, pk.Form, 4);
 
                     // sanitize moves
@@ -779,7 +779,12 @@ namespace pk3DS
         // Randomization UI
         private void CB_Moves_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CHK_Damage.Visible = CHK_STAB.Visible = NUD_Damage.Visible = NUD_STAB.Visible = CB_Moves.SelectedIndex == 1; // Randomized
+            CHK_Damage.Checked = CHK_STAB.Checked =
+            CHK_Damage.Enabled = CHK_STAB.Enabled =
+            NUD_Damage.Enabled = NUD_STAB.Enabled = CB_Moves.SelectedIndex == 1;
+
+            CHK_ForceHighPower.Enabled = CHK_ForceHighPower.Checked = NUD_ForceHighPower.Enabled =
+            CHK_NoFixedDamage.Enabled = CHK_NoFixedDamage.Checked = (CB_Moves.SelectedIndex == 1 || CB_Moves.SelectedIndex == 2);
         }
         private void CHK_Damage_CheckedChanged(object sender, EventArgs e)
         {
@@ -791,14 +796,18 @@ namespace pk3DS
         }
         private void CHK_RandomPKM_CheckedChanged(object sender, EventArgs e)
         {
-            CHK_BST.Visible = CHK_RandomPKM.Checked;
-            if (CHK_RandomPKM.Checked)
-                return;
-            foreach (CheckBox c in new[] { CHK_G1, CHK_G2, CHK_G3, CHK_G4, CHK_G5, CHK_G6, CHK_G7, CHK_L, CHK_E })
-            {
-                c.Visible = false;
-                c.Checked = true;
-            }
+            if (!CHK_RandomPKM.Checked)
+                foreach (CheckBox c in new[] { CHK_G1, CHK_G2, CHK_G3, CHK_G4, CHK_G5, CHK_G6, CHK_G7, CHK_L, CHK_E, CHK_BST })
+                {
+                    c.Enabled = false;
+                    c.Checked = false;
+                }
+            else
+                foreach (CheckBox c in new[] { CHK_G1, CHK_G2, CHK_G3, CHK_G4, CHK_G5, CHK_G6, CHK_G7, CHK_L, CHK_E, CHK_BST })
+                {
+                    c.Enabled = true;
+                    c.Checked = true;
+                }
         }
         private void CHK_RandomClass_CheckedChanged(object sender, EventArgs e)
         {

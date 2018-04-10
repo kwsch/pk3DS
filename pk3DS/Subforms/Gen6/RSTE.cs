@@ -717,7 +717,7 @@ namespace pk3DS
                 }
 
                 // high-power attacks
-                if (rForceHighPower && pk.Level >= rForceHighPowerLevel && !rMetronome)
+                if (rForceHighPower && pk.Level >= rForceHighPowerLevel)
                 {
                     var pkMoves = learn.GetHighPoweredMoves(pk.Species, pk.Form, 4);
                     for (int m = 0; m < 4; m++)
