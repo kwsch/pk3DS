@@ -226,7 +226,8 @@ namespace pk3DS
 
             TB_FormeCount.Text = pkm.FormeCount.ToString("000");
             TB_FormeSprite.Text = pkm.FormeSprite.ToString("000");
-            
+
+            TB_RawColor.Text = pkm.Color.ToString("000");
             CB_Color.SelectedIndex = pkm.Color & 0xF;
 
             TB_BaseExp.Text = pkm.BaseEXP.ToString("000");
@@ -305,7 +306,7 @@ namespace pk3DS
 
             pkm.FormeSprite = Convert.ToUInt16(TB_FormeSprite.Text);
             pkm.FormeCount = Convert.ToByte(TB_FormeCount.Text);
-            pkm.Color = (Convert.ToByte(CB_Color.SelectedIndex));
+            pkm.Color = (byte)(Convert.ToByte(CB_Color.SelectedIndex) | (Convert.ToByte(TB_RawColor.Text) & 0xF0));
             pkm.BaseEXP = Convert.ToUInt16(TB_BaseExp.Text);
 
             decimal h; decimal.TryParse(TB_Height.Text, out h);

@@ -148,6 +148,7 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
+            this.TB_RawColor = new System.Windows.Forms.TextBox();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -197,6 +198,7 @@
             // 
             // TP_General
             // 
+            this.TP_General.Controls.Add(this.TB_RawColor);
             this.TP_General.Controls.Add(this.L_HiddenAbility);
             this.TP_General.Controls.Add(this.L_Ability2);
             this.TP_General.Controls.Add(this.L_Ability1);
@@ -1521,6 +1523,16 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
+            // TB_RawColor
+            // 
+            this.TB_RawColor.Location = new System.Drawing.Point(229, 209);
+            this.TB_RawColor.Name = "TB_RawColor";
+            this.TB_RawColor.ReadOnly = true;
+            this.TB_RawColor.Size = new System.Drawing.Size(30, 20);
+            this.TB_RawColor.TabIndex = 419;
+            this.TB_RawColor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_RawColor.Visible = false;
+            // 
             // PersonalEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1681,5 +1693,6 @@
         private System.Windows.Forms.Label L_HiddenAbility;
         private System.Windows.Forms.Label L_Ability2;
         private System.Windows.Forms.Label L_Ability1;
+        private System.Windows.Forms.TextBox TB_RawColor;
     }
 }
