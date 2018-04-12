@@ -402,21 +402,24 @@ namespace pk3DS
         private void CB_LocationID_SelectedIndexChanged(object sender, EventArgs e)
         {
             int f = CB_LocationID.SelectedIndex;
-            FileStream InStream = File.OpenRead(filepaths[f]);
-            BinaryReader br = new BinaryReader(InStream);
-            br.BaseStream.Seek(0x10, SeekOrigin.Begin);
-            int offset = br.ReadInt32() + 0x10;
-            int length = (int)br.BaseStream.Length - offset;
-            if (length < 0x178) //no encounters in this map
+            int offset;
+            using (var s = File.OpenRead(filepaths[f]))
+            using (var br = new BinaryReader(s))
             {
-                ClearData();
-                return;
+
+                br.BaseStream.Seek(0x10, SeekOrigin.Begin);
+                offset = br.ReadInt32() + 0x10;
+                int length = (int)br.BaseStream.Length - offset;
+                if (length < 0x178) //no encounters in this map
+                {
+                    ClearData();
+                    return;
+                }
             }
-            br.Close();
 
             byte[] filedata = File.ReadAllBytes(filepaths[f]);
 
-            byte[] encounterdata = new Byte[0x178];
+            byte[] encounterdata = new byte[0x178];
             Array.Copy(filedata, offset, encounterdata, 0, 0x178);
             parse(encounterdata);
         }
@@ -462,12 +465,8 @@ namespace pk3DS
         {
             int f = CB_LocationID.SelectedIndex;
             string filepath = filepaths[f];
-            FileStream InStream = File.OpenRead(filepaths[f]);
-            BinaryReader br = new BinaryReader(InStream);
-            br.BaseStream.Seek(0x10, SeekOrigin.Begin);
-            int offset = br.ReadInt32() + 0x10;
-            br.Close();
-            byte[] filedata = File.ReadAllBytes(filepaths[f]);
+            byte[] filedata = File.ReadAllBytes(filepath);
+            int offset = BitConverter.ToInt32(filedata, 0x10) + 0x10;
             byte[] preoffset;
             if (offset < filedata.Length)
             {

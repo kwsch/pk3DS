@@ -422,23 +422,25 @@ namespace pk3DS
         private void CB_LocationID_SelectedIndexChanged(object sender, EventArgs e)
         {
             int f = CB_LocationID.SelectedIndex;
-            FileStream InStream = File.OpenRead(filepaths[f]);
-            BinaryReader br = new BinaryReader(InStream);
-            br.BaseStream.Seek(0x10, SeekOrigin.Begin);
-            int offset = br.ReadInt32() + 0xE;
-            int ofs2 = br.ReadInt32();
-            int length = ofs2 - offset;
-            if (length < 0xF6) //no encounters in this map
+
+            int offset;
+            using (var s = File.OpenRead(filepaths[f]))
+            using (var br = new BinaryReader(s))
             {
-                ClearData();
-                br.Close();
-                return;
+                br.BaseStream.Seek(0x10, SeekOrigin.Begin);
+                offset = br.ReadInt32() + 0xE;
+                int ofs2 = br.ReadInt32();
+                int length = ofs2 - offset;
+                if (length < 0xF6) //no encounters in this map
+                {
+                    ClearData();
+                    return;
+                }
             }
-            br.Close();
 
             byte[] filedata = File.ReadAllBytes(filepaths[f]);
 
-            byte[] encounterdata = new Byte[0xF6];
+            byte[] encounterdata = new byte[0xF6];
             Array.Copy(filedata, offset, encounterdata, 0, 0xF6);
             parse(encounterdata);
         }
@@ -554,12 +556,13 @@ namespace pk3DS
             }
             else
             {
-                FileStream InStream = File.OpenRead(filepaths[f]);
-                BinaryReader br = new BinaryReader(InStream);
-                br.BaseStream.Seek(0x10, SeekOrigin.Begin);
-                int offset = br.ReadInt32() + 0xe;
-                // int length = (int)br.BaseStream.Length - offset;
-                br.Close();
+                int offset;
+                using (var s = File.OpenRead(filepaths[f]))
+                using (var br = new BinaryReader(s))
+                {
+                    br.BaseStream.Seek(0x10, SeekOrigin.Begin);
+                    offset = br.ReadInt32() + 0xE;
+                }
                 byte[] filedata = File.ReadAllBytes(filepaths[f]);
                 byte[] preoffset;
                 if (offset < filedata.Length)
