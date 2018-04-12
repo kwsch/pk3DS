@@ -34,7 +34,7 @@ namespace pk3DS.Core.Structures
             Flinch = data[0xF];
             Effect = BitConverter.ToUInt16(data, 0x10);
             Recoil = data[0x12];
-            Healing = new Heal(data[0x13]);
+            Healing = (Heal)data[0x13];
             Targeting = data[0x14];
             Stat1 = data[0x15];
             Stat2 = data[0x16];
@@ -72,7 +72,7 @@ namespace pk3DS.Core.Structures
                 bw.Write(Flinch);
                 bw.Write(Effect);
                 bw.Write(Recoil);
-                bw.Write(Healing.Write());
+                bw.Write((byte)Healing);
                 bw.Write(Targeting);
                 bw.Write(Stat1);
                 bw.Write(Stat2);
@@ -90,30 +90,13 @@ namespace pk3DS.Core.Structures
                 return ms.ToArray();
             }
         }
-        public class Heal
+        public enum Heal : byte
         {
-            public byte Val;
-            public bool Full, Half, Quarter, Value;
-            public Heal(byte val)
-            {
-                Val = val;
-                Full = Val == 0xFF;
-                Half = Val == 0xFE;
-                Quarter = Val == 0xFD;
-                Value = Val < 0xFD;
-            }
-            public byte Write()
-            {
-                if (Value)
-                    return Val;
-                if (Full)
-                    return 0xFF;
-                if (Half)
-                    return 0xFE;
-                if (Quarter)
-                    return 0xFD;
-                return Val;
-            }
+            None = 0,
+            
+            Full = 255,
+            Half = 254,
+            Quarter = 253,
         }
     }
 }
