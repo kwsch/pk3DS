@@ -65,7 +65,7 @@ namespace pk3DS
             ImportantTrainers = Main.Config.USUM ? Legal.ImportantTrainers_USUM : Legal.ImportantTrainers_SM;
             FinalEvo = Main.Config.USUM ? Legal.FinalEvolutions_USUM : Legal.FinalEvolutions_SM;
             ReplaceLegend = Legal.Legendary_Mythical_USUM;
-            RandSettings.GetFormSettings(this, Tab_Misc.Controls);
+            RandSettings.GetFormSettings(this, Tab_Rand.Controls);
         }
 
         private int GetSlot(object sender)
@@ -242,9 +242,9 @@ namespace pk3DS
                 CB_Item.Items.Add(s);
                 
             CB_Gender.Items.Clear();
-            CB_Gender.Items.Add("- / G/Random");
-            CB_Gender.Items.Add("♂ / M");
-            CB_Gender.Items.Add("♀ / F");
+            CB_Gender.Items.Add("- / Genderless/Random");
+            CB_Gender.Items.Add("♂ / Male");
+            CB_Gender.Items.Add("♀ / Female");
 
             CB_Forme.Items.Add("");
 
@@ -411,7 +411,7 @@ namespace pk3DS
             if (TrainerNames.Modified)
                 Main.Config.setText(TextName.TrainerNames, TrainerNames.Lines);
             base.OnFormClosing(e);
-            RandSettings.SetFormSettings(this, Tab_Misc.Controls);
+            RandSettings.SetFormSettings(this, Tab_Rand.Controls);
         }
 
         // Dumping
@@ -587,7 +587,7 @@ namespace pk3DS
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Misc/Rand tab.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Randomizer Options tab.") != DialogResult.Yes) return;
 
             CB_TrainerID.SelectedIndex = 0;
             var rnd = new SpeciesRandomizer(Main.Config)
@@ -730,7 +730,7 @@ namespace pk3DS
                         case 2: // Current LevelUp
                             pk.Moves = learn.GetCurrentMoves(pk.Species, pk.Form, pk.Level, 4);
                             break;
-                        case 3:
+                        case 3: // Metronome
                             pk.Moves = new[] { 118, 0, 0, 0 };
                             break;
                     }

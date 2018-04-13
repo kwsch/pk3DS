@@ -299,11 +299,40 @@ namespace pk3DS.Core
         };
         public static readonly int[] Model_XY =
         {
-            018, 019, 020, 021, 022, 055, 056, 057, 077, 078, 079, 080, 081, 102, 103, 104, 105, 107, 108, 173, 174, 175
+            #region Models
+            018, // Aliana
+            019, // Bryony
+            020, // Celosia
+            021, // Mable
+            022, // Xerosic
+            055, // Shauna
+            056, // Tierno
+            057, // Trevor
+            081, // Lysandre
+            102, // AZ
+            103, // Calem
+            104, // Serena
+            105, // Sycamore
+            175, // Lysandre (Mega Ring)
+            #endregion
         };
         public static readonly int[] Model_AO =
         {
-            127, 128, 174, 178, 192, 198, 219, 221, 267, 272, 277, 278, 279
+            #region Models
+            127, // Brendan
+            128, // May
+            174, // Archie
+            178, // Maxie
+            192, // Wally
+            198, // Steven
+            219, // Steven (Multi Battle)
+            221, // Zinnia (Lorekeeper)
+            267, // Zinnia
+            272, // Wally (Mega Pendant)
+            277, // Steven (Rematch)
+            278, // Brendan (Mega Bracelet)
+            279, // May (Mega Bracelet)
+            #endregion
         };
         public static readonly int[] Z_Moves =
         {

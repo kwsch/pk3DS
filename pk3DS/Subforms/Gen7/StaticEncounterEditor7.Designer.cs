@@ -49,8 +49,12 @@
             this.NUD_GLevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Gift = new System.Windows.Forms.ListBox();
             this.Tab_Encounters = new System.Windows.Forms.TabPage();
+            this.CB_EGender = new System.Windows.Forms.ComboBox();
+            this.L_Ally1 = new System.Windows.Forms.Label();
+            this.NUD_Ally1 = new System.Windows.Forms.NumericUpDown();
+            this.L_Ally2 = new System.Windows.Forms.Label();
+            this.NUD_Ally2 = new System.Windows.Forms.NumericUpDown();
             this.L_EGender = new System.Windows.Forms.Label();
-            this.NUD_EGender = new System.Windows.Forms.NumericUpDown();
             this.CB_EAbility = new System.Windows.Forms.ComboBox();
             this.L_EAbility = new System.Windows.Forms.Label();
             this.CHK_EIV3 = new System.Windows.Forms.CheckBox();
@@ -99,9 +103,11 @@
             this.L_ESpecies = new System.Windows.Forms.Label();
             this.NUD_ELevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Encounter = new System.Windows.Forms.ListBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.Tab_Trades = new System.Windows.Forms.TabPage();
+            this.CB_TGender = new System.Windows.Forms.ComboBox();
             this.L_TGender = new System.Windows.Forms.Label();
-            this.NUD_TGender = new System.Windows.Forms.NumericUpDown();
             this.CB_TAbility = new System.Windows.Forms.ComboBox();
             this.L_TAbility = new System.Windows.Forms.Label();
             this.CB_TNature = new System.Windows.Forms.ComboBox();
@@ -135,6 +141,7 @@
             this.LB_Trade = new System.Windows.Forms.ListBox();
             this.Tab_Randomizer = new System.Windows.Forms.TabPage();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.CHK_Metronome = new System.Windows.Forms.CheckBox();
             this.CHK_RemoveShinyLock = new System.Windows.Forms.CheckBox();
             this.NUD_ForceFullyEvolved = new System.Windows.Forms.NumericUpDown();
             this.CHK_ForceTotem = new System.Windows.Forms.CheckBox();
@@ -164,13 +171,13 @@
             this.B_Starters = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.CHK_Metronome = new System.Windows.Forms.CheckBox();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Gifts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GLevel)).BeginInit();
             this.Tab_Encounters.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_EGender)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Ally1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Ally2)).BeginInit();
             this.GB_EEVs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EV5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EV4)).BeginInit();
@@ -189,7 +196,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ELevel)).BeginInit();
             this.Tab_Trades.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_TGender)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TIV3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TIV4)).BeginInit();
@@ -216,10 +222,10 @@
             this.TC_Tabs.Controls.Add(this.Tab_Encounters);
             this.TC_Tabs.Controls.Add(this.Tab_Trades);
             this.TC_Tabs.Controls.Add(this.Tab_Randomizer);
-            this.TC_Tabs.Location = new System.Drawing.Point(12, 12);
+            this.TC_Tabs.Location = new System.Drawing.Point(12, 11);
             this.TC_Tabs.Name = "TC_Tabs";
             this.TC_Tabs.SelectedIndex = 0;
-            this.TC_Tabs.Size = new System.Drawing.Size(506, 502);
+            this.TC_Tabs.Size = new System.Drawing.Size(506, 538);
             this.TC_Tabs.TabIndex = 0;
             // 
             // Tab_Gifts
@@ -244,7 +250,7 @@
             this.Tab_Gifts.Controls.Add(this.LB_Gift);
             this.Tab_Gifts.Location = new System.Drawing.Point(4, 22);
             this.Tab_Gifts.Name = "Tab_Gifts";
-            this.Tab_Gifts.Size = new System.Drawing.Size(498, 476);
+            this.Tab_Gifts.Size = new System.Drawing.Size(498, 512);
             this.Tab_Gifts.TabIndex = 2;
             this.Tab_Gifts.Text = "Gifts";
             this.Tab_Gifts.UseVisualStyleBackColor = true;
@@ -252,14 +258,14 @@
             // CB_GAbility
             // 
             this.CB_GAbility.FormattingEnabled = true;
-            this.CB_GAbility.Location = new System.Drawing.Point(187, 74);
+            this.CB_GAbility.Location = new System.Drawing.Point(187, 71);
             this.CB_GAbility.Name = "CB_GAbility";
-            this.CB_GAbility.Size = new System.Drawing.Size(121, 21);
+            this.CB_GAbility.Size = new System.Drawing.Size(136, 21);
             this.CB_GAbility.TabIndex = 513;
             // 
             // L_GAbility
             // 
-            this.L_GAbility.Location = new System.Drawing.Point(131, 72);
+            this.L_GAbility.Location = new System.Drawing.Point(131, 69);
             this.L_GAbility.Name = "L_GAbility";
             this.L_GAbility.Size = new System.Drawing.Size(55, 23);
             this.L_GAbility.TabIndex = 512;
@@ -269,14 +275,14 @@
             // CB_GNature
             // 
             this.CB_GNature.FormattingEnabled = true;
-            this.CB_GNature.Location = new System.Drawing.Point(187, 120);
+            this.CB_GNature.Location = new System.Drawing.Point(187, 115);
             this.CB_GNature.Name = "CB_GNature";
-            this.CB_GNature.Size = new System.Drawing.Size(121, 21);
+            this.CB_GNature.Size = new System.Drawing.Size(136, 21);
             this.CB_GNature.TabIndex = 511;
             // 
             // L_GNature
             // 
-            this.L_GNature.Location = new System.Drawing.Point(131, 118);
+            this.L_GNature.Location = new System.Drawing.Point(131, 113);
             this.L_GNature.Name = "L_GNature";
             this.L_GNature.Size = new System.Drawing.Size(55, 23);
             this.L_GNature.TabIndex = 510;
@@ -286,7 +292,7 @@
             // CHK_IsEgg
             // 
             this.CHK_IsEgg.AutoSize = true;
-            this.CHK_IsEgg.Location = new System.Drawing.Point(187, 198);
+            this.CHK_IsEgg.Location = new System.Drawing.Point(187, 193);
             this.CHK_IsEgg.Name = "CHK_IsEgg";
             this.CHK_IsEgg.Size = new System.Drawing.Size(56, 17);
             this.CHK_IsEgg.TabIndex = 509;
@@ -296,7 +302,7 @@
             // CHK_GIV3
             // 
             this.CHK_GIV3.AutoSize = true;
-            this.CHK_GIV3.Location = new System.Drawing.Point(187, 183);
+            this.CHK_GIV3.Location = new System.Drawing.Point(187, 178);
             this.CHK_GIV3.Name = "CHK_GIV3";
             this.CHK_GIV3.Size = new System.Drawing.Size(42, 17);
             this.CHK_GIV3.TabIndex = 508;
@@ -306,14 +312,14 @@
             // CB_SpecialMove
             // 
             this.CB_SpecialMove.FormattingEnabled = true;
-            this.CB_SpecialMove.Location = new System.Drawing.Point(187, 143);
+            this.CB_SpecialMove.Location = new System.Drawing.Point(187, 137);
             this.CB_SpecialMove.Name = "CB_SpecialMove";
-            this.CB_SpecialMove.Size = new System.Drawing.Size(121, 21);
+            this.CB_SpecialMove.Size = new System.Drawing.Size(136, 21);
             this.CB_SpecialMove.TabIndex = 507;
             // 
             // L_SpecialMove
             // 
-            this.L_SpecialMove.Location = new System.Drawing.Point(121, 141);
+            this.L_SpecialMove.Location = new System.Drawing.Point(121, 135);
             this.L_SpecialMove.Name = "L_SpecialMove";
             this.L_SpecialMove.Size = new System.Drawing.Size(65, 23);
             this.L_SpecialMove.TabIndex = 506;
@@ -323,7 +329,7 @@
             // CHK_G_Lock
             // 
             this.CHK_G_Lock.AutoSize = true;
-            this.CHK_G_Lock.Location = new System.Drawing.Point(187, 168);
+            this.CHK_G_Lock.Location = new System.Drawing.Point(187, 163);
             this.CHK_G_Lock.Name = "CHK_G_Lock";
             this.CHK_G_Lock.Size = new System.Drawing.Size(79, 17);
             this.CHK_G_Lock.TabIndex = 19;
@@ -333,14 +339,14 @@
             // CB_GHeldItem
             // 
             this.CB_GHeldItem.FormattingEnabled = true;
-            this.CB_GHeldItem.Location = new System.Drawing.Point(187, 97);
+            this.CB_GHeldItem.Location = new System.Drawing.Point(187, 93);
             this.CB_GHeldItem.Name = "CB_GHeldItem";
-            this.CB_GHeldItem.Size = new System.Drawing.Size(121, 21);
+            this.CB_GHeldItem.Size = new System.Drawing.Size(136, 21);
             this.CB_GHeldItem.TabIndex = 8;
             // 
             // L_GHeldItem
             // 
-            this.L_GHeldItem.Location = new System.Drawing.Point(131, 95);
+            this.L_GHeldItem.Location = new System.Drawing.Point(131, 91);
             this.L_GHeldItem.Name = "L_GHeldItem";
             this.L_GHeldItem.Size = new System.Drawing.Size(55, 23);
             this.L_GHeldItem.TabIndex = 7;
@@ -352,13 +358,13 @@
             this.CB_GSpecies.FormattingEnabled = true;
             this.CB_GSpecies.Location = new System.Drawing.Point(187, 7);
             this.CB_GSpecies.Name = "CB_GSpecies";
-            this.CB_GSpecies.Size = new System.Drawing.Size(121, 21);
+            this.CB_GSpecies.Size = new System.Drawing.Size(136, 21);
             this.CB_GSpecies.TabIndex = 6;
             this.CB_GSpecies.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
             // 
             // L_GForm
             // 
-            this.L_GForm.Location = new System.Drawing.Point(131, 49);
+            this.L_GForm.Location = new System.Drawing.Point(131, 47);
             this.L_GForm.Name = "L_GForm";
             this.L_GForm.Size = new System.Drawing.Size(55, 23);
             this.L_GForm.TabIndex = 5;
@@ -367,7 +373,7 @@
             // 
             // NUD_GForm
             // 
-            this.NUD_GForm.Location = new System.Drawing.Point(187, 52);
+            this.NUD_GForm.Location = new System.Drawing.Point(187, 50);
             this.NUD_GForm.Maximum = new decimal(new int[] {
             255,
             0,
@@ -384,7 +390,7 @@
             // 
             // L_GLevel
             // 
-            this.L_GLevel.Location = new System.Drawing.Point(131, 27);
+            this.L_GLevel.Location = new System.Drawing.Point(131, 26);
             this.L_GLevel.Name = "L_GLevel";
             this.L_GLevel.Size = new System.Drawing.Size(55, 23);
             this.L_GLevel.TabIndex = 3;
@@ -402,7 +408,7 @@
             // 
             // NUD_GLevel
             // 
-            this.NUD_GLevel.Location = new System.Drawing.Point(187, 30);
+            this.NUD_GLevel.Location = new System.Drawing.Point(187, 29);
             this.NUD_GLevel.Name = "NUD_GLevel";
             this.NUD_GLevel.Size = new System.Drawing.Size(48, 20);
             this.NUD_GLevel.TabIndex = 1;
@@ -419,14 +425,18 @@
             this.LB_Gift.FormattingEnabled = true;
             this.LB_Gift.Location = new System.Drawing.Point(3, 3);
             this.LB_Gift.Name = "LB_Gift";
-            this.LB_Gift.Size = new System.Drawing.Size(115, 472);
+            this.LB_Gift.Size = new System.Drawing.Size(115, 498);
             this.LB_Gift.TabIndex = 0;
             this.LB_Gift.SelectedIndexChanged += new System.EventHandler(this.LB_Gift_SelectedIndexChanged);
             // 
             // Tab_Encounters
             // 
+            this.Tab_Encounters.Controls.Add(this.CB_EGender);
+            this.Tab_Encounters.Controls.Add(this.L_Ally1);
+            this.Tab_Encounters.Controls.Add(this.NUD_Ally1);
+            this.Tab_Encounters.Controls.Add(this.L_Ally2);
+            this.Tab_Encounters.Controls.Add(this.NUD_Ally2);
             this.Tab_Encounters.Controls.Add(this.L_EGender);
-            this.Tab_Encounters.Controls.Add(this.NUD_EGender);
             this.Tab_Encounters.Controls.Add(this.CB_EAbility);
             this.Tab_Encounters.Controls.Add(this.L_EAbility);
             this.Tab_Encounters.Controls.Add(this.CHK_EIV3);
@@ -447,46 +457,96 @@
             this.Tab_Encounters.Controls.Add(this.L_ESpecies);
             this.Tab_Encounters.Controls.Add(this.NUD_ELevel);
             this.Tab_Encounters.Controls.Add(this.LB_Encounter);
+            this.Tab_Encounters.Controls.Add(this.label15);
+            this.Tab_Encounters.Controls.Add(this.label14);
             this.Tab_Encounters.Location = new System.Drawing.Point(4, 22);
             this.Tab_Encounters.Name = "Tab_Encounters";
             this.Tab_Encounters.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Encounters.Size = new System.Drawing.Size(498, 476);
+            this.Tab_Encounters.Size = new System.Drawing.Size(498, 512);
             this.Tab_Encounters.TabIndex = 0;
             this.Tab_Encounters.Text = "Encounters";
             this.Tab_Encounters.UseVisualStyleBackColor = true;
             // 
+            // CB_EGender
+            // 
+            this.CB_EGender.FormattingEnabled = true;
+            this.CB_EGender.Location = new System.Drawing.Point(187, 71);
+            this.CB_EGender.Name = "CB_EGender";
+            this.CB_EGender.Size = new System.Drawing.Size(136, 21);
+            this.CB_EGender.TabIndex = 526;
+            // 
+            // L_Ally1
+            // 
+            this.L_Ally1.Location = new System.Drawing.Point(126, 178);
+            this.L_Ally1.Name = "L_Ally1";
+            this.L_Ally1.Size = new System.Drawing.Size(60, 23);
+            this.L_Ally1.TabIndex = 523;
+            this.L_Ally1.Text = "SOS Ally 1:";
+            this.L_Ally1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Ally1
+            // 
+            this.NUD_Ally1.Location = new System.Drawing.Point(187, 181);
+            this.NUD_Ally1.Maximum = new decimal(new int[] {
+            251,
+            0,
+            0,
+            0});
+            this.NUD_Ally1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.NUD_Ally1.Name = "NUD_Ally1";
+            this.NUD_Ally1.Size = new System.Drawing.Size(48, 20);
+            this.NUD_Ally1.TabIndex = 522;
+            // 
+            // L_Ally2
+            // 
+            this.L_Ally2.Location = new System.Drawing.Point(126, 199);
+            this.L_Ally2.Name = "L_Ally2";
+            this.L_Ally2.Size = new System.Drawing.Size(60, 23);
+            this.L_Ally2.TabIndex = 521;
+            this.L_Ally2.Text = "SOS Ally 2:";
+            this.L_Ally2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Ally2
+            // 
+            this.NUD_Ally2.Location = new System.Drawing.Point(187, 202);
+            this.NUD_Ally2.Maximum = new decimal(new int[] {
+            251,
+            0,
+            0,
+            0});
+            this.NUD_Ally2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.NUD_Ally2.Name = "NUD_Ally2";
+            this.NUD_Ally2.Size = new System.Drawing.Size(48, 20);
+            this.NUD_Ally2.TabIndex = 520;
+            // 
             // L_EGender
             // 
-            this.L_EGender.Location = new System.Drawing.Point(131, 71);
+            this.L_EGender.Location = new System.Drawing.Point(131, 69);
             this.L_EGender.Name = "L_EGender";
             this.L_EGender.Size = new System.Drawing.Size(55, 23);
             this.L_EGender.TabIndex = 519;
             this.L_EGender.Text = "Gender:";
             this.L_EGender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // NUD_EGender
-            // 
-            this.NUD_EGender.Location = new System.Drawing.Point(187, 74);
-            this.NUD_EGender.Maximum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.NUD_EGender.Name = "NUD_EGender";
-            this.NUD_EGender.Size = new System.Drawing.Size(34, 20);
-            this.NUD_EGender.TabIndex = 518;
-            // 
             // CB_EAbility
             // 
             this.CB_EAbility.FormattingEnabled = true;
-            this.CB_EAbility.Location = new System.Drawing.Point(187, 96);
+            this.CB_EAbility.Location = new System.Drawing.Point(187, 93);
             this.CB_EAbility.Name = "CB_EAbility";
-            this.CB_EAbility.Size = new System.Drawing.Size(121, 21);
+            this.CB_EAbility.Size = new System.Drawing.Size(136, 21);
             this.CB_EAbility.TabIndex = 517;
             // 
             // L_EAbility
             // 
-            this.L_EAbility.Location = new System.Drawing.Point(131, 94);
+            this.L_EAbility.Location = new System.Drawing.Point(131, 91);
             this.L_EAbility.Name = "L_EAbility";
             this.L_EAbility.Size = new System.Drawing.Size(55, 23);
             this.L_EAbility.TabIndex = 516;
@@ -496,7 +556,7 @@
             // CHK_EIV3
             // 
             this.CHK_EIV3.AutoSize = true;
-            this.CHK_EIV3.Location = new System.Drawing.Point(187, 205);
+            this.CHK_EIV3.Location = new System.Drawing.Point(187, 240);
             this.CHK_EIV3.Name = "CHK_EIV3";
             this.CHK_EIV3.Size = new System.Drawing.Size(42, 17);
             this.CHK_EIV3.TabIndex = 504;
@@ -506,14 +566,14 @@
             // CB_ENature
             // 
             this.CB_ENature.FormattingEnabled = true;
-            this.CB_ENature.Location = new System.Drawing.Point(187, 142);
+            this.CB_ENature.Location = new System.Drawing.Point(187, 137);
             this.CB_ENature.Name = "CB_ENature";
-            this.CB_ENature.Size = new System.Drawing.Size(121, 21);
+            this.CB_ENature.Size = new System.Drawing.Size(136, 21);
             this.CB_ENature.TabIndex = 503;
             // 
             // L_ENature
             // 
-            this.L_ENature.Location = new System.Drawing.Point(131, 140);
+            this.L_ENature.Location = new System.Drawing.Point(131, 135);
             this.L_ENature.Name = "L_ENature";
             this.L_ENature.Size = new System.Drawing.Size(55, 23);
             this.L_ENature.TabIndex = 502;
@@ -534,7 +594,7 @@
             this.GB_EEVs.Controls.Add(this.label3);
             this.GB_EEVs.Controls.Add(this.label4);
             this.GB_EEVs.Controls.Add(this.label5);
-            this.GB_EEVs.Location = new System.Drawing.Point(284, 333);
+            this.GB_EEVs.Location = new System.Drawing.Point(280, 371);
             this.GB_EEVs.Name = "GB_EEVs";
             this.GB_EEVs.Size = new System.Drawing.Size(160, 112);
             this.GB_EEVs.TabIndex = 501;
@@ -711,7 +771,7 @@
             this.GB_EIVs.Controls.Add(this.NUD_EIV0);
             this.GB_EIVs.Controls.Add(this.L_ATK);
             this.GB_EIVs.Controls.Add(this.L_DEF);
-            this.GB_EIVs.Location = new System.Drawing.Point(129, 333);
+            this.GB_EIVs.Location = new System.Drawing.Point(129, 371);
             this.GB_EIVs.Name = "GB_EIVs";
             this.GB_EIVs.Size = new System.Drawing.Size(148, 112);
             this.GB_EIVs.TabIndex = 21;
@@ -906,7 +966,7 @@
             // 
             // L_Aura
             // 
-            this.L_Aura.Location = new System.Drawing.Point(131, 163);
+            this.L_Aura.Location = new System.Drawing.Point(131, 157);
             this.L_Aura.Name = "L_Aura";
             this.L_Aura.Size = new System.Drawing.Size(55, 23);
             this.L_Aura.TabIndex = 22;
@@ -916,15 +976,15 @@
             // CB_Aura
             // 
             this.CB_Aura.FormattingEnabled = true;
-            this.CB_Aura.Location = new System.Drawing.Point(187, 165);
+            this.CB_Aura.Location = new System.Drawing.Point(187, 159);
             this.CB_Aura.Name = "CB_Aura";
-            this.CB_Aura.Size = new System.Drawing.Size(121, 21);
+            this.CB_Aura.Size = new System.Drawing.Size(136, 21);
             this.CB_Aura.TabIndex = 21;
             // 
             // CHK_ShinyLock
             // 
             this.CHK_ShinyLock.AutoSize = true;
-            this.CHK_ShinyLock.Location = new System.Drawing.Point(187, 190);
+            this.CHK_ShinyLock.Location = new System.Drawing.Point(187, 225);
             this.CHK_ShinyLock.Name = "CHK_ShinyLock";
             this.CHK_ShinyLock.Size = new System.Drawing.Size(79, 17);
             this.CHK_ShinyLock.TabIndex = 18;
@@ -937,7 +997,7 @@
             this.GB_EMoves.Controls.Add(this.CB_EMove2);
             this.GB_EMoves.Controls.Add(this.CB_EMove1);
             this.GB_EMoves.Controls.Add(this.CB_EMove0);
-            this.GB_EMoves.Location = new System.Drawing.Point(129, 220);
+            this.GB_EMoves.Location = new System.Drawing.Point(129, 253);
             this.GB_EMoves.Name = "GB_EMoves";
             this.GB_EMoves.Size = new System.Drawing.Size(133, 112);
             this.GB_EMoves.TabIndex = 17;
@@ -979,14 +1039,14 @@
             // CB_EHeldItem
             // 
             this.CB_EHeldItem.FormattingEnabled = true;
-            this.CB_EHeldItem.Location = new System.Drawing.Point(187, 119);
+            this.CB_EHeldItem.Location = new System.Drawing.Point(187, 115);
             this.CB_EHeldItem.Name = "CB_EHeldItem";
-            this.CB_EHeldItem.Size = new System.Drawing.Size(121, 21);
+            this.CB_EHeldItem.Size = new System.Drawing.Size(136, 21);
             this.CB_EHeldItem.TabIndex = 16;
             // 
             // L_EHeldItem
             // 
-            this.L_EHeldItem.Location = new System.Drawing.Point(131, 117);
+            this.L_EHeldItem.Location = new System.Drawing.Point(131, 113);
             this.L_EHeldItem.Name = "L_EHeldItem";
             this.L_EHeldItem.Size = new System.Drawing.Size(55, 23);
             this.L_EHeldItem.TabIndex = 15;
@@ -998,13 +1058,13 @@
             this.CB_ESpecies.FormattingEnabled = true;
             this.CB_ESpecies.Location = new System.Drawing.Point(187, 7);
             this.CB_ESpecies.Name = "CB_ESpecies";
-            this.CB_ESpecies.Size = new System.Drawing.Size(121, 21);
+            this.CB_ESpecies.Size = new System.Drawing.Size(136, 21);
             this.CB_ESpecies.TabIndex = 14;
             this.CB_ESpecies.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
             // 
             // L_EForm
             // 
-            this.L_EForm.Location = new System.Drawing.Point(131, 49);
+            this.L_EForm.Location = new System.Drawing.Point(131, 47);
             this.L_EForm.Name = "L_EForm";
             this.L_EForm.Size = new System.Drawing.Size(55, 23);
             this.L_EForm.TabIndex = 13;
@@ -1013,7 +1073,7 @@
             // 
             // NUD_EForm
             // 
-            this.NUD_EForm.Location = new System.Drawing.Point(187, 52);
+            this.NUD_EForm.Location = new System.Drawing.Point(187, 50);
             this.NUD_EForm.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1030,7 +1090,7 @@
             // 
             // L_ELevel
             // 
-            this.L_ELevel.Location = new System.Drawing.Point(131, 27);
+            this.L_ELevel.Location = new System.Drawing.Point(131, 26);
             this.L_ELevel.Name = "L_ELevel";
             this.L_ELevel.Size = new System.Drawing.Size(55, 23);
             this.L_ELevel.TabIndex = 11;
@@ -1048,7 +1108,7 @@
             // 
             // NUD_ELevel
             // 
-            this.NUD_ELevel.Location = new System.Drawing.Point(187, 30);
+            this.NUD_ELevel.Location = new System.Drawing.Point(187, 29);
             this.NUD_ELevel.Name = "NUD_ELevel";
             this.NUD_ELevel.Size = new System.Drawing.Size(48, 20);
             this.NUD_ELevel.TabIndex = 9;
@@ -1065,14 +1125,32 @@
             this.LB_Encounter.FormattingEnabled = true;
             this.LB_Encounter.Location = new System.Drawing.Point(3, 3);
             this.LB_Encounter.Name = "LB_Encounter";
-            this.LB_Encounter.Size = new System.Drawing.Size(115, 472);
+            this.LB_Encounter.Size = new System.Drawing.Size(115, 498);
             this.LB_Encounter.TabIndex = 1;
             this.LB_Encounter.SelectedIndexChanged += new System.EventHandler(this.LB_Encounter_SelectedIndexChanged);
             // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(237, 199);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(66, 23);
+            this.label15.TabIndex = 525;
+            this.label15.Text = "(-1 is None)";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label14
+            // 
+            this.label14.Location = new System.Drawing.Point(237, 179);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(66, 23);
+            this.label14.TabIndex = 524;
+            this.label14.Text = "(-1 is None)";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // Tab_Trades
             // 
+            this.Tab_Trades.Controls.Add(this.CB_TGender);
             this.Tab_Trades.Controls.Add(this.L_TGender);
-            this.Tab_Trades.Controls.Add(this.NUD_TGender);
             this.Tab_Trades.Controls.Add(this.CB_TAbility);
             this.Tab_Trades.Controls.Add(this.L_TAbility);
             this.Tab_Trades.Controls.Add(this.CB_TNature);
@@ -1095,43 +1173,39 @@
             this.Tab_Trades.Location = new System.Drawing.Point(4, 22);
             this.Tab_Trades.Name = "Tab_Trades";
             this.Tab_Trades.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Trades.Size = new System.Drawing.Size(498, 476);
+            this.Tab_Trades.Size = new System.Drawing.Size(498, 512);
             this.Tab_Trades.TabIndex = 1;
             this.Tab_Trades.Text = "Trades";
             this.Tab_Trades.UseVisualStyleBackColor = true;
             // 
+            // CB_TGender
+            // 
+            this.CB_TGender.FormattingEnabled = true;
+            this.CB_TGender.Location = new System.Drawing.Point(187, 71);
+            this.CB_TGender.Name = "CB_TGender";
+            this.CB_TGender.Size = new System.Drawing.Size(136, 21);
+            this.CB_TGender.TabIndex = 527;
+            // 
             // L_TGender
             // 
-            this.L_TGender.Location = new System.Drawing.Point(131, 71);
+            this.L_TGender.Location = new System.Drawing.Point(131, 69);
             this.L_TGender.Name = "L_TGender";
             this.L_TGender.Size = new System.Drawing.Size(55, 23);
             this.L_TGender.TabIndex = 523;
             this.L_TGender.Text = "Gender:";
             this.L_TGender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // NUD_TGender
-            // 
-            this.NUD_TGender.Location = new System.Drawing.Point(187, 74);
-            this.NUD_TGender.Maximum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.NUD_TGender.Name = "NUD_TGender";
-            this.NUD_TGender.Size = new System.Drawing.Size(34, 20);
-            this.NUD_TGender.TabIndex = 522;
-            // 
             // CB_TAbility
             // 
             this.CB_TAbility.FormattingEnabled = true;
-            this.CB_TAbility.Location = new System.Drawing.Point(187, 96);
+            this.CB_TAbility.Location = new System.Drawing.Point(187, 93);
             this.CB_TAbility.Name = "CB_TAbility";
-            this.CB_TAbility.Size = new System.Drawing.Size(121, 21);
+            this.CB_TAbility.Size = new System.Drawing.Size(136, 21);
             this.CB_TAbility.TabIndex = 521;
             // 
             // L_TAbility
             // 
-            this.L_TAbility.Location = new System.Drawing.Point(131, 94);
+            this.L_TAbility.Location = new System.Drawing.Point(131, 91);
             this.L_TAbility.Name = "L_TAbility";
             this.L_TAbility.Size = new System.Drawing.Size(55, 23);
             this.L_TAbility.TabIndex = 520;
@@ -1141,14 +1215,14 @@
             // CB_TNature
             // 
             this.CB_TNature.FormattingEnabled = true;
-            this.CB_TNature.Location = new System.Drawing.Point(187, 142);
+            this.CB_TNature.Location = new System.Drawing.Point(187, 137);
             this.CB_TNature.Name = "CB_TNature";
-            this.CB_TNature.Size = new System.Drawing.Size(121, 21);
+            this.CB_TNature.Size = new System.Drawing.Size(136, 21);
             this.CB_TNature.TabIndex = 505;
             // 
             // L_TNature
             // 
-            this.L_TNature.Location = new System.Drawing.Point(131, 140);
+            this.L_TNature.Location = new System.Drawing.Point(131, 135);
             this.L_TNature.Name = "L_TNature";
             this.L_TNature.Size = new System.Drawing.Size(55, 23);
             this.L_TNature.TabIndex = 504;
@@ -1365,14 +1439,14 @@
             // CB_TRequest
             // 
             this.CB_TRequest.FormattingEnabled = true;
-            this.CB_TRequest.Location = new System.Drawing.Point(230, 194);
+            this.CB_TRequest.Location = new System.Drawing.Point(230, 188);
             this.CB_TRequest.Name = "CB_TRequest";
             this.CB_TRequest.Size = new System.Drawing.Size(121, 21);
             this.CB_TRequest.TabIndex = 29;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(121, 192);
+            this.label1.Location = new System.Drawing.Point(121, 186);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(106, 23);
             this.label1.TabIndex = 28;
@@ -1382,7 +1456,7 @@
             // L_TTID
             // 
             this.L_TTID.AutoSize = true;
-            this.L_TTID.Location = new System.Drawing.Point(252, 170);
+            this.L_TTID.Location = new System.Drawing.Point(252, 162);
             this.L_TTID.Name = "L_TTID";
             this.L_TTID.Size = new System.Drawing.Size(53, 13);
             this.L_TTID.TabIndex = 27;
@@ -1391,7 +1465,7 @@
             // 
             // L_TID
             // 
-            this.L_TID.Location = new System.Drawing.Point(136, 165);
+            this.L_TID.Location = new System.Drawing.Point(136, 157);
             this.L_TID.Name = "L_TID";
             this.L_TID.Size = new System.Drawing.Size(50, 23);
             this.L_TID.TabIndex = 26;
@@ -1400,7 +1474,7 @@
             // 
             // NUD_TID
             // 
-            this.NUD_TID.Location = new System.Drawing.Point(187, 167);
+            this.NUD_TID.Location = new System.Drawing.Point(187, 159);
             this.NUD_TID.Maximum = new decimal(new int[] {
             999999,
             0,
@@ -1419,14 +1493,14 @@
             // CB_THeldItem
             // 
             this.CB_THeldItem.FormattingEnabled = true;
-            this.CB_THeldItem.Location = new System.Drawing.Point(187, 119);
+            this.CB_THeldItem.Location = new System.Drawing.Point(187, 115);
             this.CB_THeldItem.Name = "CB_THeldItem";
-            this.CB_THeldItem.Size = new System.Drawing.Size(121, 21);
+            this.CB_THeldItem.Size = new System.Drawing.Size(136, 21);
             this.CB_THeldItem.TabIndex = 24;
             // 
             // L_THeldItem
             // 
-            this.L_THeldItem.Location = new System.Drawing.Point(131, 117);
+            this.L_THeldItem.Location = new System.Drawing.Point(131, 113);
             this.L_THeldItem.Name = "L_THeldItem";
             this.L_THeldItem.Size = new System.Drawing.Size(55, 23);
             this.L_THeldItem.TabIndex = 23;
@@ -1438,13 +1512,13 @@
             this.CB_TSpecies.FormattingEnabled = true;
             this.CB_TSpecies.Location = new System.Drawing.Point(187, 7);
             this.CB_TSpecies.Name = "CB_TSpecies";
-            this.CB_TSpecies.Size = new System.Drawing.Size(121, 21);
+            this.CB_TSpecies.Size = new System.Drawing.Size(136, 21);
             this.CB_TSpecies.TabIndex = 22;
             this.CB_TSpecies.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
             // 
             // L_TForm
             // 
-            this.L_TForm.Location = new System.Drawing.Point(131, 49);
+            this.L_TForm.Location = new System.Drawing.Point(131, 47);
             this.L_TForm.Name = "L_TForm";
             this.L_TForm.Size = new System.Drawing.Size(55, 23);
             this.L_TForm.TabIndex = 21;
@@ -1453,7 +1527,7 @@
             // 
             // NUD_TForm
             // 
-            this.NUD_TForm.Location = new System.Drawing.Point(187, 52);
+            this.NUD_TForm.Location = new System.Drawing.Point(187, 50);
             this.NUD_TForm.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1470,7 +1544,7 @@
             // 
             // L_TLevel
             // 
-            this.L_TLevel.Location = new System.Drawing.Point(131, 27);
+            this.L_TLevel.Location = new System.Drawing.Point(131, 26);
             this.L_TLevel.Name = "L_TLevel";
             this.L_TLevel.Size = new System.Drawing.Size(55, 23);
             this.L_TLevel.TabIndex = 19;
@@ -1488,7 +1562,7 @@
             // 
             // NUD_TLevel
             // 
-            this.NUD_TLevel.Location = new System.Drawing.Point(187, 30);
+            this.NUD_TLevel.Location = new System.Drawing.Point(187, 29);
             this.NUD_TLevel.Name = "NUD_TLevel";
             this.NUD_TLevel.Size = new System.Drawing.Size(48, 20);
             this.NUD_TLevel.TabIndex = 17;
@@ -1505,7 +1579,7 @@
             this.LB_Trade.FormattingEnabled = true;
             this.LB_Trade.Location = new System.Drawing.Point(3, 3);
             this.LB_Trade.Name = "LB_Trade";
-            this.LB_Trade.Size = new System.Drawing.Size(115, 472);
+            this.LB_Trade.Size = new System.Drawing.Size(115, 498);
             this.LB_Trade.TabIndex = 2;
             this.LB_Trade.SelectedIndexChanged += new System.EventHandler(this.LB_Trade_SelectedIndexChanged);
             // 
@@ -1521,7 +1595,7 @@
             this.Tab_Randomizer.Location = new System.Drawing.Point(4, 22);
             this.Tab_Randomizer.Name = "Tab_Randomizer";
             this.Tab_Randomizer.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Randomizer.Size = new System.Drawing.Size(498, 476);
+            this.Tab_Randomizer.Size = new System.Drawing.Size(498, 512);
             this.Tab_Randomizer.TabIndex = 3;
             this.Tab_Randomizer.Text = "Randomizer Options";
             this.Tab_Randomizer.UseVisualStyleBackColor = true;
@@ -1541,6 +1615,16 @@
             this.GB_Tweak.TabIndex = 509;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Tweaks";
+            // 
+            // CHK_Metronome
+            // 
+            this.CHK_Metronome.AutoSize = true;
+            this.CHK_Metronome.Location = new System.Drawing.Point(6, 95);
+            this.CHK_Metronome.Name = "CHK_Metronome";
+            this.CHK_Metronome.Size = new System.Drawing.Size(109, 17);
+            this.CHK_Metronome.TabIndex = 515;
+            this.CHK_Metronome.Text = "Metronome Mode";
+            this.CHK_Metronome.UseVisualStyleBackColor = true;
             // 
             // CHK_RemoveShinyLock
             // 
@@ -1752,7 +1836,7 @@
             this.CHK_G7.AutoSize = true;
             this.CHK_G7.Checked = true;
             this.CHK_G7.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G7.Location = new System.Drawing.Point(9, 60);
+            this.CHK_G7.Location = new System.Drawing.Point(9, 57);
             this.CHK_G7.Name = "CHK_G7";
             this.CHK_G7.Size = new System.Drawing.Size(55, 17);
             this.CHK_G7.TabIndex = 296;
@@ -1762,7 +1846,7 @@
             // CHK_BST
             // 
             this.CHK_BST.AutoSize = true;
-            this.CHK_BST.Location = new System.Drawing.Point(128, 45);
+            this.CHK_BST.Location = new System.Drawing.Point(128, 43);
             this.CHK_BST.Name = "CHK_BST";
             this.CHK_BST.Size = new System.Drawing.Size(117, 17);
             this.CHK_BST.TabIndex = 288;
@@ -1774,7 +1858,7 @@
             this.CHK_E.AutoSize = true;
             this.CHK_E.Checked = true;
             this.CHK_E.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_E.Location = new System.Drawing.Point(128, 30);
+            this.CHK_E.Location = new System.Drawing.Point(128, 29);
             this.CHK_E.Name = "CHK_E";
             this.CHK_E.Size = new System.Drawing.Size(98, 17);
             this.CHK_E.TabIndex = 287;
@@ -1798,7 +1882,7 @@
             this.CHK_G6.AutoSize = true;
             this.CHK_G6.Checked = true;
             this.CHK_G6.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G6.Location = new System.Drawing.Point(67, 45);
+            this.CHK_G6.Location = new System.Drawing.Point(67, 43);
             this.CHK_G6.Name = "CHK_G6";
             this.CHK_G6.Size = new System.Drawing.Size(55, 17);
             this.CHK_G6.TabIndex = 285;
@@ -1810,7 +1894,7 @@
             this.CHK_G5.AutoSize = true;
             this.CHK_G5.Checked = true;
             this.CHK_G5.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G5.Location = new System.Drawing.Point(67, 30);
+            this.CHK_G5.Location = new System.Drawing.Point(67, 29);
             this.CHK_G5.Name = "CHK_G5";
             this.CHK_G5.Size = new System.Drawing.Size(55, 17);
             this.CHK_G5.TabIndex = 284;
@@ -1834,7 +1918,7 @@
             this.CHK_G3.AutoSize = true;
             this.CHK_G3.Checked = true;
             this.CHK_G3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G3.Location = new System.Drawing.Point(9, 45);
+            this.CHK_G3.Location = new System.Drawing.Point(9, 43);
             this.CHK_G3.Name = "CHK_G3";
             this.CHK_G3.Size = new System.Drawing.Size(55, 17);
             this.CHK_G3.TabIndex = 282;
@@ -1846,7 +1930,7 @@
             this.CHK_G2.AutoSize = true;
             this.CHK_G2.Checked = true;
             this.CHK_G2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_G2.Location = new System.Drawing.Point(9, 30);
+            this.CHK_G2.Location = new System.Drawing.Point(9, 29);
             this.CHK_G2.Name = "CHK_G2";
             this.CHK_G2.Size = new System.Drawing.Size(55, 17);
             this.CHK_G2.TabIndex = 281;
@@ -1877,7 +1961,7 @@
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(435, 481);
+            this.B_Save.Location = new System.Drawing.Point(435, 518);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 1;
@@ -1887,7 +1971,7 @@
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(354, 481);
+            this.B_Cancel.Location = new System.Drawing.Point(354, 518);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 2;
@@ -1895,21 +1979,11 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // CHK_Metronome
-            // 
-            this.CHK_Metronome.AutoSize = true;
-            this.CHK_Metronome.Location = new System.Drawing.Point(6, 95);
-            this.CHK_Metronome.Name = "CHK_Metronome";
-            this.CHK_Metronome.Size = new System.Drawing.Size(109, 17);
-            this.CHK_Metronome.TabIndex = 515;
-            this.CHK_Metronome.Text = "Metronome Mode";
-            this.CHK_Metronome.UseVisualStyleBackColor = true;
-            // 
             // StaticEncounterEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(530, 535);
+            this.ClientSize = new System.Drawing.Size(530, 571);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.TC_Tabs);
@@ -1922,7 +1996,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GLevel)).EndInit();
             this.Tab_Encounters.ResumeLayout(false);
             this.Tab_Encounters.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_EGender)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Ally1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Ally2)).EndInit();
             this.GB_EEVs.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EV5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EV4)).EndInit();
@@ -1942,7 +2017,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ELevel)).EndInit();
             this.Tab_Trades.ResumeLayout(false);
             this.Tab_Trades.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_TGender)).EndInit();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TIV3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TIV4)).EndInit();
@@ -2094,9 +2168,7 @@
         private System.Windows.Forms.Label L_TAbility;
         private System.Windows.Forms.CheckBox CHK_RandomAbility;
         private System.Windows.Forms.Label L_EGender;
-        private System.Windows.Forms.NumericUpDown NUD_EGender;
         private System.Windows.Forms.Label L_TGender;
-        private System.Windows.Forms.NumericUpDown NUD_TGender;
         private System.Windows.Forms.CheckBox CHK_ReplaceLegend;
         private System.Windows.Forms.GroupBox GB_Tweak;
         private System.Windows.Forms.CheckBox CHK_ForceTotem;
@@ -2104,5 +2176,13 @@
         private System.Windows.Forms.NumericUpDown NUD_ForceFullyEvolved;
         private System.Windows.Forms.CheckBox CHK_ForceFullyEvolved;
         private System.Windows.Forms.CheckBox CHK_Metronome;
+        private System.Windows.Forms.Label L_Ally1;
+        private System.Windows.Forms.NumericUpDown NUD_Ally1;
+        private System.Windows.Forms.Label L_Ally2;
+        private System.Windows.Forms.NumericUpDown NUD_Ally2;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox CB_EGender;
+        private System.Windows.Forms.ComboBox CB_TGender;
     }
 }
