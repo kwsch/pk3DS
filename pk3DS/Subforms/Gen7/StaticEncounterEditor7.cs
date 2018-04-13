@@ -24,9 +24,15 @@ namespace pk3DS
         private static int[] ReplaceLegend;
         private static int[] BasicStarter;
 
+        private readonly string[] gender =
+        {
+            "- / Genderless/Random",
+            "♂ / Male",
+            "♀ / Female",
+        };
         private readonly string[] ability =
         {
-            "Random (1 or 2)",
+            "Any (1 or 2)",
             "Ability 1",
             "Ability 2",
             "Hidden Ability",
@@ -127,6 +133,11 @@ namespace pk3DS
                 CB_EMove3.Items.Add(s);
                 CB_SpecialMove.Items.Add(s);
             }
+            foreach (string s in gender)
+            {
+                CB_EGender.Items.Add(s);
+                CB_TGender.Items.Add(s);
+            }
             foreach (string s in aura) CB_Aura.Items.Add(s);
 
             CB_GNature.Items.Add("Random");
@@ -134,6 +145,8 @@ namespace pk3DS
             CB_ENature.Items.Add("Random");
             CB_ENature.Items.AddRange(natures.Take(25).ToArray());
             CB_TNature.Items.AddRange(natures.Take(25).ToArray());
+
+            NUD_Ally1.Maximum = NUD_Ally2.Maximum = Main.Config.USUM ? 251 : 136;
 
             getListBoxEntries();
             LB_Gift.SelectedIndex = 0;
@@ -275,7 +288,7 @@ namespace pk3DS
             CB_EHeldItem.SelectedIndex = entry.HeldItem;
             NUD_ELevel.Value = entry.Level;
             NUD_EForm.Value = entry.Form;
-            NUD_EGender.Value = entry.Gender;
+            CB_EGender.SelectedIndex = entry.Gender;
             CB_EAbility.SelectedIndex = entry.Ability;
 
             int[] moves = entry.RelearnMoves;
@@ -302,6 +315,8 @@ namespace pk3DS
             CHK_EIV3.Checked = entry.IV3;
             CB_ENature.SelectedIndex = entry.Nature;
             CB_Aura.SelectedIndex = entry.Aura;
+            NUD_Ally1.Value = entry.Ally1 - 1;
+            NUD_Ally2.Value = entry.Ally2 - 1;
 
             loading = false;
         }
@@ -317,7 +332,7 @@ namespace pk3DS
             entry.HeldItem = CB_EHeldItem.SelectedIndex;
             entry.Level = (int)NUD_ELevel.Value;
             entry.Form = (int)NUD_EForm.Value;
-            entry.Gender = (int)NUD_EGender.Value;
+            entry.Gender = CB_EGender.SelectedIndex;
             entry.Ability = CB_EAbility.SelectedIndex;
             entry.RelearnMoves = new[]
             {
@@ -346,6 +361,8 @@ namespace pk3DS
             entry.ShinyLock = CHK_ShinyLock.Checked;
             entry.Nature = CB_ENature.SelectedIndex;
             entry.Aura = CB_Aura.SelectedIndex;
+            entry.Ally1 = (int)NUD_Ally1.Value + 1;
+            entry.Ally2 = (int)NUD_Ally2.Value + 1;
         }
         private void getTrade()
         {
@@ -359,7 +376,7 @@ namespace pk3DS
             CB_THeldItem.SelectedIndex = entry.HeldItem;
             NUD_TLevel.Value = entry.Level;
             NUD_TForm.Value = entry.Form;
-            NUD_TGender.Value = entry.Gender;
+            CB_TGender.SelectedIndex = entry.Gender + 1;
             CB_TAbility.SelectedIndex = entry.Ability + 1;
             CB_TNature.SelectedIndex = entry.Nature;
 
@@ -386,7 +403,7 @@ namespace pk3DS
             entry.HeldItem = CB_THeldItem.SelectedIndex;
             entry.Level = (int)NUD_TLevel.Value;
             entry.Form = (int)NUD_TForm.Value;
-            entry.Gender = (int)NUD_TGender.Value;
+            entry.Gender = CB_TGender.SelectedIndex - 1;
             entry.Ability = (CB_TAbility.SelectedIndex - 1);
             entry.Nature = CB_TNature.SelectedIndex;
 

@@ -479,9 +479,9 @@ namespace pk3DS
                     trpk_IV[i].Items.Add(z.ToString());
 
                 trpk_gender[i].Items.Clear();
-                trpk_gender[i].Items.Add("- / G/Random");
-                trpk_gender[i].Items.Add("♂ / M");
-                trpk_gender[i].Items.Add("♀ / F");
+                trpk_gender[i].Items.Add("- / Genderless/Random");
+                trpk_gender[i].Items.Add("♂ / Male");
+                trpk_gender[i].Items.Add("♀ / Female");
 
                 trpk_form[i].Items.Add("");
 

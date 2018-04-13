@@ -44,19 +44,13 @@ namespace pk3DS
         private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
         private static int[] FinalEvo;
         private static int[] ReplaceLegend;
-
+        
         private readonly string[] ability =
         {
-            "Random (1 or 2)",
+            "Any (1 or 2)",
             "Ability 1",
             "Ability 2",
             "Hidden Ability",
-        };
-        private readonly string[] gender =
-        {
-            "Random/Genderless",
-            "Male",
-            "Female",
         };
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -79,9 +73,13 @@ namespace pk3DS
                 EncounterData[i] = new EncounterStatic6(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray());
                 LB_Encounters.Items.Add($"{i:00} - {specieslist[EncounterData[i].Species]}");
             }
-
             foreach (var s in ability) CB_Ability.Items.Add(s);
-            foreach (var s in gender) CB_Gender.Items.Add(s);
+
+            CB_Gender.Items.Clear();
+            CB_Gender.Items.Add("- / Genderless/Random");
+            CB_Gender.Items.Add("♂ / Male");
+            CB_Gender.Items.Add("♀ / Female");
+
             FinalEvo = Legal.FinalEvolutions_6;
             ReplaceLegend = Legal.Legendary_Mythical_6;
 

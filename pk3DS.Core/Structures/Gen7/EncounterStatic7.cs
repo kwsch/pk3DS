@@ -124,6 +124,24 @@ namespace pk3DS.Core.Structures
             set => Data[0x25] = (byte)value;
         }
 
+        public int Allies
+        {
+            get => Data[0x27];
+            set => Data[0x27] = (byte)value;
+        }
+
+        public int Ally1
+        {
+            get => Data[0x28];
+            set => Data[0x28] = (byte)value;
+        }
+
+        public int Ally2
+        {
+            get => Data[0x2C];
+            set => Data[0x2C] = (byte)value;
+        }
+
         public bool IV3 => (sbyte) Data[0x15] < 0 && (sbyte) Data[0x15] + 1 == -3;
 
         public string GetSummary()
