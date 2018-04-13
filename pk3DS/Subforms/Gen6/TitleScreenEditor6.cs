@@ -9,7 +9,7 @@ using pk3DS.Core;
 
 namespace pk3DS
 {
-    public partial class TitleScreenEditor6 : Form
+    public sealed partial class TitleScreenEditor6 : Form
     {
         private readonly bool compressed = Main.Config.ORAS;
         public TitleScreenEditor6()

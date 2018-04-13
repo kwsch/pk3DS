@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace pk3DS
 {
-    public partial class Icon : Form
+    public sealed partial class Icon : Form
     {
         private SMDH SMDH;
         public Icon()

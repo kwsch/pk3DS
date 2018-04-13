@@ -1,6 +1,6 @@
 ﻿namespace pk3DS
 {
-    partial class Icon
+    sealed partial class Icon
     {
         /// <summary>
         /// Required designer variable.

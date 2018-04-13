@@ -1,6 +1,6 @@
 ﻿namespace pk3DS
 {
-    partial class ToolsUI
+    sealed partial class ToolsUI
     {
         /// <summary>
         /// Required designer variable.

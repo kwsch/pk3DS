@@ -1,6 +1,6 @@
 ﻿namespace pk3DS
 {
-    partial class TitleScreenEditor6
+    sealed partial class TitleScreenEditor6
     {
         /// <summary>
         /// Required designer variable.

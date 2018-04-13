@@ -10,7 +10,7 @@ using pk3DS.Core.CTR;
 
 namespace pk3DS
 {
-    public partial class OWSE : Form
+    public sealed partial class OWSE : Form
     {
         public OWSE()
         {

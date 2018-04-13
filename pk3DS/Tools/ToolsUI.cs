@@ -11,7 +11,7 @@ using pk3DS.Core;
 
 namespace pk3DS
 {
-    public partial class ToolsUI : Form
+    public sealed partial class ToolsUI : Form
     {
         public ToolsUI()
         {

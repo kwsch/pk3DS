@@ -1,6 +1,6 @@
 ﻿namespace pk3DS
 {
-    partial class OWSE
+    sealed partial class OWSE
     {
         /// <summary>
         /// Required designer variable.
