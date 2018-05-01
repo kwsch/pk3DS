@@ -18,7 +18,7 @@ namespace pk3DS
         private readonly LearnsetRandomizer learn = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
         private readonly trdata7[] Trainers;
         private string[][] AltForms;
-        private static int[] TrainerClasses;
+        private static int[] SpecialClasses;
         private static int[] ImportantTrainers;
         private static int[] FinalEvo;
         private static int[] ReplaceLegend;
@@ -60,11 +60,20 @@ namespace pk3DS
             CB_Moves.SelectedIndex = 0;
             CHK_ReplaceLegend.Visible = Main.Config.USUM; // Team Rainbow Rocket only in USUM
             MegaDictionary = GiftEditor6.GetMegaDictionary(Main.Config);
-
-            TrainerClasses = Main.Config.USUM ? Legal.SpecialClasses_USUM : Legal.SpecialClasses_SM;
+            
             ImportantTrainers = Main.Config.USUM ? Legal.ImportantTrainers_USUM : Legal.ImportantTrainers_SM;
             FinalEvo = Main.Config.USUM ? Legal.FinalEvolutions_USUM : Legal.FinalEvolutions_SM;
             ReplaceLegend = Legal.Legendary_Mythical_USUM;
+
+            if (CHK_RandomClass.Checked)
+            {
+                SpecialClasses = CHK_IgnoreSpecialClass.Checked
+                    ? Main.Config.USUM
+                        ? Legal.SpecialClasses_USUM
+                        : Legal.SpecialClasses_SM
+                    : new int[] {};
+            }
+
             RandSettings.GetFormSettings(this, Tab_Rand.Controls);
         }
 
@@ -624,25 +633,34 @@ namespace pk3DS
                 var tr = Trainers[i];
                 if (tr.Pokemon.Count == 0)
                     continue;
+
                 // Trainer Properties
                 if (CHK_RandomClass.Checked)
                 {
-                    int rv;
-                    do
+                    // ignore special classes
+                    if (CHK_IgnoreSpecialClass.Checked && !SpecialClasses.Contains(tr.TrainerClass))
                     {
-                        rv = (int) (Util.rnd32()%CB_Trainer_Class.Items.Count);
-                    } while (/*trClass[rv].StartsWith("[~") || */TrainerClasses.Contains(rv) && CHK_IgnoreSpecialClass.Checked); // don't allow disallowed classes
+                        int randClass() => (int)(Util.rnd32() % CB_Trainer_Class.Items.Count);
+                        int rv; do { rv = randClass(); }
+                        while (SpecialClasses.Contains(rv)); // don't allow disallowed classes
+                        tr.TrainerClass = (byte)rv;
+                    }
 
-                    if (rv == 082) // Lusamine 2 (Aether President - 082) can crash Multi Battles, skip
-                        continue;
-
-                    tr.TrainerClass = (byte) rv;
+                    // all classes
+                    else if (!CHK_IgnoreSpecialClass.Checked)
+                    {
+                        int randClass() => (int)(Util.rnd32() % CB_Trainer_Class.Items.Count);
+                        int rv; do { rv = randClass(); }
+                        while (rv == 082); // Lusamine 2 can crash multi battles, skip
+                        tr.TrainerClass = (byte)rv;
+                    }
                 }
 
                 var avgBST = (int)tr.Pokemon.Average(pk => Main.SpeciesStat[pk.Species].BST);
                 int avgLevel = (int)tr.Pokemon.Average(pk => pk.Level);
                 var pinfo = Main.SpeciesStat.OrderBy(pk => Math.Abs(avgBST - pk.BST)).First();
                 int avgSpec = Array.IndexOf(Main.SpeciesStat, pinfo);
+                int[] royal = { 081, 082, 083, 084, 185 };
 
                 if (tr.NumPokemon < NUD_RMin.Value)
                 {
@@ -669,6 +687,10 @@ namespace pk3DS
                         });
                     tr.NumPokemon = 6;
                 }
+
+                // force 1 pkm to keep forced Battle Royal fair
+                if (royal.Contains(tr.ID))
+                    tr.NumPokemon = 1;
 
                 // PKM Properties
                 foreach (var pk in tr.Pokemon)

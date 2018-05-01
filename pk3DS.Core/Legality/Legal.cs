@@ -145,6 +145,7 @@ namespace pk3DS.Core
             049, // Island Kahuna
             050, // Island Kahuna
             051, // Island Kahuna
+            070, // Team Skull
             071, // Aether President
             072, // Aether Branch Chief
             076, // Team Skull Boss
@@ -187,6 +188,8 @@ namespace pk3DS.Core
             142, // Captain
             143, // Pokémon Trainer
             150, // Pokémon Trainer
+            151, // Captain
+            152, // Captain
             153, // Captain
             154, // Pokémon Professor
             164, // Island Kahuna
@@ -220,6 +223,7 @@ namespace pk3DS.Core
             049, // Island Kahuna
             050, // Island Kahuna
             051, // Island Kahuna
+            070, // Team Skull
             071, // Aether President
             072, // Aether Branch Chief
             076, // Team Skull Boss
@@ -262,6 +266,8 @@ namespace pk3DS.Core
             142, // Captain
             143, // Pokémon Trainer
             150, // Pokémon Trainer
+            151, // Captain
+            152, // Captain
             153, // Captain
             154, // Pokémon Professor
             164, // Island Kahuna
