@@ -629,14 +629,14 @@ namespace pk3DS
                 if (CHK_ForceFullyEvolved.Checked && t.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(t.Species))
                     t.Species = FinalEvo[randFinalEvo()];
 
+                t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
+                t.Gender = 0; // random
+                t.Nature = 0; // random
+
                 if (CHK_Metronome.Checked)
                     t.RelearnMoves = new[] { 118, 0, 0, 0 };
                 else
                     t.RelearnMoves = move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
-
-                t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
-                t.Gender = 0; // random
-                t.Nature = 0; // random
             }
             foreach (EncounterTrade7 t in Trades)
             {
