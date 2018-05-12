@@ -158,40 +158,43 @@ namespace pk3DS
 
         private void B_RandomTM_Click(object sender, EventArgs e)
         {
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize TMs?", "Move compatibility will be the same as the base TMs.") != DialogResult.Yes) return;
-            if (CHK_RandomizeHM.Checked)
-                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomizing HMs can halt story progression!", "Continue anyway?") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize TMs? Cannot undo.", "Move compatibility will be the same as the base TMs.") != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomizing HMs can halt story progression!", "Continue anyway?") != DialogResult.Yes) return;
 
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
 
-            int[] hm_xy = { 015, 019, 057, 070, 127 }; // Cut, Fly, Surf, Strength, Waterfall
-            int[] hm_oras = { 015, 019, 057, 070, 127, 249, 291 }; // + Rock Smash, Dive
-            int[] field = { 148, 249, 290 }; // Flash (TM70), Rock Smash (XY TM94), Secret Power (ORAS TM94)
+            int[] hm_xy = { 015, 019, 057, 070, 127 };
+            int[] hm_ao = hm_xy.Concat(new int[] { 249, 291 }).ToArray();
+            int[] field = { 148, 249, 290 }; // TMs with field effects
             int[] banned = { 165, 464 }; // Struggle and Hyperspace Fury
             int ctr = 0;
 
             for (int i = 0; i < dgvTM.Rows.Count; i++)
             {
-                int val = Array.IndexOf(movelist, dgvTM.Rows[i].Cells[1].Value);
-                if (banned.Contains(val)) continue;
+                // randomize all TMs
                 if (CHK_RandomizeField.Checked)
-                    dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]]; // randomize everything
+                {
+                    while (banned.Contains(randomMoves[ctr])) ctr++;
+                    dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
+                }
 
+                // randomize all TMs, no Field Moves
                 else
                 {
-                    if (hm_xy.Contains(val) || hm_oras.Contains(val) || field.Contains(val)) continue; // skip HMs and Field Moves
-                    while (hm_xy.Contains(randomMoves[ctr]) || hm_oras.Contains(randomMoves[ctr]) || field.Contains(randomMoves[ctr])) ctr++;
+                    int val = Array.IndexOf(movelist, dgvTM.Rows[i].Cells[1].Value);
+                    if (hm_xy.Contains(val) || hm_ao.Contains(val) || field.Contains(val)) continue; // skip banned moves
+                    while (hm_xy.Contains(randomMoves[ctr]) || hm_ao.Contains(randomMoves[ctr]) || field.Contains(randomMoves[ctr]) || banned.Contains(randomMoves[ctr])) ctr++;
                     dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
                 }
             }
 
             if (CHK_RandomizeHM.Checked)
             {
-                for (int i = 0; i < dgvHM.Rows.Count; i++)
+                for (int j = 0; j < dgvHM.Rows.Count; j++)
                 {
-                    dgvTM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
-                    dgvHM.Rows[i].Cells[1].Value = movelist[randomMoves[ctr++]];
+                    while (banned.Contains(randomMoves[ctr])) ctr++;
+                    dgvHM.Rows[j].Cells[1].Value = movelist[randomMoves[ctr++]];
                 }
             }
             WinFormsUtil.Alert("Randomized!");
