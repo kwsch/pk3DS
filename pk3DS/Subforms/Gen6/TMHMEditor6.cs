@@ -167,7 +167,7 @@ namespace pk3DS
             int[] hm_xy = { 015, 019, 057, 070, 127 };
             int[] hm_ao = hm_xy.Concat(new int[] { 249, 291 }).ToArray();
             int[] field = { 148, 249, 290 }; // TMs with field effects
-            int[] banned = { 165, 464 }; // Struggle and Hyperspace Fury
+            int[] banned = { 165, 621 }; // Struggle and Hyperspace Fury
             int ctr = 0;
 
             for (int i = 0; i < dgvTM.Rows.Count; i++)
