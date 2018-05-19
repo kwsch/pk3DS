@@ -148,8 +148,8 @@ namespace pk3DS
 
                     try
                     {
-                        if (File.Exists(dest)) // only restore files that exist
-                            File.Copy(dest, src, overwrite: true); count++;
+                        if (File.Exists(src)) // only restore files that exist
+                            File.Copy(src, dest, overwrite: true); count++;
                     }
                     catch { Debug.WriteLine("Unable to overwrite backup: " + dest); }
                 }
