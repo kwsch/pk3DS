@@ -156,7 +156,7 @@ namespace pk3DS
             }
 
             WinFormsUtil.Alert($"Restored {count} file(s).", "The program will now close.");
-            Application.Exit(); // do not call closing events that repackage personal/gametext
+            Environment.Exit(-1); // do not call closing events that repackage personal/gametext
         }
 
         private void B_All_Click(object sender, EventArgs e)
