@@ -71,6 +71,8 @@ namespace pk3DS
             RSTE.rTypeTheme = CHK_TypeTheme.Checked;
             RSTE.rTypeGymTrainers = CHK_GymTrainers.Checked;
             RSTE.rGymE4Only = CHK_GymE4Only.Checked;
+            RSTE.rMinPKM = NUD_RMin.Value;
+            RSTE.rMaxPKM = NUD_RMax.Value;
             RSTE.r6PKM = CHK_6PKM.Checked;
             RSTE.rRandomMegas = CHK_RandomMegaForm.Checked;
             RSTE.rForceFullyEvolved = CHK_ForceFullyEvolved.Checked;
