@@ -536,7 +536,7 @@ namespace pk3DS
         private readonly List<string> Tags = new List<string>();
         private readonly Dictionary<string, int> TagTypes = new Dictionary<string, int>();
         public static int[] sL; // Random Species List
-        public static decimal rGiftPercent, rLevelMultiplier, rForceFullyEvolvedLevel, rForceHighPowerLevel;
+        public static decimal rGiftPercent, rLevelMultiplier, rMinPKM, rMaxPKM, rForceFullyEvolvedLevel, rForceHighPowerLevel;
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             rPKM = rMove = rMetronome = rAbility = rDiffAI = rDiffIV = rClass = rGift = rItem = rDoRand = false; // init to false
@@ -629,7 +629,8 @@ namespace pk3DS
                     Item = rItem || checkBox_Item.Checked
                 };
 
-                InitializeTrainerTeamInfo(t, rImportant[i] == null);
+                SetMinMaxPKM(t);
+                SetFullParties(t, rImportant[i] == null);
                 RandomizeTrainerAIClass(t, trClass);
                 RandomizeTrainerPrizeItem(t);
                 RandomizeTeam(t, move, learn, itemvals, type, mevo, typerand);
@@ -725,22 +726,58 @@ namespace pk3DS
                 }
             }
         }
-        private static void InitializeTrainerTeamInfo(trdata6 t, bool important)
+        private static void SetMinMaxPKM(trdata6 t)
         {
-            // skip the first rival battles
+            int lastPKM = Math.Max(t.NumPokemon - 1, 0); // 0,1-6 => 0-5 (never is 0)
+            var avgBST = (int)t.Team.Average(pk => Main.SpeciesStat[pk.Species].BST);
+            int avgLevel = (int)t.Team.Average(pk => pk.Level);
+            var pinfo = Main.SpeciesStat.OrderBy(pk => Math.Abs(avgBST - pk.BST)).First();
+            int avgSpec = Array.IndexOf(Main.SpeciesStat, pinfo);
+
+            // set minimum pkm, don't modify hordes
+            if (t.NumPokemon < rMinPKM && t.BattleType != 4)
+            {
+                t.NumPokemon = (byte)rMinPKM;
+                for (int f = lastPKM + 1; f < t.NumPokemon; f++)
+                {
+                    Array.Resize(ref t.Team, (int)rMinPKM);
+                    t.Team[f] = // clone last pkm, keeping an average level for all new pkm
+                        new trdata6.Pokemon(t.Team[lastPKM].Write(t.Item, t.Moves), t.Item, t.Moves)
+                        {
+                            Species = (ushort)rSpeciesRand.GetRandomSpecies(avgSpec),
+                            Level = (ushort)avgLevel,
+                        };
+                }
+            }
+
+            // set maximum pkm, don't modify hordes
+            if (t.NumPokemon > rMaxPKM && t.BattleType != 4)
+            {
+                Array.Resize(ref t.Team, (int)rMaxPKM);
+                t.NumPokemon = (byte)rMaxPKM;
+            }
+        }
+        private static void SetFullParties(trdata6 t, bool important)
+        {
+            int lastPKM = Math.Max(t.NumPokemon - 1, 0); // 0,1-6 => 0-5 (never is 0)
+            var avgBST = (int)t.Team.Average(pk => Main.SpeciesStat[pk.Species].BST);
+            int avgLevel = (int)t.Team.Average(pk => pk.Level);
+            var pinfo = Main.SpeciesStat.OrderBy(pk => Math.Abs(avgBST - pk.BST)).First();
+            int avgSpec = Array.IndexOf(Main.SpeciesStat, pinfo);
+
+            // 6 pkm for important trainers, skip the first rival battles
             if (!r6PKM || important)
                 return;
-
-            // Copy the last slot to random pokemon
-            int lastPKM = Math.Max(t.NumPokemon - 1, 0); // 0,1-6 => 0-5 (never is 0)
+            
             t.NumPokemon = 6;
-            Array.Resize(ref t.Team, t.NumPokemon);
             for (int f = lastPKM + 1; f < t.NumPokemon; f++)
             {
-                t.Team[f] = // clone last pkm, keeping an average level for all 6
+                Array.Resize(ref t.Team, t.NumPokemon);
+                t.Team[f] = // clone last pkm, keeping an average level for all new pkm
                     new trdata6.Pokemon(t.Team[lastPKM].Write(t.Item, t.Moves), t.Item, t.Moves)
                     {
-                        Level = t.Team[f - 1].Level
+                        Species = (ushort)rSpeciesRand.GetRandomSpecies(avgSpec),
+                        Level = (ushort)avgLevel,
                     };
             }
         }
