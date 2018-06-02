@@ -23,6 +23,8 @@ namespace pk3DS.Core.Randomizers
 
             switch (species)
             {
+                case 658 when !AllowMega:
+                    return 0;
                 case 664: case 665: case 666: // Vivillon evo chain
                     return 30; // save file specific
                 case 774: // Minior
@@ -31,7 +33,7 @@ namespace pk3DS.Core.Randomizers
 
             if (AllowAlolanForm && Legal.EvolveToAlolanForms.Contains(species))
                 return (int)(Util.rnd32() % 2);
-            if (!Legal.Mega_ORAS.Contains((ushort)species) || AllowMega)
+            if (!Legal.BattleExclusiveForms.Contains(species) || AllowMega)
                 return (int)(Util.rnd32() % stats[species].FormeCount); // Slot-Random
             return 0;
         }
