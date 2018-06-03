@@ -199,7 +199,7 @@ namespace pk3DS
                     string newtext = $"Game Loaded: {Config.Version}";
                     if (L_Game.Text != newtext && Directory.Exists("personal"))
                     { Directory.Delete("personal", true); } // Force reloading of personal data if the game is switched.
-                    L_Game.Text = newtext; TB_Path.Text = path; 
+                    L_Game.Text = newtext; TB_Path.Text = path;
                 }
                 else if (ExeFSPath != null)
                 { L_Game.Text = "ExeFS loaded - no RomFS"; TB_Path.Text = path; }
@@ -220,7 +220,7 @@ namespace pk3DS
                 Menu_ExeFS.Enabled = ExeFSPath != null;
                 Menu_RomFS.Enabled = Menu_Restore.Enabled = Menu_GARCs.Enabled = RomFSPath != null;
                 Menu_Patch.Enabled = RomFSPath != null && ExeFSPath != null;
-                Menu_3DS.Enabled = 
+                Menu_3DS.Enabled =
                     ExHeaderPath != null && RomFSPath != null && ExeFSPath != null;
 
                 // Change L_Game if RomFS and ExeFS exists to a better descriptor
@@ -283,7 +283,7 @@ namespace pk3DS
             // 5 - ES
             // 6 - CHS
             // 7 - KO
-            // 8 - 
+            // 8 -
             // 11 - CHT
             int[] AILang = { 0, 0, 1, 2, 4, 3, 5, 7, 8, 9, 6, 11 };
             Text = SMDH?.AppSettings == null
@@ -349,7 +349,7 @@ namespace pk3DS
                 // unpack successful, continue onward!
             }
 
-            if (files.Length != 3 && files.Length != 4) 
+            if (files.Length != 3 && files.Length != 4)
                 return false;
 
             FileInfo fi = new FileInfo(files[0]);
@@ -375,7 +375,7 @@ namespace pk3DS
             ExHeaderPath = null;
             // Input folder path should contain the ExHeader.
                 string[] files = Directory.GetFiles(path);
-			foreach (string fp in from s in files let f = new FileInfo(s) where (f.Name.ToLower().StartsWith("exh") || f.Name.ToLower().StartsWith("decryptedexh")) && f.Length == 0x800 select s)
+            foreach (string fp in from s in files let f = new FileInfo(s) where (f.Name.ToLower().StartsWith("exh") || f.Name.ToLower().StartsWith("decryptedexh")) && f.Length == 0x800 select s)
                 ExHeaderPath = fp;
 
             return ExHeaderPath != null;
@@ -475,7 +475,7 @@ namespace pk3DS
                 "Yes: Save changes, dump errata/failed text",
                 "No: Save changes, don't dump errata/failed text"
             };
-            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Errors found while attempting to save text." 
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Errors found while attempting to save text."
                 + Environment.NewLine + "Example: " + errata[0],
                 string.Join(Environment.NewLine, options));
             if (dr == DialogResult.Cancel)
@@ -1037,7 +1037,7 @@ namespace pk3DS
                 {
                     var esg = Config.getGARCData("encounterstatic");
                     byte[][] es = esg.Files;
-                    
+
                     Invoke((Action)(() => new StaticEncounterEditor7(es).ShowDialog()));
                     esg.Files = es;
                     esg.Save();
@@ -1127,7 +1127,7 @@ namespace pk3DS
                 "Yes = Decompress\nNo = Compress\nCancel = Abort");
             new Thread(() =>
             {
-                threads++; 
+                threads++;
                 if (dr == DialogResult.Yes)
                 {
                     try
