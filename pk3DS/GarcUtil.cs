@@ -51,10 +51,12 @@ namespace pk3DS
 
         public static bool garcPackMS(string folderPath, string garcPath, int version, int bytesPadding, ProgressBar pBar1 = null, Label label = null, bool supress = false)
         {
+            GarcUtil.pBar1 = pBar1;
+            GarcUtil.label = label;
             GARC.FileCountDetermined += GARC_FileCountDetermined;
             GARC.PackProgressed += GARC_PackProgressed;
             try
-            {              
+            {
                 var filectr = GARC.garcPackMS(folderPath, garcPath, version, bytesPadding);
                 if (filectr > 0)
                 {
@@ -90,6 +92,8 @@ namespace pk3DS
 
         public static bool garcUnpack(string garcPath, string outPath, bool skipDecompression, ProgressBar pBar1 = null, Label label = null, bool supress = false, bool bypassExt = false)
         {
+            GarcUtil.pBar1 = pBar1;
+            GarcUtil.label = label;
             GARC.FileCountDetermined += GARC_FileCountDetermined;
             GARC.UnpackProgressed += GARC_UnpackProgressed;
             try
