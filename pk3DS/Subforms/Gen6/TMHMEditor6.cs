@@ -159,7 +159,7 @@ namespace pk3DS
         private void B_RandomTM_Click(object sender, EventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize TMs? Cannot undo.", "Move compatibility will be the same as the base TMs.") != DialogResult.Yes) return;
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomizing HMs can halt story progression!", "Continue anyway?") != DialogResult.Yes) return;
+            if (CHK_RandomizeHM.Checked && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomizing HMs can halt story progression!", "Continue anyway?") != DialogResult.Yes) return;
 
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
