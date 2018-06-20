@@ -91,6 +91,17 @@ namespace pk3DS.Core.Randomizers
             return moves.Distinct().Count() == count;
         }
 
+        public void ReorderMovesPower(IList<int> moves)
+        {
+            var data = moves.Select((Move, Index) => new {Index, Move, Data = MoveData[Move]});
+            var powered = data.Where(z => z.Data.Power > 1).ToList();
+            var indexes = powered.Select(z => z.Index).ToList();
+            var order = powered.OrderBy(z => z.Data.Power * Math.Max(1, (z.Data.HitMin + z.Data.HitMax)/2m)).ToList();
+
+            for (var i = 0; i < order.Count; i++)
+                moves[indexes[i]] = order[i].Move;
+        }
+
         private static readonly int[] firstMoves =
         {
             1,   // Pound
@@ -103,7 +114,7 @@ namespace pk3DS.Core.Randomizers
             98,  // Quick Attack
             122, // Lick
             141, // Leech Life
-            
+
         };
         private static readonly GenericRandomizer first = new GenericRandomizer(firstMoves);
         public int GetRandomFirstMoveAny()
