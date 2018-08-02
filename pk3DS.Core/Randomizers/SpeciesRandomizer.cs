@@ -205,7 +205,6 @@ namespace pk3DS.Core.Randomizers
                 if (L) list.AddRange(Enumerable.Range(803, 4)); // Poipole, Naganadel, Stakataka, Blacephalon
                 if (E) list.Add(807); // Zeraora
             }
-
         }
 
         public int[] RandomSpeciesList => Enumerable.Range(1, MaxSpeciesID).ToArray();

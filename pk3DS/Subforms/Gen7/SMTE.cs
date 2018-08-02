@@ -725,6 +725,14 @@ namespace pk3DS
                             pk.Item = items[Util.rnd32() % items.Length];
                             pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
                         }
+
+                        // lazy fix for USUM-only species
+                        if (Main.Config.SM && pk.Species > 802)
+                        {
+                            pk.Species = 1;
+                            pk.Form = 0;
+                        }
+
                         pk.Gender = 0; // random
                         pk.Nature = (int)(Util.rnd32() % CB_Nature.Items.Count); // random
                     }
