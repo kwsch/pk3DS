@@ -1,6 +1,8 @@
 ﻿using pk3DS.Core;
 using System;
+using System.Linq;
 using System.Windows.Forms;
+using pk3DS.Core.Structures;
 
 namespace pk3DS
 {
@@ -23,25 +25,25 @@ namespace pk3DS
         private readonly string[] StatCategories = { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
 
         private readonly string[] TargetingTypes =
-        { "Single Adjacent Ally/Foe", 
-            "Any Ally", "Any Adjacent Ally", "Single Adjacent Foe", "Everyone but User", "All Foes", 
-            "All Allies", "Self", "All Pokémon on Field", "Single Adjacent Foe (2)", "Entire Field", 
-            "Opponent's Field", "User's Field", "Self", 
+        { "Single Adjacent Ally/Foe",
+            "Any Ally", "Any Adjacent Ally", "Single Adjacent Foe", "Everyone but User", "All Foes",
+            "All Allies", "Self", "All Pokémon on Field", "Single Adjacent Foe (2)", "Entire Field",
+            "Opponent's Field", "User's Field", "Self",
         };
 
         private readonly string[] InflictionTypes =
-        { "None", 
-            "Paralyze", "Sleep", "Freeze", "Burn", "Poison", 
-            "Confusion", "Attract", "Capture", "Nightmare", "Curse", 
-            "Taunt", "Torment", "Disable", "Yawn", "Heal Block", 
-            "?", "Detect", "Leech Seed", "Embargo", "Perish Song", 
-            "Ingrain", 
+        { "None",
+            "Paralyze", "Sleep", "Freeze", "Burn", "Poison",
+            "Confusion", "Attract", "Capture", "Nightmare", "Curse",
+            "Taunt", "Torment", "Disable", "Yawn", "Heal Block",
+            "?", "Detect", "Leech Seed", "Embargo", "Perish Song",
+            "Ingrain",
         };
 
         private readonly string[] MoveQualities =
-        { "Only DMG", 
-            "No DMG -> Inflict Status", "No DMG -> -Target/+User Stat", "No DMG | Heal User", "DMG | Inflict Status", "No DMG | STATUS | +Target Stat", 
-            "DMG | -Target Stat", "DMG | +User Stat", "DMG | Absorbs DMG", "One-Hit KO", "Affects Whole Field", 
+        { "Only DMG",
+            "No DMG -> Inflict Status", "No DMG -> -Target/+User Stat", "No DMG | Heal User", "DMG | Inflict Status", "No DMG | STATUS | +Target Stat",
+            "DMG | -Target Stat", "DMG | +User Stat", "DMG | Absorbs DMG", "One-Hit KO", "Affects Whole Field",
             "Affect One Side of the Field", "Forces Target to Switch", "Unique Effect",  };
         private void Setup()
         {
@@ -158,6 +160,14 @@ namespace pk3DS
             }
             files[entry] = data;
         }
+
+        private void B_Table_Click(object sender, EventArgs e)
+        {
+            var items = files.Select(z => new Move(z));
+            Clipboard.SetText(TableUtil.GetTable(items, movelist));
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setEntry();

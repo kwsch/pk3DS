@@ -93,6 +93,7 @@
             this.CHK_Category = new System.Windows.Forms.CheckBox();
             this.CHK_Type = new System.Windows.Forms.CheckBox();
             this.B_Metronome = new System.Windows.Forms.Button();
+            this.B_Table = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_HitMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_HitMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Priority)).BeginInit();
@@ -842,11 +843,22 @@
             this.B_Metronome.UseVisualStyleBackColor = true;
             this.B_Metronome.Click += new System.EventHandler(this.B_Metronome_Click);
             // 
+            // B_Table
+            // 
+            this.B_Table.Location = new System.Drawing.Point(356, 117);
+            this.B_Table.Name = "B_Table";
+            this.B_Table.Size = new System.Drawing.Size(75, 23);
+            this.B_Table.TabIndex = 66;
+            this.B_Table.Text = "Export Table";
+            this.B_Table.UseVisualStyleBackColor = true;
+            this.B_Table.Click += new System.EventHandler(this.B_Table_Click);
+            // 
             // MoveEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(439, 381);
+            this.Controls.Add(this.B_Table);
             this.Controls.Add(this.B_Metronome);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.B_RandAll);
@@ -1004,5 +1016,6 @@
         private System.Windows.Forms.CheckBox CHK_Category;
         private System.Windows.Forms.CheckBox CHK_Type;
         private System.Windows.Forms.Button B_Metronome;
+        private System.Windows.Forms.Button B_Table;
     }
 }
