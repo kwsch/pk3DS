@@ -1,4 +1,4 @@
-﻿/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
 /*--  This program is free software: you can redistribute it and/or modify  --*/
 /*--  it under the terms of the GNU General Public License as published by  --*/
 /*--  the Free Software Foundation, either version 3 of the License, or     --*/
@@ -799,7 +799,7 @@ namespace pk3DS
                 }
                 Config.GARCLearnsets.Files = d;
                 Config.GARCLearnsets.Save();
-                Config.InitializePersonal();
+                Config.InitializeLearnset();
             }).Start();
         }
         private void B_EggMove_Click(object sender, EventArgs e)
