@@ -27,7 +27,7 @@ namespace pk3DS.Subforms
         public Bitmap getMapImage(bool crop = false, bool entity = true, bool sliceArea = false)
         {
             // Load MM
-            byte[][] MM = mini.unpackMini(File.ReadAllBytes(MapMatrixes[DrawMap]), "MM");
+            byte[][] MM = Mini.UnpackMini(File.ReadAllBytes(MapMatrixes[DrawMap]), "MM");
             var mm = OWSE.mm = new MapMatrix(MM);
 
             // Unknown
@@ -39,7 +39,7 @@ namespace pk3DS.Subforms
             {
                 if (mm.EntryList[i] == 0xFFFF) // Mystery Zone
                     continue;
-                byte[][] GR = mini.unpackMini(File.ReadAllBytes(MapGRs[mm.EntryList[i]]), "GR");
+                byte[][] GR = Mini.UnpackMini(File.ReadAllBytes(MapGRs[mm.EntryList[i]]), "GR");
                 mm.Entries[i] = new MapMatrix.Entry(GR[0]) {coll = new MapMatrix.Collision(GR[2])};
             }
             mapScale = Math.Max(1, (int)NUD_Scale.Value);
@@ -129,7 +129,7 @@ namespace pk3DS.Subforms
             //{
             //    using(var g = Graphics.FromImage(img))
             //        foreach (var l in OWSE.mm.LoadLines)
-            //            try { g.DrawLine(new Pen(Color.Red, 4), l.p2 * mapScale, l.p1 * mapScale, l.p4 * mapScale, l.p3 * mapScale); } 
+            //            try { g.DrawLine(new Pen(Color.Red, 4), l.p2 * mapScale, l.p1 * mapScale, l.p4 * mapScale, l.p3 * mapScale); }
             //            catch {}
             //}
 
@@ -163,7 +163,7 @@ namespace pk3DS.Subforms
 
                 L_MapCoord.Text = string.Format("V:0x{3}{2}X:{0,3}  Y:{1,3}", X, Y, Environment.NewLine, tileVal);
             }
-            catch { } 
+            catch { }
         }
         private void B_Redraw_Click(object sender, EventArgs e)
         {

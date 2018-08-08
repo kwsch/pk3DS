@@ -33,7 +33,7 @@ namespace pk3DS
         private readonly byte[] zoneData;
         private byte[] worldData;
         private readonly string[] locationList;
-        
+
         private void loadData()
         {
             // get zonedata array
@@ -107,14 +107,14 @@ namespace pk3DS
 
             private bool HasZS => _7 != null;
             private bool HasZI => _8 != null;
-            public Script[] ZoneScripts; 
+            public Script[] ZoneScripts;
             public Script[] ZoneInfoScripts;
 
             public World(lzGARCFile garc, int worldID)
             {
                 int index = worldID*11;
-                _7 = mini.unpackMini(garc[index + 7], "ZS");
-                _8 = mini.unpackMini(garc[index + 8], "ZI");
+                _7 = Mini.UnpackMini(garc[index + 7], "ZS");
+                _8 = Mini.UnpackMini(garc[index + 8], "ZI");
 
                 ZoneScripts = HasZS ? _7.Select(arr => new Script(arr)).ToArray() : new Script[0];
                 ZoneInfoScripts = HasZI ? _8.Select(arr => new Script(arr)).ToArray() : new Script[0];

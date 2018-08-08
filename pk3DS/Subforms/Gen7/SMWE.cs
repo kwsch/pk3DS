@@ -215,7 +215,7 @@ namespace pk3DS
 
             var cur_pb = CB_TableID.SelectedIndex%2 == 0 ? PB_DayTable : PB_NightTable;
             var cur_img = cur_pb.Image;
-            
+
             object[][] source = sender is NumericUpDown ? (object[][])nup_spec : cb_spec;
             int table = Array.FindIndex(source, t => t.Contains(sender));
             int slot = Array.IndexOf(source[table], sender);
@@ -255,14 +255,14 @@ namespace pk3DS
         {
             if (loadingdata)
                 return;
-            
+
             var cur_pb = CB_TableID.SelectedIndex%2 == 0 ? PB_DayTable : PB_NightTable;
             var cur_img = cur_pb.Image;
-            
+
             int slot = Array.IndexOf(rate_spec, sender);
             int rate = (int) ((NumericUpDown) sender).Value;
             CurrentTable.Rates[slot] = rate;
-            
+
             using (var g = Graphics.FromImage(cur_img))
             {
                 var pnt = new PointF(40 * slot + 10, 10);
@@ -270,7 +270,7 @@ namespace pk3DS
                 g.Clear(Color.Transparent);
                 g.DrawString($"{rate}%", font, Brushes.Black, pnt);
             }
-            
+
             cur_pb.Image = cur_img;
 
             var sum = TotalEncounterRate;
@@ -330,7 +330,7 @@ namespace pk3DS
                 WinFormsUtil.Error("Encounter rates must add up to either 0% or 100%.");
                 return;
             }
-            
+
             CurrentTable.Write();
             var area = Areas[CB_LocationID.SelectedIndex];
             area.Tables[CB_TableID.SelectedIndex] = CurrentTable;
@@ -363,11 +363,11 @@ namespace pk3DS
                 File.WriteAllText(sfd.FileName, sb.ToString());
             }
         }
-        
+
         // Randomization & Bulk Modification
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, 
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
                 "Randomize all? Cannot undo.", "Double check Randomization settings at the bottom left."))
                 return;
 
@@ -475,8 +475,8 @@ namespace pk3DS
             var reg = dumpreg();
             var sos = dumpsos();
 
-            File.WriteAllBytes($"encounter_{gameID}.pkl", mini.packMini(reg, ident));
-            File.WriteAllBytes($"encounter_{gameID}_sos.pkl", mini.packMini(sos, ident));
+            File.WriteAllBytes($"encounter_{gameID}.pkl", Mini.PackMini(reg, ident));
+            File.WriteAllBytes($"encounter_{gameID}_sos.pkl", Mini.PackMini(sos, ident));
         }
         private byte[][] dumpreg()
         {

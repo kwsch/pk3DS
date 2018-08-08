@@ -138,15 +138,15 @@ namespace pk3DS
 
                 // Determine if it is a DARC or a Mini
                 // Check if Mini first
-                string fx = fi.Length > 10 * (1<<20) ? null : mini.getIsMini(path); // no mini is above 10MB
+                string fx = fi.Length > 10 * (1<<20) ? null : Mini.GetIsMini(path); // no mini is above 10MB
                 if (fx != null) // Is Mini Packed File
                 {
                     newFolder = folderPath + "_" + fx;
                     // Fetch Mini File Contents
-                    mini.unpackMini(path, fx, newFolder, false);
+                    Mini.UnpackMini(path, fx, newFolder, false);
                     // Recurse throught the extracted contents if they extract successfully
                     if (Directory.Exists(newFolder))
-                    {   
+                    {
                         foreach (string file in Directory.GetFiles(newFolder))
                             openARC(file, pBar1, true);
                         batchRenameExtension(newFolder);
@@ -211,7 +211,7 @@ namespace pk3DS
                     Console.WriteLine($"New SARC with {sarc.SFAT.EntryCount} files.");
                     foreach (var z in sarc.Dump(path))
                     {
-                        
+
                     }
                 }
                 else if (!recursing)
@@ -295,7 +295,7 @@ namespace pk3DS
                     int index = fileName.LastIndexOf('_');
                     string fileNum = fileName.Substring(0, index);
                     string fileExt = fileName.Substring(index + 1);
-                    
+
                     // Find old file for reference...
                     string file;
                     if (File.Exists(Path.Combine(parentName, fileNum + ".bin")))
@@ -306,7 +306,7 @@ namespace pk3DS
                         file = null;
 
                     byte[] oldData = file != null ? File.ReadAllBytes(file) : null;
-                    bool r = mini.packMini2(path, fileExt, Path.Combine(parentName, fileNum + "." + fileExt));
+                    bool r = Mini.PackMini2(path, fileExt, Path.Combine(parentName, fileNum + "." + fileExt));
                     if (!r)
                     {
                             WinFormsUtil.Alert("Packing failed.");
@@ -330,9 +330,9 @@ namespace pk3DS
                                 break;
 
                             // Fix pointers
-                            byte[] update = mini.adjustMiniHeader(newData, oldPtr);
+                            byte[] update = Mini.AdjustMiniHeader(newData, oldPtr);
                             File.WriteAllBytes(Path.Combine(parentName, fileNum + "." + fileExt), update);
-                        }                        
+                        }
                     }
 
                     break;
@@ -364,7 +364,7 @@ namespace pk3DS
 
         private static void batchRenameExtension(string Folder)
         {
-            if (!Directory.Exists(Folder)) 
+            if (!Directory.Exists(Folder))
                 return;
 
             foreach (string f in Directory.GetFiles(Folder, "*", SearchOption.AllDirectories))

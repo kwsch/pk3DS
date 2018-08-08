@@ -153,10 +153,10 @@ namespace pk3DS.Core
                     if (XY)
                         Moves = GARCMoves.Files.Select(file => new Move(file)).ToArray();
                     if (ORAS)
-                        Moves = mini.unpackMini(GARCMoves.getFile(0), "WD").Select(file => new Move(file)).ToArray();
+                        Moves = Mini.UnpackMini(GARCMoves.getFile(0), "WD").Select(file => new Move(file)).ToArray();
                     break;
                 case 7:
-                    Moves = mini.unpackMini(GARCMoves.getFile(0), "WD").Select(file => new Move(file)).ToArray();
+                    Moves = Mini.UnpackMini(GARCMoves.getFile(0), "WD").Select(file => new Move(file)).ToArray();
                     break;
             }
         }

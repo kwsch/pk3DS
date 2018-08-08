@@ -768,14 +768,14 @@ namespace pk3DS
                 {
                     case 6:
                         bool isMini = Config.ORAS;
-                        Moves = isMini ? mini.unpackMini(g.getFile(0), "WD") : g.Files;
+                        Moves = isMini ? Mini.UnpackMini(g.getFile(0), "WD") : g.Files;
                         Invoke((Action)(() => new MoveEditor6(Moves).ShowDialog()));
-                        g.Files = isMini ? new[] { mini.packMini(Moves, "WD") } : Moves;
+                        g.Files = isMini ? new[] { Mini.PackMini(Moves, "WD") } : Moves;
                         break;
                     case 7:
-                        Moves = mini.unpackMini(g.getFile(0), "WD");
+                        Moves = Mini.UnpackMini(g.getFile(0), "WD");
                         Invoke((Action)(() => new MoveEditor7(Moves).ShowDialog()));
-                        g.Files = new[] {mini.packMini(Moves, "WD")};
+                        g.Files = new[] {Mini.PackMini(Moves, "WD")};
                         break;
                 }
                 g.Save();

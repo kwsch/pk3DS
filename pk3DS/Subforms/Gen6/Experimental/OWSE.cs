@@ -20,7 +20,7 @@ namespace pk3DS
             AllowDrop = true;
             DragEnter += tabMain_DragEnter;
             DragDrop += tabMain_DragDrop;
-            
+
             // Finished
             openQuick(Directory.GetFiles("encdata"));
             mapView.Show();
@@ -65,7 +65,7 @@ namespace pk3DS
                 zdLocations[f] = LocationNum.ToString("000") + " - " + LocationName;
                 rawLocations[f] = LocationName;
             }
-            
+
             // Assign
             CB_LocationID.DataSource = zdLocations;
             CB_LocationID.Enabled = true;
@@ -94,7 +94,7 @@ namespace pk3DS
         {
             if (entry < 0) return;
             byte[] raw = File.ReadAllBytes(filepaths[entry]);
-            locationData = Core.CTR.mini.unpackMini(raw, "ZO");
+            locationData = Core.CTR.Mini.UnpackMini(raw, "ZO");
             if (locationData == null) return;
 
             // Read master ZD table
@@ -125,7 +125,7 @@ namespace pk3DS
         {
             if (entry < 0) return;
             if (debugToolDumping) return;
-            
+
             // Set the data back into the class object
             // Currently only the first two files.
             setZoneData(); // File 0
@@ -141,12 +141,12 @@ namespace pk3DS
             // Debug Check (can stay, why not.)
             if (!locationData.Where((t, i) => !data[i].SequenceEqual(t)).Any())
                 return;
-            
+
             // Util.Alert("Zone has been edited!");
             System.Media.SystemSounds.Asterisk.Play();
 
             // Package the files into the permanent package file.
-            byte[] raw = mini.packMini(data, "ZO");
+            byte[] raw = Mini.PackMini(data, "ZO");
             File.WriteAllBytes(filepaths[entry], raw);
         }
 
