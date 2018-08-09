@@ -17,11 +17,13 @@ namespace pk3DS.Core.Structures
         public EvolutionMethod[] PossibleEvolutions;
         public abstract byte[] Write();
     }
+
     public class EvolutionSet6 : EvolutionSet
     {
         private const int ENTRY_SIZE = 6;
         private const int ENTRY_COUNT = 8;
         public const int SIZE = ENTRY_COUNT * ENTRY_SIZE;
+
         public EvolutionSet6(byte[] data)
         {
             if (data.Length != SIZE) return;
@@ -43,6 +45,7 @@ namespace pk3DS.Core.Structures
                 //    PossibleEvolutions[i / SIZE].Level = 0;
             }
         }
+
         public override byte[] Write()
         {
             using (MemoryStream ms = new MemoryStream())
@@ -58,11 +61,13 @@ namespace pk3DS.Core.Structures
             }
         }
     }
+
     public class EvolutionSet7 : EvolutionSet
     {
         private const int ENTRY_SIZE = 8;
         private const int ENTRY_COUNT = 8;
         public const int SIZE = ENTRY_COUNT * ENTRY_SIZE;
+
         public EvolutionSet7(byte[] data)
         {
             if (data.Length != SIZE) return;
@@ -79,6 +84,7 @@ namespace pk3DS.Core.Structures
                 };
             }
         }
+
         public override byte[] Write()
         {
             using (MemoryStream ms = new MemoryStream())

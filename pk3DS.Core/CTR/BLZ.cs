@@ -45,12 +45,14 @@ namespace pk3DS.Core.CTR
         private int new_len;
         
         private readonly ProgressBar pBar1;
+
         private void initpBar(int max)
         {
             if (pBar1.InvokeRequired)
                 pBar1.Invoke((MethodInvoker)delegate { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = max; });
             else { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = max; }
         }
+
         private void setpBarPos(int pos)
         {
             if (pBar1.InvokeRequired)
@@ -71,7 +73,6 @@ namespace pk3DS.Core.CTR
 
             if (args[0].Equals("-d"))
                 cmd = CMD_DECODE;
-
             else if (args[0].Equals("-en") || args[0].Equals("-en9"))
             {
                 cmd = CMD_ENCODE;
@@ -105,6 +106,7 @@ namespace pk3DS.Core.CTR
 
             Console.Write(Environment.NewLine + "Done" + Environment.NewLine);
         }
+
         private static void Save(string filename, byte[] buffer, int length)
         {
             Array.Resize(ref buffer, length);
@@ -117,6 +119,7 @@ namespace pk3DS.Core.CTR
                 Console.Write(Environment.NewLine + "Wrote to 'blz.bin' instead." + Environment.NewLine);
             }
         }
+
         private static void BLZ_Decode(string filename)
         {
             try
@@ -134,6 +137,7 @@ namespace pk3DS.Core.CTR
             catch (IOException e)
             { Console.Write(Environment.NewLine + "File read error" + Environment.NewLine + e); }
         }
+
         private static BLZResult BLZ_Decode(byte[] data)
         {
             int raw_len, len;
@@ -244,6 +248,7 @@ namespace pk3DS.Core.CTR
 
             return new BLZResult(raw_buffer, raw_len);
         }
+
         private BLZResult BLZ_Encode(byte[] data, int mode)
         {
             new_len = 0;
@@ -263,6 +268,7 @@ namespace pk3DS.Core.CTR
             }
             return new BLZResult(pak_buffer, pak_len);
         }
+
         private static byte[] prepareData(byte[] data)
         {
             int fs = data.Length;
@@ -272,6 +278,7 @@ namespace pk3DS.Core.CTR
 
             return fb;
         }
+
         private static void writeUnsigned(byte[] buffer, int offset, int value)
         {
             buffer[offset] = (byte)(value & 0xFF);
@@ -279,6 +286,7 @@ namespace pk3DS.Core.CTR
             buffer[offset + 2] = (byte)((value >> 16) & 0xFF);
             buffer[offset + 3] = (byte)((value >> 24) & 0x7F);
         }
+
         private void BLZ_Encode(string filename, int mode)
         {
             try
@@ -298,6 +306,7 @@ namespace pk3DS.Core.CTR
             catch (IOException e)
             { Console.Write(Environment.NewLine + "File read error" + Environment.NewLine + e + Environment.NewLine); }
         }
+
         private byte[] BLZ_Code(byte[] raw_buffer, int raw_len, int best)
         {
             int flg = 0;
@@ -308,7 +317,7 @@ namespace pk3DS.Core.CTR
             int pak_tmp = 0;
             int raw_tmp = raw_len;
 
-            int pak_len = raw_len + (raw_len + 7) / 8 + 11;
+            int pak_len = raw_len + ((raw_len + 7) / 8) + 11;
             byte[] pak_buffer = new byte[pak_len];
 
             int raw_new = raw_len;
@@ -459,6 +468,7 @@ namespace pk3DS.Core.CTR
                 this.p = p;
             }
         }
+
         private static SearchPair SEARCH(int p, IList<byte> raw_buffer, int raw, int raw_end)
         {
             int l = BLZ_THRESHOLD;
@@ -497,6 +507,7 @@ namespace pk3DS.Core.CTR
             public readonly byte[] buffer;
             public readonly int length;
         }
+
         private static void BLZ_Invert(byte[] buffer, int offset, int length)
         {
             int bottom = offset + length - 1;

@@ -20,6 +20,7 @@ namespace pk3DS
             CB_Entry.SelectedIndex = 0;
             dgv.EditMode = DataGridViewEditMode.EditOnEnter;
         }
+
         private readonly string[][] files;
         private readonly string Mode;
         private int entry = -1;
@@ -35,6 +36,7 @@ namespace pk3DS
             string path = Dump.FileName;
             exportTextFile(path, newline, files);
         }
+
         private void B_Import_Click(object sender, EventArgs e)
         {
             if (files.Length <= 0) return;
@@ -49,6 +51,7 @@ namespace pk3DS
             changeEntry(null, null);
             WinFormsUtil.Alert("Imported Text from Input Path:", path);
         }
+
         public static void exportTextFile(string fileName, bool newline, string[][] fileData)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -82,6 +85,7 @@ namespace pk3DS
                 File.WriteAllBytes(fileName, ms.ToArray());
             }
         }
+
         private bool importTextFile(string fileName)
         {
             string[] fileText = File.ReadAllLines(fileName, Encoding.Unicode);
@@ -128,6 +132,7 @@ namespace pk3DS
                 catch (Exception e) { WinFormsUtil.Error($"The input Text File (# {i}) failed to convert:", e.ToString()); return false; }
             return true;
         }
+
         private void changeEntry(object sender, EventArgs e)
         {
             // Save All the old text
@@ -216,6 +221,7 @@ namespace pk3DS
             for (int i = 0; i < dgv.Rows.Count; i++)
                 dgv.Rows[i].Cells[0].Value = i.ToString();
         }
+
         private void B_RemoveLine_Click(object sender, EventArgs e)
         {
             int currentRow = dgv.CurrentRow.Index;
@@ -231,6 +237,7 @@ namespace pk3DS
             for (int i = 0; i < dgv.Rows.Count; i++)
                 dgv.Rows[i].Cells[0].Value = i.ToString();
         }
+
         private void TextEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Save any pending edits

@@ -277,6 +277,7 @@ namespace pk3DS
             openQuick(Directory.GetFiles("encdata"));
             RandSettings.GetFormSettings(this, GB_Tweak.Controls);
         }
+
         private readonly ComboBox[] spec;
         private readonly NumericUpDown[] min;
         private readonly NumericUpDown[] max;
@@ -320,8 +321,8 @@ namespace pk3DS
                 string name = Path.GetFileNameWithoutExtension(filepaths[f]);
 
                 int LocationNum = Convert.ToInt16(name.Substring(4, name.Length - 4));
-                int indNum = LocationNum * 56 + 0x1C;
-                string LocationName = metXY_00000[zonedata[indNum] + 0x100 * (zonedata[indNum + 1] & 1)];
+                int indNum = (LocationNum * 56) + 0x1C;
+                string LocationName = metXY_00000[zonedata[indNum] + (0x100 * (zonedata[indNum + 1] & 1))];
                 LocationNames[f] = LocationNum.ToString("000") + " - " + LocationName;
             }
             CB_LocationID.DataSource = LocationNames;
@@ -341,6 +342,7 @@ namespace pk3DS
             }
             return false;
         }
+
         private void parse(byte[] ed)
         {
             // 12,12,12,12,12
@@ -354,7 +356,7 @@ namespace pk3DS
             for (int i = 0; i < max.Length; i++)
             {
                 // Fetch Data
-                Array.Copy(ed, offset + i * 4, slot, 0, 4);
+                Array.Copy(ed, offset + (i * 4), slot, 0, 4);
                 int[] data = pslot(slot);
 
                 // Load Data
@@ -374,6 +376,7 @@ namespace pk3DS
             File.WriteAllBytes(Path.Combine("encounter_xy", loc.ToString("000") + CB_LocationID.SelectedIndex.ToString("000") + ".bin"), edata);
             #endif
         }
+
         private int[] pslot(byte[] slot)
         {
             int index = BitConverter.ToUInt16(slot, 0) & 0x7FF;
@@ -387,6 +390,7 @@ namespace pk3DS
             data[3] = max;
             return data;
         }
+
         private string parseslot(byte[] slot)
         {
             int index = BitConverter.ToUInt16(slot, 0) & 0x7FF;
@@ -406,7 +410,6 @@ namespace pk3DS
             using (var s = File.OpenRead(filepaths[f]))
             using (var br = new BinaryReader(s))
             {
-
                 br.BaseStream.Seek(0x10, SeekOrigin.Begin);
                 offset = br.ReadInt32() + 0x10;
                 int length = (int)br.BaseStream.Length - offset;
@@ -423,6 +426,7 @@ namespace pk3DS
             Array.Copy(filedata, offset, encounterdata, 0, 0x178);
             parse(encounterdata);
         }
+
         private void ClearData()
         {
             for (int i = 0; i < max.Length; i++)
@@ -434,6 +438,7 @@ namespace pk3DS
                 max[i].Value = 0;
             }
         }
+
         private byte[] MakeSlotData(int species, int f, int lo, int hi)
         {
             byte[] data = new byte[4];
@@ -442,6 +447,7 @@ namespace pk3DS
             data[3] = (byte)hi;
             return data;
         }
+
         private byte[] MakeEncounterData()
         {
             byte[] ed = new byte[0x178];
@@ -449,10 +455,11 @@ namespace pk3DS
             for (int i = 0; i < max.Length; i++)
             {
                 byte[] data = MakeSlotData(spec[i].SelectedIndex, (int)form[i].Value, (int)min[i].Value, (int)max[i].Value);
-                Array.Copy(data, 0, ed, offset + i * 4, 4);
+                Array.Copy(data, 0, ed, offset + (i * 4), 4);
             }
             return ed;
         }
+
         private byte[] ConcatArrays(byte[] b1, byte[] b2)
         {
             byte[] concat = new byte[b1.Length + b2.Length];
@@ -534,7 +541,6 @@ namespace pk3DS
                     for (int l = 0; l < max.Length; l++)
                         min[l].Value = max[l].Value = max[l].Value <= 1 ? max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * max[l].Value)));
 
-
                 // If Distinct Hordes are selected, homogenize
                 int hordeslot = 0;
                 for (int slot = 0; slot < max.Length; slot++)
@@ -561,6 +567,7 @@ namespace pk3DS
             Enabled = true;
             WinFormsUtil.Alert("Randomized all Wild Encounters according to specification!", "Press the Dump Tables button to view the new Wild Encounter information!");
         }
+
         private void setRandomForm(int slot, int species)
         {
             if (CHK_MegaForm.Checked && Main.SpeciesStat[species].FormeCount > 1 && Legal.Mega_XY.Contains((ushort)species))

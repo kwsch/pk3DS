@@ -40,7 +40,6 @@ namespace pk3DS.Core.CTR
             }
         }
 
-
         internal static uint GetDecodedPixelValue(uint val, XLIMEncoding e)
         {
             byte a = byte.MaxValue, r = 0, g = 0, b = 0;
@@ -136,6 +135,7 @@ namespace pk3DS.Core.CTR
                     return raw[offset];
             }
         }
+
         public static int GetBitsPerPixel(this XLIMEncoding e)
         {
             if (_32.Contains(e))
@@ -153,10 +153,12 @@ namespace pk3DS.Core.CTR
         {
             XLIMEncoding.RGBA8,
         };
+
         private static readonly HashSet<XLIMEncoding> _24 = new HashSet<XLIMEncoding>
         {
             XLIMEncoding.RGBX8,
         };
+
         private static readonly HashSet<XLIMEncoding> _16 = new HashSet<XLIMEncoding>
         {
             XLIMEncoding.LA8,
@@ -165,6 +167,7 @@ namespace pk3DS.Core.CTR
             XLIMEncoding.RGB5A1,
             XLIMEncoding.RGBA4,
         };
+
         private static readonly HashSet<XLIMEncoding> _8 = new HashSet<XLIMEncoding>
         {
             XLIMEncoding.L8,

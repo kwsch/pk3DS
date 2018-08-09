@@ -17,6 +17,7 @@ namespace pk3DS.Core.Structures
         public byte Money;
         public ushort Prize;
         public Pokemon[] Team;
+
         public trdata6(byte[] trData, byte[] trPoke, bool ORAS)
         {
             using (BinaryReader br = new BinaryReader(new MemoryStream(trData)))
@@ -49,6 +50,7 @@ namespace pk3DS.Core.Structures
                     Team[i] = new Pokemon(TeamData[i], Item, Moves);
             }
         }
+
         public byte[] Write()
         {
             using (MemoryStream ms = new MemoryStream())
@@ -78,6 +80,7 @@ namespace pk3DS.Core.Structures
                 return ms.ToArray();
             }
         }
+
         public byte[] WriteTeam()
         {
             return Team.Aggregate(new byte[0], (i, pkm) => i.Concat(pkm.Write(Item, Moves)).ToArray());
@@ -117,6 +120,7 @@ namespace pk3DS.Core.Structures
                             Moves[i] = br.ReadUInt16();
                 }
             }
+
             public byte[] Write(bool HasItem, bool HasMoves)
             {
                 using (MemoryStream ms = new MemoryStream())

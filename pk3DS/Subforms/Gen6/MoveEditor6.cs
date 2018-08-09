@@ -17,7 +17,8 @@ namespace pk3DS
             Setup();
             RandSettings.GetFormSettings(this, groupBox1.Controls);
         }
-        private byte[][] files;
+
+        private readonly byte[][] files;
         private readonly string[] types = Main.Config.getText(TextName.Types);
         private readonly string[] moveflavor = Main.Config.getText(TextName.MoveFlavor);
         private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
@@ -45,6 +46,7 @@ namespace pk3DS
             "No DMG -> Inflict Status", "No DMG -> -Target/+User Stat", "No DMG | Heal User", "DMG | Inflict Status", "No DMG | STATUS | +Target Stat",
             "DMG | -Target Stat", "DMG | +User Stat", "DMG | Absorbs DMG", "One-Hit KO", "Affects Whole Field",
             "Affect One Side of the Field", "Forces Target to Switch", "Unique Effect",  };
+
         private void Setup()
         {
             foreach (string s in movelist) CB_Move.Items.Add(s);
@@ -61,20 +63,22 @@ namespace pk3DS
             CB_Move.Items.RemoveAt(0);
             CB_Move.SelectedIndex = 0;
         }
+
         private int entry = -1;
-        private void changeEntry(object sender, EventArgs e)
+
+        private void ChangeEntry(object sender, EventArgs e)
         {
-            setEntry();
+            SetEntry();
             entry = Array.IndexOf(movelist, CB_Move.Text);
-            getEntry();
+            GetEntry();
         }
-        private void getEntry()
+
+        private void GetEntry()
         {
             if (entry < 1) return;
             byte[] data = files[entry];
             {
-                string flavor = moveflavor[entry].Replace("\\n", Environment.NewLine);
-                RTB.Text = flavor;
+                RTB.Text = moveflavor[entry].Replace("\\n", Environment.NewLine);
 
                 CB_Type.SelectedIndex = data[0x00];
                 CB_Quality.SelectedIndex = data[0x01];
@@ -119,7 +123,8 @@ namespace pk3DS
                 //NUD_0x23.Value = data[0x23]; // 0x23
             }
         }
-        private void setEntry()
+
+        private void SetEntry()
         {
             if (entry < 1) return;
             byte[] data = files[entry];
@@ -168,9 +173,9 @@ namespace pk3DS
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void CloseForm(object sender, FormClosingEventArgs e)
         {
-            setEntry();
+            SetEntry();
             RandSettings.SetFormSettings(this, groupBox1.Controls);
         }
 
@@ -199,6 +204,7 @@ namespace pk3DS
             }
             WinFormsUtil.Alert("All Moves have been randomized!");
         }
+
         private void B_Metronome_Click(object sender, EventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Play using Metronome Mode?", "This will set the Base PP for every other Move to 0!") != DialogResult.Yes) return;

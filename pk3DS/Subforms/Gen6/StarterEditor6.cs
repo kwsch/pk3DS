@@ -43,30 +43,35 @@ namespace pk3DS
             };
             Labels = new[] { L_Set1, L_Set2, L_Set3, L_Set4 };
 
-            Width = Main.Config.ORAS ? Width : Width/2 + 2;
+            Width = Main.Config.ORAS ? Width : (Width / 2) + 2;
             loadData();
             RandSettings.GetFormSettings(this, groupBox1.Controls);
         }
+
         private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllPoke3Select.cro");
         private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
         private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
         private readonly ComboBox[][] Choices;
         private readonly PictureBox[][] Previews;
         private readonly Label[] Labels;
+
         private readonly string[] StarterSummary = Main.Config.ORAS
             ? new[] { "Gen 3 Starters", "Gen 2 Starters", "Gen 4 Starters", "Gen 5 Starters" }
             : new[] { "Gen 6 Starters", "Gen 1 Starters" };
+
         private byte[] Data;
         private byte[] FieldData;
         private readonly int Count = Main.Config.ORAS ? 4 : 2;
         private int offset;
         private static int[] BasicStarter;
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveData();
             RandSettings.SetFormSettings(this, groupBox1.Controls);
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -88,18 +93,19 @@ namespace pk3DS
                 {
                     foreach (string s in specieslist)
                         Choices[i][j].Items.Add(s);
-                    int species = BitConverter.ToUInt16(Data, offset + (i*3 + j)*0x54);
+                    int species = BitConverter.ToUInt16(Data, offset + (((i * 3) + j)*0x54));
                     Choices[i][j].SelectedIndex = species; // changing index prompts loading of sprite
 
                     Choices[i][j].Visible = Previews[i][j].Visible = true;
                 }
             }
         }
+
         private void saveData()
         {
             for (int i = 0; i < Count; i++)
                 for (int j = 0; j < 3; j++)
-                    Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, Data, offset + (i*3 + j)*0x54, 2);
+                    Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, Data, offset + (((i * 3) + j)*0x54), 2);
 
             // Set the choices back
             int fieldOffset = Main.Config.ORAS ? 0xF906C : 0xF805C;
@@ -120,7 +126,7 @@ namespace pk3DS
 
             for (int i = 0; i < Count; i++)
                 for (int j = 0; j < 3; j++)
-                    Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, FieldData, fieldOffset + entries[i*3 + j]*fieldSize, 2);
+                    Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, FieldData, fieldOffset + (entries[(i * 3) + j]*fieldSize), 2);
 
             File.WriteAllBytes(CROPath, Data); // poke3
             File.WriteAllBytes(FieldPath, FieldData); // field
@@ -168,7 +174,7 @@ namespace pk3DS
                 // Assign Species
                 for (int j = 0; j < 3; j++)
                 {
-                    int oldSpecies = BitConverter.ToUInt16(Data, offset + (i * 3 + j) * 0x54);
+                    int oldSpecies = BitConverter.ToUInt16(Data, offset + (((i * 3) + j) * 0x54));
                     if (CHK_BasicStarter.Checked)
                     {
                         int basic() => (int)(Util.rnd32() % BasicStarter.Length);

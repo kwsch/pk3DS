@@ -33,7 +33,7 @@ namespace pk3DS.Core.CTR
                     while ((c = (char) br.ReadUInt16()) > 0) s += c;
 
                     FileNameTable[i] = new NameTableEntry(offs, s);
-                    offs += (uint)s.Length * 2 + 2;
+                    offs += ((uint)s.Length * 2) + 2;
                 }
                 br.BaseStream.Position = Header.FileDataOffset;
                 this.Data = br.ReadBytes((int)(Header.FileSize - Header.FileDataOffset));
@@ -57,6 +57,7 @@ namespace pk3DS.Core.CTR
                 FileTableLength = br.ReadUInt32();
                 FileDataOffset = br.ReadUInt32();
             }
+
             public string Signature;
             public ushort Endianness;
             public ushort HeaderSize;
@@ -66,6 +67,7 @@ namespace pk3DS.Core.CTR
             public uint FileTableLength;
             public uint FileDataOffset;
         }
+
         public class FileTableEntry
         {
             public FileTableEntry(BinaryReader br = null)
@@ -77,15 +79,18 @@ namespace pk3DS.Core.CTR
                 DataOffset = br.ReadUInt32();
                 DataLength = br.ReadUInt32();
             }
+
             public uint NameOffset;
             public bool IsFolder;
             public uint DataOffset; // FOLDER: Parent Entry Index
             public uint DataLength; // FOLDER: Next Folder Index
         }
+
         public class NameTableEntry
         {
             public uint NameOffset;
             public string FileName;
+
             public NameTableEntry(uint offset, string fileName)
             {
                 NameOffset = offset;
@@ -129,6 +134,7 @@ namespace pk3DS.Core.CTR
                 return ms.ToArray();
             }
         }
+
         public static DARC getDARC(string folderName)
         {
             // Package Folder into a DARC.
@@ -168,7 +174,6 @@ namespace pk3DS.Core.CTR
                         string fileName = fi.Name;
                         NameList.Add(new NameTableEntry(nameOffset, parentName));
 
-
                         EntryList.Add(new FileTableEntry
                         {
                             DataOffset = (uint) Data.Length,
@@ -187,8 +192,8 @@ namespace pk3DS.Core.CTR
             int darcFileCount = NameList.Count;
             int NameListOffset = darcFileCount * 0xC;
             int NameListLength = (int)(nameOffset + NameListOffset);
-            int DataOffset = NameListLength % 4 == 0 ? NameListLength : NameListLength + (4 - NameListLength % 4);
-            Array.Resize(ref Data, Data.Length % 4 == 0 ? Data.Length : Data.Length + 4 - Data.Length % 4);
+            int DataOffset = NameListLength % 4 == 0 ? NameListLength : NameListLength + (4 - (NameListLength % 4));
+            Array.Resize(ref Data, Data.Length % 4 == 0 ? Data.Length : Data.Length + 4 - (Data.Length % 4));
             int FinalSize = DataOffset + Data.Length;
 
             // Create New DARC
@@ -224,6 +229,7 @@ namespace pk3DS.Core.CTR
             try { return darc2files(File.ReadAllBytes(path), folderName); }
             catch (Exception) { return false; }
         }
+
         public static bool darc2files(byte[] darc, string folderName)
         {
             // Save all contents of a DARC to a folder, assuming there's only 1 layer of folders.
@@ -266,6 +272,7 @@ namespace pk3DS.Core.CTR
             }
             catch (Exception) { return false; }
         }
+
         public static bool files2darc(string folderName, bool delete = false, string originalDARC = null, string outFile = null)
         {
             // Save all contents of a folder to a darc.
@@ -313,11 +320,13 @@ namespace pk3DS.Core.CTR
             { pos += 4; if (pos >= data.Length) return -1; }
             return pos;
         }
+
         public static bool insertFile(ref DARC orig, int index, string path)
         {
             try { return insertFile(ref orig, index, File.ReadAllBytes(path)); }
             catch (Exception) { return false; }
         }
+
         public static bool insertFile(ref DARC orig, int index, byte[] data)
         {
             if (index < 0) return false;
@@ -344,6 +353,7 @@ namespace pk3DS.Core.CTR
             }
             catch (Exception) { return false; }
         }
+
         public static DARC insertFiles(DARC orig, string folderName)
         {
             string[] fileNames = new string[orig.Entries.Length];
@@ -364,7 +374,7 @@ namespace pk3DS.Core.CTR
                 insertFile(ref orig, index, file);
             }
             // Fix Data layout
-            Array.Resize(ref orig.Data, orig.Data.Length % 4 == 0 ? orig.Data.Length : orig.Data.Length + 4 - orig.Data.Length % 4);
+            Array.Resize(ref orig.Data, orig.Data.Length % 4 == 0 ? orig.Data.Length : orig.Data.Length + 4 - (orig.Data.Length % 4));
             orig.Header.FileSize = (uint)(orig.Data.Length + orig.Header.FileDataOffset);
             return orig;
         }

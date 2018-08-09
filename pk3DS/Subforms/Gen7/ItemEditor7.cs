@@ -28,7 +28,9 @@ namespace pk3DS
             foreach (string s in itemlist) CB_Item.Items.Add(s);
             CB_Item.SelectedIndex = 1;
         }
+
         private int entry = -1;
+
         private void changeEntry(object sender, EventArgs e)
         {
             setEntry();
@@ -36,6 +38,7 @@ namespace pk3DS
             L_Index.Text = $"Index: {entry:000}";
             getEntry();
         }
+
         private void getEntry()
         {
             if (entry < 1) return;
@@ -43,11 +46,13 @@ namespace pk3DS
 
             RTB.Text = itemflavor[entry].Replace("\\n", Environment.NewLine);
         }
+
         private void setEntry()
         {
             if (entry < 1) return;
             files[entry] = ((Item)Grid.SelectedObject).Write();
         }
+
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setEntry();

@@ -35,6 +35,7 @@ namespace pk3DS
             Array.Copy(exefs, offset, chart, 0, chart.Length);
             populateChart();
         }
+
         private readonly byte[] Signature =
         {
             0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
@@ -47,12 +48,14 @@ namespace pk3DS
         {
             PB_Chart.Image = TypeChart.getGrid(TypeWidth, TypeCount, chart);
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             chart.CopyTo(exefs, offset);
             File.WriteAllBytes(codebin, exefs);
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -61,15 +64,16 @@ namespace pk3DS
         private void moveMouse(object sender, MouseEventArgs e)
         {
             TypeChart6.GetCoordinate((PictureBox)sender, e, out int X, out int Y);
-            int index = Y*TypeCount + X;
+            int index = (Y * TypeCount) + X;
             if (index >= chart.Length)
                 return;
             updateLabel(X, Y, chart[index]);
         }
+
         private void clickMouse(object sender, MouseEventArgs e)
         {
             TypeChart6.GetCoordinate((PictureBox)sender, e, out int X, out int Y);
-            int index = Y * TypeCount + X;
+            int index = (Y * TypeCount) + X;
             if (index >= chart.Length)
                 return;
 
@@ -78,12 +82,14 @@ namespace pk3DS
             updateLabel(X, Y, chart[index]);
             populateChart();
         }
+
         private void updateLabel(int X, int Y, int value)
         {
             if (value >= effects.Length || X >= types.Length || Y >= types.Length)
                 return; // clicking and moving outside the box has invalid values
             L_Hover.Text = $"[{X:00}x{Y:00}: {value:00}] {types[Y]} attacking {types[X]} {effects[value]}";
         }
+
         private readonly string[] effects =
         {
             "has no effect!",

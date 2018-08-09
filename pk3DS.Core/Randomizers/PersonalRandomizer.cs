@@ -99,6 +99,7 @@ namespace pk3DS.Core.Randomizers
 
             z.TMHM = tms;
         }
+
         private void RandomizeTypeTutors(PersonalInfo z, int index)
         {
             var t = z.TypeTutors;
@@ -111,6 +112,7 @@ namespace pk3DS.Core.Randomizers
 
             z.TypeTutors = t;
         }
+
         private void RandomizeSpecialTutors(PersonalInfo z)
         {
             var tutors = z.SpecialTutors;
@@ -119,6 +121,7 @@ namespace pk3DS.Core.Randomizers
                     tutor[i] = rnd.Next(0, 100) < LearnMoveTutorPercent;
             z.SpecialTutors = tutors;
         }
+
         private void RandomizeAbilities(PersonalInfo z)
         {
             var abils = z.Abilities;
@@ -126,6 +129,7 @@ namespace pk3DS.Core.Randomizers
                 abils[i] = GetRandomAbility();
             z.Abilities = abils;
         }
+
         private void RandomizeEggGroups(PersonalInfo z)
         {
             var egg = z.EggGroups;
@@ -133,6 +137,7 @@ namespace pk3DS.Core.Randomizers
             egg[1] = rnd.Next(0, 100) < SameEggGroupChance ? egg[0] : GetRandomEggGroup();
             z.EggGroups = egg;
         }
+
         private void RandomizeHeldItems(PersonalInfo z)
         {
             var item = z.Items;
@@ -140,6 +145,7 @@ namespace pk3DS.Core.Randomizers
                 item[j] = GetRandomHeldItem();
             z.Items = item;
         }
+
         private void RandomizeTypes(PersonalInfo z)
         {
             var t = z.Types;
@@ -147,6 +153,7 @@ namespace pk3DS.Core.Randomizers
             t[1] = rnd.Next(0, 100) < SameTypeChance ? t[0] : GetRandomType();
             z.Types = t;
         }
+
         private void RandomizeStats(PersonalInfo z)
         {
             // Fiddle with Base Stats, don't muck with Shedinja.
@@ -157,12 +164,13 @@ namespace pk3DS.Core.Randomizers
             {
                 if (!StatsToRandomize[i])
                     continue;
-                var l = Math.Min(255, (int) (stats[i] * (1 - StatDeviation / 100)));
-                var h = Math.Min(255, (int) (stats[i] * (1 + StatDeviation / 100)));
+                var l = Math.Min(255, (int) (stats[i] * (1 - (StatDeviation / 100))));
+                var h = Math.Min(255, (int) (stats[i] * (1 + (StatDeviation / 100))));
                 stats[i] = Math.Max(5, rnd.Next(l, h));
             }
             z.Stats = stats;
         }
+
         private void RandomShuffledStats(PersonalInfo z)
         {
             // Fiddle with Base Stats, don't muck with Shedinja.
@@ -178,12 +186,13 @@ namespace pk3DS.Core.Randomizers
         private int GetRandomEggGroup() => rnd.Next(1, eggGroupCount);
         private int GetRandomHeldItem() => Game.Info.HeldItems[rnd.Next(1, Game.Info.HeldItems.Length)];
         private readonly IList<int> BannedAbilities = new int[0];
+
         private int GetRandomAbility()
         {
             const int WonderGuard = 25;
             int newabil;
             do newabil = rnd.Next(1, Game.Info.MaxAbilityID + 1);
-            while (newabil == WonderGuard && !AllowWonderGuard || BannedAbilities.Contains(newabil));
+            while ((newabil == WonderGuard && !AllowWonderGuard) || BannedAbilities.Contains(newabil));
             return newabil;
         }
     }

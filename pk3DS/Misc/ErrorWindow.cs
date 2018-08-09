@@ -79,6 +79,7 @@ namespace pk3DS
                 UpdateExceptionDetailsMessage();
             }
         }
+
         private Exception _error;
 
         private void UpdateExceptionDetailsMessage()
@@ -129,6 +130,5 @@ namespace pk3DS
             DialogResult = DialogResult.Abort;
             Close();
         }
-
     }
 }

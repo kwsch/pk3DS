@@ -10,6 +10,7 @@ namespace pk3DS
     public sealed partial class Icon : Form
     {
         private SMDH SMDH;
+
         public Icon()
         {
             InitializeComponent();
@@ -30,10 +31,12 @@ namespace pk3DS
             DragEnter += tabMain_DragEnter;
             DragDrop += tabMain_DragDrop;
         }
+
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
+
         private void tabMain_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -41,6 +44,7 @@ namespace pk3DS
 
             openFile(path, true);
         }
+
         private void LoadSMDH()
         {
             PB_Large.Image = SMDH.LargeIcon.Icon;
@@ -48,6 +52,7 @@ namespace pk3DS
             CB_AppInfo.SelectedIndex = 0;
             CB_AppInfo_SelectedIndexChanged(null, null);
         }
+
         private void SaveSMDH()
         {
             Main.SMDH = SMDH;
@@ -65,6 +70,7 @@ namespace pk3DS
                 importSMDH(data, true);
             else importIcon(data, drop);
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             CB_AppInfo_SelectedIndexChanged(null, null); // Force re-save
@@ -74,6 +80,7 @@ namespace pk3DS
                 Close();
             }
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -83,14 +90,17 @@ namespace pk3DS
         {
             exportSMDH();
         }
+
         private void B_ExportSmallIcon_Click(object sender, EventArgs e)
         {
             exportIcon(false);
         }
+
         private void B_ExportLargeIcon_Click(object sender, EventArgs e)
         {
             exportIcon(true);
         }
+
         private void exportSMDH()
         {
             var sfd = new SaveFileDialog
@@ -102,6 +112,7 @@ namespace pk3DS
             CB_AppInfo_SelectedIndexChanged(null, null); // Force re-save
             File.WriteAllBytes(sfd.FileName, SMDH.Write());
         }
+
         private void exportIcon(bool large)
         {
             var sfd = new SaveFileDialog
@@ -132,6 +143,7 @@ namespace pk3DS
 
             openFile(ofd.FileName);
         }
+
         private void B_ImportSmallIcon_Click(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog
@@ -143,6 +155,7 @@ namespace pk3DS
 
             openFile(ofd.FileName);
         }
+
         private void B_ImportLargeIcon_Click(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog
@@ -154,6 +167,7 @@ namespace pk3DS
 
             openFile(ofd.FileName);
         }
+
         private void importSMDH(byte[] data, bool prompt = false)
         {
             if (prompt && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Replace SMDH?"))
@@ -166,6 +180,7 @@ namespace pk3DS
             entry = -1; // allow proper refreshing
             LoadSMDH();
         }
+
         private void importIcon(byte[] data, bool prompt = false)
         {
             try
@@ -195,6 +210,7 @@ namespace pk3DS
         }
 
         private int entry = -1;
+
         private void CB_AppInfo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (entry > -1)

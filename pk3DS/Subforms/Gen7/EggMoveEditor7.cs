@@ -61,6 +61,7 @@ namespace pk3DS
         private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private bool dumping;
         private readonly int[] baseForms, formVal;
+
         private void setupDGV()
         {
             string[] sortedmoves = (string[])movelist.Clone();
@@ -79,6 +80,7 @@ namespace pk3DS
         }
 
         private EggMoves pkm = new EggMoves7(new byte[0]);
+
         private void getList()
         {
             entry = WinFormsUtil.getIndex(CB_Species);
@@ -103,6 +105,7 @@ namespace pk3DS
 
             dgv.CancelEdit();
         }
+
         private void setList()
         {
             if (entry < 1 || dumping) return;
@@ -140,6 +143,7 @@ namespace pk3DS
             getList();
             WinFormsUtil.Alert("All Pokémon's Egg Moves have been randomized!", "Press the Dump All button to see the new Egg Moves!");
         }
+
         private void B_Dump_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Dump all Egg Moves to Text File?"))
@@ -196,7 +200,7 @@ namespace pk3DS
                 if (max < movecount) { max = movecount; spec = i; } // Max Moves (and species)
                 for (int m = 0; m < movecount; m++)
                 {
-                    int move = BitConverter.ToUInt16(movedata, m * 2 + 4);
+                    int move = BitConverter.ToUInt16(movedata, (m * 2) + 4);
                     if (Main.SpeciesStat[i].Types.Contains(MoveData[move].Type))
                         stab++;
                 }

@@ -43,6 +43,7 @@ namespace pk3DS.Core.CTR
             SFAT = new SFAT();
             SFNT = new SFNT();
         }
+
         /// <summary>
         /// Initializes a <see cref="SARC"/> from a file location.
         /// </summary>
@@ -56,6 +57,7 @@ namespace pk3DS.Core.CTR
             ReadSARC();
             Valid = true;
         }
+
         /// <summary>
         /// Initializes a <see cref="SARC"/> from a provided stream.
         /// </summary>
@@ -67,6 +69,7 @@ namespace pk3DS.Core.CTR
             ReadSARC();
             Valid = true;
         }
+
         /// <summary>
         /// Initializes a <see cref="SARC"/> from a provided array.
         /// </summary>
@@ -122,6 +125,7 @@ namespace pk3DS.Core.CTR
         /// <param name="entry">Entry to fetch data for</param>
         /// <returns>Data array</returns>
         public byte[] GetData(SFATEntry entry) => GetData(entry.FileDataStart, entry.FileDataLength);
+
         /// <summary>
         /// Overwrites the entry data, assuming the size is the exact same.
         /// </summary>
@@ -133,6 +137,7 @@ namespace pk3DS.Core.CTR
                 throw new ArgumentException(nameof(data.Length));
             SetData(entry.FileDataStart, data);
         }
+
         /// <summary>
         /// Exports the entry data for a given <see cref="SFATEntry"/> at a provided path with its assigned <see cref="SFATEntry"/> file name via the <see cref="SFNT"/> name table.
         /// </summary>
@@ -190,6 +195,7 @@ namespace pk3DS.Core.CTR
             string name = sb.ToString().Replace('/', Path.DirectorySeparatorChar);
             return name;
         }
+
         private void SetFileName(int offset, string value)
         {
             var str = value.Replace(Path.DirectorySeparatorChar, '/');
@@ -199,6 +205,7 @@ namespace pk3DS.Core.CTR
                 stream.WriteByte((byte)b);
             stream.WriteByte((byte)'\0');
         }
+
         private byte[] GetData(int offset, int length)
         {
             byte[] fileBuffer = new byte[length];
@@ -206,6 +213,7 @@ namespace pk3DS.Core.CTR
             stream.Read(fileBuffer, 0, length);
             return fileBuffer;
         }
+
         private void SetData(int offset, byte[] data)
         {
             stream.Seek(offset + DataOffset, SeekOrigin.Begin);
@@ -228,6 +236,7 @@ namespace pk3DS.Core.CTR
     public class SFAT
     {
         public const string Identifier = nameof(SFAT);
+
         /// <summary>
         /// The required <see cref="Magic"/> matches the first 4 bytes of the file data.
         /// </summary>
@@ -240,6 +249,7 @@ namespace pk3DS.Core.CTR
         public List<SFATEntry> Entries;
 
         public SFAT() { }
+
         public SFAT(BinaryReader br)
         {
             Magic = new string(br.ReadChars(4));
@@ -255,12 +265,14 @@ namespace pk3DS.Core.CTR
                 Entries.Add(new SFATEntry(br));
         }
     }
+
     /// <summary>
     /// <see cref="SARC"/> File Name Table
     /// </summary>
     public class SFNT
     {
         public const string Identifier = nameof(SFNT);
+
         /// <summary>
         /// The required <see cref="Magic"/> matches the first 4 bytes of the file data.
         /// </summary>
@@ -272,6 +284,7 @@ namespace pk3DS.Core.CTR
         public uint StringOffset;
 
         public SFNT() { }
+
         public SFNT(BinaryReader br)
         {
             Magic = new string(br.ReadChars(4));
@@ -283,6 +296,7 @@ namespace pk3DS.Core.CTR
             StringOffset = (uint)br.BaseStream.Position;
         }
     }
+
     /// <summary>
     /// <see cref="SARC"/> File Access Table (<see cref="SFAT"/>) Entry
     /// </summary>

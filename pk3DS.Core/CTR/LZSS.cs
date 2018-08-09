@@ -19,6 +19,7 @@ namespace pk3DS.Core.CTR
                 return Decompress(inStream, inStream.Length, outStream);
             }
         }
+
         /// <summary>
         /// Decompresses the given stream, writing the decompressed data to the given output stream.
         /// Assumes <code>Supports(instream)</code> returns <code>true</code>.
@@ -302,7 +303,7 @@ namespace pk3DS.Core.CTR
                 // we do need to buffer the output, as the first byte indicates which blocks are compressed.
                 // this version does not use a look-ahead, so we do not need to buffer more than 8 blocks at a time.
                 // (a block is at most 4 bytes long)
-                byte[] outbuffer = new byte[8 * 4 + 1];
+                byte[] outbuffer = new byte[(8 * 4) + 1];
                 outbuffer[0] = 0;
                 int bufferlength = 1, bufferedBlocks = 0;
                 int readBytes = 0;
@@ -417,7 +418,7 @@ namespace pk3DS.Core.CTR
                 // we do need to buffer the output, as the first byte indicates which blocks are compressed.
                 // this version does not use a look-ahead, so we do not need to buffer more than 8 blocks at a time.
                 // blocks are at most 4 bytes long.
-                byte[] outbuffer = new byte[8 * 4 + 1];
+                byte[] outbuffer = new byte[(8 * 4) + 1];
                 outbuffer[0] = 0;
                 int bufferlength = 1, bufferedBlocks = 0;
                 int readBytes = 0;
@@ -437,7 +438,6 @@ namespace pk3DS.Core.CTR
                         bufferlength = 1;
                         bufferedBlocks = 0;
                     }
-
 
                     if (lengths[readBytes] == 1)
                     {
@@ -479,7 +479,6 @@ namespace pk3DS.Core.CTR
 
                         readBytes += lengths[readBytes];
                     }
-
 
                     bufferedBlocks++;
                 }
@@ -580,6 +579,7 @@ namespace pk3DS.Core.CTR
             : base("The compression ratio is not high enough to fit the input "
             + "in a single compressed file.") { }
     }
+
     /// <summary>
     /// An exception that is thrown by the decompression functions when there
     /// is not enough data available in order to properly decompress the input.
@@ -610,6 +610,7 @@ namespace pk3DS.Core.CTR
             DesiredLength = totalOutSize;
         }
     }
+
     /// <summary>
     /// An exception thrown by the compression or decompression function, indicating that the
     /// given input length was too large for the given input stream.
@@ -624,6 +625,7 @@ namespace pk3DS.Core.CTR
                  + "before the given amout of data was read.")
         { }
     }
+
     /// <summary>
     /// An exception indication that the input has more data than required in order
     /// to decompress it. This may indicate that more sub-files are present in the file.
@@ -706,6 +708,7 @@ namespace pk3DS.Core.CTR
             return maxLength;
         }
     }
+
     public static class IOUtils
     {
         #region byte[] <-> (u)int

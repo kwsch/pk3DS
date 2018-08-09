@@ -31,7 +31,7 @@ namespace pk3DS.Core.Structures
 
         public bool ShinyLock {
             get => (Shiny & 2) != 0;
-            set => Shiny = (byte)(Shiny & ~2 | (value ? 2 : 0));
+            set => Shiny = (byte)((Shiny & ~2) | (value ? 2 : 0));
         }
 
         public EncounterGift6(byte[] data, bool oras)
@@ -72,6 +72,7 @@ namespace pk3DS.Core.Structures
                 uLast = br.ReadByte();
             }
         }
+
         public byte[] Write()
         {
             using (MemoryStream ms = new MemoryStream())

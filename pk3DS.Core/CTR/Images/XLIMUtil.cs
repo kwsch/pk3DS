@@ -12,6 +12,7 @@
         {
             return (n + m - 1) / m * m;
         }
+
         /// <summary>
         /// Next Largest Power of 2
         /// </summary>

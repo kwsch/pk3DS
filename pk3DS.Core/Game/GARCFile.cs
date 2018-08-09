@@ -28,6 +28,7 @@ namespace pk3DS.Core
             Console.WriteLine($"Wrote {Reference.Name} to {Reference.Reference}");
         }
     }
+
     public class lzGARCFile
     {
         private readonly GARC.lzGARC GARC;
@@ -64,6 +65,7 @@ namespace pk3DS.Core
             get { return GARC[file]; }
             set { GARC[file] = value; }
         }
+
         public void Save()
         {
             File.WriteAllBytes(Path, GARC.Save());

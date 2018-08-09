@@ -51,7 +51,6 @@ namespace pk3DS
             // ExportEncounters("um", "uu");
         }
 
-
         private NumericUpDown[] LoadRateNUD()
         {
             var list = new[] {NUP_Rate1, NUP_Rate2, NUP_Rate3, NUP_Rate4, NUP_Rate5, NUP_Rate6, NUP_Rate7, NUP_Rate8, NUP_Rate9, NUP_Rate10};
@@ -59,6 +58,7 @@ namespace pk3DS
                 nup.ValueChanged += UpdateEncounterRate;
             return list;
         }
+
         private ComboBox[][] LoadSpeciesComboBoxes()
         {
             var list = new[] {
@@ -73,14 +73,18 @@ namespace pk3DS
                 new[] {CB_WeatherEnc1, CB_WeatherEnc2, CB_WeatherEnc3, CB_WeatherEnc4, CB_WeatherEnc5, CB_WeatherEnc6}
             };
             foreach (var cb_l in list)
-            foreach (var cb in cb_l)
             {
-                cb.Items.AddRange(speciesList);
-                cb.SelectedIndex = 0;
-                cb.SelectedIndexChanged += UpdateSpeciesForm;
+                foreach (var cb in cb_l)
+                {
+                    cb.Items.AddRange(speciesList);
+                    cb.SelectedIndex = 0;
+                    cb.SelectedIndexChanged += UpdateSpeciesForm;
+                }
             }
+
             return list;
         }
+
         private NumericUpDown[][] LoadFormeNUD()
         {
             var list = new[] {
@@ -96,8 +100,10 @@ namespace pk3DS
             };
 
             foreach (var nup_l in list)
-            foreach (var nup in nup_l)
-                nup.ValueChanged += UpdateSpeciesForm;
+            {
+                foreach (var nup in nup_l)
+                    nup.ValueChanged += UpdateSpeciesForm;
+            }
 
             return list;
         }
@@ -136,16 +142,20 @@ namespace pk3DS
             {
                 for (int i = 0; i < Areas[CB_LocationID.SelectedIndex].Tables.Count; i += 2)
                 {
-                    CB_TableID.Items.Add($"{i / 2 + 1} (Day)");
-                    CB_TableID.Items.Add($"{i / 2 + 1} (Night)");
+                    CB_TableID.Items.Add($"{(i / 2) + 1} (Day)");
+                    CB_TableID.Items.Add($"{(i / 2) + 1} (Night)");
                 }
             }
             else
+            {
                 CB_TableID.Items.Add("(None)");
+            }
+
             CB_TableID.SelectedIndex = 0;
             loadingdata = false;
             UpdatePanel(sender, e);
         }
+
         private void UpdatePanel(object sender, EventArgs e)
         {
             if (loadingdata)
@@ -180,14 +190,16 @@ namespace pk3DS
             NUP_Max.Minimum = table.MinLevel;
             NUP_Max.Value = table.MaxLevel;
             for (int slot = 0; slot < table.Encounter7s.Length; slot++)
-            for (int i = 0; i < table.Encounter7s[slot].Length; i++)
             {
-                var sl = table.Encounter7s[slot];
-                if (slot == 8)
-                    sl = table.AdditionalSOS;
-                rate_spec[i].Value = table.Rates[i];
-                cb_spec[slot][i].SelectedIndex = (int)sl[i].Species;
-                nup_spec[slot][i].Value = (int)sl[i].Forme;
+                for (int i = 0; i < table.Encounter7s[slot].Length; i++)
+                {
+                    var sl = table.Encounter7s[slot];
+                    if (slot == 8)
+                        sl = table.AdditionalSOS;
+                    rate_spec[i].Value = table.Rates[i];
+                    cb_spec[slot][i].SelectedIndex = (int)sl[i].Species;
+                    nup_spec[slot][i].Value = (int)sl[i].Forme;
+                }
             }
         }
 
@@ -208,6 +220,7 @@ namespace pk3DS
             CurrentTable.MaxLevel = max;
             loadingdata = false;
         }
+
         private void UpdateSpeciesForm(object sender, EventArgs e)
         {
             if (loadingdata)
@@ -238,7 +251,7 @@ namespace pk3DS
                 int y = 30*(table + 1);
                 if (table == 8)
                 {
-                    x = 40*slot + 60;
+                    x = (40 * slot) + 60;
                     y = 270;
                 }
                 var pnt = new Point(x, y);
@@ -251,6 +264,7 @@ namespace pk3DS
 
             cur_pb.Image = cur_img;
         }
+
         private void UpdateEncounterRate(object sender, EventArgs e)
         {
             if (loadingdata)
@@ -265,7 +279,7 @@ namespace pk3DS
 
             using (var g = Graphics.FromImage(cur_img))
             {
-                var pnt = new PointF(40 * slot + 10, 10);
+                var pnt = new PointF((40 * slot) + 10, 10);
                 g.SetClip(new Rectangle((int) pnt.X, (int) pnt.Y, 40, 14), CombineMode.Replace);
                 g.Clear(Color.Transparent);
                 g.DrawString($"{rate}%", font, Brushes.Black, pnt);
@@ -279,6 +293,7 @@ namespace pk3DS
 
         private byte[] CopyTable;
         private int CopyCount;
+
         private void B_Copy_Click(object sender, EventArgs e)
         {
             var Map = Areas[CB_LocationID.SelectedIndex];
@@ -293,6 +308,7 @@ namespace pk3DS
             B_Paste.Enabled = B_PasteAll.Enabled = true;
             WinFormsUtil.Alert("Copied table data.");
         }
+
         private void B_Paste_Click(object sender, EventArgs e)
         {
             var Map = Areas[CB_LocationID.SelectedIndex];
@@ -310,6 +326,7 @@ namespace pk3DS
             RefreshTableImages(Map);
             System.Media.SystemSounds.Asterisk.Play();
         }
+
         private void B_PasteAll_Click(object sender, EventArgs e)
         {
             var Map = Areas[CB_LocationID.SelectedIndex];
@@ -322,6 +339,7 @@ namespace pk3DS
             foreach (var t in Map.Tables.Where(t => CopyCount == t.Encounter7s[0].Count(z => z.Species != 0)))
                 t.Reset(CopyTable);
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             var sum = TotalEncounterRate;
@@ -338,6 +356,7 @@ namespace pk3DS
             // Set data back to GARC
             encdata[area.FileNumber] = Area7.GetDayNightTableBinary(area.Tables);
         }
+
         private void B_Export_Click(object sender, EventArgs e)
         {
             B_Save_Click(sender, e);
@@ -350,6 +369,7 @@ namespace pk3DS
             }
             WinFormsUtil.Alert("Exported all tables!");
         }
+
         private void DumpTables(object sender, EventArgs e)
         {
             using (var sfd = new SaveFileDialog())
@@ -367,8 +387,7 @@ namespace pk3DS
         // Randomization & Bulk Modification
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
-                "Randomize all? Cannot undo.", "Double check Randomization settings at the bottom left."))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings at the bottom left."))
                 return;
 
             Enabled = false;
@@ -378,6 +397,7 @@ namespace pk3DS
 
             WinFormsUtil.Alert("Randomized all Wild Encounters according to specification!", "Press the Dump Tables button to view the new Wild Encounter information!");
         }
+
         private void ExecuteRandomization()
         {
             var rnd = new SpeciesRandomizer(Main.Config)
@@ -410,6 +430,7 @@ namespace pk3DS
             };
             wild7.Execute(Areas, encdata);
         }
+
         private void CopySOS_Click(object sender, EventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy initial species to SOS slots?", "Cannot undo.") != DialogResult.Yes)
@@ -426,10 +447,10 @@ namespace pk3DS
             }
             WinFormsUtil.Alert("All initial species copied to SOS slots!");
         }
+
         private void ModifyAllLevelRanges(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
-                    "Modify all current Level ranges?", "Cannot undo."))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify all current Level ranges?", "Cannot undo."))
                 return;
 
             // Disable Interface while modifying
@@ -472,13 +493,14 @@ namespace pk3DS
 
         private void ExportEncounters(string gameID, string ident)
         {
-            var reg = dumpreg();
-            var sos = dumpsos();
+            var reg = DumpRegular();
+            var sos = DumpSOS();
 
             File.WriteAllBytes($"encounter_{gameID}.pkl", Mini.PackMini(reg, ident));
             File.WriteAllBytes($"encounter_{gameID}_sos.pkl", Mini.PackMini(sos, ident));
         }
-        private byte[][] dumpreg()
+
+        private byte[][] DumpRegular()
         {
             var dict = new Dictionary<int, List<uint>>();
             foreach (var area in Areas)
@@ -499,7 +521,8 @@ namespace pk3DS
 
             return GetLocationDump(dict).ToArray();
         }
-        private byte[][] dumpsos()
+
+        private byte[][] DumpSOS()
         {
             var dict = new Dictionary<int, List<uint>>();
             foreach (var area in Areas)
@@ -524,7 +547,7 @@ namespace pk3DS
             return GetLocationDump(dict).ToArray();
         }
 
-        private IEnumerable<byte[]> GetLocationDump(Dictionary<int, List<uint>> dict)
+        private static IEnumerable<byte[]> GetLocationDump(Dictionary<int, List<uint>> dict)
         {
             foreach (var z in dict.OrderBy(z => z.Key))
             {
@@ -554,22 +577,25 @@ namespace pk3DS
             {
                 g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
                 for (int i = 0; i < table.Rates.Length; i++)
-                    g.DrawString($"{table.Rates[i]}%", font, Brushes.Black, new PointF(40 * i + 10, 10));
+                    g.DrawString($"{table.Rates[i]}%", font, Brushes.Black, new PointF((40 * i) + 10, 10));
                 g.DrawString("Weather: ", font, Brushes.Black, new PointF(10, 280));
 
                 // Draw Sprites
                 for (int i = 0; i < table.Encounter7s.Length - 1; i++)
-                for (int j = 0; j < table.Encounter7s[i].Length; j++)
                 {
-                    var slot = table.Encounter7s[i][j];
-                    var sprite = GetSprite((int)slot.Species, (int)slot.Forme);
-                    g.DrawImage(sprite, new Point(40 * j, 30 * (i + 1)));
+                    for (int j = 0; j < table.Encounter7s[i].Length; j++)
+                    {
+                        var slot = table.Encounter7s[i][j];
+                        var sprite = GetSprite((int)slot.Species, (int)slot.Forme);
+                        g.DrawImage(sprite, new Point(40 * j, 30 * (i + 1)));
+                    }
                 }
+
                 for (int i = 0; i < table.AdditionalSOS.Length; i++)
                 {
                     var slot = table.AdditionalSOS[i];
                     var sprite = GetSprite((int)slot.Species, (int)slot.Forme);
-                    g.DrawImage(sprite, new Point(40 * i + 60, 270));
+                    g.DrawImage(sprite, new Point((40 * i) + 60, 270));
                 }
             }
 

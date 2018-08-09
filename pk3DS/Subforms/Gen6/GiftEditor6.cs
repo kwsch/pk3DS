@@ -68,6 +68,7 @@ namespace pk3DS
             "Ability 2",
             "Hidden Ability",
         };
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveEntry();
@@ -75,10 +76,12 @@ namespace pk3DS
             RandSettings.SetFormSettings(this, tabPage2.Controls);
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private void loadData()
         {
             FieldData = File.ReadAllBytes(FieldPath);
@@ -86,7 +89,7 @@ namespace pk3DS
             LB_Gifts.Items.Clear();
             for (int i = 0; i < GiftData.Length; i++)
             {
-                GiftData[i] = new EncounterGift6(FieldData.Skip(fieldOffset + i * fieldSize).Take(fieldSize).ToArray(), Main.Config.ORAS);
+                GiftData[i] = new EncounterGift6(FieldData.Skip(fieldOffset + (i * fieldSize)).Take(fieldSize).ToArray(), Main.Config.ORAS);
                 LB_Gifts.Items.Add($"{i:00} - {specieslist[GiftData[i].Species]}");
             }
             foreach (var s in ability) CB_Ability.Items.Add(s);
@@ -101,6 +104,7 @@ namespace pk3DS
             loaded = true;
             LB_Gifts.SelectedIndex = 0;
         }
+
         private void saveData()
         {
             // Check to see if a starter has been modified right before we write data.
@@ -121,7 +125,7 @@ namespace pk3DS
 
             for (int i = 0; i < GiftData.Length; i++)
             {
-                int offset = fieldOffset + i*fieldSize;
+                int offset = fieldOffset + (i * fieldSize);
 
                 // Check too see if starters got modified
                 if (Array.IndexOf(entries, i) > - 1 && BitConverter.ToUInt16(FieldData, offset) != GiftData[i].Species)
@@ -140,6 +144,7 @@ namespace pk3DS
 
         private int entry = -1;
         private bool loaded;
+
         private void changeIndex(object sender, EventArgs e)
         {
             if (LB_Gifts.SelectedIndex < 0)
@@ -151,6 +156,7 @@ namespace pk3DS
             entry = LB_Gifts.SelectedIndex;
             loadEntry();
         }
+
         private void loadEntry()
         {
             bool oldloaded = loaded;
@@ -177,6 +183,7 @@ namespace pk3DS
 
             loaded |= oldloaded;
         }
+
         private void saveEntry()
         {
             GiftData[entry].Species = (ushort)CB_Species.SelectedIndex;
@@ -305,6 +312,7 @@ namespace pk3DS
             {448, new[] {673}}, // Lucario @ Lucarionite
             {460, new[] {674}}, // Abomasnow @ Abomasite
         };
+
         private static readonly Dictionary<int, int[]> MegaDictionaryAO = new Dictionary<int, int[]>
         {
             {015, new[] {770}}, // Beedrill @ Beedrillite
@@ -325,6 +333,7 @@ namespace pk3DS
             {531, new[] {757}}, // Audino @ Audinite
             {719, new[] {764}}, // Diancie @ Diancite
         };
+
         private void changeSpecies(object sender, EventArgs e)
         {
             int index = LB_Gifts.SelectedIndex;

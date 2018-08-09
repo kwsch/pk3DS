@@ -54,7 +54,6 @@ namespace pk3DS.Core.Randomizers
                     v.Argument = 30;
                     v.Method = 4; // trade -> level up
                 }
-
                 else if (Config.Generation == 7 && v.Method == 5)
                 {
                     v.Level = 30;

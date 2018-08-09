@@ -28,7 +28,6 @@ namespace pk3DS.Core.CTR
             public int Total { get; set; }
         }
 
-
         public static event EventHandler<FileCountDeterminedEventArgs> FileCountDetermined;
         public static event EventHandler<PackProgressedEventArgs> PackProgressed;
         public static event EventHandler<UnpackProgressedEventArgs> UnpackProgressed;
@@ -82,7 +81,7 @@ namespace pk3DS.Core.CTR
                     // Magic = new[] { 'O', 'T', 'A', 'F' },
                     Entries = new FATO_Entry[packOrder.Length],
                     EntryCount = (ushort) packOrder.Length,
-                    HeaderSize = 0xC + packOrder.Length*4,
+                    HeaderSize = 0xC + (packOrder.Length*4),
                     Padding = 0xFFFF
                 },
                 fatb =
@@ -133,7 +132,7 @@ namespace pk3DS.Core.CTR
 
                         // Assemble Entry
                         FileInfo fi = new FileInfo(packOrder[i]);
-                        int actualLength = (int)(fi.Length % 4 == 0 ? fi.Length : fi.Length + 4 - fi.Length % 4);
+                        int actualLength = (int)(fi.Length % 4 == 0 ? fi.Length : fi.Length + 4 - (fi.Length % 4));
                         garc.fatb.Entries[i].SubEntries[0].Start = od;
                         garc.fatb.Entries[i].SubEntries[0].End = actualLength + garc.fatb.Entries[i].SubEntries[0].Start;
                         garc.fatb.Entries[i].SubEntries[0].Length = (int)fi.Length;
@@ -169,7 +168,7 @@ namespace pk3DS.Core.CTR
 
                             // Assemble Entry
                             FileInfo fi = new FileInfo(s);
-                            int actualLength = (int)(fi.Length % 4 == 0 ? fi.Length : fi.Length + 4 - fi.Length % 4);
+                            int actualLength = (int)(fi.Length % 4 == 0 ? fi.Length : fi.Length + 4 - (fi.Length % 4));
                             garc.fatb.Entries[i].SubEntries[fileNumber].Start = od;
                             garc.fatb.Entries[i].SubEntries[fileNumber].End = actualLength + garc.fatb.Entries[i].SubEntries[fileNumber].Start;
                             garc.fatb.Entries[i].SubEntries[fileNumber].Length = (int)fi.Length;
@@ -314,6 +313,7 @@ namespace pk3DS.Core.CTR
                 return filectr;
             }
         }
+
         public static int garcUnpack(string garcPath, string outPath, bool skipDecompression)
         {
             if (!File.Exists(garcPath)) throw new FileNotFoundException("File does not exist");
@@ -338,7 +338,6 @@ namespace pk3DS.Core.CTR
                 // Pull out all the files
                 for (int o = 0; o < garc.fato.EntryCount; o++)
                 {
-
                     var Entry = garc.fatb.Entries[o];
                     // Set Entry File Name
                     string fileName = o.ToString(format);
@@ -404,6 +403,7 @@ namespace pk3DS.Core.CTR
         {
             return unpackGARC(File.OpenRead(path));
         }
+
         private static GARCFile unpackGARC(byte[] data)
         {
             GARCFile garc;
@@ -411,6 +411,7 @@ namespace pk3DS.Core.CTR
                 garc = unpackGARC(gd);
             return garc;
         }
+
         private static GARCFile unpackGARC(Stream stream)
         {
             GARCFile garc = new GARCFile();
@@ -500,7 +501,7 @@ namespace pk3DS.Core.CTR
                     // Magic = new[] { 'O', 'T', 'A', 'F' },
                     Entries = new FATO_Entry[data.Length],
                     EntryCount = (ushort) data.Length,
-                    HeaderSize = 0xC + data.Length*4,
+                    HeaderSize = 0xC + (data.Length*4),
                     Padding = 0xFFFF
                 },
                 fatb =
@@ -731,6 +732,7 @@ namespace pk3DS.Core.CTR
             }
 
             private readonly GARCEntry[] Storage;
+
             private class GARCEntry
             {
                 public bool Accessed;
@@ -739,6 +741,7 @@ namespace pk3DS.Core.CTR
                 public readonly bool WasCompressed;
 
                 public GARCEntry() { }
+
                 public GARCEntry(byte[] data)
                 {
                     Data = data;
@@ -792,6 +795,7 @@ namespace pk3DS.Core.CTR
                 Array.Copy(Data, offset, data, 0, data.Length);
                 return data;
             }
+
             public byte[] this[int file]
             {
                 get
@@ -811,6 +815,7 @@ namespace pk3DS.Core.CTR
                     Storage[file].Saved = true;
                 }
             }
+
             public byte[] Save()
             {
                 byte[][] data = new byte[FileCount][];
@@ -858,6 +863,7 @@ namespace pk3DS.Core.CTR
 
             public FATO_Entry[] Entries;
         }
+
         public struct FATO_Entry
         {
             public int Offset;
@@ -871,12 +877,14 @@ namespace pk3DS.Core.CTR
 
             public FATB_Entry[] Entries;
         }
+
         public struct FATB_Entry
         {
             public uint Vector;
             public bool IsFolder;
             public FATB_SubEntry[] SubEntries;
         }
+
         public struct FATB_SubEntry
         {
             public bool Exists;

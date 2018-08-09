@@ -30,6 +30,7 @@ namespace pk3DS.Core.CTR
             }
             catch { }
         }
+
         internal static int IndexOfBytes(byte[] array, byte[] pattern, int startIndex, int count)
         {
             int i = startIndex;
@@ -45,10 +46,12 @@ namespace pk3DS.Core.CTR
             }
             return -1;
         }
+
         internal static string getHexString(byte[] data)
         {
             return BitConverter.ToString(data).Replace("-", "");
         }
+
         internal static byte[] StringToByteArray(string hex)
         {
             return Enumerable.Range(0, hex.Length)
@@ -99,12 +102,13 @@ namespace pk3DS.Core.CTR
             for (int i = 0; i < hashData.Length; i++)
             {
                 byte[] crrEntryHash = new byte[0x20];
-                Array.Copy(CRR, i * 0x20 + hashTableOffset, crrEntryHash, 0, 0x20);
+                Array.Copy(CRR, (i * 0x20) + hashTableOffset, crrEntryHash, 0, 0x20);
                 results[i] = "Hash @ {0} is " + (crrEntryHash.SequenceEqual(hashData[i]) ? "valid." : "invalid.");
-                Array.Copy(hashData, 0, CRR, hashTableOffset + 0x20 * i, 0x20);
+                Array.Copy(hashData, 0, CRR, hashTableOffset + (0x20 * i), 0x20);
             }
             return results;
         }
+
         public static bool rehashCRR(string PATH_CRR, string PATH_CRO, bool saveCRO = true, bool saveCRR = true, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
             // Get CRO files
@@ -175,7 +179,7 @@ namespace pk3DS.Core.CTR
             }
             // Store Hashes in CRR
             for (int i = 0; i < hashData.Length; i++)
-                Array.Copy(hashData[i], 0, CRR, hashTableOffset + 0x20 * i, 0x20);
+                Array.Copy(hashData[i], 0, CRR, hashTableOffset + (0x20 * i), 0x20);
 
             updateTB(TB_Progress,
                 updatedCTR > 0
@@ -194,6 +198,7 @@ namespace pk3DS.Core.CTR
             }
             return true;
         }
+
         internal static byte[] hashCRO(ref byte[] CRO)
         {
             // Allocate new byte array to store modified CRO
@@ -215,12 +220,13 @@ namespace pk3DS.Core.CTR
             return mySHA.ComputeHash(CRO, 0, 0x80);
         }
 
-
         public CRO(byte[] data)
         {
             Data = (byte[])data.Clone();
         }
+
         private readonly byte[] Data;
+
         private byte[] sha2Hash
         {
             get
@@ -236,6 +242,7 @@ namespace pk3DS.Core.CTR
                 Array.Copy(value, Data, value.Length);
             }
         }
+
         private string Magic => new string(Data.Skip(0x80).Take(4).Select(c => (char)c).ToArray());
     }
 }

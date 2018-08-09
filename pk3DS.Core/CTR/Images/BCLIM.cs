@@ -8,11 +8,13 @@ namespace pk3DS.Core.CTR
     public class BCLIM : BXLIM
     {
         public BCLIM(Stream data) => ReadBCLIM(data);
+
         public BCLIM(byte[] data)
         {
             using (var ms = new MemoryStream(data))
                 ReadBCLIM(ms);
         }
+
         public BCLIM(string path)
         {
             var data = File.ReadAllBytes(path);
@@ -111,6 +113,7 @@ namespace pk3DS.Core.CTR
             }
             return ms.ToArray();
         }
+
         public static byte[] getBCLIM(string path, char fc)
         {
             byte[] byteArray = File.ReadAllBytes(path);
@@ -120,6 +123,7 @@ namespace pk3DS.Core.CTR
                 return IMGToBCLIM(img, fc);
             }
         }
+
         public static Image makeBCLIM(string path, char fc)
         {
             byte[] bclim = getBCLIM(path, fc);
@@ -131,6 +135,7 @@ namespace pk3DS.Core.CTR
 
             return makeBMP(newPath);
         }
+
         public static Image makeBMP(string path, bool autosave = false, bool crop = true)
         {
             BCLIM bclim = analyze(path);
@@ -238,6 +243,7 @@ namespace pk3DS.Core.CTR
             }
             return 7;
         }
+
         public static void writeGeneric(int format, Bitmap img, ref MemoryStream ms, bool rectangle = true)
         {
             BinaryWriter bz = new BinaryWriter(ms);
@@ -258,11 +264,12 @@ namespace pk3DS.Core.CTR
             for (uint i = 0; i < pixels.Length / 4; i++)
             {
                 var c = orienter.Get(i);
-                var offset = c.X * 4 + c.Y * width;
+                var offset = (c.X * 4) + (c.Y * width);
                 Array.Copy(input, offset, pixels, i * 4, 4);
             }
             return pixels;
         }
+
         public static byte[] getPixelData(Bitmap img, int format, bool rectangle = true)
         {
             int w = img.Width;
@@ -347,6 +354,7 @@ namespace pk3DS.Core.CTR
                 return mz.ToArray();
             }
         }
+
         public static int getColorCount(Bitmap img)
         {
             Color[] colors = new Color[img.Width * img.Height];
@@ -372,24 +380,29 @@ namespace pk3DS.Core.CTR
             byte green = c.G;
             byte blue = c.B;
             // Luma (Y’) = 0.299 R’ + 0.587 G’ + 0.114 B’ from wikipedia
-            return (byte)(((0x4CB2 * red + 0x9691 * green + 0x1D3E * blue) >> 16) & 0xFF);
+            return (byte)((((0x4CB2 * red) + (0x9691 * green) + (0x1D3E * blue)) >> 16) & 0xFF);
         }        // L8
+
         internal static byte GetA8(Color c)
         {
             return c.A;
         }        // A8
+
         internal static byte GetLA4(Color c)
         {
-            return (byte)(c.A / 0x11 + c.R / 0x11 << 4);
+            return (byte)((c.A / 0x11) + (c.R / 0x11) << 4);
         }       // LA4
+
         internal static ushort GetLA8(Color c)
         {
             return (ushort)(c.A + (c.R << 8));
         }     // LA8
+
         internal static ushort GetHILO8(Color c)
         {
             return (ushort)(c.G + (c.R << 8));
         }   // HILO8
+
         internal static ushort GetRGB565(Color c)
         {
             int val = 0;
@@ -411,6 +424,7 @@ namespace pk3DS.Core.CTR
 
             return v;
         }// RGBA5551
+
         internal static ushort GetRGBA4444(Color c)
         {
             int val = 0;
@@ -420,6 +434,7 @@ namespace pk3DS.Core.CTR
             val += (c.R / 0x11) << 12;
             return (ushort)val;
         }// RGBA4444
+
         internal static uint GetRGBA8888(Color c)     // RGBA8888
         {
             uint val = 0;
@@ -433,7 +448,6 @@ namespace pk3DS.Core.CTR
         // Unit Conversion
         internal static byte convert8to5(int colorval)
         {
-
             byte[] Convert8to5 = { 0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
                 0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
                 0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
@@ -453,6 +467,7 @@ namespace pk3DS.Core.CTR
             };
             return bclim;
         }
+
         public static BCLIM analyze(string path)
         {
             byte[] data = File.ReadAllBytes(path);

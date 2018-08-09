@@ -43,7 +43,7 @@ namespace pk3DS.Core.CTR.Images
                     continue;
 
                 var val = pixels[i];
-                uint o = 4 * (coord.X + coord.Y * Footer.Width);
+                uint o = 4 * (coord.X + (coord.Y * Footer.Width));
                 array[o + 0] = (byte)(val & 0xFF);
                 array[o + 1] = (byte)(val >> 8 & 0xFF);
                 array[o + 2] = (byte)(val >> 16 & 0xFF);
@@ -56,6 +56,7 @@ namespace pk3DS.Core.CTR.Images
         {
             return PixelConverter.GetPixels(PixelData, Footer.Format).ToArray();
         }
+
         public byte[] GetPixelsRaw()
         {
             var pix = GetPixels();

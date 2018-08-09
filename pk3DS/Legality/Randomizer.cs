@@ -76,11 +76,13 @@ namespace pk3DS
             671, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683,
             684, 685, 686, 687, 688, 699, 704, 708, 709, 710, 711, 715,
         };
+
         private static readonly int[] Items_HeldAO = Items_HeldXY.Concat(new[]
         {
             534, 535,
             752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763, 764, 767, 768, 769, 770,
         }).ToArray();
+
         private static readonly int[] Items_Ball =
         {
             000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012,
@@ -108,14 +110,17 @@ namespace pk3DS
             761, 762, 763, 764, 767, 768, 769, 770, 795, 796, 844, 849, 853, 854, 855, 856, 879, 880, 881, 882,
             883, 884, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920,
         };
+
         internal static readonly ushort[] Pouch_Ball_SM = { // 08
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 492, 493, 494, 495, 496, 497, 498, 576,
             851
         };
+
         internal static readonly ushort[] Pouch_Battle_SM = { // 16
             55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 577,
             846,
         };
+
         internal static readonly ushort[] Pouch_Items_SM = Pouch_Regular_SM.Concat(Pouch_Ball_SM).Concat(Pouch_Battle_SM).ToArray();
 
         internal static readonly ushort[] Pouch_Key_SM = {
@@ -123,6 +128,7 @@ namespace pk3DS
             705, 706, 765, 773, 797,
             841, 842, 843, 845, 847, 850, 857, 858, 860,
         };
+
         internal static readonly ushort[] Pouch_TMHM_SM = { // 02
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345,
             346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363,
@@ -131,21 +137,26 @@ namespace pk3DS
             400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
             418, 419, 618, 619, 620, 690, 691, 692, 693, 694,
         };
+
         internal static readonly ushort[] Pouch_Medicine_SM = { // 32
             17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 65, 66, 67, 134,
             504, 565, 566, 567, 568, 569, 570, 591, 708, 709,
             852,
         };
+
         internal static readonly ushort[] Pouch_Berries_SM = {
             149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212,
             686, 687, 688,
         };
+
         internal static readonly ushort[] Pouch_ZCrystal_SM = { // Bead
             807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835,
         };
+
         internal static readonly ushort[] Pouch_ZCrystalHeld_SM = { // Piece
             776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
         };
+
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
         internal static readonly ushort[] HeldItemsBuy_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Medicine_SM).ToArray();
         #endregion

@@ -13,6 +13,7 @@ namespace pk3DS
         private readonly lzGARCFile EncounterData;
         private readonly lzGARCFile WorldData;
         private readonly lzGARCFile ZoneData;
+
         public OWSE7(lzGARCFile ed, lzGARCFile zd, lzGARCFile wd)
         {
             EncounterData = ed;
@@ -31,7 +32,7 @@ namespace pk3DS
         }
 
         private readonly byte[] zoneData;
-        private byte[] worldData;
+        private readonly byte[] worldData;
         private readonly string[] locationList;
 
         private void loadData()
@@ -48,10 +49,11 @@ namespace pk3DS
         {
             setEntry();
             entry = CB_LocationID.SelectedIndex;
-            getEntry();
+            GetEntry();
         }
 
         private int entry = -1;
+
         private void setEntry()
         {
             if (entry < 0)
@@ -62,7 +64,8 @@ namespace pk3DS
 
         private bool loading = false;
         private World Map;
-        private void getEntry()
+
+        private void GetEntry()
         {
             Console.WriteLine($"Loading {CB_LocationID.Text}");
             int index = entry*11;
@@ -102,8 +105,8 @@ namespace pk3DS
 
         private class World
         {
-            private byte[][] _7;
-            private byte[][] _8;
+            private readonly byte[][] _7;
+            private readonly byte[][] _8;
 
             private bool HasZS => _7 != null;
             private bool HasZI => _8 != null;
@@ -144,6 +147,7 @@ namespace pk3DS
             };
             L_7_Info.Text = string.Join(Environment.NewLine, lines);
         }
+
         private void NUD_8_Count_ValueChanged(object sender, EventArgs e)
         {
             if (loading)

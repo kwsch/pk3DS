@@ -48,8 +48,10 @@ namespace pk3DS.Core.Randomizers
             int[] levels = GetRandomLevels(set, moves.Length);
 
             if (Learn4Level1)
+            {
                 for (int i = 0; i < Math.Min(4, levels.Length); ++i)
                     levels[i] = 1;
+            }
 
             set.Moves = moves;
             set.Levels = levels;

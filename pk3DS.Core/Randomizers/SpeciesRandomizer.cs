@@ -73,6 +73,7 @@ namespace pk3DS.Core.Randomizers
                 loopctr++;
             return newSpecies;
         }
+
         private bool GetIsTypeMatch(int newSpecies, int type) => type == -1 || SpeciesStat[newSpecies].Types.Any(z => z == type) || loopctr > 9000;
 
         public int GetRandomSpecies(int oldSpecies)
@@ -100,6 +101,7 @@ namespace pk3DS.Core.Randomizers
         {
             return newSpecies == currentSpecies && loopctr < MaxSpeciesID * 10;
         }
+
         private bool IsSpeciesEXPRateBad(PersonalInfo oldpkm, PersonalInfo pkm)
         {
             if (!rEXP)
@@ -107,6 +109,7 @@ namespace pk3DS.Core.Randomizers
             // Experience Growth Rate matches
             return oldpkm.EXPGrowth != pkm.EXPGrowth;
         }
+
         private bool IsSpeciesTypeBad(PersonalInfo oldpkm, PersonalInfo pkm)
         {
             if (!rType)
@@ -114,6 +117,7 @@ namespace pk3DS.Core.Randomizers
             // Type has to be somewhat similar
             return !oldpkm.Types.Any(z => pkm.Types.Contains(z));
         }
+
         private bool IsSpeciesBSTBad(PersonalInfo oldpkm, PersonalInfo pkm)
         {
             if (!rBST)
@@ -138,6 +142,7 @@ namespace pk3DS.Core.Randomizers
 
             return list.Count == 0 ? RandomSpeciesList : list.ToArray();
         }
+
         private void AddGen1Species(List<int> list)
         {
             list.AddRange(Enumerable.Range(1, 143)); // Bulbasaur - Snorlax
@@ -150,6 +155,7 @@ namespace pk3DS.Core.Randomizers
             }
             if (E) list.Add(151); // Mew
         }
+
         private void AddGen2Species(List<int> list)
         {
             list.AddRange(Enumerable.Range(152, 91)); // Chikorita - Blissey
@@ -162,6 +168,7 @@ namespace pk3DS.Core.Randomizers
             }
             if (E) list.Add(251); // Celebi
         }
+
         private void AddGen3Species(List<int> list)
         {
             list.AddRange(Enumerable.Range(252, 40)); // Treecko - Ninjask
@@ -170,24 +177,28 @@ namespace pk3DS.Core.Randomizers
             if (L) list.AddRange(Enumerable.Range(377, 8)); // Regi, Lati, Mascot
             if (E) list.AddRange(Enumerable.Range(385, 2)); // Jirachi/Deoxys
         }
+
         private void AddGen4Species(List<int> list)
         {
             list.AddRange(Enumerable.Range(387, 93)); // Turtwig - Rotom
             if (L) list.AddRange(Enumerable.Range(480, 9)); // Sinnoh Legends
             if (E) list.AddRange(Enumerable.Range(489, 5)); // Phione, Manaphy, Darkrai, Shaymin, Arceus
         }
+
         private void AddGen5Species(List<int> list)
         {
             list.AddRange(Enumerable.Range(495, 143)); // Snivy - Volcarona
             if (L) list.AddRange(Enumerable.Range(638, 9)); // Unova Legends
             if (E) list.Add(494); list.AddRange(Enumerable.Range(647, 3)); // Victini, Keldeo, Meloetta, Genesect
         }
+
         private void AddGen6Species(List<int> list)
         {
             list.AddRange(Enumerable.Range(650, 66)); // Chespin - Noivern
             if (L) list.AddRange(Enumerable.Range(716, 3)); // Kalos Legends
             if (E) list.AddRange(Enumerable.Range(719, 3)); // Diancie, Hoopa, Volcanion
         }
+
         private void AddGen7Species(List<int> list)
         {
             list.AddRange(Enumerable.Range(722, 50)); // Rowlet - Pyukumuku
@@ -208,6 +219,7 @@ namespace pk3DS.Core.Randomizers
         }
 
         public int[] RandomSpeciesList => Enumerable.Range(1, MaxSpeciesID).ToArray();
+
         private bool GetNewSpecies(int currentSpecies, PersonalInfo oldpkm, out int newSpecies)
         {
             newSpecies = RandSpec.Next();

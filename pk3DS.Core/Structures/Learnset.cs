@@ -34,6 +34,7 @@ namespace pk3DS.Core.Structures
             Array.Copy(Moves, start, result, 0, result.Length);
             return result;
         }
+
         /// <summary>Returns the moves a Pokémon would have if it were encountered at the specified level.</summary>
         /// <remarks>In Generation 1, it is not possible to learn any moves lower than these encounter moves.</remarks>
         /// <param name="level">The level the Pokémon was encountered at.</param>
@@ -56,6 +57,7 @@ namespace pk3DS.Core.Structures
             }
             return (int[])moves;
         }
+
         /// <summary>Returns the index of the lowest level move if the Pokémon were encountered at the specified level.</summary>
         /// <remarks>Helps determine the minimum level an encounter can be at.</remarks>
         /// <param name="level">The level the Pokémon was encountered at.</param>
@@ -78,13 +80,14 @@ namespace pk3DS.Core.Structures
             return index < 0 ? index : Levels[index];
         }
     }
+
     public class Learnset6 : Learnset
     {
         public Learnset6(byte[] data)
         {
             if (data.Length < 4 || data.Length % 4 != 0)
             { Count = 0; Levels = new int[0]; Moves = new int[0]; return; }
-            Count = data.Length / 4 - 1;
+            Count = (data.Length / 4) - 1;
             Moves = new int[Count];
             Levels = new int[Count];
             using (var ms = new MemoryStream(data))
@@ -95,6 +98,7 @@ namespace pk3DS.Core.Structures
                 Levels[i] = br.ReadInt16();
             }
         }
+
         public override byte[] Write()
         {
             Count = (ushort)Moves.Length;
@@ -110,6 +114,7 @@ namespace pk3DS.Core.Structures
                 return ms.ToArray();
             }
         }
+
         public static Learnset[] GetArray(byte[][] entries)
         {
             Learnset[] data = new Learnset[entries.Length];

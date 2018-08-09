@@ -46,6 +46,7 @@ namespace pk3DS
         private int entry = -1;
         private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private bool dumping;
+
         private void setupDGV()
         {
             string[] sortedmoves = (string[])movelist.Clone();
@@ -72,6 +73,7 @@ namespace pk3DS
         }
 
         private Learnset6 pkm;
+
         private void getList()
         {
             entry = WinFormsUtil.getIndex(CB_Species);
@@ -96,6 +98,7 @@ namespace pk3DS
 
             dgv.CancelEdit();
         }
+
         private void setList()
         {
             if (entry < 1 || dumping) return;
@@ -157,6 +160,7 @@ namespace pk3DS
             getList();
             WinFormsUtil.Alert("All Pokémon's Level Up Moves have been randomized!", "Press the Dump button to see the new Level Up Moves!");
         }
+
         private void B_Metronome_Click(object sender, EventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Play using Metronome Mode?", "This will modify learnsets to only have Metronome.") != DialogResult.Yes) return;
@@ -173,6 +177,7 @@ namespace pk3DS
             CB_Species.SelectedIndex = 0;
             WinFormsUtil.Alert("All Pokémon now only know the move Metronome!");
         }
+
         private void B_Dump_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Dump all Level Up Moves to Text File?"))

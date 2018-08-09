@@ -7,25 +7,30 @@ namespace pk3DS.Core.Structures
     {
         public const int SIZE = 0x38;
         public readonly byte[] Data;
+
         public EncounterStatic7(byte[] data)
         {
             Data = data;
         }
+
         public override int Species
         {
             get => BitConverter.ToUInt16(Data, 0x0);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0);
         }
+
         public int Form
         {
             get => Data[0x2];
             set => Data[0x2] = (byte)value;
         }
+
         public int Level
         {
             get => Data[0x3];
             set => Data[0x3] = (byte)value;
         }
+
         public override int HeldItem
         {
             get
@@ -44,34 +49,39 @@ namespace pk3DS.Core.Structures
         public bool Shiny
         {
             get => (Data[0x6] & 1) >> 1 == 1;
-            set => Data[0x6] = (byte)(Data[0x6] & ~1 | (value ? 1 : 0));
+            set => Data[0x6] = (byte)((Data[0x6] & ~1) | (value ? 1 : 0));
         }
+
         public bool ShinyLock
         {
             get => (Data[0x6] & 2) >> 1 == 1;
-            set => Data[0x6] = (byte)(Data[0x6] & ~2 | (value ? 2 : 0));
+            set => Data[0x6] = (byte)((Data[0x6] & ~2) | (value ? 2 : 0));
         }
+
         public int Gender
         {
             get => (Data[0x6] & 0xC) >> 2;
-            set => Data[0x6] = (byte)(Data[0x6] & ~0xC | ((value & 3) << 2));
+            set => Data[0x6] = (byte)((Data[0x6] & ~0xC) | ((value & 3) << 2));
         }
+
         public int Ability
         {
             get => (Data[0x6] & 0x70) >> 4;
-            set => Data[0x6] = (byte)(Data[0x6] & ~0x70 | ((value & 7) << 4));
+            set => Data[0x6] = (byte)((Data[0x6] & ~0x70) | ((value & 7) << 4));
         }
 
         public bool _7
         {
             get => (Data[0x7] & 1) >> 0 == 1;
-            set => Data[0x7] = (byte)(Data[0x7] & ~1 | (value ? 1 : 0));
+            set => Data[0x7] = (byte)((Data[0x7] & ~1) | (value ? 1 : 0));
         }
+
         public bool _7_1
         {
             get => (Data[0x7] & 2) >> 1 == 1;
-            set => Data[0x7] = (byte)(Data[0x7] & ~2 | (value ? 2 : 0));
+            set => Data[0x7] = (byte)((Data[0x7] & ~2) | (value ? 2 : 0));
         }
+
         public int Map
         {
             get => BitConverter.ToInt16(Data, 0x8) - 1;
@@ -92,9 +102,10 @@ namespace pk3DS.Core.Structures
                 if (value.Length != 4)
                     return;
                 for (int i = 0; i < 4; i++)
-                    BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, 0xC + i * 2);
+                    BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, 0xC + (i * 2));
             }
         }
+
         public int Nature
         {
             get => Data[0x14];
@@ -112,6 +123,7 @@ namespace pk3DS.Core.Structures
                     Data[i + 0x15] = (byte)Convert.ToSByte(value[i]);
             }
         }
+
         public int[] EVs
         {
             get => new int[] { Data[0x1B], Data[0x1C], Data[0x1D], Data[0x1E], Data[0x1F], Data[0x20] };
@@ -123,6 +135,7 @@ namespace pk3DS.Core.Structures
                     Data[i + 0x1B] = (byte)value[i];
             }
         }
+
         public int Aura
         {
             get => Data[0x25];

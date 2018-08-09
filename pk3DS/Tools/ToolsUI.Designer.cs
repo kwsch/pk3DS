@@ -54,8 +54,8 @@
             this.PB_Unpack.Name = "PB_Unpack";
             this.PB_Unpack.Size = new System.Drawing.Size(300, 67);
             this.PB_Unpack.TabIndex = 0;
-            this.PB_Unpack.MouseLeave += new System.EventHandler(this.dropLeave);
-            this.PB_Unpack.MouseHover += new System.EventHandler(this.dropHover);
+            this.PB_Unpack.MouseLeave += new System.EventHandler(this.DropLeave);
+            this.PB_Unpack.MouseHover += new System.EventHandler(this.DropHover);
             // 
             // L_DARCMini
             // 
@@ -205,7 +205,7 @@
             this.Name = "ToolsUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Tools";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.closeForm);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CloseForm);
             ((System.ComponentModel.ISupportInitialize)(this.PB_BCLIM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Padding)).EndInit();
             this.ResumeLayout(false);

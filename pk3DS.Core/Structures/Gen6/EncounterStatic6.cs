@@ -18,11 +18,13 @@ namespace pk3DS.Core.Structures
             get => Data[0x2];
             set => Data[0x2] = value;
         }
+
         public byte Level
         {
             get => Data[0x3];
             set => Data[0x3] = value;
         }
+
         public int HeldItem
         {
             get
@@ -41,33 +43,37 @@ namespace pk3DS.Core.Structures
         public bool Shiny
         {
             get => (Data[0x6] & 1) >> 1 == 1;
-            set => Data[0x6] = (byte)(Data[0x6] & ~1 | (value ? 1 : 0));
+            set => Data[0x6] = (byte)((Data[0x6] & ~1) | (value ? 1 : 0));
         }
+
         public bool ShinyLock
         {
             get => (Data[0x6] & 2) >> 1 == 1;
-            set => Data[0x6] = (byte)(Data[0x6] & ~2 | (value ? 2 : 0));
+            set => Data[0x6] = (byte)((Data[0x6] & ~2) | (value ? 2 : 0));
         }
+
         public int Gender
         {
             get => (Data[0x6] & 0xC) >> 2;
-            set => Data[0x6] = (byte)(Data[0x6] & ~0xC | ((value & 3) << 2));
+            set => Data[0x6] = (byte)((Data[0x6] & ~0xC) | ((value & 3) << 2));
         }
 
         public int Ability
         {
             get => (Data[0x6] & 0x70) >> 4;
-            set => Data[0x6] = (byte)(Data[0x6] & ~0x70 | ((value & 7) << 4));
+            set => Data[0x6] = (byte)((Data[0x6] & ~0x70) | ((value & 7) << 4));
         }
+
         public bool IV3
         {
             get => (Data[0x7] & 1) >> 0 == 1;
-            set => Data[0x7] = (byte)(Data[0x7] & ~1 | (value ? 1 : 0));
+            set => Data[0x7] = (byte)((Data[0x7] & ~1) | (value ? 1 : 0));
         }
+
         public bool IV3_1
         {
             get => (Data[0x7] & 2) >> 1 == 1;
-            set => Data[0x7] = (byte)(Data[0x7] & ~2 | (value ? 2 : 0));
+            set => Data[0x7] = (byte)((Data[0x7] & ~2) | (value ? 2 : 0));
         }
 
         public EncounterStatic6(byte[] data) => Data = (byte[])data.Clone();

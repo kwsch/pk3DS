@@ -47,6 +47,7 @@ namespace pk3DS.Core
 
             File.WriteAllText(Path.Combine(gameBackup, "bakinfo.txt"), "Backup created from the following location:" + Environment.NewLine + gamePath.FullName);
         }
+
         private static void backupExeFS(GameConfig config, bool overwrite, string bak_exefs)
         {
             var files = Directory.GetFiles(config.ExeFS);
@@ -57,12 +58,13 @@ namespace pk3DS.Core
                     File.Copy(f, dest);
             }
         }
+
         private static void backupGARC(GameConfig config, bool overwrite, string bak_a)
         {
             var files = config.Files.Select(file => file.Name);
             foreach (var f in files)
             {
-                string GARC = config.getGARCFileName(f);
+                string GARC = config.GetGARCFileName(f);
                 string name = f + $" ({GARC.Replace(Path.DirectorySeparatorChar.ToString(), "")})";
                 string src = Path.Combine(config.RomFS, GARC);
                 string dest = Path.Combine(bak_a, name);
@@ -70,6 +72,7 @@ namespace pk3DS.Core
                     File.Copy(src, dest);
             }
         }
+
         private static void backupDLL(GameConfig config, bool overwrite, string bak_dll)
         {
             string path = config.RomFS;
@@ -138,6 +141,7 @@ namespace pk3DS.Core
             var result = string.Join(Environment.NewLine, info);
             return new[] {result};
         }
+
         private static int restoreExeFS(GameConfig config, string bak_exefs)
         {
             int count = 0;
@@ -155,13 +159,14 @@ namespace pk3DS.Core
             }
             return count;
         }
+
         private static int restoreGARC(GameConfig config, string bak_a)
         {
             int count = 0;
             var files = config.Files.Select(file => file.Name);
             foreach (var f in files)
             {
-                string GARC = config.getGARCFileName(f);
+                string GARC = config.GetGARCFileName(f);
                 string name = f + $" ({GARC.Replace(Path.DirectorySeparatorChar.ToString(), "")})";
                 string src = Path.Combine(config.RomFS, GARC);
                 string dest = Path.Combine(bak_a, name);
@@ -175,6 +180,7 @@ namespace pk3DS.Core
             }
             return count;
         }
+
         private static int restoreDLL(GameConfig config, string bak_dll)
         {
             int count = 0;

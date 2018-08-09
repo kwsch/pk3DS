@@ -15,6 +15,7 @@ namespace pk3DS.ARCUtil
             try { return new SARC(path); }
             catch { return new SARC(); }
         }
+
         internal static ShuffleARC AnalyzeShuffle(string path)
         {
             ShuffleARC sharc = new ShuffleARC
@@ -60,6 +61,7 @@ namespace pk3DS.ARCUtil
             }
             return sharc;
         }
+
         internal static GAR analyzeGAR(string path)
         {
             GAR gar = new GAR
@@ -129,6 +131,7 @@ namespace pk3DS.ARCUtil
             }
             return gar;
         }
+
         internal static DARC analyze(string path)
         {
             DARC darc = new DARC
@@ -204,6 +207,7 @@ namespace pk3DS.ARCUtil
             return darc;
             }
         }
+
         internal static FARC analyzeFARC(string path)
         {
             FARC farc = new FARC
@@ -283,6 +287,7 @@ namespace pk3DS.ARCUtil
             farc.Extension = Path.GetExtension(path);
             return farc;
         }
+
         internal static string Interpret(string path)
         {
             string fn = Path.GetFileName(path);
@@ -500,8 +505,8 @@ namespace pk3DS.ARCUtil
                 byte[] donorBytes = File.ReadAllBytes(donor);
                 if (data.SequenceEqual(donorBytes.Take(data.Length)))
                 {
-                    int headerLen = data.Length + BitConverter.ToInt32(donorBytes, data.Length)*0x20;
-                    headerLen += 0x80 - headerLen%0x80;
+                    int headerLen = data.Length + (BitConverter.ToInt32(donorBytes, data.Length)*0x20);
+                    headerLen += 0x80 - (headerLen % 0x80);
                     data = donorBytes.Take(headerLen).ToArray();
                 }
                 else
@@ -530,6 +535,7 @@ namespace pk3DS.ARCUtil
             File.WriteAllBytes(path, data);
             return "Corrected Majora Checksum to " + val.ToString("X4");
         }
+
         internal static string ParseShuffleText(string path)
         {
             ShuffleText st = new ShuffleText
@@ -592,11 +598,13 @@ namespace pk3DS.ARCUtil
         public string Extension;
         public Boolean valid;
     }
+
     public struct FARCFileTable
     {
         public List<FARCFile> Files;
         public List<string> FileNames;
     }
+
     public struct FARCFile
     {
         public uint NameOffset;
@@ -622,11 +630,13 @@ namespace pk3DS.ARCUtil
         public bool add100;
         public bool valid;
     }
+
     public class ShuffleFile
     {
         public uint Offset;
         public uint Length;
     }
+
     public class ShuffleText
     {
         public uint StringMetaOffset;
@@ -661,6 +671,7 @@ namespace pk3DS.ARCUtil
         public string Extension;
         public bool valid;
     }
+
     public class GARFile
     {
         public string NameWithExtension;
@@ -691,11 +702,13 @@ namespace pk3DS.ARCUtil
         public string Extension;
         public Boolean valid;
     }
+
     public struct FileTable
     {
         public List<DarcFile> Files;
         public List<string> FileNames;
     }
+
     public struct DarcFile
     {
         public ushort NameOffset; //

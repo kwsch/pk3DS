@@ -19,6 +19,7 @@ namespace pk3DS.Core
             FileNumber = file;
             LanguageVariant = lv;
         }
+
         public GARCReference getRelativeGARC(int offset, string name = "")
         {
             return new GARCReference(FileNumber + offset, name);
@@ -51,6 +52,7 @@ namespace pk3DS.Core
             new GARCReference(072, "gametext", true),
             new GARCReference(080, "storytext", true),
         };
+
         public static readonly GARCReference[] GARCReference_AO =
         {
             new GARCReference(013, "encdata"),
@@ -77,6 +79,7 @@ namespace pk3DS.Core
             new GARCReference(071, "gametext", true),
             new GARCReference(079, "storytext", true),
         };
+
         public static readonly GARCReference[] GARCReference_SMDEMO =
         {
             new GARCReference(011, "move"),
@@ -98,6 +101,7 @@ namespace pk3DS.Core
             new GARCReference(030, "gametext", true),
             new GARCReference(040, "storytext", true),
         };
+
         private static readonly GARCReference[] GARCReference_SM =
         {
             new GARCReference(011, "move"),
@@ -128,6 +132,7 @@ namespace pk3DS.Core
             new GARCReference(030, "gametext", true),
             new GARCReference(040, "storytext", true),
         };
+
         private static readonly GARCReference[] GARCReference_USUM =
         {
             new GARCReference(011, "move"),
@@ -163,14 +168,17 @@ namespace pk3DS.Core
             new[] {
               new GARCReference(082, "encdata"),
             }).ToArray();
+
         public static readonly GARCReference[] GARCReference_MN = GARCReference_SM.Concat(
             new[] {
               new GARCReference(083, "encdata"),
             }).ToArray();
+
         public static readonly GARCReference[] GARCReference_US = GARCReference_USUM.Concat(
             new[] {
                 new GARCReference(082, "encdata"),
             }).ToArray();
+
         public static readonly GARCReference[] GARCReference_UM = GARCReference_USUM.Concat(
             new[] {
                 new GARCReference(083, "encdata"),

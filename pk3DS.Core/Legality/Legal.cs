@@ -12,6 +12,7 @@ namespace pk3DS.Core
             257, 282, 303, 306, 308, 310, 354, 359, 380, 381,
             445, 448, 460
         };
+
         public static readonly ushort[] Mega_ORAS = Mega_XY.Concat(new ushort[]
         {
             015, 018, 094,
@@ -21,6 +22,7 @@ namespace pk3DS.Core
             531,
             719
         }).ToArray();
+
         public static readonly int[] SpecialClasses_XY =
         {
             #region Classes
@@ -77,6 +79,7 @@ namespace pk3DS.Core
             177, // Leader
             #endregion
         };
+
         public static readonly int[] SpecialClasses_ORAS =
         {
             #region Classes
@@ -127,6 +130,7 @@ namespace pk3DS.Core
             279, // Pokémon Trainer
             #endregion
         };
+
         public static readonly int[] SpecialClasses_SM =
         {
             #region Classes
@@ -205,6 +209,7 @@ namespace pk3DS.Core
             184, // Battle Legend
             #endregion
         };
+
         public static readonly int[] SpecialClasses_USUM =
         {
             #region Classes
@@ -304,6 +309,7 @@ namespace pk3DS.Core
             222, // Pokémon Trainer
             #endregion
         };
+
         public static readonly int[] Model_XY =
         {
             #region Models
@@ -323,6 +329,7 @@ namespace pk3DS.Core
             175, // Lysandre (Mega Ring)
             #endregion
         };
+
         public static readonly int[] Model_AO =
         {
             #region Models
@@ -341,6 +348,7 @@ namespace pk3DS.Core
             279, // May (Mega Bracelet)
             #endregion
         };
+
         public static readonly int[] Z_Moves =
         {
             622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658,
@@ -353,6 +361,7 @@ namespace pk3DS.Core
             222, 235, 236, 238, 239, 240, 241, 349, 350, 351, 352, 356, 357, 358, 359, 360, 392, 396, 398, 400, 401, 403, 405, 409, 410, 412, 413, 414, 415, 416, 417, 418, 419, 435, 438, 439, 440,
             441, 447, 448, 449, 450, 451, 452, 467, 477, 478, 479, 480, 481, 482, 483, 484
         };
+
         public static readonly int[] ImportantTrainers_USUM =
         {
             012, 013, 014, 023, 052, 074, 075, 076, 077, 078, 079, 089, 090, 131, 132, 138, 144, 146, 149, 153, 154, 156, 159, 160, 215, 216, 217, 218, 219, 220, 221, 222, 235, 236, 238, 239, 240,
@@ -360,12 +369,14 @@ namespace pk3DS.Core
             496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 541, 542, 543, 555, 556, 557, 558, 559, 560, 561, 562, 572, 573, 578, 580, 582, 583, 623, 630, 644, 645, 647, 648, 649,
             650, 651, 652
         };
+
         public static readonly int[] BasicStarters_6 =
         {
             001, 004, 007, 010, 013, 016, 029, 032, 041, 043, 060, 063, 066, 069, 074, 081, 092, 111, 116, 137, 147, 152, 155, 158, 172, 173, 174, 175, 179, 187, 220, 239, 240, 246, 252, 255, 258,
             265, 270, 273, 280, 287, 293, 298, 304, 328, 355, 363, 371, 374, 387, 390, 393, 396, 403, 406, 440, 443, 495, 498, 501, 506, 519, 524, 532, 535, 540, 543, 551, 574, 577, 582, 599, 602,
             607, 610, 633, 650, 653, 656, 661, 664, 669, 679, 704
         };
+
         public static readonly int[] BasicStarters_7 = BasicStarters_6.Concat(new int[]
         {
             722, 725, 728, 731, 736, 761, 782, 789
@@ -389,11 +400,13 @@ namespace pk3DS.Core
             637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 652, 655, 658, 660, 663, 666, 668, 671, 673, 675, 676, 678, 681, 683, 685, 687, 689, 691, 693, 695, 697, 699, 700, 701,
             702, 703, 706, 707, 709, 711, 713, 715, 716, 717, 718, 719, 720, 721
         };
+
         public static readonly int[] FinalEvolutions_SM = FinalEvolutions_6.Concat(new int[]
         {
             724, 727, 730, 733, 735, 738, 740, 741, 743, 745, 746, 748, 750, 752, 754, 756, 758, 760, 763, 764, 765, 766, 768, 770, 771, 773, 774, 775, 776, 777, 779, 780, 781, 784, 785, 786, 787,
             788, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802
         }).ToArray();
+
         public static readonly int[] FinalEvolutions_USUM = FinalEvolutions_SM.Concat(new int[]
         {
             804, 805, 806, 807
@@ -408,10 +421,12 @@ namespace pk3DS.Core
             144, 145, 146, 150, 151, 243, 244, 245, 249, 250, 251, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 638,
             639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 716, 717, 718, 719, 720, 721
         };
+
         public static readonly int[] Legendary_Mythical_SM = Legendary_Mythical_6.Concat(new int[]
         {
             773, 785, 786, 787, 788, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802
         }).ToArray();
+
         public static readonly int[] Legendary_Mythical_USUM = Legendary_Mythical_SM.Concat(new int[]
         {
             804, 805, 806, 807
@@ -428,6 +443,7 @@ namespace pk3DS.Core
             746, // Wishiwashi
             778, // Mimikyu
         };
+
         public static readonly HashSet<int> BattleMegas = new HashSet<int>
         {
             // XY
@@ -447,6 +463,7 @@ namespace pk3DS.Core
             // USUM
             800, // Ultra Necrozma
         };
+
         public static readonly HashSet<int> BattlePrimals = new HashSet<int> { 382, 383 };
         public static HashSet<int> BattleExclusiveForms = new HashSet<int>(BattleForms.Concat(BattleMegas.Concat(BattlePrimals)));
     }

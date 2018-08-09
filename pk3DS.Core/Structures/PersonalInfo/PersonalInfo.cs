@@ -63,6 +63,7 @@
                 r[i] = (data[i/8] >> (i&7) & 0x1) == 1;
             return r;
         }
+
         protected static byte[] setBits(bool[] bits)
         {
             byte[] data = new byte[bits.Length/8];
@@ -83,6 +84,7 @@
 
             return FormStatsIndex + forme - 1;
         }
+
         public int RandomGender
         {
             get
@@ -100,6 +102,7 @@
                 }
             }
         }
+
         public bool HasFormes => FormeCount > 1;
         public int BST => HP + ATK + DEF + SPE + SPA + SPD;
     }

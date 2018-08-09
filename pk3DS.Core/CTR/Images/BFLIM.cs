@@ -7,11 +7,13 @@ namespace pk3DS.Core.CTR
     public class BFLIM : BXLIM
     {
         public BFLIM(Stream data) => ReadBFLIM(data);
+
         public BFLIM(byte[] data)
         {
             using (var ms = new MemoryStream(data))
                 ReadBFLIM(ms);
         }
+
         public BFLIM(string path)
         {
             var data = File.ReadAllBytes(path);

@@ -25,6 +25,7 @@ namespace pk3DS.Core.CTR
             public ulong[] NCCHIdTable; //Size: 0x8;
             //public byte[] Padding2; //Size: 0x30;
         }
+
         public class CardInfoHeader
         {
             public uint WritableAddress;
@@ -48,6 +49,7 @@ namespace pk3DS.Core.CTR
                 public byte[] Reserved3; //Size: 0xCD6;
             }
         }
+
         public class NCCH_Meta
         {
             public uint Offset;
@@ -58,10 +60,11 @@ namespace pk3DS.Core.CTR
         {
             const ulong MEDIA_UNIT_SIZE = 0x200;
             return Card2
-                ? Align(header.OffsetSizeTable[NCCH_Array.Count - 1].Offset * NCCH.MEDIA_UNIT_SIZE
-                        + header.OffsetSizeTable[NCCH_Array.Count - 1].Size * NCCH.MEDIA_UNIT_SIZE + 0x1000, 0x10000) / MEDIA_UNIT_SIZE
+                ? Align((header.OffsetSizeTable[NCCH_Array.Count - 1].Offset * NCCH.MEDIA_UNIT_SIZE)
+                        + (header.OffsetSizeTable[NCCH_Array.Count - 1].Size * NCCH.MEDIA_UNIT_SIZE) + 0x1000, 0x10000) / MEDIA_UNIT_SIZE
                 : 0x00000000FFFFFFFF;
         }
+
         public void BuildHeader()
         {
             Data = new byte[0x4000];
@@ -71,13 +74,13 @@ namespace pk3DS.Core.CTR
             Array.Copy(BitConverter.GetBytes(header.TitleId), 0, Data, 0x108, 8);
             for (int i = 0; i < header.OffsetSizeTable.Length; i++)
             {
-                Array.Copy(BitConverter.GetBytes(header.OffsetSizeTable[i].Offset), 0, Data, 0x120 + 8 * i, 4);
-                Array.Copy(BitConverter.GetBytes(header.OffsetSizeTable[i].Size), 0, Data, 0x124 + 8 * i, 4);
+                Array.Copy(BitConverter.GetBytes(header.OffsetSizeTable[i].Offset), 0, Data, 0x120 + (8 * i), 4);
+                Array.Copy(BitConverter.GetBytes(header.OffsetSizeTable[i].Size), 0, Data, 0x124 + (8 * i), 4);
             }
             Array.Copy(header.flags, 0, Data, 0x188, header.flags.Length);
             for (int i = 0; i < header.NCCHIdTable.Length; i++)
             {
-                Array.Copy(BitConverter.GetBytes(header.NCCHIdTable[i]), 0, Data, 0x190 + 8 * i, 8);
+                Array.Copy(BitConverter.GetBytes(header.NCCHIdTable[i]), 0, Data, 0x190 + (8 * i), 8);
             }
             //CardInfoHeader
             Array.Copy(BitConverter.GetBytes(cardinfoheader.WritableAddress), 0, Data, 0x200, 4);
@@ -97,12 +100,13 @@ namespace pk3DS.Core.CTR
             Array.Copy(cardinfoheader.NCCH0Header, 0, Data, 0x1100, cardinfoheader.NCCH0Header.Length);
             Array.Copy(Enumerable.Repeat((byte)0xFF, 0x2E00).ToArray(), 0, Data, 0x1200, 0x2E00);
         }
+
         internal static ulong Align(ulong input, ulong alignsize)
         {
             ulong output = input;
             if (output % alignsize != 0)
             {
-                output += alignsize - output % alignsize;
+                output += alignsize - (output % alignsize);
             }
             return output;
         }

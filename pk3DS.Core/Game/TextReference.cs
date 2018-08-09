@@ -47,10 +47,12 @@
             }
         }
     }
+
     public class TextReference
     {
         public readonly int Index;
         public readonly TextName Name;
+
         private TextReference(int index, TextName name)
         {
             Index = index;
@@ -76,6 +78,7 @@
             new TextReference(131, TextName.SuperTrainerNames),
             new TextReference(141, TextName.OPowerFlavor),
         };
+
         public static readonly TextReference[] GameText_AO =
         {
             new TextReference(005, TextName.Forms),
@@ -95,6 +98,7 @@
             new TextReference(154, TextName.SuperTrainerNames),
             new TextReference(165, TextName.OPowerFlavor),
         };
+
         public static readonly TextReference[] GameText_SMDEMO =
         {
             new TextReference(020, TextName.ItemFlavor),
@@ -111,6 +115,7 @@
             new TextReference(054, TextName.MoveFlavor),
             new TextReference(055, TextName.MoveNames),
         };
+
         public static readonly TextReference[] GameText_SM =
         {
             new TextReference(035, TextName.ItemFlavor),
@@ -132,6 +137,7 @@
             new TextReference(119, TextName.PokedexEntry1),
             new TextReference(120, TextName.PokedexEntry2)            
         };
+
         public static readonly TextReference[] GameText_USUM =
         {
             new TextReference(039, TextName.ItemFlavor),

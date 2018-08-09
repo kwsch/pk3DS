@@ -24,7 +24,7 @@ namespace pk3DS
 
             // Gather Data
             for (int i = 0; i < powerData.Length; i++)
-                powerData[i] = exefsData.Skip(offset + 22 * i).Take(22).ToArray();
+                powerData[i] = exefsData.Skip(offset + (22 * i)).Take(22).ToArray();
 
             // Prepare View
             for (int i = 0; i < 10; i++) CB_SortOrder.Items.Add(i);
@@ -40,12 +40,14 @@ namespace pk3DS
         private readonly string[] powerFlavor = Main.Config.getText(TextName.OPowerFlavor);
 
         private int entry = -1;
+
         private void changeEntry(object sender, EventArgs e)
         {
             setEntry();
             entry = CB_Item.SelectedIndex + 1;
             getEntry();
         }
+
         private void getEntry()
         {
             if (entry < 1) return;
@@ -86,6 +88,7 @@ namespace pk3DS
             NUD_Usability.Value = _01;
             NUD_2.Value = _02;
         }
+
         private void setEntry()
         {
             if (entry < 1) return;
@@ -117,7 +120,7 @@ namespace pk3DS
             setEntry();
             // Copy data back to storage
             for (int i = 0; i < powerData.Length; i++)
-                Array.Copy(powerData[i], 0, exefsData, offset + i * powerData[i].Length, powerData[i].Length);
+                Array.Copy(powerData[i], 0, exefsData, offset + (i * powerData[i].Length), powerData[i].Length);
             if (ModifierKeys != Keys.Control)
                 File.WriteAllBytes(codebin, exefsData);
         }

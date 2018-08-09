@@ -5,6 +5,7 @@ namespace pk3DS.Core.Structures.PersonalInfo
     public class PersonalInfoORAS : PersonalInfoXY
     {
         public new const int SIZE = 0x50;
+
         public PersonalInfoORAS(byte[] data)
         {
             if (data.Length != SIZE)
@@ -23,6 +24,7 @@ namespace pk3DS.Core.Structures.PersonalInfo
                 getBits(Data.Skip(0x4C).Take(0x04).ToArray()),
             };
         }
+
         public override byte[] Write()
         {
             setBits(TMHM).CopyTo(Data, 0x28);

@@ -140,6 +140,7 @@ namespace pk3DS
             entry = CB_Species.SelectedIndex;
             readEntry();
         }
+
         private void ByteLimiter(object sender, EventArgs e)
         {
             if (!(sender is MaskedTextBox mtb))
@@ -152,6 +153,7 @@ namespace pk3DS
         }
 
         private PersonalInfo pkm;
+
         private void readInfo()
         {
             pkm = Main.SpeciesStat[entry];
@@ -226,6 +228,7 @@ namespace pk3DS
                     CLB_BeachTutors.SetItemChecked(b, special[0][b]);
             }
         }
+
         private void readEntry()
         {
             readInfo();
@@ -243,13 +246,14 @@ namespace pk3DS
                 {
                     Color c = rawImg.GetPixel(x, y);
                     bigImg.SetPixel(2 * x, 2 * y, c);
-                    bigImg.SetPixel(2 * x + 1, 2 * y, c);
-                    bigImg.SetPixel(2 * x, 2 * y + 1, c);
-                    bigImg.SetPixel(2 * x + 1, 2 * y + 1, c);
+                    bigImg.SetPixel((2 * x) + 1, 2 * y, c);
+                    bigImg.SetPixel(2 * x, (2 * y) + 1, c);
+                    bigImg.SetPixel((2 * x) + 1, (2 * y) + 1, c);
                 }
             }
             PB_MonSprite.Image = bigImg;
         }
+
         private void savePersonal()
         {
             pkm.HP = Convert.ToByte(TB_BaseHP.Text);
@@ -312,6 +316,7 @@ namespace pk3DS
                 pkm.SpecialTutors = special;
             }
         }
+
         private void saveEntry()
         {
             savePersonal();
@@ -351,6 +356,7 @@ namespace pk3DS
             readEntry();
             WinFormsUtil.Alert("Randomized all Pokémon Personal data entries according to specification!", "Press the Dump All button to view the new Personal data!");
         }
+
         private void B_ModifyAll(object sender, EventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify all? Cannot undo.", "Double check Modification settings in the Enhancements tab.") != DialogResult.Yes) return;
@@ -387,7 +393,9 @@ namespace pk3DS
             CB_Species.SelectedIndex = 1;
             WinFormsUtil.Alert("Modified all Pokémon Personal data entries according to specification!", "Press the Dump All button to view the new Personal data!");
         }
+
         private bool dumping;
+
         private void B_Dump_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Dump all Personal Entries to Text File?"))
@@ -431,11 +439,13 @@ namespace pk3DS
             File.WriteAllLines(path, lines, Encoding.Unicode);
             dumping = false;
         }
+
         private void CHK_Stats_CheckedChanged(object sender, EventArgs e)
         {
             L_StatDev.Enabled = NUD_StatDev.Enabled = CHK_Stats.Checked;
             CHK_rHP.Enabled = CHK_rATK.Enabled = CHK_rDEF.Enabled = CHK_rSPA.Enabled = CHK_rSPD.Enabled = CHK_rSPE.Enabled = CHK_Stats.Checked;
         }
+
         private void CHK_Ability_CheckedChanged(object sender, EventArgs e)
         {
             CHK_WGuard.Enabled = CHK_Ability.Checked;

@@ -6,6 +6,7 @@ namespace pk3DS.Core.Randomizers
     public class FormRandomizer
     {
         private readonly GameConfig Game;
+
         public FormRandomizer(GameConfig game)
         {
             Game = game;

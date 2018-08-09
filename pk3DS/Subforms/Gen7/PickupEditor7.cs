@@ -25,6 +25,7 @@ namespace pk3DS
         private readonly string[] items;
         
         private const int Columns = 10;
+
         private void setupFLP()
         {
             dgvCommon.Columns.Clear();
@@ -59,7 +60,7 @@ namespace pk3DS
 
             for (int i = 0; i < Columns; i++)
             {
-                string rate = $"{i*10 + 1}-{(i + 1)*10}";
+                string rate = $"{(i * 10) + 1}-{(i + 1)*10}";
                 DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
                 {
                     dgvIndex.HeaderText = rate;
@@ -87,7 +88,7 @@ namespace pk3DS
             dgvCommon.Rows.Add(rows);
             for (int i = 0; i < rows; i++)
             {
-                int offset = 4 + i * (Columns + 2);
+                int offset = 4 + (i * (Columns + 2));
                 int item = BitConverter.ToUInt16(data, offset);
 
                 var r = dgvCommon.Rows[i];
@@ -99,6 +100,7 @@ namespace pk3DS
                 }
             }
         }
+
         private byte[] setList()
         {
             int rows = dgvCommon.RowCount;
@@ -161,10 +163,12 @@ namespace pk3DS
             g_pickup.Save();
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize pickup lists?"))

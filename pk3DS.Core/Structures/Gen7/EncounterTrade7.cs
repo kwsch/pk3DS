@@ -7,22 +7,27 @@ namespace pk3DS.Core.Structures
         public const int SIZE = 0x34;
 
         public readonly byte[] Data;
+
         public EncounterTrade7(byte[] data)
         {
             Data = data;
         }
+
         public override int Species
         {
             get { return BitConverter.ToUInt16(Data, 0x0); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0); }
         }
+
         public int String1
         {
             get { return BitConverter.ToUInt16(Data, 0x2); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2); }
         }
+
         public int Form { get { return Data[0x4]; } set { Data[0x4] = (byte)value; } }
         public int Level { get { return Data[0x5]; } set { Data[0x5] = (byte)value; } }
+
         public int[] IVs
         {
             get
@@ -40,12 +45,14 @@ namespace pk3DS.Core.Structures
                     Data[i + 0x6] = (byte)Convert.ToSByte(value[i]);
             }
         }
+
         public int Ability { get { return Data[0xC]; } set { Data[0xC] = (byte)value; } }
         public int Nature { get { return Data[0xD]; } set { Data[0xD] = (byte)value; } }
         public int Gender { get { return Data[0xE]; } set { Data[0xE] = (byte)value; } }
         public int TID { get { return BitConverter.ToUInt16(Data, 0x10); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10); } }
         public int SID { get { return BitConverter.ToUInt16(Data, 0x12); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x12); } }
         public uint ID { get { return BitConverter.ToUInt32(Data, 0x10); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10); } }
+
         public override int HeldItem
         {
             get
@@ -60,11 +67,13 @@ namespace pk3DS.Core.Structures
                 BitConverter.GetBytes((short)value).CopyTo(Data, 0x14);
             }
         }
+
         public int String2
         {
             get { return BitConverter.ToUInt16(Data, 0x18); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x18); }
         }
+
         public int trGender { get { return Data[0x1A]; } set { Data[0x1A] = (byte)value; } }
 
         public ushort OT_Intensity { get { return BitConverter.ToUInt16(Data, 0x1C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1C); } }

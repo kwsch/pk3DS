@@ -10,6 +10,7 @@ namespace pk3DS
             InitializeComponent();
             RTB.Text = Properties.Resources.changelog;
         }
+
         private void B_Close_Click(object sender, EventArgs e)
         {
             Close();

@@ -12,6 +12,7 @@ namespace pk3DS.Core.Randomizers
         private readonly MoveRandomizer moverand;
         private readonly GameConfig Config;
         private readonly EggMoves[] Sets;
+
         public EggMoveRandomizer(GameConfig config, EggMoves[] sets)
         {
             Config = config;

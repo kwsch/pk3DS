@@ -4,6 +4,7 @@
     {
         public readonly int Code;
         public readonly string Name;
+
         private TextVariableCode(int code, string name)
         {
             Code = code;
@@ -61,6 +62,7 @@
             new TextVariableCode(0x0207, "NUM8"),
             new TextVariableCode(0x0208, "NUM9"),
         };
+
         public static readonly TextVariableCode[] VariableCodes_AO =
         {
             new TextVariableCode(0xFF00, "COLOR"),
@@ -112,6 +114,7 @@
             new TextVariableCode(0x0207, "NUM8"),
             new TextVariableCode(0x0208, "NUM9"),
         };
+
         public static readonly TextVariableCode[] VariableCodes_SM =
         {
             new TextVariableCode(0xFF00, "COLOR"),

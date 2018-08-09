@@ -20,10 +20,12 @@ namespace pk3DS.Core.CTR
         {
             Read(new BinaryReader(new MemoryStream(data)));
         }
+
         public SMDH(string path)
         {
             Read(new BinaryReader(File.OpenRead(path)));
         }
+
         public void Read(BinaryReader br)
         {
             // Check to see if the first 4 bytes (magic) is valid.
@@ -41,6 +43,7 @@ namespace pk3DS.Core.CTR
             SmallIcon = new SmallIcon(br);
             LargeIcon = new LargeIcon(br);
         }
+
         public byte[] Write()
         {
             using (var ms = new MemoryStream())
@@ -65,12 +68,14 @@ namespace pk3DS.Core.CTR
         public string ShortDescription; //0x80
         public string LongDescription; //0x100
         public string Publisher; //0x80
+
         public ApplicationInfo(BinaryReader br)
         {
             ShortDescription = Encoding.Unicode.GetString(br.ReadBytes(0x80)).TrimEnd('\0');
             LongDescription = Encoding.Unicode.GetString(br.ReadBytes(0x100)).TrimEnd('\0');
             Publisher = Encoding.Unicode.GetString(br.ReadBytes(0x80)).TrimEnd('\0');
         }
+
         public void Write(BinaryWriter bw)
         {
             bw.Write(Encoding.Unicode.GetBytes(ShortDescription.PadRight(0x80/2, '\0')));
@@ -101,6 +106,7 @@ namespace pk3DS.Core.CTR
             Korea = 0x20,
             Taiwan = 0x40
         }
+
         public enum AppSettingsFlags : uint
         {
             Visible = 1,
@@ -114,6 +120,7 @@ namespace pk3DS.Core.CTR
             RecordUsage = 256,
             DisableSDSaveBackup = 512
         }
+
         public ApplicationSettings(BinaryReader br)
         {
             GameRatings = br.ReadBytes(0x10);
@@ -126,6 +133,7 @@ namespace pk3DS.Core.CTR
             AnimationDefaultFrame = br.ReadSingle();
             StreetPassID = br.ReadUInt32();
         }
+
         public void Write(BinaryWriter bw)
         {
             bw.Write(GameRatings, 0, 0x10);
@@ -144,15 +152,18 @@ namespace pk3DS.Core.CTR
     {
         public Bitmap Icon;
         public byte[] Bytes;
+
         public SmallIcon(BinaryReader br)
         {
             Bytes = br.ReadBytes(0x480);
             Icon = ImageUtil.GetBitmap(Bytes, 24, 24);
         }
+
         public void Write(BinaryWriter bw)
         {
             bw.Write(Bytes);
         }
+
         public bool ChangeIcon(Bitmap img)
         {
             if (img.Width != Icon.Width || img.Height != Icon.Height) return false;
@@ -166,15 +177,18 @@ namespace pk3DS.Core.CTR
     {
         public Bitmap Icon;
         public byte[] Bytes;
+
         public LargeIcon(BinaryReader br)
         {
             Bytes = br.ReadBytes(0x1200);
             Icon = ImageUtil.GetBitmap(Bytes, 48, 48);
         }
+
         public void Write(BinaryWriter bw)
         {
             bw.Write(Bytes);
         }
+
         public bool ChangeIcon(Bitmap img)
         {
             if (img.Width != Icon.Width || img.Height != Icon.Height) return false;

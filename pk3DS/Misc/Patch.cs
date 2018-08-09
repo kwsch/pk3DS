@@ -62,6 +62,7 @@ namespace pk3DS
             File.WriteAllText(outPath ?? path, text, Encoding.Unicode);
             return true;
         }
+
         internal static string exportGARCs(string[] garcPaths, string[] newPaths, string parentRomFS, string patchFolder)
         {
             // Stuff files into new patch folder
@@ -127,12 +128,13 @@ namespace pk3DS
             sc.CopyTo(garcs, 0);
             return garcs.Distinct().ToArray();
         }
+
         private string[] getPaths(string[] sc)
         {
             bool languages = CHK_Lang.Checked;
             StringCollection paths = new StringCollection();
             foreach (string s in sc)
-                if (!languages || s != "gametext" && s != "storytext")
+                if (!languages || (s != "gametext" && s != "storytext"))
                     paths.Add(Main.getGARCFileName(s, Main.Language));
                 else
                     for (int l = 0; l < 8; l++)
@@ -148,6 +150,7 @@ namespace pk3DS
             for (int i = 0; i < CHKLB_GARCs.Items.Count; i++)
                 CHKLB_GARCs.SetItemChecked(i, true);
         }
+
         private void B_CheckNone_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < CHKLB_GARCs.Items.Count; i++)

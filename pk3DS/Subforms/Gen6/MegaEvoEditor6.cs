@@ -51,6 +51,7 @@ namespace pk3DS
             Setup();
             CB_Species.SelectedIndex = 0;
         }
+
         private void Setup()
         {
             List<string> temp_list = new List<string>(specieslist);
@@ -88,6 +89,7 @@ namespace pk3DS
 
             loaded = true;
         }
+
         private void CHK_Changed(object sender, EventArgs e)
         {
             for (int i = 0; i < groupbox_spec.Length; i++)
@@ -103,6 +105,7 @@ namespace pk3DS
             entry = (int)CB_Species.SelectedValue;
             getEntry();
         }
+
         private void getEntry()
         {
             if (!loaded) return;
@@ -122,6 +125,7 @@ namespace pk3DS
                 forme_spec[i].SelectedIndex = me.Form[i];
             }
         }
+
         private void setEntry()
         {
             if (entry < 1 || entry == 384) return; // Don't edit invalid / Rayquaza.
@@ -180,6 +184,7 @@ namespace pk3DS
             }
             pb.Image = WinFormsUtil.getSprite(species, form, gender, item, Main.Config);
         }
+
         private void formClosing(object sender, FormClosingEventArgs e)
         {
             setEntry();

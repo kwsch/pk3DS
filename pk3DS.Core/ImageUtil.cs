@@ -26,10 +26,12 @@ namespace pk3DS.Core
             var data = bflim.GetImageData(crop);
             return GetBitmap(data, bflim.Footer.Width, bflim.Footer.Height);
         }
+
         public static Bitmap GetBitmap(byte[] data, int width, int height, int stride = 4, PixelFormat format = PixelFormat.Format32bppArgb)
         {
             return new Bitmap(width, height, stride, format, Marshal.UnsafeAddrOfPinnedArrayElement(data, 0));
         }
+
         public static byte[] GetPixelData(Bitmap bitmap)
         {
             var argbData = new byte[bitmap.Width * bitmap.Height * 4];
@@ -113,7 +115,7 @@ namespace pk3DS.Core
             {
                 for (int j = 0; j < h; j++)
                 {
-                    int k = (j + i * img.Height) * 4;
+                    int k = (j + (i * img.Height)) * 4;
                     img.SetPixel(i, j, Color.FromArgb(imgData[k + 3], imgData[k], imgData[k + 1], imgData[k + 2]));
                 }
             }
@@ -134,8 +136,8 @@ namespace pk3DS.Core
                         for (int j = 0; j < 8; j++)
                         // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.
                         {
-                            int x1 = (x + y / 8 * h) % img2.Width; // Reshift x
-                            int y1 = (x + y / 8 * h) / img2.Width * 8; // Reshift y
+                            int x1 = (x + (y / 8 * h)) % img2.Width; // Reshift x
+                            int y1 = (x + (y / 8 * h)) / img2.Width * 8; // Reshift y
                             img2.SetPixel(x1, y1 + j, img.GetPixel(x, y + j)); // Reswizzle
                         }
                     }
@@ -153,7 +155,7 @@ namespace pk3DS.Core
                         // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.
                         {
                             int x1 = x % img2.Width; // Reshift x
-                            int y1 = (x + y / 8 * h) / img2.Width * 8; // Reshift y
+                            int y1 = (x + (y / 8 * h)) / img2.Width * 8; // Reshift y
                             img2.SetPixel(x1, y1 + j, img.GetPixel(x, y + j)); // Reswizzle
                         }
                     }

@@ -27,32 +27,37 @@ namespace pk3DS
             foreach (string s in itemlist) CB_Item.Items.Add(s);
             CB_Item.SelectedIndex = 1;
         }
+
         private int entry = -1;
-        private void changeEntry(object sender, EventArgs e)
+
+        private void ChangeEntry(object sender, EventArgs e)
         {
-            setEntry();
+            SetEntry();
             entry = CB_Item.SelectedIndex;
             L_Index.Text = "Index: " + entry.ToString("000");
-            getEntry();
+            GetEntry();
         }
-        private void getEntry()
+
+        private void GetEntry()
         {
             if (entry < 1) return;
             Grid.SelectedObject = new Item(files[entry]);
 
             RTB.Text = itemflavor[entry].Replace("\\n", Environment.NewLine);
         }
-        private void setEntry()
+
+        private void SetEntry()
         {
             if (entry < 1) return;
             files[entry] = ((Item)Grid.SelectedObject).Write();
         }
-        private void formClosing(object sender, FormClosingEventArgs e)
+
+        private void IsFormClosing(object sender, FormClosingEventArgs e)
         {
-            setEntry();
+            SetEntry();
         }
 
-        private int getItemMapOffset()
+        private int GetItemMapOffset()
         {
             if (Main.ExeFSPath == null) { WinFormsUtil.Alert("No exeFS code to load."); return -1; }
             string[] exefsFiles = Directory.GetFiles(Main.ExeFSPath);

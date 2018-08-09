@@ -14,15 +14,18 @@ namespace pk3DS.Core
                 .OrderByDescending(f => f?.LastWriteTime ?? DateTime.MinValue)
                 .FirstOrDefault();
         }
+
         public static string NormalizePath(string path)
         {
             return Path.GetFullPath(new Uri(path).LocalPath)
                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
         }
+
         public static string CleanFileName(string fileName)
         {
             return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
         }
+
         public static string TrimFromZero(string input)
         {
             int index = input.IndexOf('\0');
@@ -43,6 +46,7 @@ namespace pk3DS.Core
             string val = value?.Replace(" ", "").Replace("_", "").Trim();
             return string.IsNullOrWhiteSpace(val) ? 0 : int.Parse(val);
         }
+
         public static uint ToUInt32(string value)
         {
             string val = value?.Replace(" ", "").Replace("_", "").Trim();
@@ -78,7 +82,7 @@ namespace pk3DS.Core
                     // check for 2char container extensions
                     try
                     {
-                        br.BaseStream.Position = position + 4 + 4 * count;
+                        br.BaseStream.Position = position + 4 + (4 * count);
                         if (br.ReadUInt32() == br.BaseStream.Length)
                         {
                             ext += (char)magic[0] + (char)magic[1];
@@ -92,7 +96,7 @@ namespace pk3DS.Core
                     try
                     {
                         count = BitConverter.ToUInt16(magic, 0);
-                        br.BaseStream.Position = position + 4 + 0x40 * count;
+                        br.BaseStream.Position = position + 4 + (0x40 * count);
                         uint tableval = br.ReadUInt32();
                         br.BaseStream.Position += 0x20 * tableval;
                         while (br.PeekChar() == 0) // seek forward
@@ -121,7 +125,7 @@ namespace pk3DS.Core
                             return defaultExt;
                         for (int i = 0; i < magic.Length && i < 4; i++)
                         {
-                            if (magic[i] >= 'a' && magic[i] <= 'z' || magic[i] >= 'A' && magic[i] <= 'Z'
+                            if ((magic[i] >= 'a' && magic[i] <= 'z') || (magic[i] >= 'A' && magic[i] <= 'Z')
                                 || char.IsDigit((char)magic[i]))
                             {
                                 ext += (char)magic[i];
@@ -142,11 +146,13 @@ namespace pk3DS.Core
             }
             catch { return defaultExt; }
         }
+
         public static string GuessExtension(string path, bool bypass)
         {
             using (BinaryReader br = new BinaryReader(File.OpenRead(path)))
                 return GuessExtension(br, "bin", bypass);
         }
+
         public static uint Reverse(uint x)
         {
             uint y = 0;
@@ -158,6 +164,7 @@ namespace pk3DS.Core
             }
             return y;
         }
+
         public static char[] Reverse(char[] charArray)
         {
             Array.Reverse(charArray);
@@ -189,6 +196,7 @@ namespace pk3DS.Core
         {
             return BitConverter.ToString(data).Replace('-', ' ');
         }
+
         public static void resizeJagged(ref byte[][] array, int size, int lowLen)
         {
             int oldSize = array?.Length ?? 0;
@@ -200,6 +208,7 @@ namespace pk3DS.Core
                 array[i] = new byte[lowLen];
             }
         }
+
         public static byte[] StringToByteArray(string hex)
         {
             return Enumerable.Range(0, hex.Length)
@@ -207,6 +216,5 @@ namespace pk3DS.Core
                              .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
                              .ToArray();
         }        
-        
     }
 }

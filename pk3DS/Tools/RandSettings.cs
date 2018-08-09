@@ -10,6 +10,7 @@ namespace pk3DS
     {
         public const string FileName = "randsettings.txt";
         private static readonly Dictionary<string, List<NameValue>> Settings = new Dictionary<string, List<NameValue>>();
+
         public static void Load(string[] lines)
         {
             Settings.Clear();
@@ -23,6 +24,7 @@ namespace pk3DS
                 ctr = end + 1;
             }
         }
+
         public static string[] Save()
         {
             var result = new List<string>();
@@ -52,6 +54,7 @@ namespace pk3DS
                 TryGetValue(ctrl, pair.Value);
             }
         }
+
         public static void SetFormSettings(Form form, Control.ControlCollection controls)
         {
             if (!Settings.TryGetValue(form.Name, out var list))
@@ -70,6 +73,7 @@ namespace pk3DS
                     list.Add(pair);
             }
         }
+
         private static void TryGetValue(Control ctrl, string s)
         {
             switch (ctrl)
@@ -91,6 +95,7 @@ namespace pk3DS
                     break;
             }
         }
+
         private static bool TrySetValue(Control ctrl, NameValue v)
         {
             switch (ctrl)

@@ -5,6 +5,7 @@ namespace pk3DS.Core.Structures
     public class MegaEvolutions
     {
         public ushort[] Form, Method, Argument, u6;
+
         public MegaEvolutions(byte[] data)
         {
             if (data.Length < 0x10 || data.Length % 8 != 0) return;
@@ -21,6 +22,7 @@ namespace pk3DS.Core.Structures
                     u6[i] = br.ReadUInt16();
                 }
         }
+
         public byte[] Write()
         {
             using (MemoryStream ms = new MemoryStream())

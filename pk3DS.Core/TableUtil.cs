@@ -21,6 +21,7 @@ namespace pk3DS.Core
 
             return string.Join(Environment.NewLine, list);
         }
+
         public static string GetTable<T>(IEnumerable<T> arr) where T : new()
         {
             return string.Join(Environment.NewLine, GetTableRaw(arr));
@@ -30,6 +31,7 @@ namespace pk3DS.Core
         {
             return Table(arr).Select(row => string.Join(sep, row));
         }
+
         private static IEnumerable<IEnumerable<string>> Table<T>(IEnumerable<T> arr) where T : new()
         {
             var type = typeof(T);
@@ -37,6 +39,7 @@ namespace pk3DS.Core
             foreach (var z in arr)
                 yield return GetValues(z, type);
         }
+
         private static IEnumerable<string> GetNames(Type type)
         {
             foreach (var z in type.GetProperties())
@@ -44,6 +47,7 @@ namespace pk3DS.Core
             foreach (var z in type.GetFields())
                 yield return z.Name;
         }
+
         private static IEnumerable<string> GetValues(object obj, Type type)
         {
             foreach (var z in type.GetProperties())

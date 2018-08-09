@@ -31,14 +31,14 @@ namespace pk3DS.Core.Structures
                 byte[] itemColor = BitConverter.GetBytes(Colors[vals[i]]);
                 for (int x = 0; x < itemsize * itemsize; x++)
                     Buffer.BlockCopy(itemColor, 0, bmpData,
-                        (Y * itemsize + x % itemsize) * width * 4 + (X * itemsize + x / itemsize) * 4, 4);
+                        (((Y * itemsize) + (x % itemsize)) * width * 4) + (((X * itemsize) + (x / itemsize)) * 4), 4);
             }
             // slap on a grid
             byte[] gridColor = BitConverter.GetBytes(0x17000000);
             for (int i = 0; i < width * height; i++)
                 if (i % itemsize == 0 || i / (itemsize * itemsPerRow) % itemsize == 0)
                     Buffer.BlockCopy(gridColor, 0, bmpData,
-                        i / (itemsize * itemsPerRow) * width * 4 + i % (itemsize * itemsPerRow) * 4, 4);
+                        (i / (itemsize * itemsPerRow) * width * 4) + (i % (itemsize * itemsPerRow) * 4), 4);
 
             // assemble image
             Bitmap b = new Bitmap(width, height, PixelFormat.Format32bppArgb);

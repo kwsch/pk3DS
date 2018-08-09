@@ -135,6 +135,7 @@ namespace pk3DS.Core.CTR
             using (var br = new BinaryReader(File.OpenRead(path)))
                 return GetData(br);
         }
+
         /// <summary>
         /// Rips out the data portion of the ALYT, assuming the ALYT is partially valid.
         /// </summary>
@@ -144,6 +145,7 @@ namespace pk3DS.Core.CTR
             using (var br = new BinaryReader(ms))
                 return GetData(br);
         }
+
         /// <summary>
         /// Rips out the data portion of the ALYT, assuming the ALYT is partially valid.
         /// </summary>
@@ -152,6 +154,7 @@ namespace pk3DS.Core.CTR
             using (var br = new BinaryReader(ms))
                 return GetData(br);
         }
+
         private static byte[] GetData(BinaryReader br)
         {
             if (br.BaseStream.Length <= 0x80)

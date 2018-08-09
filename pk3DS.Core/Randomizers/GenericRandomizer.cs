@@ -1,7 +1,7 @@
 ﻿namespace pk3DS.Core.Randomizers
 {
     /// <summary> Cyclical Shuffled Randomizer </summary>
-    /// <remarks> 
+    /// <remarks>
     /// The shuffled list is iterated over, and reshuffled when exhausted.
     /// The list does not repeat values until the list is exhausted.
     /// </remarks>

@@ -238,7 +238,7 @@ namespace pk3DS
                 public float F1 => _0 / 2;
                 public float F2 => _1 * 80;
                 public float F3 => _2 / 2;
-                public float F4 => _3;
+                public float F4 => _3 / 1;
 
                 public CollisionObject(byte[] data)
                 {

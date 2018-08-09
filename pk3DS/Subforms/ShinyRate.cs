@@ -74,6 +74,7 @@ namespace pk3DS
                 Argument = arg;
                 ArgVal = BitConverter.ToUInt16(Argument, 0);
             }
+
             public byte[] Bytes
             {
                 get
@@ -86,6 +87,7 @@ namespace pk3DS
         }
 
         private int alwaysIndex;
+
         private void CheckAlwaysShiny()
         {
             byte[] pattern = {0x00, 0x20, 0x22, 0xE0, 0x02, 0x30, 0x21, 0xE2, 0x03, 0x20, 0x92, 0xE1, 0x1C, 0x00, 0x00};
@@ -110,6 +112,7 @@ namespace pk3DS
         }
 
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             writeCodePatch();
@@ -118,6 +121,7 @@ namespace pk3DS
             File.WriteAllBytes(codebin, exefsData);
             Close();
         }
+
         private void changeRerolls(object sender, EventArgs e)
         {
             int count = (int)NUD_Rerolls.Value;
@@ -125,6 +129,7 @@ namespace pk3DS
             var pct = 1 - Math.Pow((float)(bc - 1)/bc, count);
             L_Overall.Text = $"~{pct:P}";
         }
+
         private void writeCodePatch()
         {
             // Overwrite the "load input argument value for reroll count" so that it loads a constant value.
@@ -153,12 +158,13 @@ namespace pk3DS
             }
             Close();
         }
+
         private void changePercent(object sender, EventArgs e)
         {
             var pct = NUD_Rate.Value;
             const int bc = 4096;
 
-            var inv = (int)Math.Log(1 - (float)pct/100, (float) (bc - 1)/bc);
+            var inv = (int)Math.Log(1 - ((float)pct/100), (float) (bc - 1)/bc);
             if (pct == 0)
                 pct = 0.00001m; // arbitrary nonzero
             L_RerollCount.Text = $"Count: {inv:0} = 1:{(int)(1/(pct/100))}";

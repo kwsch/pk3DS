@@ -75,6 +75,7 @@ namespace pk3DS
             CB_Species.SelectedIndex = 1;
             RandSettings.GetFormSettings(this, GB_Randomizer.Controls);
         }
+
         private readonly byte[][] files;
         private readonly ComboBox[] pb;
         private readonly ComboBox[] rb;
@@ -87,6 +88,7 @@ namespace pk3DS
         private readonly string[] typelist = Main.Config.getText(TextName.Types);
         private bool dumping;
         private EvolutionSet evo = new EvolutionSet6(new byte[EvolutionSet6.SIZE]);
+
         private void getList()
         {
             entry = Array.IndexOf(specieslist, CB_Species.Text);
@@ -103,6 +105,7 @@ namespace pk3DS
                 rb[i].SelectedIndex = evo.PossibleEvolutions[i].Species;
             }
         }
+
         private void setList()
         {
             if (entry < 1 || dumping) return;
@@ -141,6 +144,7 @@ namespace pk3DS
 
             WinFormsUtil.Alert("All Pokémon's Evolutions have been randomized!");
         }
+
         private void B_Trade_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Remove all trade evolutions?", "Evolution methods will be altered so that evolutions will be possible with only one game."))
@@ -156,6 +160,7 @@ namespace pk3DS
 
             WinFormsUtil.Alert("All trade evolutions have been removed!", "Trade evolutions will now occur after reaching a certain Level, or after leveling up while holding its appropriate trade item.");
         }
+
         private void B_Dump_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Dump all Evolutions to Text File?"))
@@ -234,6 +239,7 @@ namespace pk3DS
             }
             pb[op].SelectedIndex = 0;
         }
+
         private void changeInto(object sender, EventArgs e)
         {
             pic[Array.IndexOf(rb, sender as ComboBox)].Image = (Bitmap)Resources.ResourceManager.GetObject("_" + Array.IndexOf(specieslist, (sender as ComboBox).Text));

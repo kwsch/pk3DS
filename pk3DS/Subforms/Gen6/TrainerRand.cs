@@ -20,7 +20,7 @@ namespace pk3DS
             RandSettings.GetFormSettings(this, Controls);
         }
 
-        private string[] trName = Main.Config.getText(TextName.TrainerNames);
+        private readonly string[] trName = Main.Config.getText(TextName.TrainerNames);
         private readonly string[] trClass = Main.Config.getText(TextName.TrainerClasses);
         private readonly List<string> trClassnorep;
 
@@ -28,6 +28,7 @@ namespace pk3DS
         {
             Close();
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings before continuing.") != DialogResult.Yes)
@@ -131,15 +132,18 @@ namespace pk3DS
         {
             NUD_Level.Enabled = CHK_Level.Checked;
         }
+
         private void changeLevelPercent(object sender, EventArgs e)
         {
             CHK_Level.Checked = NUD_Level.Value != 0;
         }
+
         private void CHK_RandomGift_CheckedChanged(object sender, EventArgs e)
         {
             NUD_GiftPercent.Enabled = CHK_RandomGift.Checked;
             NUD_GiftPercent.Value = Convert.ToDecimal(CHK_RandomGift.Checked) * 15;
         }
+
         private void changeGiftPercent(object sender, EventArgs e)
         {
             CHK_RandomGift.Checked = NUD_GiftPercent.Value != 0;
@@ -167,6 +171,7 @@ namespace pk3DS
             CHK_ForceHighPower.Enabled = CHK_ForceHighPower.Checked = NUD_ForceHighPower.Enabled =
             CHK_NoFixedDamage.Enabled = CHK_NoFixedDamage.Checked = (CB_Moves.SelectedIndex == 1 || CB_Moves.SelectedIndex == 2);
         }
+
         private void CHK_6PKM_CheckedChanged(object sender, EventArgs e)
         {
             //if (CB_Moves.SelectedIndex == 0)

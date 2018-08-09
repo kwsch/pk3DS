@@ -48,13 +48,14 @@ namespace pk3DS.Core.CTR
                             // New File Path
                             outPath + Path.DirectorySeparatorChar + fileName + ".bin",
                             // Get New Data from Offset after 0x200 Header.
-                            data.Skip(0x200 + BitConverter.ToInt32(data, 0x8 + 0x10 * i)).Take(BitConverter.ToInt32(data, 0xC + 0x10 * i)).ToArray()
+                            data.Skip(0x200 + BitConverter.ToInt32(data, 0x8 + (0x10 * i))).Take(BitConverter.ToInt32(data, 0xC + (0x10 * i))).ToArray()
                             );
                 }
                 return true;
             }
             catch { return false; }
         }
+
         public static bool set(string[] files, string outFile)
         {
             if (files.Length > 10) { Console.WriteLine("Cannot package more than 10 files to exefs."); return false; }
@@ -76,13 +77,13 @@ namespace pk3DS.Core.CTR
 
                     FileInfo fi = new FileInfo(files[i]);
                     uint size = (uint)fi.Length;
-                    Array.Copy(BitConverter.GetBytes(offset), 0, headerData, 0x8 + i * 0x10, 0x4);
-                    Array.Copy(BitConverter.GetBytes(size), 0, headerData, 0xC + i * 0x10, 0x4);
-                    offset += 0x200 - size % 0x200 + size;
+                    Array.Copy(BitConverter.GetBytes(offset), 0, headerData, 0x8 + (i * 0x10), 0x4);
+                    Array.Copy(BitConverter.GetBytes(size), 0, headerData, 0xC + (i * 0x10), 0x4);
+                    offset += 0x200 - (size % 0x200) + size;
 
                     // Do the Bottom (Hashes)
                     byte[] hash = sha.ComputeHash(File.ReadAllBytes(files[i]));
-                    Array.Copy(hash, 0, headerData, 0x200 - 0x20 * (i + 1), 0x20);
+                    Array.Copy(hash, 0, headerData, 0x200 - (0x20 * (i + 1)), 0x20);
                 }
 
                 // Set in the Data
@@ -93,7 +94,7 @@ namespace pk3DS.Core.CTR
                     {
                         using (MemoryStream loadFile = new MemoryStream(File.ReadAllBytes(s)))
                             loadFile.CopyTo(newFile);
-                        new MemoryStream(new byte[0x200 - newFile.Length % 0x200]).CopyTo(newFile);
+                        new MemoryStream(new byte[0x200 - (newFile.Length % 0x200)]).CopyTo(newFile);
                     }
 
                     File.WriteAllBytes(outFile, newFile.ToArray());
@@ -120,13 +121,13 @@ namespace pk3DS.Core.CTR
 
                 FileInfo fi = new FileInfo(files[i]);
                 uint size = (uint)fi.Length;
-                Array.Copy(BitConverter.GetBytes(offset), 0, headerData, 0x8 + i * 0x10, 0x4);
-                Array.Copy(BitConverter.GetBytes(size), 0, headerData, 0xC + i * 0x10, 0x4);
-                offset += 0x200 - size % 0x200 + size;
+                Array.Copy(BitConverter.GetBytes(offset), 0, headerData, 0x8 + (i * 0x10), 0x4);
+                Array.Copy(BitConverter.GetBytes(size), 0, headerData, 0xC + (i * 0x10), 0x4);
+                offset += 0x200 - (size % 0x200) + size;
 
                 // Do the Bottom (Hashes)
                 byte[] hash = sha.ComputeHash(File.ReadAllBytes(files[i]));
-                Array.Copy(hash, 0, headerData, 0x200 - 0x20 * (i + 1), 0x20);
+                Array.Copy(hash, 0, headerData, 0x200 - (0x20 * (i + 1)), 0x20);
             }
 
             // Set in the Data
@@ -137,7 +138,7 @@ namespace pk3DS.Core.CTR
                 {
                     using (MemoryStream loadFile = new MemoryStream(File.ReadAllBytes(s)))
                         loadFile.CopyTo(newFile);
-                    new MemoryStream(new byte[0x200 - newFile.Length % 0x200]).CopyTo(newFile);
+                    new MemoryStream(new byte[0x200 - (newFile.Length % 0x200)]).CopyTo(newFile);
                 }
 
                 Data = newFile.ToArray();

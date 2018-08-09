@@ -22,8 +22,9 @@ namespace pk3DS.Core.Structures
         public int Gender
         {
             get => Data[0] & 0x3;
-            set => Data[0] = (byte)((Data[0] & 0xFC) | value & 0x3);
+            set => Data[0] = (byte)((Data[0] & 0xFC) | (value & 0x3));
         }
+
         public int Ability
         {
             get => (Data[0] >> 4) & 0x3;
@@ -69,6 +70,7 @@ namespace pk3DS.Core.Structures
                 IV_SPA = value[3]; IV_SPD = value[4]; IV_SPE = value[5];
             }
         }
+
         public int[] EVs
         {
             get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPA, EV_SPD, EV_SPE };
@@ -79,6 +81,7 @@ namespace pk3DS.Core.Structures
                 EV_SPA = value[3]; EV_SPD = value[4]; EV_SPE = value[5];
             }
         }
+
         public int[] Moves
         {
             get => new[] { Move1, Move2, Move3, Move4 };

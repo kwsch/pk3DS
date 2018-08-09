@@ -228,6 +228,7 @@ namespace pk3DS.Core
         #endregion
         
         public static readonly int[] EggLocations6 = {60002, 30002};
+
         public static readonly int[] ValidMet_XY =
         {
             006, 008, 009, 010, 012, 013, 014, 016, 017, 018, 020, 021, 022, 024, 026, 028, 029, 030, 032, 034, 035, 036,
@@ -236,6 +237,7 @@ namespace pk3DS.Core
             100, 101, 102, 103, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 135, 136,
             138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158, 160, 162, 164, 166, 168
         };
+
         public static readonly int[] ValidMet_AO =
         {
             170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192, 194, 196, 198,
@@ -244,6 +246,7 @@ namespace pk3DS.Core
             288, 290, 292, 294, 296, 298, 300, 302, 304, 306, 308, 310, 312, 314, 316, 318, 320, 322, 324, 326, 328, 330,
             332, 334, 336, 338, 340, 342, 344, 346, 348, 350, 352, 354
         };
+
         public static readonly int[] FriendSafari =
         {
             190, 206, 216, 506, 294, 352, 531, 572, 113, 132, 133, 235,
@@ -265,6 +268,7 @@ namespace pk3DS.Core
             082, 303, 597, 205, 227, 375, 600, 437, 530, 707,
             098, 224, 400, 515, 008, 130, 195, 419, 061, 184, 657
         };
+
         public static readonly int[] CosplayPikachuMoves = { 309, 556, 577, 604, 560, 0 };
         public static readonly int[] WildPokeballs6 = { 0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
 
@@ -291,6 +295,7 @@ namespace pk3DS.Core
             
             313, // Via Illumise
         };
+
         public static readonly int[] Inherit_Safari =
         {
             016, 019, 020, 021, 022, 023, 024, 025, 027, 029, 035, 039, 041,
@@ -314,6 +319,7 @@ namespace pk3DS.Core
             439, // Via Mr. Mime
             440, // Via Chansey
         };
+
         public static readonly int[] Inherit_Dream =
         {
             010, 013, 016, 019, 021, 023, 027, 029, 037, 041, 043, 046, 048, 050, 052, 054, 056, 058, 060, 063, 066, 069,
@@ -343,6 +349,7 @@ namespace pk3DS.Core
             // Via Incense Breeding
             298, 360, 406, 433, 438, 439, 440, 446, 458,
         };
+
         public static readonly int[] Ban_DreamHidden =
         {
             311, // Plusle
@@ -354,6 +361,7 @@ namespace pk3DS.Core
             356, // Dusclops
             477, // Dusknoir
         };
+
         public static readonly int[] Ban_Gen3Ball =
         {
             252, 255, 258, //1 - Treeko, Torchic, Mudkip
@@ -367,6 +375,7 @@ namespace pk3DS.Core
             497, 500, 503, //3
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
+
         public static readonly int[] Ban_Gen3BallHidden =
         {
             // can have HA and can be in gen 3 ball as eggs but can not at same time.
@@ -382,6 +391,7 @@ namespace pk3DS.Core
             710 + (3 << 11), //Pumpkaboo-Super
             711 + (3 << 11), //Gourgeist-Super
         };
+
         public static readonly int[] Ban_Gen4Ball_6 =
         {
             152, 155, 158, //1 - Chikorita, Cyndaquil, Totodile
@@ -414,6 +424,7 @@ namespace pk3DS.Core
             68, // {0} soared through the sky with {1} and went to many different places. {4} that {3}.
             69, // {1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.
         };
+
         public static readonly int[] Memory_NotAO =
         {
             11, // {0} went clothes shopping with {1}. {4} that {3}.
@@ -423,6 +434,7 @@ namespace pk3DS.Core
             57, // {0} went to a nice restaurant with {1} and ate until it got totally full. {4} that {3}.
             62, // {0} saw itself in a mirror in a mirror cave that it went to with {1}. {4} that {3}.
         };
+
         public static readonly int[][] MoveSpecificMemories =
         {
             new[] {
@@ -436,6 +448,7 @@ namespace pk3DS.Core
             },
             new[] { 57, 19, 70, 15, 249, 127, 291}, // Move IDs
         };
+
         public static readonly int[][] LocationsWithPKCenter =
         {
             new[] {
@@ -474,6 +487,7 @@ namespace pk3DS.Core
             },
             new[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, // Region matching
         };
+
         public static readonly HashSet<int> MemoryGeneral = new HashSet<int> { 1, 2, 3, 4, 19, 24, 31, 32, 33, 35, 36, 37, 38, 39, 42, 52, 59 };
         public static readonly HashSet<int> MemorySpecific = new HashSet<int> { 6 };
         public static readonly HashSet<int> MemoryMove = new HashSet<int> { 12, 16, 48, 49 };
@@ -498,6 +512,7 @@ namespace pk3DS.Core
             05, 10, 05, 05, 15, 10, 05, 05, 05, 10, 10, 10, 10, 20, 25, 10, 20, 30, 25, 20, 20, 15, 20, 15, 20, 20, 10, 10, 10, 10, 10, 20, 10, 30, 15, 10, 10, 10, 20, 20, 05, 05, 05, 20, 10, 10, 20, 15, 20, 20, 
             10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 05,
         };
+
         public static readonly int[] UnreleasedItems_6 =
         {
             005, // Safari Ball
@@ -536,6 +551,7 @@ namespace pk3DS.Core
             590, // Relic Crown
             715, // Fairy Gem
         };
+
         public static readonly bool[] ReleasedHeldItems_6 = Enumerable.Range(0, MaxItemID_6_AO+1).Select(i => HeldItem_AO.Contains((ushort)i) && !UnreleasedItems_6.Contains(i)).ToArray();
     }
 }

@@ -41,6 +41,7 @@ namespace pk3DS.Core.Randomizers
         private int loopctr = 0;
 
         public int[] GetRandomLearnset(int index, int movecount) => GetRandomLearnset(SpeciesStat[index].Types, movecount);
+
         public int[] GetRandomLearnset(int[] Types, int movecount)
         {
             var oldSTABCount = rSTABCount;
@@ -49,7 +50,9 @@ namespace pk3DS.Core.Randomizers
             rSTABCount = oldSTABCount;
             return moves;
         }
+
         public int[] GetRandomMoveset(int index, int movecount = 4) => GetRandomMoveset(SpeciesStat[index].Types, movecount);
+
         public int[] GetRandomMoveset(int[] Types, int movecount = 4)
         {
             loopctr = 0;
@@ -73,6 +76,7 @@ namespace pk3DS.Core.Randomizers
                 moves[i] = RandMove.Next();
             return moves;
         }
+
         private int GetRandomSTABMove(int[] types)
         {
             int move;
@@ -80,6 +84,7 @@ namespace pk3DS.Core.Randomizers
             while (!types.Contains(MoveData[move].Type));
             return move;
         }
+
         private bool IsMovesetMeetingRequirements(int[] moves, int count)
         {
             if (rDMG && rDMGCount > moves.Count(move => MoveData[move].Category != 0))
@@ -116,13 +121,17 @@ namespace pk3DS.Core.Randomizers
             141, // Leech Life
 
         };
+
         private static readonly GenericRandomizer first = new GenericRandomizer(firstMoves);
+
         public int GetRandomFirstMoveAny()
         {
             first.Reset();
             return first.Next();
         }
+
         public int GetRandomFirstMove(int index) => GetRandomFirstMove(SpeciesStat[index].Types);
+
         public int GetRandomFirstMove(int[] types)
         {
             first.Reset();

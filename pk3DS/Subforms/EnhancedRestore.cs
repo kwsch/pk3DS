@@ -87,7 +87,7 @@ namespace pk3DS
             var files = config.Files.Select(file => file.Name);
             foreach (var f in files)
             {
-                string GARC = config.getGARCFileName(f);
+                string GARC = config.GetGARCFileName(f);
                 string name =  $"{f} ({GARC.Replace(Path.DirectorySeparatorChar.ToString(), "")})";
 
                 string src = Path.Combine(config.RomFS, GARC);

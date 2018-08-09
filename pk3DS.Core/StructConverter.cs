@@ -11,6 +11,7 @@ namespace pk3DS.Core
             try { return (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T)); }
             finally { handle.Free(); }
         }
+
         public static byte[] ToBytes<T>(this T obj) where T : struct
         {
             int size = Marshal.SizeOf(obj);

@@ -9,12 +9,14 @@ namespace pk3DS.Core.CTR
         {
             X = x; Y = y;
         }
+
         public void Transpose()
         {
             var tmp = X;
             X = Y;
             Y = tmp;
         }
+
         public void Rotate90(uint height)
         {
             var tmp = X;

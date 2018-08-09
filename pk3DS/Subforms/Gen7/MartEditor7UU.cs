@@ -10,6 +10,7 @@ namespace pk3DS
     public partial class MartEditor7UU : Form
     {
         private readonly string CROPath = Path.Combine(Main.RomFSPath, "Shop.cro");
+
         public MartEditor7UU()
         {
             if (!File.Exists(CROPath))
@@ -34,6 +35,7 @@ namespace pk3DS
             CB_LocationBPItem.SelectedIndex =
             CB_LocationBPMove.SelectedIndex = 0;
         }
+
         private const int ofs_Item = 0x50BC;
         private const int ofs_BPItem = 0x52FA;
         private const int ofs_BPTutor = 0x54DE;
@@ -70,6 +72,7 @@ namespace pk3DS
             "Tapu Village [X Items]",
             "Mount Lanakila [X Items]",
         };
+
         private readonly string[] locationsBP =
         {
             "Battle Royal Dome [Medicine]",
@@ -80,6 +83,7 @@ namespace pk3DS
             "Battle Tree [Mega Stones]",
             "Beaches [Medicine]"
         };
+
         private readonly string[] locationsTutor =
         {
             "Big Wave Beach",
@@ -97,6 +101,7 @@ namespace pk3DS
             File.WriteAllBytes(CROPath, data);
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
         private void setupDGV()
@@ -119,12 +124,14 @@ namespace pk3DS
             entryItem = CB_Location.SelectedIndex;
             getListItem();
         }
+
         private void changeIndexBPItem(object sender, EventArgs e)
         {
             if (entryBPItem > -1) setListBPItem();
             entryBPItem = CB_LocationBPItem.SelectedIndex;
             getListBPItem();
         }
+
         private void changeIndexBPMove(object sender, EventArgs e)
         {
             if (entryBPMove > -1) setListBPMove();
@@ -137,71 +144,75 @@ namespace pk3DS
             dgv.Rows.Clear();
             int count = len_Items[entryItem];
             dgv.Rows.Add(count);
-            var ofs = ofs_Item + len_Items.Take(entryItem).Sum(z => z) * 2;
+            var ofs = ofs_Item + (len_Items.Take(entryItem).Sum(z => z) * 2);
             for (int i = 0; i < count; i++)
             {
                 dgv.Rows[i].Cells[0].Value = i.ToString();
-                dgv.Rows[i].Cells[1].Value = itemlist[BitConverter.ToUInt16(data, ofs + 2 * i)];
+                dgv.Rows[i].Cells[1].Value = itemlist[BitConverter.ToUInt16(data, ofs + (2 * i))];
             }
         }
+
         private void getListBPItem()
         {
             dgvbp.Rows.Clear();
             int count = len_BPItem[entryBPItem];
             dgvbp.Rows.Add(count);
-            var ofs = ofs_BPItem + len_BPItem.Take(entryBPItem).Sum(z => z) * 4;
+            var ofs = ofs_BPItem + (len_BPItem.Take(entryBPItem).Sum(z => z) * 4);
             for (int i = 0; i < count; i++)
             {
                 dgvbp.Rows[i].Cells[0].Value = i.ToString();
-                dgvbp.Rows[i].Cells[1].Value = itemlist[BitConverter.ToUInt16(data, ofs + 4 * i)];
-                dgvbp.Rows[i].Cells[2].Value = BitConverter.ToUInt16(data, ofs + 4 * i + 2).ToString();
+                dgvbp.Rows[i].Cells[1].Value = itemlist[BitConverter.ToUInt16(data, ofs + (4 * i))];
+                dgvbp.Rows[i].Cells[2].Value = BitConverter.ToUInt16(data, ofs + (4 * i) + 2).ToString();
             }
         }
+
         private void getListBPMove()
         {
             dgvmv.Rows.Clear();
             int count = len_BPTutor[entryBPMove];
             dgvmv.Rows.Add(count);
-            var ofs = ofs_BPTutor + len_BPTutor.Take(entryBPMove).Sum(z => z) * 4;
+            var ofs = ofs_BPTutor + (len_BPTutor.Take(entryBPMove).Sum(z => z) * 4);
             for (int i = 0; i < count; i++)
             {
                 dgvmv.Rows[i].Cells[0].Value = i.ToString();
-                dgvmv.Rows[i].Cells[1].Value = movelist[BitConverter.ToUInt16(data, ofs + 4 * i)];
-                dgvmv.Rows[i].Cells[2].Value = BitConverter.ToUInt16(data, ofs + 4 * i + 2).ToString();
+                dgvmv.Rows[i].Cells[1].Value = movelist[BitConverter.ToUInt16(data, ofs + (4 * i))];
+                dgvmv.Rows[i].Cells[2].Value = BitConverter.ToUInt16(data, ofs + (4 * i) + 2).ToString();
             }
         }
 
         private void setListItem()
         {
             int count = dgv.Rows.Count;
-            var ofs = ofs_Item + len_Items.Take(entryItem).Sum(z => z) * 2;
+            var ofs = ofs_Item + (len_Items.Take(entryItem).Sum(z => z) * 2);
             for (int i = 0; i < count; i++)
-                Array.Copy(BitConverter.GetBytes((ushort)Array.IndexOf(itemlist, dgv.Rows[i].Cells[1].Value)), 0, data, ofs + 2 * i, 2);
+                Array.Copy(BitConverter.GetBytes((ushort)Array.IndexOf(itemlist, dgv.Rows[i].Cells[1].Value)), 0, data, ofs + (2 * i), 2);
         }
+
         private void setListBPItem()
         {
             int count = dgvbp.Rows.Count;
-            var ofs = ofs_BPItem + len_BPItem.Take(entryBPItem).Sum(z => z) * 4;
+            var ofs = ofs_BPItem + (len_BPItem.Take(entryBPItem).Sum(z => z) * 4);
             for (int i = 0; i < count; i++)
             {
                 int item = Array.IndexOf(itemlist, dgvbp.Rows[i].Cells[1].Value);
-                Array.Copy(BitConverter.GetBytes((ushort)item), 0, data, ofs + 4 * i, 2);
+                Array.Copy(BitConverter.GetBytes((ushort)item), 0, data, ofs + (4 * i), 2);
                 int price; string p = dgvbp.Rows[i].Cells[2].Value.ToString();
                 if (int.TryParse(p, out price))
-                    Array.Copy(BitConverter.GetBytes((ushort)price), 0, data, ofs + 4 * i + 2, 2);
+                    Array.Copy(BitConverter.GetBytes((ushort)price), 0, data, ofs + (4 * i) + 2, 2);
             }
         }
+
         private void setListBPMove()
         {
             int count = dgvmv.Rows.Count;
-            var ofs = ofs_BPTutor + len_BPTutor.Take(entryBPMove).Sum(z => z) * 4;
+            var ofs = ofs_BPTutor + (len_BPTutor.Take(entryBPMove).Sum(z => z) * 4);
             for (int i = 0; i < count; i++)
             {
                 int item = Array.IndexOf(movelist, dgvmv.Rows[i].Cells[1].Value);
-                Array.Copy(BitConverter.GetBytes((ushort)item), 0, data, ofs + 4 * i, 2);
+                Array.Copy(BitConverter.GetBytes((ushort)item), 0, data, ofs + (4 * i), 2);
                 int price; string p = dgvmv.Rows[i].Cells[2].Value.ToString();
                 if (int.TryParse(p, out price))
-                    Array.Copy(BitConverter.GetBytes((ushort)price), 0, data, ofs + 4 * i + 2, 2);
+                    Array.Copy(BitConverter.GetBytes((ushort)price), 0, data, ofs + (4 * i) + 2, 2);
             }
         }
 
@@ -220,6 +231,7 @@ namespace pk3DS
                     break;
             }
         }
+
         private void RandomizeItems()
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize mart inventories?"))
@@ -247,6 +259,7 @@ namespace pk3DS
             }
             WinFormsUtil.Alert("Randomized!");
         }
+
         private void RandomizeBPItems()
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize BP inventories?"))

@@ -221,9 +221,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // B_Dump
-            // 
+            //
             this.B_Dump.Location = new System.Drawing.Point(483, 4);
             this.B_Dump.Name = "B_Dump";
             this.B_Dump.Size = new System.Drawing.Size(93, 23);
@@ -231,18 +231,18 @@
             this.B_Dump.Text = "Dump to .TXT";
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
-            // 
+            //
             // L_TrainerID
-            // 
+            //
             this.L_TrainerID.AutoSize = true;
             this.L_TrainerID.Location = new System.Drawing.Point(12, 9);
             this.L_TrainerID.Name = "L_TrainerID";
             this.L_TrainerID.Size = new System.Drawing.Size(57, 13);
             this.L_TrainerID.TabIndex = 63;
             this.L_TrainerID.Text = "Trainer ID:";
-            // 
+            //
             // CB_TrainerID
-            // 
+            //
             this.CB_TrainerID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_TrainerID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TrainerID.FormattingEnabled = true;
@@ -250,10 +250,10 @@
             this.CB_TrainerID.Name = "CB_TrainerID";
             this.CB_TrainerID.Size = new System.Drawing.Size(134, 21);
             this.CB_TrainerID.TabIndex = 62;
-            this.CB_TrainerID.SelectedIndexChanged += new System.EventHandler(this.changeTrainerIndex);
-            // 
+            this.CB_TrainerID.SelectedIndexChanged += new System.EventHandler(this.ChangeTrainerIndex);
+            //
             // tabControl1
-            // 
+            //
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
@@ -266,9 +266,9 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(565, 153);
             this.tabControl1.TabIndex = 61;
-            // 
+            //
             // tabPage1
-            // 
+            //
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage1.Controls.Add(this.checkBox_Healer);
             this.tabPage1.Controls.Add(this.L_TPrize);
@@ -299,9 +299,9 @@
             this.tabPage1.Size = new System.Drawing.Size(557, 127);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Trainer Info";
-            // 
+            //
             // checkBox_Healer
-            // 
+            //
             this.checkBox_Healer.AutoSize = true;
             this.checkBox_Healer.Location = new System.Drawing.Point(452, 12);
             this.checkBox_Healer.Name = "checkBox_Healer";
@@ -309,18 +309,18 @@
             this.checkBox_Healer.TabIndex = 58;
             this.checkBox_Healer.Text = "Healer";
             this.checkBox_Healer.UseVisualStyleBackColor = true;
-            // 
+            //
             // L_TPrize
-            // 
+            //
             this.L_TPrize.AutoSize = true;
             this.L_TPrize.Location = new System.Drawing.Point(443, 80);
             this.L_TPrize.Name = "L_TPrize";
             this.L_TPrize.Size = new System.Drawing.Size(33, 13);
             this.L_TPrize.TabIndex = 57;
             this.L_TPrize.Text = "Prize:";
-            // 
+            //
             // CB_Prize
-            // 
+            //
             this.CB_Prize.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Prize.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Prize.FormattingEnabled = true;
@@ -328,18 +328,18 @@
             this.CB_Prize.Name = "CB_Prize";
             this.CB_Prize.Size = new System.Drawing.Size(102, 21);
             this.CB_Prize.TabIndex = 56;
-            // 
+            //
             // L_AI
-            // 
+            //
             this.L_AI.AutoSize = true;
             this.L_AI.Location = new System.Drawing.Point(12, 97);
             this.L_AI.Name = "L_AI";
             this.L_AI.Size = new System.Drawing.Size(49, 13);
             this.L_AI.TabIndex = 55;
             this.L_AI.Text = "AI Level:";
-            // 
+            //
             // CB_AI
-            // 
+            //
             this.CB_AI.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_AI.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_AI.FormattingEnabled = true;
@@ -347,18 +347,18 @@
             this.CB_AI.Name = "CB_AI";
             this.CB_AI.Size = new System.Drawing.Size(74, 21);
             this.CB_AI.TabIndex = 54;
-            // 
+            //
             // L_Money
-            // 
+            //
             this.L_Money.AutoSize = true;
             this.L_Money.Location = new System.Drawing.Point(147, 97);
             this.L_Money.Name = "L_Money";
             this.L_Money.Size = new System.Drawing.Size(42, 13);
             this.L_Money.TabIndex = 53;
             this.L_Money.Text = "Money:";
-            // 
+            //
             // CB_Money
-            // 
+            //
             this.CB_Money.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Money.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Money.FormattingEnabled = true;
@@ -366,18 +366,18 @@
             this.CB_Money.Name = "CB_Money";
             this.CB_Money.Size = new System.Drawing.Size(77, 21);
             this.CB_Money.TabIndex = 52;
-            // 
+            //
             // L_Battle_Type
-            // 
+            //
             this.L_Battle_Type.AutoSize = true;
             this.L_Battle_Type.Location = new System.Drawing.Point(51, 70);
             this.L_Battle_Type.Name = "L_Battle_Type";
             this.L_Battle_Type.Size = new System.Drawing.Size(64, 13);
             this.L_Battle_Type.TabIndex = 51;
             this.L_Battle_Type.Text = "Battle Type:";
-            // 
+            //
             // CB_Battle_Type
-            // 
+            //
             this.CB_Battle_Type.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Battle_Type.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Battle_Type.FormattingEnabled = true;
@@ -391,18 +391,18 @@
             this.CB_Battle_Type.Name = "CB_Battle_Type";
             this.CB_Battle_Type.Size = new System.Drawing.Size(151, 21);
             this.CB_Battle_Type.TabIndex = 50;
-            // 
+            //
             // L_Trainer_Class
-            // 
+            //
             this.L_Trainer_Class.AutoSize = true;
             this.L_Trainer_Class.Location = new System.Drawing.Point(44, 43);
             this.L_Trainer_Class.Name = "L_Trainer_Class";
             this.L_Trainer_Class.Size = new System.Drawing.Size(71, 13);
             this.L_Trainer_Class.TabIndex = 49;
             this.L_Trainer_Class.Text = "Trainer Class:";
-            // 
+            //
             // CB_Trainer_Class
-            // 
+            //
             this.CB_Trainer_Class.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Trainer_Class.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Trainer_Class.DropDownWidth = 165;
@@ -411,9 +411,9 @@
             this.CB_Trainer_Class.Name = "CB_Trainer_Class";
             this.CB_Trainer_Class.Size = new System.Drawing.Size(151, 21);
             this.CB_Trainer_Class.TabIndex = 48;
-            // 
+            //
             // checkBox_Moves
-            // 
+            //
             this.checkBox_Moves.AutoSize = true;
             this.checkBox_Moves.Location = new System.Drawing.Point(452, 28);
             this.checkBox_Moves.Name = "checkBox_Moves";
@@ -421,10 +421,10 @@
             this.checkBox_Moves.TabIndex = 40;
             this.checkBox_Moves.Text = "Moves";
             this.checkBox_Moves.UseVisualStyleBackColor = true;
-            this.checkBox_Moves.CheckedChanged += new System.EventHandler(this.changeTrainerType);
-            // 
+            this.checkBox_Moves.CheckedChanged += new System.EventHandler(this.ChangeTrainerType);
+            //
             // checkBox_Item
-            // 
+            //
             this.checkBox_Item.AutoSize = true;
             this.checkBox_Item.Location = new System.Drawing.Point(452, 44);
             this.checkBox_Item.Name = "checkBox_Item";
@@ -432,19 +432,19 @@
             this.checkBox_Item.TabIndex = 39;
             this.checkBox_Item.Text = "Items";
             this.checkBox_Item.UseVisualStyleBackColor = true;
-            this.checkBox_Item.CheckedChanged += new System.EventHandler(this.changeTrainerType);
-            // 
+            this.checkBox_Item.CheckedChanged += new System.EventHandler(this.ChangeTrainerType);
+            //
             // L_Item_4
-            // 
+            //
             this.L_Item_4.AutoSize = true;
             this.L_Item_4.Location = new System.Drawing.Point(276, 97);
             this.L_Item_4.Name = "L_Item_4";
             this.L_Item_4.Size = new System.Drawing.Size(39, 13);
             this.L_Item_4.TabIndex = 34;
             this.L_Item_4.Text = "Item 4:";
-            // 
+            //
             // CB_Item_4
-            // 
+            //
             this.CB_Item_4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Item_4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Item_4.FormattingEnabled = true;
@@ -452,18 +452,18 @@
             this.CB_Item_4.Name = "CB_Item_4";
             this.CB_Item_4.Size = new System.Drawing.Size(121, 21);
             this.CB_Item_4.TabIndex = 33;
-            // 
+            //
             // L_Item_3
-            // 
+            //
             this.L_Item_3.AutoSize = true;
             this.L_Item_3.Location = new System.Drawing.Point(276, 70);
             this.L_Item_3.Name = "L_Item_3";
             this.L_Item_3.Size = new System.Drawing.Size(39, 13);
             this.L_Item_3.TabIndex = 32;
             this.L_Item_3.Text = "Item 3:";
-            // 
+            //
             // CB_Item_3
-            // 
+            //
             this.CB_Item_3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Item_3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Item_3.FormattingEnabled = true;
@@ -471,18 +471,18 @@
             this.CB_Item_3.Name = "CB_Item_3";
             this.CB_Item_3.Size = new System.Drawing.Size(121, 21);
             this.CB_Item_3.TabIndex = 31;
-            // 
+            //
             // L_Item_2
-            // 
+            //
             this.L_Item_2.AutoSize = true;
             this.L_Item_2.Location = new System.Drawing.Point(276, 43);
             this.L_Item_2.Name = "L_Item_2";
             this.L_Item_2.Size = new System.Drawing.Size(39, 13);
             this.L_Item_2.TabIndex = 30;
             this.L_Item_2.Text = "Item 2:";
-            // 
+            //
             // CB_Item_2
-            // 
+            //
             this.CB_Item_2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Item_2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Item_2.FormattingEnabled = true;
@@ -490,18 +490,18 @@
             this.CB_Item_2.Name = "CB_Item_2";
             this.CB_Item_2.Size = new System.Drawing.Size(121, 21);
             this.CB_Item_2.TabIndex = 29;
-            // 
+            //
             // L_Item_1
-            // 
+            //
             this.L_Item_1.AutoSize = true;
             this.L_Item_1.Location = new System.Drawing.Point(276, 16);
             this.L_Item_1.Name = "L_Item_1";
             this.L_Item_1.Size = new System.Drawing.Size(39, 13);
             this.L_Item_1.TabIndex = 28;
             this.L_Item_1.Text = "Item 1:";
-            // 
+            //
             // CB_Item_1
-            // 
+            //
             this.CB_Item_1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Item_1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Item_1.FormattingEnabled = true;
@@ -509,18 +509,18 @@
             this.CB_Item_1.Name = "CB_Item_1";
             this.CB_Item_1.Size = new System.Drawing.Size(121, 21);
             this.CB_Item_1.TabIndex = 27;
-            // 
+            //
             // L_numPokemon
-            // 
+            //
             this.L_numPokemon.AutoSize = true;
             this.L_numPokemon.Location = new System.Drawing.Point(8, 16);
             this.L_numPokemon.Name = "L_numPokemon";
             this.L_numPokemon.Size = new System.Drawing.Size(107, 13);
             this.L_numPokemon.TabIndex = 22;
             this.L_numPokemon.Text = "Number of Pokémon:";
-            // 
+            //
             // CB_numPokemon
-            // 
+            //
             this.CB_numPokemon.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_numPokemon.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_numPokemon.FormattingEnabled = true;
@@ -536,10 +536,10 @@
             this.CB_numPokemon.Name = "CB_numPokemon";
             this.CB_numPokemon.Size = new System.Drawing.Size(151, 21);
             this.CB_numPokemon.TabIndex = 21;
-            this.CB_numPokemon.SelectedIndexChanged += new System.EventHandler(this.changeTrainerType);
-            // 
+            this.CB_numPokemon.SelectedIndexChanged += new System.EventHandler(this.ChangeTrainerType);
+            //
             // tabPage2
-            // 
+            //
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage2.Controls.Add(this.L_Pokemon_1_Form);
             this.tabPage2.Controls.Add(this.CB_Pokemon_1_Ability);
@@ -569,18 +569,18 @@
             this.tabPage2.Size = new System.Drawing.Size(557, 127);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Pokémon 1";
-            // 
+            //
             // L_Pokemon_1_Form
-            // 
+            //
             this.L_Pokemon_1_Form.AutoSize = true;
             this.L_Pokemon_1_Form.Location = new System.Drawing.Point(29, 44);
             this.L_Pokemon_1_Form.Name = "L_Pokemon_1_Form";
             this.L_Pokemon_1_Form.Size = new System.Drawing.Size(33, 13);
             this.L_Pokemon_1_Form.TabIndex = 63;
             this.L_Pokemon_1_Form.Text = "Form:";
-            // 
+            //
             // CB_Pokemon_1_Ability
-            // 
+            //
             this.CB_Pokemon_1_Ability.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_1_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_1_Ability.Enabled = false;
@@ -589,18 +589,18 @@
             this.CB_Pokemon_1_Ability.Name = "CB_Pokemon_1_Ability";
             this.CB_Pokemon_1_Ability.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_1_Ability.TabIndex = 62;
-            // 
+            //
             // L_Pokemon_1_Gender
-            // 
+            //
             this.L_Pokemon_1_Gender.AutoSize = true;
             this.L_Pokemon_1_Gender.Location = new System.Drawing.Point(366, 71);
             this.L_Pokemon_1_Gender.Name = "L_Pokemon_1_Gender";
             this.L_Pokemon_1_Gender.Size = new System.Drawing.Size(45, 13);
             this.L_Pokemon_1_Gender.TabIndex = 59;
             this.L_Pokemon_1_Gender.Text = "Gender:";
-            // 
+            //
             // CB_Pokemon_1_Gender
-            // 
+            //
             this.CB_Pokemon_1_Gender.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_1_Gender.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_1_Gender.Enabled = false;
@@ -609,19 +609,19 @@
             this.CB_Pokemon_1_Gender.Name = "CB_Pokemon_1_Gender";
             this.CB_Pokemon_1_Gender.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_1_Gender.TabIndex = 58;
-            this.CB_Pokemon_1_Gender.SelectedIndexChanged += new System.EventHandler(this.changeTeam);
-            // 
+            this.CB_Pokemon_1_Gender.SelectedIndexChanged += new System.EventHandler(this.ChangeTeam);
+            //
             // L_Pokemon_1_Ability
-            // 
+            //
             this.L_Pokemon_1_Ability.AutoSize = true;
             this.L_Pokemon_1_Ability.Location = new System.Drawing.Point(374, 44);
             this.L_Pokemon_1_Ability.Name = "L_Pokemon_1_Ability";
             this.L_Pokemon_1_Ability.Size = new System.Drawing.Size(37, 13);
             this.L_Pokemon_1_Ability.TabIndex = 57;
             this.L_Pokemon_1_Ability.Text = "Ability:";
-            // 
+            //
             // CB_Pokemon_1_Form
-            // 
+            //
             this.CB_Pokemon_1_Form.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_1_Form.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_1_Form.Enabled = false;
@@ -630,19 +630,19 @@
             this.CB_Pokemon_1_Form.Name = "CB_Pokemon_1_Form";
             this.CB_Pokemon_1_Form.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_1_Form.TabIndex = 56;
-            this.CB_Pokemon_1_Form.SelectedIndexChanged += new System.EventHandler(this.refreshFormAbility);
-            // 
+            this.CB_Pokemon_1_Form.SelectedIndexChanged += new System.EventHandler(this.RefreshFormAbility);
+            //
             // L_Pokemon_1_IVs
-            // 
+            //
             this.L_Pokemon_1_IVs.AutoSize = true;
             this.L_Pokemon_1_IVs.Location = new System.Drawing.Point(386, 17);
             this.L_Pokemon_1_IVs.Name = "L_Pokemon_1_IVs";
             this.L_Pokemon_1_IVs.Size = new System.Drawing.Size(25, 13);
             this.L_Pokemon_1_IVs.TabIndex = 36;
             this.L_Pokemon_1_IVs.Text = "IVs:";
-            // 
+            //
             // CB_Pokemon_1_IVs
-            // 
+            //
             this.CB_Pokemon_1_IVs.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_1_IVs.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_1_IVs.Enabled = false;
@@ -651,18 +651,18 @@
             this.CB_Pokemon_1_IVs.Name = "CB_Pokemon_1_IVs";
             this.CB_Pokemon_1_IVs.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_1_IVs.TabIndex = 35;
-            // 
+            //
             // L_Pokemon_1_Move_4
-            // 
+            //
             this.L_Pokemon_1_Move_4.AutoSize = true;
             this.L_Pokemon_1_Move_4.Location = new System.Drawing.Point(192, 98);
             this.L_Pokemon_1_Move_4.Name = "L_Pokemon_1_Move_4";
             this.L_Pokemon_1_Move_4.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_1_Move_4.TabIndex = 34;
             this.L_Pokemon_1_Move_4.Text = "Move 4:";
-            // 
+            //
             // CB_Pokemon_1_Move_4
-            // 
+            //
             this.CB_Pokemon_1_Move_4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_1_Move_4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_1_Move_4.Enabled = false;
@@ -671,18 +671,18 @@
             this.CB_Pokemon_1_Move_4.Name = "CB_Pokemon_1_Move_4";
             this.CB_Pokemon_1_Move_4.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_1_Move_4.TabIndex = 33;
-            // 
+            //
             // L_Pokemon_1_Move_3
-            // 
+            //
             this.L_Pokemon_1_Move_3.AutoSize = true;
             this.L_Pokemon_1_Move_3.Location = new System.Drawing.Point(192, 71);
             this.L_Pokemon_1_Move_3.Name = "L_Pokemon_1_Move_3";
             this.L_Pokemon_1_Move_3.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_1_Move_3.TabIndex = 32;
             this.L_Pokemon_1_Move_3.Text = "Move 3:";
-            // 
+            //
             // CB_Pokemon_1_Move_3
-            // 
+            //
             this.CB_Pokemon_1_Move_3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_1_Move_3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_1_Move_3.Enabled = false;
@@ -691,18 +691,18 @@
             this.CB_Pokemon_1_Move_3.Name = "CB_Pokemon_1_Move_3";
             this.CB_Pokemon_1_Move_3.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_1_Move_3.TabIndex = 31;
-            // 
+            //
             // L_Pokemon_1_Move_2
-            // 
+            //
             this.L_Pokemon_1_Move_2.AutoSize = true;
             this.L_Pokemon_1_Move_2.Location = new System.Drawing.Point(192, 44);
             this.L_Pokemon_1_Move_2.Name = "L_Pokemon_1_Move_2";
             this.L_Pokemon_1_Move_2.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_1_Move_2.TabIndex = 30;
             this.L_Pokemon_1_Move_2.Text = "Move 2:";
-            // 
+            //
             // CB_Pokemon_1_Move_2
-            // 
+            //
             this.CB_Pokemon_1_Move_2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_1_Move_2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_1_Move_2.Enabled = false;
@@ -711,18 +711,18 @@
             this.CB_Pokemon_1_Move_2.Name = "CB_Pokemon_1_Move_2";
             this.CB_Pokemon_1_Move_2.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_1_Move_2.TabIndex = 29;
-            // 
+            //
             // L_Pokemon_1_Move_1
-            // 
+            //
             this.L_Pokemon_1_Move_1.AutoSize = true;
             this.L_Pokemon_1_Move_1.Location = new System.Drawing.Point(192, 17);
             this.L_Pokemon_1_Move_1.Name = "L_Pokemon_1_Move_1";
             this.L_Pokemon_1_Move_1.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_1_Move_1.TabIndex = 28;
             this.L_Pokemon_1_Move_1.Text = "Move 1:";
-            // 
+            //
             // CB_Pokemon_1_Move_1
-            // 
+            //
             this.CB_Pokemon_1_Move_1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_1_Move_1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_1_Move_1.Enabled = false;
@@ -731,18 +731,18 @@
             this.CB_Pokemon_1_Move_1.Name = "CB_Pokemon_1_Move_1";
             this.CB_Pokemon_1_Move_1.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_1_Move_1.TabIndex = 27;
-            // 
+            //
             // L_Pokemon_1_Item
-            // 
+            //
             this.L_Pokemon_1_Item.AutoSize = true;
             this.L_Pokemon_1_Item.Location = new System.Drawing.Point(32, 98);
             this.L_Pokemon_1_Item.Name = "L_Pokemon_1_Item";
             this.L_Pokemon_1_Item.Size = new System.Drawing.Size(30, 13);
             this.L_Pokemon_1_Item.TabIndex = 26;
             this.L_Pokemon_1_Item.Text = "Item:";
-            // 
+            //
             // CB_Pokemon_1_Item
-            // 
+            //
             this.CB_Pokemon_1_Item.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_1_Item.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_1_Item.Enabled = false;
@@ -751,19 +751,19 @@
             this.CB_Pokemon_1_Item.Name = "CB_Pokemon_1_Item";
             this.CB_Pokemon_1_Item.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_1_Item.TabIndex = 25;
-            this.CB_Pokemon_1_Item.SelectedIndexChanged += new System.EventHandler(this.changeTeam);
-            // 
+            this.CB_Pokemon_1_Item.SelectedIndexChanged += new System.EventHandler(this.ChangeTeam);
+            //
             // L_Pokemon_1_Level
-            // 
+            //
             this.L_Pokemon_1_Level.AutoSize = true;
             this.L_Pokemon_1_Level.Location = new System.Drawing.Point(26, 71);
             this.L_Pokemon_1_Level.Name = "L_Pokemon_1_Level";
             this.L_Pokemon_1_Level.Size = new System.Drawing.Size(36, 13);
             this.L_Pokemon_1_Level.TabIndex = 24;
             this.L_Pokemon_1_Level.Text = "Level:";
-            // 
+            //
             // CB_Pokemon_1_Level
-            // 
+            //
             this.CB_Pokemon_1_Level.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_1_Level.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_1_Level.Enabled = false;
@@ -772,18 +772,18 @@
             this.CB_Pokemon_1_Level.Name = "CB_Pokemon_1_Level";
             this.CB_Pokemon_1_Level.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_1_Level.TabIndex = 23;
-            // 
+            //
             // L_Pokemon_1_Pokemon
-            // 
+            //
             this.L_Pokemon_1_Pokemon.AutoSize = true;
             this.L_Pokemon_1_Pokemon.Location = new System.Drawing.Point(7, 17);
             this.L_Pokemon_1_Pokemon.Name = "L_Pokemon_1_Pokemon";
             this.L_Pokemon_1_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon_1_Pokemon.TabIndex = 22;
             this.L_Pokemon_1_Pokemon.Text = "Pokémon:";
-            // 
+            //
             // CB_Pokemon_1_Pokemon
-            // 
+            //
             this.CB_Pokemon_1_Pokemon.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_1_Pokemon.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_1_Pokemon.Enabled = false;
@@ -792,10 +792,10 @@
             this.CB_Pokemon_1_Pokemon.Name = "CB_Pokemon_1_Pokemon";
             this.CB_Pokemon_1_Pokemon.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_1_Pokemon.TabIndex = 21;
-            this.CB_Pokemon_1_Pokemon.SelectedIndexChanged += new System.EventHandler(this.refreshSpeciesAbility);
-            // 
+            this.CB_Pokemon_1_Pokemon.SelectedIndexChanged += new System.EventHandler(this.RefreshSpeciesAbility);
+            //
             // tabPage3
-            // 
+            //
             this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage3.Controls.Add(this.L_Pokemon_2_Gender);
             this.tabPage3.Controls.Add(this.CB_Pokemon_2_Gender);
@@ -825,18 +825,18 @@
             this.tabPage3.Size = new System.Drawing.Size(557, 127);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Pokémon 2";
-            // 
+            //
             // L_Pokemon_2_Gender
-            // 
+            //
             this.L_Pokemon_2_Gender.AutoSize = true;
             this.L_Pokemon_2_Gender.Location = new System.Drawing.Point(366, 71);
             this.L_Pokemon_2_Gender.Name = "L_Pokemon_2_Gender";
             this.L_Pokemon_2_Gender.Size = new System.Drawing.Size(45, 13);
             this.L_Pokemon_2_Gender.TabIndex = 65;
             this.L_Pokemon_2_Gender.Text = "Gender:";
-            // 
+            //
             // CB_Pokemon_2_Gender
-            // 
+            //
             this.CB_Pokemon_2_Gender.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_2_Gender.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_2_Gender.Enabled = false;
@@ -845,19 +845,19 @@
             this.CB_Pokemon_2_Gender.Name = "CB_Pokemon_2_Gender";
             this.CB_Pokemon_2_Gender.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_2_Gender.TabIndex = 64;
-            this.CB_Pokemon_2_Gender.SelectedIndexChanged += new System.EventHandler(this.changeTeam);
-            // 
+            this.CB_Pokemon_2_Gender.SelectedIndexChanged += new System.EventHandler(this.ChangeTeam);
+            //
             // L_Pokemon_2_Ability
-            // 
+            //
             this.L_Pokemon_2_Ability.AutoSize = true;
             this.L_Pokemon_2_Ability.Location = new System.Drawing.Point(374, 44);
             this.L_Pokemon_2_Ability.Name = "L_Pokemon_2_Ability";
             this.L_Pokemon_2_Ability.Size = new System.Drawing.Size(37, 13);
             this.L_Pokemon_2_Ability.TabIndex = 63;
             this.L_Pokemon_2_Ability.Text = "Ability:";
-            // 
+            //
             // CB_Pokemon_2_Ability
-            // 
+            //
             this.CB_Pokemon_2_Ability.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_2_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_2_Ability.Enabled = false;
@@ -866,18 +866,18 @@
             this.CB_Pokemon_2_Ability.Name = "CB_Pokemon_2_Ability";
             this.CB_Pokemon_2_Ability.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_2_Ability.TabIndex = 62;
-            // 
+            //
             // L_Pokemon_2_Form
-            // 
+            //
             this.L_Pokemon_2_Form.AutoSize = true;
             this.L_Pokemon_2_Form.Location = new System.Drawing.Point(29, 44);
             this.L_Pokemon_2_Form.Name = "L_Pokemon_2_Form";
             this.L_Pokemon_2_Form.Size = new System.Drawing.Size(33, 13);
             this.L_Pokemon_2_Form.TabIndex = 59;
             this.L_Pokemon_2_Form.Text = "Form:";
-            // 
+            //
             // CB_Pokemon_2_Form
-            // 
+            //
             this.CB_Pokemon_2_Form.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_2_Form.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_2_Form.Enabled = false;
@@ -886,19 +886,19 @@
             this.CB_Pokemon_2_Form.Name = "CB_Pokemon_2_Form";
             this.CB_Pokemon_2_Form.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_2_Form.TabIndex = 58;
-            this.CB_Pokemon_2_Form.SelectedIndexChanged += new System.EventHandler(this.refreshFormAbility);
-            // 
+            this.CB_Pokemon_2_Form.SelectedIndexChanged += new System.EventHandler(this.RefreshFormAbility);
+            //
             // L_Pokemon_2_IVs
-            // 
+            //
             this.L_Pokemon_2_IVs.AutoSize = true;
             this.L_Pokemon_2_IVs.Location = new System.Drawing.Point(386, 17);
             this.L_Pokemon_2_IVs.Name = "L_Pokemon_2_IVs";
             this.L_Pokemon_2_IVs.Size = new System.Drawing.Size(25, 13);
             this.L_Pokemon_2_IVs.TabIndex = 38;
             this.L_Pokemon_2_IVs.Text = "IVs:";
-            // 
+            //
             // CB_Pokemon_2_IVs
-            // 
+            //
             this.CB_Pokemon_2_IVs.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_2_IVs.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_2_IVs.Enabled = false;
@@ -907,18 +907,18 @@
             this.CB_Pokemon_2_IVs.Name = "CB_Pokemon_2_IVs";
             this.CB_Pokemon_2_IVs.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_2_IVs.TabIndex = 37;
-            // 
+            //
             // L_Pokemon_2_Move_4
-            // 
+            //
             this.L_Pokemon_2_Move_4.AutoSize = true;
             this.L_Pokemon_2_Move_4.Location = new System.Drawing.Point(192, 98);
             this.L_Pokemon_2_Move_4.Name = "L_Pokemon_2_Move_4";
             this.L_Pokemon_2_Move_4.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_2_Move_4.TabIndex = 34;
             this.L_Pokemon_2_Move_4.Text = "Move 4:";
-            // 
+            //
             // CB_Pokemon_2_Move_4
-            // 
+            //
             this.CB_Pokemon_2_Move_4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_2_Move_4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_2_Move_4.Enabled = false;
@@ -927,18 +927,18 @@
             this.CB_Pokemon_2_Move_4.Name = "CB_Pokemon_2_Move_4";
             this.CB_Pokemon_2_Move_4.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_2_Move_4.TabIndex = 33;
-            // 
+            //
             // L_Pokemon_2_Move_3
-            // 
+            //
             this.L_Pokemon_2_Move_3.AutoSize = true;
             this.L_Pokemon_2_Move_3.Location = new System.Drawing.Point(192, 71);
             this.L_Pokemon_2_Move_3.Name = "L_Pokemon_2_Move_3";
             this.L_Pokemon_2_Move_3.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_2_Move_3.TabIndex = 32;
             this.L_Pokemon_2_Move_3.Text = "Move 3:";
-            // 
+            //
             // CB_Pokemon_2_Move_3
-            // 
+            //
             this.CB_Pokemon_2_Move_3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_2_Move_3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_2_Move_3.Enabled = false;
@@ -947,18 +947,18 @@
             this.CB_Pokemon_2_Move_3.Name = "CB_Pokemon_2_Move_3";
             this.CB_Pokemon_2_Move_3.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_2_Move_3.TabIndex = 31;
-            // 
+            //
             // L_Pokemon_2_Move_2
-            // 
+            //
             this.L_Pokemon_2_Move_2.AutoSize = true;
             this.L_Pokemon_2_Move_2.Location = new System.Drawing.Point(192, 44);
             this.L_Pokemon_2_Move_2.Name = "L_Pokemon_2_Move_2";
             this.L_Pokemon_2_Move_2.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_2_Move_2.TabIndex = 30;
             this.L_Pokemon_2_Move_2.Text = "Move 2:";
-            // 
+            //
             // CB_Pokemon_2_Move_2
-            // 
+            //
             this.CB_Pokemon_2_Move_2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_2_Move_2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_2_Move_2.Enabled = false;
@@ -967,18 +967,18 @@
             this.CB_Pokemon_2_Move_2.Name = "CB_Pokemon_2_Move_2";
             this.CB_Pokemon_2_Move_2.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_2_Move_2.TabIndex = 29;
-            // 
+            //
             // L_Pokemon_2_Move_1
-            // 
+            //
             this.L_Pokemon_2_Move_1.AutoSize = true;
             this.L_Pokemon_2_Move_1.Location = new System.Drawing.Point(192, 17);
             this.L_Pokemon_2_Move_1.Name = "L_Pokemon_2_Move_1";
             this.L_Pokemon_2_Move_1.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_2_Move_1.TabIndex = 28;
             this.L_Pokemon_2_Move_1.Text = "Move 1:";
-            // 
+            //
             // CB_Pokemon_2_Move_1
-            // 
+            //
             this.CB_Pokemon_2_Move_1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_2_Move_1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_2_Move_1.Enabled = false;
@@ -987,18 +987,18 @@
             this.CB_Pokemon_2_Move_1.Name = "CB_Pokemon_2_Move_1";
             this.CB_Pokemon_2_Move_1.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_2_Move_1.TabIndex = 27;
-            // 
+            //
             // L_Pokemon_2_Item
-            // 
+            //
             this.L_Pokemon_2_Item.AutoSize = true;
             this.L_Pokemon_2_Item.Location = new System.Drawing.Point(32, 98);
             this.L_Pokemon_2_Item.Name = "L_Pokemon_2_Item";
             this.L_Pokemon_2_Item.Size = new System.Drawing.Size(30, 13);
             this.L_Pokemon_2_Item.TabIndex = 26;
             this.L_Pokemon_2_Item.Text = "Item:";
-            // 
+            //
             // CB_Pokemon_2_Item
-            // 
+            //
             this.CB_Pokemon_2_Item.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_2_Item.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_2_Item.Enabled = false;
@@ -1007,19 +1007,19 @@
             this.CB_Pokemon_2_Item.Name = "CB_Pokemon_2_Item";
             this.CB_Pokemon_2_Item.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_2_Item.TabIndex = 25;
-            this.CB_Pokemon_2_Item.SelectedIndexChanged += new System.EventHandler(this.changeTeam);
-            // 
+            this.CB_Pokemon_2_Item.SelectedIndexChanged += new System.EventHandler(this.ChangeTeam);
+            //
             // L_CB_Pokemon_2_Level
-            // 
+            //
             this.L_CB_Pokemon_2_Level.AutoSize = true;
             this.L_CB_Pokemon_2_Level.Location = new System.Drawing.Point(26, 71);
             this.L_CB_Pokemon_2_Level.Name = "L_CB_Pokemon_2_Level";
             this.L_CB_Pokemon_2_Level.Size = new System.Drawing.Size(36, 13);
             this.L_CB_Pokemon_2_Level.TabIndex = 24;
             this.L_CB_Pokemon_2_Level.Text = "Level:";
-            // 
+            //
             // CB_Pokemon_2_Level
-            // 
+            //
             this.CB_Pokemon_2_Level.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_2_Level.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_2_Level.Enabled = false;
@@ -1028,18 +1028,18 @@
             this.CB_Pokemon_2_Level.Name = "CB_Pokemon_2_Level";
             this.CB_Pokemon_2_Level.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_2_Level.TabIndex = 23;
-            // 
+            //
             // L_Pokemon_2_Pokemon
-            // 
+            //
             this.L_Pokemon_2_Pokemon.AutoSize = true;
             this.L_Pokemon_2_Pokemon.Location = new System.Drawing.Point(7, 17);
             this.L_Pokemon_2_Pokemon.Name = "L_Pokemon_2_Pokemon";
             this.L_Pokemon_2_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon_2_Pokemon.TabIndex = 22;
             this.L_Pokemon_2_Pokemon.Text = "Pokémon:";
-            // 
+            //
             // CB_Pokemon_2_Pokemon
-            // 
+            //
             this.CB_Pokemon_2_Pokemon.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_2_Pokemon.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_2_Pokemon.Enabled = false;
@@ -1048,10 +1048,10 @@
             this.CB_Pokemon_2_Pokemon.Name = "CB_Pokemon_2_Pokemon";
             this.CB_Pokemon_2_Pokemon.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_2_Pokemon.TabIndex = 21;
-            this.CB_Pokemon_2_Pokemon.SelectedIndexChanged += new System.EventHandler(this.refreshSpeciesAbility);
-            // 
+            this.CB_Pokemon_2_Pokemon.SelectedIndexChanged += new System.EventHandler(this.RefreshSpeciesAbility);
+            //
             // tabPage4
-            // 
+            //
             this.tabPage4.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage4.Controls.Add(this.L_Pokemon_3_Gender);
             this.tabPage4.Controls.Add(this.CB_Pokemon_3_Gender);
@@ -1081,18 +1081,18 @@
             this.tabPage4.Size = new System.Drawing.Size(557, 127);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Pokémon 3";
-            // 
+            //
             // L_Pokemon_3_Gender
-            // 
+            //
             this.L_Pokemon_3_Gender.AutoSize = true;
             this.L_Pokemon_3_Gender.Location = new System.Drawing.Point(366, 71);
             this.L_Pokemon_3_Gender.Name = "L_Pokemon_3_Gender";
             this.L_Pokemon_3_Gender.Size = new System.Drawing.Size(45, 13);
             this.L_Pokemon_3_Gender.TabIndex = 65;
             this.L_Pokemon_3_Gender.Text = "Gender:";
-            // 
+            //
             // CB_Pokemon_3_Gender
-            // 
+            //
             this.CB_Pokemon_3_Gender.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_3_Gender.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_3_Gender.Enabled = false;
@@ -1101,19 +1101,19 @@
             this.CB_Pokemon_3_Gender.Name = "CB_Pokemon_3_Gender";
             this.CB_Pokemon_3_Gender.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_3_Gender.TabIndex = 64;
-            this.CB_Pokemon_3_Gender.SelectedIndexChanged += new System.EventHandler(this.changeTeam);
-            // 
+            this.CB_Pokemon_3_Gender.SelectedIndexChanged += new System.EventHandler(this.ChangeTeam);
+            //
             // L_Pokemon_3_Ability
-            // 
+            //
             this.L_Pokemon_3_Ability.AutoSize = true;
             this.L_Pokemon_3_Ability.Location = new System.Drawing.Point(374, 44);
             this.L_Pokemon_3_Ability.Name = "L_Pokemon_3_Ability";
             this.L_Pokemon_3_Ability.Size = new System.Drawing.Size(37, 13);
             this.L_Pokemon_3_Ability.TabIndex = 63;
             this.L_Pokemon_3_Ability.Text = "Ability:";
-            // 
+            //
             // CB_Pokemon_3_Ability
-            // 
+            //
             this.CB_Pokemon_3_Ability.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_3_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_3_Ability.Enabled = false;
@@ -1122,18 +1122,18 @@
             this.CB_Pokemon_3_Ability.Name = "CB_Pokemon_3_Ability";
             this.CB_Pokemon_3_Ability.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_3_Ability.TabIndex = 62;
-            // 
+            //
             // L_Pokemon_3_Form
-            // 
+            //
             this.L_Pokemon_3_Form.AutoSize = true;
             this.L_Pokemon_3_Form.Location = new System.Drawing.Point(29, 44);
             this.L_Pokemon_3_Form.Name = "L_Pokemon_3_Form";
             this.L_Pokemon_3_Form.Size = new System.Drawing.Size(33, 13);
             this.L_Pokemon_3_Form.TabIndex = 59;
             this.L_Pokemon_3_Form.Text = "Form:";
-            // 
+            //
             // CB_Pokemon_3_Form
-            // 
+            //
             this.CB_Pokemon_3_Form.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_3_Form.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_3_Form.Enabled = false;
@@ -1142,19 +1142,19 @@
             this.CB_Pokemon_3_Form.Name = "CB_Pokemon_3_Form";
             this.CB_Pokemon_3_Form.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_3_Form.TabIndex = 58;
-            this.CB_Pokemon_3_Form.SelectedIndexChanged += new System.EventHandler(this.refreshFormAbility);
-            // 
+            this.CB_Pokemon_3_Form.SelectedIndexChanged += new System.EventHandler(this.RefreshFormAbility);
+            //
             // L_Pokemon_3_IVs
-            // 
+            //
             this.L_Pokemon_3_IVs.AutoSize = true;
             this.L_Pokemon_3_IVs.Location = new System.Drawing.Point(386, 17);
             this.L_Pokemon_3_IVs.Name = "L_Pokemon_3_IVs";
             this.L_Pokemon_3_IVs.Size = new System.Drawing.Size(25, 13);
             this.L_Pokemon_3_IVs.TabIndex = 38;
             this.L_Pokemon_3_IVs.Text = "IVs:";
-            // 
+            //
             // CB_Pokemon_3_IVs
-            // 
+            //
             this.CB_Pokemon_3_IVs.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_3_IVs.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_3_IVs.Enabled = false;
@@ -1163,18 +1163,18 @@
             this.CB_Pokemon_3_IVs.Name = "CB_Pokemon_3_IVs";
             this.CB_Pokemon_3_IVs.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_3_IVs.TabIndex = 37;
-            // 
+            //
             // L_Pokemon_3_Move_4
-            // 
+            //
             this.L_Pokemon_3_Move_4.AutoSize = true;
             this.L_Pokemon_3_Move_4.Location = new System.Drawing.Point(192, 98);
             this.L_Pokemon_3_Move_4.Name = "L_Pokemon_3_Move_4";
             this.L_Pokemon_3_Move_4.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_3_Move_4.TabIndex = 34;
             this.L_Pokemon_3_Move_4.Text = "Move 4:";
-            // 
+            //
             // CB_Pokemon_3_Move_4
-            // 
+            //
             this.CB_Pokemon_3_Move_4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_3_Move_4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_3_Move_4.Enabled = false;
@@ -1183,18 +1183,18 @@
             this.CB_Pokemon_3_Move_4.Name = "CB_Pokemon_3_Move_4";
             this.CB_Pokemon_3_Move_4.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_3_Move_4.TabIndex = 33;
-            // 
+            //
             // L_Pokemon_3_Move_3
-            // 
+            //
             this.L_Pokemon_3_Move_3.AutoSize = true;
             this.L_Pokemon_3_Move_3.Location = new System.Drawing.Point(192, 71);
             this.L_Pokemon_3_Move_3.Name = "L_Pokemon_3_Move_3";
             this.L_Pokemon_3_Move_3.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_3_Move_3.TabIndex = 32;
             this.L_Pokemon_3_Move_3.Text = "Move 3:";
-            // 
+            //
             // CB_Pokemon_3_Move_3
-            // 
+            //
             this.CB_Pokemon_3_Move_3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_3_Move_3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_3_Move_3.Enabled = false;
@@ -1203,18 +1203,18 @@
             this.CB_Pokemon_3_Move_3.Name = "CB_Pokemon_3_Move_3";
             this.CB_Pokemon_3_Move_3.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_3_Move_3.TabIndex = 31;
-            // 
+            //
             // L_Pokemon_3_Move_2
-            // 
+            //
             this.L_Pokemon_3_Move_2.AutoSize = true;
             this.L_Pokemon_3_Move_2.Location = new System.Drawing.Point(192, 44);
             this.L_Pokemon_3_Move_2.Name = "L_Pokemon_3_Move_2";
             this.L_Pokemon_3_Move_2.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_3_Move_2.TabIndex = 30;
             this.L_Pokemon_3_Move_2.Text = "Move 2:";
-            // 
+            //
             // CB_Pokemon_3_Move_2
-            // 
+            //
             this.CB_Pokemon_3_Move_2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_3_Move_2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_3_Move_2.Enabled = false;
@@ -1223,18 +1223,18 @@
             this.CB_Pokemon_3_Move_2.Name = "CB_Pokemon_3_Move_2";
             this.CB_Pokemon_3_Move_2.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_3_Move_2.TabIndex = 29;
-            // 
+            //
             // L_Pokemon_3_Move_1
-            // 
+            //
             this.L_Pokemon_3_Move_1.AutoSize = true;
             this.L_Pokemon_3_Move_1.Location = new System.Drawing.Point(192, 17);
             this.L_Pokemon_3_Move_1.Name = "L_Pokemon_3_Move_1";
             this.L_Pokemon_3_Move_1.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_3_Move_1.TabIndex = 28;
             this.L_Pokemon_3_Move_1.Text = "Move 1:";
-            // 
+            //
             // CB_Pokemon_3_Move_1
-            // 
+            //
             this.CB_Pokemon_3_Move_1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_3_Move_1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_3_Move_1.Enabled = false;
@@ -1243,18 +1243,18 @@
             this.CB_Pokemon_3_Move_1.Name = "CB_Pokemon_3_Move_1";
             this.CB_Pokemon_3_Move_1.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_3_Move_1.TabIndex = 27;
-            // 
+            //
             // L_Pokemon_3_Item
-            // 
+            //
             this.L_Pokemon_3_Item.AutoSize = true;
             this.L_Pokemon_3_Item.Location = new System.Drawing.Point(32, 98);
             this.L_Pokemon_3_Item.Name = "L_Pokemon_3_Item";
             this.L_Pokemon_3_Item.Size = new System.Drawing.Size(30, 13);
             this.L_Pokemon_3_Item.TabIndex = 26;
             this.L_Pokemon_3_Item.Text = "Item:";
-            // 
+            //
             // CB_Pokemon_3_Item
-            // 
+            //
             this.CB_Pokemon_3_Item.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_3_Item.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_3_Item.Enabled = false;
@@ -1263,19 +1263,19 @@
             this.CB_Pokemon_3_Item.Name = "CB_Pokemon_3_Item";
             this.CB_Pokemon_3_Item.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_3_Item.TabIndex = 25;
-            this.CB_Pokemon_3_Item.SelectedIndexChanged += new System.EventHandler(this.changeTeam);
-            // 
+            this.CB_Pokemon_3_Item.SelectedIndexChanged += new System.EventHandler(this.ChangeTeam);
+            //
             // L_Pokemon_3_Level
-            // 
+            //
             this.L_Pokemon_3_Level.AutoSize = true;
             this.L_Pokemon_3_Level.Location = new System.Drawing.Point(26, 71);
             this.L_Pokemon_3_Level.Name = "L_Pokemon_3_Level";
             this.L_Pokemon_3_Level.Size = new System.Drawing.Size(36, 13);
             this.L_Pokemon_3_Level.TabIndex = 24;
             this.L_Pokemon_3_Level.Text = "Level:";
-            // 
+            //
             // CB_Pokemon_3_Level
-            // 
+            //
             this.CB_Pokemon_3_Level.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_3_Level.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_3_Level.Enabled = false;
@@ -1284,18 +1284,18 @@
             this.CB_Pokemon_3_Level.Name = "CB_Pokemon_3_Level";
             this.CB_Pokemon_3_Level.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_3_Level.TabIndex = 23;
-            // 
+            //
             // L_Pokemon_3_Pokemon
-            // 
+            //
             this.L_Pokemon_3_Pokemon.AutoSize = true;
             this.L_Pokemon_3_Pokemon.Location = new System.Drawing.Point(7, 17);
             this.L_Pokemon_3_Pokemon.Name = "L_Pokemon_3_Pokemon";
             this.L_Pokemon_3_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon_3_Pokemon.TabIndex = 22;
             this.L_Pokemon_3_Pokemon.Text = "Pokémon:";
-            // 
+            //
             // CB_Pokemon_3_Pokemon
-            // 
+            //
             this.CB_Pokemon_3_Pokemon.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_3_Pokemon.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_3_Pokemon.Enabled = false;
@@ -1304,10 +1304,10 @@
             this.CB_Pokemon_3_Pokemon.Name = "CB_Pokemon_3_Pokemon";
             this.CB_Pokemon_3_Pokemon.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_3_Pokemon.TabIndex = 21;
-            this.CB_Pokemon_3_Pokemon.SelectedIndexChanged += new System.EventHandler(this.refreshSpeciesAbility);
-            // 
+            this.CB_Pokemon_3_Pokemon.SelectedIndexChanged += new System.EventHandler(this.RefreshSpeciesAbility);
+            //
             // tabPage5
-            // 
+            //
             this.tabPage5.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage5.Controls.Add(this.L_Pokemon_4_Gender);
             this.tabPage5.Controls.Add(this.CB_Pokemon_4_Gender);
@@ -1337,18 +1337,18 @@
             this.tabPage5.Size = new System.Drawing.Size(557, 127);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Pokémon 4";
-            // 
+            //
             // L_Pokemon_4_Gender
-            // 
+            //
             this.L_Pokemon_4_Gender.AutoSize = true;
             this.L_Pokemon_4_Gender.Location = new System.Drawing.Point(366, 71);
             this.L_Pokemon_4_Gender.Name = "L_Pokemon_4_Gender";
             this.L_Pokemon_4_Gender.Size = new System.Drawing.Size(45, 13);
             this.L_Pokemon_4_Gender.TabIndex = 65;
             this.L_Pokemon_4_Gender.Text = "Gender:";
-            // 
+            //
             // CB_Pokemon_4_Gender
-            // 
+            //
             this.CB_Pokemon_4_Gender.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_4_Gender.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_4_Gender.Enabled = false;
@@ -1357,19 +1357,19 @@
             this.CB_Pokemon_4_Gender.Name = "CB_Pokemon_4_Gender";
             this.CB_Pokemon_4_Gender.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_4_Gender.TabIndex = 64;
-            this.CB_Pokemon_4_Gender.SelectedIndexChanged += new System.EventHandler(this.changeTeam);
-            // 
+            this.CB_Pokemon_4_Gender.SelectedIndexChanged += new System.EventHandler(this.ChangeTeam);
+            //
             // L_Pokemon_4_Ability
-            // 
+            //
             this.L_Pokemon_4_Ability.AutoSize = true;
             this.L_Pokemon_4_Ability.Location = new System.Drawing.Point(374, 44);
             this.L_Pokemon_4_Ability.Name = "L_Pokemon_4_Ability";
             this.L_Pokemon_4_Ability.Size = new System.Drawing.Size(37, 13);
             this.L_Pokemon_4_Ability.TabIndex = 63;
             this.L_Pokemon_4_Ability.Text = "Ability:";
-            // 
+            //
             // CB_Pokemon_4_Ability
-            // 
+            //
             this.CB_Pokemon_4_Ability.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_4_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_4_Ability.Enabled = false;
@@ -1378,18 +1378,18 @@
             this.CB_Pokemon_4_Ability.Name = "CB_Pokemon_4_Ability";
             this.CB_Pokemon_4_Ability.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_4_Ability.TabIndex = 62;
-            // 
+            //
             // L_Pokemon_4_Form
-            // 
+            //
             this.L_Pokemon_4_Form.AutoSize = true;
             this.L_Pokemon_4_Form.Location = new System.Drawing.Point(29, 44);
             this.L_Pokemon_4_Form.Name = "L_Pokemon_4_Form";
             this.L_Pokemon_4_Form.Size = new System.Drawing.Size(33, 13);
             this.L_Pokemon_4_Form.TabIndex = 59;
             this.L_Pokemon_4_Form.Text = "Form:";
-            // 
+            //
             // CB_Pokemon_4_Form
-            // 
+            //
             this.CB_Pokemon_4_Form.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_4_Form.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_4_Form.Enabled = false;
@@ -1398,19 +1398,19 @@
             this.CB_Pokemon_4_Form.Name = "CB_Pokemon_4_Form";
             this.CB_Pokemon_4_Form.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_4_Form.TabIndex = 58;
-            this.CB_Pokemon_4_Form.SelectedIndexChanged += new System.EventHandler(this.refreshFormAbility);
-            // 
+            this.CB_Pokemon_4_Form.SelectedIndexChanged += new System.EventHandler(this.RefreshFormAbility);
+            //
             // L_Pokemon_4_IVs
-            // 
+            //
             this.L_Pokemon_4_IVs.AutoSize = true;
             this.L_Pokemon_4_IVs.Location = new System.Drawing.Point(386, 17);
             this.L_Pokemon_4_IVs.Name = "L_Pokemon_4_IVs";
             this.L_Pokemon_4_IVs.Size = new System.Drawing.Size(25, 13);
             this.L_Pokemon_4_IVs.TabIndex = 38;
             this.L_Pokemon_4_IVs.Text = "IVs:";
-            // 
+            //
             // CB_Pokemon_4_IVs
-            // 
+            //
             this.CB_Pokemon_4_IVs.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_4_IVs.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_4_IVs.Enabled = false;
@@ -1419,18 +1419,18 @@
             this.CB_Pokemon_4_IVs.Name = "CB_Pokemon_4_IVs";
             this.CB_Pokemon_4_IVs.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_4_IVs.TabIndex = 37;
-            // 
+            //
             // L_Pokemon_4_Move_4
-            // 
+            //
             this.L_Pokemon_4_Move_4.AutoSize = true;
             this.L_Pokemon_4_Move_4.Location = new System.Drawing.Point(192, 98);
             this.L_Pokemon_4_Move_4.Name = "L_Pokemon_4_Move_4";
             this.L_Pokemon_4_Move_4.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_4_Move_4.TabIndex = 34;
             this.L_Pokemon_4_Move_4.Text = "Move 4:";
-            // 
+            //
             // CB_Pokemon_4_Move_4
-            // 
+            //
             this.CB_Pokemon_4_Move_4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_4_Move_4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_4_Move_4.Enabled = false;
@@ -1439,18 +1439,18 @@
             this.CB_Pokemon_4_Move_4.Name = "CB_Pokemon_4_Move_4";
             this.CB_Pokemon_4_Move_4.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_4_Move_4.TabIndex = 33;
-            // 
+            //
             // L_Pokemon_4_Move_3
-            // 
+            //
             this.L_Pokemon_4_Move_3.AutoSize = true;
             this.L_Pokemon_4_Move_3.Location = new System.Drawing.Point(192, 71);
             this.L_Pokemon_4_Move_3.Name = "L_Pokemon_4_Move_3";
             this.L_Pokemon_4_Move_3.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_4_Move_3.TabIndex = 32;
             this.L_Pokemon_4_Move_3.Text = "Move 3:";
-            // 
+            //
             // CB_Pokemon_4_Move_3
-            // 
+            //
             this.CB_Pokemon_4_Move_3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_4_Move_3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_4_Move_3.Enabled = false;
@@ -1459,18 +1459,18 @@
             this.CB_Pokemon_4_Move_3.Name = "CB_Pokemon_4_Move_3";
             this.CB_Pokemon_4_Move_3.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_4_Move_3.TabIndex = 31;
-            // 
+            //
             // L_Pokemon_4_Move_2
-            // 
+            //
             this.L_Pokemon_4_Move_2.AutoSize = true;
             this.L_Pokemon_4_Move_2.Location = new System.Drawing.Point(192, 44);
             this.L_Pokemon_4_Move_2.Name = "L_Pokemon_4_Move_2";
             this.L_Pokemon_4_Move_2.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_4_Move_2.TabIndex = 30;
             this.L_Pokemon_4_Move_2.Text = "Move 2:";
-            // 
+            //
             // CB_Pokemon_4_Move_2
-            // 
+            //
             this.CB_Pokemon_4_Move_2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_4_Move_2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_4_Move_2.Enabled = false;
@@ -1479,18 +1479,18 @@
             this.CB_Pokemon_4_Move_2.Name = "CB_Pokemon_4_Move_2";
             this.CB_Pokemon_4_Move_2.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_4_Move_2.TabIndex = 29;
-            // 
+            //
             // L_Pokemon_4_Move_1
-            // 
+            //
             this.L_Pokemon_4_Move_1.AutoSize = true;
             this.L_Pokemon_4_Move_1.Location = new System.Drawing.Point(192, 17);
             this.L_Pokemon_4_Move_1.Name = "L_Pokemon_4_Move_1";
             this.L_Pokemon_4_Move_1.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_4_Move_1.TabIndex = 28;
             this.L_Pokemon_4_Move_1.Text = "Move 1:";
-            // 
+            //
             // CB_Pokemon_4_Move_1
-            // 
+            //
             this.CB_Pokemon_4_Move_1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_4_Move_1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_4_Move_1.Enabled = false;
@@ -1499,18 +1499,18 @@
             this.CB_Pokemon_4_Move_1.Name = "CB_Pokemon_4_Move_1";
             this.CB_Pokemon_4_Move_1.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_4_Move_1.TabIndex = 27;
-            // 
+            //
             // L_CB_Pokemon_4_Item
-            // 
+            //
             this.L_CB_Pokemon_4_Item.AutoSize = true;
             this.L_CB_Pokemon_4_Item.Location = new System.Drawing.Point(32, 98);
             this.L_CB_Pokemon_4_Item.Name = "L_CB_Pokemon_4_Item";
             this.L_CB_Pokemon_4_Item.Size = new System.Drawing.Size(30, 13);
             this.L_CB_Pokemon_4_Item.TabIndex = 26;
             this.L_CB_Pokemon_4_Item.Text = "Item:";
-            // 
+            //
             // CB_Pokemon_4_Item
-            // 
+            //
             this.CB_Pokemon_4_Item.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_4_Item.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_4_Item.Enabled = false;
@@ -1519,19 +1519,19 @@
             this.CB_Pokemon_4_Item.Name = "CB_Pokemon_4_Item";
             this.CB_Pokemon_4_Item.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_4_Item.TabIndex = 25;
-            this.CB_Pokemon_4_Item.SelectedIndexChanged += new System.EventHandler(this.changeTeam);
-            // 
+            this.CB_Pokemon_4_Item.SelectedIndexChanged += new System.EventHandler(this.ChangeTeam);
+            //
             // L_Pokemon_4_Level
-            // 
+            //
             this.L_Pokemon_4_Level.AutoSize = true;
             this.L_Pokemon_4_Level.Location = new System.Drawing.Point(26, 71);
             this.L_Pokemon_4_Level.Name = "L_Pokemon_4_Level";
             this.L_Pokemon_4_Level.Size = new System.Drawing.Size(36, 13);
             this.L_Pokemon_4_Level.TabIndex = 24;
             this.L_Pokemon_4_Level.Text = "Level:";
-            // 
+            //
             // CB_Pokemon_4_Level
-            // 
+            //
             this.CB_Pokemon_4_Level.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_4_Level.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_4_Level.Enabled = false;
@@ -1540,18 +1540,18 @@
             this.CB_Pokemon_4_Level.Name = "CB_Pokemon_4_Level";
             this.CB_Pokemon_4_Level.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_4_Level.TabIndex = 23;
-            // 
+            //
             // L_Pokemon_4_Pokemon
-            // 
+            //
             this.L_Pokemon_4_Pokemon.AutoSize = true;
             this.L_Pokemon_4_Pokemon.Location = new System.Drawing.Point(7, 17);
             this.L_Pokemon_4_Pokemon.Name = "L_Pokemon_4_Pokemon";
             this.L_Pokemon_4_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon_4_Pokemon.TabIndex = 22;
             this.L_Pokemon_4_Pokemon.Text = "Pokémon:";
-            // 
+            //
             // CB_Pokemon_4_Pokemon
-            // 
+            //
             this.CB_Pokemon_4_Pokemon.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_4_Pokemon.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_4_Pokemon.Enabled = false;
@@ -1560,10 +1560,10 @@
             this.CB_Pokemon_4_Pokemon.Name = "CB_Pokemon_4_Pokemon";
             this.CB_Pokemon_4_Pokemon.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_4_Pokemon.TabIndex = 21;
-            this.CB_Pokemon_4_Pokemon.SelectedIndexChanged += new System.EventHandler(this.refreshSpeciesAbility);
-            // 
+            this.CB_Pokemon_4_Pokemon.SelectedIndexChanged += new System.EventHandler(this.RefreshSpeciesAbility);
+            //
             // tabPage6
-            // 
+            //
             this.tabPage6.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage6.Controls.Add(this.L_Pokemon_5_Gender);
             this.tabPage6.Controls.Add(this.CB_Pokemon_5_Gender);
@@ -1593,18 +1593,18 @@
             this.tabPage6.Size = new System.Drawing.Size(557, 127);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Pokémon 5";
-            // 
+            //
             // L_Pokemon_5_Gender
-            // 
+            //
             this.L_Pokemon_5_Gender.AutoSize = true;
             this.L_Pokemon_5_Gender.Location = new System.Drawing.Point(366, 71);
             this.L_Pokemon_5_Gender.Name = "L_Pokemon_5_Gender";
             this.L_Pokemon_5_Gender.Size = new System.Drawing.Size(45, 13);
             this.L_Pokemon_5_Gender.TabIndex = 65;
             this.L_Pokemon_5_Gender.Text = "Gender:";
-            // 
+            //
             // CB_Pokemon_5_Gender
-            // 
+            //
             this.CB_Pokemon_5_Gender.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_5_Gender.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_5_Gender.Enabled = false;
@@ -1613,19 +1613,19 @@
             this.CB_Pokemon_5_Gender.Name = "CB_Pokemon_5_Gender";
             this.CB_Pokemon_5_Gender.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_5_Gender.TabIndex = 64;
-            this.CB_Pokemon_5_Gender.SelectedIndexChanged += new System.EventHandler(this.changeTeam);
-            // 
+            this.CB_Pokemon_5_Gender.SelectedIndexChanged += new System.EventHandler(this.ChangeTeam);
+            //
             // L_Pokemon_5_Ability
-            // 
+            //
             this.L_Pokemon_5_Ability.AutoSize = true;
             this.L_Pokemon_5_Ability.Location = new System.Drawing.Point(374, 44);
             this.L_Pokemon_5_Ability.Name = "L_Pokemon_5_Ability";
             this.L_Pokemon_5_Ability.Size = new System.Drawing.Size(37, 13);
             this.L_Pokemon_5_Ability.TabIndex = 63;
             this.L_Pokemon_5_Ability.Text = "Ability:";
-            // 
+            //
             // CB_Pokemon_5_Ability
-            // 
+            //
             this.CB_Pokemon_5_Ability.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_5_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_5_Ability.Enabled = false;
@@ -1634,18 +1634,18 @@
             this.CB_Pokemon_5_Ability.Name = "CB_Pokemon_5_Ability";
             this.CB_Pokemon_5_Ability.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_5_Ability.TabIndex = 62;
-            // 
+            //
             // L_Pokemon_5_Form
-            // 
+            //
             this.L_Pokemon_5_Form.AutoSize = true;
             this.L_Pokemon_5_Form.Location = new System.Drawing.Point(29, 44);
             this.L_Pokemon_5_Form.Name = "L_Pokemon_5_Form";
             this.L_Pokemon_5_Form.Size = new System.Drawing.Size(33, 13);
             this.L_Pokemon_5_Form.TabIndex = 59;
             this.L_Pokemon_5_Form.Text = "Form:";
-            // 
+            //
             // CB_Pokemon_5_Form
-            // 
+            //
             this.CB_Pokemon_5_Form.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_5_Form.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_5_Form.Enabled = false;
@@ -1654,19 +1654,19 @@
             this.CB_Pokemon_5_Form.Name = "CB_Pokemon_5_Form";
             this.CB_Pokemon_5_Form.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_5_Form.TabIndex = 58;
-            this.CB_Pokemon_5_Form.SelectedIndexChanged += new System.EventHandler(this.refreshFormAbility);
-            // 
+            this.CB_Pokemon_5_Form.SelectedIndexChanged += new System.EventHandler(this.RefreshFormAbility);
+            //
             // L_Pokemon_5_IVs
-            // 
+            //
             this.L_Pokemon_5_IVs.AutoSize = true;
             this.L_Pokemon_5_IVs.Location = new System.Drawing.Point(386, 17);
             this.L_Pokemon_5_IVs.Name = "L_Pokemon_5_IVs";
             this.L_Pokemon_5_IVs.Size = new System.Drawing.Size(25, 13);
             this.L_Pokemon_5_IVs.TabIndex = 38;
             this.L_Pokemon_5_IVs.Text = "IVs:";
-            // 
+            //
             // CB_Pokemon_5_IVs
-            // 
+            //
             this.CB_Pokemon_5_IVs.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_5_IVs.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_5_IVs.Enabled = false;
@@ -1675,18 +1675,18 @@
             this.CB_Pokemon_5_IVs.Name = "CB_Pokemon_5_IVs";
             this.CB_Pokemon_5_IVs.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_5_IVs.TabIndex = 37;
-            // 
+            //
             // L_Pokemon_5_Move_4
-            // 
+            //
             this.L_Pokemon_5_Move_4.AutoSize = true;
             this.L_Pokemon_5_Move_4.Location = new System.Drawing.Point(192, 98);
             this.L_Pokemon_5_Move_4.Name = "L_Pokemon_5_Move_4";
             this.L_Pokemon_5_Move_4.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_5_Move_4.TabIndex = 34;
             this.L_Pokemon_5_Move_4.Text = "Move 4:";
-            // 
+            //
             // CB_Pokemon_5_Move_4
-            // 
+            //
             this.CB_Pokemon_5_Move_4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_5_Move_4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_5_Move_4.Enabled = false;
@@ -1695,18 +1695,18 @@
             this.CB_Pokemon_5_Move_4.Name = "CB_Pokemon_5_Move_4";
             this.CB_Pokemon_5_Move_4.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_5_Move_4.TabIndex = 33;
-            // 
+            //
             // L_Pokemon_5_Move_3
-            // 
+            //
             this.L_Pokemon_5_Move_3.AutoSize = true;
             this.L_Pokemon_5_Move_3.Location = new System.Drawing.Point(192, 71);
             this.L_Pokemon_5_Move_3.Name = "L_Pokemon_5_Move_3";
             this.L_Pokemon_5_Move_3.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_5_Move_3.TabIndex = 32;
             this.L_Pokemon_5_Move_3.Text = "Move 3:";
-            // 
+            //
             // CB_Pokemon_5_Move_3
-            // 
+            //
             this.CB_Pokemon_5_Move_3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_5_Move_3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_5_Move_3.Enabled = false;
@@ -1715,18 +1715,18 @@
             this.CB_Pokemon_5_Move_3.Name = "CB_Pokemon_5_Move_3";
             this.CB_Pokemon_5_Move_3.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_5_Move_3.TabIndex = 31;
-            // 
+            //
             // L_Pokemon_5_Move_2
-            // 
+            //
             this.L_Pokemon_5_Move_2.AutoSize = true;
             this.L_Pokemon_5_Move_2.Location = new System.Drawing.Point(192, 44);
             this.L_Pokemon_5_Move_2.Name = "L_Pokemon_5_Move_2";
             this.L_Pokemon_5_Move_2.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_5_Move_2.TabIndex = 30;
             this.L_Pokemon_5_Move_2.Text = "Move 2:";
-            // 
+            //
             // CB_Pokemon_5_Move_2
-            // 
+            //
             this.CB_Pokemon_5_Move_2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_5_Move_2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_5_Move_2.Enabled = false;
@@ -1735,18 +1735,18 @@
             this.CB_Pokemon_5_Move_2.Name = "CB_Pokemon_5_Move_2";
             this.CB_Pokemon_5_Move_2.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_5_Move_2.TabIndex = 29;
-            // 
+            //
             // L_Pokemon_5_Move_1
-            // 
+            //
             this.L_Pokemon_5_Move_1.AutoSize = true;
             this.L_Pokemon_5_Move_1.Location = new System.Drawing.Point(192, 17);
             this.L_Pokemon_5_Move_1.Name = "L_Pokemon_5_Move_1";
             this.L_Pokemon_5_Move_1.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_5_Move_1.TabIndex = 28;
             this.L_Pokemon_5_Move_1.Text = "Move 1:";
-            // 
+            //
             // CB_Pokemon_5_Move_1
-            // 
+            //
             this.CB_Pokemon_5_Move_1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_5_Move_1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_5_Move_1.Enabled = false;
@@ -1755,18 +1755,18 @@
             this.CB_Pokemon_5_Move_1.Name = "CB_Pokemon_5_Move_1";
             this.CB_Pokemon_5_Move_1.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_5_Move_1.TabIndex = 27;
-            // 
+            //
             // L_Pokemon_5_Item
-            // 
+            //
             this.L_Pokemon_5_Item.AutoSize = true;
             this.L_Pokemon_5_Item.Location = new System.Drawing.Point(32, 98);
             this.L_Pokemon_5_Item.Name = "L_Pokemon_5_Item";
             this.L_Pokemon_5_Item.Size = new System.Drawing.Size(30, 13);
             this.L_Pokemon_5_Item.TabIndex = 26;
             this.L_Pokemon_5_Item.Text = "Item:";
-            // 
+            //
             // CB_Pokemon_5_Item
-            // 
+            //
             this.CB_Pokemon_5_Item.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_5_Item.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_5_Item.Enabled = false;
@@ -1775,19 +1775,19 @@
             this.CB_Pokemon_5_Item.Name = "CB_Pokemon_5_Item";
             this.CB_Pokemon_5_Item.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_5_Item.TabIndex = 25;
-            this.CB_Pokemon_5_Item.SelectedIndexChanged += new System.EventHandler(this.changeTeam);
-            // 
+            this.CB_Pokemon_5_Item.SelectedIndexChanged += new System.EventHandler(this.ChangeTeam);
+            //
             // L_Pokemon_5_Level
-            // 
+            //
             this.L_Pokemon_5_Level.AutoSize = true;
             this.L_Pokemon_5_Level.Location = new System.Drawing.Point(26, 71);
             this.L_Pokemon_5_Level.Name = "L_Pokemon_5_Level";
             this.L_Pokemon_5_Level.Size = new System.Drawing.Size(36, 13);
             this.L_Pokemon_5_Level.TabIndex = 24;
             this.L_Pokemon_5_Level.Text = "Level:";
-            // 
+            //
             // CB_Pokemon_5_Level
-            // 
+            //
             this.CB_Pokemon_5_Level.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_5_Level.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_5_Level.Enabled = false;
@@ -1796,18 +1796,18 @@
             this.CB_Pokemon_5_Level.Name = "CB_Pokemon_5_Level";
             this.CB_Pokemon_5_Level.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_5_Level.TabIndex = 23;
-            // 
+            //
             // L_Pokemon_5_Pokemon
-            // 
+            //
             this.L_Pokemon_5_Pokemon.AutoSize = true;
             this.L_Pokemon_5_Pokemon.Location = new System.Drawing.Point(7, 17);
             this.L_Pokemon_5_Pokemon.Name = "L_Pokemon_5_Pokemon";
             this.L_Pokemon_5_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon_5_Pokemon.TabIndex = 22;
             this.L_Pokemon_5_Pokemon.Text = "Pokémon:";
-            // 
+            //
             // CB_Pokemon_5_Pokemon
-            // 
+            //
             this.CB_Pokemon_5_Pokemon.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_5_Pokemon.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_5_Pokemon.Enabled = false;
@@ -1816,10 +1816,10 @@
             this.CB_Pokemon_5_Pokemon.Name = "CB_Pokemon_5_Pokemon";
             this.CB_Pokemon_5_Pokemon.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_5_Pokemon.TabIndex = 21;
-            this.CB_Pokemon_5_Pokemon.SelectedIndexChanged += new System.EventHandler(this.refreshSpeciesAbility);
-            // 
+            this.CB_Pokemon_5_Pokemon.SelectedIndexChanged += new System.EventHandler(this.RefreshSpeciesAbility);
+            //
             // tabPage7
-            // 
+            //
             this.tabPage7.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage7.Controls.Add(this.L_Pokemon_6_Gender);
             this.tabPage7.Controls.Add(this.CB_Pokemon_6_Gender);
@@ -1849,18 +1849,18 @@
             this.tabPage7.Size = new System.Drawing.Size(557, 127);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Pokémon 6";
-            // 
+            //
             // L_Pokemon_6_Gender
-            // 
+            //
             this.L_Pokemon_6_Gender.AutoSize = true;
             this.L_Pokemon_6_Gender.Location = new System.Drawing.Point(366, 71);
             this.L_Pokemon_6_Gender.Name = "L_Pokemon_6_Gender";
             this.L_Pokemon_6_Gender.Size = new System.Drawing.Size(45, 13);
             this.L_Pokemon_6_Gender.TabIndex = 65;
             this.L_Pokemon_6_Gender.Text = "Gender:";
-            // 
+            //
             // CB_Pokemon_6_Gender
-            // 
+            //
             this.CB_Pokemon_6_Gender.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_6_Gender.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_6_Gender.Enabled = false;
@@ -1869,19 +1869,19 @@
             this.CB_Pokemon_6_Gender.Name = "CB_Pokemon_6_Gender";
             this.CB_Pokemon_6_Gender.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_6_Gender.TabIndex = 64;
-            this.CB_Pokemon_6_Gender.SelectedIndexChanged += new System.EventHandler(this.changeTeam);
-            // 
+            this.CB_Pokemon_6_Gender.SelectedIndexChanged += new System.EventHandler(this.ChangeTeam);
+            //
             // L_Pokemon_6_Ability
-            // 
+            //
             this.L_Pokemon_6_Ability.AutoSize = true;
             this.L_Pokemon_6_Ability.Location = new System.Drawing.Point(374, 44);
             this.L_Pokemon_6_Ability.Name = "L_Pokemon_6_Ability";
             this.L_Pokemon_6_Ability.Size = new System.Drawing.Size(37, 13);
             this.L_Pokemon_6_Ability.TabIndex = 63;
             this.L_Pokemon_6_Ability.Text = "Ability:";
-            // 
+            //
             // CB_Pokemon_6_Ability
-            // 
+            //
             this.CB_Pokemon_6_Ability.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_6_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_6_Ability.Enabled = false;
@@ -1890,18 +1890,18 @@
             this.CB_Pokemon_6_Ability.Name = "CB_Pokemon_6_Ability";
             this.CB_Pokemon_6_Ability.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_6_Ability.TabIndex = 62;
-            // 
+            //
             // L_Pokemon_6_Form
-            // 
+            //
             this.L_Pokemon_6_Form.AutoSize = true;
             this.L_Pokemon_6_Form.Location = new System.Drawing.Point(29, 44);
             this.L_Pokemon_6_Form.Name = "L_Pokemon_6_Form";
             this.L_Pokemon_6_Form.Size = new System.Drawing.Size(33, 13);
             this.L_Pokemon_6_Form.TabIndex = 59;
             this.L_Pokemon_6_Form.Text = "Form:";
-            // 
+            //
             // CB_Pokemon_6_Form
-            // 
+            //
             this.CB_Pokemon_6_Form.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_6_Form.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_6_Form.Enabled = false;
@@ -1910,19 +1910,19 @@
             this.CB_Pokemon_6_Form.Name = "CB_Pokemon_6_Form";
             this.CB_Pokemon_6_Form.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_6_Form.TabIndex = 58;
-            this.CB_Pokemon_6_Form.SelectedIndexChanged += new System.EventHandler(this.refreshFormAbility);
-            // 
+            this.CB_Pokemon_6_Form.SelectedIndexChanged += new System.EventHandler(this.RefreshFormAbility);
+            //
             // L_Pokemon_6_IVs
-            // 
+            //
             this.L_Pokemon_6_IVs.AutoSize = true;
             this.L_Pokemon_6_IVs.Location = new System.Drawing.Point(386, 17);
             this.L_Pokemon_6_IVs.Name = "L_Pokemon_6_IVs";
             this.L_Pokemon_6_IVs.Size = new System.Drawing.Size(25, 13);
             this.L_Pokemon_6_IVs.TabIndex = 38;
             this.L_Pokemon_6_IVs.Text = "IVs:";
-            // 
+            //
             // CB_Pokemon_6_IVs
-            // 
+            //
             this.CB_Pokemon_6_IVs.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_6_IVs.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_6_IVs.Enabled = false;
@@ -1931,18 +1931,18 @@
             this.CB_Pokemon_6_IVs.Name = "CB_Pokemon_6_IVs";
             this.CB_Pokemon_6_IVs.Size = new System.Drawing.Size(136, 21);
             this.CB_Pokemon_6_IVs.TabIndex = 37;
-            // 
+            //
             // L_Pokemon_6_Move_4
-            // 
+            //
             this.L_Pokemon_6_Move_4.AutoSize = true;
             this.L_Pokemon_6_Move_4.Location = new System.Drawing.Point(192, 98);
             this.L_Pokemon_6_Move_4.Name = "L_Pokemon_6_Move_4";
             this.L_Pokemon_6_Move_4.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_6_Move_4.TabIndex = 34;
             this.L_Pokemon_6_Move_4.Text = "Move 4:";
-            // 
+            //
             // CB_Pokemon_6_Move_4
-            // 
+            //
             this.CB_Pokemon_6_Move_4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_6_Move_4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_6_Move_4.Enabled = false;
@@ -1951,18 +1951,18 @@
             this.CB_Pokemon_6_Move_4.Name = "CB_Pokemon_6_Move_4";
             this.CB_Pokemon_6_Move_4.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_6_Move_4.TabIndex = 33;
-            // 
+            //
             // L_Pokemon_6_Move_3
-            // 
+            //
             this.L_Pokemon_6_Move_3.AutoSize = true;
             this.L_Pokemon_6_Move_3.Location = new System.Drawing.Point(192, 71);
             this.L_Pokemon_6_Move_3.Name = "L_Pokemon_6_Move_3";
             this.L_Pokemon_6_Move_3.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_6_Move_3.TabIndex = 32;
             this.L_Pokemon_6_Move_3.Text = "Move 3:";
-            // 
+            //
             // CB_Pokemon_6_Move_3
-            // 
+            //
             this.CB_Pokemon_6_Move_3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_6_Move_3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_6_Move_3.Enabled = false;
@@ -1971,18 +1971,18 @@
             this.CB_Pokemon_6_Move_3.Name = "CB_Pokemon_6_Move_3";
             this.CB_Pokemon_6_Move_3.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_6_Move_3.TabIndex = 31;
-            // 
+            //
             // L_Pokemon_6_Move_2
-            // 
+            //
             this.L_Pokemon_6_Move_2.AutoSize = true;
             this.L_Pokemon_6_Move_2.Location = new System.Drawing.Point(192, 44);
             this.L_Pokemon_6_Move_2.Name = "L_Pokemon_6_Move_2";
             this.L_Pokemon_6_Move_2.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_6_Move_2.TabIndex = 30;
             this.L_Pokemon_6_Move_2.Text = "Move 2:";
-            // 
+            //
             // CB_Pokemon_6_Move_2
-            // 
+            //
             this.CB_Pokemon_6_Move_2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_6_Move_2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_6_Move_2.Enabled = false;
@@ -1991,18 +1991,18 @@
             this.CB_Pokemon_6_Move_2.Name = "CB_Pokemon_6_Move_2";
             this.CB_Pokemon_6_Move_2.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_6_Move_2.TabIndex = 29;
-            // 
+            //
             // L_Pokemon_6_Move_1
-            // 
+            //
             this.L_Pokemon_6_Move_1.AutoSize = true;
             this.L_Pokemon_6_Move_1.Location = new System.Drawing.Point(192, 17);
             this.L_Pokemon_6_Move_1.Name = "L_Pokemon_6_Move_1";
             this.L_Pokemon_6_Move_1.Size = new System.Drawing.Size(46, 13);
             this.L_Pokemon_6_Move_1.TabIndex = 28;
             this.L_Pokemon_6_Move_1.Text = "Move 1:";
-            // 
+            //
             // CB_Pokemon_6_Move_1
-            // 
+            //
             this.CB_Pokemon_6_Move_1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_6_Move_1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_6_Move_1.Enabled = false;
@@ -2011,18 +2011,18 @@
             this.CB_Pokemon_6_Move_1.Name = "CB_Pokemon_6_Move_1";
             this.CB_Pokemon_6_Move_1.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_6_Move_1.TabIndex = 27;
-            // 
+            //
             // L_Pokemon_6_Item
-            // 
+            //
             this.L_Pokemon_6_Item.AutoSize = true;
             this.L_Pokemon_6_Item.Location = new System.Drawing.Point(32, 98);
             this.L_Pokemon_6_Item.Name = "L_Pokemon_6_Item";
             this.L_Pokemon_6_Item.Size = new System.Drawing.Size(30, 13);
             this.L_Pokemon_6_Item.TabIndex = 26;
             this.L_Pokemon_6_Item.Text = "Item:";
-            // 
+            //
             // CB_Pokemon_6_Item
-            // 
+            //
             this.CB_Pokemon_6_Item.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_6_Item.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_6_Item.Enabled = false;
@@ -2031,19 +2031,19 @@
             this.CB_Pokemon_6_Item.Name = "CB_Pokemon_6_Item";
             this.CB_Pokemon_6_Item.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_6_Item.TabIndex = 25;
-            this.CB_Pokemon_6_Item.SelectedIndexChanged += new System.EventHandler(this.changeTeam);
-            // 
+            this.CB_Pokemon_6_Item.SelectedIndexChanged += new System.EventHandler(this.ChangeTeam);
+            //
             // L_Pokemon_6_Level
-            // 
+            //
             this.L_Pokemon_6_Level.AutoSize = true;
             this.L_Pokemon_6_Level.Location = new System.Drawing.Point(26, 71);
             this.L_Pokemon_6_Level.Name = "L_Pokemon_6_Level";
             this.L_Pokemon_6_Level.Size = new System.Drawing.Size(36, 13);
             this.L_Pokemon_6_Level.TabIndex = 24;
             this.L_Pokemon_6_Level.Text = "Level:";
-            // 
+            //
             // CB_Pokemon_6_Level
-            // 
+            //
             this.CB_Pokemon_6_Level.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_6_Level.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_6_Level.Enabled = false;
@@ -2052,18 +2052,18 @@
             this.CB_Pokemon_6_Level.Name = "CB_Pokemon_6_Level";
             this.CB_Pokemon_6_Level.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_6_Level.TabIndex = 23;
-            // 
+            //
             // L_Pokemon_6_Pokemon
-            // 
+            //
             this.L_Pokemon_6_Pokemon.AutoSize = true;
             this.L_Pokemon_6_Pokemon.Location = new System.Drawing.Point(7, 17);
             this.L_Pokemon_6_Pokemon.Name = "L_Pokemon_6_Pokemon";
             this.L_Pokemon_6_Pokemon.Size = new System.Drawing.Size(55, 13);
             this.L_Pokemon_6_Pokemon.TabIndex = 22;
             this.L_Pokemon_6_Pokemon.Text = "Pokémon:";
-            // 
+            //
             // CB_Pokemon_6_Pokemon
-            // 
+            //
             this.CB_Pokemon_6_Pokemon.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Pokemon_6_Pokemon.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Pokemon_6_Pokemon.Enabled = false;
@@ -2072,10 +2072,10 @@
             this.CB_Pokemon_6_Pokemon.Name = "CB_Pokemon_6_Pokemon";
             this.CB_Pokemon_6_Pokemon.Size = new System.Drawing.Size(121, 21);
             this.CB_Pokemon_6_Pokemon.TabIndex = 21;
-            this.CB_Pokemon_6_Pokemon.SelectedIndexChanged += new System.EventHandler(this.refreshSpeciesAbility);
-            // 
+            this.CB_Pokemon_6_Pokemon.SelectedIndexChanged += new System.EventHandler(this.RefreshSpeciesAbility);
+            //
             // B_Randomize
-            // 
+            //
             this.B_Randomize.Location = new System.Drawing.Point(384, 4);
             this.B_Randomize.Name = "B_Randomize";
             this.B_Randomize.Size = new System.Drawing.Size(93, 23);
@@ -2083,104 +2083,104 @@
             this.B_Randomize.Text = "Randomize All";
             this.B_Randomize.UseVisualStyleBackColor = true;
             this.B_Randomize.Click += new System.EventHandler(this.B_Randomize_Click);
-            // 
+            //
             // TB_Text1
-            // 
+            //
             this.TB_Text1.Location = new System.Drawing.Point(66, 256);
             this.TB_Text1.Name = "TB_Text1";
             this.TB_Text1.Size = new System.Drawing.Size(511, 20);
             this.TB_Text1.TabIndex = 69;
-            // 
+            //
             // L_Text1
-            // 
+            //
             this.L_Text1.Location = new System.Drawing.Point(-6, 258);
             this.L_Text1.Name = "L_Text1";
             this.L_Text1.Size = new System.Drawing.Size(66, 15);
             this.L_Text1.TabIndex = 425;
             this.L_Text1.Text = "Text1:";
             this.L_Text1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
+            //
             // PB_Team6
-            // 
+            //
             this.PB_Team6.Location = new System.Drawing.Point(496, 190);
             this.PB_Team6.Name = "PB_Team6";
             this.PB_Team6.Size = new System.Drawing.Size(80, 60);
             this.PB_Team6.TabIndex = 432;
             this.PB_Team6.TabStop = false;
-            this.PB_Team6.Click += new System.EventHandler(this.gotoParty);
-            // 
+            this.PB_Team6.Click += new System.EventHandler(this.GotoParty);
+            //
             // PB_Team5
-            // 
+            //
             this.PB_Team5.Location = new System.Drawing.Point(410, 190);
             this.PB_Team5.Name = "PB_Team5";
             this.PB_Team5.Size = new System.Drawing.Size(80, 60);
             this.PB_Team5.TabIndex = 433;
             this.PB_Team5.TabStop = false;
-            this.PB_Team5.Click += new System.EventHandler(this.gotoParty);
-            // 
+            this.PB_Team5.Click += new System.EventHandler(this.GotoParty);
+            //
             // PB_Team4
-            // 
+            //
             this.PB_Team4.Location = new System.Drawing.Point(324, 190);
             this.PB_Team4.Name = "PB_Team4";
             this.PB_Team4.Size = new System.Drawing.Size(80, 60);
             this.PB_Team4.TabIndex = 434;
             this.PB_Team4.TabStop = false;
-            this.PB_Team4.Click += new System.EventHandler(this.gotoParty);
-            // 
+            this.PB_Team4.Click += new System.EventHandler(this.GotoParty);
+            //
             // PB_Team3
-            // 
+            //
             this.PB_Team3.Location = new System.Drawing.Point(238, 190);
             this.PB_Team3.Name = "PB_Team3";
             this.PB_Team3.Size = new System.Drawing.Size(80, 60);
             this.PB_Team3.TabIndex = 435;
             this.PB_Team3.TabStop = false;
-            this.PB_Team3.Click += new System.EventHandler(this.gotoParty);
-            // 
+            this.PB_Team3.Click += new System.EventHandler(this.GotoParty);
+            //
             // PB_Team2
-            // 
+            //
             this.PB_Team2.Location = new System.Drawing.Point(152, 190);
             this.PB_Team2.Name = "PB_Team2";
             this.PB_Team2.Size = new System.Drawing.Size(80, 60);
             this.PB_Team2.TabIndex = 436;
             this.PB_Team2.TabStop = false;
-            this.PB_Team2.Click += new System.EventHandler(this.gotoParty);
-            // 
+            this.PB_Team2.Click += new System.EventHandler(this.GotoParty);
+            //
             // PB_Team1
-            // 
+            //
             this.PB_Team1.Location = new System.Drawing.Point(66, 190);
             this.PB_Team1.Name = "PB_Team1";
             this.PB_Team1.Size = new System.Drawing.Size(80, 60);
             this.PB_Team1.TabIndex = 437;
             this.PB_Team1.TabStop = false;
-            this.PB_Team1.Click += new System.EventHandler(this.gotoParty);
-            // 
+            this.PB_Team1.Click += new System.EventHandler(this.GotoParty);
+            //
             // label4
-            // 
+            //
             this.label4.Location = new System.Drawing.Point(-6, 213);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(66, 15);
             this.label4.TabIndex = 438;
             this.label4.Text = "Team:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
+            //
             // L_Text2
-            // 
+            //
             this.L_Text2.Location = new System.Drawing.Point(-6, 284);
             this.L_Text2.Name = "L_Text2";
             this.L_Text2.Size = new System.Drawing.Size(66, 15);
             this.L_Text2.TabIndex = 440;
             this.L_Text2.Text = "Text2:";
             this.L_Text2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
+            //
             // TB_Text2
-            // 
+            //
             this.TB_Text2.Location = new System.Drawing.Point(66, 282);
             this.TB_Text2.Name = "TB_Text2";
             this.TB_Text2.Size = new System.Drawing.Size(511, 20);
             this.TB_Text2.TabIndex = 439;
-            // 
+            //
             // RSTE
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 256);
@@ -2204,7 +2204,7 @@
             this.MaximizeBox = false;
             this.Name = "RSTE";
             this.Text = "Trainer Editor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.IsFormClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();

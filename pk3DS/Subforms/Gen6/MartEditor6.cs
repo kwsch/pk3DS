@@ -110,6 +110,7 @@ namespace pk3DS
             for (int i = 0; i < index; i++)
                 dataoffset += 2 * entries[i];
         }
+
         private void setupDGV()
         {
             DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
@@ -134,12 +135,14 @@ namespace pk3DS
         }
 
         private int entry = -1;
+
         private void changeIndex(object sender, EventArgs e)
         {
             if (entry > -1) setList();
             entry = CB_Location.SelectedIndex;
             getList();
         }
+
         private void getList()
         {
             dgv.Rows.Clear();
@@ -149,14 +152,15 @@ namespace pk3DS
             for (int i = 0; i < count; i++)
             {
                 dgv.Rows[i].Cells[0].Value = i.ToString();
-                dgv.Rows[i].Cells[1].Value = itemlist[BitConverter.ToUInt16(data, dataoffset + 2 * i)];
+                dgv.Rows[i].Cells[1].Value = itemlist[BitConverter.ToUInt16(data, dataoffset + (2 * i))];
             }
         }
+
         private void setList()
         {
             int count = dgv.Rows.Count;
             for (int i = 0; i < count; i++)
-                Array.Copy(BitConverter.GetBytes((ushort)Array.IndexOf(itemlist, dgv.Rows[i].Cells[1].Value)), 0, data, dataoffset + 2 * i, 2);
+                Array.Copy(BitConverter.GetBytes((ushort)Array.IndexOf(itemlist, dgv.Rows[i].Cells[1].Value)), 0, data, dataoffset + (2 * i), 2);
         }
 
         private void B_Save_Click(object sender, EventArgs e)
@@ -165,10 +169,12 @@ namespace pk3DS
             File.WriteAllBytes(codebin, data);
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize mart inventories?"))

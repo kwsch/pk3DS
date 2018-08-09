@@ -16,6 +16,7 @@ namespace pk3DS
     public partial class RSTE : Form
     {
         private readonly LearnsetRandomizer learn = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
+
         public RSTE(byte[][] trc, byte[][] trd, byte[][] trp)
         {
             trclass = trc;
@@ -29,110 +30,23 @@ namespace pk3DS
             InitializeComponent();
             // String Fetching
             #region Combo Box Arrays
-            trpk_pkm = new[] 
-            {
-                CB_Pokemon_1_Pokemon,
-                CB_Pokemon_2_Pokemon,
-                CB_Pokemon_3_Pokemon,
-                CB_Pokemon_4_Pokemon,
-                CB_Pokemon_5_Pokemon,
-                CB_Pokemon_6_Pokemon,
-            };
-            trpk_lvl = new[] 
-            { 
-                CB_Pokemon_1_Level,
-                CB_Pokemon_2_Level,
-                CB_Pokemon_3_Level,
-                CB_Pokemon_4_Level,
-                CB_Pokemon_5_Level,
-                CB_Pokemon_6_Level,
-            };
-            trpk_item = new[] 
-            { 
-                CB_Pokemon_1_Item,
-                CB_Pokemon_2_Item,
-                CB_Pokemon_3_Item,
-                CB_Pokemon_4_Item,
-                CB_Pokemon_5_Item,
-                CB_Pokemon_6_Item,
-            };
-            trpk_abil = new[] 
-            { 
-                CB_Pokemon_1_Ability,
-                CB_Pokemon_2_Ability,
-                CB_Pokemon_3_Ability,
-                CB_Pokemon_4_Ability,
-                CB_Pokemon_5_Ability,
-                CB_Pokemon_6_Ability,
-            };
-            trpk_m1 = new[]
-            {
-                CB_Pokemon_1_Move_1,
-                CB_Pokemon_2_Move_1,
-                CB_Pokemon_3_Move_1,
-                CB_Pokemon_4_Move_1,
-                CB_Pokemon_5_Move_1,
-                CB_Pokemon_6_Move_1,
-            };
-            trpk_m2 = new[]
-            {
-                CB_Pokemon_1_Move_2,
-                CB_Pokemon_2_Move_2,
-                CB_Pokemon_3_Move_2,
-                CB_Pokemon_4_Move_2,
-                CB_Pokemon_5_Move_2,
-                CB_Pokemon_6_Move_2,
-            };
-            trpk_m3 = new[]
-            {
-                CB_Pokemon_1_Move_3,
-                CB_Pokemon_2_Move_3,
-                CB_Pokemon_3_Move_3,
-                CB_Pokemon_4_Move_3,
-                CB_Pokemon_5_Move_3,
-                CB_Pokemon_6_Move_3,
-            };
-            trpk_m4 = new[]
-            {
-                CB_Pokemon_1_Move_4,
-                CB_Pokemon_2_Move_4,
-                CB_Pokemon_3_Move_4,
-                CB_Pokemon_4_Move_4,
-                CB_Pokemon_5_Move_4,
-                CB_Pokemon_6_Move_4,
-            };
-            trpk_IV = new[]
-            {
-                CB_Pokemon_1_IVs,
-                CB_Pokemon_2_IVs,
-                CB_Pokemon_3_IVs,
-                CB_Pokemon_4_IVs,
-                CB_Pokemon_5_IVs,
-                CB_Pokemon_6_IVs,
-            };
-            trpk_form = new[]
-            {
-                CB_Pokemon_1_Form,
-                CB_Pokemon_2_Form,
-                CB_Pokemon_3_Form,
-                CB_Pokemon_4_Form,
-                CB_Pokemon_5_Form,
-                CB_Pokemon_6_Form,
-            };
-            trpk_gender = new[]
-            {
-                CB_Pokemon_1_Gender,
-                CB_Pokemon_2_Gender,
-                CB_Pokemon_3_Gender,
-                CB_Pokemon_4_Gender,
-                CB_Pokemon_5_Gender,
-                CB_Pokemon_6_Gender,
-            };
+            trpk_pkm =    new[] { CB_Pokemon_1_Pokemon, CB_Pokemon_2_Pokemon, CB_Pokemon_3_Pokemon, CB_Pokemon_4_Pokemon, CB_Pokemon_5_Pokemon, CB_Pokemon_6_Pokemon, };
+            trpk_lvl =    new[] { CB_Pokemon_1_Level,   CB_Pokemon_2_Level,   CB_Pokemon_3_Level,   CB_Pokemon_4_Level,   CB_Pokemon_5_Level,   CB_Pokemon_6_Level,   };
+            trpk_item =   new[] { CB_Pokemon_1_Item,    CB_Pokemon_2_Item,    CB_Pokemon_3_Item,    CB_Pokemon_4_Item,    CB_Pokemon_5_Item,    CB_Pokemon_6_Item,    };
+            trpk_abil =   new[] { CB_Pokemon_1_Ability, CB_Pokemon_2_Ability, CB_Pokemon_3_Ability, CB_Pokemon_4_Ability, CB_Pokemon_5_Ability, CB_Pokemon_6_Ability, };
+            trpk_m1 =     new[] { CB_Pokemon_1_Move_1,  CB_Pokemon_2_Move_1,  CB_Pokemon_3_Move_1,  CB_Pokemon_4_Move_1,  CB_Pokemon_5_Move_1,  CB_Pokemon_6_Move_1,  };
+            trpk_m2 =     new[] { CB_Pokemon_1_Move_2,  CB_Pokemon_2_Move_2,  CB_Pokemon_3_Move_2,  CB_Pokemon_4_Move_2,  CB_Pokemon_5_Move_2,  CB_Pokemon_6_Move_2,  };
+            trpk_m3 =     new[] { CB_Pokemon_1_Move_3,  CB_Pokemon_2_Move_3,  CB_Pokemon_3_Move_3,  CB_Pokemon_4_Move_3,  CB_Pokemon_5_Move_3,  CB_Pokemon_6_Move_3,  };
+            trpk_m4 =     new[] { CB_Pokemon_1_Move_4,  CB_Pokemon_2_Move_4,  CB_Pokemon_3_Move_4,  CB_Pokemon_4_Move_4,  CB_Pokemon_5_Move_4,  CB_Pokemon_6_Move_4,  };
+            trpk_IV =     new[] { CB_Pokemon_1_IVs,     CB_Pokemon_2_IVs,     CB_Pokemon_3_IVs,     CB_Pokemon_4_IVs,     CB_Pokemon_5_IVs,     CB_Pokemon_6_IVs,     };
+            trpk_form =   new[] { CB_Pokemon_1_Form,    CB_Pokemon_2_Form,    CB_Pokemon_3_Form,    CB_Pokemon_4_Form,    CB_Pokemon_5_Form,    CB_Pokemon_6_Form,    };
+            trpk_gender = new[] { CB_Pokemon_1_Gender,  CB_Pokemon_2_Gender,  CB_Pokemon_3_Gender,  CB_Pokemon_4_Gender,  CB_Pokemon_5_Gender,  CB_Pokemon_6_Gender,  };
             #endregion
             Setup();
         }
+
         private string[][] AltForms;
-        internal static uint rnd32() => Util.rnd32();
+        internal static uint Rand() => Util.rnd32();
         private bool start = true;
         private bool loading = true;
         private int index = -1;
@@ -164,18 +78,20 @@ namespace pk3DS
         #endregion
 
         // Ability Loading
-        private void refreshFormAbility(object sender, EventArgs e)
+        private void RefreshFormAbility(object sender, EventArgs e)
         {
             int i = Array.IndexOf(trpk_form, sender as ComboBox);
-            refreshPKMSlotAbility(i);
+            RefreshPKMSlotAbility(i);
         }
-        private void refreshSpeciesAbility(object sender, EventArgs e)
+
+        private void RefreshSpeciesAbility(object sender, EventArgs e)
         {
             int i = Array.IndexOf(trpk_pkm, sender as ComboBox);
             FormUtil.setForms(trpk_pkm[i].SelectedIndex, trpk_form[i], AltForms);
-            refreshPKMSlotAbility(i);
+            RefreshPKMSlotAbility(i);
         }
-        private void refreshPKMSlotAbility(int slot)
+
+        private void RefreshPKMSlotAbility(int slot)
         {
             int previousAbility = trpk_abil[slot].SelectedIndex;
 
@@ -192,10 +108,10 @@ namespace pk3DS
 
             trpk_abil[slot].SelectedIndex = previousAbility;
 
-            showTeams(slot);
+            ShowTeams(slot);
         }
         // Set Loading
-        private void changeTrainerType(object sender, EventArgs e)
+        private void ChangeTrainerType(object sender, EventArgs e)
         {
             if (start || loading) return;
             int pkm = CB_numPokemon.SelectedIndex;
@@ -242,7 +158,7 @@ namespace pk3DS
         }
 
         // Dumping
-        private string getTRSummary()
+        private string GetTRSummary()
         {
             string toret = "======" + Environment.NewLine;
 
@@ -270,20 +186,22 @@ namespace pk3DS
                     if (trpk_m4[i].SelectedIndex > 0) toret += " / " + trpk_m4[i].Text;
                     toret += ")";
                 }
-                toret += " IVs: All " + Convert.ToInt32(trpk_IV[i].SelectedIndex) / 8;
+                toret += " IVs: All " + (Convert.ToInt32(trpk_IV[i].SelectedIndex) / 8);
                 toret += Environment.NewLine;
             }
             toret += Environment.NewLine;
             return toret;
         }
+
         private bool dumping;
+
         private void B_Dump_Click(object sender, EventArgs e)
         {
             string toret = ""; dumping = true;
             for (int i = 1; i < CB_TrainerID.Items.Count; i++)
             {
                 CB_TrainerID.SelectedIndex = i;
-                string tdata = getTRSummary();
+                string tdata = GetTRSummary();
                 toret += tdata;
             }
             SaveFileDialog sfd = new SaveFileDialog {FileName = "Battles.txt", Filter = "Text File|*.txt"};
@@ -299,12 +217,14 @@ namespace pk3DS
 
         // Change Read/Write
         private trdata6 tr;
-        private void changeTrainerIndex(object sender, EventArgs e)
+
+        private void ChangeTrainerIndex(object sender, EventArgs e)
         {
-            if (!dumping && index > -1) writeFile();
-            readFile(); // Load the new file.
+            if (!dumping && index > -1) WriteFile();
+            ReadFile(); // Load the new file.
         }
-        private void readFile()
+
+        private void ReadFile()
         {
             if (start) return;
             index = CB_TrainerID.SelectedIndex;
@@ -331,7 +251,7 @@ namespace pk3DS
             checkBox_Healer.Checked = tr.Healer;
             CB_Money.SelectedIndex = tr.Money;
             CB_Prize.SelectedIndex = tr.Prize;
-            
+
             // Load Pokemon Data
             for (int i = 0; i < tr.NumPokemon; i++)
             {
@@ -340,7 +260,7 @@ namespace pk3DS
                 trpk_pkm[i].SelectedIndex = tr.Team[i].Species;
                 FormUtil.setForms(tr.Team[i].Species, trpk_form[i], AltForms);
                 trpk_form[i].SelectedIndex = tr.Team[i].Form % trpk_form[i].Items.Count; // stupid X/Y buggy edge cases (220 / 222)
-                refreshPKMSlotAbility(i); // Repopulate Abilities
+                RefreshPKMSlotAbility(i); // Repopulate Abilities
 
                 trpk_abil[i].SelectedIndex = tr.Team[i].Ability;
                 trpk_gender[i].SelectedIndex = tr.Team[i].Gender;
@@ -352,17 +272,17 @@ namespace pk3DS
                 trpk_m4[i].SelectedIndex = tr.Team[i].Moves[3];
             }
             loading = false;
-            changeTrainerType(null, null); // Prompt cleaning update of PKM fields
+            ChangeTrainerType(null, null); // Prompt cleaning update of PKM fields
 
             // Refresh Team View
             if (!loading)
             {
-                for (int i = 0; i < 6; i++) showTeams(i); 
+                for (int i = 0; i < 6; i++) ShowTeams(i);
                 // showText(); // Commented out for now, have to figure out how text is assigned.
             }
-
         }
-        private void writeFile()
+
+        private void WriteFile()
         {
             // Set Trainer Data
             tr.Moves = checkBox_Moves.Checked;
@@ -370,7 +290,7 @@ namespace pk3DS
             tr.Class = CB_Trainer_Class.SelectedIndex;
             tr.BattleType = (byte)CB_Battle_Type.SelectedIndex;
             tr.NumPokemon = (byte)CB_numPokemon.SelectedIndex;
-            if (tr.NumPokemon == 0) 
+            if (tr.NumPokemon == 0)
                 tr.NumPokemon = 1; // No empty teams!
             tr.Items[0] = (ushort)CB_Item_1.SelectedIndex;
             tr.Items[1] = (ushort)CB_Item_2.SelectedIndex;
@@ -400,35 +320,35 @@ namespace pk3DS
                 tr.Team[i].Moves[2] = (ushort)trpk_m3[i].SelectedIndex;
                 tr.Team[i].Moves[3] = (ushort)trpk_m4[i].SelectedIndex;
             }
-            byte[] trd = tr.Write();
-            trdata[index] = trd;
-            byte[] trp = tr.WriteTeam();
-            trpoke[index] = trp;
+            trdata[index] = tr.Write();
+            trpoke[index] = tr.WriteTeam();
         }
 
         // Image Displays
-        private void changeTeam(object sender, EventArgs e)
+        private void ChangeTeam(object sender, EventArgs e)
         {
             if (loading) return;
 
             int gendSlot = Array.IndexOf(trpk_gender, sender as ComboBox);
             int itemSlot = Array.IndexOf(trpk_item, sender as ComboBox);
-            showTeams(gendSlot < 0 ? itemSlot : gendSlot);
+            ShowTeams(gendSlot < 0 ? itemSlot : gendSlot);
         }
-        private void showTeams(int i)
+
+        private void ShowTeams(int i)
         {
             if (tr == null) return;
             if (i >= tr.Team.Length) { pba[i].Image = null; return; }
             Bitmap rawImg = WinFormsUtil.getSprite(tr.Team[i].Species, tr.Team[i].Form, tr.Team[i].Gender, tr.Team[i].Item, Main.Config);
             pba[i].Image = WinFormsUtil.scaleImage(rawImg, 2);
         }
-        private void showText()
+
+        private void ShowText()
         {
             if (index * 2 >= trText.Length) return;
             TB_Text1.Text = trText[index * 2];
-            TB_Text2.Text = trText[index * 2 + 1];
+            TB_Text2.Text = trText[(index * 2) + 1];
         }
-        
+
         private void Setup()
         {
             start = true;
@@ -511,18 +431,19 @@ namespace pk3DS
             CB_Battle_Type.Items.Add("Triple");
             CB_Battle_Type.Items.Add("Rotation");
             if (Main.Config.ORAS) CB_Battle_Type.Items.Add("Horde");
-            megaEvos = Main.Config.ORAS 
-                ? new[] { 15, 18, 80, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 380, 381, 428, 475, 531, 719, 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 } 
+            megaEvos = Main.Config.ORAS
+                ? new[] { 15, 18, 80, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 380, 381, 428, 475, 531, 719, 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 }
                 : new[] { 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 };
-            
+
             CB_TrainerID.SelectedIndex = 1;
             start = false;
-            readFile();
+            ReadFile();
         }
 
-        public static bool rPKM, rSmart, rLevel, rMove, rMetronome, rNoMove, rForceHighPower, rAbility, rDiffAI, 
+        public static bool rPKM, rSmart, rLevel, rMove, rMetronome, rNoMove, rForceHighPower, rAbility, rDiffAI,
             rDiffIV, rClass, rGift, rItem, rDoRand, rRandomMegas, rGymE4Only,
             rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM, rForceFullyEvolved;
+
         public static bool rNoFixedDamage;
         internal static bool[] rThemedClasses = { };
         private static string[] rTags;
@@ -537,6 +458,7 @@ namespace pk3DS
         private readonly Dictionary<string, int> TagTypes = new Dictionary<string, int>();
         public static int[] sL; // Random Species List
         public static decimal rGiftPercent, rLevelMultiplier, rMinPKM, rMaxPKM, rForceFullyEvolvedLevel, rForceHighPowerLevel;
+
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             rPKM = rMove = rMetronome = rAbility = rDiffAI = rDiffIV = rClass = rGift = rItem = rDoRand = false; // init to false
@@ -546,6 +468,7 @@ namespace pk3DS
             if (rDoRand)
                 Randomize();
         }
+
         private void Randomize()
         {
             List<int> banned = new List<int> { 165, 621 }; // Struggle, Hyperspace Fury
@@ -571,22 +494,28 @@ namespace pk3DS
             {
                 if (mEvoTypes.Length < 13 && rTypeTheme)
                 {
-                    WinFormsUtil.Alert("There are insufficient Types with at least one mega evolution to Guarantee story Mega Evos while keeping Type theming.", 
+                    WinFormsUtil.Alert("There are insufficient Types with at least one mega evolution to Guarantee story Mega Evos while keeping Type theming.",
                     "Re-Randomize Personal or don't choose both options."); return; }
                 GymE4Types.AddRange(mEvoTypes);
             }
             else
+            {
                 GymE4Types.AddRange(Enumerable.Range(0, types.Length).ToArray());
+            }
+
             foreach (int t1 in rEnsureMEvo.Where(t1 => rTags[t1] != "" && !TagTypes.Keys.Contains(rTags[t1])))
             {
                 int t;
                 if (rTags[t1].Contains("GYM") || rTags[t1].Contains("ELITE") || rTags[t1].Contains("CHAMPION"))
                 {
-                    t = GymE4Types[(int)(rnd32() % GymE4Types.Count)];
+                    t = GymE4Types[(int)(Rand() % GymE4Types.Count)];
                     GymE4Types.Remove(t);
                 }
                 else
-                    t = mEvoTypes[rnd32() % mEvoTypes.Length];
+                {
+                    t = mEvoTypes[Rand() % mEvoTypes.Length];
+                }
+
                 TagTypes[rTags[t1]] = t;
             }
             foreach (string t1 in Tags)
@@ -596,11 +525,13 @@ namespace pk3DS
                     int t;
                     if (t1.Contains("GYM") || t1.Contains("ELITE") || t1.Contains("CHAMPION"))
                     {
-                        t = GymE4Types[(int)(rnd32() % GymE4Types.Count)];
+                        t = GymE4Types[(int)(Rand() % GymE4Types.Count)];
                         GymE4Types.Remove(t);
                     }
                     else
-                        t = (int)(rnd32() % types.Length);
+                    {
+                        t = (int)(Rand() % types.Length);
+                    }
 
                     TagTypes[t1] = t;
                 }
@@ -617,15 +548,14 @@ namespace pk3DS
                 // Trainer Type/Mega Evo
                 int type = GetRandomType(i);
                 bool mevo = rEnsureMEvo.Contains(i);
-                bool typerand = rTypeTheme && !rGymE4Only ||
-                                rTypeTheme && rImportant[i] != null && ImportantClasses.Contains(rImportant[i]);
+                bool typerand = (rTypeTheme && !rGymE4Only) || (rTypeTheme && rImportant[i] != null && ImportantClasses.Contains(rImportant[i]));
                 rSpeciesRand.rType = typerand;
 
                 byte[] trd = trdata[i];
                 byte[] trp = trpoke[i];
                 var t = new trdata6(trd, trp, Main.Config.ORAS)
                 {
-                    Moves = rMove || !rNoMove && checkBox_Moves.Checked,
+                    Moves = rMove || (!rNoMove && checkBox_Moves.Checked),
                     Item = rItem || checkBox_Item.Checked
                 };
 
@@ -664,9 +594,13 @@ namespace pk3DS
                         }
                     }
                     else if (p == last && mevo)
+                    {
                         stones = GetRandomMega(out species);
+                    }
                     else
+                    {
                         species = rSpeciesRand.GetRandomSpecies(pk.Species);
+                    }
 
                     pk.Species = (ushort)species;
                     pk.Gender = 0; // Set Gender to Random
@@ -676,14 +610,14 @@ namespace pk3DS
                 if (rLevel)
                     pk.Level = (ushort)Randomizer.getModifiedLevel(pk.Level, rLevelMultiplier);
                 if (rAbility)
-                    pk.Ability = (int)(1 + rnd32() % 3);
+                    pk.Ability = (int)(1 + (Rand() % 3));
                 if (rDiffIV)
                     pk.IVs = 255;
 
                 if (mevo && p == last && stones != null)
-                    pk.Item = (ushort)stones[rnd32() % stones.Length];
+                    pk.Item = (ushort)stones[Rand() % stones.Length];
                 else if (rItem)
-                    pk.Item = itemvals[rnd32() % itemvals.Length];
+                    pk.Item = itemvals[Rand() % itemvals.Length];
 
                 if (rForceFullyEvolved && pk.Level >= rForceFullyEvolvedLevel && !rFinalEvo.Contains(pk.Species))
                 {
@@ -726,6 +660,7 @@ namespace pk3DS
                 }
             }
         }
+
         private static void SetMinMaxPKM(trdata6 t)
         {
             int lastPKM = Math.Max(t.NumPokemon - 1, 0); // 0,1-6 => 0-5 (never is 0)
@@ -757,6 +692,7 @@ namespace pk3DS
                 t.NumPokemon = (byte)rMaxPKM;
             }
         }
+
         private static void SetFullParties(trdata6 t, bool important)
         {
             int lastPKM = Math.Max(t.NumPokemon - 1, 0); // 0,1-6 => 0-5 (never is 0)
@@ -768,7 +704,7 @@ namespace pk3DS
             // 6 pkm for important trainers, skip the first rival battles
             if (!r6PKM || important)
                 return;
-            
+
             t.NumPokemon = 6;
             for (int f = lastPKM + 1; f < t.NumPokemon; f++)
             {
@@ -781,6 +717,7 @@ namespace pk3DS
                     };
             }
         }
+
         private static void RandomizeTrainerAIClass(trdata6 t, string[] trClass)
         {
             if (rDiffAI)
@@ -788,7 +725,7 @@ namespace pk3DS
 
             if (rClass && rModelRestricted.Contains(t.Class) && !rIgnoreClass.Contains(t.Class)) // shuffle classes with 3D models
             {
-                int randClass() => (int) (rnd32() % rModelRestricted.Length);
+                int randClass() => (int) (Rand() % rModelRestricted.Length);
                 t.Class = rModelRestricted[randClass()];
             }
             else
@@ -798,28 +735,31 @@ namespace pk3DS
                 && !rIgnoreClass.Contains(t.Class) // Current class isn't a special class
                 )
             {
-                int randClass() => (int)(rnd32() % trClass.Length);
+                int randClass() => (int)(Rand() % trClass.Length);
                 int rv; do { rv = randClass(); }
-                while (rIgnoreClass.Contains(rv) || trClass[rv].StartsWith("[~") || Main.Config.ORAS && (rv >= 0 && rv <= 63) || (rv >= 68 && rv <= 126)); // don't allow disallowed classes
+                while (rIgnoreClass.Contains(rv) || trClass[rv].StartsWith("[~") || (Main.Config.ORAS && (rv >= 0 && rv <= 63)) || (rv >= 68 && rv <= 126)); // don't allow disallowed classes
                 t.Class = rv;
             }
         }
+
         private static void RandomizeTrainerPrizeItem(trdata6 t)
         {
-            if (rGift && rnd32() % 100 < rGiftPercent)
+            if (rGift && Rand() % 100 < rGiftPercent)
             {
                 ushort[] items;
-                uint rnd = rnd32() % 10;
+                uint rnd = Rand() % 10;
                 if (rnd < 2) // held item
                     items = Main.Config.ORAS ? Legal.Pouch_Items_AO : Legal.Pouch_Items_XY;
                 else if (rnd < 5) // medicine
                     items = Main.Config.ORAS ? Legal.Pouch_Medicine_AO : Legal.Pouch_Medicine_XY;
                 else // berry
                     items = Legal.Pouch_Berry_XY;
-                t.Prize = items[rnd32() % items.Length];
+                t.Prize = items[Rand() % items.Length];
             }
             else if (rGift)
+            {
                 t.Prize = 0;
+            }
         }
 
         private string[] GetTagsORAS()
@@ -887,6 +827,7 @@ namespace pk3DS
             }
             return tags;
         }
+
         private string[] GetTagsXY()
         {
             string[] tags = Enumerable.Repeat("", trdata.Length).ToArray();
@@ -960,6 +901,7 @@ namespace pk3DS
             }
             return tags;
         }
+
         private bool ImportantTrainers;
         public static SpeciesRandomizer rSpeciesRand;
 
@@ -978,20 +920,23 @@ namespace pk3DS
         }
 
         private static Dictionary<int, int[]> MegaDictionary;
+
         private static int[] GetRandomMega(out int species)
         {
             int rnd = Util.rand.Next(0, MegaDictionary.Count - 1);
             species = MegaDictionary.Keys.ElementAt(rnd);
             return MegaDictionary.Values.ElementAt(rnd);
         }
+
         private int GetRandomType(int trainer)
         {
-            if (rTags[trainer] != "") 
+            if (rTags[trainer] != "")
                 return TagTypes[rTags[trainer]];
-            if (!rEnsureMEvo.Contains(trainer)) 
-                return (int)(rnd32()%types.Length);
-            return mEvoTypes[rnd32() % mEvoTypes.Length];
+            if (!rEnsureMEvo.Contains(trainer))
+                return (int)(Rand()%types.Length);
+            return mEvoTypes[Rand() % mEvoTypes.Length];
         }
+
         private int[] GetMegaEvolvableTypes()
         {
             List<int> MEvoTypes = new List<int>();
@@ -1007,12 +952,12 @@ namespace pk3DS
             return MEvoTypes.ToArray();
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void IsFormClosing(object sender, FormClosingEventArgs e)
         {
-            writeFile();
+            WriteFile();
         }
 
-        private void gotoParty(object sender, EventArgs e)
+        private void GotoParty(object sender, EventArgs e)
         {
             // When sprite is clicked, jump to that Pokémon.
             tabControl1.SelectedIndex = 1 + Array.IndexOf(new[]{PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6,}, sender as PictureBox);

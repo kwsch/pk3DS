@@ -40,6 +40,7 @@ namespace pk3DS.Core
                               ((DecompressedLength - CompressedLength)/(decimal)DecompressedLength).ToString("p1");
 
         public byte[] Raw;
+
         public Script(byte[] data = null)
         {
             Raw = data ?? new byte[0];
@@ -48,6 +49,7 @@ namespace pk3DS.Core
             if ((Raw[8] & 1) != 0)
                 throw new ArgumentException("Multi-environment script!?");
         }
+
         public byte[] Write()
         {
             return Raw;

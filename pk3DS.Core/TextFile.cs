@@ -34,14 +34,16 @@ namespace pk3DS.Core
             Config = config;
             RemapChars = remapChars;
         }
+
         private GameConfig Config { get; set; }
-        private bool RemapChars = true;
+        private readonly bool RemapChars = true;
         private ushort TextSections { get { return BitConverter.ToUInt16(Data, 0x0); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x0); } } // Always 0x0001
         private ushort LineCount { get { return BitConverter.ToUInt16(Data, 0x2); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x2); } }
         private uint TotalLength { get { return BitConverter.ToUInt32(Data, 0x4); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x4); } }
         private uint InitialKey { get { return BitConverter.ToUInt32(Data, 0x8); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x8); } } // Always 0x00000000
         private uint SectionDataOffset { get { return BitConverter.ToUInt32(Data, 0xC); } set { BitConverter.GetBytes(value).CopyTo(Data, 0xC); } } // Always 0x0010
         private uint SectionLength { get { return BitConverter.ToUInt32(Data, (int)SectionDataOffset); } set { BitConverter.GetBytes(value).CopyTo(Data, SectionDataOffset); } }
+
         private LineInfo[] LineOffsets
         {
             get
@@ -51,8 +53,8 @@ namespace pk3DS.Core
                 for (int i = 0; i < result.Length; i++)
                     result[i] = new LineInfo
                     {
-                        Offset = BitConverter.ToInt32(Data, i * 8 + sdo + 4) + sdo,
-                        Length = BitConverter.ToInt16(Data, i * 8 + sdo + 8)
+                        Offset = BitConverter.ToInt32(Data, (i * 8) + sdo + 4) + sdo,
+                        Length = BitConverter.ToInt16(Data, (i * 8) + sdo + 8)
                     };
                 return result;
             }
@@ -63,11 +65,12 @@ namespace pk3DS.Core
                 int sdo = (int)SectionDataOffset;
                 for (int i = 0; i < value.Length; i++)
                 {
-                    BitConverter.GetBytes(value[i].Offset).CopyTo(Data, i * 8 + sdo + 4);
-                    BitConverter.GetBytes(value[i].Length).CopyTo(Data, i * 8 + sdo + 8);
+                    BitConverter.GetBytes(value[i].Offset).CopyTo(Data, (i * 8) + sdo + 4);
+                    BitConverter.GetBytes(value[i].Length).CopyTo(Data, (i * 8) + sdo + 8);
                 }
             }
         }
+
         private class LineInfo
         {
             public int Offset, Length;
@@ -118,19 +121,20 @@ namespace pk3DS.Core
                 int bytesUsed = 0;
                 for (int i = 0; i < lines.Length; i++)
                 {
-                    lines[i] = new LineInfo {Offset = 4 + 8 * value.Length + bytesUsed, Length = value[i].Length / 2};
+                    lines[i] = new LineInfo {Offset = 4 + (8 * value.Length) + bytesUsed, Length = value[i].Length / 2};
                     bytesUsed += value[i].Length;
                 }
 
                 // Apply Line Data
                 int sdo = (int)SectionDataOffset;
-                Array.Resize(ref Data, sdo + 4 + 8 * value.Length + bytesUsed);
+                Array.Resize(ref Data, sdo + 4 + (8 * value.Length) + bytesUsed);
                 LineOffsets = lines;
                 value.SelectMany(i => i).ToArray().CopyTo(Data, Data.Length - bytesUsed);
                 TotalLength = SectionLength = (uint)(Data.Length - sdo);
                 LineCount = (ushort)value.Length;
             }
         }
+
         public string[] Lines
         {
             get => LineData.Select(z => getLineString(Config, z)).ToArray();
@@ -172,6 +176,7 @@ namespace pk3DS.Core
             }
             return result;
         }
+
         private byte[] getLineData(GameConfig config, string line)
         {
             if (line == null)
@@ -223,6 +228,7 @@ namespace pk3DS.Core
                 default: return val;
             }
         }
+
         private ushort TryUnmapChar(ushort val)
         {
             if (!RemapChars)
@@ -262,6 +268,7 @@ namespace pk3DS.Core
             }
             return s.ToString(); // Shouldn't get hit if the string is properly terminated.
         }
+
         private string getVariableString(GameConfig config, byte[] data, ref int i)
         {
             var s = new StringBuilder();
@@ -300,6 +307,7 @@ namespace pk3DS.Core
             s.Append("]");
             return s.ToString();
         }
+
         private IEnumerable<ushort> getEscapeValues(char esc)
         {
             var vals = new List<ushort>();
@@ -313,6 +321,7 @@ namespace pk3DS.Core
                 default: throw new Exception("Invalid terminated line: \\" + esc);
             }
         }
+
         private IEnumerable<ushort> getVariableValues(GameConfig config, string variable)
         {
             string[] split = variable.Split(' ');
@@ -339,6 +348,7 @@ namespace pk3DS.Core
             }
             return vals;
         }
+
         private IEnumerable<ushort> getVariableParameters(GameConfig config, string text)
         {
             var vals = new List<ushort>();
@@ -374,6 +384,7 @@ namespace pk3DS.Core
             }
             catch { throw new ArgumentException("Variable parse error: " + variable); }
         }
+
         private string getVariableString(GameConfig config, ushort variable)
         {
             var v = config.getVariableName(variable);
@@ -387,6 +398,7 @@ namespace pk3DS.Core
             try { t = new TextFile(config, data, remapChars); } catch { return null; }
             return t.Lines;
         }
+
         public static byte[] getBytes(GameConfig config, string[] lines, bool remapChars = false)
         {
             return new TextFile (config, remapChars: remapChars) { Lines = lines }.Data;

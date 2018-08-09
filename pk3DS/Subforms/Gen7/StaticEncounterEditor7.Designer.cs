@@ -360,7 +360,7 @@
             this.CB_GSpecies.Name = "CB_GSpecies";
             this.CB_GSpecies.Size = new System.Drawing.Size(136, 21);
             this.CB_GSpecies.TabIndex = 6;
-            this.CB_GSpecies.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_GSpecies.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // L_GForm
             // 
@@ -1060,7 +1060,7 @@
             this.CB_ESpecies.Name = "CB_ESpecies";
             this.CB_ESpecies.Size = new System.Drawing.Size(136, 21);
             this.CB_ESpecies.TabIndex = 14;
-            this.CB_ESpecies.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_ESpecies.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // L_EForm
             // 
@@ -1488,7 +1488,7 @@
             0,
             0,
             0});
-            this.NUD_TID.ValueChanged += new System.EventHandler(this.changeTID);
+            this.NUD_TID.ValueChanged += new System.EventHandler(this.ChangeTID);
             // 
             // CB_THeldItem
             // 
@@ -1514,7 +1514,7 @@
             this.CB_TSpecies.Name = "CB_TSpecies";
             this.CB_TSpecies.Size = new System.Drawing.Size(136, 21);
             this.CB_TSpecies.TabIndex = 22;
-            this.CB_TSpecies.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_TSpecies.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // L_TForm
             // 

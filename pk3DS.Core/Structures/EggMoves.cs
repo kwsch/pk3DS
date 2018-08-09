@@ -10,6 +10,7 @@ namespace pk3DS.Core.Structures
 
         public abstract byte[] Write();
     }
+
     public class EggMoves6 : EggMoves
     {
         public EggMoves6(byte[] data)
@@ -23,6 +24,7 @@ namespace pk3DS.Core.Structures
                     Moves[i] = br.ReadUInt16();
             }
         }
+
         public static EggMoves[] getArray(byte[][] entries)
         {
             EggMoves[] data = new EggMoves[entries.Length];
@@ -30,6 +32,7 @@ namespace pk3DS.Core.Structures
                 data[i] = new EggMoves6(entries[i]);
             return data;
         }
+
         public override byte[] Write()
         {
             Count = Moves.Length;
@@ -45,6 +48,7 @@ namespace pk3DS.Core.Structures
             }
         }
     }
+
     public class EggMoves7 : EggMoves
     {
         public EggMoves7(byte[] data)
@@ -60,6 +64,7 @@ namespace pk3DS.Core.Structures
                     Moves[i] = br.ReadUInt16();
             }
         }
+
         public static EggMoves[] getArray(byte[][] entries)
         {
             EggMoves[] data = new EggMoves[entries.Length];
@@ -67,6 +72,7 @@ namespace pk3DS.Core.Structures
                 data[i] = new EggMoves7(entries[i]);
             return data;
         }
+
         public override byte[] Write()
         {
             Count = Moves.Length;

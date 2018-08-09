@@ -28,6 +28,7 @@ namespace pk3DS
             }
             return img;
         }
+
         public static Bitmap ChangeOpacity(Image img, double trans)
         {
             if (img == null)
@@ -69,6 +70,7 @@ namespace pk3DS
 
             return file;
         }
+
         public static Bitmap getSprite(int species, int form, int gender, int item, GameConfig config, bool shiny = false)
         {
             if (species == 0)
@@ -109,10 +111,11 @@ namespace pk3DS
             {
                 Bitmap itemimg = (Bitmap)(Resources.ResourceManager.GetObject("item_" + item) ?? Resources.helditem);
                 // Redraw
-                baseImage = LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
+                baseImage = LayerImage(baseImage, itemimg, 22 + ((15 - itemimg.Width) / 2), 15 + (15 - itemimg.Height), 1);
             }
             return baseImage;
         }
+
         public static bool IsTotemForm(int species, int form, int generation = 7)
         {
             if (generation != 7)
@@ -127,12 +130,14 @@ namespace pk3DS
                 return form == 2;
             return form == 1;
         }
+
         public static int GetTotemBaseForm(int species, int form)
         {
             if (species == 778) // Mimikyu
                 return form - 2;
             return form - 1;
         }
+
         public static Bitmap scaleImage(Bitmap rawImg, int s)
         {
             Bitmap bigImg = new Bitmap(rawImg.Width * s, rawImg.Height * s);
@@ -141,6 +146,7 @@ namespace pk3DS
                     bigImg.SetPixel(x, y, rawImg.GetPixel(x / s, y / s));
             return bigImg;
         }
+
         public static Bitmap ToGrayscale(Image img)
         {
             if (img == null)
@@ -158,17 +164,20 @@ namespace pk3DS
 
             return bmp;
         }
+
         private static void GetBitmapData(Bitmap bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data)
         {
             bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
             ptr = bmpData.Scan0;
             data = new byte[bmp.Width * bmp.Height * 4];
         }
+
         private static void SetAllTransparencyTo(byte[] data, double trans)
         {
             for (int i = 0; i < data.Length; i += 4)
                 data[i + 3] = (byte)(data[i + 3] * trans);
         }
+
         private static void SetAllColorTo(byte[] data, Color c)
         {
             byte R = c.R;
@@ -183,13 +192,14 @@ namespace pk3DS
                 data[i + 2] = R;
             }
         }
+
         private static void SetAllColorToGrayScale(byte[] data)
         {
             for (int i = 0; i < data.Length; i += 4)
             {
                 if (data[i + 3] == 0)
                     continue;
-                byte greyS = (byte)((0.3 * data[i + 2] + 0.59 * data[i + 1] + 0.11 * data[i + 0]) / 3);
+                byte greyS = (byte)(((0.3 * data[i + 2]) + (0.59 * data[i + 1]) + (0.11 * data[i + 0])) / 3);
                 data[i + 0] = greyS;
                 data[i + 1] = greyS;
                 data[i + 2] = greyS;
@@ -209,6 +219,7 @@ namespace pk3DS
 
             return stringdata;
         }
+
         public static string[] getSimpleStringList(string f)
         {
             object txt = Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.
@@ -227,16 +238,19 @@ namespace pk3DS
             string value = tb.Text;
             return Util.ToInt32(value);
         }
+
         public static uint ToUInt32(TextBox tb)
         {
             string value = tb.Text;
             return Util.ToUInt32(value);
         }
+
         public static int ToInt32(MaskedTextBox tb)
         {
             string value = tb.Text;
             return Util.ToInt32(value);
         }
+
         public static uint ToUInt32(MaskedTextBox tb)
         {
             string value = tb.Text;
@@ -274,7 +288,7 @@ namespace pk3DS
             {
                 var c = t;
                 // filter for hex
-                if (c < 0x0047 && c > 0x002F || c < 0x0067 && c > 0x0060)
+                if ((c < 0x0047 && c > 0x002F) || (c < 0x0067 && c > 0x0060))
                     s += c;
                 else
                     System.Media.SystemSounds.Beep.Play();
@@ -357,6 +371,7 @@ namespace pk3DS
                 next:;
             }
         }
+
         public static List<ContextMenuStrip> FindContextMenuStrips(IEnumerable<Control> c)
         {
             List<ContextMenuStrip> cs = new List<ContextMenuStrip>();
@@ -364,7 +379,6 @@ namespace pk3DS
             {
                 if (control.ContextMenuStrip != null)
                     cs.Add(control.ContextMenuStrip);
-
                 else if (control.Controls.Count > 0)
                     cs.AddRange(FindContextMenuStrips(control.Controls.OfType<Control>()));
             }
@@ -378,12 +392,14 @@ namespace pk3DS
             string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
         public static DialogResult Alert(params string[] lines)
         {
             System.Media.SystemSounds.Asterisk.Play();
             string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
+
         public static DialogResult Prompt(MessageBoxButtons btn, params string[] lines)
         {
             System.Media.SystemSounds.Question.Play();
@@ -397,6 +413,7 @@ namespace pk3DS
             public string Text { get; set; }
             public object Value { get; set; }
         }
+
         public static List<cbItem> getCBList(string textfile, string lang)
         {
             // Set up
@@ -429,6 +446,7 @@ namespace pk3DS
                 Value = indexes[Array.IndexOf(unsortedList, t)]
             }).ToList();
         }
+
         public static List<cbItem> getCBList(string[] inStrings, params int[][] allowed)
         {
             List<cbItem> cbList = new List<cbItem>();
@@ -455,6 +473,7 @@ namespace pk3DS
             }
             return cbList;
         }
+
         public static List<cbItem> getOffsetCBList(List<cbItem> cbList, string[] inStrings, int offset, int[] allowed)
         {
             if (allowed == null)
@@ -483,6 +502,7 @@ namespace pk3DS
             }
             return cbList;
         }
+
         public static List<cbItem> getVariedCBList(List<cbItem> cbList, string[] inStrings, int[] stringNum, int[] stringVal)
         {
             // Set up
@@ -516,6 +536,7 @@ namespace pk3DS
             }));
             return newlist;
         }
+
         public static List<cbItem> getUnsortedCBList(string textfile)
         {
             // Set up
@@ -581,7 +602,7 @@ namespace pk3DS
                     bool stop = false;
                     for (int y = 0; y < data.Height; y++)
                     {
-                        byte alpha = buffer[y * data.Stride + 4 * x + 3];
+                        byte alpha = buffer[(y * data.Stride) + (4 * x) + 3];
                         if (alpha != 0)
                         {
                             xMin = x;
@@ -604,7 +625,7 @@ namespace pk3DS
                     bool stop = false;
                     for (int x = xMin; x < data.Width; x++)
                     {
-                        byte alpha = buffer[y * data.Stride + 4 * x + 3];
+                        byte alpha = buffer[(y * data.Stride) + (4 * x) + 3];
                         if (alpha != 0)
                         {
                             yMin = y;
@@ -622,7 +643,7 @@ namespace pk3DS
                     bool stop = false;
                     for (int y = yMin; y < data.Height; y++)
                     {
-                        byte alpha = buffer[y * data.Stride + 4 * x + 3];
+                        byte alpha = buffer[(y * data.Stride) + (4 * x) + 3];
                         if (alpha != 0)
                         {
                             xMax = x;
@@ -640,7 +661,7 @@ namespace pk3DS
                     bool stop = false;
                     for (int x = xMin; x <= xMax; x++)
                     {
-                        byte alpha = buffer[y * data.Stride + 4 * x + 3];
+                        byte alpha = buffer[(y * data.Stride) + (4 * x) + 3];
                         if (alpha != 0)
                         {
                             yMax = y;

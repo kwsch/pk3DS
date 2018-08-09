@@ -28,6 +28,7 @@ namespace pk3DS
                     "a101", "a165", 
                     "a218" };
         }
+
         private string garc;
         private readonly string[] banlist;
 
