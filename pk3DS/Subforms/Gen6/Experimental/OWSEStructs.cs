@@ -20,6 +20,7 @@ namespace pk3DS
         public Unknown[] Unknowns;
 
         public byte[] UnkData;
+
         public MapMatrix(byte[][] data)
         {
             using (BinaryReader br = new BinaryReader(new MemoryStream(data[0])))
@@ -31,14 +32,21 @@ namespace pk3DS
                 Entries = new Entry[Area];
                 EntryList = new ushort[Area];
                 for (int i = 0; i < Area; i++)
+                {
                     EntryList[i] = br.ReadUInt16();
+                }
 
                 if (br.BaseStream.Position != br.BaseStream.Length)
+                {
                     uL = br.ReadUInt16();
+                }
             }
             if (data.Length > 1)
-                parseUnk(UnkData = data[1]);
+            {
+                ParseUnk(UnkData = data[1]);
+            }
         }
+
         public byte[] Write()
         {
             using (MemoryStream ms = new MemoryStream())
@@ -47,7 +55,11 @@ namespace pk3DS
                 bw.Write(u0);
                 bw.Write(Width);
                 bw.Write(Height);
-                foreach (ushort Entry in EntryList) bw.Write(Entry);
+                foreach (ushort Entry in EntryList)
+                {
+                    bw.Write(Entry);
+                }
+
                 bw.Write(uL);
                 return ms.ToArray();
             }
@@ -64,18 +76,23 @@ namespace pk3DS
             // Fetch Singular Images first
             Bitmap[] EntryImages = new Bitmap[Area];
             for (int i = 0; i < Area; i++)
+            {
                 EntryImages[i] = Entries[i] == null
                     ? new Bitmap(40 * Scale, 40 * Scale)
                     : Entries[i].Preview(Scale, ColorShift);
+            }
 
             // Combine all images into one.
             Bitmap img = new Bitmap(EntryImages[0].Width * Width, EntryImages[0].Height * Height);
 
             using (Graphics g = Graphics.FromImage(img))
-            for (int i = 0; i < Area; i++)
+            {
+                for (int i = 0; i < Area; i++)
             {
                 g.DrawImage(EntryImages[i], new Point(i * EntryImages[0].Width % img.Width, EntryImages[0].Height * (i / Width)));
             }
+            }
+
             return img;
         }
 
@@ -86,6 +103,7 @@ namespace pk3DS
             public ushort Width, Height;
             private readonly int Area;
             public uint[] Tiles; // Certain bits?
+
             public Entry(byte[] data)
             {
                 using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
@@ -95,9 +113,12 @@ namespace pk3DS
                     Area = Width*Height;
                     Tiles = new uint[Area];
                     for (int i = 0; i < Area; i++)
+                    {
                         Tiles[i] = br.ReadUInt32();
+                    }
                 }
             }
+
             public byte[] Write()
             {
                 using (MemoryStream ms = new MemoryStream())
@@ -105,11 +126,15 @@ namespace pk3DS
                 {
                     bw.Write(Width);
                     bw.Write(Height);
-                    foreach (uint Tile in Tiles) bw.Write(Tile);
+                    foreach (uint Tile in Tiles)
+                    {
+                        bw.Write(Tile);
+                    }
+
                     return ms.ToArray();
                 }
             }
-            
+
             public Bitmap Preview(int s, int ColorShift)
             {
                 byte[] bmpData = BytePreview(s, ColorShift);
@@ -120,6 +145,7 @@ namespace pk3DS
 
                 return b;
             }
+
             public byte[] BytePreview(int s, int ColorShift)
             {
                 byte[] bmpData = new byte[4 * Width * Height * s * s];
@@ -133,11 +159,14 @@ namespace pk3DS
 
                     byte[] pixel = BitConverter.GetBytes(colorValue);
                     for (int x = 0; x < s * s; x++)
-                        pixel.CopyTo(bmpData, 4 * ((Y * s + x / s) * Width * s + X * s + x % s));
+                    {
+                        pixel.CopyTo(bmpData, 4 * ((((Y * s) + (x / s)) * Width * s) + (X * s) + (x % s)));
+                    }
                 }
                 return bmpData;
             }
         }
+
         public class Collision
         {
             public string Magic;
@@ -149,13 +178,16 @@ namespace pk3DS
             public CollisionObject[] MapMisc;
             public string termMagic;
             public byte[] termData;
+
             public Collision(byte[] data)
             {
                 using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
                 {
                     Magic = new string(br.ReadChars(4)); // Magic
                     if (Magic != "coll")
+                    {
                         return; // all other properties are null
+                    }
 
                     termOffset = br.ReadInt32();
                     U5D8 = br.ReadInt32();
@@ -164,28 +196,37 @@ namespace pk3DS
                     // Read 40 collision rectangles
                     Map40 = new CollisionObject[40];
                     for (int i = 0; i < Map40.Length; i++)
+                    {
                         Map40[i] = new CollisionObject(br.ReadBytes(0x10));
+                    }
 
                     // Read 32 Int32s
                     MapInts = new int[0x20];
                     for (int i = 0; i < MapInts.Length; i++)
+                    {
                         MapInts[i] = br.ReadInt32();
+                    }
 
                     // Read misc collision rectangles
                     int ct = termOffset - (int)br.BaseStream.Position + 0x10;
                     MapMisc = new CollisionObject[ct/0x10];
                     for (int i = 0; i < MapMisc.Length; i++)
+                    {
                         MapMisc[i] = new CollisionObject(br.ReadBytes(0x10));
+                    }
 
                     // Read Term
                     termMagic = new string(br.ReadChars(4));
                     if (termMagic != "term")
+                    {
                         return; // all other properties are null
+                    }
 
                     // Read the rest of the data....
                     termData = br.ReadBytes((int)(br.BaseStream.Length - br.BaseStream.Position));
                 }
             }
+
             public class CollisionObject
             {
                 private readonly float _0;
@@ -206,6 +247,7 @@ namespace pk3DS
                     _2 = BitConverter.ToSingle(data, 0x8);
                     _3 = BitConverter.ToSingle(data, 0xC);
                 }
+
                 public override string ToString()
                 {
                     return string.Join(", ", F1.ToString(), F2.ToString(), F3.ToString(), F4.ToString());
@@ -215,13 +257,15 @@ namespace pk3DS
 
         public string Unk2String()
         {
-            return Unknowns.Aggregate("", (current, l) => current + $"{l.Direction}: {l.p1,3} {l.p2,3} {l.p3,3} {l.p4,3}{Environment.NewLine,3}");
+            return Unknowns.Aggregate("", (current, l) => current + $"{l.Direction}: {l.P1,3} {l.P2,3} {l.P3,3} {l.P4,3}{Environment.NewLine,3}");
         }
-        private void parseUnk(byte[] data)
+
+        private void ParseUnk(byte[] data)
         {
             List<Unknown> unk = new List<Unknown>();
             using (var br = new BinaryReader(new MemoryStream(data)))
-            do
+            {
+                do
             {
                 unk.Add(new Unknown {
                     Direction = br.ReadUInt32(),
@@ -231,6 +275,8 @@ namespace pk3DS
                     _4 = br.ReadSingle(),
                 });
             } while (unk.Last().Direction != 0);
+            }
+
             unk.RemoveAt(unk.Count-1);
             Unknowns = unk.ToArray();
         }
@@ -243,45 +289,97 @@ namespace pk3DS
             public float _3;
             public float _4;
 
-            public int p1 => (int)_1 / 18;
-            public int p2 => (int)_2 / 18;
-            public int p3 => (int)_3 / 18;
-            public int p4 => (int)_4 / 18;
+            public int P1 => (int)_1 / 18;
+            public int P2 => (int)_2 / 18;
+            public int P3 => (int)_3 / 18;
+            public int P4 => (int)_4 / 18;
         }
     }
+
     public class ZoneData
     {
         internal const int Size = 0x38;
         public readonly byte[] Data;
+
+        public byte MapType { get => Data[0]; set => Data[0] = value; }
+        public byte MapMove { get => Data[1]; set => Data[1] = value; }
+        public int MapArea { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }
         public int MapMatrix { get => BitConverter.ToUInt16(Data, 0x04); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x04); }
         public int TextFile { get => BitConverter.ToUInt16(Data, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x06); }
-        public int ParentMap // 0x1C - low 7 bits
+
+        public uint BGMSpring { get => BitConverter.ToUInt32(Data, 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, 0x08); }
+        public uint BGMSummer { get => BitConverter.ToUInt32(Data, 0x0C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x0C); }
+        public uint BGMAutumn { get => BitConverter.ToUInt32(Data, 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, 0x10); }
+        public uint BGMWinter { get => BitConverter.ToUInt32(Data, 0x14); set => BitConverter.GetBytes(value).CopyTo(Data, 0x14); }
+
+        public int ScriptFile { get => BitConverter.ToUInt16(Data, 0x18); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x18); }
+        public int TownMapGroup { get => BitConverter.ToUInt16(Data, 0x1A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1A); }
+
+        public int ParentMap // 0x1C - low 10 bits
         {
-            get => BitConverter.ToUInt16(Data, 0x1C) & 0x1FF;
-            set => BitConverter.GetBytes((ushort)(value | (BitConverter.ToUInt16(Data, 0x1C) & ~0x1FF))).CopyTo(Data, 0x1C);
-        }
-        public int OLFlags // 0x1C - high 9(?) bits
-        {
-            get => BitConverter.ToUInt16(Data, 0x1C) >> 9;
-            set => BitConverter.GetBytes((ushort)((value << 9) | (BitConverter.ToUInt16(Data, 0x1C) & 0x1FF))).CopyTo(Data, 0x1C);
+            get => BitConverter.ToUInt16(Data, 0x1C) & 0x3FF;
+            set => BitConverter.GetBytes((ushort)(value | (BitConverter.ToUInt16(Data, 0x1C) & ~0x3FF))).CopyTo(Data, 0x1C);
         }
 
-        private int X { get => BitConverter.ToUInt16(Data, 0x2C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2C); }
+        public int OLValue // 0x1C - high 6 bits
+        {
+            get => BitConverter.ToUInt16(Data, 0x1C) >> 10;
+            set => BitConverter.GetBytes((ushort)((value << 10) | ParentMap)).CopyTo(Data, 0x1C);
+        }
+
+        // 5,1,1,7
+        public int Weather // 0x1E, low 5
+        {
+            get => BitConverter.ToUInt16(Data, 0x1E) & 0x1F;
+            set => BitConverter.GetBytes((ushort)(value | (BitConverter.ToUInt16(Data, 0x1E) & ~0x1F))).CopyTo(Data, 0x1E);
+        }
+
+        public bool IsSkyBoxEnable { get => ((Data[0x1E] >> 5) & 1) == 1; set => Data[0x1E] = (byte)((Data[0x1E] & ~0x20) | (value ? 1 << 5 : 0)); }
+        public bool IsRollerSkateEnable { get => ((Data[0x1E] >> 6) & 1) == 1; set => Data[0x1E] = (byte)((Data[0x1E] & ~0x40) | (value ? 1 << 6 : 0)); }
+
+        public int BattleBackground // 7-13
+        {
+            get => (BitConverter.ToUInt16(Data, 0x1E) >> 7) & 0x7F;
+            set => BitConverter.GetBytes((ushort)(((value & 0x7F) << 7) | (BitConverter.ToUInt16(Data, 0x1E) & ~0x3F80))).CopyTo(Data, 0x1E);
+        }
+
+        private int _20 { get => BitConverter.ToUInt16(Data, 0x20); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x20); }
+        public int MapChange { get => _20 & 0x1F; set => _20 = (_20 & ~0x1F) | value; }
+        // ??? 5
+        public bool IsBicycleEnable { get => ((_20 >> 10) & 1) == 1; set => _20 = (_20 & ~(1 << 10)) | (value ? 1 << 10 : 0); }
+        public bool IsRunEnable { get => ((_20 >> 11) & 1) == 1; set => _20 = (_20 & ~(1 << 11)) | (value ? 1 << 11 : 0); }
+        public bool IsEscapeRopeEnable { get => ((_20 >> 12) & 1) == 1; set => _20 = (_20 & ~(1 << 12)) | (value ? 1 << 12 : 0); }
+        public bool IsFlyEnable { get => ((_20 >> 13) & 1) == 1; set => _20 = (_20 & ~(1 << 13)) | (value ? 1 << 13 : 0); }
+        public bool IsBGM { get => ((_20 >> 14) & 1) == 1; set => _20 = (_20 & ~(1 << 14)) | (value ? 1 << 14 : 0); }
+        public bool IsUnk { get => ((_20 >> 15) & 1) == 1; set => _20 = (_20 & ~(1 << 15)) | (value ? 1 << 15 : 0); }
+
+        // unused
+        public int _22 { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); }
+
+        public int _24 { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
+        public int _26 { get => BitConverter.ToUInt16(Data, 0x26); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x26); }
+
+        public int _28 { get => BitConverter.ToUInt16(Data, 0x28); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x28); }
+
+        private int X { get => BitConverter.ToInt16(Data, 0x2C); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x2C); }
         public int Z { get => BitConverter.ToInt16(Data, 0x2E); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x2E); }
-        private int Y { get => BitConverter.ToUInt16(Data, 0x30); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x30); }
-        private int X2 { get => BitConverter.ToUInt16(Data, 0x32); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x32); }
+        private int Y { get => BitConverter.ToInt16(Data, 0x30); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x30); }
+        private int X2 { get => BitConverter.ToInt16(Data, 0x32); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x32); }
         public int Z2 { get => BitConverter.ToInt16(Data, 0x34); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x34); }
-        private int Y2 { get => BitConverter.ToUInt16(Data, 0x36); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x36); }
+        private int Y2 { get => BitConverter.ToInt16(Data, 0x36); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x36); }
 
-        public float pX { get => (float)X / 18; set => X = (int)(18 * value); }
-        public float pY { get => (float)Y / 18; set => Y = (int)(18 * value); }
-        public float pX2 { get => (float)X2 / 18; set => X2 = (int)(18 * value); }
-        public float pY2 { get => (float)Y2 / 18; set => Y2 = (int)(18 * value); }
+        public float PX { get => (float)X / 18; set => X = (int)(18 * value); }
+        public float PY { get => (float)Y / 18; set => Y = (int)(18 * value); }
+        public float PX2 { get => (float)X2 / 18; set => X2 = (int)(18 * value); }
+        public float PY2 { get => (float)Y2 / 18; set => Y2 = (int)(18 * value); }
 
         public ZoneData(byte[] data)
         {
-            if (data.Length != Size) 
+            if (data.Length != Size)
+            {
                 return;
+            }
+
             Data = data;
         }
 
@@ -290,6 +388,7 @@ namespace pk3DS
             return Data;
         }
     }
+
     public class Zone
     {
         public readonly ZoneData ZD;
@@ -311,8 +410,11 @@ namespace pk3DS
             // Array 3 is [Wild Encounters]
             Encounters = new ZoneEncounters(Zone[3]);
             // Array 4 is [???] - May not be present in all.
-            if (Zone.Length <= 4) 
+            if (Zone.Length <= 4)
+            {
                 return;
+            }
+
             File5 = new ZoneUnknown(Zone[4]);
         }
 
@@ -323,8 +425,10 @@ namespace pk3DS
             Zone[1] = Entities.Write();
             Zone[2] = MapScript.Write();
             Zone[3] = Encounters.Write();
-            if (Zone.Length <= 4) 
+            if (Zone.Length <= 4)
+            {
                 return Zone;
+            }
 
             Zone[4] = File5.Write();
             return Zone;
@@ -360,15 +464,29 @@ namespace pk3DS
 
                     // Load Entitites
                     for (int i = 0; i < FurnitureCount; i++)
+                    {
                         Furniture[i] = new EntityFurniture(br.ReadBytes(EntityFurniture.Size));
+                    }
+
                     for (int i = 0; i < NPCCount; i++)
+                    {
                         NPCs[i] = new EntityNPC(br.ReadBytes(EntityNPC.Size));
+                    }
+
                     for (int i = 0; i < WarpCount; i++)
+                    {
                         Warps[i] = new EntityWarp(br.ReadBytes(EntityWarp.Size));
+                    }
+
                     for (int i = 0; i < TriggerCount; i++)
+                    {
                         Triggers1[i] = new EntityTrigger1(br.ReadBytes(EntityTrigger1.Size));
+                    }
+
                     for (int i = 0; i < UnknownCount; i++)
+                    {
                         Triggers2[i] = new EntityTrigger2(br.ReadBytes(EntityTrigger2.Size));
+                    }
 
                     // Load Script Data
                     int len = br.ReadInt32();
@@ -376,44 +494,57 @@ namespace pk3DS
                     Script = new Script(br.ReadBytes(len));
                 }
             }
+
             public byte[] Write()
             {
                 byte[] F = new byte[Furniture.Length * EntityFurniture.Size];
                 for (int i = 0; i < Furniture.Length; i++)
+                {
                     Furniture[i].Write().CopyTo(F, i * EntityFurniture.Size);
+                }
 
                 byte[] N = new byte[NPCs.Length * EntityNPC.Size];
                 for (int i = 0; i < NPCs.Length; i++)
+                {
                     NPCs[i].Write().CopyTo(N, i * EntityNPC.Size);
+                }
 
                 byte[] W = new byte[Warps.Length * EntityWarp.Size];
                 for (int i = 0; i < Warps.Length; i++)
+                {
                     Warps[i].Write().CopyTo(W, i * EntityWarp.Size);
+                }
 
                 byte[] T = new byte[Triggers1.Length * EntityTrigger1.Size];
                 for (int i = 0; i < Triggers1.Length; i++)
+                {
                     Triggers1[i].Write().CopyTo(T, i * EntityTrigger1.Size);
+                }
 
                 byte[] U = new byte[Triggers2.Length * EntityTrigger2.Size];
                 for (int i = 0; i < Triggers2.Length; i++)
+                {
                     Triggers2[i].Write().CopyTo(U, i * EntityTrigger2.Size);
+                }
 
                 // Assemble entity information
                 byte[] OWEntities = F.Concat(N).Concat(W).Concat(T).Concat(U).ToArray();
                 byte[] EntityLength = BitConverter.GetBytes(8 + OWEntities.Length);
                 byte[] EntityCounts = {(byte)Furniture.Length, (byte)NPCs.Length, (byte)Warps.Length, (byte)Triggers1.Length, (byte)Triggers2.Length, 0, 0, 0 };
-                
+
                 // Reassemble NPC portion
                 byte[] OWEntityData = EntityLength.Concat(EntityCounts).Concat(OWEntities).ToArray();
 
                 // Reassemble Script portion
                 byte[] OWScriptData = Script.Write();
-                
+
                 byte[] finalData = OWEntityData.Concat(OWScriptData).ToArray();
 
                 // Add padding zeroes if required (yield size % 4 == 0)
                 if (finalData.Length % 4 != 0)
-                    Array.Resize(ref finalData, finalData.Length + 4 - finalData.Length % 4);
+                {
+                    Array.Resize(ref finalData, finalData.Length + 4 - (finalData.Length % 4));
+                }
 
                 return finalData;
             }
@@ -440,16 +571,19 @@ namespace pk3DS
                 public byte[] Raw;
                 public byte[] OriginalData;
                 internal static readonly byte Size = 0x14;
+
                 public EntityFurniture(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
                     OriginalData = (byte[])Raw.Clone();
                 }
+
                 public byte[] Write()
                 {
                     return Raw;
                 }
             }
+
             public class EntityNPC
             {
                 // Usable Attributes
@@ -496,16 +630,19 @@ namespace pk3DS
                 public byte[] Raw;
                 public byte[] OriginalData;
                 internal static readonly byte Size = 0x30;
+
                 public EntityNPC(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
                     OriginalData = (byte[])Raw.Clone();
                 }
+
                 public byte[] Write()
                 {
                     return Raw;
                 }
             }
+
             public class EntityWarp
             {
                 // Usable Attributes
@@ -523,8 +660,8 @@ namespace pk3DS
                 public int Z { get => BitConverter.ToInt16(Raw, 0x0A); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0A); }
                 public int Y { get => BitConverter.ToUInt16(Raw, 0x0C); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); }
 
-                public decimal pX => (decimal)X / 18;
-                public decimal pY => (decimal)Y / 18;
+                public decimal PX => (decimal)X / 18;
+                public decimal PY => (decimal)Y / 18;
 
                 // Stretches RIGHT
                 public int Width { get => BitConverter.ToInt16(Raw, 0x0E); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0E); }
@@ -539,16 +676,19 @@ namespace pk3DS
                 public byte[] Raw;
                 public byte[] OriginalData;
                 internal static readonly byte Size = 0x18;
+
                 public EntityWarp(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
                     OriginalData = (byte[])Raw.Clone();
                 }
+
                 public byte[] Write()
                 {
                     return Raw;
                 }
             }
+
             public class EntityTrigger1
             {
                 // Usable Attributes
@@ -560,7 +700,7 @@ namespace pk3DS
                 public int U6 { get => BitConverter.ToUInt16(Raw, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); }
                 // 0 or 1, always 0 in ORAS
                 public int U8 { get => BitConverter.ToUInt16(Raw, 0x08); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); }
-                
+
                 // 0x0A-0x0B unused
 
                 public int X { get => BitConverter.ToUInt16(Raw, 0x0C); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); }
@@ -574,16 +714,19 @@ namespace pk3DS
                 public byte[] Raw;
                 public byte[] OriginalData;
                 internal static readonly byte Size = 0x18;
+
                 public EntityTrigger1(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
                     OriginalData = (byte[])Raw.Clone();
                 }
+
                 public byte[] Write()
                 {
                     return Raw;
                 }
             }
+
             public class EntityTrigger2
             {
                 // Usable Attributes
@@ -609,34 +752,41 @@ namespace pk3DS
                 public byte[] Raw;
                 public byte[] OriginalData;
                 internal static readonly byte Size = 0x18;
+
                 public EntityTrigger2(byte[] data = null)
                 {
                     Raw = data ?? new byte[Size];
                     OriginalData = (byte[])Raw.Clone();
                 }
+
                 public byte[] Write() => Raw;
             }
         }
+
         public class ZoneScript
         {
             public byte[] Data; // File details unknown.
             public Script Script;
+
             public ZoneScript(byte[] data)
             {
                 Data = data;
                 Script = new Script(data);
             }
+
             public byte[] Write()
             {
                 Data = Script.Write();
                 return Data;
             }
         }
+
         public class ZoneEncounters
         {
             public byte[] Data; // File details unknown.
             public byte[] Header;
             public EncounterSet[] Encounters;
+
             public ZoneEncounters(byte[] data)
             {
                 Data = data;
@@ -646,9 +796,12 @@ namespace pk3DS
                     Header = br.ReadBytes(0x10);
                     Encounters = new EncounterSet[(int)(br.BaseStream.Length - br.BaseStream.Position)/4];
                     for (int i = 0; i < Encounters.Length; i++)
+                    {
                         Encounters[i] = new EncounterSet(br.ReadBytes(4));
+                    }
                 }
             }
+
             public byte[] Write()
             {
                 byte[] data = Header; // Start with the header data, then concat every encounter in afterwards.
@@ -672,6 +825,7 @@ namespace pk3DS
                         LevelMax = br.ReadByte();
                     }
                 }
+
                 public byte[] Write()
                 {
                     using (MemoryStream ms = new MemoryStream())
@@ -685,9 +839,11 @@ namespace pk3DS
                 }
             }
         }
+
         public class ZoneUnknown
         {
             public byte[] FileData; // File details unknown.
+
             public ZoneUnknown(byte[] data)
             {
                 FileData = data;

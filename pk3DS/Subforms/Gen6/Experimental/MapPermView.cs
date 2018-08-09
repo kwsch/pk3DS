@@ -89,8 +89,8 @@ namespace pk3DS.Subforms
             }
             foreach (var e in OWSE.CurrentZone.Entities.Warps)
             {
-                int x = (int)e.pX; // shifted warps look weird
-                int y = (int)e.pY; // shifted warps look weird
+                int x = (int)e.PX; // shifted warps look weird
+                int y = (int)e.PY; // shifted warps look weird
                 for (int sx = 0; sx < e.Width; sx++) // Stretch X
                     for (int sy = 0; sy < e.Height; sy++) // Stretch Y
                         try { WinFormsUtil.LayerImage(img, Properties.Resources.W, (x + sx) * mapScale, (y + sy) * mapScale, opacity); }
@@ -118,8 +118,8 @@ namespace pk3DS.Subforms
             // Overlay Map Data
             // Flyto
             {
-                int x = (int)OWSE.CurrentZone.ZD.pX2;
-                int y = (int)OWSE.CurrentZone.ZD.pY2;
+                int x = (int)OWSE.CurrentZone.ZD.PX2;
+                int y = (int)OWSE.CurrentZone.ZD.PY2;
                 for (int sx = 0; sx < 1; sx++) // Stretch X
                     for (int sy = 0; sy < 1; sy++) // Stretch Y
                         try { WinFormsUtil.LayerImage(img, Properties.Resources.FLY, (x + sx) * mapScale, (y + sy) * mapScale, opacity/2); }

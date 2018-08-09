@@ -38,6 +38,11 @@ namespace pk3DS.Core.Structures
             }
         }
 
+        public bool Shiny
+        {
+            get => (Data[0x6] & 1) >> 1 == 1;
+            set => Data[0x6] = (byte)(Data[0x6] & ~1 | (value ? 1 : 0));
+        }
         public bool ShinyLock
         {
             get => (Data[0x6] & 2) >> 1 == 1;
