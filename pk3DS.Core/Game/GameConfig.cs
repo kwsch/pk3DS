@@ -158,12 +158,12 @@ namespace pk3DS.Core
             {
                 case 6:
                     if (XY)
-                        Moves = GARCMoves.Files.Select(file => new Move(file)).ToArray();
+                        Moves = GARCMoves.Files.Select(file => new Move6(file)).ToArray();
                     if (ORAS)
-                        Moves = Mini.UnpackMini(GARCMoves.getFile(0), "WD").Select(file => new Move(file)).ToArray();
+                        Moves = Mini.UnpackMini(GARCMoves.getFile(0), "WD").Select(file => new Move6(file)).ToArray();
                     break;
                 case 7:
-                    Moves = Mini.UnpackMini(GARCMoves.getFile(0), "WD").Select(file => new Move(file)).ToArray();
+                    Moves = Mini.UnpackMini(GARCMoves.getFile(0), "WD").Select(file => new Move7(file)).ToArray();
                     break;
             }
         }

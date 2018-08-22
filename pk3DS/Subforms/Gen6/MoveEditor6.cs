@@ -168,7 +168,7 @@ namespace pk3DS
 
         private void B_Table_Click(object sender, EventArgs e)
         {
-            var items = files.Select(z => new Move(z));
+            var items = files.Select(z => new Move6(z));
             Clipboard.SetText(TableUtil.GetTable(items, movelist));
             System.Media.SystemSounds.Asterisk.Play();
         }
