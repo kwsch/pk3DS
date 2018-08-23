@@ -207,6 +207,7 @@ namespace pk3DS.Core
             165, // Pokémon Professor
             183, // Battle Legend
             184, // Battle Legend
+            185, // Aether Foundation
             #endregion
         };
 
@@ -286,6 +287,7 @@ namespace pk3DS.Core
             165, // Pokémon Professor
             183, // Battle Legend
             184, // Battle Legend
+            185, // Aether Foundation
             186, // Pokémon Trainer
             187, // Pokémon Trainer
             188, // Pokémon Trainer
