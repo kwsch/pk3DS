@@ -163,7 +163,7 @@ namespace pk3DS.Core.Randomizers
 
             if (L)
             {
-                list.AddRange(Enumerable.Range(243, 3)); // Beasts
+                list.AddRange(Enumerable.Range(243, 3)); // Raikou, Entei, Suicune
                 list.AddRange(Enumerable.Range(249, 2)); // Lugia & Ho-Oh
             }
             if (E) list.Add(251); // Celebi

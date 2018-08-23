@@ -167,7 +167,7 @@
             this.CHK_ForceHighPower = new System.Windows.Forms.CheckBox();
             this.NUD_ForceHighPower = new System.Windows.Forms.NumericUpDown();
             this.CHK_NoFixedDamage = new System.Windows.Forms.CheckBox();
-            this.CHK_BeneficialEVs = new System.Windows.Forms.CheckBox();
+            this.CHK_MaxAI = new System.Windows.Forms.CheckBox();
             this.L_Moves = new System.Windows.Forms.Label();
             this.CB_Moves = new System.Windows.Forms.ComboBox();
             this.CHK_MaxDiffPKM = new System.Windows.Forms.CheckBox();
@@ -182,7 +182,6 @@
             this.CHK_ReplaceLegend = new System.Windows.Forms.CheckBox();
             this.CHK_6PKM = new System.Windows.Forms.CheckBox();
             this.NUD_ForceFullyEvolved = new System.Windows.Forms.NumericUpDown();
-            this.CHK_ForceFullyEvolved = new System.Windows.Forms.CheckBox();
             this.L_MinPKM = new System.Windows.Forms.Label();
             this.L_MaxPKM = new System.Windows.Forms.Label();
             this.NUD_RMin = new System.Windows.Forms.NumericUpDown();
@@ -191,6 +190,7 @@
             this.CHK_TypeTheme = new System.Windows.Forms.CheckBox();
             this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
             this.CHK_RandomClass = new System.Windows.Forms.CheckBox();
+            this.CHK_ForceFullyEvolved = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -1773,7 +1773,7 @@
             this.Tab_PKM2.Controls.Add(this.CHK_ForceHighPower);
             this.Tab_PKM2.Controls.Add(this.NUD_ForceHighPower);
             this.Tab_PKM2.Controls.Add(this.CHK_NoFixedDamage);
-            this.Tab_PKM2.Controls.Add(this.CHK_BeneficialEVs);
+            this.Tab_PKM2.Controls.Add(this.CHK_MaxAI);
             this.Tab_PKM2.Controls.Add(this.L_Moves);
             this.Tab_PKM2.Controls.Add(this.CB_Moves);
             this.Tab_PKM2.Controls.Add(this.CHK_MaxDiffPKM);
@@ -1832,18 +1832,18 @@
             this.CHK_NoFixedDamage.Text = "No Fixed Damage Moves (Dragon Rage/Sonic Boom)";
             this.CHK_NoFixedDamage.UseVisualStyleBackColor = true;
             // 
-            // CHK_BeneficialEVs
+            // CHK_MaxAI
             // 
-            this.CHK_BeneficialEVs.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.CHK_BeneficialEVs.AutoSize = true;
-            this.CHK_BeneficialEVs.Checked = true;
-            this.CHK_BeneficialEVs.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_BeneficialEVs.Location = new System.Drawing.Point(201, 120);
-            this.CHK_BeneficialEVs.Name = "CHK_BeneficialEVs";
-            this.CHK_BeneficialEVs.Size = new System.Drawing.Size(75, 17);
-            this.CHK_BeneficialEVs.TabIndex = 339;
-            this.CHK_BeneficialEVs.Text = "Smart EVs";
-            this.CHK_BeneficialEVs.UseVisualStyleBackColor = true;
+            this.CHK_MaxAI.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.CHK_MaxAI.AutoSize = true;
+            this.CHK_MaxAI.Checked = true;
+            this.CHK_MaxAI.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_MaxAI.Location = new System.Drawing.Point(201, 120);
+            this.CHK_MaxAI.Name = "CHK_MaxAI";
+            this.CHK_MaxAI.Size = new System.Drawing.Size(95, 17);
+            this.CHK_MaxAI.TabIndex = 339;
+            this.CHK_MaxAI.Text = "Max Trainer AI";
+            this.CHK_MaxAI.UseVisualStyleBackColor = true;
             // 
             // L_Moves
             // 
@@ -2050,17 +2050,6 @@
             0,
             0});
             // 
-            // CHK_ForceFullyEvolved
-            // 
-            this.CHK_ForceFullyEvolved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CHK_ForceFullyEvolved.AutoSize = true;
-            this.CHK_ForceFullyEvolved.Location = new System.Drawing.Point(6, 79);
-            this.CHK_ForceFullyEvolved.Name = "CHK_ForceFullyEvolved";
-            this.CHK_ForceFullyEvolved.Size = new System.Drawing.Size(160, 17);
-            this.CHK_ForceFullyEvolved.TabIndex = 339;
-            this.CHK_ForceFullyEvolved.Text = "Force Fully Evolved at Level";
-            this.CHK_ForceFullyEvolved.UseVisualStyleBackColor = true;
-            // 
             // L_MinPKM
             // 
             this.L_MinPKM.Location = new System.Drawing.Point(191, 0);
@@ -2173,6 +2162,17 @@
             this.CHK_RandomClass.Text = "Random Trainer Classes";
             this.CHK_RandomClass.UseVisualStyleBackColor = true;
             this.CHK_RandomClass.CheckedChanged += new System.EventHandler(this.CHK_RandomClass_CheckedChanged);
+            // 
+            // CHK_ForceFullyEvolved
+            // 
+            this.CHK_ForceFullyEvolved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_ForceFullyEvolved.AutoSize = true;
+            this.CHK_ForceFullyEvolved.Location = new System.Drawing.Point(6, 79);
+            this.CHK_ForceFullyEvolved.Name = "CHK_ForceFullyEvolved";
+            this.CHK_ForceFullyEvolved.Size = new System.Drawing.Size(160, 17);
+            this.CHK_ForceFullyEvolved.TabIndex = 339;
+            this.CHK_ForceFullyEvolved.Text = "Force Fully Evolved at Level";
+            this.CHK_ForceFullyEvolved.UseVisualStyleBackColor = true;
             // 
             // SMTE
             // 
@@ -2389,7 +2389,7 @@
         private System.Windows.Forms.CheckBox CHK_MaxDiffPKM;
         private System.Windows.Forms.ComboBox CB_Moves;
         private System.Windows.Forms.Label L_Moves;
-        private System.Windows.Forms.CheckBox CHK_BeneficialEVs;
+        private System.Windows.Forms.CheckBox CHK_MaxAI;
         private System.Windows.Forms.TabPage Tab_PKM2;
         private System.Windows.Forms.CheckBox CHK_RandomPKM;
         private System.Windows.Forms.CheckBox CHK_BST;
