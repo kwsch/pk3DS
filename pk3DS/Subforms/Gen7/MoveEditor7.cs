@@ -58,6 +58,8 @@ namespace pk3DS
             foreach (string s in TargetingTypes) CB_Targeting.Items.Add(s);
             foreach (string s in MoveQualities) CB_Quality.Items.Add(s);
             foreach (string s in InflictionTypes) CB_Inflict.Items.Add(s);
+            foreach (string s in movelist) CB_ZMove.Items.Add(s);
+            foreach (var s in Enum.GetNames(typeof(MoveFlag7)).Skip(1)) CLB_Flags.Items.Add(s);
             CB_Inflict.Items.Add("Special");
 
             CB_Move.Items.RemoveAt(0);
@@ -112,15 +114,16 @@ namespace pk3DS
                 NUD_StatP2.Value = data[0x1C];
                 NUD_StatP3.Value = data[0x1D];
 
-                // Unknown (Bitflag Related for stuff like Contact and Extra Move Effects)
-                NUD_0x20.Value = data[0x20]; // 0x20
-                NUD_0x21.Value = data[0x21]; // 0x21
-                // end, the other bytes aren't used.
+                var move = new Move7(data);
+                CB_ZMove.SelectedIndex = move.ZMove;
+                NUD_ZPower.Value = move.ZPower;
+                NUD_ZEffect.Value = move.ZEffect;
+                NUD_ZPercent.Value = move.ZPercent;
+                NUD_ZUnk.Value = move.Z3;
 
-                //NUD_0x1E.Value = data[0x1E]; // 0x1E
-                //NUD_0x1F.Value = data[0x1F]; // 0x1F
-                //NUD_0x22.Value = data[0x22]; // 0x22
-                //NUD_0x23.Value = data[0x23]; // 0x23
+                var flags = (uint)move.Flags;
+                for (int i = 0; i < CLB_Flags.Items.Count; i++)
+                    CLB_Flags.SetItemChecked(i, ((flags >> i) & 1) == 1);
             }
         }
 
@@ -159,9 +162,19 @@ namespace pk3DS
                 data[0x1C] = (byte)NUD_StatP2.Value;
                 data[0x1D] = (byte)NUD_StatP3.Value;
 
-                data[0x20] = (byte)NUD_0x20.Value;
-                data[0x21] = (byte)NUD_0x21.Value;
-                // end, the other bytes aren't used.
+                var move = new Move7(data)
+                {
+                    ZMove = CB_ZMove.SelectedIndex,
+                    ZPower = (int) NUD_ZPower.Value,
+                    ZEffect = (int) NUD_ZEffect.Value,
+                    ZPercent = (int) NUD_ZPercent.Value,
+                    Z3 = (int) NUD_ZUnk.Value
+                };
+
+                uint flagval = 0;
+                for (int i = 0; i < CLB_Flags.Items.Count; i++)
+                    flagval |= CLB_Flags.GetItemChecked(i) ? 1u << i : 0;
+                move.Flags = (MoveFlag7) flagval;
             }
             files[entry] = data;
         }

@@ -84,16 +84,21 @@
             this.L_Quality = new System.Windows.Forms.Label();
             this.L_0xB = new System.Windows.Forms.Label();
             this.NUD_0xB = new System.Windows.Forms.NumericUpDown();
-            this.NUD_0x20 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_0x21 = new System.Windows.Forms.NumericUpDown();
-            this.L_0x20 = new System.Windows.Forms.Label();
-            this.L_0x21 = new System.Windows.Forms.Label();
             this.B_RandAll = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.CHK_Category = new System.Windows.Forms.CheckBox();
             this.CHK_Type = new System.Windows.Forms.CheckBox();
             this.B_Metronome = new System.Windows.Forms.Button();
             this.B_Table = new System.Windows.Forms.Button();
+            this.CLB_Flags = new System.Windows.Forms.CheckedListBox();
+            this.NUD_ZPower = new System.Windows.Forms.NumericUpDown();
+            this.NUD_ZPercent = new System.Windows.Forms.NumericUpDown();
+            this.NUD_ZUnk = new System.Windows.Forms.NumericUpDown();
+            this.CB_ZMove = new System.Windows.Forms.ComboBox();
+            this.L_ZMove = new System.Windows.Forms.Label();
+            this.NUD_ZEffect = new System.Windows.Forms.NumericUpDown();
+            this.L_ZPower = new System.Windows.Forms.Label();
+            this.L_ZEffect = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_HitMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_HitMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Priority)).BeginInit();
@@ -116,9 +121,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Effect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Accuracy)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0xB)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_0x20)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_0x21)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ZPower)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ZPercent)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ZUnk)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ZEffect)).BeginInit();
             this.SuspendLayout();
             //
             // L_Type
@@ -748,50 +755,6 @@
             this.NUD_0xB.Size = new System.Drawing.Size(40, 20);
             this.NUD_0xB.TabIndex = 51;
             //
-            // NUD_0x20
-            //
-            this.NUD_0x20.Location = new System.Drawing.Point(282, 239);
-            this.NUD_0x20.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NUD_0x20.Name = "NUD_0x20";
-            this.NUD_0x20.Size = new System.Drawing.Size(40, 20);
-            this.NUD_0x20.TabIndex = 52;
-            //
-            // NUD_0x21
-            //
-            this.NUD_0x21.Location = new System.Drawing.Point(282, 261);
-            this.NUD_0x21.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NUD_0x21.Name = "NUD_0x21";
-            this.NUD_0x21.Size = new System.Drawing.Size(40, 20);
-            this.NUD_0x21.TabIndex = 53;
-            //
-            // L_0x20
-            //
-            this.L_0x20.AutoSize = true;
-            this.L_0x20.Location = new System.Drawing.Point(232, 242);
-            this.L_0x20.Name = "L_0x20";
-            this.L_0x20.Size = new System.Drawing.Size(44, 13);
-            this.L_0x20.TabIndex = 59;
-            this.L_0x20.Text = "Flags 1:";
-            this.L_0x20.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            //
-            // L_0x21
-            //
-            this.L_0x21.AutoSize = true;
-            this.L_0x21.Location = new System.Drawing.Point(233, 264);
-            this.L_0x21.Name = "L_0x21";
-            this.L_0x21.Size = new System.Drawing.Size(44, 13);
-            this.L_0x21.TabIndex = 62;
-            this.L_0x21.Text = "Flags 2:";
-            this.L_0x21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            //
             // B_RandAll
             //
             this.B_RandAll.Location = new System.Drawing.Point(333, 10);
@@ -853,19 +816,118 @@
             this.B_Table.UseVisualStyleBackColor = true;
             this.B_Table.Click += new System.EventHandler(this.B_Table_Click);
             //
+            // CLB_Flags
+            //
+            this.CLB_Flags.FormattingEnabled = true;
+            this.CLB_Flags.Location = new System.Drawing.Point(328, 146);
+            this.CLB_Flags.Name = "CLB_Flags";
+            this.CLB_Flags.Size = new System.Drawing.Size(103, 229);
+            this.CLB_Flags.TabIndex = 71;
+            //
+            // NUD_ZPower
+            //
+            this.NUD_ZPower.Location = new System.Drawing.Point(282, 260);
+            this.NUD_ZPower.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_ZPower.Name = "NUD_ZPower";
+            this.NUD_ZPower.Size = new System.Drawing.Size(40, 20);
+            this.NUD_ZPower.TabIndex = 72;
+            //
+            // NUD_ZPercent
+            //
+            this.NUD_ZPercent.Location = new System.Drawing.Point(239, 302);
+            this.NUD_ZPercent.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_ZPercent.Name = "NUD_ZPercent";
+            this.NUD_ZPercent.Size = new System.Drawing.Size(40, 20);
+            this.NUD_ZPercent.TabIndex = 73;
+            //
+            // NUD_ZUnk
+            //
+            this.NUD_ZUnk.Location = new System.Drawing.Point(282, 302);
+            this.NUD_ZUnk.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_ZUnk.Name = "NUD_ZUnk";
+            this.NUD_ZUnk.Size = new System.Drawing.Size(40, 20);
+            this.NUD_ZUnk.TabIndex = 74;
+            //
+            // CB_ZMove
+            //
+            this.CB_ZMove.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_ZMove.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_ZMove.DropDownWidth = 150;
+            this.CB_ZMove.FormattingEnabled = true;
+            this.CB_ZMove.Location = new System.Drawing.Point(227, 235);
+            this.CB_ZMove.Name = "CB_ZMove";
+            this.CB_ZMove.Size = new System.Drawing.Size(95, 21);
+            this.CB_ZMove.TabIndex = 75;
+            //
+            // L_ZMove
+            //
+            this.L_ZMove.AutoSize = true;
+            this.L_ZMove.Location = new System.Drawing.Point(229, 219);
+            this.L_ZMove.Name = "L_ZMove";
+            this.L_ZMove.Size = new System.Drawing.Size(44, 13);
+            this.L_ZMove.TabIndex = 76;
+            this.L_ZMove.Text = "Z Move";
+            //
+            // NUD_ZEffect
+            //
+            this.NUD_ZEffect.Location = new System.Drawing.Point(282, 281);
+            this.NUD_ZEffect.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_ZEffect.Name = "NUD_ZEffect";
+            this.NUD_ZEffect.Size = new System.Drawing.Size(40, 20);
+            this.NUD_ZEffect.TabIndex = 77;
+            //
+            // L_ZPower
+            //
+            this.L_ZPower.AutoSize = true;
+            this.L_ZPower.Location = new System.Drawing.Point(229, 262);
+            this.L_ZPower.Name = "L_ZPower";
+            this.L_ZPower.Size = new System.Drawing.Size(37, 13);
+            this.L_ZPower.TabIndex = 78;
+            this.L_ZPower.Text = "Power";
+            //
+            // L_ZEffect
+            //
+            this.L_ZEffect.AutoSize = true;
+            this.L_ZEffect.Location = new System.Drawing.Point(229, 283);
+            this.L_ZEffect.Name = "L_ZEffect";
+            this.L_ZEffect.Size = new System.Drawing.Size(35, 13);
+            this.L_ZEffect.TabIndex = 79;
+            this.L_ZEffect.Text = "Effect";
+            //
             // MoveEditor7
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(439, 381);
+            this.Controls.Add(this.L_ZEffect);
+            this.Controls.Add(this.L_ZPower);
+            this.Controls.Add(this.NUD_ZEffect);
+            this.Controls.Add(this.L_ZMove);
+            this.Controls.Add(this.CB_ZMove);
+            this.Controls.Add(this.NUD_ZUnk);
+            this.Controls.Add(this.NUD_ZPercent);
+            this.Controls.Add(this.NUD_ZPower);
+            this.Controls.Add(this.CLB_Flags);
             this.Controls.Add(this.B_Table);
             this.Controls.Add(this.B_Metronome);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.B_RandAll);
-            this.Controls.Add(this.L_0x21);
-            this.Controls.Add(this.L_0x20);
-            this.Controls.Add(this.NUD_0x21);
-            this.Controls.Add(this.NUD_0x20);
             this.Controls.Add(this.NUD_0xB);
             this.Controls.Add(this.L_0xB);
             this.Controls.Add(this.CB_Quality);
@@ -940,10 +1002,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Effect)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Accuracy)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_0xB)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_0x20)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_0x21)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ZPower)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ZPercent)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ZUnk)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ZEffect)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1007,15 +1071,20 @@
         private System.Windows.Forms.NumericUpDown NUD_StatP1;
         private System.Windows.Forms.Label L_0xB;
         private System.Windows.Forms.NumericUpDown NUD_0xB;
-        private System.Windows.Forms.NumericUpDown NUD_0x20;
-        private System.Windows.Forms.NumericUpDown NUD_0x21;
-        private System.Windows.Forms.Label L_0x20;
-        private System.Windows.Forms.Label L_0x21;
         private System.Windows.Forms.Button B_RandAll;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox CHK_Category;
         private System.Windows.Forms.CheckBox CHK_Type;
         private System.Windows.Forms.Button B_Metronome;
         private System.Windows.Forms.Button B_Table;
+        private System.Windows.Forms.CheckedListBox CLB_Flags;
+        private System.Windows.Forms.NumericUpDown NUD_ZPower;
+        private System.Windows.Forms.NumericUpDown NUD_ZPercent;
+        private System.Windows.Forms.NumericUpDown NUD_ZUnk;
+        private System.Windows.Forms.ComboBox CB_ZMove;
+        private System.Windows.Forms.Label L_ZMove;
+        private System.Windows.Forms.NumericUpDown NUD_ZEffect;
+        private System.Windows.Forms.Label L_ZPower;
+        private System.Windows.Forms.Label L_ZEffect;
     }
 }
