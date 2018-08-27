@@ -236,6 +236,7 @@ namespace pk3DS
             SetEncounter();
             eEntry = LB_Encounter.SelectedIndex;
             GetEncounter();
+            GetAllies();
         }
 
         private void LB_Trade_SelectedIndexChanged(object sender, EventArgs e)
@@ -246,6 +247,24 @@ namespace pk3DS
         }
 
         private bool loading;
+
+        private void GetAllies()
+        {
+            var entry = Encounters[eEntry];
+
+            // USUM has slots with SOS allies beyond slot 100, accommodate by trimming an extra character
+            int endTrim = eEntry < 100 ? 5 : 6;
+
+            if (entry.Ally1 == 0)
+                L_Ally1.Text = "No SOS Ally";
+            else
+                L_Ally1.Text = ((string)LB_Encounter.Items[entry.Ally1 - 1]).Remove(0, endTrim);
+
+            if (entry.Ally2 == 0)
+                L_Ally2.Text = "No SOS Ally";
+            else
+                L_Ally2.Text = ((string)LB_Encounter.Items[entry.Ally2 - 1]).Remove(0, endTrim);
+        }
 
         private void GetGift()
         {
