@@ -50,9 +50,9 @@
             this.LB_Gift = new System.Windows.Forms.ListBox();
             this.Tab_Encounters = new System.Windows.Forms.TabPage();
             this.CB_EGender = new System.Windows.Forms.ComboBox();
-            this.L_Ally1 = new System.Windows.Forms.Label();
+            this.L_SOS1 = new System.Windows.Forms.Label();
             this.NUD_Ally1 = new System.Windows.Forms.NumericUpDown();
-            this.L_Ally2 = new System.Windows.Forms.Label();
+            this.L_SOS2 = new System.Windows.Forms.Label();
             this.NUD_Ally2 = new System.Windows.Forms.NumericUpDown();
             this.L_EGender = new System.Windows.Forms.Label();
             this.CB_EAbility = new System.Windows.Forms.ComboBox();
@@ -103,8 +103,8 @@
             this.L_ESpecies = new System.Windows.Forms.Label();
             this.NUD_ELevel = new System.Windows.Forms.NumericUpDown();
             this.LB_Encounter = new System.Windows.Forms.ListBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
+            this.L_Ally2 = new System.Windows.Forms.Label();
+            this.L_Ally1 = new System.Windows.Forms.Label();
             this.Tab_Trades = new System.Windows.Forms.TabPage();
             this.CB_TGender = new System.Windows.Forms.ComboBox();
             this.L_TGender = new System.Windows.Forms.Label();
@@ -432,9 +432,9 @@
             // Tab_Encounters
             // 
             this.Tab_Encounters.Controls.Add(this.CB_EGender);
-            this.Tab_Encounters.Controls.Add(this.L_Ally1);
+            this.Tab_Encounters.Controls.Add(this.L_SOS1);
             this.Tab_Encounters.Controls.Add(this.NUD_Ally1);
-            this.Tab_Encounters.Controls.Add(this.L_Ally2);
+            this.Tab_Encounters.Controls.Add(this.L_SOS2);
             this.Tab_Encounters.Controls.Add(this.NUD_Ally2);
             this.Tab_Encounters.Controls.Add(this.L_EGender);
             this.Tab_Encounters.Controls.Add(this.CB_EAbility);
@@ -457,8 +457,8 @@
             this.Tab_Encounters.Controls.Add(this.L_ESpecies);
             this.Tab_Encounters.Controls.Add(this.NUD_ELevel);
             this.Tab_Encounters.Controls.Add(this.LB_Encounter);
-            this.Tab_Encounters.Controls.Add(this.label15);
-            this.Tab_Encounters.Controls.Add(this.label14);
+            this.Tab_Encounters.Controls.Add(this.L_Ally2);
+            this.Tab_Encounters.Controls.Add(this.L_Ally1);
             this.Tab_Encounters.Location = new System.Drawing.Point(4, 22);
             this.Tab_Encounters.Name = "Tab_Encounters";
             this.Tab_Encounters.Padding = new System.Windows.Forms.Padding(3);
@@ -475,14 +475,14 @@
             this.CB_EGender.Size = new System.Drawing.Size(136, 21);
             this.CB_EGender.TabIndex = 526;
             // 
-            // L_Ally1
+            // L_SOS1
             // 
-            this.L_Ally1.Location = new System.Drawing.Point(126, 178);
-            this.L_Ally1.Name = "L_Ally1";
-            this.L_Ally1.Size = new System.Drawing.Size(60, 23);
-            this.L_Ally1.TabIndex = 523;
-            this.L_Ally1.Text = "SOS Ally 1:";
-            this.L_Ally1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_SOS1.Location = new System.Drawing.Point(126, 178);
+            this.L_SOS1.Name = "L_SOS1";
+            this.L_SOS1.Size = new System.Drawing.Size(60, 23);
+            this.L_SOS1.TabIndex = 523;
+            this.L_SOS1.Text = "SOS Ally 1:";
+            this.L_SOS1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_Ally1
             // 
@@ -501,14 +501,14 @@
             this.NUD_Ally1.Size = new System.Drawing.Size(48, 20);
             this.NUD_Ally1.TabIndex = 522;
             // 
-            // L_Ally2
+            // L_SOS2
             // 
-            this.L_Ally2.Location = new System.Drawing.Point(126, 199);
-            this.L_Ally2.Name = "L_Ally2";
-            this.L_Ally2.Size = new System.Drawing.Size(60, 23);
-            this.L_Ally2.TabIndex = 521;
-            this.L_Ally2.Text = "SOS Ally 2:";
-            this.L_Ally2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_SOS2.Location = new System.Drawing.Point(126, 199);
+            this.L_SOS2.Name = "L_SOS2";
+            this.L_SOS2.Size = new System.Drawing.Size(60, 23);
+            this.L_SOS2.TabIndex = 521;
+            this.L_SOS2.Text = "SOS Ally 2:";
+            this.L_SOS2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_Ally2
             // 
@@ -1129,23 +1129,23 @@
             this.LB_Encounter.TabIndex = 1;
             this.LB_Encounter.SelectedIndexChanged += new System.EventHandler(this.LB_Encounter_SelectedIndexChanged);
             // 
-            // label15
+            // L_Ally2
             // 
-            this.label15.Location = new System.Drawing.Point(237, 199);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(66, 23);
-            this.label15.TabIndex = 525;
-            this.label15.Text = "(-1 is None)";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.L_Ally2.Location = new System.Drawing.Point(237, 199);
+            this.L_Ally2.Name = "L_Ally2";
+            this.L_Ally2.Size = new System.Drawing.Size(135, 23);
+            this.L_Ally2.TabIndex = 525;
+            this.L_Ally2.Text = "WWWWWWWWWWWW";
+            this.L_Ally2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label14
+            // L_Ally1
             // 
-            this.label14.Location = new System.Drawing.Point(237, 179);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(66, 23);
-            this.label14.TabIndex = 524;
-            this.label14.Text = "(-1 is None)";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.L_Ally1.Location = new System.Drawing.Point(237, 179);
+            this.L_Ally1.Name = "L_Ally1";
+            this.L_Ally1.Size = new System.Drawing.Size(135, 23);
+            this.L_Ally1.TabIndex = 524;
+            this.L_Ally1.Text = "WWWWWWWWWWWW";
+            this.L_Ally1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Tab_Trades
             // 
@@ -2176,12 +2176,12 @@
         private System.Windows.Forms.NumericUpDown NUD_ForceFullyEvolved;
         private System.Windows.Forms.CheckBox CHK_ForceFullyEvolved;
         private System.Windows.Forms.CheckBox CHK_Metronome;
-        private System.Windows.Forms.Label L_Ally1;
+        private System.Windows.Forms.Label L_SOS1;
         private System.Windows.Forms.NumericUpDown NUD_Ally1;
-        private System.Windows.Forms.Label L_Ally2;
+        private System.Windows.Forms.Label L_SOS2;
         private System.Windows.Forms.NumericUpDown NUD_Ally2;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label L_Ally2;
+        private System.Windows.Forms.Label L_Ally1;
         private System.Windows.Forms.ComboBox CB_EGender;
         private System.Windows.Forms.ComboBox CB_TGender;
     }
