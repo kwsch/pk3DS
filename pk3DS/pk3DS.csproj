@@ -80,6 +80,12 @@
     <Compile Include="Subforms\Gen7\MartEditor7UU.Designer.cs">
       <DependentUpon>MartEditor7UU.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Gen7\TutorEditor7.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Gen7\TutorEditor7.Designer.cs">
+      <DependentUpon>TutorEditor7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Gen7\Wild\Area7.cs" />
     <Compile Include="Subforms\Gen7\Wild\Encounter7.cs" />
     <Compile Include="Subforms\Gen7\Wild\EncounterTable.cs" />
@@ -454,6 +460,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\TMEditor7.resx">
       <DependentUpon>TMEditor7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Gen7\TutorEditor7.resx">
+      <DependentUpon>TutorEditor7.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\TypeChart7.resx">
       <DependentUpon>TypeChart7.cs</DependentUpon>

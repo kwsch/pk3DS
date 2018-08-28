@@ -30,10 +30,8 @@ namespace pk3DS
             setupDGV();
             foreach (string s in locations) CB_Location.Items.Add(s);
             foreach (string s in locationsBP) CB_LocationBPItem.Items.Add(s);
-            foreach (string s in locationsTutor) CB_LocationBPMove.Items.Add(s);
             CB_Location.SelectedIndex =
-            CB_LocationBPItem.SelectedIndex =
-            CB_LocationBPMove.SelectedIndex = 0;
+            CB_LocationBPItem.SelectedIndex = 0;
         }
 
         private const int ofs_Item = 0x50BC;
@@ -83,21 +81,12 @@ namespace pk3DS
             "Battle Tree [Mega Stones]",
             "Beaches [Medicine]"
         };
-
-        private readonly string[] locationsTutor =
-        {
-            "Big Wave Beach",
-            "Heahea Beach",
-            "Ula'ula Beach",
-            "Battle Tree",
-        };
         #endregion
 
         private void B_Save_Click(object sender, EventArgs e)
         {
             if (entryItem > -1) setListItem();
             if (entryBPItem > -1) setListBPItem();
-            if (entryBPMove > -1) setListBPMove();
             File.WriteAllBytes(CROPath, data);
             Close();
         }
@@ -110,8 +99,6 @@ namespace pk3DS
                 dgvItem.Items.Add(t); // add only the Names
             foreach (string t in itemlist)
                 dgvItemBP.Items.Add(t); // add only the Names
-            foreach (string t in movelist)
-                dgvmvMove.Items.Add(t); // add only the Names
         }
 
         private int entryItem = -1;
@@ -130,13 +117,6 @@ namespace pk3DS
             if (entryBPItem > -1) setListBPItem();
             entryBPItem = CB_LocationBPItem.SelectedIndex;
             getListBPItem();
-        }
-
-        private void changeIndexBPMove(object sender, EventArgs e)
-        {
-            if (entryBPMove > -1) setListBPMove();
-            entryBPMove = CB_LocationBPMove.SelectedIndex;
-            getListBPMove();
         }
         
         private void getListItem()
@@ -166,20 +146,6 @@ namespace pk3DS
             }
         }
 
-        private void getListBPMove()
-        {
-            dgvmv.Rows.Clear();
-            int count = len_BPTutor[entryBPMove];
-            dgvmv.Rows.Add(count);
-            var ofs = ofs_BPTutor + (len_BPTutor.Take(entryBPMove).Sum(z => z) * 4);
-            for (int i = 0; i < count; i++)
-            {
-                dgvmv.Rows[i].Cells[0].Value = i.ToString();
-                dgvmv.Rows[i].Cells[1].Value = movelist[BitConverter.ToUInt16(data, ofs + (4 * i))];
-                dgvmv.Rows[i].Cells[2].Value = BitConverter.ToUInt16(data, ofs + (4 * i) + 2).ToString();
-            }
-        }
-
         private void setListItem()
         {
             int count = dgv.Rows.Count;
@@ -202,20 +168,6 @@ namespace pk3DS
             }
         }
 
-        private void setListBPMove()
-        {
-            int count = dgvmv.Rows.Count;
-            var ofs = ofs_BPTutor + (len_BPTutor.Take(entryBPMove).Sum(z => z) * 4);
-            for (int i = 0; i < count; i++)
-            {
-                int item = Array.IndexOf(movelist, dgvmv.Rows[i].Cells[1].Value);
-                Array.Copy(BitConverter.GetBytes((ushort)item), 0, data, ofs + (4 * i), 2);
-                int price; string p = dgvmv.Rows[i].Cells[2].Value.ToString();
-                if (int.TryParse(p, out price))
-                    Array.Copy(BitConverter.GetBytes((ushort)price), 0, data, ofs + (4 * i) + 2, 2);
-            }
-        }
-
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             switch (tabControl1.SelectedIndex)
@@ -225,9 +177,6 @@ namespace pk3DS
                     break;
                 case 1:
                     RandomizeBPItems();
-                    break;
-                default:
-                    WinFormsUtil.Alert("Not implemented");
                     break;
             }
         }
