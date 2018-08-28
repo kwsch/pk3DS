@@ -180,7 +180,7 @@
             this.MinimumSize = new System.Drawing.Size(360, 300);
             this.Name = "TutorEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Mart Editor";
+            this.Text = "Tutor Editor";
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvmv)).EndInit();
