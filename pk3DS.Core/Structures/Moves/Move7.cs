@@ -43,8 +43,8 @@ namespace pk3DS.Core.Structures
         public int ZPower { get => Data[0x20]; set => Data[0x20] = (byte)value; } // 33
         public int ZEffect { get => Data[0x21]; set => Data[0x21] = (byte)value; } // 34
 
-        public int Z3 { get => Data[0x22]; set => Data[0x22] = (byte)value; } // 35
-        public int ZPercent { get => Data[0x23]; set => Data[0x23] = (byte)value; } // 36
+        public RefreshType RefreshAfflictType { get => (RefreshType)Data[0x22]; set => Data[0x22] = (byte)value; } // 35
+        public int RefreshAfflictPercent { get => Data[0x23]; set => Data[0x23] = (byte)value; } // 36
 
         public MoveFlag7 Flags { get => (MoveFlag7)BitConverter.ToUInt32(Data, 0x24); set => BitConverter.GetBytes((uint)value).CopyTo(Data, 0x24); }
     }
