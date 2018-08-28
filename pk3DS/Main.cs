@@ -270,7 +270,8 @@ namespace pk3DS
                 case 7:
                     romfs = new Control[] {B_GameText, B_StoryText, B_Personal, B_Evolution, B_LevelUp, B_Wild, B_MegaEvo, B_EggMove, B_Trainer, B_Item, B_Move, B_Royal, B_Pickup, B_OWSE };
                     exefs = new Control[] {B_TM, B_TypeChart, B_ShinyRate};
-                    cro = new Control[] {B_Mart};
+                    cro = new Control[] {B_Mart, B_MoveTutor};
+                    B_MoveTutor.Visible = Config.USUM;
 
                     if (Config.Version != GameVersion.SMDEMO)
                         romfs = romfs.Concat(new[] {B_Static}).ToArray();
@@ -998,8 +999,17 @@ namespace pk3DS
         {
             if (threadActive())
                 return;
-            if (Config.XY) { WinFormsUtil.Alert("No Tutors for X/Y."); return; } // Already disabled button...
-            if (ExeFSPath != null) new TutorEditor6().Show();
+            switch (Config.Generation)
+            {
+                case 6:
+                    if (ExeFSPath != null) new TutorEditor6().Show();
+                    break;
+                case 7:
+                    if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "CRO Editing causes crashes if you do not patch the RO module.", "In order to patch the RO module, your device must be running Custom Firmware (for example, Luma3DS).", "Continue anyway?"))
+                        return;
+                    if (RomFSPath != null) new TutorEditor7().Show();
+                    break;
+            }
         }
 
         private void B_OPower_Click(object sender, EventArgs e)
