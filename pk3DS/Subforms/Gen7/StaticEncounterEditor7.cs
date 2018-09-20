@@ -666,6 +666,13 @@ namespace pk3DS
                 if (CHK_ForceFullyEvolved.Checked && t.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(t.Species))
                     t.Species = FinalEvo[randFinalEvo()];
 
+                if (t.IV3)
+                    t.IVs = new[] { -4, -1, -1, -1, -1, -1 }; // random with IV3 flag
+                else
+                    t.IVs = new[] { -1, -1, -1, -1, -1, -1 }; // random
+
+                t.EVs = new[] { 0, 0, 0, 0, 0, 0 }; // reset EVs
+
                 t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
                 t.Gender = 0; // random
                 t.Nature = 0; // random
@@ -697,6 +704,7 @@ namespace pk3DS
 
                 t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
                 t.Nature = (int)(Util.rnd32() % CB_TNature.Items.Count); // randomly selected
+                t.IVs = new[] { -1, -1, -1, -1, -1, -1 }; // random
             }
 
             GetListBoxEntries();

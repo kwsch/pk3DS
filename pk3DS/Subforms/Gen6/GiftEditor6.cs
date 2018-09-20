@@ -267,6 +267,7 @@ namespace pk3DS
                 NUD_Form.Value = formrand.GetRandomForme(species);
                 CB_Gender.SelectedIndex = 0; // random
                 CB_Nature.SelectedIndex = 0; // random
+                NUD_IV0.Value = NUD_IV1.Value = NUD_IV2.Value = NUD_IV3.Value = NUD_IV4.Value = NUD_IV5.Value = -1; // random
 
                 if (MegaDictionary.Values.Any(z => z.Contains(CB_HeldItem.SelectedIndex)) && NUD_Form.Value != 0)
                     NUD_Form.Value = 0; // don't allow mega gifts to be form 1

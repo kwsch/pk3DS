@@ -32,6 +32,7 @@
             this.L_Species_Precursor = new System.Windows.Forms.Label();
             this.TC_Pokemon = new System.Windows.Forms.TabControl();
             this.TP_General = new System.Windows.Forms.TabPage();
+            this.TB_RawColor = new System.Windows.Forms.TextBox();
             this.L_HiddenAbility = new System.Windows.Forms.Label();
             this.L_Ability2 = new System.Windows.Forms.Label();
             this.L_Ability1 = new System.Windows.Forms.Label();
@@ -148,7 +149,7 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
-            this.TB_RawColor = new System.Windows.Forms.TextBox();
+            this.CHK_FullHMCompatibility = new System.Windows.Forms.CheckBox();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -274,6 +275,16 @@
             this.TP_General.TabIndex = 0;
             this.TP_General.Text = "General Info";
             this.TP_General.UseVisualStyleBackColor = true;
+            // 
+            // TB_RawColor
+            // 
+            this.TB_RawColor.Location = new System.Drawing.Point(229, 209);
+            this.TB_RawColor.Name = "TB_RawColor";
+            this.TB_RawColor.ReadOnly = true;
+            this.TB_RawColor.Size = new System.Drawing.Size(30, 20);
+            this.TB_RawColor.TabIndex = 419;
+            this.TB_RawColor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_RawColor.Visible = false;
             // 
             // L_HiddenAbility
             // 
@@ -1037,6 +1048,7 @@
             // 
             // GB_Modifier
             // 
+            this.GB_Modifier.Controls.Add(this.CHK_FullHMCompatibility);
             this.GB_Modifier.Controls.Add(this.CHK_NoTutor);
             this.GB_Modifier.Controls.Add(this.CHK_CatchRateMod);
             this.GB_Modifier.Controls.Add(this.L_CatchRateMod);
@@ -1049,7 +1061,7 @@
             this.GB_Modifier.Controls.Add(this.CHK_NoEV);
             this.GB_Modifier.Location = new System.Drawing.Point(4, 147);
             this.GB_Modifier.Name = "GB_Modifier";
-            this.GB_Modifier.Size = new System.Drawing.Size(345, 129);
+            this.GB_Modifier.Size = new System.Drawing.Size(345, 152);
             this.GB_Modifier.TabIndex = 419;
             this.GB_Modifier.TabStop = false;
             this.GB_Modifier.Text = "Modifier Options";
@@ -1523,15 +1535,15 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
-            // TB_RawColor
+            // CHK_FullHMCompatibility
             // 
-            this.TB_RawColor.Location = new System.Drawing.Point(229, 209);
-            this.TB_RawColor.Name = "TB_RawColor";
-            this.TB_RawColor.ReadOnly = true;
-            this.TB_RawColor.Size = new System.Drawing.Size(30, 20);
-            this.TB_RawColor.TabIndex = 419;
-            this.TB_RawColor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_RawColor.Visible = false;
+            this.CHK_FullHMCompatibility.AutoSize = true;
+            this.CHK_FullHMCompatibility.Location = new System.Drawing.Point(6, 127);
+            this.CHK_FullHMCompatibility.Name = "CHK_FullHMCompatibility";
+            this.CHK_FullHMCompatibility.Size = new System.Drawing.Size(123, 17);
+            this.CHK_FullHMCompatibility.TabIndex = 21;
+            this.CHK_FullHMCompatibility.Text = "Full HM Compatibility";
+            this.CHK_FullHMCompatibility.UseVisualStyleBackColor = true;
             // 
             // PersonalEditor6
             // 
@@ -1694,5 +1706,6 @@
         private System.Windows.Forms.Label L_Ability2;
         private System.Windows.Forms.Label L_Ability1;
         private System.Windows.Forms.TextBox TB_RawColor;
+        private System.Windows.Forms.CheckBox CHK_FullHMCompatibility;
     }
 }

@@ -103,7 +103,6 @@ namespace pk3DS
 
         private int entryItem = -1;
         private int entryBPItem = -1;
-        private int entryBPMove = -1;
 
         private void changeIndexItem(object sender, EventArgs e)
         {

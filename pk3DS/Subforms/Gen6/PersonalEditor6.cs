@@ -400,6 +400,10 @@ namespace pk3DS
                         CLB_ORASTutors.SetItemCheckState(ao, CheckState.Unchecked);
                 }
 
+                if (CHK_FullHMCompatibility.Checked)
+                    for (int h = 100; h < CLB_TMHM.Items.Count; h++)
+                        CLB_TMHM.SetItemCheckState(h, CheckState.Checked);
+
                 if (CHK_QuickHatch.Checked)
                     TB_HatchCycles.Text = 1.ToString();
                 if (CHK_CatchRateMod.Checked)
