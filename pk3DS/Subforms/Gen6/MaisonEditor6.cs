@@ -19,7 +19,7 @@ namespace pk3DS
             pkFiles = trp;
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             movelist[0] = specieslist[0] = itemlist[0] = "";
-            
+
             trNames = Main.Config.getText(super ? TextName.SuperTrainerNames : TextName.MaisonTrainerNames); Array.Resize(ref trNames, trFiles.Length);
 
             InitializeComponent();

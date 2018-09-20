@@ -155,6 +155,9 @@ namespace pk3DS
 
             if (!Directory.Exists(path)) // File
             {
+                if (!File.Exists(path))
+                    return;
+
                 FileInfo fi = new FileInfo(path);
                 if (fi.Name.Contains("code.bin")) // Compress/Decompress .code.bin
                 {

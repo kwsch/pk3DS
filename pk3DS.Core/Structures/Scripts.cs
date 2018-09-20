@@ -12,7 +12,7 @@ namespace pk3DS.Core
         internal static byte[] decompressScript(byte[] data)
         {
             data = data ?? new byte[0]; // Bad Input
-                
+
             using (MemoryStream mn = new MemoryStream())
             using (BinaryWriter bw = new BinaryWriter(mn))
             {
@@ -92,7 +92,7 @@ namespace pk3DS.Core
             uint[] code = new uint[count];
             uint i = 0, j = 0, x = 0, f = 0;
             while (i < code.Length) {
-                int b = data[f++], 
+                int b = data[f++],
                     v = b & 0x7F;
                 if (++j == 1) // sign extension possible
                     x = (uint)((((v >> 6 == 0 ? 1 : 0) - 1) << 6) | v); // only for bit6 being set
@@ -248,7 +248,7 @@ namespace pk3DS.Core
                         // Peek at next value
                         var next = (int)cmd[i++];
                         // Check Value against negative and zero... ?
-                        
+
                         op = eA(c, next);
                         break;
                     }
@@ -266,7 +266,7 @@ namespace pk3DS.Core
                         // Peek at next value
                         var next = (int)cmd[i++];
                         // Check Value against negative... ?
-                        
+
                         op = eA(c, next);
                         break;
                     }
@@ -406,7 +406,7 @@ namespace pk3DS.Core
                     {
                         var next = (int)cmd[i++];
                         // No sanity check needed
-                        
+
                         op = eA(c, next);
                         break;
                     }
@@ -430,7 +430,7 @@ namespace pk3DS.Core
                         var delta = (int)cmd[i++];
                         // sanity check range...
                         // negative.. weird
-                        
+
                         int newOfs = (line * 4) + delta;
                         op = $"{Commands[c]} => 0x{newOfs:X4} ({delta})";
                         break;
@@ -448,7 +448,7 @@ namespace pk3DS.Core
                         var jOffset = (i * 4) - 4; // todo: this may be the correct jump start point...
                         var count = cmd[i++]; // switch case table
                         // sanity check
-                        
+
                         // Populate If-Case Tree
                         var tree = new List<string>();
 
@@ -650,7 +650,7 @@ namespace pk3DS.Core
             string parameters = arr.Length == 1 ? "" : string.Join(", ", arr.Select(z => getFloat(z)));
             return $"{cmd}({parameters})";
         }
-        
+
         internal static readonly Dictionary<uint, string> Commands = new Dictionary<uint, string>
         {// { 0x00, "$00" }, // Invalid Code
             { 0x01, "$01" },
