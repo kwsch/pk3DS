@@ -20,9 +20,11 @@ namespace pk3DS
         private readonly string[] natures = Main.Config.getText(TextName.Natures);
         private readonly string[] types = Main.Config.getText(TextName.Types);
         private readonly int[] oldStarters;
-        private static int[] FinalEvo;
-        private static int[] ReplaceLegend;
-        private static int[] BasicStarter;
+        private static int[] FinalEvo = Legal.FinalEvolutions_7;
+        private static int[] Legendary = Main.Config.USUM ? Legal.Legendary_USUM : Legal.Legendary_SM;
+        private static int[] Mythical = Main.Config.USUM ? Legal.Mythical_USUM : Legal.Mythical_SM;
+        private static int[] ReplaceLegend = Legendary.Concat(Mythical).ToArray();
+        private static int[] BasicStarter = Legal.BasicStarters_7;
 
         private readonly string[] gender =
         {
@@ -154,9 +156,6 @@ namespace pk3DS
             LB_Gift.SelectedIndex = 0;
             LB_Encounter.SelectedIndex = 0;
             LB_Trade.SelectedIndex = 0;
-            FinalEvo = Main.Config.USUM ? Legal.FinalEvolutions_USUM : Legal.FinalEvolutions_SM;
-            ReplaceLegend = Main.Config.USUM ? Legal.Legendary_Mythical_USUM : Legal.Legendary_Mythical_SM;
-            BasicStarter = Legal.BasicStarters_7;
 
             // Select last tab (Randomization) by default in case info already randomized.
             TC_Tabs.SelectedIndex = TC_Tabs.TabCount - 1;
@@ -251,6 +250,9 @@ namespace pk3DS
         private void GetAllies()
         {
             var entry = Encounters[eEntry];
+
+            if (eEntry < 0)
+                return;
 
             // USUM has slots with SOS allies beyond slot 100, accommodate by trimming an extra character
             int endTrim = eEntry < 100 ? 5 : 6;
@@ -502,6 +504,11 @@ namespace pk3DS
                 rBST = CHK_BST.Checked,
             };
             specrand.Initialize();
+
+            // add Legendary/Mythical to final evolutions if checked
+            if (CHK_L.Checked) FinalEvo = FinalEvo.Concat(Legendary).ToArray();
+            if (CHK_E.Checked) FinalEvo = FinalEvo.Concat(Mythical).ToArray();
+
             return specrand;
         }
 

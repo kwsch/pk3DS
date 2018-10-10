@@ -43,8 +43,10 @@ namespace pk3DS
         private EncounterStatic6[] EncounterData;
         private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
-        private static int[] FinalEvo;
-        private static int[] ReplaceLegend;
+        private static int[] FinalEvo = Legal.FinalEvolutions_6;
+        private static int[] Legendary = Legal.Legendary_6;
+        private static int[] Mythical = Legal.Mythical_6;
+        private static int[] ReplaceLegend = Legendary.Concat(Mythical).ToArray();
 
         private readonly string[] ability =
         {
@@ -83,9 +85,6 @@ namespace pk3DS
             CB_Gender.Items.Add("- / Genderless/Random");
             CB_Gender.Items.Add("♂ / Male");
             CB_Gender.Items.Add("♀ / Female");
-
-            FinalEvo = Legal.FinalEvolutions_6;
-            ReplaceLegend = Legal.Legendary_Mythical_6;
 
             loaded = true;
             LB_Encounters.SelectedIndex = 0;
@@ -170,6 +169,11 @@ namespace pk3DS
                 rBST = CHK_BST.Checked,
             };
             specrand.Initialize();
+
+            // add Legendary/Mythical to final evolutions if checked
+            if (CHK_L.Checked) FinalEvo = FinalEvo.Concat(Legendary).ToArray();
+            if (CHK_E.Checked) FinalEvo = FinalEvo.Concat(Mythical).ToArray();
+
             var items = Randomizer.getRandomItemList();
             for (int i = 0; i < LB_Encounters.Items.Count; i++)
             {

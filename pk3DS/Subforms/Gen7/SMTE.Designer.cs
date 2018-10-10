@@ -179,7 +179,6 @@
             this.CHK_STAB = new System.Windows.Forms.CheckBox();
             this.Tab_Trainer1 = new System.Windows.Forms.TabPage();
             this.CHK_ReplaceMega = new System.Windows.Forms.CheckBox();
-            this.CHK_ReplaceLegend = new System.Windows.Forms.CheckBox();
             this.CHK_6PKM = new System.Windows.Forms.CheckBox();
             this.NUD_ForceFullyEvolved = new System.Windows.Forms.NumericUpDown();
             this.L_MinPKM = new System.Windows.Forms.Label();
@@ -1977,7 +1976,6 @@
             // Tab_Trainer1
             // 
             this.Tab_Trainer1.Controls.Add(this.CHK_ReplaceMega);
-            this.Tab_Trainer1.Controls.Add(this.CHK_ReplaceLegend);
             this.Tab_Trainer1.Controls.Add(this.CHK_6PKM);
             this.Tab_Trainer1.Controls.Add(this.NUD_ForceFullyEvolved);
             this.Tab_Trainer1.Controls.Add(this.L_MinPKM);
@@ -2002,31 +2000,18 @@
             this.CHK_ReplaceMega.AutoSize = true;
             this.CHK_ReplaceMega.Checked = true;
             this.CHK_ReplaceMega.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_ReplaceMega.Location = new System.Drawing.Point(6, 121);
+            this.CHK_ReplaceMega.Location = new System.Drawing.Point(6, 118);
             this.CHK_ReplaceMega.Name = "CHK_ReplaceMega";
             this.CHK_ReplaceMega.Size = new System.Drawing.Size(196, 17);
             this.CHK_ReplaceMega.TabIndex = 343;
             this.CHK_ReplaceMega.Text = "Ensure Post-Game Mega Evolutions";
             this.CHK_ReplaceMega.UseVisualStyleBackColor = true;
             // 
-            // CHK_ReplaceLegend
-            // 
-            this.CHK_ReplaceLegend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CHK_ReplaceLegend.AutoSize = true;
-            this.CHK_ReplaceLegend.Checked = true;
-            this.CHK_ReplaceLegend.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_ReplaceLegend.Location = new System.Drawing.Point(6, 44);
-            this.CHK_ReplaceLegend.Name = "CHK_ReplaceLegend";
-            this.CHK_ReplaceLegend.Size = new System.Drawing.Size(257, 17);
-            this.CHK_ReplaceLegend.TabIndex = 342;
-            this.CHK_ReplaceLegend.Text = "Team Rainbow Rocket Legendary-for-Legendary";
-            this.CHK_ReplaceLegend.UseVisualStyleBackColor = true;
-            // 
             // CHK_6PKM
             // 
             this.CHK_6PKM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_6PKM.AutoSize = true;
-            this.CHK_6PKM.Location = new System.Drawing.Point(6, 107);
+            this.CHK_6PKM.Location = new System.Drawing.Point(6, 104);
             this.CHK_6PKM.Name = "CHK_6PKM";
             this.CHK_6PKM.Size = new System.Drawing.Size(183, 17);
             this.CHK_6PKM.TabIndex = 341;
@@ -2035,7 +2020,7 @@
             // 
             // NUD_ForceFullyEvolved
             // 
-            this.NUD_ForceFullyEvolved.Location = new System.Drawing.Point(165, 77);
+            this.NUD_ForceFullyEvolved.Location = new System.Drawing.Point(165, 74);
             this.NUD_ForceFullyEvolved.Minimum = new decimal(new int[] {
             1,
             0,
@@ -2052,7 +2037,7 @@
             // 
             // L_MinPKM
             // 
-            this.L_MinPKM.Location = new System.Drawing.Point(191, 0);
+            this.L_MinPKM.Location = new System.Drawing.Point(191, 3);
             this.L_MinPKM.Name = "L_MinPKM";
             this.L_MinPKM.Size = new System.Drawing.Size(60, 20);
             this.L_MinPKM.TabIndex = 338;
@@ -2061,7 +2046,7 @@
             // 
             // L_MaxPKM
             // 
-            this.L_MaxPKM.Location = new System.Drawing.Point(191, 21);
+            this.L_MaxPKM.Location = new System.Drawing.Point(191, 24);
             this.L_MaxPKM.Name = "L_MaxPKM";
             this.L_MaxPKM.Size = new System.Drawing.Size(60, 20);
             this.L_MaxPKM.TabIndex = 337;
@@ -2070,7 +2055,7 @@
             // 
             // NUD_RMin
             // 
-            this.NUD_RMin.Location = new System.Drawing.Point(257, 2);
+            this.NUD_RMin.Location = new System.Drawing.Point(257, 5);
             this.NUD_RMin.Maximum = new decimal(new int[] {
             6,
             0,
@@ -2092,7 +2077,7 @@
             // 
             // NUD_RMax
             // 
-            this.NUD_RMax.Location = new System.Drawing.Point(257, 23);
+            this.NUD_RMax.Location = new System.Drawing.Point(257, 26);
             this.NUD_RMax.Maximum = new decimal(new int[] {
             6,
             0,
@@ -2116,7 +2101,7 @@
             // 
             this.CHK_RandomMegaForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_RandomMegaForm.AutoSize = true;
-            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(6, 93);
+            this.CHK_RandomMegaForm.Location = new System.Drawing.Point(6, 90);
             this.CHK_RandomMegaForm.Name = "CHK_RandomMegaForm";
             this.CHK_RandomMegaForm.Size = new System.Drawing.Size(127, 17);
             this.CHK_RandomMegaForm.TabIndex = 333;
@@ -2129,7 +2114,7 @@
             this.CHK_TypeTheme.AutoSize = true;
             this.CHK_TypeTheme.Checked = true;
             this.CHK_TypeTheme.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_TypeTheme.Location = new System.Drawing.Point(6, 30);
+            this.CHK_TypeTheme.Location = new System.Drawing.Point(6, 33);
             this.CHK_TypeTheme.Name = "CHK_TypeTheme";
             this.CHK_TypeTheme.Size = new System.Drawing.Size(127, 17);
             this.CHK_TypeTheme.TabIndex = 329;
@@ -2142,7 +2127,7 @@
             this.CHK_IgnoreSpecialClass.AutoSize = true;
             this.CHK_IgnoreSpecialClass.Checked = true;
             this.CHK_IgnoreSpecialClass.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_IgnoreSpecialClass.Location = new System.Drawing.Point(6, 16);
+            this.CHK_IgnoreSpecialClass.Location = new System.Drawing.Point(6, 19);
             this.CHK_IgnoreSpecialClass.Name = "CHK_IgnoreSpecialClass";
             this.CHK_IgnoreSpecialClass.Size = new System.Drawing.Size(133, 17);
             this.CHK_IgnoreSpecialClass.TabIndex = 327;
@@ -2155,7 +2140,7 @@
             this.CHK_RandomClass.AutoSize = true;
             this.CHK_RandomClass.Checked = true;
             this.CHK_RandomClass.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomClass.Location = new System.Drawing.Point(6, 2);
+            this.CHK_RandomClass.Location = new System.Drawing.Point(6, 5);
             this.CHK_RandomClass.Name = "CHK_RandomClass";
             this.CHK_RandomClass.Size = new System.Drawing.Size(141, 17);
             this.CHK_RandomClass.TabIndex = 326;
@@ -2167,7 +2152,7 @@
             // 
             this.CHK_ForceFullyEvolved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_ForceFullyEvolved.AutoSize = true;
-            this.CHK_ForceFullyEvolved.Location = new System.Drawing.Point(6, 79);
+            this.CHK_ForceFullyEvolved.Location = new System.Drawing.Point(6, 76);
             this.CHK_ForceFullyEvolved.Name = "CHK_ForceFullyEvolved";
             this.CHK_ForceFullyEvolved.Size = new System.Drawing.Size(160, 17);
             this.CHK_ForceFullyEvolved.TabIndex = 339;
@@ -2418,7 +2403,6 @@
         private System.Windows.Forms.CheckBox CHK_6PKM;
         private System.Windows.Forms.CheckBox CHK_ForceHighPower;
         private System.Windows.Forms.NumericUpDown NUD_ForceHighPower;
-        private System.Windows.Forms.CheckBox CHK_ReplaceLegend;
         private System.Windows.Forms.CheckBox CHK_ReplaceMega;
     }
 }
