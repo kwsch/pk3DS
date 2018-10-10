@@ -23,6 +23,8 @@ namespace pk3DS
         private readonly string[] trName = Main.Config.getText(TextName.TrainerNames);
         private readonly string[] trClass = Main.Config.getText(TextName.TrainerClasses);
         private readonly List<string> trClassnorep;
+        private static int[] Legendary = Legal.Legendary_6;
+        private static int[] Mythical = Legal.Mythical_6;
 
         private void B_Close_Click(object sender, EventArgs e)
         {
@@ -110,6 +112,10 @@ namespace pk3DS
                 rEXP = false,
             };
             RSTE.rSpeciesRand.Initialize();
+
+            // add Legendary/Mythical to final evolutions if checked
+            if (CHK_L.Checked) RSTE.rFinalEvo = RSTE.rFinalEvo.Concat(Legendary).ToArray();
+            if (CHK_E.Checked) RSTE.rFinalEvo = RSTE.rFinalEvo.Concat(Mythical).ToArray();
 
             RSTE.rDoRand = true;
             RandSettings.SetFormSettings(this, Controls);

@@ -452,7 +452,7 @@ namespace pk3DS
         public static int rDMGCount, rSTABCount;
         private int[] mEvoTypes;
         private static int[] rModelRestricted;
-        private static int[] rFinalEvo;
+        public static int[] rFinalEvo;
         private string[] rImportant;
         private readonly List<string> Tags = new List<string>();
         private readonly Dictionary<string, int> TagTypes = new Dictionary<string, int>();
