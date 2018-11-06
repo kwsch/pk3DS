@@ -271,10 +271,12 @@ namespace pk3DS
             for (int i = 0; i < CB_Move.Items.Count; i++)
             {
                 CB_Move.SelectedIndex = i;
-                if (CB_Move.SelectedIndex != 117)
+                if (CB_Move.SelectedIndex != 117 || CB_Move.SelectedIndex != 32)
                     NUD_PP.Value = 0;
                 if (CB_Move.SelectedIndex == 117)
                     NUD_PP.Value = 40;
+                if (CB_Move.SelectedIndex == 32)
+                    NUD_PP.Value = 1;
             }
             CB_Move.SelectedIndex = 0;
             WinFormsUtil.Alert("All Moves have had their Base PP values modified!");
