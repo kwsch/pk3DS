@@ -208,7 +208,7 @@ namespace pk3DS
             for (int i = 0; i < CB_Trainer.Items.Count; i++)
             {
                 CB_Trainer.SelectedIndex = i;
-                int count = LB_Choices.Items.Count - 1;
+                int count = LB_Choices.Items.Count;
                 if (count > 0)
                 {
                     result += "======" + Environment.NewLine + i + " - (" + CB_Class.Text + ") " + CB_Trainer.Text + Environment.NewLine + "======" + Environment.NewLine;

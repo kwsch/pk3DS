@@ -19,7 +19,7 @@ namespace pk3DS
             pkFiles = trp;
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             movelist[0] = specieslist[0] = itemlist[0] = "";
-            
+
             trNames = Main.Config.getText(royal ? TextName.BattleRoyalNames : TextName.BattleTreeNames); Array.Resize(ref trNames, trFiles.Length);
 
             InitializeComponent();
@@ -209,7 +209,7 @@ namespace pk3DS
             for (int i = 0; i < CB_Trainer.Items.Count; i++)
             {
                 CB_Trainer.SelectedIndex = i;
-                int count = LB_Choices.Items.Count - 1;
+                int count = LB_Choices.Items.Count;
                 if (count > 0)
                 {
                     result += "======" + Environment.NewLine + i + " - (" + CB_Class.Text + ") " + CB_Trainer.Text + Environment.NewLine + "======" + Environment.NewLine;
@@ -265,7 +265,7 @@ namespace pk3DS
 
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
-            
+
             File.WriteAllText(sfd.FileName, result, Encoding.Unicode);
         }
     }
