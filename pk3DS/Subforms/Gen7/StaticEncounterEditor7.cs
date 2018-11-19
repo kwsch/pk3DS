@@ -249,10 +249,9 @@ namespace pk3DS
 
         private void GetAllies()
         {
-            var entry = Encounters[eEntry];
-
             if (eEntry < 0)
                 return;
+            var entry = Encounters[eEntry];
 
             // USUM has slots with SOS allies beyond slot 100, accommodate by trimming an extra character
             int endTrim = eEntry < 100 ? 5 : 6;
