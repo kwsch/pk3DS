@@ -24,7 +24,8 @@ namespace pk3DS.Core.Structures
             }
         }
 
-        public byte TrainerClass { get => trdata[0]; set => trdata[0] = value; }
+        public int TrainerClass { get => BitConverter.ToUInt16(trdata, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(trdata, 0x00); }
+        public BattleMode Mode { get => (BattleMode)trdata[2]; set => trdata[2] = (byte)value; }
         public int NumPokemon { get => trdata[3]; set => trdata[3] = (byte)(value%7); }
         public int Item1 { get => BitConverter.ToUInt16(trdata, 0x04); set => BitConverter.GetBytes((ushort)value).CopyTo(trdata, 0x04); }
         public int Item2 { get => BitConverter.ToUInt16(trdata, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(trdata, 0x06); }
@@ -43,5 +44,12 @@ namespace pk3DS.Core.Structures
                 Pokemon[i].Write().CopyTo(dat, trpoke7.SIZE*i);
             pk = dat;
         }
+    }
+
+    public enum BattleMode : byte
+    {
+        Singles,
+        Doubles,
+        Multi,
     }
 }

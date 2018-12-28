@@ -190,6 +190,8 @@
             this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
             this.CHK_RandomClass = new System.Windows.Forms.CheckBox();
             this.CHK_ForceFullyEvolved = new System.Windows.Forms.CheckBox();
+            this.CB_Mode = new System.Windows.Forms.ComboBox();
+            this.L_Mode = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -1476,6 +1478,8 @@
             // 
             // Tab_Trainer
             // 
+            this.Tab_Trainer.Controls.Add(this.L_Mode);
+            this.Tab_Trainer.Controls.Add(this.CB_Mode);
             this.Tab_Trainer.Controls.Add(this.CHK_Flag);
             this.Tab_Trainer.Controls.Add(this.NUD_AI);
             this.Tab_Trainer.Controls.Add(this.L_AI);
@@ -2159,6 +2163,32 @@
             this.CHK_ForceFullyEvolved.Text = "Force Fully Evolved at Level";
             this.CHK_ForceFullyEvolved.UseVisualStyleBackColor = true;
             // 
+            // CB_Mode
+            // 
+            this.CB_Mode.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Mode.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Mode.FormattingEnabled = true;
+            this.CB_Mode.Items.AddRange(new object[] {
+            "Single",
+            "Double",
+            "Multi",
+            "3",
+            "4"});
+            this.CB_Mode.Location = new System.Drawing.Point(214, 107);
+            this.CB_Mode.Name = "CB_Mode";
+            this.CB_Mode.Size = new System.Drawing.Size(94, 21);
+            this.CB_Mode.TabIndex = 452;
+            // 
+            // L_Mode
+            // 
+            this.L_Mode.AutoSize = true;
+            this.L_Mode.Location = new System.Drawing.Point(169, 110);
+            this.L_Mode.Name = "L_Mode";
+            this.L_Mode.Size = new System.Drawing.Size(37, 13);
+            this.L_Mode.TabIndex = 453;
+            this.L_Mode.Text = "Mode:";
+            // 
             // SMTE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2404,6 +2434,8 @@
         private System.Windows.Forms.CheckBox CHK_ForceHighPower;
         private System.Windows.Forms.NumericUpDown NUD_ForceHighPower;
         private System.Windows.Forms.CheckBox CHK_ReplaceMega;
+        private System.Windows.Forms.Label L_Mode;
+        private System.Windows.Forms.ComboBox CB_Mode;
     }
 }
 
