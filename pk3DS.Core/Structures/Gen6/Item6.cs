@@ -120,8 +120,11 @@ namespace pk3DS.Core.Structures
         [Category(Battle)]
         public int BoostCRIT { get => (Boost3 >> 4) & 3; set => Boost3 = (byte)((Boost3 & ~0x30) | ((value & 3) << 4)); }
 
-        [Category(Battle), Description("1 = One PP Up, 3 = PP Max")]
-        public int BoostPP { get => (Boost3 >> 6) & 3; set => Boost3 = (byte)((Boost3 & 0x3F) | ((value & 3) << 6)); }
+        [Category(Battle)]
+        public int BoostPP1 { get => (Boost3 >> 6) & 1; set => Boost3 = (byte)((Boost3 & 0xBF) | ((value & 1) << 6)); }
+
+        [Category(Battle)]
+        public int BoostPPMax { get => (Boost3 >> 7) & 1; set => Boost3 = (byte)((Boost3 & 0x7F) | ((value & 1) << 7)); }
 
         [Category(Heal), Description("Raw value of the Heal enum."), RefreshProperties(RefreshProperties.All)]
         public int HealValue
