@@ -96,8 +96,17 @@ namespace pk3DS.Core.Structures
         [Category(Battle)]
         public BattlePocket PocketBattle { get => (BattlePocket)(Packed >> 11); set => Packed = (ushort)((Packed & 0x077F) | (((byte)value & 0x1F) << 11)); }
 
-        [Category(Battle)]
-        public int FieldEffect { get => Boost0 & 0xF; set => Boost0 = (byte)((Boost0 & ~0xF) | (value & 0xF)); }
+        [Category(Field)]
+        public bool Revive { get => ((Boost0 >> 0) & 1) == 0; set => Boost0 = (byte)((Boost0 & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
+
+        [Category(Field)]
+        public bool ReviveAll { get => ((Boost0 >> 1) & 1) == 1; set => Boost0 = (byte)((Boost0 & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
+
+        [Category(Field)]
+        public bool LevelUp { get => ((Boost0 >> 2) & 1) == 1; set => Boost0 = (byte)((Boost0 & ~(1 << 2)) | ((value ? 1 : 0) << 2)); }
+
+        [Category(Field)]
+        public bool EvoStone { get => ((Boost0 >> 3) & 1) == 1; set => Boost0 = (byte)((Boost0 & ~(1 << 3)) | ((value ? 1 : 0) << 3)); }
 
         [Category(Battle)]
         public int BoostATK { get => Boost0 >> 4; set => Boost0 = (byte)((Boost0 & 0xF) | (value << 4)); }
@@ -115,7 +124,7 @@ namespace pk3DS.Core.Structures
         public int BoostSPE { get => Boost2 >> 4; set => Boost2 = (byte)((Boost2 & 0xF) | (value << 4)); }
 
         [Category(Battle)]
-        public int BoostACC { get => Boost0 & 0xF; set => Boost0 = (byte)((Boost3 & ~0xF) | (value & 0xF)); }
+        public int BoostACC { get => Boost3 & 0xF; set => Boost3 = (byte)((Boost3 & ~0xF) | (value & 0xF)); }
 
         [Category(Battle)]
         public int BoostCRIT { get => (Boost3 >> 4) & 3; set => Boost3 = (byte)((Boost3 & ~0x30) | ((value & 3) << 4)); }
