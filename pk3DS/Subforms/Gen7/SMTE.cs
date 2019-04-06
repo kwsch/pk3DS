@@ -26,6 +26,7 @@ namespace pk3DS
         private static Dictionary<int, int[]> MegaDictionary;
         private int index = -1;
         private PictureBox[] pba;
+        private CheckBox[] AIBits;
 
         private readonly byte[][] trclass, trdata, trpoke;
         private readonly string[] abilitylist = Main.Config.getText(TextName.AbilityNames);
@@ -229,7 +230,8 @@ namespace pk3DS
 
             specieslist[0] = "---";
             abilitylist[0] = itemlist[0] = movelist[0] = "(None)";
-            pba = new[] { PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6 };
+            pba = new[] {PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6};
+            AIBits = new[] {CHK_AI0, CHK_AI1, CHK_AI2, CHK_AI3, CHK_AI4, CHK_AI5, CHK_AI6, CHK_AI7};
 
             CB_Species.Items.Clear();
             foreach (string s in specieslist)
@@ -411,7 +413,7 @@ namespace pk3DS
             CB_Item_4.SelectedIndex = tr.Item4;
             CB_Money.SelectedIndex = tr.Money;
             CB_Mode.SelectedIndex = (int)tr.Mode;
-            NUD_AI.Value = tr.AI;
+            LoadAIBits((uint)tr.AI);
             CHK_Flag.Checked = tr.Flag;
             PopulateTeam(tr);
         }
@@ -426,8 +428,22 @@ namespace pk3DS
             tr.Item4 = CB_Item_4.SelectedIndex;
             tr.Money = CB_Money.SelectedIndex;
             tr.Mode = (BattleMode)CB_Mode.SelectedIndex;
-            tr.AI = (int)NUD_AI.Value;
+            tr.AI = (int)SaveAIBits();
             tr.Flag = CHK_Flag.Checked;
+        }
+
+        private void LoadAIBits(uint val)
+        {
+            for (int i = 0; i < AIBits.Length; i++)
+                AIBits[i].Checked = ((val >> i) & 1) == 1;
+        }
+
+        private uint SaveAIBits()
+        {
+            uint val = 0;
+            for (int i = 0; i < AIBits.Length; i++)
+                val |= AIBits[i].Checked ? 1u << i : 0;
+            return val;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -757,7 +773,7 @@ namespace pk3DS
                     if (CHK_MaxDiffPKM.Checked)
                         pk.IVs = new[] {31, 31, 31, 31, 31, 31};
                     if (CHK_MaxAI.Checked)
-                        tr.AI |= 7;
+                        tr.AI |= (int)(TrainerAI.Basic | TrainerAI.Strong | TrainerAI.Expert | TrainerAI.PokeChange);
 
                     if (CHK_ForceFullyEvolved.Checked && pk.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(pk.Species))
                     {

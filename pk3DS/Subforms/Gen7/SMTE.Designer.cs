@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.CB_TrainerID = new System.Windows.Forms.ComboBox();
-            this.L_AI = new System.Windows.Forms.Label();
             this.L_Money = new System.Windows.Forms.Label();
             this.CB_Money = new System.Windows.Forms.ComboBox();
             this.L_Trainer_Class = new System.Windows.Forms.Label();
@@ -137,12 +136,13 @@
             this.CB_Move4 = new System.Windows.Forms.ComboBox();
             this.CB_Move2 = new System.Windows.Forms.ComboBox();
             this.CB_Move3 = new System.Windows.Forms.ComboBox();
-            this.NUD_AI = new System.Windows.Forms.NumericUpDown();
             this.L_TrainerName = new System.Windows.Forms.Label();
             this.TB_TrainerName = new System.Windows.Forms.TextBox();
             this.NUD_NumPoke = new System.Windows.Forms.NumericUpDown();
             this.TC_trdata = new System.Windows.Forms.TabControl();
             this.Tab_Trainer = new System.Windows.Forms.TabPage();
+            this.L_Mode = new System.Windows.Forms.Label();
+            this.CB_Mode = new System.Windows.Forms.ComboBox();
             this.CHK_Flag = new System.Windows.Forms.CheckBox();
             this.Tab_Rand = new System.Windows.Forms.TabPage();
             this.TC_rand = new System.Windows.Forms.TabControl();
@@ -190,8 +190,15 @@
             this.CHK_IgnoreSpecialClass = new System.Windows.Forms.CheckBox();
             this.CHK_RandomClass = new System.Windows.Forms.CheckBox();
             this.CHK_ForceFullyEvolved = new System.Windows.Forms.CheckBox();
-            this.CB_Mode = new System.Windows.Forms.ComboBox();
-            this.L_Mode = new System.Windows.Forms.Label();
+            this.GB_AIBits = new System.Windows.Forms.GroupBox();
+            this.CHK_AI6 = new System.Windows.Forms.CheckBox();
+            this.CHK_AI5 = new System.Windows.Forms.CheckBox();
+            this.CHK_AI4 = new System.Windows.Forms.CheckBox();
+            this.CHK_AI3 = new System.Windows.Forms.CheckBox();
+            this.CHK_AI2 = new System.Windows.Forms.CheckBox();
+            this.CHK_AI1 = new System.Windows.Forms.CheckBox();
+            this.CHK_AI0 = new System.Windows.Forms.CheckBox();
+            this.CHK_AI7 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -225,7 +232,6 @@
             this.FLP_HPType.SuspendLayout();
             this.Tab_Moves.SuspendLayout();
             this.GB_Moves.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_AI)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NumPoke)).BeginInit();
             this.TC_trdata.SuspendLayout();
             this.Tab_Trainer.SuspendLayout();
@@ -242,6 +248,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMax)).BeginInit();
+            this.GB_AIBits.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_TrainerID
@@ -257,19 +264,10 @@
             this.CB_TrainerID.TabIndex = 64;
             this.CB_TrainerID.SelectedIndexChanged += new System.EventHandler(this.ChangeTrainerIndex);
             // 
-            // L_AI
-            // 
-            this.L_AI.AutoSize = true;
-            this.L_AI.Location = new System.Drawing.Point(217, 57);
-            this.L_AI.Name = "L_AI";
-            this.L_AI.Size = new System.Drawing.Size(38, 13);
-            this.L_AI.TabIndex = 55;
-            this.L_AI.Text = "AI Val:";
-            // 
             // L_Money
             // 
             this.L_Money.AutoSize = true;
-            this.L_Money.Location = new System.Drawing.Point(40, 54);
+            this.L_Money.Location = new System.Drawing.Point(34, 54);
             this.L_Money.Name = "L_Money";
             this.L_Money.Size = new System.Drawing.Size(42, 13);
             this.L_Money.TabIndex = 53;
@@ -280,7 +278,7 @@
             this.CB_Money.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Money.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Money.FormattingEnabled = true;
-            this.CB_Money.Location = new System.Drawing.Point(85, 51);
+            this.CB_Money.Location = new System.Drawing.Point(79, 51);
             this.CB_Money.Name = "CB_Money";
             this.CB_Money.Size = new System.Drawing.Size(70, 21);
             this.CB_Money.TabIndex = 52;
@@ -288,7 +286,7 @@
             // L_Trainer_Class
             // 
             this.L_Trainer_Class.AutoSize = true;
-            this.L_Trainer_Class.Location = new System.Drawing.Point(13, 32);
+            this.L_Trainer_Class.Location = new System.Drawing.Point(7, 32);
             this.L_Trainer_Class.Name = "L_Trainer_Class";
             this.L_Trainer_Class.Size = new System.Drawing.Size(71, 13);
             this.L_Trainer_Class.TabIndex = 49;
@@ -300,9 +298,9 @@
             this.CB_Trainer_Class.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Trainer_Class.DropDownWidth = 165;
             this.CB_Trainer_Class.FormattingEnabled = true;
-            this.CB_Trainer_Class.Location = new System.Drawing.Point(85, 29);
+            this.CB_Trainer_Class.Location = new System.Drawing.Point(79, 29);
             this.CB_Trainer_Class.Name = "CB_Trainer_Class";
-            this.CB_Trainer_Class.Size = new System.Drawing.Size(175, 21);
+            this.CB_Trainer_Class.Size = new System.Drawing.Size(172, 21);
             this.CB_Trainer_Class.TabIndex = 48;
             // 
             // L_Item_4
@@ -384,7 +382,7 @@
             // L_numPokemon
             // 
             this.L_numPokemon.AutoSize = true;
-            this.L_numPokemon.Location = new System.Drawing.Point(42, 75);
+            this.L_numPokemon.Location = new System.Drawing.Point(36, 75);
             this.L_numPokemon.Name = "L_numPokemon";
             this.L_numPokemon.Size = new System.Drawing.Size(40, 13);
             this.L_numPokemon.TabIndex = 22;
@@ -404,7 +402,7 @@
             // 
             this.PB_Team1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team1.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team1.Location = new System.Drawing.Point(53, 244);
+            this.PB_Team1.Location = new System.Drawing.Point(50, 244);
             this.PB_Team1.Name = "PB_Team1";
             this.PB_Team1.Size = new System.Drawing.Size(82, 62);
             this.PB_Team1.TabIndex = 444;
@@ -441,7 +439,7 @@
             // 
             this.PB_Team2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team2.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team2.Location = new System.Drawing.Point(139, 244);
+            this.PB_Team2.Location = new System.Drawing.Point(147, 244);
             this.PB_Team2.Name = "PB_Team2";
             this.PB_Team2.Size = new System.Drawing.Size(82, 62);
             this.PB_Team2.TabIndex = 443;
@@ -451,7 +449,7 @@
             // 
             this.PB_Team3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team3.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team3.Location = new System.Drawing.Point(225, 244);
+            this.PB_Team3.Location = new System.Drawing.Point(244, 244);
             this.PB_Team3.Name = "PB_Team3";
             this.PB_Team3.Size = new System.Drawing.Size(82, 62);
             this.PB_Team3.TabIndex = 442;
@@ -461,7 +459,7 @@
             // 
             this.PB_Team4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team4.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team4.Location = new System.Drawing.Point(311, 244);
+            this.PB_Team4.Location = new System.Drawing.Point(341, 244);
             this.PB_Team4.Name = "PB_Team4";
             this.PB_Team4.Size = new System.Drawing.Size(82, 62);
             this.PB_Team4.TabIndex = 441;
@@ -471,7 +469,7 @@
             // 
             this.PB_Team5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team5.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team5.Location = new System.Drawing.Point(397, 244);
+            this.PB_Team5.Location = new System.Drawing.Point(438, 244);
             this.PB_Team5.Name = "PB_Team5";
             this.PB_Team5.Size = new System.Drawing.Size(82, 62);
             this.PB_Team5.TabIndex = 440;
@@ -481,7 +479,7 @@
             // 
             this.PB_Team6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team6.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team6.Location = new System.Drawing.Point(483, 244);
+            this.PB_Team6.Location = new System.Drawing.Point(535, 244);
             this.PB_Team6.Name = "PB_Team6";
             this.PB_Team6.Size = new System.Drawing.Size(82, 62);
             this.PB_Team6.TabIndex = 439;
@@ -489,7 +487,7 @@
             // 
             // B_Randomize
             // 
-            this.B_Randomize.Location = new System.Drawing.Point(61, 3);
+            this.B_Randomize.Location = new System.Drawing.Point(88, 5);
             this.B_Randomize.Name = "B_Randomize";
             this.B_Randomize.Size = new System.Drawing.Size(93, 23);
             this.B_Randomize.TabIndex = 447;
@@ -499,7 +497,7 @@
             // 
             // B_Dump
             // 
-            this.B_Dump.Location = new System.Drawing.Point(160, 3);
+            this.B_Dump.Location = new System.Drawing.Point(187, 5);
             this.B_Dump.Name = "B_Dump";
             this.B_Dump.Size = new System.Drawing.Size(93, 23);
             this.B_Dump.TabIndex = 446;
@@ -1421,23 +1419,10 @@
             this.CB_Move3.Size = new System.Drawing.Size(121, 21);
             this.CB_Move3.TabIndex = 2;
             // 
-            // NUD_AI
-            // 
-            this.NUD_AI.Hexadecimal = true;
-            this.NUD_AI.Location = new System.Drawing.Point(261, 55);
-            this.NUD_AI.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NUD_AI.Name = "NUD_AI";
-            this.NUD_AI.Size = new System.Drawing.Size(47, 20);
-            this.NUD_AI.TabIndex = 58;
-            // 
             // L_TrainerName
             // 
             this.L_TrainerName.AutoSize = true;
-            this.L_TrainerName.Location = new System.Drawing.Point(10, 11);
+            this.L_TrainerName.Location = new System.Drawing.Point(4, 11);
             this.L_TrainerName.Name = "L_TrainerName";
             this.L_TrainerName.Size = new System.Drawing.Size(74, 13);
             this.L_TrainerName.TabIndex = 450;
@@ -1445,16 +1430,16 @@
             // 
             // TB_TrainerName
             // 
-            this.TB_TrainerName.Location = new System.Drawing.Point(85, 8);
+            this.TB_TrainerName.Location = new System.Drawing.Point(79, 8);
             this.TB_TrainerName.MaxLength = 50;
             this.TB_TrainerName.Name = "TB_TrainerName";
-            this.TB_TrainerName.Size = new System.Drawing.Size(175, 20);
+            this.TB_TrainerName.Size = new System.Drawing.Size(172, 20);
             this.TB_TrainerName.TabIndex = 35;
             this.TB_TrainerName.TextChanged += new System.EventHandler(this.UpdateTrainerName);
             // 
             // NUD_NumPoke
             // 
-            this.NUD_NumPoke.Location = new System.Drawing.Point(85, 73);
+            this.NUD_NumPoke.Location = new System.Drawing.Point(79, 73);
             this.NUD_NumPoke.Maximum = new decimal(new int[] {
             6,
             0,
@@ -1473,16 +1458,15 @@
             this.TC_trdata.Location = new System.Drawing.Point(250, 13);
             this.TC_trdata.Name = "TC_trdata";
             this.TC_trdata.SelectedIndex = 0;
-            this.TC_trdata.Size = new System.Drawing.Size(322, 225);
+            this.TC_trdata.Size = new System.Drawing.Size(371, 225);
             this.TC_trdata.TabIndex = 450;
             // 
             // Tab_Trainer
             // 
+            this.Tab_Trainer.Controls.Add(this.GB_AIBits);
             this.Tab_Trainer.Controls.Add(this.L_Mode);
             this.Tab_Trainer.Controls.Add(this.CB_Mode);
             this.Tab_Trainer.Controls.Add(this.CHK_Flag);
-            this.Tab_Trainer.Controls.Add(this.NUD_AI);
-            this.Tab_Trainer.Controls.Add(this.L_AI);
             this.Tab_Trainer.Controls.Add(this.TB_TrainerName);
             this.Tab_Trainer.Controls.Add(this.L_Trainer_Class);
             this.Tab_Trainer.Controls.Add(this.CB_Item_1);
@@ -1502,15 +1486,41 @@
             this.Tab_Trainer.Location = new System.Drawing.Point(4, 22);
             this.Tab_Trainer.Name = "Tab_Trainer";
             this.Tab_Trainer.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Trainer.Size = new System.Drawing.Size(314, 199);
+            this.Tab_Trainer.Size = new System.Drawing.Size(363, 199);
             this.Tab_Trainer.TabIndex = 0;
             this.Tab_Trainer.Text = "Trainer";
             this.Tab_Trainer.UseVisualStyleBackColor = true;
             // 
+            // L_Mode
+            // 
+            this.L_Mode.AutoSize = true;
+            this.L_Mode.Location = new System.Drawing.Point(190, 174);
+            this.L_Mode.Name = "L_Mode";
+            this.L_Mode.Size = new System.Drawing.Size(67, 13);
+            this.L_Mode.TabIndex = 453;
+            this.L_Mode.Text = "Battle Mode:";
+            // 
+            // CB_Mode
+            // 
+            this.CB_Mode.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Mode.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Mode.FormattingEnabled = true;
+            this.CB_Mode.Items.AddRange(new object[] {
+            "Single",
+            "Double",
+            "Multi",
+            "3",
+            "4"});
+            this.CB_Mode.Location = new System.Drawing.Point(261, 171);
+            this.CB_Mode.Name = "CB_Mode";
+            this.CB_Mode.Size = new System.Drawing.Size(94, 21);
+            this.CB_Mode.TabIndex = 452;
+            // 
             // CHK_Flag
             // 
             this.CHK_Flag.AutoSize = true;
-            this.CHK_Flag.Location = new System.Drawing.Point(158, 54);
+            this.CHK_Flag.Location = new System.Drawing.Point(152, 54);
             this.CHK_Flag.Name = "CHK_Flag";
             this.CHK_Flag.Size = new System.Drawing.Size(46, 17);
             this.CHK_Flag.TabIndex = 451;
@@ -1524,7 +1534,7 @@
             this.Tab_Rand.Controls.Add(this.B_Dump);
             this.Tab_Rand.Location = new System.Drawing.Point(4, 22);
             this.Tab_Rand.Name = "Tab_Rand";
-            this.Tab_Rand.Size = new System.Drawing.Size(314, 199);
+            this.Tab_Rand.Size = new System.Drawing.Size(363, 199);
             this.Tab_Rand.TabIndex = 2;
             this.Tab_Rand.Text = "Randomizer Options";
             this.Tab_Rand.UseVisualStyleBackColor = true;
@@ -1537,7 +1547,7 @@
             this.TC_rand.Location = new System.Drawing.Point(3, 33);
             this.TC_rand.Name = "TC_rand";
             this.TC_rand.SelectedIndex = 0;
-            this.TC_rand.Size = new System.Drawing.Size(308, 163);
+            this.TC_rand.Size = new System.Drawing.Size(357, 163);
             this.TC_rand.TabIndex = 448;
             // 
             // Tab_PKM1
@@ -1561,7 +1571,7 @@
             this.Tab_PKM1.Location = new System.Drawing.Point(4, 22);
             this.Tab_PKM1.Name = "Tab_PKM1";
             this.Tab_PKM1.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_PKM1.Size = new System.Drawing.Size(300, 137);
+            this.Tab_PKM1.Size = new System.Drawing.Size(349, 137);
             this.Tab_PKM1.TabIndex = 0;
             this.Tab_PKM1.Text = "Main";
             this.Tab_PKM1.UseVisualStyleBackColor = true;
@@ -1569,7 +1579,7 @@
             // L_ShinyPCT
             // 
             this.L_ShinyPCT.AutoSize = true;
-            this.L_ShinyPCT.Location = new System.Drawing.Point(276, 60);
+            this.L_ShinyPCT.Location = new System.Drawing.Point(330, 93);
             this.L_ShinyPCT.Name = "L_ShinyPCT";
             this.L_ShinyPCT.Size = new System.Drawing.Size(15, 13);
             this.L_ShinyPCT.TabIndex = 305;
@@ -1577,7 +1587,7 @@
             // 
             // NUD_Shiny
             // 
-            this.NUD_Shiny.Location = new System.Drawing.Point(232, 56);
+            this.NUD_Shiny.Location = new System.Drawing.Point(286, 90);
             this.NUD_Shiny.Name = "NUD_Shiny";
             this.NUD_Shiny.Size = new System.Drawing.Size(43, 20);
             this.NUD_Shiny.TabIndex = 304;
@@ -1592,7 +1602,7 @@
             this.CHK_RandomShiny.AutoSize = true;
             this.CHK_RandomShiny.Checked = true;
             this.CHK_RandomShiny.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomShiny.Location = new System.Drawing.Point(100, 58);
+            this.CHK_RandomShiny.Location = new System.Drawing.Point(154, 92);
             this.CHK_RandomShiny.Name = "CHK_RandomShiny";
             this.CHK_RandomShiny.Size = new System.Drawing.Size(103, 17);
             this.CHK_RandomShiny.TabIndex = 303;
@@ -1693,7 +1703,7 @@
             0,
             0,
             131072});
-            this.NUD_LevelBoost.Location = new System.Drawing.Point(232, 77);
+            this.NUD_LevelBoost.Location = new System.Drawing.Point(286, 111);
             this.NUD_LevelBoost.Maximum = new decimal(new int[] {
             3,
             0,
@@ -1728,7 +1738,7 @@
             // CHK_Level
             // 
             this.CHK_Level.AutoSize = true;
-            this.CHK_Level.Location = new System.Drawing.Point(100, 78);
+            this.CHK_Level.Location = new System.Drawing.Point(154, 112);
             this.CHK_Level.Name = "CHK_Level";
             this.CHK_Level.Size = new System.Drawing.Size(130, 17);
             this.CHK_Level.TabIndex = 300;
@@ -1751,7 +1761,7 @@
             // CHK_BST
             // 
             this.CHK_BST.AutoSize = true;
-            this.CHK_BST.Location = new System.Drawing.Point(100, 19);
+            this.CHK_BST.Location = new System.Drawing.Point(154, 23);
             this.CHK_BST.Name = "CHK_BST";
             this.CHK_BST.Size = new System.Drawing.Size(117, 17);
             this.CHK_BST.TabIndex = 297;
@@ -1763,7 +1773,7 @@
             this.CHK_RandomPKM.AutoSize = true;
             this.CHK_RandomPKM.Checked = true;
             this.CHK_RandomPKM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomPKM.Location = new System.Drawing.Point(100, 5);
+            this.CHK_RandomPKM.Location = new System.Drawing.Point(154, 5);
             this.CHK_RandomPKM.Name = "CHK_RandomPKM";
             this.CHK_RandomPKM.Size = new System.Drawing.Size(114, 17);
             this.CHK_RandomPKM.TabIndex = 299;
@@ -1789,7 +1799,7 @@
             this.Tab_PKM2.Location = new System.Drawing.Point(4, 22);
             this.Tab_PKM2.Name = "Tab_PKM2";
             this.Tab_PKM2.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_PKM2.Size = new System.Drawing.Size(300, 137);
+            this.Tab_PKM2.Size = new System.Drawing.Size(349, 137);
             this.Tab_PKM2.TabIndex = 1;
             this.Tab_PKM2.Text = "Stats/Moves";
             this.Tab_PKM2.UseVisualStyleBackColor = true;
@@ -1841,7 +1851,7 @@
             this.CHK_MaxAI.AutoSize = true;
             this.CHK_MaxAI.Checked = true;
             this.CHK_MaxAI.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_MaxAI.Location = new System.Drawing.Point(201, 120);
+            this.CHK_MaxAI.Location = new System.Drawing.Point(225, 118);
             this.CHK_MaxAI.Name = "CHK_MaxAI";
             this.CHK_MaxAI.Size = new System.Drawing.Size(95, 17);
             this.CHK_MaxAI.TabIndex = 339;
@@ -1880,7 +1890,7 @@
             this.CHK_MaxDiffPKM.AutoSize = true;
             this.CHK_MaxDiffPKM.Checked = true;
             this.CHK_MaxDiffPKM.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(201, 106);
+            this.CHK_MaxDiffPKM.Location = new System.Drawing.Point(225, 104);
             this.CHK_MaxDiffPKM.Name = "CHK_MaxDiffPKM";
             this.CHK_MaxDiffPKM.Size = new System.Drawing.Size(64, 17);
             this.CHK_MaxDiffPKM.TabIndex = 332;
@@ -1911,7 +1921,7 @@
             this.CHK_RandomAbilities.AutoSize = true;
             this.CHK_RandomAbilities.Checked = true;
             this.CHK_RandomAbilities.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomAbilities.Location = new System.Drawing.Point(6, 120);
+            this.CHK_RandomAbilities.Location = new System.Drawing.Point(6, 118);
             this.CHK_RandomAbilities.Name = "CHK_RandomAbilities";
             this.CHK_RandomAbilities.Size = new System.Drawing.Size(183, 17);
             this.CHK_RandomAbilities.TabIndex = 331;
@@ -1956,7 +1966,7 @@
             this.CHK_RandomItems.AutoSize = true;
             this.CHK_RandomItems.Checked = true;
             this.CHK_RandomItems.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_RandomItems.Location = new System.Drawing.Point(6, 106);
+            this.CHK_RandomItems.Location = new System.Drawing.Point(6, 104);
             this.CHK_RandomItems.Name = "CHK_RandomItems";
             this.CHK_RandomItems.Size = new System.Drawing.Size(119, 17);
             this.CHK_RandomItems.TabIndex = 330;
@@ -1993,7 +2003,7 @@
             this.Tab_Trainer1.Controls.Add(this.CHK_ForceFullyEvolved);
             this.Tab_Trainer1.Location = new System.Drawing.Point(4, 22);
             this.Tab_Trainer1.Name = "Tab_Trainer1";
-            this.Tab_Trainer1.Size = new System.Drawing.Size(300, 137);
+            this.Tab_Trainer1.Size = new System.Drawing.Size(349, 137);
             this.Tab_Trainer1.TabIndex = 2;
             this.Tab_Trainer1.Text = "Trainer";
             this.Tab_Trainer1.UseVisualStyleBackColor = true;
@@ -2041,7 +2051,7 @@
             // 
             // L_MinPKM
             // 
-            this.L_MinPKM.Location = new System.Drawing.Point(191, 3);
+            this.L_MinPKM.Location = new System.Drawing.Point(235, 3);
             this.L_MinPKM.Name = "L_MinPKM";
             this.L_MinPKM.Size = new System.Drawing.Size(60, 20);
             this.L_MinPKM.TabIndex = 338;
@@ -2050,7 +2060,7 @@
             // 
             // L_MaxPKM
             // 
-            this.L_MaxPKM.Location = new System.Drawing.Point(191, 24);
+            this.L_MaxPKM.Location = new System.Drawing.Point(235, 24);
             this.L_MaxPKM.Name = "L_MaxPKM";
             this.L_MaxPKM.Size = new System.Drawing.Size(60, 20);
             this.L_MaxPKM.TabIndex = 337;
@@ -2059,7 +2069,7 @@
             // 
             // NUD_RMin
             // 
-            this.NUD_RMin.Location = new System.Drawing.Point(257, 5);
+            this.NUD_RMin.Location = new System.Drawing.Point(301, 5);
             this.NUD_RMin.Maximum = new decimal(new int[] {
             6,
             0,
@@ -2081,7 +2091,7 @@
             // 
             // NUD_RMax
             // 
-            this.NUD_RMax.Location = new System.Drawing.Point(257, 26);
+            this.NUD_RMax.Location = new System.Drawing.Point(301, 26);
             this.NUD_RMax.Maximum = new decimal(new int[] {
             6,
             0,
@@ -2116,8 +2126,6 @@
             // 
             this.CHK_TypeTheme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CHK_TypeTheme.AutoSize = true;
-            this.CHK_TypeTheme.Checked = true;
-            this.CHK_TypeTheme.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_TypeTheme.Location = new System.Drawing.Point(6, 33);
             this.CHK_TypeTheme.Name = "CHK_TypeTheme";
             this.CHK_TypeTheme.Size = new System.Drawing.Size(127, 17);
@@ -2163,37 +2171,108 @@
             this.CHK_ForceFullyEvolved.Text = "Force Fully Evolved at Level";
             this.CHK_ForceFullyEvolved.UseVisualStyleBackColor = true;
             // 
-            // CB_Mode
+            // GB_AIBits
             // 
-            this.CB_Mode.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Mode.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Mode.FormattingEnabled = true;
-            this.CB_Mode.Items.AddRange(new object[] {
-            "Single",
-            "Double",
-            "Multi",
-            "3",
-            "4"});
-            this.CB_Mode.Location = new System.Drawing.Point(214, 107);
-            this.CB_Mode.Name = "CB_Mode";
-            this.CB_Mode.Size = new System.Drawing.Size(94, 21);
-            this.CB_Mode.TabIndex = 452;
+            this.GB_AIBits.Controls.Add(this.CHK_AI7);
+            this.GB_AIBits.Controls.Add(this.CHK_AI6);
+            this.GB_AIBits.Controls.Add(this.CHK_AI5);
+            this.GB_AIBits.Controls.Add(this.CHK_AI4);
+            this.GB_AIBits.Controls.Add(this.CHK_AI3);
+            this.GB_AIBits.Controls.Add(this.CHK_AI2);
+            this.GB_AIBits.Controls.Add(this.CHK_AI1);
+            this.GB_AIBits.Controls.Add(this.CHK_AI0);
+            this.GB_AIBits.Location = new System.Drawing.Point(257, 2);
+            this.GB_AIBits.Name = "GB_AIBits";
+            this.GB_AIBits.Size = new System.Drawing.Size(100, 161);
+            this.GB_AIBits.TabIndex = 464;
+            this.GB_AIBits.TabStop = false;
+            this.GB_AIBits.Text = "AI Bits";
             // 
-            // L_Mode
+            // CHK_AI6
             // 
-            this.L_Mode.AutoSize = true;
-            this.L_Mode.Location = new System.Drawing.Point(169, 110);
-            this.L_Mode.Name = "L_Mode";
-            this.L_Mode.Size = new System.Drawing.Size(37, 13);
-            this.L_Mode.TabIndex = 453;
-            this.L_Mode.Text = "Mode:";
+            this.CHK_AI6.AutoSize = true;
+            this.CHK_AI6.Location = new System.Drawing.Point(13, 119);
+            this.CHK_AI6.Name = "CHK_AI6";
+            this.CHK_AI6.Size = new System.Drawing.Size(88, 17);
+            this.CHK_AI6.TabIndex = 458;
+            this.CHK_AI6.Text = "PokeChange";
+            this.CHK_AI6.UseVisualStyleBackColor = true;
+            // 
+            // CHK_AI5
+            // 
+            this.CHK_AI5.AutoSize = true;
+            this.CHK_AI5.Location = new System.Drawing.Point(13, 105);
+            this.CHK_AI5.Name = "CHK_AI5";
+            this.CHK_AI5.Size = new System.Drawing.Size(80, 17);
+            this.CHK_AI5.TabIndex = 457;
+            this.CHK_AI5.Text = "BattleRoyal";
+            this.CHK_AI5.UseVisualStyleBackColor = true;
+            // 
+            // CHK_AI4
+            // 
+            this.CHK_AI4.AutoSize = true;
+            this.CHK_AI4.Location = new System.Drawing.Point(13, 91);
+            this.CHK_AI4.Name = "CHK_AI4";
+            this.CHK_AI4.Size = new System.Drawing.Size(83, 17);
+            this.CHK_AI4.TabIndex = 456;
+            this.CHK_AI4.Text = "NoWhiteout";
+            this.CHK_AI4.UseVisualStyleBackColor = true;
+            // 
+            // CHK_AI3
+            // 
+            this.CHK_AI3.AutoSize = true;
+            this.CHK_AI3.Location = new System.Drawing.Point(13, 77);
+            this.CHK_AI3.Name = "CHK_AI3";
+            this.CHK_AI3.Size = new System.Drawing.Size(65, 17);
+            this.CHK_AI3.TabIndex = 455;
+            this.CHK_AI3.Text = "Doubles";
+            this.CHK_AI3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_AI2
+            // 
+            this.CHK_AI2.AutoSize = true;
+            this.CHK_AI2.Location = new System.Drawing.Point(13, 51);
+            this.CHK_AI2.Name = "CHK_AI2";
+            this.CHK_AI2.Size = new System.Drawing.Size(56, 17);
+            this.CHK_AI2.TabIndex = 454;
+            this.CHK_AI2.Text = "Expert";
+            this.CHK_AI2.UseVisualStyleBackColor = true;
+            // 
+            // CHK_AI1
+            // 
+            this.CHK_AI1.AutoSize = true;
+            this.CHK_AI1.Location = new System.Drawing.Point(13, 37);
+            this.CHK_AI1.Name = "CHK_AI1";
+            this.CHK_AI1.Size = new System.Drawing.Size(57, 17);
+            this.CHK_AI1.TabIndex = 453;
+            this.CHK_AI1.Text = "Strong";
+            this.CHK_AI1.UseVisualStyleBackColor = true;
+            // 
+            // CHK_AI0
+            // 
+            this.CHK_AI0.AutoSize = true;
+            this.CHK_AI0.Location = new System.Drawing.Point(13, 23);
+            this.CHK_AI0.Name = "CHK_AI0";
+            this.CHK_AI0.Size = new System.Drawing.Size(52, 17);
+            this.CHK_AI0.TabIndex = 452;
+            this.CHK_AI0.Text = "Basic";
+            this.CHK_AI0.UseVisualStyleBackColor = true;
+            // 
+            // CHK_AI7
+            // 
+            this.CHK_AI7.AutoSize = true;
+            this.CHK_AI7.Location = new System.Drawing.Point(13, 133);
+            this.CHK_AI7.Name = "CHK_AI7";
+            this.CHK_AI7.Size = new System.Drawing.Size(46, 17);
+            this.CHK_AI7.TabIndex = 459;
+            this.CHK_AI7.Text = "Item";
+            this.CHK_AI7.UseVisualStyleBackColor = true;
             // 
             // SMTE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(580, 315);
+            this.ClientSize = new System.Drawing.Size(631, 315);
             this.Controls.Add(this.TC_trpoke);
             this.Controls.Add(this.L_Team);
             this.Controls.Add(this.PB_Team1);
@@ -2247,7 +2326,6 @@
             this.FLP_HPType.ResumeLayout(false);
             this.Tab_Moves.ResumeLayout(false);
             this.GB_Moves.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_AI)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_NumPoke)).EndInit();
             this.TC_trdata.ResumeLayout(false);
             this.Tab_Trainer.ResumeLayout(false);
@@ -2268,13 +2346,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ForceFullyEvolved)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMax)).EndInit();
+            this.GB_AIBits.ResumeLayout(false);
+            this.GB_AIBits.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
         private System.Windows.Forms.ComboBox CB_TrainerID;
-        private System.Windows.Forms.Label L_AI;
         private System.Windows.Forms.Label L_Money;
         private System.Windows.Forms.ComboBox CB_Money;
         private System.Windows.Forms.Label L_Trainer_Class;
@@ -2328,7 +2407,6 @@
         private System.Windows.Forms.ComboBox CB_Move3;
         private System.Windows.Forms.GroupBox GB_Moves;
         private System.Windows.Forms.NumericUpDown NUD_NumPoke;
-        private System.Windows.Forms.NumericUpDown NUD_AI;
         private System.Windows.Forms.TextBox TB_TrainerName;
         private System.Windows.Forms.Label L_TrainerName;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel7;
@@ -2436,6 +2514,15 @@
         private System.Windows.Forms.CheckBox CHK_ReplaceMega;
         private System.Windows.Forms.Label L_Mode;
         private System.Windows.Forms.ComboBox CB_Mode;
+        private System.Windows.Forms.GroupBox GB_AIBits;
+        private System.Windows.Forms.CheckBox CHK_AI6;
+        private System.Windows.Forms.CheckBox CHK_AI5;
+        private System.Windows.Forms.CheckBox CHK_AI4;
+        private System.Windows.Forms.CheckBox CHK_AI3;
+        private System.Windows.Forms.CheckBox CHK_AI2;
+        private System.Windows.Forms.CheckBox CHK_AI1;
+        private System.Windows.Forms.CheckBox CHK_AI0;
+        private System.Windows.Forms.CheckBox CHK_AI7;
     }
 }
 
