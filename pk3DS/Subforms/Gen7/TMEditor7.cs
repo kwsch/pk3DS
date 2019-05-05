@@ -133,14 +133,17 @@ namespace pk3DS
             WinFormsUtil.Alert("Randomized!");
         }
 
-        internal static void getTMHMList(ref ushort[] TMs)
+        internal static ushort[] getTMHMList()
         {
-            if (Main.ExeFSPath == null) return;
+            if (Main.ExeFSPath == null)
+                return new ushort[0];
             string[] files = Directory.GetFiles(Main.ExeFSPath);
-            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) return;
+            if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code"))
+                return new ushort[0];
             byte[] data = File.ReadAllBytes(files[0]);
             int dataoffset = Util.IndexOfBytes(data, Signature, 0x400000, 0) + Signature.Length;
-            if (data.Length % 0x200 != 0) return;
+            if (data.Length % 0x200 != 0)
+                return new ushort[0];
 
             if (Main.Config.USUM)
                 dataoffset += 0x22;
@@ -148,7 +151,7 @@ namespace pk3DS
 
             for (int i = 0; i < 100; i++) // TMs stored sequentially
                 tms.Add(BitConverter.ToUInt16(data, dataoffset + (2 * i)));
-            TMs = tms.ToArray();
+            return tms.ToArray();
         }
     }
 }

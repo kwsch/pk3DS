@@ -203,8 +203,10 @@ namespace pk3DS
             WinFormsUtil.Alert("Randomized!");
         }
 
-        internal static void getTMHMList(bool oras, ref ushort[] TMs, ref ushort[] HMs)
+        internal static void getTMHMList(bool oras, out ushort[] TMs, out ushort[] HMs)
         {
+            TMs = new ushort[0];
+            HMs = new ushort[0];
             if (Main.ExeFSPath == null) return;
             string[] files = Directory.GetFiles(Main.ExeFSPath);
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) return;

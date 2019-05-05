@@ -35,6 +35,7 @@ namespace pk3DS
             abilities[0] = items[0] = moves[0] = "";
             string[][] AltForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
             species = Main.Config.Personal.getPersonalEntryList(AltForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
+            TMHMEditor6.getTMHMList(Main.Config.ORAS, out TMs, out HMs);
 
             Setup(); //Turn string resources into arrays
             CB_Species.SelectedIndex = 1;
@@ -78,13 +79,11 @@ namespace pk3DS
         private readonly ushort[] tutor4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 };
 
         private readonly int[] baseForms, formVal;
+        private readonly ushort[] TMs, HMs;
         int entry = -1;
         #endregion
         private void Setup()
         {
-            ushort[] TMs = new ushort[0];
-            ushort[] HMs = new ushort[0];
-            TMHMEditor6.getTMHMList(Main.Config.ORAS, ref TMs, ref HMs);
             CLB_TMHM.Items.Clear();
             int hmcount = Main.Config.ORAS ? 7 : 5;
 
@@ -364,7 +363,8 @@ namespace pk3DS
                 SameTypeChance = NUD_TypePercent.Value,
                 SameEggGroupChance = NUD_Egg.Value,
                 StatDeviation = NUD_StatDev.Value,
-                AllowWonderGuard = CHK_WGuard.Checked
+                AllowWonderGuard = CHK_WGuard.Checked,
+                MoveIDsTMs = TMs,
             };
             rnd.Execute();
             Main.SpeciesStat.Select(z => z.Write()).ToArray().CopyTo(files, 0);

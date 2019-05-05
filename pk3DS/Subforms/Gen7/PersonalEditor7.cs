@@ -30,7 +30,8 @@ namespace pk3DS
             abilities[0] = items[0] = moves[0] = "";
             var altForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
             entryNames = Main.Config.Personal.getPersonalEntryList(altForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
-            
+            TMs = TMEditor7.getTMHMList();
+
             Setup();
             CB_Species.SelectedIndex = 1;
             RandSettings.GetFormSettings(this, TP_Randomizer.Controls);
@@ -72,12 +73,11 @@ namespace pk3DS
         };
 
         private readonly int[] baseForms, formVal;
+        private readonly ushort[] TMs;
         int entry = -1;
         #endregion
         private void Setup()
         {
-            ushort[] TMs = new ushort[0];
-            TMEditor7.getTMHMList(ref TMs);
             CLB_TM.Items.Clear();
 
             if (TMs.Length == 0) // No ExeFS to grab TMs from.
@@ -350,6 +350,7 @@ namespace pk3DS
                 StatDeviation = NUD_StatDev.Value,
                 AllowWonderGuard = CHK_WGuard.Checked
             };
+
             rnd.Execute();
             Main.SpeciesStat.Select(z => z.Write()).ToArray().CopyTo(files, 0);
 

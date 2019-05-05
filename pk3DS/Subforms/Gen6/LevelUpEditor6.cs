@@ -133,7 +133,7 @@ namespace pk3DS
             ushort[] HMs = { 15, 19, 57, 70, 127, 249, 291 };
             ushort[] TMs = {};
             if (CHK_HMs.Checked && Main.ExeFSPath != null)
-                TMHMEditor6.getTMHMList(Main.Config.ORAS, ref TMs, ref HMs);
+                TMHMEditor6.getTMHMList(Main.Config.ORAS, out TMs, out HMs);
 
             List<int> banned = new List<int> {165, 621}; // Struggle, Hyperspace Fury
             if (!CHK_HMs.Checked)

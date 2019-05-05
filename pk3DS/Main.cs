@@ -757,6 +757,7 @@ namespace pk3DS
                         break;
                 }
                 g.Files = d;
+                Config.InitializeEvos();
                 g.Save();
             }).Start();
         }

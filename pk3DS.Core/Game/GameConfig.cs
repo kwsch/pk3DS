@@ -122,6 +122,7 @@ namespace pk3DS.Core
             InitializeLearnset();
             InitializeGameText();
             InitializeMoves();
+            InitializeEvos();
             InitializeGameInfo();
         }
 
@@ -164,6 +165,20 @@ namespace pk3DS.Core
                     break;
                 case 7:
                     Moves = Mini.UnpackMini(GARCMoves.getFile(0), "WD").Select(file => new Move7(file)).ToArray();
+                    break;
+            }
+        }
+        public void InitializeEvos()
+        {
+            var g = GetGARCData("evolution");
+            byte[][] d = g.Files;
+            switch (Generation)
+            {
+                case 6:
+                    Evolutions = d.Select(z => new EvolutionSet6(z)).ToArray();
+                    break;
+                case 7:
+                    Evolutions = d.Select(z => new EvolutionSet7(z)).ToArray();
                     break;
             }
         }
@@ -247,6 +262,7 @@ namespace pk3DS.Core
         public Learnset[] Learnsets { get; private set; }
         public string[][] GameTextStrings { get; private set; }
         public Move[] Moves { get; private set; }
+        public EvolutionSet[] Evolutions { get; private set; }
 
         public bool XY => Version == GameVersion.XY;
         public bool ORAS => Version == GameVersion.ORAS || Version == GameVersion.ORASDEMO;

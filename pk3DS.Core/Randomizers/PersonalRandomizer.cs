@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using pk3DS.Core.Structures;
 using pk3DS.Core.Structures.PersonalInfo;
 
 namespace pk3DS.Core.Randomizers
@@ -41,6 +42,14 @@ namespace pk3DS.Core.Randomizers
         public bool ModifyEggGroup = true;
         public decimal SameEggGroupChance = 50;
 
+        private const bool Advanced = false;
+        private const bool TMInheritance = false;
+        private const bool ModifyLearnsetSmartly = false;
+
+        public ushort[] MoveIDsTMs { private get; set; }
+        public Move[] Moves => Game.Moves;
+        public EvolutionSet[] Evos => Game.Evolutions;
+
         public PersonalRandomizer(PersonalInfo[] table, GameConfig game)
         {
             Game = game;
@@ -56,15 +65,72 @@ namespace pk3DS.Core.Randomizers
 
         public void Execute()
         {
-            for (var i = 0; i < Table.Length; i++)
+            for (var i = 1; i < Table.Length; i++)
                 Randomize(Table[i], i);
+
+            if (TMInheritance)
+                PropagateTMs(Table, Evos);
+        }
+
+        private void PropagateTMs(PersonalInfo[] table, EvolutionSet[] evos)
+        {
+            int specCount = Game.MaxSpeciesID;
+            var HandledIndexes = new HashSet<int>();
+
+            for (int species = 1; species <= specCount; species++)
+            {
+                var entry = table[species];
+                PropagateDown(entry, species, 0);
+                for (int form = 0; form < entry.FormeCount; form++)
+                    PropagateDown(entry, species, form);
+            }
+
+            void PropagateDown(PersonalInfo pi, int species, int form)
+            {
+                int index = pi.FormeIndex(species, form);
+                if (index == species && form != 0)
+                    return;
+
+                if (index >= evos.Length)
+                    index = species;
+                PropagateDownIndex(pi, index);
+            }
+
+            void PropagateDownIndex(PersonalInfo pi, int index)
+            {
+                if (HandledIndexes.Contains(index))
+                    return;
+
+                var evoList = evos[index];
+                foreach (var evo in evoList.PossibleEvolutions.Where(z => z.Species != 0))
+                {
+                    var espec = evo.Species;
+                    var eform = evo.Form;
+                    var evoIndex = table[espec].FormeIndex(espec, eform);
+                    if (evoIndex >= table.Length)
+                        continue;
+
+                    if (!HandledIndexes.Contains(evoIndex))
+                        table[evoIndex].TMHM = pi.TMHM;
+                    else // pre-evolution encountered! take the higher evolution's TM's since they have been propagated up already...
+                        pi.TMHM = table[evoIndex].TMHM;
+
+                    HandledIndexes.Add(evoIndex);
+                    PropagateDownIndex(pi, evoIndex); // recurse for the rest of the evo chain
+                }
+            }
         }
 
         public void Randomize(PersonalInfo z, int index)
         {
             // Fiddle with Learnsets
             if (ModifyLearnsetTM || ModifyLearnsetHM)
-                RandomizeTMHM(z);
+            {
+                if (!ModifyLearnsetSmartly)
+                    RandomizeTMHMSimple(z);
+                else
+                    RandomizeTMHMAdvanced(z);
+            }
             if (ModifyLearnsetTypeTutors)
                 RandomizeTypeTutors(z, index);
             if (ModifyLearnsetMoveTutors)
@@ -85,7 +151,42 @@ namespace pk3DS.Core.Randomizers
                 z.CatchRate = rnd.Next(3, 251); // Random Catch Rate between 3 and 250.
         }
 
-        private void RandomizeTMHM(PersonalInfo z)
+        private void RandomizeTMHMAdvanced(PersonalInfo z)
+        {
+            var tms = z.TMHM;
+            var types = z.Types;
+
+            bool CanLearn(Move m)
+            {
+                var type = m.Type;
+                bool typeMatch = types.Any(t => t == type);
+                // todo: how do I learn move?
+                return rnd.Next(0, 100) < LearnTMPercent;
+            }
+
+            if (ModifyLearnsetTM)
+            {
+                for (int j = 0; j < tmcount; j++)
+                {
+                    var moveID = MoveIDsTMs[j];
+                    var move = Moves[moveID];
+                    tms[j] = CanLearn(move);
+                }
+            }
+            if (ModifyLearnsetHM)
+            {
+                for (int j = tmcount; j < tms.Length; j++)
+                {
+                    var moveID = MoveIDsTMs[j];
+                    var move = Moves[moveID];
+                    tms[j] = CanLearn(move);
+                }
+            }
+
+            z.TMHM = tms;
+        }
+
+        private void RandomizeTMHMSimple(PersonalInfo z)
         {
             var tms = z.TMHM;
 
