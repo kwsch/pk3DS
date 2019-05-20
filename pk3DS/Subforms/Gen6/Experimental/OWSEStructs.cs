@@ -650,25 +650,29 @@ namespace pk3DS
                 public int DestinationTileIndex { get => BitConverter.ToUInt16(Raw, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x02); }
 
                 // Not sure if these are widths or face direction
-                public int WX { get => Raw[0x04]; set => Raw[0x4] = (byte)value; }
-                public int WY { get => Raw[0x05]; set => Raw[0x5] = (byte)value; }
+                public byte FaceDirection { get => Raw[0x04]; set => Raw[0x4] = (byte)value; }
+                public byte SceneTransitionEffect { get => Raw[0x05]; set => Raw[0x5] = (byte)value; }
 
                 // Either 0 or 1, only in X/Y
-                public int U06 { get => BitConverter.ToUInt16(Raw, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); }
+                // 0: use x,z,y
+                // 1: use x,y,{unused}
+                public ushort CoordinateType { get => BitConverter.ToUInt16(Raw, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x06); }
                 // Coordinates have some upper-bit usage it seems...
-                public int X { get => BitConverter.ToUInt16(Raw, 0x08); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x08); }
-                public int Z { get => BitConverter.ToInt16(Raw, 0x0A); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0A); }
-                public int Y { get => BitConverter.ToUInt16(Raw, 0x0C); set => BitConverter.GetBytes((ushort)value).CopyTo(Raw, 0x0C); }
+                public short X { get => BitConverter.ToInt16(Raw, 0x08); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x08); }
+                public short Z { get => BitConverter.ToInt16(Raw, 0x0A); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0A); }
+                public short Y { get => BitConverter.ToInt16(Raw, 0x0C); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0C); }
 
                 public decimal PX => (decimal)X / 18;
                 public decimal PY => (decimal)Y / 18;
 
                 // Stretches RIGHT
-                public int Width { get => BitConverter.ToInt16(Raw, 0x0E); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0E); }
+                public short Width { get => BitConverter.ToInt16(Raw, 0x0E); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x0E); }
                 // Stretches DOWN
-                public int Height { get => BitConverter.ToInt16(Raw, 0x10); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); }
-                // Not sure.
-                public int U12 { get => BitConverter.ToInt16(Raw, 0x12); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); }
+                public short Height { get => BitConverter.ToInt16(Raw, 0x10); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x10); }
+                // 0-bidirectional
+                // 1-send only
+                // 2-receive only
+                public ushort Directionality { get => BitConverter.ToUInt16(Raw, 0x12); set => BitConverter.GetBytes((short)value).CopyTo(Raw, 0x12); }
 
                 // 0x14-0x15 Unused
                 // 0x16-0x17 Unused
