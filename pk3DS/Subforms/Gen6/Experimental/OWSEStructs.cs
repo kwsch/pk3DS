@@ -11,7 +11,8 @@ namespace pk3DS
     #region Game Related Classes
     public class MapMatrix
     {
-        public uint u0;
+        public ushort u0;
+        public ushort u1;
         public ushort uL;
         public ushort Width, Height;
         private readonly int Area;
@@ -25,26 +26,22 @@ namespace pk3DS
         {
             using (BinaryReader br = new BinaryReader(new MemoryStream(data[0])))
             {
-                u0 = br.ReadUInt32();
+                u0 = br.ReadUInt16();
+                u1 = br.ReadUInt16();
                 Width = br.ReadUInt16();
                 Height = br.ReadUInt16();
+
                 Area = Width*Height;
                 Entries = new Entry[Area];
                 EntryList = new ushort[Area];
                 for (int i = 0; i < Area; i++)
-                {
                     EntryList[i] = br.ReadUInt16();
-                }
 
                 if (br.BaseStream.Position != br.BaseStream.Length)
-                {
                     uL = br.ReadUInt16();
-                }
             }
             if (data.Length > 1)
-            {
                 ParseUnk(UnkData = data[1]);
-            }
         }
 
         public byte[] Write()
@@ -88,9 +85,7 @@ namespace pk3DS
             using (Graphics g = Graphics.FromImage(img))
             {
                 for (int i = 0; i < Area; i++)
-            {
-                g.DrawImage(EntryImages[i], new Point(i * EntryImages[0].Width % img.Width, EntryImages[0].Height * (i / Width)));
-            }
+                    g.DrawImage(EntryImages[i],                         new Point(i * EntryImages[0].Width % img.Width, EntryImages[0].Height * (i / Width)));
             }
 
             return img;
@@ -343,35 +338,33 @@ namespace pk3DS
             set => BitConverter.GetBytes((ushort)(((value & 0x7F) << 7) | (BitConverter.ToUInt16(Data, 0x1E) & ~0x3F80))).CopyTo(Data, 0x1E);
         }
 
-        private int _20 { get => BitConverter.ToUInt16(Data, 0x20); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x20); }
-        public int MapChange { get => _20 & 0x1F; set => _20 = (_20 & ~0x1F) | value; }
+        private uint _20 { get => BitConverter.ToUInt32(Data, 0x20); set => BitConverter.GetBytes(value).CopyTo(Data, 0x20); }
+        public uint MapChange { get => _20 & 0x1Fu; set => _20 = (_20 & ~0x1Fu) | value; }
         // ??? 5
-        public bool IsBicycleEnable { get => ((_20 >> 10) & 1) == 1; set => _20 = (_20 & ~(1 << 10)) | (value ? 1 << 10 : 0); }
-        public bool IsRunEnable { get => ((_20 >> 11) & 1) == 1; set => _20 = (_20 & ~(1 << 11)) | (value ? 1 << 11 : 0); }
-        public bool IsEscapeRopeEnable { get => ((_20 >> 12) & 1) == 1; set => _20 = (_20 & ~(1 << 12)) | (value ? 1 << 12 : 0); }
-        public bool IsFlyEnable { get => ((_20 >> 13) & 1) == 1; set => _20 = (_20 & ~(1 << 13)) | (value ? 1 << 13 : 0); }
-        public bool IsBGM { get => ((_20 >> 14) & 1) == 1; set => _20 = (_20 & ~(1 << 14)) | (value ? 1 << 14 : 0); }
-        public bool IsUnk { get => ((_20 >> 15) & 1) == 1; set => _20 = (_20 & ~(1 << 15)) | (value ? 1 << 15 : 0); }
+        public bool IsBicycleEnable { get => ((_20 >> 10) & 1) == 1; set => _20 = (_20 & ~(1u << 10)) | (value ? 1u << 10 : 0); }
+        public bool IsRunEnable { get => ((_20 >> 11) & 1) == 1; set => _20 = (_20 & ~(1u << 11)) | (value ? 1u << 11 : 0); }
+        public bool IsEscapeRopeEnable { get => ((_20 >> 12) & 1) == 1; set => _20 = (_20 & ~(1u << 12)) | (value ? 1u << 12 : 0); }
+        public bool IsFlyEnable { get => ((_20 >> 13) & 1) == 1; set => _20 = (_20 & ~(1u << 13)) | (value ? 1u << 13 : 0); }
+        public bool IsBGM { get => ((_20 >> 14) & 1) == 1; set => _20 = (_20 & ~(1u << 14)) | (value ? 1u << 14 : 0); }
+        public bool IsUnk { get => ((_20 >> 15) & 1) == 1; set => _20 = (_20 & ~(1u << 15)) | (value ? 1u << 15 : 0); }
 
-        // unused
-        public int _22 { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); }
+        // unused - camera
+        public ushort Camera1 { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes(value).CopyTo(Data, 0x22); }
 
-        public int _24 { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
-        public int _26 { get => BitConverter.ToUInt16(Data, 0x26); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x26); }
+        public ushort Camera2 { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes(value).CopyTo(Data, 0x24); }
+        public uint CameraFlags { get => BitConverter.ToUInt32(Data, 0x26); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x26); }
 
-        public int _28 { get => BitConverter.ToUInt16(Data, 0x28); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x28); }
+        private short X { get => BitConverter.ToInt16(Data, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x2C); }
+        public short Z { get => BitConverter.ToInt16(Data, 0x2E); set => BitConverter.GetBytes(value).CopyTo(Data, 0x2E); }
+        private short Y { get => BitConverter.ToInt16(Data, 0x30); set => BitConverter.GetBytes(value).CopyTo(Data, 0x30); }
+        private short X2 { get => BitConverter.ToInt16(Data, 0x32); set => BitConverter.GetBytes(value).CopyTo(Data, 0x32); }
+        public short Z2 { get => BitConverter.ToInt16(Data, 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, 0x34); }
+        private short Y2 { get => BitConverter.ToInt16(Data, 0x36); set => BitConverter.GetBytes(value).CopyTo(Data, 0x36); }
 
-        private int X { get => BitConverter.ToInt16(Data, 0x2C); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x2C); }
-        public int Z { get => BitConverter.ToInt16(Data, 0x2E); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x2E); }
-        private int Y { get => BitConverter.ToInt16(Data, 0x30); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x30); }
-        private int X2 { get => BitConverter.ToInt16(Data, 0x32); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x32); }
-        public int Z2 { get => BitConverter.ToInt16(Data, 0x34); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x34); }
-        private int Y2 { get => BitConverter.ToInt16(Data, 0x36); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x36); }
-
-        public float PX { get => (float)X / 18; set => X = (int)(18 * value); }
-        public float PY { get => (float)Y / 18; set => Y = (int)(18 * value); }
-        public float PX2 { get => (float)X2 / 18; set => X2 = (int)(18 * value); }
-        public float PY2 { get => (float)Y2 / 18; set => Y2 = (int)(18 * value); }
+        public float PX { get => (float)X / 18; set => X = (short)(18 * value); }
+        public float PY { get => (float)Y / 18; set => Y = (short)(18 * value); }
+        public float PX2 { get => (float)X2 / 18; set => X2 = (short)(18 * value); }
+        public float PY2 { get => (float)Y2 / 18; set => Y2 = (short)(18 * value); }
 
         public ZoneData(byte[] data)
         {

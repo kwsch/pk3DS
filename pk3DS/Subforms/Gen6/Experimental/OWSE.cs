@@ -444,8 +444,8 @@ namespace pk3DS
             var Warp = CurrentZone.Entities.Warps[wEntry];
             Warp.DestinationMap = (int)NUD_WMap.Value;
             Warp.DestinationTileIndex = (int)NUD_WTile.Value;
-            Warp.X = (int)NUD_WX.Value;
-            Warp.Y = (int)NUD_WY.Value;
+            Warp.X = (short)NUD_WX.Value;
+            Warp.Y = (short)NUD_WY.Value;
         }
 
         private void ChangeTrigger1(object sender, EventArgs e)
