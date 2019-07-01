@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.CB_Location = new System.Windows.Forms.ComboBox();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.dgvIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,6 +45,7 @@
             this.dgvIndexBP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvItemBP = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.dgvPriceBP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CHK_XItems = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvbp)).BeginInit();
             this.SuspendLayout();
@@ -76,8 +77,8 @@
             // 
             // dgvIndex
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgvIndex.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgvIndex.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvIndex.HeaderText = "Index";
             this.dgvIndex.Name = "dgvIndex";
             this.dgvIndex.ReadOnly = true;
@@ -176,8 +177,8 @@
             // 
             // dgvIndexBP
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgvIndexBP.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgvIndexBP.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvIndexBP.HeaderText = "Index";
             this.dgvIndexBP.MaxInputLength = 3;
             this.dgvIndexBP.Name = "dgvIndexBP";
@@ -198,11 +199,24 @@
             this.dgvPriceBP.Name = "dgvPriceBP";
             this.dgvPriceBP.Width = 65;
             // 
+            // CHK_XItems
+            // 
+            this.CHK_XItems.AutoSize = true;
+            this.CHK_XItems.Checked = true;
+            this.CHK_XItems.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_XItems.Location = new System.Drawing.Point(106, 330);
+            this.CHK_XItems.Name = "CHK_XItems";
+            this.CHK_XItems.Size = new System.Drawing.Size(200, 17);
+            this.CHK_XItems.TabIndex = 304;
+            this.CHK_XItems.Text = "Don\'t Randomize X Items (Speedrun)";
+            this.CHK_XItems.UseVisualStyleBackColor = true;
+            // 
             // MartEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(639, 361);
+            this.Controls.Add(this.CHK_XItems);
             this.Controls.Add(this.dgvbp);
             this.Controls.Add(this.B_RandomizeBP);
             this.Controls.Add(this.label1);
@@ -242,5 +256,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvIndexBP;
         private System.Windows.Forms.DataGridViewComboBoxColumn dgvItemBP;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvPriceBP;
+        private System.Windows.Forms.CheckBox CHK_XItems;
     }
 }

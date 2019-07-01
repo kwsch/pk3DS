@@ -193,6 +193,8 @@ namespace pk3DS
                 for (int r = 0; r < dgv.Rows.Count; r++)
                 {
                     int currentItem = Array.IndexOf(itemlist, dgv.Rows[r].Cells[1].Value);
+                    if (CHK_XItems.Checked && MartEditor7.XItems.Contains(currentItem))
+                        continue;
                     if (MartEditor7.BannedItems.Contains(currentItem))
                         continue;
                     dgv.Rows[r].Cells[1].Value = itemlist[validItems[ctr++]];

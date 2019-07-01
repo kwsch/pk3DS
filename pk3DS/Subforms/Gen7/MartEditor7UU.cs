@@ -198,6 +198,8 @@ namespace pk3DS
                 for (int r = 0; r < dgv.Rows.Count; r++)
                 {
                     int currentItem = Array.IndexOf(itemlist, dgv.Rows[r].Cells[1].Value);
+                    if (CHK_XItems.Checked && XItems.Contains(currentItem))
+                        continue;
                     if (BannedItems.Contains(currentItem))
                         continue;
                     dgv.Rows[r].Cells[1].Value = itemlist[validItems[ctr++]];
@@ -242,6 +244,14 @@ namespace pk3DS
             391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411,
             412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 618, 619, 620, 690, 691,
             692, 693, 694, 701, 737
+        };
+
+        /// <summary>
+        /// All X Items usable in Generations 6 and 7. Speedrunners utilize these Items a lot, so make sure they are still available.
+        /// </summary>
+        internal static readonly HashSet<int> XItems = new HashSet<int>
+        {
+            055, 056, 057, 058, 059, 060, 061, 062
         };
     }
 }

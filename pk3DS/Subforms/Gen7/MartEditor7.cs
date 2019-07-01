@@ -184,6 +184,14 @@ namespace pk3DS
             692, 693, 694, 701, 737
         };
 
+        /// <summary>
+        /// All X Items usable in Generations 6 and 7. Speedrunners utilize these Items a lot, so make sure they are still available.
+        /// </summary>
+        internal static readonly HashSet<int> XItems = new HashSet<int>
+        {
+            055, 056, 057, 058, 059, 060, 061, 062
+        };
+
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize mart inventories?"))
@@ -202,6 +210,8 @@ namespace pk3DS
                 for (int r = 0; r < dgv.Rows.Count; r++)
                 {
                     int currentItem = Array.IndexOf(itemlist, dgv.Rows[r].Cells[1].Value);
+                    if (CHK_XItems.Checked && XItems.Contains(currentItem))
+                        continue;
                     if (BannedItems.Contains(currentItem))
                         continue;
                     dgv.Rows[r].Cells[1].Value = itemlist[validItems[ctr++]];
