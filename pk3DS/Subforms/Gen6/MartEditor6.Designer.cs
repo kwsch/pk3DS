@@ -34,6 +34,7 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
+            this.CHK_XItems = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,7 +62,7 @@
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Location = new System.Drawing.Point(12, 33);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(300, 284);
+            this.dgv.Size = new System.Drawing.Size(300, 287);
             this.dgv.TabIndex = 1;
             // 
             // L_Mart
@@ -75,7 +76,7 @@
             // 
             // B_Randomize
             // 
-            this.B_Randomize.Location = new System.Drawing.Point(12, 326);
+            this.B_Randomize.Location = new System.Drawing.Point(12, 329);
             this.B_Randomize.Name = "B_Randomize";
             this.B_Randomize.Size = new System.Drawing.Size(87, 23);
             this.B_Randomize.TabIndex = 3;
@@ -85,7 +86,7 @@
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(244, 326);
+            this.B_Save.Location = new System.Drawing.Point(244, 329);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(68, 23);
             this.B_Save.TabIndex = 4;
@@ -95,7 +96,7 @@
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(170, 326);
+            this.B_Cancel.Location = new System.Drawing.Point(170, 329);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(68, 23);
             this.B_Cancel.TabIndex = 5;
@@ -103,11 +104,24 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // Mart
+            // CHK_XItems
+            // 
+            this.CHK_XItems.AutoSize = true;
+            this.CHK_XItems.Checked = true;
+            this.CHK_XItems.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_XItems.Location = new System.Drawing.Point(13, 356);
+            this.CHK_XItems.Name = "CHK_XItems";
+            this.CHK_XItems.Size = new System.Drawing.Size(200, 17);
+            this.CHK_XItems.TabIndex = 304;
+            this.CHK_XItems.Text = "Don\'t Randomize X Items (Speedrun)";
+            this.CHK_XItems.UseVisualStyleBackColor = true;
+            // 
+            // MartEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(324, 361);
+            this.ClientSize = new System.Drawing.Size(324, 381);
+            this.Controls.Add(this.CHK_XItems);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Randomize);
@@ -115,8 +129,8 @@
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.CB_Location);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(340, 400);
-            this.MinimumSize = new System.Drawing.Size(340, 400);
+            this.MaximumSize = new System.Drawing.Size(340, 420);
+            this.MinimumSize = new System.Drawing.Size(340, 420);
             this.Name = "MartEditor6";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Mart Editor";
@@ -134,5 +148,6 @@
         private System.Windows.Forms.Button B_Randomize;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
+        private System.Windows.Forms.CheckBox CHK_XItems;
     }
 }

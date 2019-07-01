@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.CB_Location = new System.Windows.Forms.ComboBox();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.dgvIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,6 +47,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.CHK_XItems = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvbp)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -81,13 +82,13 @@
             this.dgvItem});
             this.dgv.Location = new System.Drawing.Point(0, 27);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(317, 241);
+            this.dgv.Size = new System.Drawing.Size(317, 265);
             this.dgv.TabIndex = 1;
             // 
             // dgvIndex
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgvIndex.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgvIndex.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvIndex.HeaderText = "Index";
             this.dgvIndex.Name = "dgvIndex";
             this.dgvIndex.ReadOnly = true;
@@ -112,7 +113,7 @@
             // B_Randomize
             // 
             this.B_Randomize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_Randomize.Location = new System.Drawing.Point(12, 315);
+            this.B_Randomize.Location = new System.Drawing.Point(12, 336);
             this.B_Randomize.Name = "B_Randomize";
             this.B_Randomize.Size = new System.Drawing.Size(87, 23);
             this.B_Randomize.TabIndex = 3;
@@ -123,7 +124,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(265, 315);
+            this.B_Save.Location = new System.Drawing.Point(265, 336);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(68, 23);
             this.B_Save.TabIndex = 4;
@@ -134,7 +135,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(191, 315);
+            this.B_Cancel.Location = new System.Drawing.Point(191, 336);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(68, 23);
             this.B_Cancel.TabIndex = 5;
@@ -184,8 +185,8 @@
             // 
             // dgvIndexBP
             // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgvIndexBP.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgvIndexBP.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvIndexBP.HeaderText = "Index";
             this.dgvIndexBP.MaxInputLength = 3;
             this.dgvIndexBP.Name = "dgvIndexBP";
@@ -216,7 +217,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(325, 294);
+            this.tabControl1.Size = new System.Drawing.Size(325, 318);
             this.tabControl1.TabIndex = 15;
             // 
             // tabPage1
@@ -227,7 +228,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(317, 268);
+            this.tabPage1.Size = new System.Drawing.Size(317, 292);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Poké Mart";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -245,11 +246,24 @@
             this.tabPage2.Text = "BP Items";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // CHK_XItems
+            // 
+            this.CHK_XItems.AutoSize = true;
+            this.CHK_XItems.Checked = true;
+            this.CHK_XItems.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_XItems.Location = new System.Drawing.Point(13, 364);
+            this.CHK_XItems.Name = "CHK_XItems";
+            this.CHK_XItems.Size = new System.Drawing.Size(200, 17);
+            this.CHK_XItems.TabIndex = 304;
+            this.CHK_XItems.Text = "Don\'t Randomize X Items (Speedrun)";
+            this.CHK_XItems.UseVisualStyleBackColor = true;
+            // 
             // MartEditor7UU
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(344, 350);
+            this.ClientSize = new System.Drawing.Size(344, 387);
+            this.Controls.Add(this.CHK_XItems);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
@@ -267,6 +281,7 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -289,5 +304,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.CheckBox CHK_XItems;
     }
 }
