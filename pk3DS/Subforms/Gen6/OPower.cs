@@ -105,8 +105,7 @@ namespace pk3DS
             powerData[entry][0x4] = otherCost;
             powerData[entry][0xE] = stage;
             powerData[entry][0xF] = lvlup;
-
-            Array.Copy(powerData[entry], 0x12, BitConverter.GetBytes(efficacy), 0, 2);
+            BitConverter.GetBytes(efficacy).CopyTo(powerData[entry], 0x12);
             powerData[entry][0x14] = duration; // sbyte FF = -1 (no duration?)
 
             byte usability = (byte)NUD_Usability.Value;
