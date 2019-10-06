@@ -139,8 +139,6 @@ namespace pk3DS.Core.CTR
                 fs.Read(plainregion, 0, plainregion.Length);
             }
 
-            WriteHeaderToFile(outputDirectory, TB_Progress);
-            WritePlainRegionAndLogo(outputDirectory, TB_Progress);
             ExtractExheader(NCCH_PATH, outputDirectory, TB_Progress);
             ExtractExeFS(NCCH_PATH, outputDirectory, TB_Progress, PB_Show);
             ExtractRomFS(NCCH_PATH, outputDirectory, TB_Progress, PB_Show);

@@ -273,7 +273,29 @@ namespace pk3DS
                     extractNCCH(inputCXI, fbd.SelectedPath);
             }
 
-            WinFormsUtil.Prompt(MessageBoxButtons.OK, "Extraction complete!");
+        }
+
+        private void B_Extract3DS_Click(object sender, EventArgs e)
+        {
+            if (WinFormsUtil.Prompt(
+                MessageBoxButtons.OKCancel,
+                "Extracting a 3DS file requires multiple GB of disc space and takes some time to complete.",
+                "If you want to continue, press OK to select your CXI and then select your output directory. For best results, make sure the output directory is an empty directory.") == DialogResult.OK)
+            {
+                string input3DS;
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Title = "Select 3DS";
+                ofd.Filter = "3DS files (*.3ds)|*.3ds";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                    input3DS = ofd.FileName;
+                else
+                    return;
+
+                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                DialogResult result = fbd.ShowDialog();
+                if (result == DialogResult.OK)
+                    extractNCSD(input3DS, fbd.SelectedPath);
+            }
         }
 
         private void extractNCCH(string ncchPath, string outputDirectory)
@@ -282,7 +304,29 @@ namespace pk3DS
                 return;
 
             NCCH ncch = new NCCH();
-            ncch.ExtractNCCHFromFile(ncchPath, outputDirectory, RTB_Status, pBar1);
+
+            new Thread(() =>
+            {
+                threads++;
+                ncch.ExtractNCCHFromFile(ncchPath, outputDirectory, RTB_Status, pBar1);
+                threads--;
+                WinFormsUtil.Prompt(MessageBoxButtons.OK, "Extraction complete!");
+            }).Start();
+        }
+
+        private void extractNCSD(string ncsdPath, string outputDirectory)
+        {
+            if (!File.Exists(ncsdPath))
+                return;
+
+            NCSD ncsd = new NCSD();
+            new Thread(() =>
+            {
+                threads++;
+                ncsd.ExtractFilesFromNCSD(ncsdPath, outputDirectory, RTB_Status, pBar1);
+                threads--;
+                WinFormsUtil.Prompt(MessageBoxButtons.OK, "Extraction complete!");
+            }).Start();
         }
 
         private void ToggleSubEditors()
@@ -1204,13 +1248,6 @@ namespace pk3DS
         // 3DS Building
         private void B_Rebuild3DS_Click(object sender, EventArgs e)
         {
-            // Ensure that the romfs paths are valid
-            string[] files = Directory.GetFiles(TB_Path.Text, "*", SearchOption.AllDirectories);
-            if (!Config.IsRebuildable(files.Length))
-            {
-                WinFormsUtil.Error("RomFS file count does not match the default game file count.");
-                return;
-            }
             if (threadActive())
                 return;
 

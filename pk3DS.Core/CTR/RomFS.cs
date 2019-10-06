@@ -471,7 +471,17 @@ namespace pk3DS.Core.CTR
 
         internal static void UpdateTB_Progress(string text, RichTextBox TB_Progress = null)
         {
-            TB_Progress.Text += text + Environment.NewLine;
+            if (TB_Progress.InvokeRequired)
+            {
+                TB_Progress.Invoke((MethodInvoker)delegate
+                {
+                    TB_Progress.Text += text + Environment.NewLine;
+                });
+            }
+            else
+            {
+                TB_Progress.Text += text + Environment.NewLine;
+            }
         }
 
         internal static void BuildRomFSHeader(MemoryStream romfs_stream, RomfsFile[] Entries, string DIR)
