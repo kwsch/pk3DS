@@ -234,6 +234,8 @@ namespace pk3DS
                 Menu_Patch.Enabled = RomFSPath != null && ExeFSPath != null;
                 Menu_3DS.Enabled =
                     ExHeaderPath != null && RomFSPath != null && ExeFSPath != null;
+                Menu_Trimmed3DS.Enabled =
+                    ExHeaderPath != null && RomFSPath != null && ExeFSPath != null;
 
                 // Change L_Game if RomFS and ExeFS exists to a better descriptor
                 SMDH = ExeFSPath != null ? File.Exists(Path.Combine(ExeFSPath, "icon.bin")) ? new SMDH(Path.Combine(ExeFSPath, "icon.bin")) : null : null;
@@ -247,6 +249,40 @@ namespace pk3DS
                 Properties.Settings.Default.GamePath = path;
                 Properties.Settings.Default.Save();
             }
+        }
+
+        private void B_ExtractCXI_Click(object sender, EventArgs e)
+        {
+            if (WinFormsUtil.Prompt(
+                MessageBoxButtons.OKCancel,
+                "Extracting a CXI requires multiple GB of disc space and takes some time to complete.",
+                "If you want to continue, press OK to select your CXI and then select your output directory. For best results, make sure the output directory is an empty directory.") == DialogResult.OK)
+            {
+                string inputCXI;
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Title = "Select CXI";
+                ofd.Filter = "CXI files (*.cxi)|*.cxi";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                    inputCXI = ofd.FileName;
+                else
+                    return;
+
+                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                DialogResult result = fbd.ShowDialog();
+                if (result == DialogResult.OK)
+                    extractNCCH(inputCXI, fbd.SelectedPath);
+            }
+
+            WinFormsUtil.Prompt(MessageBoxButtons.OK, "Extraction complete!");
+        }
+
+        private void extractNCCH(string ncchPath, string outputDirectory)
+        {
+            if (!File.Exists(ncchPath))
+                return;
+
+            NCCH ncch = new NCCH();
+            ncch.ExtractNCCHFromFile(ncchPath, outputDirectory, RTB_Status, pBar1);
         }
 
         private void ToggleSubEditors()
@@ -1140,6 +1176,31 @@ namespace pk3DS
             new StaticEncounterEditor6().ShowDialog();
         }
 
+        // CXI Building
+        private void B_RebuildTrimmed3DS_Click(object sender, EventArgs e)
+        {
+            if (threadActive())
+                return;
+
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                FileName = "newROM.3ds",
+                Filter = "Binary File|*.*"
+            };
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+            string path = sfd.FileName;
+
+            new Thread(() =>
+            {
+                threads++;
+                Exheader exh = new Exheader(ExHeaderPath);
+                CTRUtil.buildROM(true, "Nintendo", ExeFSPath, RomFSPath, ExHeaderPath, exh.GetSerial(), path,
+                    true, pBar1, RTB_Status);
+                threads--;
+            }).Start();
+        }
+
         // 3DS Building
         private void B_Rebuild3DS_Click(object sender, EventArgs e)
         {
@@ -1166,8 +1227,8 @@ namespace pk3DS
             {
                 threads++;
                 Exheader exh = new Exheader(ExHeaderPath);
-                CTRUtil.buildROM(true, "Nintendo", ExeFSPath, RomFSPath, ExHeaderPath, exh.GetSerial(), path, pBar1,
-                    RTB_Status);
+                CTRUtil.buildROM(true, "Nintendo", ExeFSPath, RomFSPath, ExHeaderPath, exh.GetSerial(), path,
+                    false, pBar1, RTB_Status);
                 threads--;
             }).Start();
         }

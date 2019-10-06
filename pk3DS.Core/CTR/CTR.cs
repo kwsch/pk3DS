@@ -17,7 +17,7 @@ namespace pk3DS.Core.CTR
         public static bool buildROM(bool Card2, string LOGO_NAME,
             string EXEFS_PATH, string ROMFS_PATH, string EXHEADER_PATH,
             string SERIAL_TEXT, string SAVE_PATH,
-            ProgressBar PB_Show = null, RichTextBox TB_Progress = null)
+            bool trimmed = false, ProgressBar PB_Show = null, RichTextBox TB_Progress = null)
         {
             PB_Show = PB_Show ?? new ProgressBar();
             TB_Progress = TB_Progress ?? new RichTextBox();
@@ -37,7 +37,7 @@ namespace pk3DS.Core.CTR
 
             NCCH NCCH = setNCCH(EXEFS_PATH, ROMFS_PATH, EXHEADER_PATH, SERIAL_TEXT, LOGO_NAME, PB_Show, TB_Progress);
             NCSD NCSD = setNCSD(NCCH, Card2, PB_Show, TB_Progress);
-            bool success = writeROM(NCSD, SAVE_PATH, PB_Show, TB_Progress);
+            bool success = writeROM(NCSD, SAVE_PATH, trimmed, PB_Show, TB_Progress);
             return success;
         }
 
@@ -62,6 +62,10 @@ namespace pk3DS.Core.CTR
                     NCCH.plainregion = (byte[])Resources.ResourceManager.GetObject("XY");
                 else if (NCCH.exheader.isORAS())
                     NCCH.plainregion = (byte[])Resources.ResourceManager.GetObject("ORAS");
+                else if (NCCH.exheader.isSuMo())
+                    NCCH.plainregion = (byte[])Resources.ResourceManager.GetObject("SuMo");
+                else if (NCCH.exheader.isUSUM())
+                    NCCH.plainregion = (byte[])Resources.ResourceManager.GetObject("USUM");
             }
             updateTB(TB_Progress, "Adding ExeFS...");
             NCCH.exefs = new ExeFS(EXEFS_PATH);
@@ -196,7 +200,7 @@ namespace pk3DS.Core.CTR
             return NCSD;
         }
 
-        internal static bool writeROM(NCSD NCSD, string SAVE_PATH,
+        internal static bool writeROM(NCSD NCSD, string SAVE_PATH, bool trimmed = false,
             ProgressBar PB_Show = null, RichTextBox TB_Progress = null)
         {
             PB_Show = PB_Show ?? new ProgressBar();
@@ -269,14 +273,17 @@ namespace pk3DS.Core.CTR
                 }
 
                 //NCSD Padding
-                OutFileStream.Seek((NCSD.header.OffsetSizeTable[NCSD.NCCH_Array.Count - 1].Offset * MEDIA_UNIT_SIZE) + (NCSD.header.OffsetSizeTable[NCSD.NCCH_Array.Count - 1].Size * MEDIA_UNIT_SIZE), SeekOrigin.Begin);
-                ulong TotalLen = NCSD.header.MediaSize * MEDIA_UNIT_SIZE;
-                byte[] Buffer = Enumerable.Repeat((byte)0xFF, 0x400000).ToArray();
-                updateTB(TB_Progress, "Writing NCSD Padding...");
-                while ((ulong)OutFileStream.Position < TotalLen)
+                if (!trimmed)
                 {
-                    int BUFFER_LEN = TotalLen - (ulong)OutFileStream.Position < 0x400000 ? (int)(TotalLen - (ulong)OutFileStream.Position) : 0x400000;
-                    OutFileStream.Write(Buffer, 0, BUFFER_LEN);
+                    OutFileStream.Seek((NCSD.header.OffsetSizeTable[NCSD.NCCH_Array.Count - 1].Offset * MEDIA_UNIT_SIZE) + (NCSD.header.OffsetSizeTable[NCSD.NCCH_Array.Count - 1].Size * MEDIA_UNIT_SIZE), SeekOrigin.Begin);
+                    ulong TotalLen = NCSD.header.MediaSize * MEDIA_UNIT_SIZE;
+                    byte[] Buffer = Enumerable.Repeat((byte)0xFF, 0x400000).ToArray();
+                    updateTB(TB_Progress, "Writing NCSD Padding...");
+                    while ((ulong)OutFileStream.Position < TotalLen)
+                    {
+                        int BUFFER_LEN = TotalLen - (ulong)OutFileStream.Position < 0x400000 ? (int)(TotalLen - (ulong)OutFileStream.Position) : 0x400000;
+                        OutFileStream.Write(Buffer, 0, BUFFER_LEN);
+                    }
                 }
             }
 
