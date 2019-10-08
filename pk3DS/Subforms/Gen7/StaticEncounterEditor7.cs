@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
 using pk3DS.Core;
 using pk3DS.Core.Randomizers;
 using pk3DS.Core.Structures;
+using pk3DS.Core.Structures.PersonalInfo;
 
 namespace pk3DS
 {
@@ -14,6 +16,7 @@ namespace pk3DS
         private readonly EncounterGift7[] Gifts;
         private readonly EncounterStatic7[] Encounters;
         private readonly EncounterTrade7[] Trades;
+        private readonly LearnsetRandomizer learn = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
         private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
         private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
         private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
@@ -80,7 +83,7 @@ namespace pk3DS
                 {
                     byte[] entry = new byte[EncounterGift7.SIZE];
                     Array.Copy(data, i, entry, 0, entry.Length);
-                    Gifts[i/EncounterGift7.SIZE] = new EncounterGift7(entry);
+                    Gifts[i / EncounterGift7.SIZE] = new EncounterGift7(entry);
                 }
             }
             oldStarters = Gifts.Take(3).Select(gift => gift.Species).ToArray();
@@ -93,7 +96,7 @@ namespace pk3DS
                 {
                     byte[] entry = new byte[EncounterStatic7.SIZE];
                     Array.Copy(data, i, entry, 0, entry.Length);
-                    Encounters[i/EncounterStatic7.SIZE] = new EncounterStatic7(entry);
+                    Encounters[i / EncounterStatic7.SIZE] = new EncounterStatic7(entry);
                 }
             }
 
@@ -105,7 +108,7 @@ namespace pk3DS
                 {
                     byte[] entry = new byte[EncounterTrade7.SIZE];
                     Array.Copy(data, i, entry, 0, entry.Length);
-                    Trades[i/EncounterTrade7.SIZE] = new EncounterTrade7(entry);
+                    Trades[i / EncounterTrade7.SIZE] = new EncounterTrade7(entry);
                 }
             }
 
@@ -555,7 +558,7 @@ namespace pk3DS
                 {
                     int rv;
                     do { rv = Util.rand.Next(1, CB_SpecialMove.Items.Count); }
-                    while (banned.Contains(rv)) ;
+                    while (banned.Contains(rv));
                     t.SpecialMove = rv;
                 }
 
@@ -795,5 +798,32 @@ namespace pk3DS
             }
             WinFormsUtil.Alert("Modified all Levels according to specification!");
         }
+
+        private void B_CurrentAttackSE_Click(object sender, EventArgs e)
+        {
+            int species = CB_ESpecies.SelectedIndex;
+            int lvl = (int)NUD_ELevel.Value;
+            int frm = (int)NUD_EForm.Value;
+            int[] moves = learn.GetCurrentMoves(species, frm, lvl, 4);
+            SetMoves(moves);
+        }
+
+        private void B_HighAttackSE_Click(object sender, EventArgs e)
+        {
+            int species = CB_ESpecies.SelectedIndex;
+            int frm = (int)NUD_EForm.Value;
+            int[] moves = learn.GetHighPoweredMoves(species, frm, 4);
+            SetMoves(moves);
+        }
+
+        private void B_ClearSE_Click(object sender, EventArgs e) => SetMoves(new int[4]);
+
+        private void SetMoves(IList<int> moves)
+        {
+            var mcb = new[] { CB_EMove0, CB_EMove1, CB_EMove2, CB_EMove3 };
+            for (int i = 0; i < mcb.Length; i++)
+                mcb[i].SelectedIndex = moves[i];
+        }
+
     }
 }

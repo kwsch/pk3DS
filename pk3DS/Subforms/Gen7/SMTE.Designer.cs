@@ -1386,17 +1386,6 @@
             this.CB_Move1.Size = new System.Drawing.Size(121, 21);
             this.CB_Move1.TabIndex = 1;
             // 
-            // CB_Move4
-            // 
-            this.CB_Move4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_Move4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Move4.FormattingEnabled = true;
-            this.CB_Move4.Location = new System.Drawing.Point(40, 82);
-            this.CB_Move4.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Move4.Name = "CB_Move4";
-            this.CB_Move4.Size = new System.Drawing.Size(121, 21);
-            this.CB_Move4.TabIndex = 2;
-            // 
             // CB_Move2
             // 
             this.CB_Move2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
@@ -1406,7 +1395,7 @@
             this.CB_Move2.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Move2.Name = "CB_Move2";
             this.CB_Move2.Size = new System.Drawing.Size(121, 21);
-            this.CB_Move2.TabIndex = 1;
+            this.CB_Move2.TabIndex = 2;
             // 
             // CB_Move3
             // 
@@ -1417,7 +1406,18 @@
             this.CB_Move3.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Move3.Name = "CB_Move3";
             this.CB_Move3.Size = new System.Drawing.Size(121, 21);
-            this.CB_Move3.TabIndex = 2;
+            this.CB_Move3.TabIndex = 3;
+            // 
+            // CB_Move4
+            // 
+            this.CB_Move4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_Move4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Move4.FormattingEnabled = true;
+            this.CB_Move4.Location = new System.Drawing.Point(40, 82);
+            this.CB_Move4.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_Move4.Name = "CB_Move4";
+            this.CB_Move4.Size = new System.Drawing.Size(121, 21);
+            this.CB_Move4.TabIndex = 4;
             // 
             // L_TrainerName
             // 
