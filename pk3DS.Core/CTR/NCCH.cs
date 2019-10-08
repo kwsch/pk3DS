@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Windows.Forms;
 
 namespace pk3DS.Core.CTR
 {
@@ -73,6 +75,180 @@ namespace pk3DS.Core.CTR
                 Array.Copy(ExefsHash, 0, Data, 0x1C0, 0x20);
                 Array.Copy(RomfsHash, 0, Data, 0x1E0, 0x20);
             }
+
+            public void BuildHeaderFromBytes(byte[] data)
+            {
+                Data = data;
+                Signature = new byte[0x100];
+                Array.Copy(data, Signature, 0x100);
+                Magic = BitConverter.ToUInt32(data, 0x100);
+                Size = BitConverter.ToUInt32(data, 0x104);
+                TitleId = BitConverter.ToUInt64(data, 0x108);
+                MakerCode = BitConverter.ToUInt16(data, 0x110);
+                FormatVersion = BitConverter.ToUInt16(data, 0x112);
+                //4 Byte Padding
+                ProgramId = BitConverter.ToUInt64(data, 0x118);
+                //0x10 Byte Padding
+                LogoHash = new byte[0x20];
+                Array.Copy(data, 0x130, LogoHash, 0x0, 0x20);
+                ProductCode = new byte[0x10];
+                Array.Copy(data, 0x150, ProductCode, 0x0, 0x10);
+                ExheaderHash = new byte[0x20];
+                Array.Copy(data, 0x160, ExheaderHash, 0x0, 0x20);
+                ExheaderSize = BitConverter.ToUInt32(data, 0x180);
+                //4 Byte Padding
+                Flags = new byte[0x8];
+                Array.Copy(data, 0x188, Flags, 0, 0x8);
+                PlainRegionOffset = BitConverter.ToUInt32(data, 0x190);
+                PlainRegionSize = BitConverter.ToUInt32(data, 0x194);
+                LogoOffset = BitConverter.ToUInt32(data, 0x198);
+                LogoSize = BitConverter.ToUInt32(data, 0x19C);
+                ExefsOffset = BitConverter.ToUInt32(data, 0x1A0);
+                ExefsSize = BitConverter.ToUInt32(data, 0x1A4);
+                ExefsSuperBlockSize = BitConverter.ToUInt32(data, 0x1A8);
+                //4 Byte Padding
+                RomfsOffset = BitConverter.ToUInt32(data, 0x1B0);
+                RomfsSize = BitConverter.ToUInt32(data, 0x1B4);
+                RomfsSuperBlockSize = BitConverter.ToUInt32(data, 0x1B8);
+                //4 Byte Padding
+                ExefsHash = new byte[0x20];
+                Array.Copy(data, 0x1C0, ExefsHash, 0x0, 0x20);
+                RomfsHash = new byte[0x20];
+                Array.Copy(data, 0x1E0, RomfsHash, 0x0, 0x20);
+            }
+        }
+
+        public void ExtractNCCHFromFile(string NCCH_PATH, string outputDirectory, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
+        {
+            if (!Directory.Exists(outputDirectory))
+                Directory.CreateDirectory(outputDirectory);
+
+            byte[] headerBytes = new byte[0x200];
+            using (FileStream fs = new FileStream(NCCH_PATH, FileMode.Open, FileAccess.Read))
+            {
+                fs.Read(headerBytes, 0, headerBytes.Length);
+                header = new Header();
+                header.BuildHeaderFromBytes(headerBytes);
+
+                logo = new byte[header.LogoSize * MEDIA_UNIT_SIZE];
+                fs.Seek(Convert.ToInt32(header.LogoOffset * MEDIA_UNIT_SIZE), SeekOrigin.Begin);
+                fs.Read(logo, 0, logo.Length);
+
+                plainregion = new byte[header.PlainRegionSize * MEDIA_UNIT_SIZE];
+                fs.Seek(Convert.ToInt32(header.PlainRegionOffset * MEDIA_UNIT_SIZE), SeekOrigin.Begin);
+                fs.Read(plainregion, 0, plainregion.Length);
+            }
+
+            ExtractExheader(NCCH_PATH, outputDirectory, TB_Progress);
+            ExtractExeFS(NCCH_PATH, outputDirectory, TB_Progress, PB_Show);
+            ExtractRomFS(NCCH_PATH, outputDirectory, TB_Progress, PB_Show);
+        }
+
+        private void ExtractExheader(string NCCH_PATH, string outputDirectory, RichTextBox TB_Progress = null)
+        {
+            string exheaderpath = Path.Combine(outputDirectory, "exheader.bin");
+            updateTB(TB_Progress, "Extracting exheader.bin from CXI...");
+            byte[] exheaderbytes = new byte[header.ExheaderSize * 2];
+
+            using (FileStream fs = new FileStream(NCCH_PATH, FileMode.Open, FileAccess.Read))
+            {
+                fs.Seek(Convert.ToInt32(0x200), SeekOrigin.Begin);
+                fs.Read(exheaderbytes, 0, exheaderbytes.Length);
+            }
+
+            File.WriteAllBytes(exheaderpath, exheaderbytes);
+            exheader = new Exheader(exheaderpath);
+        }
+
+        private void ExtractExeFS(string NCCH_PATH, string outputDirectory, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
+        {
+            string exefsbinpath = Path.Combine(outputDirectory, "exefs.bin");
+            string exefspath = Path.Combine(outputDirectory, "exefs");
+            updateTB(TB_Progress, "Extracting exefs.bin from CXI...");
+            byte[] exefsbytes = new byte[header.ExefsSize * MEDIA_UNIT_SIZE];
+
+            using (FileStream fs = new FileStream(NCCH_PATH, FileMode.Open, FileAccess.Read))
+            {
+                fs.Seek(Convert.ToInt32(header.ExefsOffset * MEDIA_UNIT_SIZE), SeekOrigin.Begin);
+                fs.Read(exefsbytes, 0, exefsbytes.Length);
+            }
+
+            File.WriteAllBytes(exefsbinpath, exefsbytes);
+            ExeFS.get(exefsbinpath, exefspath);
+            File.Delete(exefsbinpath);
+        }
+
+        private void ExtractRomFS(string NCCH_PATH, string outputDirectory, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
+        {
+            updateTB(TB_Progress, "Extracting romfs.bin from CXI...");
+            string romfsbinpath = Path.Combine(outputDirectory, "romfs.bin");
+            string romfspath = Path.Combine(outputDirectory, "romfs");
+            byte[] romfsBytes = new byte[MEDIA_UNIT_SIZE];
+
+            using (FileStream ncchstream = new FileStream(NCCH_PATH, FileMode.Open, FileAccess.Read),
+                              romfsstream = new FileStream(romfsbinpath, FileMode.Append, FileAccess.Write))
+            {
+                ncchstream.Seek(Convert.ToInt32(header.RomfsOffset * MEDIA_UNIT_SIZE), SeekOrigin.Begin);
+                if (PB_Show.InvokeRequired)
+                    PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = Convert.ToInt32(header.RomfsSize); });
+                else { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = Convert.ToInt32(header.RomfsSize); }
+                for (int i = 0; i < header.RomfsSize; i++)
+                {
+                    ncchstream.Read(romfsBytes, 0, romfsBytes.Length);
+                    romfsstream.Write(romfsBytes, 0, romfsBytes.Length);
+                    if (PB_Show.InvokeRequired)
+                        PB_Show.Invoke((MethodInvoker)PB_Show.PerformStep);
+                    else { PB_Show.PerformStep(); }
+                }
+            }
+
+            RomFS romfs = new RomFS(romfsbinpath);
+            romfs.ExtractRomFS(romfspath, TB_Progress, PB_Show);
+            File.Delete(romfsbinpath);
+        }
+
+        private void WriteHeaderToFile(string outputDirectory, RichTextBox TB_Progress)
+        {
+            updateTB(TB_Progress, "Extracting ncchheader.bin from CXI...");
+            string headerParth = Path.Combine(outputDirectory, "ncchheader.bin");
+            using (FileStream headerStream = new FileStream(headerParth, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                headerStream.Write(this.header.Data, 0, this.header.Data.Length);
+            }
+        }
+
+        private void WritePlainRegionAndLogo(string outputDirectory, RichTextBox TB_Progress)
+        {
+            string plainRegionPath = Path.Combine(outputDirectory, "plain.bin");
+            string logoPath = Path.Combine(outputDirectory, "logo.bcma.lz");
+            updateTB(TB_Progress, "Extracting plain.bin and logo.bcma.lz from CXI...");
+            using (FileStream plainStream = new FileStream(plainRegionPath, FileMode.OpenOrCreate, FileAccess.Write),
+                              logoStream = new FileStream(logoPath, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                plainStream.Write(this.plainregion, 0, this.plainregion.Length);
+                logoStream.Write(this.logo, 0, this.logo.Length);
+            }
+        }
+
+        internal static void updateTB(RichTextBox RTB, string progress)
+        {
+            try
+            {
+                if (RTB.InvokeRequired)
+                    RTB.Invoke((MethodInvoker)delegate
+                    {
+                        RTB.AppendText(Environment.NewLine + progress);
+                        RTB.SelectionStart = RTB.Text.Length;
+                        RTB.ScrollToCaret();
+                    });
+                else
+                {
+                    RTB.SelectionStart = RTB.Text.Length;
+                    RTB.ScrollToCaret();
+                    RTB.AppendText(progress + Environment.NewLine);
+                }
+            }
+            catch { }
         }
     }
 }

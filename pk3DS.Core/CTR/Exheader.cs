@@ -56,7 +56,17 @@ namespace pk3DS.Core.CTR
 
         public bool isPokemon()
         {
-            return isORAS() || isXY();
+            return isORAS() || isXY() || isUSUM() || isSuMo();
+        }
+
+        public bool isUSUM()
+        {
+            return (TitleID & 0xFFFFFFFF) >> 8 == 0x1B50 || (TitleID & 0xFFFFFFFF) >> 8 == 0x1B51;
+        }
+
+        public bool isSuMo()
+        {
+            return (TitleID & 0xFFFFFFFF) >> 8 == 0x1648 || (TitleID & 0xFFFFFFFF) >> 8 == 0x175E;
         }
 
         public bool isORAS()
@@ -76,6 +86,18 @@ namespace pk3DS.Core.CTR
             string name;
             switch ((TitleID & 0xFFFFFFFF) >> 8)
             {
+                case 0x1B51: 
+                    name = "A2BA"; // Ultra Moon
+                    break;
+                case 0x1B50:
+                    name = "A2AA"; // Ultra Sun
+                    break;
+                case 0x175E: // Moon
+                    name = "BNEA";
+                    break;
+                case 0x1648: // Sun
+                    name = "BNDA";
+                    break;
                 case 0x11C5: //Alpha Sapphire
                     name = "ECLA";
                     break;
