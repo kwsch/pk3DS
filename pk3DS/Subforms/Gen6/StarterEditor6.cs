@@ -64,7 +64,7 @@ namespace pk3DS
         private readonly int Count = Main.Config.ORAS ? 4 : 2;
         private int offset;
         private static int[] BasicStarter;
-        private static int[] BasicStarterPerGen;
+        private static int[][] BasicStarterPerGen;
 
         private void B_Save_Click(object sender, EventArgs e)
         {
