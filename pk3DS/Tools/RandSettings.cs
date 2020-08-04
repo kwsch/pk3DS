@@ -79,7 +79,7 @@ namespace pk3DS
             switch (ctrl)
             {
                 case NumericUpDown nud:
-                    if (decimal.TryParse(s, out var n))
+                    if (decimal.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out var n))
                         nud.Value = n;
                     break;
                 case ComboBox cb:
