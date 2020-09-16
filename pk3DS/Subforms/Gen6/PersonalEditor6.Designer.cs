@@ -149,6 +149,7 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
+            this.CHK_FullTMCompatibility = new System.Windows.Forms.CheckBox();
             this.CHK_FullHMCompatibility = new System.Windows.Forms.CheckBox();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
@@ -1048,6 +1049,7 @@
             // 
             // GB_Modifier
             // 
+            this.GB_Modifier.Controls.Add(this.CHK_FullTMCompatibility);
             this.GB_Modifier.Controls.Add(this.CHK_FullHMCompatibility);
             this.GB_Modifier.Controls.Add(this.CHK_NoTutor);
             this.GB_Modifier.Controls.Add(this.CHK_CatchRateMod);
@@ -1061,7 +1063,7 @@
             this.GB_Modifier.Controls.Add(this.CHK_NoEV);
             this.GB_Modifier.Location = new System.Drawing.Point(4, 147);
             this.GB_Modifier.Name = "GB_Modifier";
-            this.GB_Modifier.Size = new System.Drawing.Size(345, 152);
+            this.GB_Modifier.Size = new System.Drawing.Size(345, 176);
             this.GB_Modifier.TabIndex = 419;
             this.GB_Modifier.TabStop = false;
             this.GB_Modifier.Text = "Modifier Options";
@@ -1535,13 +1537,23 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
+            // CHK_FullTMCompatibility
+            // 
+            this.CHK_FullTMCompatibility.AutoSize = true;
+            this.CHK_FullTMCompatibility.Location = new System.Drawing.Point(6, 131);
+            this.CHK_FullTMCompatibility.Name = "CHK_FullTMCompatibility";
+            this.CHK_FullTMCompatibility.Size = new System.Drawing.Size(122, 17);
+            this.CHK_FullTMCompatibility.TabIndex = 21;
+            this.CHK_FullTMCompatibility.Text = "Full TM Compatibility";
+            this.CHK_FullTMCompatibility.UseVisualStyleBackColor = true;
+            // 
             // CHK_FullHMCompatibility
             // 
             this.CHK_FullHMCompatibility.AutoSize = true;
-            this.CHK_FullHMCompatibility.Location = new System.Drawing.Point(6, 127);
+            this.CHK_FullHMCompatibility.Location = new System.Drawing.Point(6, 154);
             this.CHK_FullHMCompatibility.Name = "CHK_FullHMCompatibility";
             this.CHK_FullHMCompatibility.Size = new System.Drawing.Size(123, 17);
-            this.CHK_FullHMCompatibility.TabIndex = 21;
+            this.CHK_FullHMCompatibility.TabIndex = 22;
             this.CHK_FullHMCompatibility.Text = "Full HM Compatibility";
             this.CHK_FullHMCompatibility.UseVisualStyleBackColor = true;
             // 
@@ -1706,6 +1718,7 @@
         private System.Windows.Forms.Label L_Ability2;
         private System.Windows.Forms.Label L_Ability1;
         private System.Windows.Forms.TextBox TB_RawColor;
+        private System.Windows.Forms.CheckBox CHK_FullTMCompatibility;
         private System.Windows.Forms.CheckBox CHK_FullHMCompatibility;
     }
 }

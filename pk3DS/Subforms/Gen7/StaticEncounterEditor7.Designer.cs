@@ -1,4 +1,4 @@
-﻿namespace pk3DS
+namespace pk3DS
 {
     partial class StaticEncounterEditor7
     {
@@ -2168,17 +2168,6 @@
             this.CHK_G1.TabIndex = 280;
             this.CHK_G1.Text = "Gen 1";
             this.CHK_G1.UseVisualStyleBackColor = true;
-            // 
-            // B_Starters
-            // 
-            this.B_Starters.Location = new System.Drawing.Point(256, 490);
-            this.B_Starters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.B_Starters.Name = "B_Starters";
-            this.B_Starters.Size = new System.Drawing.Size(163, 28);
-            this.B_Starters.TabIndex = 9;
-            this.B_Starters.Text = "Randomize Starters";
-            this.B_Starters.UseVisualStyleBackColor = true;
-            this.B_Starters.Click += new System.EventHandler(this.B_Starters_Click);
             // 
             // B_Save
             // 
