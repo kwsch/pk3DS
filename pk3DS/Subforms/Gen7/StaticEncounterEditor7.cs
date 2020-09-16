@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -722,8 +722,6 @@ namespace pk3DS
             GetTrade();
 
             WinFormsUtil.Alert("Randomized Static Encounters according to specification!");
-
-            B_Starters_Click(sender, e);
         }
 
         // Mirror Changes
