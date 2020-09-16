@@ -151,7 +151,7 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
-            this.CHK_AllMoveTutors = new System.Windows.Forms.CheckBox();
+            this.CHK_FullMoveTutorCompatibility = new System.Windows.Forms.CheckBox();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -1050,7 +1050,7 @@
             // 
             // GB_Modifier
             // 
-            this.GB_Modifier.Controls.Add(this.CHK_AllMoveTutors);
+            this.GB_Modifier.Controls.Add(this.CHK_FullMoveTutorCompatibility);
             this.GB_Modifier.Controls.Add(this.CHK_FullTMCompatibility);
             this.GB_Modifier.Controls.Add(this.CHK_FullHMCompatibility);
             this.GB_Modifier.Controls.Add(this.CHK_NoTutor);
@@ -1559,15 +1559,15 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
-            // CHK_AllMoveTutors
+            // CHK_FullMoveTutorCompatibility
             // 
-            this.CHK_AllMoveTutors.AutoSize = true;
-            this.CHK_AllMoveTutors.Location = new System.Drawing.Point(6, 153);
-            this.CHK_AllMoveTutors.Name = "CHK_AllMoveTutors";
-            this.CHK_AllMoveTutors.Size = new System.Drawing.Size(130, 17);
-            this.CHK_AllMoveTutors.TabIndex = 24;
-            this.CHK_AllMoveTutors.Text = "All Move Tutor Moves";
-            this.CHK_AllMoveTutors.UseVisualStyleBackColor = true;
+            this.CHK_FullMoveTutorCompatibility.AutoSize = true;
+            this.CHK_FullMoveTutorCompatibility.Location = new System.Drawing.Point(6, 153);
+            this.CHK_FullMoveTutorCompatibility.Name = "CHK_FullMoveTutorCompatibility";
+            this.CHK_FullMoveTutorCompatibility.Size = new System.Drawing.Size(161, 17);
+            this.CHK_FullMoveTutorCompatibility.TabIndex = 24;
+            this.CHK_FullMoveTutorCompatibility.Text = "Full Move Tutor Compatibility";
+            this.CHK_FullMoveTutorCompatibility.UseVisualStyleBackColor = true;
             // 
             // PersonalEditor6
             // 
@@ -1732,6 +1732,6 @@
         private System.Windows.Forms.TextBox TB_RawColor;
         private System.Windows.Forms.CheckBox CHK_FullTMCompatibility;
         private System.Windows.Forms.CheckBox CHK_FullHMCompatibility;
-        private System.Windows.Forms.CheckBox CHK_AllMoveTutors;
+        private System.Windows.Forms.CheckBox CHK_FullMoveTutorCompatibility;
     }
 }

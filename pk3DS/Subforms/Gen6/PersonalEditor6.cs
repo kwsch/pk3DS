@@ -406,7 +406,7 @@ namespace pk3DS
                 if (CHK_FullHMCompatibility.Checked)
                     for (int h = 100; h < CLB_TMHM.Items.Count; h++)
                         CLB_TMHM.SetItemCheckState(h, CheckState.Checked);
-                if (CHK_AllMoveTutors.Checked)
+                if (CHK_FullMoveTutorCompatibility.Checked)
                     for (int m = 0; m < CLB_MoveTutors.Items.Count; m++)
                         CLB_MoveTutors.SetItemCheckState(m, CheckState.Checked);
 
