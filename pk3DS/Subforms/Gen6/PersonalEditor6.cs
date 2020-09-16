@@ -401,8 +401,8 @@ namespace pk3DS
                 }
 
                 if (CHK_FullTMCompatibility.Checked)
-                    for (int h = 0; h < 100; h++)
-                        CLB_TMHM.SetItemCheckState(h, CheckState.Checked);
+                    for (int t = 0; t < 100; t++)
+                        CLB_TMHM.SetItemCheckState(t, CheckState.Checked);
                 if (CHK_FullHMCompatibility.Checked)
                     for (int h = 100; h < CLB_TMHM.Items.Count; h++)
                         CLB_TMHM.SetItemCheckState(h, CheckState.Checked);
