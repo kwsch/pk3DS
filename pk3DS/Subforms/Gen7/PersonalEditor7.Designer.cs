@@ -32,6 +32,7 @@
             this.L_Species_Precursor = new System.Windows.Forms.Label();
             this.TC_Pokemon = new System.Windows.Forms.TabControl();
             this.TP_General = new System.Windows.Forms.TabPage();
+            this.TB_RawColor = new System.Windows.Forms.TextBox();
             this.L_HiddenAbility = new System.Windows.Forms.Label();
             this.L_WeightKG = new System.Windows.Forms.Label();
             this.L_Ability2 = new System.Windows.Forms.Label();
@@ -118,6 +119,7 @@
             this.CLB_TM = new System.Windows.Forms.CheckedListBox();
             this.TP_Randomizer = new System.Windows.Forms.TabPage();
             this.GB_Modifier = new System.Windows.Forms.GroupBox();
+            this.CHK_FullMoveTutorCompatibility = new System.Windows.Forms.CheckBox();
             this.CHK_FullTMCompatibility = new System.Windows.Forms.CheckBox();
             this.CHK_NoTutor = new System.Windows.Forms.CheckBox();
             this.CHK_CatchRateMod = new System.Windows.Forms.CheckBox();
@@ -160,7 +162,7 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
-            this.TB_RawColor = new System.Windows.Forms.TextBox();
+            this.CHK_FullBeachTutorCompatibility = new System.Windows.Forms.CheckBox();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -296,6 +298,16 @@
             this.TP_General.TabIndex = 0;
             this.TP_General.Text = "General Info";
             this.TP_General.UseVisualStyleBackColor = true;
+            // 
+            // TB_RawColor
+            // 
+            this.TB_RawColor.Location = new System.Drawing.Point(229, 209);
+            this.TB_RawColor.Name = "TB_RawColor";
+            this.TB_RawColor.ReadOnly = true;
+            this.TB_RawColor.Size = new System.Drawing.Size(30, 20);
+            this.TB_RawColor.TabIndex = 420;
+            this.TB_RawColor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_RawColor.Visible = false;
             // 
             // L_HiddenAbility
             // 
@@ -1141,6 +1153,8 @@
             // 
             // GB_Modifier
             // 
+            this.GB_Modifier.Controls.Add(this.CHK_FullBeachTutorCompatibility);
+            this.GB_Modifier.Controls.Add(this.CHK_FullMoveTutorCompatibility);
             this.GB_Modifier.Controls.Add(this.CHK_FullTMCompatibility);
             this.GB_Modifier.Controls.Add(this.CHK_NoTutor);
             this.GB_Modifier.Controls.Add(this.CHK_CatchRateMod);
@@ -1157,10 +1171,20 @@
             this.GB_Modifier.Controls.Add(this.CHK_NoEV);
             this.GB_Modifier.Location = new System.Drawing.Point(4, 147);
             this.GB_Modifier.Name = "GB_Modifier";
-            this.GB_Modifier.Size = new System.Drawing.Size(345, 150);
+            this.GB_Modifier.Size = new System.Drawing.Size(345, 188);
             this.GB_Modifier.TabIndex = 419;
             this.GB_Modifier.TabStop = false;
             this.GB_Modifier.Text = "Modifier Options";
+            // 
+            // CHK_FullMoveTutorCompatibility
+            // 
+            this.CHK_FullMoveTutorCompatibility.AutoSize = true;
+            this.CHK_FullMoveTutorCompatibility.Location = new System.Drawing.Point(6, 154);
+            this.CHK_FullMoveTutorCompatibility.Name = "CHK_FullMoveTutorCompatibility";
+            this.CHK_FullMoveTutorCompatibility.Size = new System.Drawing.Size(138, 30);
+            this.CHK_FullMoveTutorCompatibility.TabIndex = 23;
+            this.CHK_FullMoveTutorCompatibility.Text = "Full Special Move Tutor\nCompatibility";
+            this.CHK_FullMoveTutorCompatibility.UseVisualStyleBackColor = true;
             // 
             // CHK_FullTMCompatibility
             // 
@@ -1664,15 +1688,15 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
-            // TB_RawColor
+            // CHK_FullBeachTutorCompatibility
             // 
-            this.TB_RawColor.Location = new System.Drawing.Point(229, 209);
-            this.TB_RawColor.Name = "TB_RawColor";
-            this.TB_RawColor.ReadOnly = true;
-            this.TB_RawColor.Size = new System.Drawing.Size(30, 20);
-            this.TB_RawColor.TabIndex = 420;
-            this.TB_RawColor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_RawColor.Visible = false;
+            this.CHK_FullBeachTutorCompatibility.AutoSize = true;
+            this.CHK_FullBeachTutorCompatibility.Location = new System.Drawing.Point(204, 152);
+            this.CHK_FullBeachTutorCompatibility.Name = "CHK_FullBeachTutorCompatibility";
+            this.CHK_FullBeachTutorCompatibility.Size = new System.Drawing.Size(134, 30);
+            this.CHK_FullBeachTutorCompatibility.TabIndex = 24;
+            this.CHK_FullBeachTutorCompatibility.Text = "Full Beach Move Tutor\nCompatibility";
+            this.CHK_FullBeachTutorCompatibility.UseVisualStyleBackColor = true;
             // 
             // PersonalEditor7
             // 
@@ -1848,5 +1872,7 @@
         private System.Windows.Forms.Label L_Ability2;
         private System.Windows.Forms.Label L_Ability1;
         private System.Windows.Forms.TextBox TB_RawColor;
+        private System.Windows.Forms.CheckBox CHK_FullMoveTutorCompatibility;
+        private System.Windows.Forms.CheckBox CHK_FullBeachTutorCompatibility;
     }
 }
