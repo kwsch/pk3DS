@@ -384,6 +384,10 @@ namespace pk3DS
                         CLB_BeachTutors.SetItemCheckState(ao, CheckState.Unchecked);
                 }
 
+                if (CHK_FullTMCompatibility.Checked)
+                    for (int t = 0; t < 100; t++)
+                        CLB_TM.SetItemCheckState(t, CheckState.Checked);
+
                 if (CHK_QuickHatch.Checked)
                     TB_HatchCycles.Text = 1.ToString();
                 if (CHK_CallRate.Checked)

@@ -118,6 +118,7 @@
             this.CLB_TM = new System.Windows.Forms.CheckedListBox();
             this.TP_Randomizer = new System.Windows.Forms.TabPage();
             this.GB_Modifier = new System.Windows.Forms.GroupBox();
+            this.CHK_FullTMCompatibility = new System.Windows.Forms.CheckBox();
             this.CHK_NoTutor = new System.Windows.Forms.CheckBox();
             this.CHK_CatchRateMod = new System.Windows.Forms.CheckBox();
             this.L_CatchRateMod = new System.Windows.Forms.Label();
@@ -1140,6 +1141,7 @@
             // 
             // GB_Modifier
             // 
+            this.GB_Modifier.Controls.Add(this.CHK_FullTMCompatibility);
             this.GB_Modifier.Controls.Add(this.CHK_NoTutor);
             this.GB_Modifier.Controls.Add(this.CHK_CatchRateMod);
             this.GB_Modifier.Controls.Add(this.L_CatchRateMod);
@@ -1155,10 +1157,20 @@
             this.GB_Modifier.Controls.Add(this.CHK_NoEV);
             this.GB_Modifier.Location = new System.Drawing.Point(4, 147);
             this.GB_Modifier.Name = "GB_Modifier";
-            this.GB_Modifier.Size = new System.Drawing.Size(345, 129);
+            this.GB_Modifier.Size = new System.Drawing.Size(345, 150);
             this.GB_Modifier.TabIndex = 419;
             this.GB_Modifier.TabStop = false;
             this.GB_Modifier.Text = "Modifier Options";
+            // 
+            // CHK_FullTMCompatibility
+            // 
+            this.CHK_FullTMCompatibility.AutoSize = true;
+            this.CHK_FullTMCompatibility.Location = new System.Drawing.Point(6, 131);
+            this.CHK_FullTMCompatibility.Name = "CHK_FullTMCompatibility";
+            this.CHK_FullTMCompatibility.Size = new System.Drawing.Size(122, 17);
+            this.CHK_FullTMCompatibility.TabIndex = 22;
+            this.CHK_FullTMCompatibility.Text = "Full TM Compatibility";
+            this.CHK_FullTMCompatibility.UseVisualStyleBackColor = true;
             // 
             // CHK_NoTutor
             // 
@@ -1831,6 +1843,7 @@
         private System.Windows.Forms.CheckBox CHK_BeachTutors;
         private System.Windows.Forms.CheckBox CHK_Shuffle;
         private System.Windows.Forms.CheckBox CHK_NoTutor;
+        private System.Windows.Forms.CheckBox CHK_FullTMCompatibility;
         private System.Windows.Forms.Label L_HiddenAbility;
         private System.Windows.Forms.Label L_Ability2;
         private System.Windows.Forms.Label L_Ability1;
