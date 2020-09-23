@@ -78,6 +78,9 @@
             this.CB_P3 = new System.Windows.Forms.ComboBox();
             this.CB_P2 = new System.Windows.Forms.ComboBox();
             this.CB_P1 = new System.Windows.Forms.ComboBox();
+            this.B_EveryLevel = new System.Windows.Forms.Button();
+            this.CHK_E = new System.Windows.Forms.CheckBox();
+            this.CHK_L = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_4)).BeginInit();
@@ -124,7 +127,7 @@
             this.CB_M1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_M1.DropDownWidth = 200;
             this.CB_M1.FormattingEnabled = true;
-            this.CB_M1.Location = new System.Drawing.Point(79, 46);
+            this.CB_M1.Location = new System.Drawing.Point(79, 64);
             this.CB_M1.MaxDropDownItems = 10;
             this.CB_M1.Name = "CB_M1";
             this.CB_M1.Size = new System.Drawing.Size(150, 21);
@@ -134,7 +137,7 @@
             // L_M1
             // 
             this.L_M1.AutoSize = true;
-            this.L_M1.Location = new System.Drawing.Point(18, 49);
+            this.L_M1.Location = new System.Drawing.Point(18, 67);
             this.L_M1.Name = "L_M1";
             this.L_M1.Size = new System.Drawing.Size(55, 13);
             this.L_M1.TabIndex = 7;
@@ -145,7 +148,7 @@
             this.CB_I1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_I1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_I1.FormattingEnabled = true;
-            this.CB_I1.Location = new System.Drawing.Point(277, 46);
+            this.CB_I1.Location = new System.Drawing.Point(277, 64);
             this.CB_I1.Name = "CB_I1";
             this.CB_I1.Size = new System.Drawing.Size(101, 21);
             this.CB_I1.TabIndex = 9;
@@ -156,7 +159,7 @@
             this.CB_I2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_I2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_I2.FormattingEnabled = true;
-            this.CB_I2.Location = new System.Drawing.Point(277, 100);
+            this.CB_I2.Location = new System.Drawing.Point(277, 118);
             this.CB_I2.Name = "CB_I2";
             this.CB_I2.Size = new System.Drawing.Size(101, 21);
             this.CB_I2.TabIndex = 15;
@@ -165,7 +168,7 @@
             // L_M2
             // 
             this.L_M2.AutoSize = true;
-            this.L_M2.Location = new System.Drawing.Point(18, 103);
+            this.L_M2.Location = new System.Drawing.Point(18, 121);
             this.L_M2.Name = "L_M2";
             this.L_M2.Size = new System.Drawing.Size(55, 13);
             this.L_M2.TabIndex = 13;
@@ -176,7 +179,7 @@
             this.CB_M2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_M2.DropDownWidth = 200;
             this.CB_M2.FormattingEnabled = true;
-            this.CB_M2.Location = new System.Drawing.Point(79, 100);
+            this.CB_M2.Location = new System.Drawing.Point(79, 118);
             this.CB_M2.MaxDropDownItems = 10;
             this.CB_M2.Name = "CB_M2";
             this.CB_M2.Size = new System.Drawing.Size(150, 21);
@@ -188,7 +191,7 @@
             this.CB_I3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_I3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_I3.FormattingEnabled = true;
-            this.CB_I3.Location = new System.Drawing.Point(277, 154);
+            this.CB_I3.Location = new System.Drawing.Point(277, 172);
             this.CB_I3.Name = "CB_I3";
             this.CB_I3.Size = new System.Drawing.Size(101, 21);
             this.CB_I3.TabIndex = 21;
@@ -197,7 +200,7 @@
             // L_M3
             // 
             this.L_M3.AutoSize = true;
-            this.L_M3.Location = new System.Drawing.Point(18, 157);
+            this.L_M3.Location = new System.Drawing.Point(18, 175);
             this.L_M3.Name = "L_M3";
             this.L_M3.Size = new System.Drawing.Size(55, 13);
             this.L_M3.TabIndex = 19;
@@ -208,7 +211,7 @@
             this.CB_M3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_M3.DropDownWidth = 200;
             this.CB_M3.FormattingEnabled = true;
-            this.CB_M3.Location = new System.Drawing.Point(79, 154);
+            this.CB_M3.Location = new System.Drawing.Point(79, 172);
             this.CB_M3.MaxDropDownItems = 10;
             this.CB_M3.Name = "CB_M3";
             this.CB_M3.Size = new System.Drawing.Size(150, 21);
@@ -220,7 +223,7 @@
             this.CB_I4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_I4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_I4.FormattingEnabled = true;
-            this.CB_I4.Location = new System.Drawing.Point(277, 208);
+            this.CB_I4.Location = new System.Drawing.Point(277, 226);
             this.CB_I4.Name = "CB_I4";
             this.CB_I4.Size = new System.Drawing.Size(101, 21);
             this.CB_I4.TabIndex = 27;
@@ -229,7 +232,7 @@
             // L_M4
             // 
             this.L_M4.AutoSize = true;
-            this.L_M4.Location = new System.Drawing.Point(18, 211);
+            this.L_M4.Location = new System.Drawing.Point(18, 229);
             this.L_M4.Name = "L_M4";
             this.L_M4.Size = new System.Drawing.Size(55, 13);
             this.L_M4.TabIndex = 25;
@@ -240,7 +243,7 @@
             this.CB_M4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_M4.DropDownWidth = 200;
             this.CB_M4.FormattingEnabled = true;
-            this.CB_M4.Location = new System.Drawing.Point(79, 208);
+            this.CB_M4.Location = new System.Drawing.Point(79, 226);
             this.CB_M4.MaxDropDownItems = 10;
             this.CB_M4.Name = "CB_M4";
             this.CB_M4.Size = new System.Drawing.Size(150, 21);
@@ -252,7 +255,7 @@
             this.CB_I5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_I5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_I5.FormattingEnabled = true;
-            this.CB_I5.Location = new System.Drawing.Point(277, 262);
+            this.CB_I5.Location = new System.Drawing.Point(277, 280);
             this.CB_I5.Name = "CB_I5";
             this.CB_I5.Size = new System.Drawing.Size(101, 21);
             this.CB_I5.TabIndex = 33;
@@ -261,7 +264,7 @@
             // L_M5
             // 
             this.L_M5.AutoSize = true;
-            this.L_M5.Location = new System.Drawing.Point(18, 265);
+            this.L_M5.Location = new System.Drawing.Point(18, 283);
             this.L_M5.Name = "L_M5";
             this.L_M5.Size = new System.Drawing.Size(55, 13);
             this.L_M5.TabIndex = 31;
@@ -272,7 +275,7 @@
             this.CB_M5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_M5.DropDownWidth = 200;
             this.CB_M5.FormattingEnabled = true;
-            this.CB_M5.Location = new System.Drawing.Point(79, 262);
+            this.CB_M5.Location = new System.Drawing.Point(79, 280);
             this.CB_M5.MaxDropDownItems = 10;
             this.CB_M5.Name = "CB_M5";
             this.CB_M5.Size = new System.Drawing.Size(150, 21);
@@ -284,7 +287,7 @@
             this.CB_I8.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_I8.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_I8.FormattingEnabled = true;
-            this.CB_I8.Location = new System.Drawing.Point(277, 424);
+            this.CB_I8.Location = new System.Drawing.Point(277, 442);
             this.CB_I8.Name = "CB_I8";
             this.CB_I8.Size = new System.Drawing.Size(101, 21);
             this.CB_I8.TabIndex = 51;
@@ -293,7 +296,7 @@
             // L_M8
             // 
             this.L_M8.AutoSize = true;
-            this.L_M8.Location = new System.Drawing.Point(18, 427);
+            this.L_M8.Location = new System.Drawing.Point(18, 445);
             this.L_M8.Name = "L_M8";
             this.L_M8.Size = new System.Drawing.Size(55, 13);
             this.L_M8.TabIndex = 49;
@@ -304,7 +307,7 @@
             this.CB_M8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_M8.DropDownWidth = 200;
             this.CB_M8.FormattingEnabled = true;
-            this.CB_M8.Location = new System.Drawing.Point(79, 424);
+            this.CB_M8.Location = new System.Drawing.Point(79, 442);
             this.CB_M8.MaxDropDownItems = 10;
             this.CB_M8.Name = "CB_M8";
             this.CB_M8.Size = new System.Drawing.Size(150, 21);
@@ -316,7 +319,7 @@
             this.CB_I7.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_I7.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_I7.FormattingEnabled = true;
-            this.CB_I7.Location = new System.Drawing.Point(277, 370);
+            this.CB_I7.Location = new System.Drawing.Point(277, 388);
             this.CB_I7.Name = "CB_I7";
             this.CB_I7.Size = new System.Drawing.Size(101, 21);
             this.CB_I7.TabIndex = 45;
@@ -325,7 +328,7 @@
             // L_M7
             // 
             this.L_M7.AutoSize = true;
-            this.L_M7.Location = new System.Drawing.Point(18, 373);
+            this.L_M7.Location = new System.Drawing.Point(18, 391);
             this.L_M7.Name = "L_M7";
             this.L_M7.Size = new System.Drawing.Size(55, 13);
             this.L_M7.TabIndex = 43;
@@ -336,7 +339,7 @@
             this.CB_M7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_M7.DropDownWidth = 200;
             this.CB_M7.FormattingEnabled = true;
-            this.CB_M7.Location = new System.Drawing.Point(79, 370);
+            this.CB_M7.Location = new System.Drawing.Point(79, 388);
             this.CB_M7.MaxDropDownItems = 10;
             this.CB_M7.Name = "CB_M7";
             this.CB_M7.Size = new System.Drawing.Size(150, 21);
@@ -348,7 +351,7 @@
             this.CB_I6.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_I6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_I6.FormattingEnabled = true;
-            this.CB_I6.Location = new System.Drawing.Point(277, 316);
+            this.CB_I6.Location = new System.Drawing.Point(277, 334);
             this.CB_I6.Name = "CB_I6";
             this.CB_I6.Size = new System.Drawing.Size(101, 21);
             this.CB_I6.TabIndex = 39;
@@ -357,7 +360,7 @@
             // L_M6
             // 
             this.L_M6.AutoSize = true;
-            this.L_M6.Location = new System.Drawing.Point(18, 319);
+            this.L_M6.Location = new System.Drawing.Point(18, 337);
             this.L_M6.Name = "L_M6";
             this.L_M6.Size = new System.Drawing.Size(55, 13);
             this.L_M6.TabIndex = 37;
@@ -368,7 +371,7 @@
             this.CB_M6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_M6.DropDownWidth = 200;
             this.CB_M6.FormattingEnabled = true;
-            this.CB_M6.Location = new System.Drawing.Point(79, 316);
+            this.CB_M6.Location = new System.Drawing.Point(79, 334);
             this.CB_M6.MaxDropDownItems = 10;
             this.CB_M6.Name = "CB_M6";
             this.CB_M6.Size = new System.Drawing.Size(150, 21);
@@ -377,7 +380,7 @@
             // 
             // PB_1
             // 
-            this.PB_1.Location = new System.Drawing.Point(235, 46);
+            this.PB_1.Location = new System.Drawing.Point(235, 64);
             this.PB_1.Name = "PB_1";
             this.PB_1.Size = new System.Drawing.Size(40, 30);
             this.PB_1.TabIndex = 54;
@@ -385,7 +388,7 @@
             // 
             // PB_2
             // 
-            this.PB_2.Location = new System.Drawing.Point(235, 100);
+            this.PB_2.Location = new System.Drawing.Point(235, 118);
             this.PB_2.Name = "PB_2";
             this.PB_2.Size = new System.Drawing.Size(40, 30);
             this.PB_2.TabIndex = 55;
@@ -393,7 +396,7 @@
             // 
             // PB_4
             // 
-            this.PB_4.Location = new System.Drawing.Point(235, 208);
+            this.PB_4.Location = new System.Drawing.Point(235, 226);
             this.PB_4.Name = "PB_4";
             this.PB_4.Size = new System.Drawing.Size(40, 30);
             this.PB_4.TabIndex = 57;
@@ -401,7 +404,7 @@
             // 
             // PB_3
             // 
-            this.PB_3.Location = new System.Drawing.Point(235, 154);
+            this.PB_3.Location = new System.Drawing.Point(235, 172);
             this.PB_3.Name = "PB_3";
             this.PB_3.Size = new System.Drawing.Size(40, 30);
             this.PB_3.TabIndex = 56;
@@ -409,7 +412,7 @@
             // 
             // PB_6
             // 
-            this.PB_6.Location = new System.Drawing.Point(235, 316);
+            this.PB_6.Location = new System.Drawing.Point(235, 334);
             this.PB_6.Name = "PB_6";
             this.PB_6.Size = new System.Drawing.Size(40, 30);
             this.PB_6.TabIndex = 59;
@@ -417,7 +420,7 @@
             // 
             // PB_5
             // 
-            this.PB_5.Location = new System.Drawing.Point(235, 262);
+            this.PB_5.Location = new System.Drawing.Point(235, 280);
             this.PB_5.Name = "PB_5";
             this.PB_5.Size = new System.Drawing.Size(40, 30);
             this.PB_5.TabIndex = 58;
@@ -425,7 +428,7 @@
             // 
             // PB_8
             // 
-            this.PB_8.Location = new System.Drawing.Point(235, 424);
+            this.PB_8.Location = new System.Drawing.Point(235, 442);
             this.PB_8.Name = "PB_8";
             this.PB_8.Size = new System.Drawing.Size(40, 30);
             this.PB_8.TabIndex = 61;
@@ -433,7 +436,7 @@
             // 
             // PB_7
             // 
-            this.PB_7.Location = new System.Drawing.Point(235, 370);
+            this.PB_7.Location = new System.Drawing.Point(235, 388);
             this.PB_7.Name = "PB_7";
             this.PB_7.Size = new System.Drawing.Size(40, 30);
             this.PB_7.TabIndex = 60;
@@ -451,14 +454,16 @@
             // 
             // GB_Randomizer
             // 
+            this.GB_Randomizer.Controls.Add(this.CHK_E);
+            this.GB_Randomizer.Controls.Add(this.CHK_L);
             this.GB_Randomizer.Controls.Add(this.L_Protip);
             this.GB_Randomizer.Controls.Add(this.CHK_BST);
             this.GB_Randomizer.Controls.Add(this.CHK_Type);
             this.GB_Randomizer.Controls.Add(this.CHK_Exp);
             this.GB_Randomizer.Controls.Add(this.B_RandAll);
-            this.GB_Randomizer.Location = new System.Drawing.Point(21, 474);
+            this.GB_Randomizer.Location = new System.Drawing.Point(21, 494);
             this.GB_Randomizer.Name = "GB_Randomizer";
-            this.GB_Randomizer.Size = new System.Drawing.Size(357, 76);
+            this.GB_Randomizer.Size = new System.Drawing.Size(357, 108);
             this.GB_Randomizer.TabIndex = 63;
             this.GB_Randomizer.TabStop = false;
             this.GB_Randomizer.Text = "Randomizer Options";
@@ -524,7 +529,7 @@
             this.CB_P8.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_P8.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_P8.FormattingEnabled = true;
-            this.CB_P8.Location = new System.Drawing.Point(79, 447);
+            this.CB_P8.Location = new System.Drawing.Point(79, 465);
             this.CB_P8.Name = "CB_P8";
             this.CB_P8.Size = new System.Drawing.Size(121, 21);
             this.CB_P8.TabIndex = 52;
@@ -534,7 +539,7 @@
             this.CB_P7.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_P7.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_P7.FormattingEnabled = true;
-            this.CB_P7.Location = new System.Drawing.Point(79, 393);
+            this.CB_P7.Location = new System.Drawing.Point(79, 411);
             this.CB_P7.Name = "CB_P7";
             this.CB_P7.Size = new System.Drawing.Size(121, 21);
             this.CB_P7.TabIndex = 46;
@@ -544,7 +549,7 @@
             this.CB_P6.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_P6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_P6.FormattingEnabled = true;
-            this.CB_P6.Location = new System.Drawing.Point(79, 339);
+            this.CB_P6.Location = new System.Drawing.Point(79, 357);
             this.CB_P6.Name = "CB_P6";
             this.CB_P6.Size = new System.Drawing.Size(121, 21);
             this.CB_P6.TabIndex = 40;
@@ -554,7 +559,7 @@
             this.CB_P5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_P5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_P5.FormattingEnabled = true;
-            this.CB_P5.Location = new System.Drawing.Point(79, 285);
+            this.CB_P5.Location = new System.Drawing.Point(79, 303);
             this.CB_P5.Name = "CB_P5";
             this.CB_P5.Size = new System.Drawing.Size(121, 21);
             this.CB_P5.TabIndex = 34;
@@ -564,7 +569,7 @@
             this.CB_P4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_P4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_P4.FormattingEnabled = true;
-            this.CB_P4.Location = new System.Drawing.Point(79, 231);
+            this.CB_P4.Location = new System.Drawing.Point(79, 249);
             this.CB_P4.Name = "CB_P4";
             this.CB_P4.Size = new System.Drawing.Size(121, 21);
             this.CB_P4.TabIndex = 28;
@@ -574,7 +579,7 @@
             this.CB_P3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_P3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_P3.FormattingEnabled = true;
-            this.CB_P3.Location = new System.Drawing.Point(79, 177);
+            this.CB_P3.Location = new System.Drawing.Point(79, 195);
             this.CB_P3.Name = "CB_P3";
             this.CB_P3.Size = new System.Drawing.Size(121, 21);
             this.CB_P3.TabIndex = 22;
@@ -584,7 +589,7 @@
             this.CB_P2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_P2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_P2.FormattingEnabled = true;
-            this.CB_P2.Location = new System.Drawing.Point(79, 123);
+            this.CB_P2.Location = new System.Drawing.Point(79, 141);
             this.CB_P2.Name = "CB_P2";
             this.CB_P2.Size = new System.Drawing.Size(121, 21);
             this.CB_P2.TabIndex = 16;
@@ -594,16 +599,47 @@
             this.CB_P1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_P1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_P1.FormattingEnabled = true;
-            this.CB_P1.Location = new System.Drawing.Point(79, 69);
+            this.CB_P1.Location = new System.Drawing.Point(79, 87);
             this.CB_P1.Name = "CB_P1";
             this.CB_P1.Size = new System.Drawing.Size(121, 21);
             this.CB_P1.TabIndex = 10;
+            // 
+            // B_EveryLevel
+            // 
+            this.B_EveryLevel.Location = new System.Drawing.Point(222, 37);
+            this.B_EveryLevel.Name = "B_EveryLevel";
+            this.B_EveryLevel.Size = new System.Drawing.Size(165, 23);
+            this.B_EveryLevel.TabIndex = 117;
+            this.B_EveryLevel.Text = "Random Evolution Every Level";
+            this.B_EveryLevel.UseVisualStyleBackColor = true;
+            this.B_EveryLevel.Click += new System.EventHandler(this.B_EveryLevel_Click);
+            // 
+            // CHK_E
+            // 
+            this.CHK_E.AutoSize = true;
+            this.CHK_E.Location = new System.Drawing.Point(6, 83);
+            this.CHK_E.Name = "CHK_E";
+            this.CHK_E.Size = new System.Drawing.Size(98, 17);
+            this.CHK_E.TabIndex = 478;
+            this.CHK_E.Text = "Event Legends";
+            this.CHK_E.UseVisualStyleBackColor = true;
+            // 
+            // CHK_L
+            // 
+            this.CHK_L.AutoSize = true;
+            this.CHK_L.Location = new System.Drawing.Point(6, 68);
+            this.CHK_L.Name = "CHK_L";
+            this.CHK_L.Size = new System.Drawing.Size(98, 17);
+            this.CHK_L.TabIndex = 477;
+            this.CHK_L.Text = "Game Legends";
+            this.CHK_L.UseVisualStyleBackColor = true;
             // 
             // EvolutionEditor6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 561);
+            this.ClientSize = new System.Drawing.Size(394, 611);
+            this.Controls.Add(this.B_EveryLevel);
             this.Controls.Add(this.B_Trade);
             this.Controls.Add(this.GB_Randomizer);
             this.Controls.Add(this.PB_8);
@@ -650,8 +686,8 @@
             this.Controls.Add(this.L_Species);
             this.Controls.Add(this.CB_Species);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(410, 600);
-            this.MinimumSize = new System.Drawing.Size(410, 515);
+            this.MaximumSize = new System.Drawing.Size(410, 650);
+            this.MinimumSize = new System.Drawing.Size(410, 650);
             this.Name = "EvolutionEditor6";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Evolution Editor";
@@ -723,5 +759,8 @@
         private System.Windows.Forms.ComboBox CB_P3;
         private System.Windows.Forms.ComboBox CB_P2;
         private System.Windows.Forms.ComboBox CB_P1;
+        private System.Windows.Forms.Button B_EveryLevel;
+        private System.Windows.Forms.CheckBox CHK_E;
+        private System.Windows.Forms.CheckBox CHK_L;
     }
 }
