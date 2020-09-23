@@ -166,6 +166,8 @@ namespace pk3DS
             evoRand.Randomizer.rBST = CHK_BST.Checked;
             evoRand.Randomizer.rEXP = CHK_Exp.Checked;
             evoRand.Randomizer.rType = CHK_Type.Checked;
+            evoRand.Randomizer.L = CHK_L.Checked;
+            evoRand.Randomizer.E = CHK_E.Checked;
             evoRand.Randomizer.Initialize();
             evoRand.Execute();
             evos.Select(z => z.Write()).ToArray().CopyTo(files, 0);
@@ -188,6 +190,27 @@ namespace pk3DS
             getList();
 
             WinFormsUtil.Alert("All trade evolutions have been removed!", "Trade evolutions will now occur after reaching a certain Level, or after leveling up while holding its appropriate trade item.");
+        }
+
+        private void B_EveryLevel_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify evolutions?", "This will make it to where your Pokémon will evolve into something random every time it levels up."))
+                return;
+
+            setList();
+            var evos = files.Select(z => new EvolutionSet7(z)).ToArray();
+            var evoRand = new EvolutionRandomizer(Main.Config, evos);
+            evoRand.Randomizer.rBST = CHK_BST.Checked;
+            evoRand.Randomizer.rEXP = CHK_Exp.Checked;
+            evoRand.Randomizer.rType = CHK_Type.Checked;
+            evoRand.Randomizer.L = CHK_L.Checked;
+            evoRand.Randomizer.E = CHK_E.Checked;
+            evoRand.Randomizer.Initialize();
+            evoRand.ExecuteEvolveEveryLevel();
+            evoRand.Execute(); // randomize right after
+            evos.Select(z => z.Write()).ToArray().CopyTo(files, 0);
+            getList();
+            SystemSounds.Asterisk.Play();
         }
 
         private void B_Dump_Click(object sender, EventArgs e)
