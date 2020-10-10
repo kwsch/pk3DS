@@ -524,6 +524,7 @@ namespace pk3DS
 
         private byte[][] DumpSOS()
         {
+            var personal = Main.Config.Personal;
             var dict = new Dictionary<int, List<uint>>();
             foreach (var area in Areas)
             {
@@ -534,9 +535,25 @@ namespace pk3DS
                         dict.Add(loc, new List<uint>());
 
                     var table = dict[loc];
-                    table.AddRange(from t in area.Tables from s in t.Encounter7s.Skip(1)
-                                   from e in s
-                                   select e.RawValue | (uint) (t.MinLevel << 16) | (uint) (t.MaxLevel << 24));
+
+                    foreach (var t in area.Tables)
+                    {
+                        var first = t.Encounter7s[0];
+                        for (int i = 0; i < first.Length; i++)
+                        {
+                            // Only add the column SOS slots if the wild slot can SOS for help.
+                            var wild = first[i];
+                            if (personal[(int)wild.Species].EscapeRate == 0)
+                                continue;
+
+                            for (int j = 1; j < t.Encounter7s.Length - 1; j++)
+                            {
+                                var e = t.Encounter7s[j][i];
+                                var val = e.RawValue | (uint) (t.MinLevel << 16) | (uint) (t.MaxLevel << 24);
+                                table.Add(val);
+                            }
+                        }
+                    }
 
                     table.AddRange(from t in area.Tables
                                    from e in t.AdditionalSOS
