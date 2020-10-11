@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -493,90 +492,11 @@ namespace pk3DS
 
         private void ExportEncounters(string gameID, string ident)
         {
-            var reg = DumpRegular();
-            var sos = DumpSOS();
+            var reg = Gen7SlotDumper.GetRegularBinary(Areas);
+            var sos = Gen7SlotDumper.GetSOSBinary(Areas, Main.Config.Personal);
 
             File.WriteAllBytes($"encounter_{gameID}.pkl", Mini.PackMini(reg, ident));
             File.WriteAllBytes($"encounter_{gameID}_sos.pkl", Mini.PackMini(sos, ident));
-        }
-
-        private byte[][] DumpRegular()
-        {
-            var dict = new Dictionary<int, List<uint>>();
-            foreach (var area in Areas)
-            {
-                foreach (var z in area.Zones)
-                {
-                    int loc = z.ParentMap;
-                    if (!dict.ContainsKey(loc))
-                        dict.Add(loc, new List<uint>());
-
-                    var table = dict[loc];
-                    table.AddRange(from t in area.Tables
-                        from s in t.Encounter7s.Take(1)
-                        from e in s
-                        select e.RawValue | (uint)(t.MinLevel << 16) | (uint)(t.MaxLevel << 24));
-                }
-            }
-
-            return GetLocationDump(dict).ToArray();
-        }
-
-        private byte[][] DumpSOS()
-        {
-            var personal = Main.Config.Personal;
-            var dict = new Dictionary<int, List<uint>>();
-            foreach (var area in Areas)
-            {
-                foreach (var z in area.Zones)
-                {
-                    int loc = z.ParentMap;
-                    if (!dict.ContainsKey(loc))
-                        dict.Add(loc, new List<uint>());
-
-                    var table = dict[loc];
-
-                    foreach (var t in area.Tables)
-                    {
-                        var first = t.Encounter7s[0];
-                        for (int i = 0; i < first.Length; i++)
-                        {
-                            // Only add the column SOS slots if the wild slot can SOS for help.
-                            var wild = first[i];
-                            if (personal[(int)wild.Species].EscapeRate == 0)
-                                continue;
-
-                            for (int j = 1; j < t.Encounter7s.Length - 1; j++)
-                            {
-                                var e = t.Encounter7s[j][i];
-                                var val = e.RawValue | (uint) (t.MinLevel << 16) | (uint) (t.MaxLevel << 24);
-                                table.Add(val);
-                            }
-                        }
-                    }
-
-                    table.AddRange(from t in area.Tables
-                                   from e in t.AdditionalSOS
-                                   select e.RawValue | (uint) (t.MinLevel << 16) | (uint) (t.MaxLevel << 24));
-                }
-            }
-
-            return GetLocationDump(dict).ToArray();
-        }
-
-        private static IEnumerable<byte[]> GetLocationDump(Dictionary<int, List<uint>> dict)
-        {
-            foreach (var z in dict.OrderBy(z => z.Key))
-            {
-                using (var ms = new MemoryStream())
-                using (var bw = new BinaryWriter(ms))
-                {
-                    bw.Write((ushort)z.Key);
-                    foreach (var s in z.Value.Distinct())
-                        bw.Write(s);
-                    yield return ms.ToArray();
-                }
-            }
         }
 
         private void SMWE_FormClosing(object sender, FormClosingEventArgs e)

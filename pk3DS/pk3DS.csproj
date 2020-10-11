@@ -86,9 +86,6 @@
     <Compile Include="Subforms\Gen7\TutorEditor7.Designer.cs">
       <DependentUpon>TutorEditor7.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Gen7\Wild\Area7.cs" />
-    <Compile Include="Subforms\Gen7\Wild\Encounter7.cs" />
-    <Compile Include="Subforms\Gen7\Wild\EncounterTable.cs" />
     <Compile Include="Subforms\Gen7\Wild\Wild7Randomizer.cs" />
     <Compile Include="Tools\RandSettings.cs" />
     <Compile Include="WinFormsUtil.cs" />

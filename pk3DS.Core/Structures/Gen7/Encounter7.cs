@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace pk3DS
+namespace pk3DS.Core
 {
     public class Encounter7
     {
@@ -22,5 +22,7 @@ namespace pk3DS
                 sb.Append($" (Forme {Forme})");
             return sb.ToString();
         }
+
+        public uint Dump(EncounterTable t) => RawValue | (uint)(t.MinLevel << 16) | (uint)(t.MaxLevel << 24);
     }
 }

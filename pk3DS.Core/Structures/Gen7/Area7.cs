@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using pk3DS.Core;
 using pk3DS.Core.CTR;
 using pk3DS.Core.Structures;
 
-namespace pk3DS
+namespace pk3DS.Core
 {
     public class Area7
     {
