@@ -827,7 +827,7 @@ namespace pk3DS.Core.CTR
             }
         }
 
-        public class GARCFile
+        public struct GARCFile
         {
             public char[] Magic; // Always GARC = 0x4E415243
             public uint HeaderSize; // Always 0x001C
@@ -847,7 +847,7 @@ namespace pk3DS.Core.CTR
             public FIMG fimg;
         }
 
-        public class FATO
+        public struct FATO
         {
             public char[] Magic;
             public int HeaderSize;
@@ -857,12 +857,12 @@ namespace pk3DS.Core.CTR
             public FATO_Entry[] Entries;
         }
 
-        public class FATO_Entry
+        public struct FATO_Entry
         {
             public int Offset;
         }
 
-        public class FATB
+        public struct FATB
         {
             public char[] Magic;
             public int HeaderSize;
@@ -871,14 +871,14 @@ namespace pk3DS.Core.CTR
             public FATB_Entry[] Entries;
         }
 
-        public class FATB_Entry
+        public struct FATB_Entry
         {
             public uint Vector;
             public bool IsFolder;
             public FATB_SubEntry[] SubEntries;
         }
 
-        public class FATB_SubEntry
+        public struct FATB_SubEntry
         {
             public bool Exists;
             public int Start;
@@ -889,7 +889,7 @@ namespace pk3DS.Core.CTR
             public int Padding { get; set; }
         }
 
-        public class FIMG
+        public struct FIMG
         {
             public char[] Magic;
             public int HeaderSize;

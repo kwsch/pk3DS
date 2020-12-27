@@ -897,13 +897,13 @@ namespace pk3DS.Core.CTR
             public uint M_FileTableLen;
         }
 
-        public class Romfs_SectionHeader
+        public struct Romfs_SectionHeader
         {
             public uint Offset;
             public uint Size;
         }
 
-        public class Romfs_InfoHeader
+        public struct Romfs_InfoHeader
         {
             public uint HeaderLength;
             public Romfs_SectionHeader[] Sections;
