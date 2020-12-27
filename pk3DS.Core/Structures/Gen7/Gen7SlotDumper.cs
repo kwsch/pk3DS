@@ -28,7 +28,7 @@ namespace pk3DS.Core
                 var ignore = ignored.TryGetValue(areaIndex, out var skip) ? skip : Array.Empty<int>();
                 for (var zoneIndex = 0; zoneIndex < area.Zones.Length; zoneIndex++)
                 {
-                    if (ignore.Contains(zoneIndex + 1)) // not zero indexed; bias +1
+                    if (ignore.Contains((zoneIndex >> 1) + 1)) // not zero indexed; bias +1
                         continue;
 
                     var z = area.Zones[zoneIndex];
@@ -69,7 +69,7 @@ namespace pk3DS.Core
                 var ignore = ignored.TryGetValue(areaIndex, out var skip) ? skip : Array.Empty<int>();
                 for (var zoneIndex = 0; zoneIndex < area.Zones.Length; zoneIndex++)
                 {
-                    if (ignore.Contains(zoneIndex)) // not zero indexed; bias +1
+                    if (ignore.Contains((zoneIndex >> 1) + 1)) // not zero indexed; bias +1
                         continue;
 
                     var z = area.Zones[zoneIndex];
@@ -97,7 +97,7 @@ namespace pk3DS.Core
             if (!dict.TryGetValue(areaIndex, out var zones))
                 return false;
 
-            return !zones.Contains(zoneIndex + 1);
+            return !zones.Contains((zoneIndex >> 1) + 1);
         }
 
         private static IEnumerable<byte[]> GetLocationDump(Dictionary<int, List<uint>> dict)
