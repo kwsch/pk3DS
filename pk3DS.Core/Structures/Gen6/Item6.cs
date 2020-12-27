@@ -33,8 +33,8 @@ namespace pk3DS.Core.Structures
         [Category(Battle), Description("Routine # to call when used; 0=unusable.")]
         public byte EffectBattle { get; set; } // Battle Type
 
-        public byte _0xC { get; set; } // 0 or 1
-        public byte _0xD { get; set; } // Classification (0-3 Battle, 4 Balls, 5 Mail)
+        public byte Unk_0xC { get; set; } // 0 or 1
+        public byte Unk_0xD { get; set; } // Classification (0-3 Battle, 4 Balls, 5 Mail)
         private byte Consumable { get; set; } // 4 bits for use consume, 4 bits for use not consumed
         public byte SortIndex { get; set; }
         public BattleStatusFlags CureInflict { get; set; } // Bitflags
@@ -64,7 +64,7 @@ namespace pk3DS.Core.Structures
         public sbyte EVSPD { get; set; }
 
         [Category(Heal), Description("Determines the healing percent, or if a flat value is used."), RefreshProperties(RefreshProperties.All)]
-        public HealValue HealAmount { get; set; }
+        public Heal HealAmount { get; set; }
 
         [Category(Field), Description("PP to be added to the move's current PP if used.")]
         public byte PPGain { get; set; }
@@ -139,7 +139,7 @@ namespace pk3DS.Core.Structures
         public int HealValue
         {
             get => (int) HealAmount;
-            set => HealAmount = (HealValue)value;
+            set => HealAmount = (Heal)value;
         }
 
         [Category(Heal), Description("Item is consumed when used."), RefreshProperties(RefreshProperties.All)]

@@ -4,26 +4,26 @@ namespace pk3DS.Core.CTR
 {
     public class XLIMOrienter
     {
-        readonly XLIMOrientation _orientation;
+        private readonly XLIMOrientation _orientation;
 
         public uint Width { get; }
         public uint Height { get; }
         public uint PanelsPerWidth { get; }
-        
+
         public XLIMOrienter(int width, int height, XLIMOrientation orientation)
         {
-            Width = (uint)nlpo2(gcm(width, 8));
-            Height = (uint)nlpo2(gcm(height, 8));
+            Width = (uint)NextLargestPow2(GreatestCommonMultiple(width, 8));
+            Height = (uint)NextLargestPow2(GreatestCommonMultiple(height, 8));
 
             uint stride = orientation == XLIMOrientation.None ? Width : Height;
-            PanelsPerWidth = (uint)gcm((int)stride, 8) / 8;
+            PanelsPerWidth = (uint)GreatestCommonMultiple((int)stride, 8) / 8;
 
             _orientation = orientation;
         }
 
         public Coordinate Get(uint i)
         {
-            d2xy(i & 0x3F, out uint x, out uint y);
+            DecimalToCartesian(i & 0x3F, out uint x, out uint y);
 
             // Shift Tile Coordinate into Tilemap
             var tile = i >> 6;
@@ -31,9 +31,9 @@ namespace pk3DS.Core.CTR
             y |= (tile / PanelsPerWidth) << 3;
 
             var coord = new Coordinate(x, y);
-            if (_orientation.HasFlag(XLIMOrientation.Rotate90))
+            if (_orientation.HasFlagFast(XLIMOrientation.Rotate90))
                 coord.Rotate90(Height);
-            if (_orientation.HasFlag(XLIMOrientation.Transpose))
+            if (_orientation.HasFlagFast(XLIMOrientation.Transpose))
                 coord.Transpose();
             return coord;
         }
@@ -56,7 +56,7 @@ namespace pk3DS.Core.CTR
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        internal static uint xy2d(uint x, uint y)
+        internal static uint CartesianToDecimal(uint x, uint y)
         {
             x &= 0x0000ffff;
             y &= 0x0000ffff;
@@ -85,7 +85,7 @@ namespace pk3DS.Core.CTR
         /// <param name="d">Loop integer which will be decoded to X/Y</param>
         /// <param name="x">Output X coordinate</param>
         /// <param name="y">Output Y coordinate</param>
-        internal static void d2xy(uint d, out uint x, out uint y)
+        internal static void DecimalToCartesian(uint d, out uint x, out uint y)
         {
             x = d;
             y = x >> 1;

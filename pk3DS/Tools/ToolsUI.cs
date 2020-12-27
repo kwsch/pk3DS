@@ -2,7 +2,6 @@
 using pk3DS.Core.CTR;
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -18,13 +17,13 @@ namespace pk3DS
             InitializeComponent();
             AllowDrop = PB_Unpack.AllowDrop = PB_Repack.AllowDrop = PB_BCLIM.AllowDrop = true;
             DragEnter += TabMain_DragEnter;
-            DragDrop += tabMain_DragDrop;
+            DragDrop += TabMain_DragDrop;
             PB_Unpack.DragEnter += TabMain_DragEnter;
-            PB_Unpack.DragDrop += tabMain_DragDrop;
+            PB_Unpack.DragDrop += TabMain_DragDrop;
             PB_Repack.DragEnter += TabMain_DragEnter;
-            PB_Repack.DragDrop += tabMain_DragDrop;
+            PB_Repack.DragDrop += TabMain_DragDrop;
             PB_BCLIM.DragEnter += TabMain_DragEnter;
-            PB_BCLIM.DragDrop += tabMain_DragDrop;
+            PB_BCLIM.DragDrop += TabMain_DragDrop;
             CLIMWindow = PB_BCLIM.Size;
             CB_Repack.Items.Add("Autodetect");
             CB_Repack.Items.Add("GARC Pack");
@@ -38,7 +37,7 @@ namespace pk3DS
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
 
-        private void tabMain_DragDrop(object sender, DragEventArgs e)
+        private void TabMain_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (var path in files)
@@ -70,7 +69,7 @@ namespace pk3DS
                 try
                 {
                     if (threads < 1)
-                        new Thread(() => { threads++; new BLZCoder(new[] { "-d", path }, pBar1); threads--; WinFormsUtil.Alert("Decompressed!"); }).Start();
+                        new Thread(() => { Interlocked.Increment(ref threads); new BLZCoder(new[] { "-d", path }, pBar1); Interlocked.Decrement(ref threads); WinFormsUtil.Alert("Decompressed!"); }).Start();
                 }
                 catch { WinFormsUtil.Error("Unable to process file."); threads = 0; }
             }
@@ -81,7 +80,7 @@ namespace pk3DS
 
         private void OpenIMG(string path)
         {
-            var img = BCLIM.makeBMP(path, CHK_PNG.Checked);
+            var img = BCLIM.MakeBMP(path, CHK_PNG.Checked);
             if (img == null)
             {
                 try
@@ -131,8 +130,9 @@ namespace pk3DS
                 byte[] first4 = new byte[4];
                 try
                 {
-                    using (BinaryReader bw = new BinaryReader(new FileStream(path, FileMode.Open)))
-                        first4 = bw.ReadBytes(4);
+                    using var fs = new FileStream(path, FileMode.Open);
+                    using var bw = new BinaryReader(fs);
+                    first4 = bw.ReadBytes(4);
                 }
                 catch (Exception e)
                 {
@@ -160,7 +160,7 @@ namespace pk3DS
                     if (threads > 0) { WinFormsUtil.Alert("Please wait for all operations to finish first."); return; }
                     new Thread(() =>
                     {
-                        threads++;
+                        Interlocked.Increment(ref threads);
                         var alyt = new ALYT(File.ReadAllBytes(path));
                         var sarc = new SARC(alyt.Data) // rip out sarc
                         {
@@ -170,11 +170,11 @@ namespace pk3DS
                         if (!sarc.Valid)
                             return;
                         var files = sarc.Dump();
-                        foreach (string file in files)
+                        foreach (var _ in files)
                         {
                             // openARC(file, pBar1, true);
                         }
-                        threads--;
+                        Interlocked.Decrement(ref threads);
                     }).Start();
                 }
                 else if (first4.SequenceEqual(BitConverter.GetBytes(0x47415243))) // GARC
@@ -183,9 +183,9 @@ namespace pk3DS
                     bool SkipDecompression = ModifierKeys == Keys.Control;
                     new Thread(() =>
                     {
-                        threads++;
-                        bool r = GarcUtil.garcUnpack(path, folderPath + "_g", SkipDecompression, pBar1);
-                        threads--;
+                        Interlocked.Increment(ref threads);
+                        bool r = GarcUtil.UnpackGARC(path, folderPath + "_g", SkipDecompression, pBar1);
+                        Interlocked.Decrement(ref threads);
                         if (r)
                         {
                             BatchRenameExtension(newFolder);
@@ -195,7 +195,7 @@ namespace pk3DS
                         System.Media.SystemSounds.Asterisk.Play();
                     }).Start();
                 }
-                else if (ARC.analyze(path).valid) // DARC
+                else if (ARC.Analyze(path).valid) // DARC
                 {
                     var data = File.ReadAllBytes(path);
                     int pos = 0;
@@ -206,17 +206,16 @@ namespace pk3DS
                     }
                     var darcData = data.Skip(pos).ToArray();
                     newFolder = folderPath + "_d";
-                    bool r = Core.CTR.DARC.darc2files(darcData, newFolder);
+                    bool r = Core.CTR.DARC.Darc2files(darcData, newFolder);
                     if (!r)
                     { WinFormsUtil.Alert("Unpacking failed.");  }
                 }
-                else if (ARC.analyzeSARC(path).Valid)
+                else if (ARC.AnalyzeSARC(path).Valid)
                 {
-                    var sarc = ARC.analyzeSARC(path);
+                    var sarc = ARC.AnalyzeSARC(path);
                     Console.WriteLine($"New SARC with {sarc.SFAT.EntryCount} files.");
-                    foreach (var z in sarc.Dump(path))
+                    foreach (var _ in sarc.Dump(path))
                     {
-
                     }
                 }
                 else if (!recursing)
@@ -266,7 +265,7 @@ namespace pk3DS
                     string outfolder = Directory.GetParent(path).FullName;
                     new Thread(() =>
                     {
-                        bool r = GarcUtil.garcPackMS(path, Path.Combine(outfolder, folderName + ".garc"), version, padding, pBar1);
+                        bool r = GarcUtil.PackGARC(path, Path.Combine(outfolder, folderName + ".garc"), version, padding, pBar1);
                         if (!r) { WinFormsUtil.Alert("Packing failed."); return; }
                         // Delete path after repacking
                         if (CHK_Delete.Checked && Directory.Exists(path))
@@ -287,7 +286,7 @@ namespace pk3DS
                         oldFile = Path.Combine(parentName, oldFile + ".darc");
                     else oldFile = null;
 
-                    bool r = Core.CTR.DARC.files2darc(path, false, oldFile);
+                    bool r = Core.CTR.DARC.Files2darc(path, false, oldFile);
                     if (!r) WinFormsUtil.Alert("Packing failed.");
                     break;
                 }

@@ -8,25 +8,25 @@ namespace pk3DS
 {
     public partial class PickupEditor7 : Form
     {
-        public PickupEditor7(lzGARCFile pickup)
+        public PickupEditor7(LazyGARCFile pickup)
         {
             InitializeComponent();
             g_pickup = pickup;
-            var itemlist = Main.Config.getText(TextName.ItemNames);
+            var itemlist = Main.Config.GetText(TextName.ItemNames);
             itemlist[0] = "";
             items = itemlist.Select((v, i) => $"{v} - {i:000}").ToArray();
-            setupFLP();
+            SetupFLP();
 
             byte[] data = pickup.Files[0];
-            getList(data);
+            GetList(data);
         }
 
-        private readonly lzGARCFile g_pickup;
+        private readonly LazyGARCFile g_pickup;
         private readonly string[] items;
-        
+
         private const int Columns = 10;
 
-        private void setupFLP()
+        private void SetupFLP()
         {
             dgvCommon.Columns.Clear();
             // Add DataGrid
@@ -71,7 +71,7 @@ namespace pk3DS
                 }
                 dgv.Columns.Add(dgvIndex);
             }
-            
+
             var combo = dgv.Columns[0] as DataGridViewComboBoxColumn;
             foreach (var i in items)
                 combo.Items.Add(i); // add only the Item Names
@@ -81,7 +81,7 @@ namespace pk3DS
             dgv.CancelEdit();
         }
 
-        private void getList(byte[] data)
+        private void GetList(byte[] data)
         {
             // Fill Data
             int rows = BitConverter.ToUInt16(data, 0) - 1; // nice editor gamefreak
@@ -101,7 +101,7 @@ namespace pk3DS
             }
         }
 
-        private byte[] setList()
+        private byte[] SetList()
         {
             int rows = dgvCommon.RowCount;
             int[][] rates = new int[rows][];
@@ -114,8 +114,7 @@ namespace pk3DS
                 for (int r = 0; r < rows; r++)
                 {
                     var cell = dgvCommon.Rows[r].Cells[i+1];
-                    int val;
-                    if (!int.TryParse(cell.Value.ToString(), out val))
+                    if (!int.TryParse(cell.Value.ToString(), out var val))
                     {
                         cell.Value = 0.ToString();
                         continue;
@@ -135,27 +134,25 @@ namespace pk3DS
                 return null;
             }
 
-            using (var ms = new MemoryStream())
-            using (var bw = new BinaryWriter(ms))
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
+            bw.Write(rates.Length + 1); // nice editor gamefreak
+            for (int i = 0; i < rows; i++)
             {
-                bw.Write(rates.Length + 1); // nice editor gamefreak
-                for (int i = 0; i < rows; i++)
-                {
-                    var r = dgvCommon.Rows[i];
-                    string item = r.Cells[0].Value.ToString();
-                    int itemindex = Array.IndexOf(items, item);
-                    bw.Write((ushort)itemindex);
+                var r = dgvCommon.Rows[i];
+                string item = r.Cells[0].Value.ToString();
+                int itemindex = Array.IndexOf(items, item);
+                bw.Write((ushort)itemindex);
 
-                    foreach (var b in rates[i])
-                        bw.Write((byte)b);
-                }
-                return ms.ToArray();
+                foreach (var b in rates[i])
+                    bw.Write((byte)b);
             }
+            return ms.ToArray();
         }
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            byte[] result = setList();
+            byte[] result = SetList();
             if (result == null)
                 return;
 
@@ -174,7 +171,7 @@ namespace pk3DS
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize pickup lists?"))
                 return;
 
-            int[] validItems = Randomizer.getRandomItemList();
+            int[] validItems = Randomizer.GetRandomItemList();
 
             int ctr = 0;
             Util.Shuffle(validItems);

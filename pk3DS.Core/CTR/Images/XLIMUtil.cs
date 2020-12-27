@@ -8,7 +8,7 @@
         /// <param name="n">Number to round-up.</param>
         /// <param name="m">Multiple to round-up to.</param>
         /// <returns>Rounded up number.</returns>
-        internal static int gcm(int n, int m)
+        internal static int GreatestCommonMultiple(int n, int m)
         {
             return (n + m - 1) / m * m;
         }
@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="x">Input to round up to next 2^n</param>
         /// <returns>2^n > x && x > 2^(n-1) </returns>
-        internal static int nlpo2(int x)
+        internal static int NextLargestPow2(int x)
         {
             x--; // comment out to always take the next biggest power of two, even if x is already a power of two
             x |= x >> 1;

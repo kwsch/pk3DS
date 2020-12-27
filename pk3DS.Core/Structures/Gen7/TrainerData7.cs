@@ -3,24 +3,24 @@ using System.Collections.Generic;
 
 namespace pk3DS.Core.Structures
 {
-    public class trdata7
+    public class TrainerData7
     {
         private readonly byte[] trdata;
-        public readonly List<trpoke7> Pokemon = new List<trpoke7>();
+        public readonly List<TrainerPoke7> Pokemon = new();
 
         public int ID { get; set; }
         public string Name { get; set; }
 
-        public trdata7(byte[] tr = null, byte[] tp = null)
+        public TrainerData7(byte[] tr = null, byte[] tp = null)
         {
-            tr = tr ?? new byte[0x14];
-            tp = tp ?? new byte[0x20];
+            tr ??= new byte[0x14];
+            tp ??= new byte[0x20];
             trdata = (byte[])tr.Clone();
             for (int i = 0; i < NumPokemon; i++)
             {
                 byte[] poke = new byte[0x20];
                 Array.Copy(tp, i * 0x20, poke, 0, 0x20);
-                Pokemon.Add(new trpoke7(poke));
+                Pokemon.Add(new TrainerPoke7(poke));
             }
         }
 
@@ -33,15 +33,15 @@ namespace pk3DS.Core.Structures
         public int Item4 { get => BitConverter.ToUInt16(trdata, 0x0A); set => BitConverter.GetBytes((ushort)value).CopyTo(trdata, 0x0A); }
 
         public int AI { get => trdata[0x0C]; set => trdata[0x0C] = (byte)value; }
-        public bool Flag { get => trdata[0x0D] == 1; set => trdata[0x0D] = (byte)(value ? 1 : 0); }
+        public bool Flag { get => trdata[0x0D] == 1; set => trdata[0x0D] = value ? 1 : 0; }
         public int Money { get => trdata[0x11]; set => trdata[0x11] = (byte)value; }
 
         public void Write(out byte[] tr, out byte[] pk)
         {
             tr = trdata;
-            byte[] dat = new byte[trpoke7.SIZE * NumPokemon];
+            byte[] dat = new byte[TrainerPoke7.SIZE * NumPokemon];
             for (int i = 0; i < NumPokemon; i++)
-                Pokemon[i].Write().CopyTo(dat, trpoke7.SIZE*i);
+                Pokemon[i].Write().CopyTo(dat, TrainerPoke7.SIZE*i);
             pk = dat;
         }
     }

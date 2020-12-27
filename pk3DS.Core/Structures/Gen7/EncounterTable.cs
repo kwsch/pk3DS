@@ -95,7 +95,7 @@ namespace pk3DS.Core
                 var tn = "Encounters";
                 if (i != 0)
                     tn = "SOS Slot " + i;
-                sb.Append($"{tn} (Levels {MinLevel}-{MaxLevel}): ");
+                sb.Append(tn).Append(" (Levels ").Append(MinLevel).Append('-').Append(MaxLevel).Append("): ");
                 sb.AppendLine(GetSlotSetSummary(speciesList, i));
             }
 
@@ -121,7 +121,7 @@ namespace pk3DS.Core
                 }
                 specToRate[encounter.RawValue] += Rates[j];
             }
-            var list = distincts.OrderBy(e => specToRate[e.RawValue]).Reverse();
+            var list = distincts.OrderByDescending(e => specToRate[e.RawValue]);
             var summaries = list.Select(e => $"{e.GetSummary(speciesList)} ({specToRate[e.RawValue]}%)");
             return string.Join(", ", summaries);
         }

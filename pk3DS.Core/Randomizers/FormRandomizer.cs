@@ -17,8 +17,7 @@ namespace pk3DS.Core.Randomizers
 
         public int GetRandomForme(int species, PersonalInfo[] stats = null)
         {
-            if (stats == null)
-                stats = Game.Personal.Table;
+            stats ??= Game.Personal.Table;
             if (stats[species].FormeCount <= 1)
                 return 0;
 
@@ -29,13 +28,13 @@ namespace pk3DS.Core.Randomizers
                 case 664: case 665: case 666: // Vivillon evo chain
                     return 30; // save file specific
                 case 774: // Minior
-                    return (int)(Util.rnd32() % 7);
+                    return (int)(Util.Random32() % 7);
             }
 
             if (AllowAlolanForm && Legal.EvolveToAlolanForms.Contains(species))
-                return (int)(Util.rnd32() % 2);
+                return (int)(Util.Random32() % 2);
             if (!Legal.BattleExclusiveForms.Contains(species) || AllowMega)
-                return (int)(Util.rnd32() % stats[species].FormeCount); // Slot-Random
+                return (int)(Util.Random32() % stats[species].FormeCount); // Slot-Random
             return 0;
         }
     }

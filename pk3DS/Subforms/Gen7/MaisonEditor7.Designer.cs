@@ -76,7 +76,7 @@
             this.CB_Trainer.Name = "CB_Trainer";
             this.CB_Trainer.Size = new System.Drawing.Size(121, 21);
             this.CB_Trainer.TabIndex = 0;
-            this.CB_Trainer.SelectedIndexChanged += new System.EventHandler(this.changeTrainer);
+            this.CB_Trainer.SelectedIndexChanged += new System.EventHandler(this.ChangeTrainer);
             // 
             // CB_Pokemon
             // 
@@ -87,7 +87,7 @@
             this.CB_Pokemon.Name = "CB_Pokemon";
             this.CB_Pokemon.Size = new System.Drawing.Size(106, 21);
             this.CB_Pokemon.TabIndex = 1;
-            this.CB_Pokemon.SelectedIndexChanged += new System.EventHandler(this.changePokemon);
+            this.CB_Pokemon.SelectedIndexChanged += new System.EventHandler(this.ChangePokemon);
             // 
             // L_Trainer
             // 
@@ -225,7 +225,7 @@
             0,
             0,
             0});
-            this.NUD_Form.ValueChanged += new System.EventHandler(this.changeSpecies);
+            this.NUD_Form.ValueChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // PB_PKM
             // 
@@ -400,7 +400,7 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(106, 21);
             this.CB_Species.TabIndex = 8;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // B_DumpPKs
             // 
@@ -441,7 +441,7 @@
             this.Name = "MaisonEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Royal/Tree Editor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
             this.GB_Trainer.ResumeLayout(false);
             this.GB_Trainer.PerformLayout();
             this.GB_Pokemon.ResumeLayout(false);

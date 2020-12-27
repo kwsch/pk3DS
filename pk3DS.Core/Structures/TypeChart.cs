@@ -14,11 +14,11 @@ namespace pk3DS.Core.Structures
                             0, 0, 0, // unused
                             0xFF008000 };
 
-        public static Bitmap getGrid(int itemsize, int itemsPerRow, byte[] vals)
+        public static Bitmap GetGrid(int itemsize, int itemsPerRow, byte[] vals)
         {
             // set up image
-            int width = itemsize * itemsPerRow,
-                height = itemsize * vals.Length / itemsPerRow;
+            var width = itemsize * itemsPerRow;
+            var height = itemsize * vals.Length / itemsPerRow;
             byte[] bmpData = new byte[4 * width * height];
 
             // loop over area
@@ -26,19 +26,21 @@ namespace pk3DS.Core.Structures
             {
                 int X = i % itemsPerRow;
                 int Y = i / itemsPerRow;
-                
+
                 // Plop into image
                 byte[] itemColor = BitConverter.GetBytes(Colors[vals[i]]);
                 for (int x = 0; x < itemsize * itemsize; x++)
-                    Buffer.BlockCopy(itemColor, 0, bmpData,
-                        (((Y * itemsize) + (x % itemsize)) * width * 4) + (((X * itemsize) + (x / itemsize)) * 4), 4);
+                {
+                    Buffer.BlockCopy(itemColor, 0, bmpData, (((Y * itemsize) + (x % itemsize)) * width * 4) + (((X * itemsize) + (x / itemsize)) * 4), 4);
+                }
             }
             // slap on a grid
             byte[] gridColor = BitConverter.GetBytes(0x17000000);
             for (int i = 0; i < width * height; i++)
+            {
                 if (i % itemsize == 0 || i / (itemsize * itemsPerRow) % itemsize == 0)
-                    Buffer.BlockCopy(gridColor, 0, bmpData,
-                        (i / (itemsize * itemsPerRow) * width * 4) + (i % (itemsize * itemsPerRow) * 4), 4);
+                    Buffer.BlockCopy(gridColor, 0, bmpData, (i / (itemsize * itemsPerRow) * width * 4) + (i % (itemsize * itemsPerRow) * 4), 4);
+            }
 
             // assemble image
             Bitmap b = new Bitmap(width, height, PixelFormat.Format32bppArgb);

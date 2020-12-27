@@ -4,7 +4,7 @@ using System.IO;
 namespace pk3DS.Core.CTR
 {
     // LZSS (de)compression, heavily taken from dsdecmp
-    public static class LZSS 
+    public static class LZSS
     {
         public static long Decompress(string infile, string outfile)
         {
@@ -13,18 +13,16 @@ namespace pk3DS.Core.CTR
             if (!Directory.Exists(outDirectory))
                 Directory.CreateDirectory(outDirectory);
             // open the two given files, and delegate to the format-specific code.
-            using (FileStream inStream = new FileStream(infile, FileMode.Open),
-                             outStream = new FileStream(outfile, FileMode.Create))
-            {
-                return Decompress(inStream, inStream.Length, outStream);
-            }
+            using FileStream inStream = new(infile, FileMode.Open),
+                outStream = new(outfile, FileMode.Create);
+            return Decompress(inStream, inStream.Length, outStream);
         }
 
         /// <summary>
         /// Decompresses the given stream, writing the decompressed data to the given output stream.
-        /// Assumes <code>Supports(instream)</code> returns <code>true</code>.
+        /// Assumes <c>Supports(instream)</c> returns <c>true</c>.
         /// After this call, the input stream will be positioned at the end of the compressed stream,
-        /// or at the initial position + <code>inLength</code>, whichever comes first.
+        /// or at the initial position + <c>inLength</c>, whichever comes first.
         /// </summary>
         /// <param name="instream">The stream to decompress. At the end of this method, the position
         /// of this stream is directly after the compressed data.</param>
@@ -78,8 +76,7 @@ namespace pk3DS.Core.CTR
 
             byte type = (byte)instream.ReadByte();
             if (type != 0x11)
-                throw new InvalidDataException("The provided stream is not a valid LZ-0x11 "
-                            + "compressed stream (invalid type 0x" + type.ToString("X") + ")");
+                throw new InvalidDataException($"The provided stream is not a valid LZ-0x11 compressed stream (invalid type 0x{type:X})");
             byte[] sizeBytes = new byte[3];
             instream.Read(sizeBytes, 0, 3);
             int decompressedSize = IOUtils.ToNDSu24(sizeBytes, 0);
@@ -203,10 +200,10 @@ namespace pk3DS.Core.CTR
                     }
 
                     if (disp > currentOutSize)
-                        throw new InvalidDataException("Cannot go back more than already written. "
-                                + "DISP = " + disp + ", #written bytes = 0x" + currentOutSize.ToString("X")
-                                + " before 0x" + instream.Position.ToString("X") + " with indicator 0x"
-                                + (byte1 >> 4).ToString("X"));
+                    {
+                        throw new InvalidDataException($"Cannot go back more than already written. DISP = {disp}, #written bytes = 0x{currentOutSize:X} before 0x{instream.Position:X} with indicator 0x{byte1 >> 4:X}");
+                    }
+
                     #endregion
 
                     int bufIdx = bufferOffset + bufferLength - disp;
@@ -251,18 +248,16 @@ namespace pk3DS.Core.CTR
             if (!Directory.Exists(outDirectory))
                 Directory.CreateDirectory(outDirectory);
             // open the proper Streams, and delegate to the format-specific code.
-            using (FileStream inStream = File.Open(infile, FileMode.Open),
-                             outStream = File.Create(outfile))
+            using FileStream inStream = File.Open(infile, FileMode.Open),
+                outStream = File.Create(outfile);
+            if (inStream.Length == 0) // empty file 'compression' to lzss container
             {
-                if (inStream.Length == 0) // empty file 'compression' to lzss container
-                {
-                    byte[] blank = {0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-                    outStream.Write(blank, 0, blank.Length);
-                    return blank.Length;
-                }
-
-                return Compress(inStream, inStream.Length, outStream, true);
+                byte[] blank = {0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+                outStream.Write(blank, 0, blank.Length);
+                return blank.Length;
             }
+
+            return Compress(inStream, inStream.Length, outStream, true);
         }
         #region Original compression method
         /// <summary>
@@ -325,10 +320,9 @@ namespace pk3DS.Core.CTR
                     // determine if we're dealing with a compressed or raw block.
                     // it is a compressed block when the next 3 or more bytes can be copied from
                     // somewhere in the set of already compressed bytes.
-                    int disp;
                     int oldLength = Math.Min(readBytes, 0x1000);
                     int length = LZUtil.GetOccurrenceLength(instart + readBytes, (int)Math.Min(inLength - readBytes, 0x10110),
-                                                          instart + readBytes - oldLength, oldLength, out disp);
+                                                          instart + readBytes - oldLength, oldLength, out var disp);
 
                     // length not 3 or more? next byte is raw data
                     if (length < 3)
@@ -424,8 +418,7 @@ namespace pk3DS.Core.CTR
                 int readBytes = 0;
 
                 // get the optimal choices for len and disp
-                int[] lengths, disps;
-                GetOptimalCompressionLengths(instart, indata.Length, out lengths, out disps);
+                GetOptimalCompressionLengths(instart, indata.Length, out var lengths, out var disps);
                 while (readBytes < inLength)
                 {
                     // we can only buffer 8 blocks at a time.
@@ -570,6 +563,7 @@ namespace pk3DS.Core.CTR
     /// An exception indicating that the file cannot be compressed, because the decompressed size
     /// cannot be represented in the current compression format.
     /// </summary>
+    [Serializable]
     public class InputTooLargeException : Exception
     {
         /// <summary>
@@ -578,12 +572,25 @@ namespace pk3DS.Core.CTR
         public InputTooLargeException()
             : base("The compression ratio is not high enough to fit the input "
             + "in a single compressed file.") { }
+
+        public InputTooLargeException(string message) : base(message)
+        {
+        }
+
+        public InputTooLargeException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected InputTooLargeException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        {
+        }
     }
 
     /// <summary>
     /// An exception that is thrown by the decompression functions when there
     /// is not enough data available in order to properly decompress the input.
     /// </summary>
+    [Serializable]
     public class NotEnoughDataException : IOException
     {
         /// <summary>
@@ -602,12 +609,32 @@ namespace pk3DS.Core.CTR
         /// <param name="currentOutSize">The actual number of written bytes.</param>
         /// <param name="totalOutSize">The desired number of written bytes.</param>
         public NotEnoughDataException(long currentOutSize, long totalOutSize)
-            : base("Not enough data availble; 0x" + currentOutSize.ToString("X")
+            : base("Not enough data available; 0x" + currentOutSize.ToString("X")
                 + " of " + (totalOutSize < 0 ? "???" : "0x" + totalOutSize.ToString("X"))
                 + " bytes written.")
         {
             WrittenLength = currentOutSize;
             DesiredLength = totalOutSize;
+        }
+
+        public NotEnoughDataException()
+        {
+        }
+
+        public NotEnoughDataException(string message) : base(message)
+        {
+        }
+
+        public NotEnoughDataException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        public NotEnoughDataException(string message, int hresult) : base(message, hresult)
+        {
+        }
+
+        protected NotEnoughDataException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        {
         }
     }
 
@@ -615,6 +642,7 @@ namespace pk3DS.Core.CTR
     /// An exception thrown by the compression or decompression function, indicating that the
     /// given input length was too large for the given input stream.
     /// </summary>
+    [Serializable]
     public class StreamTooShortException : EndOfStreamException
     {
         /// <summary>
@@ -622,20 +650,33 @@ namespace pk3DS.Core.CTR
         /// </summary>
         public StreamTooShortException()
             : base("The end of the stream was reached "
-                 + "before the given amout of data was read.")
+                 + "before the given amount of data was read.")
         { }
+
+        public StreamTooShortException(string message) : base(message)
+        {
+        }
+
+        public StreamTooShortException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected StreamTooShortException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        {
+        }
     }
 
     /// <summary>
     /// An exception indication that the input has more data than required in order
     /// to decompress it. This may indicate that more sub-files are present in the file.
     /// </summary>
+    [Serializable]
     public class TooMuchInputException : Exception
     {
         /// <summary>
         /// Gets the number of bytes read by the decompressed to decompress the stream.
         /// </summary>
-        public long ReadBytes { get; private set; }
+        public long ReadBytes { get; }
 
         /// <summary>
         /// Creates a new exception indicating that the input has more data than necessary for
@@ -649,6 +690,22 @@ namespace pk3DS.Core.CTR
             + readBytes.ToString("X") + " of 0x" + totLength.ToString("X") + " bytes")
         {
             ReadBytes = readBytes;
+        }
+
+        public TooMuchInputException()
+        {
+        }
+
+        public TooMuchInputException(string message) : base(message)
+        {
+        }
+
+        public TooMuchInputException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected TooMuchInputException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        {
         }
     }
     #endregion

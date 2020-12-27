@@ -81,7 +81,7 @@ namespace pk3DS.Core
         };
 
         internal static readonly ushort[] Pouch_Items_SM = Pouch_Regular_SM.Concat(Pouch_Ball_SM).Concat(Pouch_Battle_SM).ToArray();
-        
+
         internal static readonly ushort[] Pouch_Key_SM = {
             216, 465, 466, 628, 629, 631, 632, 633, 638, 696,
             705, 706, 765, 773, 797,
@@ -226,14 +226,14 @@ namespace pk3DS.Core
         #endregion
         internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7_SM+1).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
 
-        public static readonly HashSet<int> Totem_Alolan = new HashSet<int>
+        public static readonly HashSet<int> Totem_Alolan = new()
         {
             020, // Raticate (Normal, Alolan, Totem)
             105, // Marowak (Normal, Alolan, Totem)
             778, // Mimikyu (Normal, Busted, Totem, Totem_Busted)
         };
 
-        public static readonly HashSet<int> Totem_SM = new HashSet<int>
+        public static readonly HashSet<int> Totem_SM = new()
         {
             020, // Raticate
             735, // Gumshoos
@@ -245,7 +245,7 @@ namespace pk3DS.Core
             784, // Kommo-o
         };
 
-        public static readonly HashSet<int> Totem_USUM = new HashSet<int>
+        public static readonly HashSet<int> Totem_USUM = new()
         {
             020, // Raticate
             735, // Gumshoos

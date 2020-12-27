@@ -36,7 +36,7 @@ namespace pk3DS.Core.CTR
                 delete = false;
                 outFolder = path;
             }
-            if (outExt == null) outExt = ".bin";
+            outExt ??= ".bin";
             // Create new Binary with the relevant header bytes
             byte[] data = new byte[4];
             data[0] = (byte)ident[0];
@@ -74,13 +74,11 @@ namespace pk3DS.Core.CTR
                 // Cap the File
                 bo.Write((uint)(dataout.Position + dataOffset));
 
-                using (var newPack = File.Create(Path.Combine(outFolder, fileName + outExt)))
-                using (var header = new MemoryStream(data))
-                {
-                    header.WriteTo(newPack);
-                    offsetMap.WriteTo(newPack);
-                    dataout.WriteTo(newPack);
-                }
+                using var newPack = File.Create(Path.Combine(outFolder, fileName + outExt));
+                using var header = new MemoryStream(data);
+                header.WriteTo(newPack);
+                offsetMap.WriteTo(newPack);
+                dataout.WriteTo(newPack);
             }
             if (delete)
                 Directory.Delete(path, true);
@@ -98,38 +96,34 @@ namespace pk3DS.Core.CTR
             int dataOffset = 4 + 4 + (count * 4);
 
             // Start the data filling.
-            using (MemoryStream dataout = new MemoryStream())
-            using (MemoryStream offsetMap = new MemoryStream())
-            using (BinaryWriter bd = new BinaryWriter(dataout))
-            using (BinaryWriter bo = new BinaryWriter(offsetMap))
+            using MemoryStream dataout = new MemoryStream();
+            using MemoryStream offsetMap = new MemoryStream();
+            using BinaryWriter bd = new BinaryWriter(dataout);
+            using BinaryWriter bo = new BinaryWriter(offsetMap);
+            // For each file...
+            for (int i = 0; i < count; i++)
             {
-                // For each file...
-                for (int i = 0; i < count; i++)
-                {
-                    // Write File Offset
-                    uint fileOffset = (uint)(dataout.Position + dataOffset);
-                    bo.Write(fileOffset);
+                // Write File Offset
+                uint fileOffset = (uint)(dataout.Position + dataOffset);
+                bo.Write(fileOffset);
 
-                    // Write File to Stream
-                    bd.Write(fileData[i]);
+                // Write File to Stream
+                bd.Write(fileData[i]);
 
-                    // Pad the Data MemoryStream with Zeroes until len%4=0;
-                    while (dataout.Length % 4 != 0)
-                        bd.Write((byte)0);
-                    // File Offset will be updated as the offset is based off of the Data length.
-                }
-                // Cap the File
-                bo.Write((uint)(dataout.Position + dataOffset));
-
-                using (var newPack = new MemoryStream())
-                using (var header = new MemoryStream(data))
-                {
-                    header.WriteTo(newPack);
-                    offsetMap.WriteTo(newPack);
-                    dataout.WriteTo(newPack);
-                    return newPack.ToArray();
-                }
+                // Pad the Data MemoryStream with Zeroes until len%4=0;
+                while (dataout.Length % 4 != 0)
+                    bd.Write((byte)0);
+                // File Offset will be updated as the offset is based off of the Data length.
             }
+            // Cap the File
+            bo.Write((uint)(dataout.Position + dataOffset));
+
+            using var newPack = new MemoryStream();
+            using var header = new MemoryStream(data);
+            header.WriteTo(newPack);
+            offsetMap.WriteTo(newPack);
+            dataout.WriteTo(newPack);
+            return newPack.ToArray();
         }
 
         public static bool PackMini2(string path, string ident, string fileName)
@@ -149,7 +143,7 @@ namespace pk3DS.Core.CTR
 
         public static void UnpackMini(string path, string ident, string outFolder = null, bool delete = true)
         {
-            if (outFolder == null) outFolder = Path.GetDirectoryName(path);
+            outFolder ??= Path.GetDirectoryName(path);
             if (!Directory.Exists(outFolder)) Directory.CreateDirectory(outFolder);
             using (var s = new MemoryStream(File.ReadAllBytes(path)))
             using (var br = new BinaryReader(s))
@@ -170,20 +164,18 @@ namespace pk3DS.Core.CTR
                 for (int i = 0; i < count; i++)
                 {
                     br.BaseStream.Seek(offsets[i], SeekOrigin.Begin);
-                    using (MemoryStream dataout = new MemoryStream())
-                    {
-                        byte[] data = new byte[0];
-                        s.CopyTo(dataout, (int)offsets[i]);
-                        int len = (int)offsets[i + 1] - (int)offsets[i];
+                    using MemoryStream dataout = new MemoryStream();
+                    byte[] data = Array.Empty<byte>();
+                    s.CopyTo(dataout, (int)offsets[i]);
+                    int len = (int)offsets[i + 1] - (int)offsets[i];
 
-                        if (len != 0)
-                        {
-                            data = dataout.ToArray();
-                            Array.Resize(ref data, len);
-                        }
-                        string newFile = Path.Combine(outFolder, i.ToString(namePad) + ".bin");
-                        File.WriteAllBytes(newFile, data);
+                    if (len != 0)
+                    {
+                        data = dataout.ToArray();
+                        Array.Resize(ref data, len);
                     }
+                    string newFile = Path.Combine(outFolder, i.ToString(namePad) + ".bin");
+                    File.WriteAllBytes(newFile, data);
                 }
             }
             if (delete)

@@ -9,38 +9,36 @@ namespace pk3DS
     public static class Scripts
     {
         // Decompression - Deprecated: Use FireFly's method.
-        internal static byte[] decompressScript(byte[] data)
+        internal static byte[] DecompressScript(byte[] data)
         {
-            data = data ?? new byte[0]; // Bad Input
-                
-            using (MemoryStream mn = new MemoryStream())
-            using (BinaryWriter bw = new BinaryWriter(mn))
+            data ??= Array.Empty<byte>(); // Bad Input
+
+            using MemoryStream mn = new MemoryStream();
+            using BinaryWriter bw = new BinaryWriter(mn);
+            // Read away!
+            int pos = 0;
+            while (pos < data.Length)
             {
-                // Read away!
-                int pos = 0;
-                while (pos < data.Length)
-                {
-                    // Read until the top bit is not set
-                    byte[] cb = readCompressed(data, pos);
-                    pos += cb.Length;
-                    // Interpret the bytecode
-                    byte[] db = decompressBytes(cb);
-                    // Write Bytes
-                    bw.Write(db);
-                }
-                return mn.ToArray();
+                // Read until the top bit is not set
+                byte[] cb = ReadCompressed(data, pos);
+                pos += cb.Length;
+                // Interpret the bytecode
+                byte[] db = DecompressBytes(cb);
+                // Write Bytes
+                bw.Write(db);
             }
+            return mn.ToArray();
         }
 
-        internal static byte[] readCompressed(byte[] data, int pos)
+        internal static byte[] ReadCompressed(byte[] data, int pos)
         {
             byte[] c1 = data.Skip(pos).TakeWhile(b => b >> 7 > 0).ToArray(); // Take while >= 0x80
             return c1.Concat(data.Skip(pos + c1.Length).Take(1)).ToArray(); // Take another
         }
 
-        internal static byte[] decompressBytes(byte[] cb)
+        internal static byte[] DecompressBytes(byte[] cb)
         {
-            byte[] db = new byte[0];
+            byte[] db = Array.Empty<byte>();
 
             if ((cb[0] & 0x40) > 0) // Signed Parameter
             {
@@ -87,12 +85,12 @@ namespace pk3DS
         }
         // FireFly's (github.com/FireyFly) concise decompression (ported c->c#):
         // https://github.com/FireyFly/poketools/blob/e74538a5b5e5dab1e78c1cd313c55d158f37534d/src/formats/script.c#L61
-        internal static uint[] quickDecompress(byte[] data, int count)
+        internal static uint[] QuickDecompress(byte[] data, int count)
         {
             uint[] code = new uint[count];
             uint i = 0, j = 0, x = 0, f = 0;
             while (i < code.Length) {
-                int b = data[f++], 
+                int b = data[f++],
                     v = b & 0x7F;
                 if (++j == 1) // sign extension possible
                     x = (uint)((((v >> 6 == 0 ? 1 : 0) - 1) << 6) | v); // only for bit6 being set
@@ -105,30 +103,28 @@ namespace pk3DS
         }
 
         // Compression
-        internal static byte[] compressScript(byte[] data)
+        internal static byte[] CompressScript(byte[] data)
         {
             if (data == null || data.Length % 4 != 0) // Bad Input
                 return null;
-            using (MemoryStream mn = new MemoryStream())
-            using (BinaryWriter bw = new BinaryWriter(mn))
+            using MemoryStream mn = new MemoryStream();
+            using BinaryWriter bw = new BinaryWriter(mn);
+            int pos = 0;
+            while (pos < data.Length)
             {
-                int pos = 0;
-                while (pos < data.Length)
-                {
-                    byte[] db = data.Skip(pos+=4).Take(4).ToArray();
-                    byte[] cb = compressBytes(db);
-                    bw.Write(cb);
-                }
-                return mn.ToArray();
+                byte[] db = data.Skip(pos+=4).Take(4).ToArray();
+                byte[] cb = CompressBytes(db);
+                bw.Write(cb);
             }
+            return mn.ToArray();
         }
 
-        internal static byte[] compressBytes(byte[] db)
+        internal static byte[] CompressBytes(byte[] db)
         {
             short cmd = BitConverter.ToInt16(db, 0);
             short val = BitConverter.ToInt16(db, 2);
 
-            byte[] cb = new byte[0];
+            byte[] cb = Array.Empty<byte>();
             bool sign4 = val < 0 && cmd < 0 && db[0] >= 0xC0; // 4 byte signed
             bool sign3 = val < 0 && cmd < 0 && db[0] < 0xC0; // 3 byte signed
             bool sign2 = val < 0 && cmd > 0; // 2 byte signed
@@ -190,9 +186,9 @@ namespace pk3DS
         }
 
         // General Utility
-        internal static string[] getHexLines(byte[] data, int count = 4)
+        internal static string[] GetHexLines(byte[] data, int count = 4)
         {
-            data = data ?? new byte[0];
+            data ??= Array.Empty<byte>();
             // Generates an x-byte wide space separated string array; leftovers included at the end.
             string[] s = new string[(data.Length/count) + (data.Length % count > 0 ? 1 : 0)];
             for (int i = 0; i < s.Length;i++)
@@ -200,9 +196,9 @@ namespace pk3DS
             return s;
         }
 
-        internal static string[] getHexLines(uint[] data)
+        internal static string[] GetHexLines(uint[] data)
         {
-            data = data ?? new uint[0];
+            data ??= Array.Empty<uint>();
             // Generates an 4-byte wide space separated string array.
             string[] s = new string[data.Length];
             for (int i = 0; i < s.Length; i++)
@@ -210,13 +206,13 @@ namespace pk3DS
             return s;
         }
 
-        internal static byte[] getBytes(uint[] data)
+        internal static byte[] GetBytes(uint[] data)
         {
-            return data.Aggregate(new byte[0], (current, t) => current.Concat(BitConverter.GetBytes(t)).ToArray());
+            return data.Aggregate(Array.Empty<byte>(), (current, t) => current.Concat(BitConverter.GetBytes(t)).ToArray());
         }
 
         // Interpreting
-        internal static string[] parseScript(uint[] cmd, int sanity = -1)
+        internal static string[] ParseScript(uint[] cmd, int sanity = -1)
         {
             // sub_148CBC Moon v1.0
             List<string> parse = new List<string>();
@@ -248,8 +244,8 @@ namespace pk3DS
                         // Peek at next value
                         var next = (int)cmd[i++];
                         // Check Value against negative and zero... ?
-                        
-                        op = eA(c, next);
+
+                        op = UnkeA(c, next);
                         break;
                     }
                     case 0x03:
@@ -266,8 +262,8 @@ namespace pk3DS
                         // Peek at next value
                         var next = (int)cmd[i++];
                         // Check Value against negative... ?
-                        
-                        op = eA(c, next);
+
+                        op = UnkeA(c, next);
                         break;
                     }
                     case 0x09:
@@ -362,7 +358,7 @@ namespace pk3DS
                         // no sanity checks
                         var arg = (short)(c >> 16);
 
-                        op = eA(c & 0xFF, arg);
+                        op = UnkeA(c & 0xFF, arg);
 
                         if ((c & 0xFF) == 0x30) // return
                             op += Environment.NewLine;
@@ -406,8 +402,8 @@ namespace pk3DS
                     {
                         var next = (int)cmd[i++];
                         // No sanity check needed
-                        
-                        op = eA(c, next);
+
+                        op = UnkeA(c, next);
                         break;
                     }
 
@@ -430,7 +426,7 @@ namespace pk3DS
                         var delta = (int)cmd[i++];
                         // sanity check range...
                         // negative.. weird
-                        
+
                         int newOfs = (line * 4) + delta;
                         op = $"{Commands[c]} => 0x{newOfs:X4} ({delta})";
                         break;
@@ -440,15 +436,15 @@ namespace pk3DS
                         var next = (int)cmd[i++];
                         sanityMode |= 1;                       // flag mode 1
 
-                        op = eA(c, next);
+                        op = UnkeA(c, next);
                         break;
                     }
                     case 0x82: // JumpIfElse
                     {
-                        var jOffset = (i * 4) - 4; // todo: this may be the correct jump start point...
+                        //var jOffset = (i * 4) - 4; // todo: this may be the correct jump start point...
                         var count = cmd[i++]; // switch case table
                         // sanity check
-                        
+
                         // Populate If-Case Tree
                         var tree = new List<string>();
 
@@ -464,7 +460,7 @@ namespace pk3DS
                         {
                             int jmp = (int)cmd[i++];
                             var toOffset = ((i-2)*4) + jmp;
-                            tree.Add($"\t{"*"} => 0x{toOffset:X4} ({jmp})");
+                            tree.Add($"\t* => 0x{toOffset:X4} ({jmp})");
                         }
 
                         op = Commands[c] + Environment.NewLine + string.Join(Environment.NewLine, tree);
@@ -476,7 +472,7 @@ namespace pk3DS
                         var next2 = (int)cmd[i++];
                         sanityMode |= 2;                       // flag mode 2
 
-                        op = eA(c, next1, next2);
+                        op = UnkeA(c, next1, next2);
                         break;
                     }
 
@@ -490,7 +486,7 @@ namespace pk3DS
                         var next1 = (int)cmd[i++];
                         var next2 = (int)cmd[i++];
 
-                        op = eA(c, next1, next2);
+                        op = UnkeA(c, next1, next2);
                         break;
                     }
 
@@ -503,7 +499,7 @@ namespace pk3DS
                         var next2 = cmd[i++];
                         var next3 = cmd[i++];
 
-                        op = eF(c, next1, next2, next3);
+                        op = UnkeF(c, next1, next2, next3);
                         break;
                     }
 
@@ -517,7 +513,7 @@ namespace pk3DS
                         var next3 = (int)cmd[i++];
                         var next4 = (int)cmd[i++];
 
-                        op = eA(c, next1, next2, next3, next4);
+                        op = UnkeA(c, next1, next2, next3, next4);
                         break;
                     }
 
@@ -532,7 +528,7 @@ namespace pk3DS
                         var next4 = cmd[i++];
                         var next5 = cmd[i++];
 
-                        op = eF(c, next1, next2, next3, next4, next5);
+                        op = UnkeF(c, next1, next2, next3, next4, next5);
                         break;
                     }
 
@@ -542,7 +538,7 @@ namespace pk3DS
                         var next2 = (int)cmd[i++];
                         // a bunch of sanity checking
 
-                        op = eA(c, next1, next2);
+                        op = UnkeA(c, next1, next2);
                         break;
                     }
 
@@ -552,7 +548,7 @@ namespace pk3DS
                         var next2 = (int)cmd[i++];
                         // a bunch of sanity checking
 
-                        op = eA(c, next1, next2);
+                        op = UnkeA(c, next1, next2);
                         break;
                     }
 
@@ -562,7 +558,7 @@ namespace pk3DS
                         // perm check a1 + 0x14
                         // can return error code 0x1C
 
-                        op = eA(c, next1);
+                        op = UnkeA(c, next1);
                         break;
                     }
 
@@ -572,7 +568,7 @@ namespace pk3DS
                         // same permission checking as 0x9E
                         // can return error code 0x1C
 
-                        op = eA(c);
+                        op = UnkeA(c);
                         break;
                     }
 
@@ -582,7 +578,7 @@ namespace pk3DS
                         // can return error code 0x1C
                         int newPos = i + (int)(1 + (2 *(cmd[i]/4)) + 1);
 
-                        op = eA(c, newPos);
+                        op = UnkeA(c, newPos);
                         break;
                     }
 
@@ -600,7 +596,7 @@ namespace pk3DS
                         // sanity check arg
                         var arg = (short)(c >> 16);
 
-                        op = eA(c & 0xFF, arg);
+                        op = UnkeA(c & 0xFF, arg);
                         break;
                     }
                     case 0xA4: // GetGlobal4
@@ -617,7 +613,7 @@ namespace pk3DS
                         // sanity check arg, slightly different
                         var arg = (short)(c >> 16);
 
-                        op = eA(c & 0xFF, arg);
+                        op = UnkeA(c & 0xFF, arg);
                         break;
                     }
                 }
@@ -630,12 +626,12 @@ namespace pk3DS
             return parse.ToArray();
         }
 
-        internal static string[] parseMovement(uint[] cmd)
+        internal static string[] ParseMovement(uint[] cmd)
         {
-            return getHexLines(cmd);
+            return GetHexLines(cmd);
         }
 
-        internal static string eA(uint c, params int[] arr)
+        internal static string UnkeA(uint c, params int[] arr)
         {
             string cmd = Commands[c];
             string parameters = arr.Length == 0 ? "" : string.Join(", ", arr.Select(z => $"{(Math.Abs(z) < 100 ? z.ToString() : "0x"+z.ToString("X4"))}"));
@@ -644,14 +640,14 @@ namespace pk3DS
 
         private static readonly Func<uint, float> getFloat = val => BitConverter.ToSingle(BitConverter.GetBytes(val), 0);
 
-        internal static string eF(uint c, params uint[] arr)
+        internal static string UnkeF(uint c, params uint[] arr)
         {
             string cmd = Commands[c];
             string parameters = arr.Length == 1 ? "" : string.Join(", ", arr.Select(z => getFloat(z)));
             return $"{cmd}({parameters})";
         }
-        
-        internal static readonly Dictionary<uint, string> Commands = new Dictionary<uint, string>
+
+        internal static readonly Dictionary<uint, string> Commands = new()
         {// { 0x00, "$00" }, // Invalid Code
             { 0x01, "$01" },
             { 0x02, "$02" },

@@ -18,7 +18,7 @@ namespace pk3DS.Core.CTR.Images
         public string FileName { get; set; }
         public string FilePath { get; set; }
         public string Extension { get; set; }
-        public int BaseSize => Math.Max(XLIMUtil.nlpo2(Width), XLIMUtil.nlpo2(Height));
+        public int BaseSize => Math.Max(XLIMUtil.NextLargestPow2(Width), XLIMUtil.NextLargestPow2(Height));
 
         /// <summary>
         /// ARGB 32bpp

@@ -25,12 +25,12 @@ namespace pk3DS
             ev_boxes = new[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
             rstat_boxes = new[] { CHK_rHP, CHK_rATK, CHK_rDEF, CHK_rSPA, CHK_rSPD, CHK_rSPE };
             files = infiles;
-            
+
             species[0] = "---";
             abilities[0] = items[0] = moves[0] = "";
-            var altForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
-            entryNames = Main.Config.Personal.getPersonalEntryList(altForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
-            TMs = TMEditor7.getTMHMList();
+            var altForms = Main.Config.Personal.GetFormList(species, Main.Config.MaxSpeciesID);
+            entryNames = Main.Config.Personal.GetPersonalEntryList(altForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
+            TMs = TMEditor7.GetTMHMList();
 
             Setup();
             CB_Species.SelectedIndex = 1;
@@ -39,13 +39,13 @@ namespace pk3DS
         #region Global Variables
         private readonly byte[][] files;
 
-        private readonly string[] items = Main.Config.getText(TextName.ItemNames);
-        private readonly string[] moves = Main.Config.getText(TextName.MoveNames);
-        private readonly string[] species = Main.Config.getText(TextName.SpeciesNames);
-        private readonly string[] abilities = Main.Config.getText(TextName.AbilityNames);
-        private readonly string[] forms = Main.Config.getText(TextName.Forms);
-        private readonly string[] types = Main.Config.getText(TextName.Types);
-        
+        private readonly string[] items = Main.Config.GetText(TextName.ItemNames);
+        private readonly string[] moves = Main.Config.GetText(TextName.MoveNames);
+        private readonly string[] species = Main.Config.GetText(TextName.SpeciesNames);
+        private readonly string[] abilities = Main.Config.GetText(TextName.AbilityNames);
+        //private readonly string[] forms = Main.Config.GetText(TextName.Forms);
+        private readonly string[] types = Main.Config.GetText(TextName.Types);
+
         private readonly string[] entryNames;
 
         private readonly ComboBox[] helditem_boxes;
@@ -74,7 +74,7 @@ namespace pk3DS
 
         private readonly int[] baseForms, formVal;
         private readonly ushort[] TMs;
-        int entry = -1;
+        private int entry = -1;
         #endregion
         private void Setup()
         {
@@ -97,8 +97,10 @@ namespace pk3DS
                 CB_Species.Items.Add($"{entryNames[i]} - {i:000}");
 
             foreach (ComboBox cb in helditem_boxes)
+            {
                 foreach (string it in items)
                     cb.Items.Add(it);
+            }
 
             foreach (string it in items)
                 CB_ZItem.Items.Add(it);
@@ -108,26 +110,36 @@ namespace pk3DS
                 CB_ZMove.Items.Add(m);
 
             foreach (ComboBox cb in ability_boxes)
+            {
                 foreach (string ab in abilities)
                     cb.Items.Add(ab);
+            }
 
             foreach (ComboBox cb in typing_boxes)
+            {
                 foreach (string ty in types)
                     cb.Items.Add(ty);
+            }
 
             foreach (ComboBox cb in eggGroup_boxes)
+            {
                 foreach (string eg in eggGroups)
                     cb.Items.Add(eg);
+            }
 
             foreach (string co in colors)
+            {
                 CB_Color.Items.Add(co);
+            }
 
             foreach (string eg in EXPGroups)
                 CB_EXPGroup.Items.Add(eg);
 
             if (Main.Config.USUM)
+            {
                 foreach (var tutor in Tutors_USUM)
                     CLB_BeachTutors.Items.Add(moves[tutor]);
+            }
 
             // toggle usum content
             CHK_BeachTutors.Checked = CHK_BeachTutors.Visible =
@@ -136,14 +148,14 @@ namespace pk3DS
 
         private void CB_Species_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (entry > -1 && !dumping) saveEntry();
+            if (entry > -1 && !dumping) SaveEntry();
             entry = CB_Species.SelectedIndex;
-            readEntry();
+            ReadEntry();
         }
 
         private void ByteLimiter(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox mtb))
+            if (sender is not MaskedTextBox mtb)
                 return;
             int.TryParse(mtb.Text, out int val);
             if (Array.IndexOf(byte_boxes, mtb) > -1 && val > 255)
@@ -154,7 +166,7 @@ namespace pk3DS
 
         private PersonalInfo pkm;
 
-        private void readInfo()
+        private void ReadInfo()
         {
             pkm = Main.SpeciesStat[entry];
 
@@ -170,7 +182,7 @@ namespace pk3DS
             TB_SPEEVs.Text = pkm.EV_SPE.ToString("0");
             TB_SPAEVs.Text = pkm.EV_SPA.ToString("0");
             TB_SPDEVs.Text = pkm.EV_SPD.ToString("0");
-            
+
             CB_Type1.SelectedIndex = pkm.Types[0];
             CB_Type2.SelectedIndex = pkm.Types[1];
 
@@ -229,16 +241,16 @@ namespace pk3DS
             }
         }
 
-        private void readEntry()
+        private void ReadEntry()
         {
-            readInfo();
-            
+            ReadInfo();
+
             if (dumping) return;
             int s = baseForms[entry];
             int f = formVal[entry];
             if (entry <= Main.Config.MaxSpeciesID)
                 s = entry;
-            Bitmap rawImg = WinFormsUtil.getSprite(s, f, 0, 0, Main.Config);
+            Bitmap rawImg = WinFormsUtil.GetSprite(s, f, 0, 0, Main.Config);
             Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
             for (int x = 0; x < rawImg.Width; x++)
             {
@@ -254,7 +266,7 @@ namespace pk3DS
             PB_MonSprite.Image = bigImg;
         }
 
-        private void savePersonal()
+        private void SavePersonal()
         {
             pkm.HP = Convert.ToByte(TB_BaseHP.Text);
             pkm.ATK = Convert.ToByte(TB_BaseATK.Text);
@@ -288,8 +300,8 @@ namespace pk3DS
             pkm.Color = (byte)(Convert.ToByte(CB_Color.SelectedIndex) | (Convert.ToByte(TB_RawColor.Text) & 0xF0));
             pkm.BaseEXP = Convert.ToUInt16(TB_BaseExp.Text);
 
-            decimal h; decimal.TryParse(TB_Height.Text, out h);
-            decimal w; decimal.TryParse(TB_Weight.Text, out w);
+            decimal.TryParse(TB_Height.Text, out var h);
+            decimal.TryParse(TB_Weight.Text, out var w);
             pkm.Height = (int)(h * 100);
             pkm.Weight = (int)(w * 10);
 
@@ -317,18 +329,19 @@ namespace pk3DS
             }
         }
 
-        private void saveEntry()
+        private void SaveEntry()
         {
-            savePersonal();
+            SavePersonal();
             byte[] edits = pkm.Write();
             files[entry] = edits;
         }
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Enhancements tab.") != DialogResult.Yes) return;
-            saveEntry();
-            
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Enhancements tab.") != DialogResult.Yes)
+                return;
+            SaveEntry();
+
             // input settings
             var rnd = new PersonalRandomizer(Main.SpeciesStat, Main.Config)
             {
@@ -354,7 +367,7 @@ namespace pk3DS
             rnd.Execute();
             Main.SpeciesStat.Select(z => z.Write()).ToArray().CopyTo(files, 0);
 
-            readEntry();
+            ReadEntry();
             WinFormsUtil.Alert("Randomized all Pokémon Personal data entries according to specification!", "Press the Dump All button to view the new Personal data!");
         }
 
@@ -367,8 +380,11 @@ namespace pk3DS
                 CB_Species.SelectedIndex = i; // Get new Species
 
                 if (CHK_NoEV.Checked)
+                {
                     for (int z = 0; z < 6; z++)
                         ev_boxes[z].Text = 0.ToString();
+                }
+
                 if (CHK_Growth.Checked)
                     CB_EXPGroup.SelectedIndex = 5;
                 if (CHK_EXP.Checked)
@@ -385,14 +401,22 @@ namespace pk3DS
                 }
 
                 if (CHK_FullTMCompatibility.Checked)
+                {
                     for (int t = 0; t < CLB_TM.Items.Count; t++)
                         CLB_TM.SetItemCheckState(t, CheckState.Checked);
+                }
+
                 if (CHK_FullMoveTutorCompatibility.Checked)
+                {
                     for (int m = 0; m < CLB_MoveTutors.Items.Count; m++)
                         CLB_MoveTutors.SetItemCheckState(m, CheckState.Checked);
+                }
+
                 if (CHK_FullBeachTutorCompatibility.Checked)
+                {
                     for (int m = 0; m < CLB_BeachTutors.Items.Count; m++)
                         CLB_BeachTutors.SetItemCheckState(m, CheckState.Checked);
+                }
 
                 if (CHK_QuickHatch.Checked)
                     TB_HatchCycles.Text = 1.ToString();
@@ -464,9 +488,9 @@ namespace pk3DS
                 CHK_WGuard.Checked = false;
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void Form_Closing(object sender, FormClosingEventArgs e)
         {
-            if (entry > -1) saveEntry();
+            if (entry > -1) SaveEntry();
             RandSettings.SetFormSettings(this, TP_Randomizer.Controls);
         }
     }

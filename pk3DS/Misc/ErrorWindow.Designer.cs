@@ -67,7 +67,7 @@
             this.B_CopyToClipboard.TabIndex = 9;
             this.B_CopyToClipboard.Text = "Copy to Clipboard";
             this.B_CopyToClipboard.UseVisualStyleBackColor = true;
-            this.B_CopyToClipboard.Click += new System.EventHandler(this.btnCopyToClipboard_Click);
+            this.B_CopyToClipboard.Click += new System.EventHandler(this.B_CopyToClipboard_Click);
             // 
             // L_ProvideInfo
             // 

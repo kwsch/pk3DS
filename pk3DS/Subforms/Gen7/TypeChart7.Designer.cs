@@ -43,8 +43,8 @@
             this.PB_Chart.Size = new System.Drawing.Size(579, 579);
             this.PB_Chart.TabIndex = 0;
             this.PB_Chart.TabStop = false;
-            this.PB_Chart.MouseClick += new System.Windows.Forms.MouseEventHandler(this.clickMouse);
-            this.PB_Chart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.moveMouse);
+            this.PB_Chart.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ClickMouse);
+            this.PB_Chart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MoveMouse);
             // 
             // B_Cancel
             // 

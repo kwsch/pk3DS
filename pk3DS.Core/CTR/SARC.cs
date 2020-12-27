@@ -8,7 +8,7 @@ namespace pk3DS.Core.CTR
     /// <summary>
     /// Simple (?) ARChive
     /// </summary>
-    public class SARC : IDisposable
+    public sealed class SARC : IDisposable
     {
         private const string Identifier = nameof(SARC);
 
@@ -145,7 +145,7 @@ namespace pk3DS.Core.CTR
         /// <param name="outpath">Path to export to. If left null, will output to the <see cref="SARC"/> FilePath, if it is assigned.</param>
         public string ExportFile(SFATEntry t, string outpath = null)
         {
-            outpath = outpath ?? FilePath;
+            outpath ??= FilePath;
             byte[] data = GetData(t);
             string name = GetFileName(t);
 
@@ -167,7 +167,7 @@ namespace pk3DS.Core.CTR
         /// <param name="folder">Folder to dump contents to</param>
         public IEnumerable<string> Dump(string path = null, string folder = null)
         {
-            path = path ?? FilePath;
+            path ??= FilePath;
             if (path == null)
                 throw new ArgumentNullException(nameof(path));
             if (File.Exists(path))
@@ -175,7 +175,7 @@ namespace pk3DS.Core.CTR
             if (path == null)
                 throw new ArgumentNullException(nameof(path));
 
-            folder = folder ?? FileName ?? "sarc";
+            folder ??= FileName ?? "sarc";
             string dir = Path.Combine(path, folder);
 
             Directory.CreateDirectory(dir);
@@ -192,11 +192,10 @@ namespace pk3DS.Core.CTR
             for (char c = (char)stream.ReadByte(); c != 0; c = (char)stream.ReadByte())
                 sb.Append(c);
 
-            string name = sb.ToString().Replace('/', Path.DirectorySeparatorChar);
-            return name;
+            return sb.ToString().Replace('/', Path.DirectorySeparatorChar);
         }
 
-        private void SetFileName(int offset, string value)
+        public void SetFileName(int offset, string value)
         {
             var str = value.Replace(Path.DirectorySeparatorChar, '/');
             stream.Seek(SFNT.StringOffset, SeekOrigin.Begin);

@@ -6,7 +6,7 @@ namespace pk3DS.Core.CTR
 {
     public class AesCtr
     {
-        private readonly AesManaged Aes = new AesManaged();
+        private readonly AesManaged Aes = new();
         private readonly ICryptoTransform Encryptor;
         private readonly AesCounter Counter;
 
@@ -80,19 +80,17 @@ namespace pk3DS.Core.CTR
             return Buffer;
         }
 
-        public ulong SwapBytes(ulong value)
+        public static ulong SwapBytes(ulong value)
         {
             ulong uvalue = value;
-            ulong swapped =
-                    (0x00000000000000FF & (uvalue >> 56))
-                    | (0x000000000000FF00 & (uvalue >> 40))
-                    | (0x0000000000FF0000 & (uvalue >> 24))
-                    | (0x00000000FF000000 & (uvalue >> 8))
-                    | (0x000000FF00000000 & (uvalue << 8))
-                    | (0x0000FF0000000000 & (uvalue << 24))
-                    | (0x00FF000000000000 & (uvalue << 40))
-                    | (0xFF00000000000000 & (uvalue << 56));
-            return swapped;
+            return   (0x00000000000000FF & (uvalue >> 56))
+                   | (0x000000000000FF00 & (uvalue >> 40))
+                   | (0x0000000000FF0000 & (uvalue >> 24))
+                   | (0x00000000FF000000 & (uvalue >> 8))
+                   | (0x000000FF00000000 & (uvalue << 8))
+                   | (0x0000FF0000000000 & (uvalue << 24))
+                   | (0x00FF000000000000 & (uvalue << 40))
+                   | (0xFF00000000000000 & (uvalue << 56));
         }
     }
 }

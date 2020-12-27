@@ -39,8 +39,8 @@ namespace pk3DS.Core.CTR
                 ulong titleid = Convert.ToUInt64(vars[0], 16);
                 if (RecognizedGames.ContainsKey(titleid))
                 {
-                    char lc = RecognizedGames[titleid].ToArray()[0].ToCharArray()[3];
-                    char lc2 = vars[1].ToCharArray()[3];
+                    char lc = RecognizedGames[titleid].ToArray()[0][3];
+                    char lc2 = vars[1][3];
                     if (lc2 == 'A' || lc2 == 'E' || (lc2 == 'P' && lc == 'J')) //Prefer games in order US, PAL, JP
                     {
                         RecognizedGames[titleid] = vars.Skip(1).Take(2).ToArray();
@@ -54,66 +54,47 @@ namespace pk3DS.Core.CTR
             return output + RecognizedGames[TitleID][0];
         }
 
-        public bool isPokemon()
+        public bool IsSupported()
         {
-            return isORAS() || isXY() || isUSUM() || isSuMo();
+            return IsORAS() || IsXY() || IsUSUM() || IsSM();
         }
 
-        public bool isUSUM()
+        public bool IsUSUM()
         {
             return (TitleID & 0xFFFFFFFF) >> 8 == 0x1B50 || (TitleID & 0xFFFFFFFF) >> 8 == 0x1B51;
         }
 
-        public bool isSuMo()
+        public bool IsSM()
         {
             return (TitleID & 0xFFFFFFFF) >> 8 == 0x1648 || (TitleID & 0xFFFFFFFF) >> 8 == 0x175E;
         }
 
-        public bool isORAS()
+        public bool IsORAS()
         {
             return (TitleID & 0xFFFFFFFF) >> 8 == 0x11C5 || (TitleID & 0xFFFFFFFF) >> 8 == 0x11C4;
         }
 
-        public bool isXY()
+        public bool IsXY()
         {
             return (TitleID & 0xFFFFFFFF) >> 8 == 0x55D || (TitleID & 0xFFFFFFFF) >> 8 == 0x55E;
         }
 
         public string GetPokemonSerial()
         {
-            if (!isPokemon())
+            if (!IsSupported())
                 return "CTR-P-XXXX";
-            string name;
-            switch ((TitleID & 0xFFFFFFFF) >> 8)
+            string name = ((TitleID & 0xFFFFFFFF) >> 8) switch
             {
-                case 0x1B51: 
-                    name = "A2BA"; // Ultra Moon
-                    break;
-                case 0x1B50:
-                    name = "A2AA"; // Ultra Sun
-                    break;
-                case 0x175E: // Moon
-                    name = "BNEA";
-                    break;
-                case 0x1648: // Sun
-                    name = "BNDA";
-                    break;
-                case 0x11C5: //Alpha Sapphire
-                    name = "ECLA";
-                    break;
-                case 0x11C4: //Omega Ruby
-                    name = "ECRA";
-                    break;
-                case 0x55D: //X
-                    name = "EKJA";
-                    break;
-                case 0x55E: //Y
-                    name = "EK2A";
-                    break;
-                default:
-                    name = "XXXX";
-                    break;
-            }
+                0x1B51 => "A2BA", // Ultra Moon
+                0x1B50 => "A2AA", // Ultra Sun
+                0x175E => "BNEA", // Moon
+                0x1648 => "BNDA", // Sun
+                0x11C5 => "ECLA", // Alpha Sapphire
+                0x11C4 => "ECRA", // Omega Ruby
+                0x055D => "EKJA", // X
+                0x055E => "EK2A", // Y
+                _ => "XXXX"
+            };
             return "CTR-P-" + name;
         }
     }

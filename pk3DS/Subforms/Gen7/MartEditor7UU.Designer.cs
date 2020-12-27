@@ -65,7 +65,7 @@
             this.CB_Location.Name = "CB_Location";
             this.CB_Location.Size = new System.Drawing.Size(254, 21);
             this.CB_Location.TabIndex = 0;
-            this.CB_Location.SelectedIndexChanged += new System.EventHandler(this.changeIndexItem);
+            this.CB_Location.SelectedIndexChanged += new System.EventHandler(this.ChangeIndexItem);
             // 
             // dgv
             // 
@@ -162,7 +162,7 @@
             this.CB_LocationBPItem.Name = "CB_LocationBPItem";
             this.CB_LocationBPItem.Size = new System.Drawing.Size(254, 21);
             this.CB_LocationBPItem.TabIndex = 6;
-            this.CB_LocationBPItem.SelectedIndexChanged += new System.EventHandler(this.changeIndexBPItem);
+            this.CB_LocationBPItem.SelectedIndexChanged += new System.EventHandler(this.ChangeIndexBPItem);
             // 
             // dgvbp
             // 

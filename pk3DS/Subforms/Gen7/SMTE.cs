@@ -15,8 +15,8 @@ namespace pk3DS
 {
     public partial class SMTE : Form
     {
-        private readonly LearnsetRandomizer learn = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
-        private readonly trdata7[] Trainers;
+        private readonly LearnsetRandomizer learn = new(Main.Config, Main.Config.Learnsets);
+        private readonly TrainerData7[] Trainers;
         private string[][] AltForms;
         private static int[] SpecialClasses;
         private static readonly int[] ImportantTrainers = Main.Config.USUM ? Legal.ImportantTrainers_USUM : Legal.ImportantTrainers_SM;
@@ -28,22 +28,24 @@ namespace pk3DS
         private PictureBox[] pba;
         private CheckBox[] AIBits;
 
-        private readonly byte[][] trclass, trdata, trpoke;
-        private readonly string[] abilitylist = Main.Config.getText(TextName.AbilityNames);
-        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
-        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
-        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
-        private readonly string[] types = Main.Config.getText(TextName.Types);
-        private readonly string[] natures = Main.Config.getText(TextName.Natures);
+        //private readonly byte[][] trclass;
+        private readonly byte[][] trdata;
+        private readonly byte[][] trpoke;
+        private readonly string[] abilitylist = Main.Config.GetText(TextName.AbilityNames);
+        private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
+        private readonly string[] itemlist = Main.Config.GetText(TextName.ItemNames);
+        private readonly string[] specieslist = Main.Config.GetText(TextName.SpeciesNames);
+        private readonly string[] types = Main.Config.GetText(TextName.Types);
+        private readonly string[] natures = Main.Config.GetText(TextName.Natures);
         private readonly string[] forms = Enumerable.Range(0, 1000).Select(i => i.ToString("000")).ToArray();
-        private readonly string[] trName = Main.Config.getText(TextName.TrainerNames);
-        private readonly string[] trClass = Main.Config.getText(TextName.TrainerClasses);
-        private readonly TextData trText = Main.Config.getTextData(TextName.TrainerText);
+        private readonly string[] trName = Main.Config.GetText(TextName.TrainerNames);
+        private readonly string[] trClass = Main.Config.GetText(TextName.TrainerClasses);
+        //private readonly TextData trText = Main.Config.GetTextData(TextName.TrainerText);
         private readonly TextData TrainerNames;
 
-        public SMTE(byte[][] trc, byte[][] trd, byte[][] trp)
+        public SMTE(byte[][] trd, byte[][] trp)
         {
-            trclass = trc;
+            //trclass = trc;
             trdata = trd;
             trpoke = trp;
             TrainerNames = new TextData(trName);
@@ -52,7 +54,7 @@ namespace pk3DS
             mnuView.Click += ClickView;
             mnuSet.Click += ClickSet;
             mnuDelete.Click += ClickDelete;
-            Trainers = new trdata7[trdata.Length];
+            Trainers = new TrainerData7[trdata.Length];
             Setup();
             foreach (var pb in pba)
                 pb.Click += ClickSlot;
@@ -67,7 +69,7 @@ namespace pk3DS
                     ? Main.Config.USUM
                         ? Legal.SpecialClasses_USUM
                         : Legal.SpecialClasses_SM
-                    : new int[] {};
+                    : Array.Empty<int>();
             }
 
             RandSettings.GetFormSettings(this, Tab_Rand.Controls);
@@ -147,7 +149,7 @@ namespace pk3DS
             GetSlotColor(slot, Properties.Resources.slotDel);
         }
 
-        private void PopulateTeam(trdata7 tr)
+        private void PopulateTeam(TrainerData7 tr)
         {
             for (int i = 0; i < tr.NumPokemon; i++)
                 GetQuickFiller(pba[i], tr.Pokemon[i]);
@@ -163,10 +165,10 @@ namespace pk3DS
             pba[slot].BackgroundImage = color;
         }
 
-        private static void GetQuickFiller(PictureBox pb, trpoke7 pk)
+        private static void GetQuickFiller(PictureBox pb, TrainerPoke7 pk)
         {
-            Bitmap rawImg = WinFormsUtil.getSprite(pk.Species, pk.Form, pk.Gender, pk.Item, Main.Config, pk.Shiny);
-            pb.Image = WinFormsUtil.scaleImage(rawImg, 2);
+            Bitmap rawImg = WinFormsUtil.GetSprite(pk.Species, pk.Form, pk.Gender, pk.Item, Main.Config, pk.Shiny);
+            pb.Image = WinFormsUtil.ScaleImage(rawImg, 2);
         }
 
         // Top Level Functions
@@ -183,7 +185,7 @@ namespace pk3DS
             if (index < 0)
                 return;
             pkm.Species = (ushort)CB_Species.SelectedIndex;
-            FormUtil.setForms(CB_Species.SelectedIndex, CB_Forme, AltForms);
+            FormUtil.SetForms(CB_Species.SelectedIndex, CB_Forme, AltForms);
             RefreshPKMSlotAbility();
         }
 
@@ -217,11 +219,11 @@ namespace pk3DS
             for (int i = 0; i < trClass.Length; i++)
                 CB_Trainer_Class.Items.Add(GetEntryTitle(trClass[i], i));
 
-            Trainers[0] = new trdata7();
+            Trainers[0] = new TrainerData7();
 
             for (int i = 1; i < trdata.Length; i++)
             {
-                Trainers[i] = new trdata7(trdata[i], trpoke[i])
+                Trainers[i] = new TrainerData7(trdata[i], trpoke[i])
                 {
                     Name = trName[i],
                     ID = i
@@ -285,7 +287,7 @@ namespace pk3DS
 
             CB_TrainerID.SelectedIndex = 0;
             index = 0;
-            pkm = new trpoke7();
+            pkm = new TrainerPoke7();
             PopulateFieldsTP7(pkm);
         }
 
@@ -307,7 +309,7 @@ namespace pk3DS
             TrainerNames[index] = TB_TrainerName.Text;
         }
 
-        private void SaveData(trdata7 tr, int i)
+        private void SaveData(TrainerData7 tr, int i)
         {
             tr.Write(out byte[] trd, out byte[] trp);
             trdata[i] = trd;
@@ -327,9 +329,9 @@ namespace pk3DS
         }
 
         private bool loading;
-        private trpoke7 pkm;
+        private TrainerPoke7 pkm;
 
-        private void PopulateFieldsTP7(trpoke7 pk)
+        private void PopulateFieldsTP7(TrainerPoke7 pk)
         {
             pkm = pk.Clone();
 
@@ -368,7 +370,7 @@ namespace pk3DS
             UpdateStats(null, null);
         }
 
-        private trpoke7 PrepareTP7()
+        private TrainerPoke7 PrepareTP7()
         {
             var pk = pkm.Clone();
             pk.Species = CB_Species.SelectedIndex;
@@ -402,7 +404,7 @@ namespace pk3DS
             return pk;
         }
 
-        private void PopulateFieldsTD7(trdata7 tr)
+        private void PopulateFieldsTD7(TrainerData7 tr)
         {
             // Load Trainer Data
             CB_Trainer_Class.SelectedIndex = tr.TrainerClass;
@@ -418,7 +420,7 @@ namespace pk3DS
             PopulateTeam(tr);
         }
 
-        private void PrepareTR7(trdata7 tr)
+        private void PrepareTR7(TrainerData7 tr)
         {
             tr.TrainerClass = (byte)CB_Trainer_Class.SelectedIndex;
             tr.NumPokemon = (byte)NUD_NumPoke.Value;
@@ -458,19 +460,16 @@ namespace pk3DS
         // Dumping
         private void DumpTxt(object sender, EventArgs e)
         {
-            using (var sfd = new SaveFileDialog())
-            {
-                sfd.FileName = "Trainers.txt";
-                if (sfd.ShowDialog() != DialogResult.OK)
-                    return;
-                var sb = new StringBuilder();
-                foreach (var Trainer in Trainers)
-                    sb.Append(GetTrainerString(Trainer));
-                File.WriteAllText(sfd.FileName, sb.ToString());
-            }
+            using var sfd = new SaveFileDialog {FileName = "Trainers.txt"};
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+            var sb = new StringBuilder();
+            foreach (var Trainer in Trainers)
+                sb.Append(GetTrainerString(Trainer));
+            File.WriteAllText(sfd.FileName, sb.ToString());
         }
 
-        private string GetTrainerString(trdata7 tr)
+        private string GetTrainerString(TrainerData7 tr)
         {
             var sb = new StringBuilder();
             sb.AppendLine("======");
@@ -666,7 +665,7 @@ namespace pk3DS
                 rSTAB = CHK_STAB.Checked
             };
 
-            var items = Randomizer.getRandomItemList();
+            var items = Randomizer.GetRandomItemList();
             for (int i = 0; i < Trainers.Length; i++)
             {
                 var tr = Trainers[i];
@@ -679,7 +678,7 @@ namespace pk3DS
                     // ignore special classes
                     if (CHK_IgnoreSpecialClass.Checked && !SpecialClasses.Contains(tr.TrainerClass))
                     {
-                        int randClass() => (int)(Util.rnd32() % CB_Trainer_Class.Items.Count);
+                        int randClass() => (int)(Util.Random32() % CB_Trainer_Class.Items.Count);
                         int rv; do { rv = randClass(); }
                         while (SpecialClasses.Contains(rv)); // don't allow disallowed classes
                         tr.TrainerClass = (byte)rv;
@@ -688,7 +687,7 @@ namespace pk3DS
                     // all classes
                     else if (!CHK_IgnoreSpecialClass.Checked)
                     {
-                        int randClass() => (int)(Util.rnd32() % CB_Trainer_Class.Items.Count);
+                        int randClass() => (int)(Util.Random32() % CB_Trainer_Class.Items.Count);
                         int rv; do { rv = randClass(); }
                         while (rv == 082); // Lusamine 2 can crash multi battles, skip
                         tr.TrainerClass = (byte)rv;
@@ -705,7 +704,7 @@ namespace pk3DS
                 {
                     for (int p = tr.NumPokemon; p < NUD_RMin.Value; p++)
                     {
-                        tr.Pokemon.Add(new trpoke7
+                        tr.Pokemon.Add(new TrainerPoke7
                         {
                             Species = rnd.GetRandomSpecies(avgSpec),
                             Level = avgLevel,
@@ -723,7 +722,7 @@ namespace pk3DS
                 {
                     for (int g = tr.NumPokemon; g < 6; g++)
                     {
-                        tr.Pokemon.Add(new trpoke7
+                        tr.Pokemon.Add(new TrainerPoke7
                         {
                             Species = rnd.GetRandomSpecies(avgSpec),
                             Level = avgLevel,
@@ -742,14 +741,14 @@ namespace pk3DS
                 {
                     if (CHK_RandomPKM.Checked)
                     {
-                        int Type = CHK_TypeTheme.Checked ? (int)Util.rnd32() % 17 : -1;
+                        int Type = CHK_TypeTheme.Checked ? (int)Util.Random32() % 17 : -1;
 
                         // replaces Megas with another Mega (Dexio and Lysandre in USUM)
                         if (MegaDictionary.Values.Any(z => z.Contains(pk.Item)))
                         {
                             int[] mega = GetRandomMega(out int species);
                             pk.Species = species;
-                            pk.Item = mega[Util.rand.Next(0, mega.Length)];
+                            pk.Item = mega[Util.Rand.Next(0, mega.Length)];
                             pk.Form = 0; // allow it to Mega Evolve naturally
                         }
 
@@ -757,19 +756,19 @@ namespace pk3DS
                         else
                         {
                             pk.Species = rnd.GetRandomSpeciesType(pk.Species, Type);
-                            pk.Item = items[Util.rnd32() % items.Length];
+                            pk.Item = items[Util.Random32() % items.Length];
                             pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
                         }
 
                         pk.Gender = 0; // random
-                        pk.Nature = (int)(Util.rnd32() % CB_Nature.Items.Count); // random
+                        pk.Nature = (int)(Util.Random32() % CB_Nature.Items.Count); // random
                     }
                     if (CHK_Level.Checked)
-                        pk.Level = Randomizer.getModifiedLevel(pk.Level, NUD_LevelBoost.Value);
+                        pk.Level = Randomizer.GetModifiedLevel(pk.Level, NUD_LevelBoost.Value);
                     if (CHK_RandomShiny.Checked)
-                        pk.Shiny = Util.rand.Next(0, 100 + 1) < NUD_Shiny.Value;
+                        pk.Shiny = Util.Rand.Next(0, 100 + 1) < NUD_Shiny.Value;
                     if (CHK_RandomAbilities.Checked)
-                        pk.Ability = (int)Util.rnd32() % 4;
+                        pk.Ability = (int)Util.Random32() % 4;
                     if (CHK_MaxDiffPKM.Checked)
                         pk.IVs = new[] {31, 31, 31, 31, 31, 31};
                     if (CHK_MaxAI.Checked)
@@ -777,7 +776,7 @@ namespace pk3DS
 
                     if (CHK_ForceFullyEvolved.Checked && pk.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(pk.Species))
                     {
-                        int randFinalEvo() => (int)(Util.rnd32() % FinalEvo.Length);
+                        int randFinalEvo() => (int)(Util.Random32() % FinalEvo.Length);
                         pk.Species = FinalEvo[randFinalEvo()];
                         pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
                     }
@@ -888,7 +887,7 @@ namespace pk3DS
 
         private int[] GetRandomMega(out int species)
         {
-            int rnd = Util.rand.Next(0, MegaDictionary.Count - 1);
+            int rnd = Util.Rand.Next(0, MegaDictionary.Count - 1);
             species = MegaDictionary.Keys.ElementAt(rnd);
             return MegaDictionary.Values.ElementAt(rnd);
         }

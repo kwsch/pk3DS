@@ -19,7 +19,7 @@ namespace pk3DS.Core
             var sb = new StringBuilder();
             sb.Append(speciesList[Species]);
             if (Forme != 0)
-                sb.Append($" (Forme {Forme})");
+                sb.Append(" (Forme ").Append(Forme).Append(')');
             return sb.ToString();
         }
 

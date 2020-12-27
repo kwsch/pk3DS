@@ -41,21 +41,21 @@ namespace pk3DS.Core.CTR
             FilePath = Path.GetDirectoryName(path);
             Extension = Path.GetExtension(path);
 
-            using (var br = new BinaryReader(File.OpenRead(path)))
-                ReadALYT(br);
+            using var br = new BinaryReader(File.OpenRead(path));
+            ReadALYT(br);
         }
 
         public ALYT(byte[] data)
         {
-            using (var ms = new MemoryStream(data))
-            using (var br = new BinaryReader(ms))
-                ReadALYT(br);
+            using var ms = new MemoryStream(data);
+            using var br = new BinaryReader(ms);
+            ReadALYT(br);
         }
 
         public ALYT(Stream ms)
         {
-            using (var br = new BinaryReader(ms))
-                ReadALYT(br);
+            using var br = new BinaryReader(ms);
+            ReadALYT(br);
         }
 
         private void ReadALYT(BinaryReader br)
@@ -132,8 +132,8 @@ namespace pk3DS.Core.CTR
         /// </summary>
         public static byte[] GetData(string path)
         {
-            using (var br = new BinaryReader(File.OpenRead(path)))
-                return GetData(br);
+            using var br = new BinaryReader(File.OpenRead(path));
+            return GetData(br);
         }
 
         /// <summary>
@@ -141,9 +141,9 @@ namespace pk3DS.Core.CTR
         /// </summary>
         public static byte[] GetData(byte[] data)
         {
-            using (var ms = new MemoryStream(data))
-            using (var br = new BinaryReader(ms))
-                return GetData(br);
+            using var ms = new MemoryStream(data);
+            using var br = new BinaryReader(ms);
+            return GetData(br);
         }
 
         /// <summary>
@@ -151,8 +151,8 @@ namespace pk3DS.Core.CTR
         /// </summary>
         public static byte[] GetData(Stream ms)
         {
-            using (var br = new BinaryReader(ms))
-                return GetData(br);
+            using var br = new BinaryReader(ms);
+            return GetData(br);
         }
 
         private static byte[] GetData(BinaryReader br)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
@@ -14,10 +13,10 @@ namespace pk3DS
     public partial class MegaEvoEditor6 : Form
     {
         private readonly byte[][] files;
-        private readonly string[] forms = Main.Config.getText(TextName.Forms);
-        private readonly string[] types = Main.Config.getText(TextName.Types);
-        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
-        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
+        //private readonly string[] forms = Main.Config.GetText(TextName.Forms);
+        //private readonly string[] types = Main.Config.GetText(TextName.Types);
+        private readonly string[] specieslist = Main.Config.GetText(TextName.SpeciesNames);
+        private readonly string[] itemlist = Main.Config.GetText(TextName.ItemNames);
         private readonly GroupBox[] groupbox_spec;
         private readonly ComboBox[] forme_spec;
         private readonly ComboBox[] item_spec;
@@ -40,7 +39,7 @@ namespace pk3DS
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             specieslist[0] = itemlist[0] = "";
             specieslist[32] += "♂"; specieslist[29] += "♀";
-            AltForms = Main.Config.Personal.getFormList(specieslist, Main.Config.MaxSpeciesID);
+            AltForms = Main.Config.Personal.GetFormList(specieslist, Main.Config.MaxSpeciesID);
 
             groupbox_spec = new[] { GB_MEvo1, GB_MEvo2, GB_MEvo3 };
             item_spec = new[] { CB_Item1, CB_Item2, CB_Item3 };
@@ -57,20 +56,20 @@ namespace pk3DS
             List<string> temp_list = new List<string>(specieslist);
             temp_list.Sort();
 
-            CB_Species.DataSource = temp_list.Select(mon => new WinFormsUtil.cbItem { Text = mon, Value = Array.IndexOf(specieslist, mon) }).ToList();
+            CB_Species.DataSource = temp_list.ConvertAll(mon => new ComboItem { Text = mon, Value = Array.IndexOf(specieslist, mon) });
 
             List<string> items = new List<string>(itemlist);
             List<string> sorted_items = new List<string>(itemlist);
-            List<WinFormsUtil.cbItem>[] item_lists = new List<WinFormsUtil.cbItem>[item_spec.Length];
+            List<ComboItem>[] item_lists = new List<ComboItem>[item_spec.Length];
             for (int i = 0; i < item_lists.Length; i++)
-                item_lists[i] = new List<WinFormsUtil.cbItem>();
+                item_lists[i] = new List<ComboItem>();
 
             sorted_items.Sort();
             for (int i = 0; i < items.Count; i++)
             {
                 int index = items.IndexOf(sorted_items[i]);
                 {
-                    var ncbi = new WinFormsUtil.cbItem();
+                    var ncbi = new ComboItem();
                     if (sorted_items[i] == "???") continue; // Don't allow stubbed items.
                     ncbi.Text = sorted_items[i] + " - " + index.ToString("000");
                     ncbi.Value = index;
@@ -99,14 +98,14 @@ namespace pk3DS
             }
         }
 
-        private void changeIndex(object sender, EventArgs e)
+        private void ChangeIndex(object sender, EventArgs e)
         {
-            setEntry();
+            SetEntry();
             entry = (int)CB_Species.SelectedValue;
-            getEntry();
+            GetEntry();
         }
 
-        private void getEntry()
+        private void GetEntry()
         {
             if (!loaded) return;
             if (Main.Config.ORAS && entry == 384 && !dumping) // Current Mon is Rayquaza
@@ -115,7 +114,7 @@ namespace pk3DS
             byte[] data = files[entry];
 
             foreach (ComboBox CB in forme_spec)
-                FormUtil.setForms(entry, CB, AltForms);
+                FormUtil.SetForms(entry, CB, AltForms);
 
             me = new MegaEvolutions(data);
             for (int i = 0; i < 3; i++)
@@ -126,15 +125,15 @@ namespace pk3DS
             }
         }
 
-        private void setEntry()
+        private void SetEntry()
         {
             if (entry < 1 || entry == 384) return; // Don't edit invalid / Rayquaza.
             for (int i = 0; i < 3; i++)
             {
-                if (me.Method[i] > 1) 
+                if (me.Method[i] > 1)
                     return; // Shouldn't hit this.
-                me.Method[i] = (ushort)(checkbox_spec[i].Checked ? 1 : 0);
-                me.Argument[i] = (ushort)WinFormsUtil.getIndex(item_spec[i]);
+                me.Method[i] = checkbox_spec[i].Checked ? 1 : 0;
+                me.Argument[i] = (ushort)WinFormsUtil.GetIndex(item_spec[i]);
                 me.Form[i] = (ushort)forme_spec[i].SelectedIndex;
             }
             files[entry] = me.Write();
@@ -148,13 +147,13 @@ namespace pk3DS
                 CheckBox CB = checkbox_spec[i];
                 if (CB.Checked)
                 {
-                    UpdateImage(picturebox_spec[0][i], entry, 0, WinFormsUtil.getIndex(item_spec[i]), 0);
-                    UpdateImage(picturebox_spec[1][i], entry, forme_spec[i].SelectedIndex, WinFormsUtil.getIndex(item_spec[i]), 0);
+                    UpdateImage(picturebox_spec[0][i], entry, 0, WinFormsUtil.GetIndex(item_spec[i]), 0);
+                    UpdateImage(picturebox_spec[1][i], entry, forme_spec[i].SelectedIndex, WinFormsUtil.GetIndex(item_spec[i]), 0);
                 }
                 else
                 {
-                    UpdateImage(picturebox_spec[0][i], 0, 0, WinFormsUtil.getIndex(item_spec[i]), 0);
-                    UpdateImage(picturebox_spec[1][i], 0, 0, WinFormsUtil.getIndex(item_spec[i]), 0);
+                    UpdateImage(picturebox_spec[0][i], 0, 0, WinFormsUtil.GetIndex(item_spec[i]), 0);
+                    UpdateImage(picturebox_spec[1][i], 0, 0, WinFormsUtil.GetIndex(item_spec[i]), 0);
                 }
             }
         }
@@ -165,29 +164,29 @@ namespace pk3DS
             CheckBox CB = checkbox_spec[i];
             if (CB.Checked)
             {
-                UpdateImage(picturebox_spec[0][i], entry, 0, WinFormsUtil.getIndex(item_spec[i]), 0);
-                UpdateImage(picturebox_spec[1][i], entry, forme_spec[i].SelectedIndex, WinFormsUtil.getIndex(item_spec[i]), 0);
+                UpdateImage(picturebox_spec[0][i], entry, 0, WinFormsUtil.GetIndex(item_spec[i]), 0);
+                UpdateImage(picturebox_spec[1][i], entry, forme_spec[i].SelectedIndex, WinFormsUtil.GetIndex(item_spec[i]), 0);
             }
             else
             {
-                UpdateImage(picturebox_spec[0][i], 0, 0, WinFormsUtil.getIndex(item_spec[i]), 0);
-                UpdateImage(picturebox_spec[1][i], 0, 0, WinFormsUtil.getIndex(item_spec[i]), 0);
+                UpdateImage(picturebox_spec[0][i], 0, 0, WinFormsUtil.GetIndex(item_spec[i]), 0);
+                UpdateImage(picturebox_spec[1][i], 0, 0, WinFormsUtil.GetIndex(item_spec[i]), 0);
             }
         }
-        
-        private void UpdateImage(PictureBox pb, int species, int form, int item, int gender)
+
+        private static void UpdateImage(PictureBox pb, int species, int form, int item, int gender)
         {
             if (!pb.Enabled)
             {
                 pb.Image = null;
                 return;
             }
-            pb.Image = WinFormsUtil.getSprite(species, form, gender, item, Main.Config);
+            pb.Image = WinFormsUtil.GetSprite(species, form, gender, item, Main.Config);
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void Form_Closing(object sender, FormClosingEventArgs e)
         {
-            setEntry();
+            SetEntry();
         }
 
         private void B_Dump_Click(object sender, EventArgs e)

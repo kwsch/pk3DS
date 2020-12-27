@@ -14,7 +14,7 @@ namespace pk3DS
 {
     public partial class SMWE : Form
     {
-        public SMWE(lzGARCFile ed, lzGARCFile zd, lzGARCFile wd)
+        public SMWE(LazyGARCFile ed, LazyGARCFile zd, LazyGARCFile wd)
         {
             InitializeComponent();
 
@@ -26,7 +26,7 @@ namespace pk3DS
             font = L_Location.Font;
 
             speciesList[0] = "(None)";
-            var locationList = Main.Config.getText(TextName.metlist_000000);
+            var locationList = Main.Config.GetText(TextName.metlist_000000);
             locationList = GetGoodLocationList(locationList);
 
             nup_spec = LoadFormeNUD();
@@ -108,8 +108,8 @@ namespace pk3DS
         }
 
         private readonly Area7[] Areas;
-        private readonly lzGARCFile encdata;
-        private readonly string[] speciesList = Main.Config.getText(TextName.SpeciesNames);
+        private readonly LazyGARCFile encdata;
+        private readonly string[] speciesList = Main.Config.GetText(TextName.SpeciesNames);
         private readonly Font font;
         private readonly NumericUpDown[][] nup_spec;
         private readonly ComboBox[][] cb_spec;
@@ -258,7 +258,7 @@ namespace pk3DS
                 g.Clear(Color.Transparent);
 
                 var enc = CurrentTable.Encounter7s[table][slot];
-                g.DrawImage(enc.Species == 0 ? Properties.Resources.empty : WinFormsUtil.getSprite((int)enc.Species, (int)enc.Forme, 0, 0, Main.Config), pnt);
+                g.DrawImage(enc.Species == 0 ? Properties.Resources.empty : WinFormsUtil.GetSprite((int)enc.Species, (int)enc.Forme, 0, 0, Main.Config), pnt);
             }
 
             cur_pb.Image = cur_img;
@@ -371,16 +371,13 @@ namespace pk3DS
 
         private void DumpTables(object sender, EventArgs e)
         {
-            using (var sfd = new SaveFileDialog())
-            {
-                sfd.FileName = "EncounterTables.txt";
-                if (sfd.ShowDialog() != DialogResult.OK)
-                    return;
-                var sb = new StringBuilder();
-                foreach (var Map in Areas)
-                    sb.Append(Map.GetSummary(speciesList));
-                File.WriteAllText(sfd.FileName, sb.ToString());
-            }
+            using var sfd = new SaveFileDialog {FileName = "EncounterTables.txt"};
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+            var sb = new StringBuilder();
+            foreach (var Map in Areas)
+                sb.Append(Map.GetSummary(speciesList));
+            File.WriteAllText(sfd.FileName, sb.ToString());
         }
 
         // Randomization & Bulk Modification
@@ -458,8 +455,8 @@ namespace pk3DS
             // Cycle through each location to modify levels
             foreach (var Table in Areas.SelectMany(Map => Map.Tables))
             {
-                Table.MinLevel = Randomizer.getModifiedLevel(Table.MinLevel, NUD_LevelAmp.Value);
-                Table.MaxLevel = Randomizer.getModifiedLevel(Table.MaxLevel, NUD_LevelAmp.Value);
+                Table.MinLevel = Randomizer.GetModifiedLevel(Table.MinLevel, NUD_LevelAmp.Value);
+                Table.MaxLevel = Randomizer.GetModifiedLevel(Table.MaxLevel, NUD_LevelAmp.Value);
                 Table.Write();
             }
             // Enable Interface... modification complete.
@@ -490,10 +487,10 @@ namespace pk3DS
             return good;
         }
 
-        private void ExportEncounters(string gameID, string ident)
+        public void ExportEncounters(string gameID, string ident, bool sm)
         {
-            var reg = Gen7SlotDumper.GetRegularBinary(Areas);
-            var sos = Gen7SlotDumper.GetSOSBinary(Areas, Main.Config.Personal);
+            var reg = Gen7SlotDumper.GetRegularBinary(Areas, sm);
+            var sos = Gen7SlotDumper.GetSOSBinary(Areas, Main.Config.Personal, sm);
 
             File.WriteAllBytes($"encounter_{gameID}.pkl", Mini.PackMini(reg, ident));
             File.WriteAllBytes($"encounter_{gameID}_sos.pkl", Mini.PackMini(sos, ident));
@@ -505,7 +502,7 @@ namespace pk3DS
         }
     }
 
-    public static partial class Extensions
+    public static class Extensions
     {
         public static Bitmap GetTableImg(this EncounterTable table, Font font)
         {
@@ -536,11 +533,11 @@ namespace pk3DS
                 }
             }
 
-            Bitmap GetSprite(int species, int form)
+            static Bitmap GetSprite(int species, int form)
             {
                 return species == 0
                     ? Properties.Resources.empty
-                    : WinFormsUtil.getSprite(species, form, 0, 0, Main.Config);
+                    : WinFormsUtil.GetSprite(species, form, 0, 0, Main.Config);
             }
 
             return img;

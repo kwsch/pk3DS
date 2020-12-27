@@ -10,7 +10,7 @@ namespace pk3DS.ARCUtil
 {
     public static class ARC
     {
-        public static SARC analyzeSARC(string path)
+        public static SARC AnalyzeSARC(string path)
         {
             try { return new SARC(path); }
             catch { return new SARC(); }
@@ -24,7 +24,7 @@ namespace pk3DS.ARCUtil
                 FilePath = Path.GetDirectoryName(path),
                 Extension = Path.GetExtension(path)
             };
-            BinaryReader br = new BinaryReader(File.OpenRead(path));
+            using var br = new BinaryReader(File.OpenRead(path));
             if (br.ReadUInt32() != 0xB)
             {
                 br.BaseStream.Seek(0x100, SeekOrigin.Begin);
@@ -62,7 +62,7 @@ namespace pk3DS.ARCUtil
             return sharc;
         }
 
-        internal static GAR analyzeGAR(string path)
+        internal static GAR AnalyzeGAR(string path)
         {
             GAR gar = new GAR
             {
@@ -70,7 +70,7 @@ namespace pk3DS.ARCUtil
                 FilePath = Path.GetDirectoryName(path),
                 Extension = Path.GetExtension(path)
             };
-            BinaryReader br = new BinaryReader(File.OpenRead(path));
+            using var br = new BinaryReader(File.OpenRead(path));
             long len = br.BaseStream.Length;
             gar.Magic = br.ReadUInt32();
             gar.FileLength = br.ReadUInt32();
@@ -132,7 +132,7 @@ namespace pk3DS.ARCUtil
             return gar;
         }
 
-        internal static DARC analyze(string path)
+        internal static DARC Analyze(string path)
         {
             DARC darc = new DARC
             {
@@ -140,10 +140,10 @@ namespace pk3DS.ARCUtil
                 FilePath = Path.GetDirectoryName(path),
                 Extension = Path.GetExtension(path)
             };
-            using (BinaryReader br = new BinaryReader(File.OpenRead(path))) {
+            using BinaryReader br = new BinaryReader(File.OpenRead(path));
             long len = br.BaseStream.Length;
             darc.Magic = br.ReadUInt32();
-                uint m = darc.Magic;
+            uint m = darc.Magic;
             darc.HeaderOffset = 0;
             while (m != 0x63726164 && darc.HeaderOffset < len - 4)
             {
@@ -186,10 +186,10 @@ namespace pk3DS.ARCUtil
             }
 
             uint NameTableOffset = (uint)br.BaseStream.Position;
-            for (int i = 0; i < ft.Files.Count; i++)
+            foreach (var t in ft.Files)
             {
-                br.BaseStream.Seek(NameTableOffset + ft.Files[i].NameOffset, SeekOrigin.Begin);
-                MemoryStream stream = new MemoryStream();
+                br.BaseStream.Seek(NameTableOffset + t.NameOffset, SeekOrigin.Begin);
+                var stream = new MemoryStream();
                 for (byte fb = br.ReadByte(), sb = br.ReadByte();
                     fb != 0 || sb != 0;
                     fb = br.ReadByte(), sb = br.ReadByte())
@@ -205,10 +205,9 @@ namespace pk3DS.ARCUtil
             darc.FilePath = Path.GetDirectoryName(path);
             darc.Extension = Path.GetExtension(path);
             return darc;
-            }
         }
 
-        internal static FARC analyzeFARC(string path)
+        internal static FARC AnalyzeFARC(string path)
         {
             FARC farc = new FARC
             {
@@ -251,7 +250,7 @@ namespace pk3DS.ARCUtil
             br.BaseStream.Seek(farc.TableOffset, SeekOrigin.Begin);
             FARCFileTable ft = new FARCFileTable
             {
-                Files = new List<FARCFile>(), 
+                Files = new List<FARCFile>(),
                 FileNames = new List<string>()
             };
             for (int i = 0; i < farc.FileCount; i++)
@@ -299,15 +298,15 @@ namespace pk3DS.ARCUtil
             {
                 return ParseShuffleText(path);
             }
-            DARC darc = analyze(path);
+            DARC darc = Analyze(path);
             FARC farc = new FARC();
             GAR gar = new GAR();
             SARC sarc = new SARC();
             ShuffleARC sharc = new ShuffleARC();
-            if (!darc.valid) farc = analyzeFARC(path);
-            if (!farc.valid) gar = analyzeGAR(path);
+            if (!darc.valid) farc = AnalyzeFARC(path);
+            if (!farc.valid) gar = AnalyzeGAR(path);
             if (!gar.valid) sharc = AnalyzeShuffle(path);
-            if (!sharc.valid) sarc = analyzeSARC(path);
+            if (!sharc.valid) sarc = AnalyzeSARC(path);
 
             string ret = "";
             if (darc.valid)
@@ -387,10 +386,12 @@ namespace pk3DS.ARCUtil
             }
             else if (sharc.valid)
             {
-                UnpackShuffleARC(path, sharc, ret);
+                UnpackShuffleARC(path, sharc);
             }
             else if (sarc.Valid)
+            {
                 UnpackSARC(sarc);
+            }
             else
             {
                 ret = "Not a valid .DARC/.FARC/.SARC/.GAR/Shuffle Archive file";
@@ -398,7 +399,7 @@ namespace pk3DS.ARCUtil
             return ret;
         }
 
-        private static bool UnpackShuffleARC(string path, ShuffleARC sharc, string ret)
+        private static bool UnpackShuffleARC(string path, ShuffleARC sharc)
         {
             Debug.WriteLine($"New Shuffle Archive with {sharc.FileCount} files.");
             string dir = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar + sharc.FileName + "_" + Path.DirectorySeparatorChar;
@@ -441,28 +442,30 @@ namespace pk3DS.ARCUtil
         }
 
         // Unpacking
-        internal static string unpackDARC(string path, string outFolder = null, bool delete = true)
+        internal static string UnpackDARC(string path, string outFolder = null, bool delete = true)
         {
             int extracted = 0;
             int folder = 0;
-            DARC darc = analyze(path);
+            DARC darc = Analyze(path);
             if (!darc.valid) return "Not a DARC?";
 
             for (int i = 0; i < darc.Files.Files.Count; i++)
             {
-                if (darc.Files.Files[i].Folder > 0) folder++;
+                if (darc.Files.Files[i].Folder > 0)
+                {
+                    folder++;
+                }
                 else
                 {
                     extracted++;
                     string dir = outFolder ?? Path.GetDirectoryName(path) + Path.DirectorySeparatorChar + darc.FileName + Path.DirectorySeparatorChar;
                     if (!Directory.Exists(dir)) { Directory.CreateDirectory(dir); }
-                    using (var fs = File.OpenRead(path))
-                    {
-                        fs.Seek(darc.Files.Files[i].Offset, SeekOrigin.Begin);
-                        byte[] fileBuffer = new byte[darc.Files.Files[i].Length];
-                        fs.Read(fileBuffer, 0, fileBuffer.Length);
-                        File.WriteAllBytes(Path.Combine(dir, darc.Files.FileNames[i]), fileBuffer);
-                    }
+
+                    using var fs = File.OpenRead(path);
+                    fs.Seek(darc.Files.Files[i].Offset, SeekOrigin.Begin);
+                    byte[] fileBuffer = new byte[darc.Files.Files[i].Length];
+                    fs.Read(fileBuffer, 0, fileBuffer.Length);
+                    File.WriteAllBytes(Path.Combine(dir, darc.Files.FileNames[i]), fileBuffer);
                 }
             }
             if (delete)
@@ -477,16 +480,13 @@ namespace pk3DS.ARCUtil
             return s;
         }
 
-        internal static void repackDARC(string path, string fileName, string outfolder = null, bool header = true, bool delete = true)
+        internal static void RepackDARC(string path, string fileName, string outfolder = null, bool header = true)
         {
-            var data = new byte[0];
+            var data = Array.Empty<byte>();
             string[] files = Directory.GetFiles(path);
             int count = files.Length;
 
-            if (outfolder == null)
-            {
-                outfolder = Directory.GetParent(path).FullName;
-            }
+            outfolder ??= Directory.GetParent(path).FullName;
             string donor = Path.Combine(outfolder, fileName);
 
             if (header && File.Exists(donor))
@@ -511,7 +511,7 @@ namespace pk3DS.ARCUtil
                 }
                 else
                 {
-                    data = new byte[0];
+                    data = Array.Empty<byte>();
                 }
             }
             if (data.Length == 0)
@@ -564,7 +564,7 @@ namespace pk3DS.ARCUtil
             {
                 br.BaseStream.Seek(st.offsets[i], SeekOrigin.Begin);
                 uint len = i < st.StringCount - 1
-                    ? st.offsets[i + 1] - st.offsets[i] 
+                    ? st.offsets[i + 1] - st.offsets[i]
                     : StringDataLen + 0x40 - st.offsets[i];
                 byte[] data = br.ReadBytes((int)len);
                 st.strings.Add(Encoding.Unicode.GetString(data).Replace((char)0, ' ').Replace((char)0xa, ' '));
@@ -580,7 +580,7 @@ namespace pk3DS.ARCUtil
         }
     }
 
-    public struct FARC
+    public class FARC
     {
         public uint Magic;
         public uint SirMagic;
@@ -596,16 +596,16 @@ namespace pk3DS.ARCUtil
         public string FileName;
         public string FilePath;
         public string Extension;
-        public Boolean valid;
+        public bool valid;
     }
 
-    public struct FARCFileTable
+    public class FARCFileTable
     {
         public List<FARCFile> Files;
         public List<string> FileNames;
     }
 
-    public struct FARCFile
+    public class FARCFile
     {
         public uint NameOffset;
         public uint Offset;
@@ -682,13 +682,13 @@ namespace pk3DS.ARCUtil
         public uint Length;
     }
 
-    public struct DARC
+    public class DARC
     {
         public uint HeaderOffset; // Where is header in file?
 
         public uint Magic; // 0x64617263 "darc"
-        public UInt16 BOM; // 0xFFFE
-        public UInt16 HeaderLength; // HeaderLength - 0x1C
+        public ushort BOM; // 0xFFFE
+        public ushort HeaderLength; // HeaderLength - 0x1C
         public uint Unknown; // 0x10000000
         public uint totalLength; // Total Length of file
         public uint TableOffset; // Offset from Start of File
@@ -700,16 +700,16 @@ namespace pk3DS.ARCUtil
         public string FileName;
         public string FilePath;
         public string Extension;
-        public Boolean valid;
+        public bool valid;
     }
 
-    public struct FileTable
+    public class FileTable
     {
         public List<DarcFile> Files;
         public List<string> FileNames;
     }
 
-    public struct DarcFile
+    public class DarcFile
     {
         public ushort NameOffset; //
         public byte Parent;

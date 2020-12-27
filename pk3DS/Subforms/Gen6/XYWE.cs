@@ -12,64 +12,64 @@ namespace pk3DS
         public XYWE()
         {
             InitializeComponent();
-            spec = new[] 
+            All_Species = new[]
             {
                 CB_Grass1, CB_Grass2, CB_Grass3, CB_Grass4, CB_Grass5, CB_Grass6, CB_Grass7, CB_Grass8, CB_Grass9, CB_Grass10, CB_Grass11, CB_Grass12,
                 CB_Yellow1, CB_Yellow2, CB_Yellow3, CB_Yellow4, CB_Yellow5, CB_Yellow6, CB_Yellow7, CB_Yellow8, CB_Yellow9, CB_Yellow10, CB_Yellow11, CB_Yellow12,
                 CB_Purple1, CB_Purple2, CB_Purple3, CB_Purple4, CB_Purple5, CB_Purple6, CB_Purple7, CB_Purple8, CB_Purple9, CB_Purple10, CB_Purple11, CB_Purple12,
                 CB_Red1, CB_Red2, CB_Red3, CB_Red4, CB_Red5, CB_Red6, CB_Red7, CB_Red8, CB_Red9, CB_Red10, CB_Red11, CB_Red12,
                 CB_RT1, CB_RT2, CB_RT3, CB_RT4, CB_RT5, CB_RT6, CB_RT7, CB_RT8, CB_RT9, CB_RT10, CB_RT11, CB_RT12,
-                CB_Surf1, CB_Surf2, CB_Surf3, CB_Surf4, CB_Surf5, 
-                CB_RockSmash1, CB_RockSmash2, CB_RockSmash3, CB_RockSmash4, CB_RockSmash5, 
-                CB_Old1, CB_Old2, CB_Old3, 
+                CB_Surf1, CB_Surf2, CB_Surf3, CB_Surf4, CB_Surf5,
+                CB_RockSmash1, CB_RockSmash2, CB_RockSmash3, CB_RockSmash4, CB_RockSmash5,
+                CB_Old1, CB_Old2, CB_Old3,
                 CB_Good1, CB_Good2, CB_Good3,
                 CB_Super1, CB_Super2, CB_Super3,
                 CB_HordeA1, CB_HordeA2, CB_HordeA3, CB_HordeA4, CB_HordeA5,
                 CB_HordeB1, CB_HordeB2, CB_HordeB3, CB_HordeB4, CB_HordeB5,
                 CB_HordeC1, CB_HordeC2, CB_HordeC3, CB_HordeC4, CB_HordeC5,
             };
-            min = new[]
+            All_Min = new[]
             {
                 NUP_GrassMin1, NUP_GrassMin2, NUP_GrassMin3, NUP_GrassMin4, NUP_GrassMin5, NUP_GrassMin6, NUP_GrassMin7, NUP_GrassMin8, NUP_GrassMin9, NUP_GrassMin10, NUP_GrassMin11, NUP_GrassMin12,
                 NUP_YellowMin1, NUP_YellowMin2, NUP_YellowMin3, NUP_YellowMin4, NUP_YellowMin5, NUP_YellowMin6, NUP_YellowMin7, NUP_YellowMin8, NUP_YellowMin9, NUP_YellowMin10, NUP_YellowMin11, NUP_YellowMin12,
                 NUP_PurpleMin1, NUP_PurpleMin2, NUP_PurpleMin3, NUP_PurpleMin4, NUP_PurpleMin5, NUP_PurpleMin6, NUP_PurpleMin7, NUP_PurpleMin8, NUP_PurpleMin9, NUP_PurpleMin10, NUP_PurpleMin11, NUP_PurpleMin12,
                 NUP_RedMin1, NUP_RedMin2, NUP_RedMin3, NUP_RedMin4, NUP_RedMin5, NUP_RedMin6, NUP_RedMin7, NUP_RedMin8, NUP_RedMin9, NUP_RedMin10, NUP_RedMin11, NUP_RedMin12,
                 NUP_RTMin1, NUP_RTMin2, NUP_RTMin3, NUP_RTMin4, NUP_RTMin5, NUP_RTMin6, NUP_RTMin7, NUP_RTMin8, NUP_RTMin9, NUP_RTMin10, NUP_RTMin11, NUP_RTMin12,
-                NUP_SurfMin1, NUP_SurfMin2, NUP_SurfMin3, NUP_SurfMin4, NUP_SurfMin5, 
-                NUP_RockSmashMin1, NUP_RockSmashMin2, NUP_RockSmashMin3, NUP_RockSmashMin4, NUP_RockSmashMin5, 
-                NUP_OldMin1, NUP_OldMin2, NUP_OldMin3, 
+                NUP_SurfMin1, NUP_SurfMin2, NUP_SurfMin3, NUP_SurfMin4, NUP_SurfMin5,
+                NUP_RockSmashMin1, NUP_RockSmashMin2, NUP_RockSmashMin3, NUP_RockSmashMin4, NUP_RockSmashMin5,
+                NUP_OldMin1, NUP_OldMin2, NUP_OldMin3,
                 NUP_GoodMin1, NUP_GoodMin2, NUP_GoodMin3,
                 NUP_SuperMin1, NUP_SuperMin2, NUP_SuperMin3,
                 NUP_HordeAMin1, NUP_HordeAMin2, NUP_HordeAMin3, NUP_HordeAMin4, NUP_HordeAMin5,
                 NUP_HordeBMin1, NUP_HordeBMin2, NUP_HordeBMin3, NUP_HordeBMin4, NUP_HordeBMin5,
                 NUP_HordeCMin1, NUP_HordeCMin2, NUP_HordeCMin3, NUP_HordeCMin4, NUP_HordeCMin5,
             };
-            max = new[]
+            All_Max = new[]
             {
                 NUP_GrassMax1, NUP_GrassMax2, NUP_GrassMax3, NUP_GrassMax4, NUP_GrassMax5, NUP_GrassMax6, NUP_GrassMax7, NUP_GrassMax8, NUP_GrassMax9, NUP_GrassMax10, NUP_GrassMax11, NUP_GrassMax12,
                 NUP_YellowMax1, NUP_YellowMax2, NUP_YellowMax3, NUP_YellowMax4, NUP_YellowMax5, NUP_YellowMax6, NUP_YellowMax7, NUP_YellowMax8, NUP_YellowMax9, NUP_YellowMax10, NUP_YellowMax11, NUP_YellowMax12,
                 NUP_PurpleMax1, NUP_PurpleMax2, NUP_PurpleMax3, NUP_PurpleMax4, NUP_PurpleMax5, NUP_PurpleMax6, NUP_PurpleMax7, NUP_PurpleMax8, NUP_PurpleMax9, NUP_PurpleMax10, NUP_PurpleMax11, NUP_PurpleMax12,
                 NUP_RedMax1, NUP_RedMax2, NUP_RedMax3, NUP_RedMax4, NUP_RedMax5, NUP_RedMax6, NUP_RedMax7, NUP_RedMax8, NUP_RedMax9, NUP_RedMax10, NUP_RedMax11, NUP_RedMax12,
-                NUP_RTMax1, NUP_RTMax2, NUP_RTMax3, NUP_RTMax4, NUP_RTMax5, NUP_RTMax6, NUP_RTMax7, NUP_RTMax8, NUP_RTMax9, NUP_RTMax10, NUP_RTMax11, NUP_RTMax12, 
-                NUP_SurfMax1, NUP_SurfMax2, NUP_SurfMax3, NUP_SurfMax4, NUP_SurfMax5, 
-                NUP_RockSmashMax1, NUP_RockSmashMax2, NUP_RockSmashMax3, NUP_RockSmashMax4, NUP_RockSmashMax5, 
-                NUP_OldMax1, NUP_OldMax2, NUP_OldMax3, 
+                NUP_RTMax1, NUP_RTMax2, NUP_RTMax3, NUP_RTMax4, NUP_RTMax5, NUP_RTMax6, NUP_RTMax7, NUP_RTMax8, NUP_RTMax9, NUP_RTMax10, NUP_RTMax11, NUP_RTMax12,
+                NUP_SurfMax1, NUP_SurfMax2, NUP_SurfMax3, NUP_SurfMax4, NUP_SurfMax5,
+                NUP_RockSmashMax1, NUP_RockSmashMax2, NUP_RockSmashMax3, NUP_RockSmashMax4, NUP_RockSmashMax5,
+                NUP_OldMax1, NUP_OldMax2, NUP_OldMax3,
                 NUP_GoodMax1, NUP_GoodMax2, NUP_GoodMax3,
                 NUP_SuperMax1, NUP_SuperMax2, NUP_SuperMax3,
                 NUP_HordeAMax1, NUP_HordeAMax2, NUP_HordeAMax3, NUP_HordeAMax4, NUP_HordeAMax5,
                 NUP_HordeBMax1, NUP_HordeBMax2, NUP_HordeBMax3, NUP_HordeBMax4, NUP_HordeBMax5,
                 NUP_HordeCMax1, NUP_HordeCMax2, NUP_HordeCMax3, NUP_HordeCMax4, NUP_HordeCMax5,
             };
-            form = new[]
+            All_Form = new[]
             {
                 NUP_GrassForme1, NUP_GrassForme2, NUP_GrassForme3, NUP_GrassForme4, NUP_GrassForme5, NUP_GrassForme6, NUP_GrassForme7, NUP_GrassForme8, NUP_GrassForme9, NUP_GrassForme10, NUP_GrassForme11, NUP_GrassForme12,
                 NUP_YellowForme1, NUP_YellowForme2, NUP_YellowForme3, NUP_YellowForme4, NUP_YellowForme5, NUP_YellowForme6, NUP_YellowForme7, NUP_YellowForme8, NUP_YellowForme9, NUP_YellowForme10, NUP_YellowForme11, NUP_YellowForme12,
                 NUP_PurpleForme1, NUP_PurpleForme2, NUP_PurpleForme3, NUP_PurpleForme4, NUP_PurpleForme5, NUP_PurpleForme6, NUP_PurpleForme7, NUP_PurpleForme8, NUP_PurpleForme9, NUP_PurpleForme10, NUP_PurpleForme11, NUP_PurpleForme12,
                 NUP_RedForme1, NUP_RedForme2, NUP_RedForme3, NUP_RedForme4, NUP_RedForme5, NUP_RedForme6, NUP_RedForme7, NUP_RedForme8, NUP_RedForme9, NUP_RedForme10, NUP_RedForme11, NUP_RedForme12,
                 NUP_RTForme1, NUP_RTForme2, NUP_RTForme3, NUP_RTForme4, NUP_RTForme5, NUP_RTForme6, NUP_RTForme7, NUP_RTForme8, NUP_RTForme9, NUP_RTForme10, NUP_RTForme11, NUP_RTForme12,
-                NUP_SurfForme1, NUP_SurfForme2, NUP_SurfForme3, NUP_SurfForme4, NUP_SurfForme5, 
-                NUP_RockSmashForme1, NUP_RockSmashForme2, NUP_RockSmashForme3, NUP_RockSmashForme4, NUP_RockSmashForme5, 
-                NUP_OldForme1, NUP_OldForme2, NUP_OldForme3, 
+                NUP_SurfForme1, NUP_SurfForme2, NUP_SurfForme3, NUP_SurfForme4, NUP_SurfForme5,
+                NUP_RockSmashForme1, NUP_RockSmashForme2, NUP_RockSmashForme3, NUP_RockSmashForme4, NUP_RockSmashForme5,
+                NUP_OldForme1, NUP_OldForme2, NUP_OldForme3,
                 NUP_GoodForme1, NUP_GoodForme2, NUP_GoodForme3,
                 NUP_SuperForme1, NUP_SuperForme2, NUP_SuperForme3,
                 NUP_HordeAForme1, NUP_HordeAForme2, NUP_HordeAForme3, NUP_HordeAForme4, NUP_HordeAForme5,
@@ -274,46 +274,46 @@ namespace pk3DS
             "Megas-Mega (Y) - 2",
             };
             Load_XYWE();
-            openQuick(Directory.GetFiles("encdata"));
+            OpenQuick(Directory.GetFiles("encdata"));
             RandSettings.GetFormSettings(this, GB_Tweak.Controls);
         }
 
-        private readonly ComboBox[] spec;
-        private readonly NumericUpDown[] min;
-        private readonly NumericUpDown[] max;
-        private readonly NumericUpDown[] form;
-        string[] specieslist = { };
-        readonly string[] formlist = { };
-        string[] metXY_00000 = { };
-        byte[] zonedata = { };
-        string[] LocationNames = { };
+        private readonly ComboBox[] All_Species;
+        private readonly NumericUpDown[] All_Min;
+        private readonly NumericUpDown[] All_Max;
+        private readonly NumericUpDown[] All_Form;
+        private string[] specieslist = Array.Empty<string>();
+        private readonly string[] formlist = Array.Empty<string>();
+        private string[] metXY_00000 = Array.Empty<string>();
+        private byte[] zonedata = Array.Empty<byte>();
+        private string[] LocationNames = Array.Empty<string>();
         private string[] encdatapaths;
         private string[] filepaths;
 
         private void Load_XYWE()
         {
-            specieslist = Main.Config.getText(TextName.SpeciesNames);
+            specieslist = Main.Config.GetText(TextName.SpeciesNames);
             specieslist[0] = "---";
 
             CB_FormeList.Items.AddRange(formlist);
 
             // Clear & Reset Data
-            for (int i = 0; i < max.Length; i++)
+            for (int i = 0; i < All_Max.Length; i++)
             {
-                spec[i].Items.Clear();
+                All_Species[i].Items.Clear();
                 foreach (string s in specieslist)
-                    spec[i].Items.Add(s);
-                spec[i].SelectedIndex = 0;
+                    All_Species[i].Items.Add(s);
+                All_Species[i].SelectedIndex = 0;
             }
         }
 
-        private void openQuick(string[] encdata)
+        private void OpenQuick(string[] encdata)
         {
             encdatapaths = encdata;
             Array.Sort(encdatapaths);
             filepaths = new string[encdatapaths.Length - 1];
             Array.Copy(encdatapaths, 1, filepaths, 0, filepaths.Length);
-            metXY_00000 = Main.Config.getText(TextName.metlist_000000);
+            metXY_00000 = Main.Config.GetText(TextName.metlist_000000);
             zonedata = File.ReadAllBytes(encdatapaths[0]);
             LocationNames = new string[filepaths.Length];
             for (int f = 0; f < filepaths.Length; f++)
@@ -331,39 +331,39 @@ namespace pk3DS
             CB_LocationID_SelectedIndexChanged(null, null);
         }
 
-        private bool hasData()
+        private bool HasData()
         {
-            for (int i = 0; i < max.Length; i++)
+            for (int i = 0; i < All_Max.Length; i++)
             {
-                if (spec[i].SelectedIndex > 0) { return true; }
-                if (form[i].Value > 0) { return true; }
-                if (min[i].Value > 0) { return true; }
-                if (max[i].Value > 0) { return true; }
+                if (All_Species[i].SelectedIndex > 0) { return true; }
+                if (All_Form[i].Value > 0) { return true; }
+                if (All_Min[i].Value > 0) { return true; }
+                if (All_Max[i].Value > 0) { return true; }
             }
             return false;
         }
 
-        private void parse(byte[] ed)
+        private void ParseEncounterTable(byte[] ed)
         {
             // 12,12,12,12,12
             // 5,5
             // 3,3,3
             // 5,5,5,
-            byte[] slot = new Byte[4];
+            byte[] slot = new byte[4];
             const int offset = 0x0;
 
             // read data into form
-            for (int i = 0; i < max.Length; i++)
+            for (int i = 0; i < All_Max.Length; i++)
             {
                 // Fetch Data
                 Array.Copy(ed, offset + (i * 4), slot, 0, 4);
-                int[] data = pslot(slot);
+                int[] data = ParseSlot(slot);
 
                 // Load Data
-                spec[i].SelectedIndex = data[0];
-                form[i].Value = data[1];
-                min[i].Value = data[2];
-                max[i].Value = data[3];
+                All_Species[i].SelectedIndex = data[0];
+                All_Form[i].Value = data[1];
+                All_Min[i].Value = data[2];
+                All_Max[i].Value = data[3];
             }
 
             #if DUMPER
@@ -377,7 +377,7 @@ namespace pk3DS
             #endif
         }
 
-        private int[] pslot(byte[] slot)
+        private static int[] ParseSlot(byte[] slot)
         {
             int index = BitConverter.ToUInt16(slot, 0) & 0x7FF;
             int form = BitConverter.ToUInt16(slot, 0) >> 11;
@@ -391,7 +391,7 @@ namespace pk3DS
             return data;
         }
 
-        private string parseslot(byte[] slot)
+        public string ConvertSlotToString(byte[] slot)
         {
             int index = BitConverter.ToUInt16(slot, 0) & 0x7FF;
             if (index == 0) return "";
@@ -400,7 +400,7 @@ namespace pk3DS
             int max = slot[3];
             string species = specieslist[index];
             if (form > 0) species += "-" + form;
-            return species + ',' + min + ',' + max + ',';
+            return $"{species},{min},{max},";
         }
 
         private void CB_LocationID_SelectedIndexChanged(object sender, EventArgs e)
@@ -424,22 +424,22 @@ namespace pk3DS
 
             byte[] encounterdata = new byte[0x178];
             Array.Copy(filedata, offset, encounterdata, 0, 0x178);
-            parse(encounterdata);
+            ParseEncounterTable(encounterdata);
         }
 
         private void ClearData()
         {
-            for (int i = 0; i < max.Length; i++)
+            for (int i = 0; i < All_Max.Length; i++)
             {
                 // Load Data
-                spec[i].SelectedIndex = 0;
-                form[i].Value = 0;
-                min[i].Value = 0;
-                max[i].Value = 0;
+                All_Species[i].SelectedIndex = 0;
+                All_Form[i].Value = 0;
+                All_Min[i].Value = 0;
+                All_Max[i].Value = 0;
             }
         }
 
-        private byte[] MakeSlotData(int species, int f, int lo, int hi)
+        private static byte[] MakeSlotData(int species, int f, int lo, int hi)
         {
             byte[] data = new byte[4];
             Array.Copy(BitConverter.GetBytes(Convert.ToUInt16((Convert.ToUInt16(f) << 11) + Convert.ToUInt16(species))), 0, data, 0, 2);
@@ -452,9 +452,9 @@ namespace pk3DS
         {
             byte[] ed = new byte[0x178];
             const int offset = 0x0;
-            for (int i = 0; i < max.Length; i++)
+            for (int i = 0; i < All_Max.Length; i++)
             {
-                byte[] data = MakeSlotData(spec[i].SelectedIndex, (int)form[i].Value, (int)min[i].Value, (int)max[i].Value);
+                byte[] data = MakeSlotData(All_Species[i].SelectedIndex, (int)All_Form[i].Value, (int)All_Min[i].Value, (int)All_Max[i].Value);
                 Array.Copy(data, 0, ed, offset + (i * 4), 4);
             }
             return ed;
@@ -487,8 +487,8 @@ namespace pk3DS
                 //overwrite offset so the game actually looks at the data
                 Array.Copy(BitConverter.GetBytes(Convert.ToUInt32(filedata.Length)), 0, preoffset, 0x10, 4);
             }
-            byte[] encdata = { };
-            if (hasData()) { encdata = MakeEncounterData(); }
+            byte[] encdata = Array.Empty<byte>();
+            if (HasData()) { encdata = MakeEncounterData(); }
             byte[] newdata = ConcatArrays(preoffset, encdata);
             File.WriteAllBytes(filepath, newdata);
         }
@@ -503,7 +503,7 @@ namespace pk3DS
             TabControl_EncounterData.TabPages[0].Show();
         }
 
-        internal static uint rnd32() => Util.rnd32();
+        internal static uint Random32() => Util.Random32();
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
@@ -534,33 +534,35 @@ namespace pk3DS
             for (int i = 0; i < CB_LocationID.Items.Count; i++) // for every location
             {
                 CB_LocationID.SelectedIndex = i;
-                if (!hasData()) continue; // Don't randomize if doesn't have data.
+                if (!HasData()) continue; // Don't randomize if doesn't have data.
 
                 // Assign Levels
                 if (CHK_Level.Checked)
-                    for (int l = 0; l < max.Length; l++)
-                        min[l].Value = max[l].Value = max[l].Value <= 1 ? max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * max[l].Value)));
+                {
+                    for (int l = 0; l < All_Max.Length; l++)
+                        All_Min[l].Value = All_Max[l].Value = All_Max[l].Value <= 1 ? All_Max[l].Value : Math.Max(1, Math.Min(100, (int)(leveldiff * All_Max[l].Value)));
+                }
 
                 // If Distinct Hordes are selected, homogenize
                 int hordeslot = 0;
-                for (int slot = 0; slot < max.Length; slot++)
+                for (int slot = 0; slot < All_Max.Length; slot++)
                 {
-                    if (spec[slot].SelectedIndex == 0) continue;
-                    if (CHK_HomogeneousHordes.Checked && slot >= max.Length - 15)
+                    if (All_Species[slot].SelectedIndex == 0) continue;
+                    if (CHK_HomogeneousHordes.Checked && slot >= All_Max.Length - 15)
                     {
                         int shift = hordeslot % 5;
                         hordeslot++;
                         if (shift != 0)
                         {
-                            spec[slot].SelectedIndex = spec[slot - shift].SelectedIndex;
-                            form[slot].Value = form[slot - shift].Value;
+                            All_Species[slot].SelectedIndex = All_Species[slot - shift].SelectedIndex;
+                            All_Form[slot].Value = All_Form[slot - shift].Value;
                             continue;
                         }
                     }
 
-                    int species = rand.GetRandomSpecies(spec[slot].SelectedIndex);
-                    spec[slot].SelectedIndex = species;
-                    setRandomForm(slot, species);
+                    int species = rand.GetRandomSpecies(All_Species[slot].SelectedIndex);
+                    All_Species[slot].SelectedIndex = species;
+                    SetRandomForm(slot, species);
                 }
                 B_Save_Click(sender, e);
             }
@@ -568,32 +570,32 @@ namespace pk3DS
             WinFormsUtil.Alert("Randomized all Wild Encounters according to specification!", "Press the Dump Tables button to view the new Wild Encounter information!");
         }
 
-        private void setRandomForm(int slot, int species)
+        private void SetRandomForm(int slot, int species)
         {
             if (CHK_MegaForm.Checked && Main.SpeciesStat[species].FormeCount > 1 && Legal.Mega_XY.Contains((ushort)species))
-                form[slot].Value = rnd32() % Main.SpeciesStat[species].FormeCount; // Slot-Random
+                All_Form[slot].Value = Random32() % Main.SpeciesStat[species].FormeCount; // Slot-Random
             else if (species == 666 || species == 665 || species == 664) // Vivillon
-                form[slot].Value = rnd32() % 20;
+                All_Form[slot].Value = Random32() % 20;
             else if (species == 386) // Deoxys
-                form[slot].Value = rnd32() % 4;
+                All_Form[slot].Value = Random32() % 4;
             else if (species == 201) // Unown
-                form[slot].Value = 31;
+                All_Form[slot].Value = 31;
             else if (species == 550) // Basculin
-                form[slot].Value = rnd32() % 2;
+                All_Form[slot].Value = Random32() % 2;
             else if (species == 412 || species == 413) // Wormadam
-                form[slot].Value = rnd32() % 3;
+                All_Form[slot].Value = Random32() % 3;
             else if (species == 422 || species == 423) // Gastrodon
-                form[slot].Value = rnd32() % 2;
+                All_Form[slot].Value = Random32() % 2;
             else if (species == 585 || species == 586) // Sawsbuck
-                form[slot].Value = rnd32() % 4;
+                All_Form[slot].Value = Random32() % 4;
             else if (species == 669 || species == 671) // Flabebe/Florges
-                form[slot].Value = rnd32() % 5;
+                All_Form[slot].Value = Random32() % 5;
             else if (species == 670) // Floette
-                form[slot].Value = rnd32() % 6;
+                All_Form[slot].Value = Random32() % 6;
             else if (species == 710 || species == 711) // Pumpkaboo
-                form[slot].Value = rnd32() % 4;
+                All_Form[slot].Value = Random32() % 4;
             else
-                form[slot].Value = 0;
+                All_Form[slot].Value = 0;
         }
 
         private void B_Dump_Click(object sender, EventArgs e)
@@ -617,7 +619,7 @@ namespace pk3DS
             string toret = "======" + Environment.NewLine;
             toret += "Map " + CB_LocationID.Text + "" + Environment.NewLine;
             toret += "======" + Environment.NewLine;
-            if (hasData())
+            if (HasData())
             {
                 toret += $"Grass: {label31.Text} - {CB_Grass1.Text} (Level {NUP_GrassMin1.Text}, Forme: {NUP_GrassForme1.Text}), {label32.Text} - {CB_Grass2.Text} (Level {NUP_GrassMin2.Text}, Forme: {NUP_GrassForme2.Text}), {label33.Text} - {CB_Grass3.Text} (Level {NUP_GrassMin3.Text}, Forme: {NUP_GrassForme3.Text}), {label34.Text} - {CB_Grass4.Text} (Level {NUP_GrassMin4.Text}, Forme: {NUP_GrassForme4.Text}), {label35.Text} - {CB_Grass5.Text} (Level {NUP_GrassMin5.Text}, Forme: {NUP_GrassForme5.Text}), {label36.Text} - {CB_Grass6.Text} (Level {NUP_GrassMin6.Text}, Forme: {NUP_GrassForme6.Text}), {label37.Text} - {CB_Grass7.Text} (Level {NUP_GrassMin7.Text}, Forme: {NUP_GrassForme7.Text}), {label38.Text} - {CB_Grass8.Text} (Level {NUP_GrassMin8.Text}, Forme: {NUP_GrassForme8.Text}), {label39.Text} - {CB_Grass9.Text} (Level {NUP_GrassMin9.Text}, Forme: {NUP_GrassForme9.Text}), {label40.Text} - {CB_Grass10.Text} (Level {NUP_GrassMin10.Text}, Forme: {NUP_GrassForme10.Text}), {label42.Text} - {CB_Grass11.Text} (Level {NUP_GrassMin11.Text}, Forme: {NUP_GrassForme11.Text}), {label41.Text} - {CB_Grass12.Text} (Level {NUP_GrassMin12.Text}, Forme: {NUP_GrassForme12.Text}){Environment.NewLine}";
                 toret += $"Rough Terrain: {label10.Text} - {CB_RT1.Text} (Level {NUP_RTMin1.Text}, Forme: {NUP_RTForme1.Text}), {label21.Text} - {CB_RT2.Text} (Level {NUP_RTMin2.Text}, Forme: {NUP_RTForme2.Text}), {label20.Text} - {CB_RT3.Text} (Level {NUP_RTMin3.Text}, Forme: {NUP_RTForme3.Text}), {label19.Text} - {CB_RT4.Text} (Level {NUP_RTMin4.Text}, Forme: {NUP_RTForme4.Text}), {label18.Text} - {CB_RT5.Text} (Level {NUP_RTMin5.Text}, Forme: {NUP_RTForme5.Text}), {label17.Text} - {CB_RT6.Text} (Level {NUP_RTMin6.Text}, Forme: {NUP_RTForme6.Text}), {label16.Text} - {CB_RT7.Text} (Level {NUP_RTMin7.Text}, Forme: {NUP_RTForme7.Text}), {label15.Text} - {CB_RT8.Text} (Level {NUP_RTMin8.Text}, Forme: {NUP_RTForme8.Text}), {label14.Text} - {CB_RT9.Text} (Level {NUP_RTMin9.Text}, Forme: {NUP_RTForme9.Text}), {label13.Text} - {CB_RT10.Text} (Level {NUP_RTMin10.Text}, Forme: {NUP_RTForme10.Text}), {label12.Text} - {CB_RT11.Text} (Level {NUP_RTMin11.Text}, Forme: {NUP_RTForme11.Text}), {label11.Text} - {CB_RT12.Text} (Level {NUP_RTMin12.Text}, Forme: {NUP_RTForme12.Text}){Environment.NewLine}";
@@ -635,11 +637,14 @@ namespace pk3DS
                 toret = toret.Replace("--- (No Level)", "None");
             }
             else
+            {
                 toret += "No encounters found." + Environment.NewLine + Environment.NewLine;
+            }
+
             return toret;
         }
 
-        private void modifyLevels(object sender, EventArgs e)
+        private void ModifyLevels(object sender, EventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify all current Level ranges?", "Cannot undo.") != DialogResult.Yes) return;
 
@@ -656,9 +661,11 @@ namespace pk3DS
                 CB_LocationID.SelectedIndex = i;
 
                 // Amp Levels
-                for (int l = 0; l < max.Length; l++)
-                    if (min[l].Value > 1)
-                        min[l].Value = max[l].Value = Randomizer.getModifiedLevel((int)max[l].Value, leveldiff);
+                for (int l = 0; l < All_Max.Length; l++)
+                {
+                    if (All_Min[l].Value > 1)
+                        All_Min[l].Value = All_Max[l].Value = Randomizer.GetModifiedLevel((int)All_Max[l].Value, leveldiff);
+                }
 
                 // Save Changes
                 B_Save_Click(sender, e);

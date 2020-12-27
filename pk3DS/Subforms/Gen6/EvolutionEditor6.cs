@@ -23,7 +23,7 @@ namespace pk3DS
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
 
             string[] evolutionMethods =
-            { 
+            {
                 "",
                 "Level Up with Friendship",
                 "Level Up at Morning with Friendship",
@@ -82,14 +82,14 @@ namespace pk3DS
         private readonly ComboBox[] mb;
         private readonly PictureBox[] pic;
         private int entry = -1;
-        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
-        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
-        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
-        private readonly string[] typelist = Main.Config.getText(TextName.Types);
+        private readonly string[] specieslist = Main.Config.GetText(TextName.SpeciesNames);
+        private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
+        private readonly string[] itemlist = Main.Config.GetText(TextName.ItemNames);
+        private readonly string[] typelist = Main.Config.GetText(TextName.Types);
         private bool dumping;
         private EvolutionSet evo = new EvolutionSet6(new byte[EvolutionSet6.SIZE]);
 
-        private void getList()
+        private void GetList()
         {
             entry = Array.IndexOf(specieslist, CB_Species.Text);
             byte[] input = files[entry];
@@ -99,14 +99,14 @@ namespace pk3DS
             for (int i = 0; i < evo.PossibleEvolutions.Length; i++)
             {
                 if (evo.PossibleEvolutions[i].Method > 34) return; // Invalid!
-                
+
                 mb[i].SelectedIndex = evo.PossibleEvolutions[i].Method; // Which will trigger the params cb to reload the valid params list
                 pb[i].SelectedIndex = evo.PossibleEvolutions[i].Argument;
                 rb[i].SelectedIndex = evo.PossibleEvolutions[i].Species;
             }
         }
 
-        private void setList()
+        private void SetList()
         {
             if (entry < 1 || dumping) return;
 
@@ -119,10 +119,10 @@ namespace pk3DS
             files[entry] = evo.Write();
         }
 
-        private void changeEntry(object sender, EventArgs e)
+        private void ChangeEntry(object sender, EventArgs e)
         {
-            setList();
-            getList();
+            SetList();
+            GetList();
         }
 
         private void B_RandAll_Click(object sender, EventArgs e)
@@ -130,7 +130,7 @@ namespace pk3DS
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all resulting species?", "Evolution methods and parameters will stay the same."))
                 return;
 
-            setList();
+            SetList();
             // Set up advanced randomization options
             var evos = files.Select(z => new EvolutionSet6(z)).ToArray();
             var evoRand = new EvolutionRandomizer(Main.Config, evos);
@@ -142,7 +142,7 @@ namespace pk3DS
             evoRand.Randomizer.Initialize();
             evoRand.Execute();
             evos.Select(z => z.Write()).ToArray().CopyTo(files, 0);
-            getList();
+            GetList();
 
             WinFormsUtil.Alert("All Pokémon's Evolutions have been randomized!");
         }
@@ -152,13 +152,13 @@ namespace pk3DS
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Remove all trade evolutions?", "Evolution methods will be altered so that evolutions will be possible with only one game."))
                 return;
 
-            setList();
+            SetList();
             var evos = files.Select(z => new EvolutionSet6(z)).ToArray();
             var evoRand = new EvolutionRandomizer(Main.Config, evos);
             evoRand.Randomizer.Initialize();
             evoRand.ExecuteTrade();
             evos.Select(z => z.Write()).ToArray().CopyTo(files, 0);
-            getList();
+            GetList();
 
             WinFormsUtil.Alert("All trade evolutions have been removed!", "Trade evolutions will now occur after reaching a certain Level, or after leveling up while holding its appropriate trade item.");
         }
@@ -168,7 +168,7 @@ namespace pk3DS
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modify evolutions?", "This will make it to where your Pokémon will evolve into something random every time it levels up."))
                 return;
 
-            setList();
+            SetList();
             var evos = files.Select(z => new EvolutionSet6(z)).ToArray();
             var evoRand = new EvolutionRandomizer(Main.Config, evos);
             evoRand.Randomizer.rBST = CHK_BST.Checked;
@@ -180,7 +180,7 @@ namespace pk3DS
             evoRand.ExecuteEvolveEveryLevel();
             evoRand.Execute(); // randomize right after
             evos.Select(z => z.Write()).ToArray().CopyTo(files, 0);
-            getList();
+            GetList();
             SystemSounds.Asterisk.Play();
         }
 
@@ -217,17 +217,17 @@ namespace pk3DS
             dumping = false;
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void Form_Closing(object sender, FormClosingEventArgs e)
         {
-            setList();
+            SetList();
             RandSettings.SetFormSettings(this, GB_Randomizer.Controls);
         }
 
-        private void changeMethod(object sender, EventArgs e)
+        private void ChangeMethod(object sender, EventArgs e)
         {
             int op = Array.IndexOf(mb, sender as ComboBox);
             ushort[] methodCase =
-            { 
+            {
                 0,0,0,0,1,0,2,0,2,1,1,1,1,1,1,1,5,2,2,2,2,3,4,1,1,0,0,0, // 27, Past Methods
                 // New Methods
                 1, // 28 - Dark Type Party
@@ -254,7 +254,7 @@ namespace pk3DS
                 case 3: // Moves
                     { foreach (string t in movelist) pb[op].Items.Add(t); break; }
                 case 4: // Species
-                    { for (int i = 0; i < specieslist.Length; i++) pb[op].Items.Add(specieslist[i]); break; }
+                    { foreach (string t in specieslist) pb[op].Items.Add(t); break; }
                 case 5: // 0-255 (Beauty)
                     { for (int i = 0; i <= 255; i++) pb[op].Items.Add(i.ToString()); break; }
                 case 6:
@@ -263,9 +263,11 @@ namespace pk3DS
             pb[op].SelectedIndex = 0;
         }
 
-        private void changeInto(object sender, EventArgs e)
+        private void ChangeInto(object sender, EventArgs e)
         {
-            pic[Array.IndexOf(rb, sender as ComboBox)].Image = (Bitmap)Resources.ResourceManager.GetObject("_" + Array.IndexOf(specieslist, (sender as ComboBox).Text));
+            if (sender is not ComboBox cb)
+                return;
+            pic[Array.IndexOf(rb, cb)].Image = (Bitmap)Resources.ResourceManager.GetObject("_" + Array.IndexOf(specieslist, cb.Text));
         }
     }
 }

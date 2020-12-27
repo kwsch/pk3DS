@@ -2,21 +2,21 @@
 
 namespace pk3DS.Core.Structures
 {
-    public class trpoke7
+    public class TrainerPoke7
     {
         public const int SIZE = 0x20;
         private readonly byte[] Data;
 
-        public trpoke7(byte[] d = null)
+        public TrainerPoke7(byte[] d = null)
         {
             Data = (byte[])(d ?? new byte[SIZE]).Clone();
             if (Data.Length != 0x20)
                 throw new ArgumentException("Invalid trpoke7!");
         }
 
-        public trpoke7 Clone()
+        public TrainerPoke7 Clone()
         {
-            return new trpoke7(Write());
+            return new(Write());
         }
 
         public int Gender
@@ -48,7 +48,7 @@ namespace pk3DS.Core.Structures
         public int IV_SPA { get => (int)(IV32 >> 15) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 15)) | (uint)((value > 31 ? 31 : value) << 15)); }
         public int IV_SPD { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); }
         public int IV_SPE { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); }
-        public bool Shiny { get => ((IV32 >> 30) & 1) == 1; set => IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); }
+        public bool Shiny { get => ((IV32 >> 30) & 1) == 1; set => IV32 = ((IV32 & ~0x40000000u) | (value ? 0x40000000u : 0)); }
 
         public int Level { get => Data[0xE]; set => Data[0xE] = (byte)value; }
         public int Species { get => BitConverter.ToUInt16(Data, 0x10); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10); }

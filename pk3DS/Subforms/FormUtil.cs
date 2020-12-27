@@ -5,7 +5,7 @@ namespace pk3DS
     public static class FormUtil
     {
         // Utility (Shared)
-        internal static void setForms(int species, ComboBox cb, string[][] AltForms)
+        internal static void SetForms(int species, ComboBox cb, string[][] AltForms)
         {
             cb.Items.Clear();
             string[] forms = AltForms[species];

@@ -21,20 +21,20 @@ namespace pk3DS
         {
             InitializeComponent();
             files = infiles;
-            string[] species = Main.Config.getText(TextName.SpeciesNames);
-            string[][] AltForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
-            string[] specieslist = Main.Config.Personal.getPersonalEntryList(AltForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
+            string[] species = Main.Config.GetText(TextName.SpeciesNames);
+            string[][] AltForms = Main.Config.Personal.GetFormList(species, Main.Config.MaxSpeciesID);
+            string[] specieslist = Main.Config.Personal.GetPersonalEntryList(AltForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
             specieslist[0] = movelist[0] = "";
 
             string[] sortedspecies = (string[])specieslist.Clone();
             Array.Resize(ref sortedspecies, Main.Config.MaxSpeciesID + 1); Array.Sort(sortedspecies);
-            setupDGV();
+            SetupDGV();
 
-            var newlist = new List<WinFormsUtil.cbItem>();
+            var newlist = new List<ComboItem>();
             for (int i = 1; i <= Main.Config.MaxSpeciesID; i++) // add all species
-                newlist.Add(new WinFormsUtil.cbItem { Text = sortedspecies[i], Value = Array.IndexOf(specieslist, sortedspecies[i]) });
+                newlist.Add(new ComboItem { Text = sortedspecies[i], Value = Array.IndexOf(specieslist, sortedspecies[i]) });
             for (int i = Main.Config.MaxSpeciesID + 1; i < specieslist.Length; i++) // add all forms
-                newlist.Add(new WinFormsUtil.cbItem { Text = specieslist[i], Value = i });
+                newlist.Add(new ComboItem { Text = specieslist[i], Value = i });
 
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
@@ -45,11 +45,11 @@ namespace pk3DS
 
         private readonly byte[][] files;
         private int entry = -1;
-        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
         private bool dumping;
         private readonly int[] baseForms, formVal;
 
-        private void setupDGV()
+        private void SetupDGV()
         {
             string[] sortedmoves = (string[])movelist.Clone();
             Array.Sort(sortedmoves);
@@ -76,9 +76,9 @@ namespace pk3DS
 
         private Learnset pkm;
 
-        private void getList()
+        private void GetList()
         {
-            entry = WinFormsUtil.getIndex(CB_Species);
+            entry = WinFormsUtil.GetIndex(CB_Species);
             int s = baseForms[entry];
             int f = formVal[entry];
             if (entry <= Main.Config.MaxSpeciesID)
@@ -104,7 +104,7 @@ namespace pk3DS
             dgv.CancelEdit();
         }
 
-        private void setList()
+        private void SetList()
         {
             if (entry < 1 || dumping) return;
             List<int> moves = new List<int>();
@@ -116,8 +116,7 @@ namespace pk3DS
 
                 moves.Add((short)move);
                 string level = (dgv.Rows[i].Cells[0].Value ?? 0).ToString();
-                short lv;
-                short.TryParse(level, out lv);
+                short.TryParse(level, out var lv);
                 if (lv > 100) lv = 100;
                 levels.Add(lv);
             }
@@ -126,15 +125,15 @@ namespace pk3DS
             files[entry] = pkm.Write();
         }
 
-        private void changeEntry(object sender, EventArgs e)
+        private void ChangeEntry(object sender, EventArgs e)
         {
-            setList();
-            getList();
+            SetList();
+            GetList();
         }
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            setList();
+            SetList();
             var sets = files.Select(z => new Learnset6(z)).ToArray();
             var banned = new List<int>(new[] {165, 621, 464}.Concat(Legal.Z_Moves)); // Struggle, Hyperspace Fury, Dark Void
             if (CHK_NoFixedDamage.Checked)
@@ -147,14 +146,14 @@ namespace pk3DS
                 Spread = CHK_Spread.Checked,
                 SpreadTo = (int) NUD_Level.Value,
                 STAB = CHK_STAB.Checked,
-                rSTABPercent = NUD_STAB.Value,
+                STABPercent = NUD_STAB.Value,
                 STABFirst = CHK_STAB.Checked,
                 BannedMoves = banned,
                 Learn4Level1 = CHK_4MovesLvl1.Checked,
             };
             rand.Execute();
             sets.Select(z => z.Write()).ToArray().CopyTo(files, 0);
-            getList();
+            GetList();
             WinFormsUtil.Alert("All Pokémon's Level Up Moves have been randomized!", "Press the Dump button to see the new Level Up Moves!");
         }
 
@@ -202,9 +201,9 @@ namespace pk3DS
             dumping = false;
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void Form_Closing(object sender, FormClosingEventArgs e)
         {
-            setList();
+            SetList();
             RandSettings.SetFormSettings(this, groupBox1.Controls);
         }
 
@@ -214,7 +213,7 @@ namespace pk3DS
             NUD_STAB.Value = CHK_STAB.Checked ? 52 : NUD_STAB.Minimum;
         }
 
-        public void calcStats() // Debug Function
+        public void CalcStats() // Debug Function
         {
             Move[] MoveData = Main.Config.Moves;
             int movectr = 0;

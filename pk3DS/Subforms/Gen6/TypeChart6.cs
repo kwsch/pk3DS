@@ -9,7 +9,7 @@ namespace pk3DS
     public partial class TypeChart6 : Form
     {
         private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllBattle.cro");
-        private readonly string[] types = Main.Config.getText(TextName.Types);
+        private readonly string[] types = Main.Config.GetText(TextName.Types);
         private readonly int offset = Main.Config.ORAS ? 0x000DB428 : 0x000D12A8;
         private readonly byte[] chart = new byte[TypeCount * TypeCount];
         private readonly byte[] CROData;
@@ -26,12 +26,12 @@ namespace pk3DS
             CROData = File.ReadAllBytes(CROPath);
             Array.Copy(CROData, offset, chart, 0, chart.Length);
 
-            populateChart();
+            PopulateChart();
         }
 
-        private void populateChart()
+        private void PopulateChart()
         {
-            PB_Chart.Image = TypeChart.getGrid(TypeWidth, TypeCount, chart);
+            PB_Chart.Image = TypeChart.GetGrid(TypeWidth, TypeCount, chart);
         }
 
         private void B_Save_Click(object sender, EventArgs e)
@@ -46,16 +46,16 @@ namespace pk3DS
             Close();
         }
 
-        private void moveMouse(object sender, MouseEventArgs e)
+        private void MoveMouse(object sender, MouseEventArgs e)
         {
             GetCoordinate((PictureBox)sender, e, out int X, out int Y);
             int index = (Y * TypeCount) + X;
             if (index >= chart.Length)
                 return;
-            updateLabel(X, Y, chart[index]);
+            UpdateLabel(X, Y, chart[index]);
         }
 
-        private void clickMouse(object sender, MouseEventArgs e)
+        private void ClickMouse(object sender, MouseEventArgs e)
         {
             GetCoordinate((PictureBox)sender, e, out int X, out int Y);
             int index = (Y * TypeCount) + X;
@@ -64,11 +64,11 @@ namespace pk3DS
 
             chart[index] = ToggleEffectiveness(chart[index], e.Button == MouseButtons.Left);
 
-            updateLabel(X, Y, chart[index]);
-            populateChart();
+            UpdateLabel(X, Y, chart[index]);
+            PopulateChart();
         }
 
-        private void updateLabel(int X, int Y, int value)
+        private void UpdateLabel(int X, int Y, int value)
         {
             if (value >= effects.Length || X >= types.Length || Y >= types.Length)
                 return; // clicking and moving outside the box has invalid values
@@ -91,9 +91,9 @@ namespace pk3DS
             X = e.X / TypeWidth;
             Y = e.Y / TypeWidth;
             if (e.X == sender.Width - 1 - 2) // tweak because the furthest pixel is unused for transparent effect, and 2 px are used for border
-                X -= 1;
+                X--;
             if (e.Y == sender.Height - 1 - 2)
-                Y -= 1;
+                Y--;
         }
 
         public static byte ToggleEffectiveness(byte currentValue, bool increase)

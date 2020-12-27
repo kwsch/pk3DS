@@ -149,7 +149,7 @@
             this.CB_Item.Name = "CB_Item";
             this.CB_Item.Size = new System.Drawing.Size(45, 21);
             this.CB_Item.TabIndex = 46;
-            this.CB_Item.SelectedIndexChanged += new System.EventHandler(this.changeEntry);
+            this.CB_Item.SelectedIndexChanged += new System.EventHandler(this.ChangeEntry);
             // 
             // NUD_Duration
             // 
@@ -350,7 +350,7 @@
             this.Name = "OPower";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "O-Power Editor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_PlayerCost)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_OtherCost)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stage)).EndInit();

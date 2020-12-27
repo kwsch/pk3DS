@@ -24,15 +24,13 @@ namespace pk3DS.Core.Structures
 
             public byte[] Write()
             {
-                using (var ms = new MemoryStream())
-                using (var bw = new BinaryWriter(ms))
-                {
-                    bw.Write(Class);
-                    bw.Write(Count);
-                    foreach (ushort Choice in Choices)
-                        bw.Write(Choice);
-                    return ms.ToArray();
-                }
+                using var ms = new MemoryStream();
+                using var bw = new BinaryWriter(ms);
+                bw.Write(Class);
+                bw.Write(Count);
+                foreach (ushort Choice in Choices)
+                    bw.Write(Choice);
+                return ms.ToArray();
             }
         }
 
@@ -72,23 +70,21 @@ namespace pk3DS.Core.Structures
 
             public byte[] Write()
             {
-                using (var ms = new MemoryStream())
-                using (var bw = new BinaryWriter(ms))
-                {
-                    bw.Write(Species);
-                    foreach (ushort Move in Moves)
-                        bw.Write(Move);
+                using var ms = new MemoryStream();
+                using var bw = new BinaryWriter(ms);
+                bw.Write(Species);
+                foreach (ushort Move in Moves)
+                    bw.Write(Move);
 
-                    int ev = EV & 0xC0;
-                    for (int i = 0; i < EVs.Length; i++)
-                        ev |= EVs[i] ? 1 << i : 0;
-                    bw.Write((byte)ev);
+                int ev = EV & 0xC0;
+                for (int i = 0; i < EVs.Length; i++)
+                    ev |= EVs[i] ? 1 << i : 0;
+                bw.Write((byte)ev);
 
-                    bw.Write(Nature);
-                    bw.Write(Item);
-                    bw.Write(Form);
-                    return ms.ToArray();
-                }
+                bw.Write(Nature);
+                bw.Write(Item);
+                bw.Write(Form);
+                return ms.ToArray();
             }
         }
     }

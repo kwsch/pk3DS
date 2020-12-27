@@ -17,23 +17,23 @@ namespace pk3DS.Core.CTR
             if (Directory.Exists(EXEFS_PATH))
             {
                 var files = new DirectoryInfo(EXEFS_PATH).GetFiles().Select(f => f.FullName).ToArray();
-                setData(files);
+                SetData(files);
             }
             else
             {
                 Data = File.ReadAllBytes(EXEFS_PATH);
             }
-            getSuperBlockHash();
+            GetSuperBlockHash();
         }
 
-        public void getSuperBlockHash()
+        public void GetSuperBlockHash()
         {
-            using (SHA256Managed sha = new SHA256Managed())
-                SuperBlockHash = sha.ComputeHash(Data, 0, 0x200);
+            using var sha = new SHA256Managed();
+            SuperBlockHash = sha.ComputeHash(Data, 0, 0x200);
         }
 
         // Overall R/W files (wrapped)
-        public static bool get(string inFile, string outPath)
+        public static bool UnpackExeFS(string inFile, string outPath)
         {
             try
             {
@@ -44,19 +44,21 @@ namespace pk3DS.Core.CTR
                     // Get File Name String; if exists we have a file to extract.
                     string fileName = Encoding.ASCII.GetString(data.Skip(0x10 * i).Take(0x8).ToArray()).TrimEnd((char)0);
                     if (fileName.Length > 0)
+                    {
                         File.WriteAllBytes(
                             // New File Path
                             outPath + Path.DirectorySeparatorChar + fileName + ".bin",
                             // Get New Data from Offset after 0x200 Header.
                             data.Skip(0x200 + BitConverter.ToInt32(data, 0x8 + (0x10 * i))).Take(BitConverter.ToInt32(data, 0xC + (0x10 * i))).ToArray()
-                            );
+                        );
+                    }
                 }
                 return true;
             }
             catch { return false; }
         }
 
-        public static bool set(string[] files, string outFile)
+        public static bool PackExeFS(string[] files, string outFile)
         {
             if (files.Length > 10) { Console.WriteLine("Cannot package more than 10 files to exefs."); return false; }
 
@@ -87,24 +89,22 @@ namespace pk3DS.Core.CTR
                 }
 
                 // Set in the Data
-                using (MemoryStream newFile = new MemoryStream())
+                using MemoryStream newFile = new MemoryStream();
+                new MemoryStream(headerData).CopyTo(newFile);
+                foreach (string s in files)
                 {
-                    new MemoryStream(headerData).CopyTo(newFile);
-                    foreach (string s in files)
-                    {
-                        using (MemoryStream loadFile = new MemoryStream(File.ReadAllBytes(s)))
-                            loadFile.CopyTo(newFile);
-                        new MemoryStream(new byte[0x200 - (newFile.Length % 0x200)]).CopyTo(newFile);
-                    }
-
-                    File.WriteAllBytes(outFile, newFile.ToArray());
+                    using (MemoryStream loadFile = new MemoryStream(File.ReadAllBytes(s)))
+                        loadFile.CopyTo(newFile);
+                    new MemoryStream(new byte[0x200 - (newFile.Length % 0x200)]).CopyTo(newFile);
                 }
+
+                File.WriteAllBytes(outFile, newFile.ToArray());
                 return true;
             }
             catch { return false; }
         }
 
-        public void setData(string[] files)
+        public void SetData(string[] files)
         {
             // Set up the Header
             byte[] headerData = new byte[0x200];
@@ -131,18 +131,16 @@ namespace pk3DS.Core.CTR
             }
 
             // Set in the Data
-            using (MemoryStream newFile = new MemoryStream())
+            using MemoryStream newFile = new MemoryStream();
+            new MemoryStream(headerData).CopyTo(newFile);
+            foreach (string s in files)
             {
-                new MemoryStream(headerData).CopyTo(newFile);
-                foreach (string s in files)
-                {
-                    using (MemoryStream loadFile = new MemoryStream(File.ReadAllBytes(s)))
-                        loadFile.CopyTo(newFile);
-                    new MemoryStream(new byte[0x200 - (newFile.Length % 0x200)]).CopyTo(newFile);
-                }
-
-                Data = newFile.ToArray();
+                using (MemoryStream loadFile = new MemoryStream(File.ReadAllBytes(s)))
+                    loadFile.CopyTo(newFile);
+                new MemoryStream(new byte[0x200 - (newFile.Length % 0x200)]).CopyTo(newFile);
             }
+
+            Data = newFile.ToArray();
         }
     }
 }

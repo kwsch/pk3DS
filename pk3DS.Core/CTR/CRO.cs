@@ -10,17 +10,19 @@ namespace pk3DS.Core.CTR
     public class CRO
     {
         // Utility
-        internal static void updateTB(RichTextBox RTB, string progress)
+        internal static void UpdateTB(RichTextBox RTB, string progress)
         {
             try
             {
                 if (RTB.InvokeRequired)
+                {
                     RTB.Invoke((MethodInvoker)delegate
-                    {
-                        RTB.AppendText(Environment.NewLine + progress);
-                        RTB.SelectionStart = RTB.Text.Length;
-                        RTB.ScrollToCaret();
-                    });
+                   {
+                       RTB.AppendText(Environment.NewLine + progress);
+                       RTB.SelectionStart = RTB.Text.Length;
+                       RTB.ScrollToCaret();
+                   });
+                }
                 else
                 {
                     RTB.SelectionStart = RTB.Text.Length;
@@ -47,7 +49,7 @@ namespace pk3DS.Core.CTR
             return -1;
         }
 
-        internal static string getHexString(byte[] data)
+        internal static string GetHexString(byte[] data)
         {
             return BitConverter.ToString(data).Replace("-", "");
         }
@@ -61,7 +63,7 @@ namespace pk3DS.Core.CTR
         }
 
         // Checking
-        internal static string[] verifyCRR(string PATH_CRR, string PATH_CRO)
+        internal static string[] VerifyCRR(string PATH_CRR, string PATH_CRO)
         {
             // Get CRO files
             string[] CROFiles = Directory.GetFiles(PATH_CRO);
@@ -69,8 +71,11 @@ namespace pk3DS.Core.CTR
             // Weed out anything that isn't a .cro
             List<string> cros = new List<string>();
             for (int i = 0; i < CROFiles.Length; i++)
+            {
                 if (Path.GetExtension(cros[i]) == ".cro")
                     cros.Add(cros[i]);
+            }
+
             CROFiles = cros.ToArray();
 
             // Store Hashes as Strings (hacky way to sort byte[]'s against eachother
@@ -78,8 +83,8 @@ namespace pk3DS.Core.CTR
             for (int i = 0; i < hashes.Length; i++)
             {
                 byte[] data = File.ReadAllBytes(CROFiles[i]);
-                byte[] hash = hashCRO(ref data);
-                hashes[i] = getHexString(hash).ToUpper();
+                byte[] hash = HashCRO(ref data);
+                hashes[i] = GetHexString(hash).ToUpper();
             }
             Array.Sort(hashes, string.Compare);
             // Convert Hash Strings to Bytes
@@ -94,8 +99,7 @@ namespace pk3DS.Core.CTR
 
             // A little validation...
             if (hashCount != hashData.Length)
-                throw new Exception(
-                    $"Amount of input file-hashes does not equal the hash count in CRR. Expected {hashCount}, got {hashData.Length}.");
+                throw new Exception($"Amount of input file-hashes does not equal the hash count in CRR. Expected {hashCount}, got {hashData.Length}.");
 
             string[] results = new string[hashData.Length];
             // Store Hashes in CRR
@@ -109,7 +113,7 @@ namespace pk3DS.Core.CTR
             return results;
         }
 
-        public static bool rehashCRR(string PATH_CRR, string PATH_CRO, bool saveCRO = true, bool saveCRR = true, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
+        public static bool E_HashCRR(string PATH_CRR, string PATH_CRO, bool saveCRO = true, bool saveCRR = true, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
             // Get CRO files
             string[] CROFiles = Directory.GetFiles(PATH_CRO);
@@ -124,36 +128,40 @@ namespace pk3DS.Core.CTR
             // A little validation...
             if (hashCount != CROFiles.Length)
             {
-                updateTB(TB_Progress,
+                UpdateTB(TB_Progress,
                     $"Amount of input file-hashes does not equal the hash count in CRR. Expected {hashCount}, got {CROFiles.Length}.");
-                updateTB(TB_Progress, "Did not modify files. Aborting.");
+                UpdateTB(TB_Progress, "Did not modify files. Aborting.");
                 return false;
             }
 
             // Initialize Update Display
-            if (TB_Progress == null) TB_Progress = new RichTextBox();
-            if (PB_Show == null) PB_Show = new ProgressBar();
+            TB_Progress ??= new RichTextBox();
+            PB_Show ??= new ProgressBar();
             if (PB_Show.InvokeRequired)
+            {
                 PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = CROFiles.Length; });
+            }
             else { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = CROFiles.Length; }
-            updateTB(TB_Progress, "");
-            updateTB(TB_Progress, "Computing hashes for " + CROFiles.Length + " CRO files.");
+            UpdateTB(TB_Progress, "");
+            UpdateTB(TB_Progress, "Computing hashes for " + CROFiles.Length + " CRO files.");
 
             // Store Hashes as Strings (hacky way to sort byte[]'s against eachother
             string[] hashes = new string[CROFiles.Length];
             for (int i = 0; i < hashes.Length; i++)
             {
                 byte[] data = File.ReadAllBytes(CROFiles[i]);
-                byte[] hash = hashCRO(ref data);
-                hashes[i] = getHexString(hash).ToUpper();
+                byte[] hash = HashCRO(ref data);
+                hashes[i] = GetHexString(hash).ToUpper();
                 if (saveCRO)
                     File.WriteAllBytes(CROFiles[i], data);
 
                 if (PB_Show.InvokeRequired)
+                {
                     PB_Show.Invoke((MethodInvoker)(() => PB_Show.PerformStep()));
+                }
                 else { PB_Show.PerformStep(); }
             }
-            updateTB(TB_Progress, "Hashes computed, now sorting."); // Don't need to fiddle the ProgressBar because this should be quite quick.
+            UpdateTB(TB_Progress, "Hashes computed, now sorting."); // Don't need to fiddle the ProgressBar because this should be quite quick.
             string[] hashCopy = (string[])hashes.Clone(); // Store an unsorted list for later.
             Array.Sort(hashes, string.Compare);
             // Convert Hash Strings to Bytes
@@ -161,7 +169,7 @@ namespace pk3DS.Core.CTR
             for (int i = 0; i < hashes.Length; i++)
                 hashData[i] = StringToByteArray(hashes[i]);
 
-            updateTB(TB_Progress, "Hashes sorted, writing hashes to CRR.");
+            UpdateTB(TB_Progress, "Hashes sorted, writing hashes to CRR.");
 
             // Loop to check which CROs have to be updated. Do this separate from overwriting so we don't overwrite hashes for other CROs (yet).
             int updatedCTR = 0;
@@ -173,7 +181,7 @@ namespace pk3DS.Core.CTR
                 {
                     // CRO was updated.
                     string file = CROFiles[Array.IndexOf(hashCopy, hashes[i])];
-                    updateTB(TB_Progress, $"{Path.GetFileName(file)} hash has been updated.");
+                    UpdateTB(TB_Progress, $"{Path.GetFileName(file)} hash has been updated.");
                     updatedCTR++;
                 }
             }
@@ -181,7 +189,7 @@ namespace pk3DS.Core.CTR
             for (int i = 0; i < hashData.Length; i++)
                 Array.Copy(hashData[i], 0, CRR, hashTableOffset + (0x20 * i), 0x20);
 
-            updateTB(TB_Progress,
+            UpdateTB(TB_Progress,
                 updatedCTR > 0
                     ? $"{updatedCTR} hashes have been updated."
                     : "CRR is fine. No modifications are necessary.");
@@ -190,16 +198,16 @@ namespace pk3DS.Core.CTR
             if (saveCRR && updatedCTR > 0)
             {
                 File.WriteAllBytes(PATH_CRR, CRR);
-                updateTB(TB_Progress, "Wrote CRR.");
+                UpdateTB(TB_Progress, "Wrote CRR.");
             }
             else
             {
-                updateTB(TB_Progress, "CRR has not been updated.");
+                UpdateTB(TB_Progress, "CRR has not been updated.");
             }
             return true;
         }
 
-        internal static byte[] hashCRO(ref byte[] CRO)
+        internal static byte[] HashCRO(ref byte[] CRO)
         {
             // Allocate new byte array to store modified CRO
             SHA256 mySHA = SHA256.Create();
@@ -227,7 +235,7 @@ namespace pk3DS.Core.CTR
 
         private readonly byte[] Data;
 
-        private byte[] sha2Hash
+        public byte[] HashSHA2
         {
             get
             {
@@ -243,6 +251,6 @@ namespace pk3DS.Core.CTR
             }
         }
 
-        private string Magic => new string(Data.Skip(0x80).Take(4).Select(c => (char)c).ToArray());
+        public string Magic => new(Data.Skip(0x80).Take(4).Select(c => (char)c).ToArray());
     }
 }

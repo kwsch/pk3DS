@@ -145,7 +145,7 @@
             this.Name = "TMHMEditor6";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "TM / HM Editor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHM)).EndInit();
             this.groupBox1.ResumeLayout(false);

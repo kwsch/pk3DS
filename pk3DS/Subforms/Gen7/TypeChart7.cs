@@ -12,7 +12,7 @@ namespace pk3DS
         private readonly string codebin;
         private readonly byte[] chart = new byte[TypeCount * TypeCount];
         private readonly byte[] exefs;
-        private readonly string[] types = Main.Config.getText(TextName.Types);
+        private readonly string[] types = Main.Config.GetText(TextName.Types);
         private const int TypeCount = 18;
         private const int TypeWidth = 32;
 
@@ -33,7 +33,7 @@ namespace pk3DS
             offset = Util.IndexOfBytes(exefs, Signature, 0x400000, 0) + Signature.Length;
 
             Array.Copy(exefs, offset, chart, 0, chart.Length);
-            populateChart();
+            PopulateChart();
         }
 
         private readonly byte[] Signature =
@@ -44,9 +44,9 @@ namespace pk3DS
             0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
         };
 
-        private void populateChart()
+        private void PopulateChart()
         {
-            PB_Chart.Image = TypeChart.getGrid(TypeWidth, TypeCount, chart);
+            PB_Chart.Image = TypeChart.GetGrid(TypeWidth, TypeCount, chart);
         }
 
         private void B_Save_Click(object sender, EventArgs e)
@@ -61,16 +61,16 @@ namespace pk3DS
             Close();
         }
 
-        private void moveMouse(object sender, MouseEventArgs e)
+        private void MoveMouse(object sender, MouseEventArgs e)
         {
             TypeChart6.GetCoordinate((PictureBox)sender, e, out int X, out int Y);
             int index = (Y * TypeCount) + X;
             if (index >= chart.Length)
                 return;
-            updateLabel(X, Y, chart[index]);
+            UpdateLabel(X, Y, chart[index]);
         }
 
-        private void clickMouse(object sender, MouseEventArgs e)
+        private void ClickMouse(object sender, MouseEventArgs e)
         {
             TypeChart6.GetCoordinate((PictureBox)sender, e, out int X, out int Y);
             int index = (Y * TypeCount) + X;
@@ -79,11 +79,11 @@ namespace pk3DS
 
             chart[index] = TypeChart6.ToggleEffectiveness(chart[index], e.Button == MouseButtons.Left);
 
-            updateLabel(X, Y, chart[index]);
-            populateChart();
+            UpdateLabel(X, Y, chart[index]);
+            PopulateChart();
         }
 
-        private void updateLabel(int X, int Y, int value)
+        private void UpdateLabel(int X, int Y, int value)
         {
             if (value >= effects.Length || X >= types.Length || Y >= types.Length)
                 return; // clicking and moving outside the box has invalid values

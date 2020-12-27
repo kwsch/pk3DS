@@ -21,7 +21,7 @@ namespace pk3DS.Core.Randomizers
             Config = config;
             moverand = new MoveRandomizer(config);
             Learnsets = sets;
-            rSTABPercent = 52.3m;
+            STABPercent = 52.3m;
         }
 
         public bool Expand = true;
@@ -34,7 +34,7 @@ namespace pk3DS.Core.Randomizers
 
         public bool STAB { set => moverand.rSTAB = value; }
         public IList<int> BannedMoves { set => moverand.BannedMoves = value; }
-        public decimal rSTABPercent { set => moverand.rSTABPercent = value; }
+        public decimal STABPercent { set => moverand.rSTABPercent = value; }
 
         public void Execute()
         {
@@ -89,7 +89,7 @@ namespace pk3DS.Core.Randomizers
             int[] moves = new int[count];
             if (count == 0)
                 return moves;
-            moves[0] = STABFirst ? moverand.GetRandomFirstMove(index) : moverand.GetRandomFirstMoveAny();
+            moves[0] = STABFirst ? moverand.GetRandomFirstMove(index) : MoveRandomizer.GetRandomFirstMoveAny();
             var rand = moverand.GetRandomLearnset(index, count - 1);
 
             // STAB Moves (if requested) come first; randomize the order of moves
@@ -102,7 +102,7 @@ namespace pk3DS.Core.Randomizers
 
         public int[] GetHighPoweredMoves(int species, int form, int count = 4)
         {
-            int index = Config.Personal.getFormeIndex(species, form);
+            int index = Config.Personal.GetFormIndex(species, form);
             var moves = Learnsets[index].Moves.OrderByDescending(move => Config.Moves[move].Power).Distinct().Take(count).ToArray();
             Array.Resize(ref moves, count);
             return moves;
@@ -110,7 +110,7 @@ namespace pk3DS.Core.Randomizers
 
         public int[] GetCurrentMoves(int species, int form, int level, int count = 4)
         {
-            int i = Config.Personal.getFormeIndex(species, form);
+            int i = Config.Personal.GetFormIndex(species, form);
             var moves = Learnsets[i].GetEncounterMoves(level);
             Array.Resize(ref moves, count);
             return moves;

@@ -19,12 +19,12 @@ namespace pk3DS
         {
             InitializeComponent();
             files = infiles;
-            string[] species = Main.Config.getText(TextName.SpeciesNames);
-            string[][] AltForms = Main.Config.Personal.getFormList(species, Main.Config.MaxSpeciesID);
-            string[] specieslist = Main.Config.Personal.getPersonalEntryList(AltForms, species, Main.Config.MaxSpeciesID, out baseForms, out formVal);
+            string[] species = Main.Config.GetText(TextName.SpeciesNames);
+            string[][] AltForms = Main.Config.Personal.GetFormList(species, Main.Config.MaxSpeciesID);
+            string[] specieslist = Main.Config.Personal.GetPersonalEntryList(AltForms, species, Main.Config.MaxSpeciesID, out _, out _);
             specieslist[0] = movelist[0] = "";
-            
-            setupDGV();
+
+            SetupDGV();
             entries = infiles.Select(z => new EggMoves7(z)).ToArray();
             string[] names = new string[entries.Length];
 
@@ -35,12 +35,11 @@ namespace pk3DS
                 int count = Main.Config.Personal[i].FormeCount;
                 for (int j = 1; j < count; j++)
                 {
-                    if (names[formoff + j - 1] == null)
-                        names[formoff + j - 1] = $"{species[i]} [{AltForms[i][j].Replace(species[i] + " ", "")}]";
+                    names[formoff + j - 1] ??= $"{species[i]} [{AltForms[i][j].Replace(species[i] + " ", "")}]";
                 }
             }
 
-            var newlist = names.Select((z, i) => new WinFormsUtil.cbItem{Text = (names[i] ?? "Extra") + $" ({i})", Value = i});
+            var newlist = names.Select((_, i) => new ComboItem{Text = (names[i] ?? "Extra") + $" ({i})", Value = i});
             newlist = newlist.GroupBy(z => z.Text.StartsWith("Extra"))
                 .Select(z => z.OrderBy(item => item.Text))
                 .SelectMany(z => z).ToList();
@@ -58,11 +57,11 @@ namespace pk3DS
 
         private readonly byte[][] files;
         private int entry = -1;
-        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
         private bool dumping;
-        private readonly int[] baseForms, formVal;
+        //private readonly int[] baseForms, formVal;
 
-        private void setupDGV()
+        private void SetupDGV()
         {
             string[] sortedmoves = (string[])movelist.Clone();
             Array.Sort(sortedmoves);
@@ -79,11 +78,11 @@ namespace pk3DS
             dgv.Columns.Add(dgvMove);
         }
 
-        private EggMoves pkm = new EggMoves7(new byte[0]);
+        private EggMoves pkm = new EggMoves7(Array.Empty<byte>());
 
-        private void getList()
+        private void GetList()
         {
-            entry = WinFormsUtil.getIndex(CB_Species);
+            entry = WinFormsUtil.GetIndex(CB_Species);
             int s = 0, f = 0;
             if (entry <= Main.Config.MaxSpeciesID)
             {
@@ -96,7 +95,7 @@ namespace pk3DS
             dgv.Rows.Clear();
             pkm = entries[entry];
             NUD_FormTable.Value = pkm.FormTableIndex;
-            if (pkm.Count < 1) { files[entry] = new byte[0]; return; }
+            if (pkm.Count < 1) { files[entry] = Array.Empty<byte>(); return; }
             dgv.Rows.Add(pkm.Count);
 
             // Fill Entries
@@ -106,7 +105,7 @@ namespace pk3DS
             dgv.CancelEdit();
         }
 
-        private void setList()
+        private void SetList()
         {
             if (entry < 1 || dumping) return;
             List<int> moves = new List<int>();
@@ -121,10 +120,10 @@ namespace pk3DS
             entries[entry] = (EggMoves7)pkm;
         }
 
-        private void changeEntry(object sender, EventArgs e)
+        private void ChangeEntry(object sender, EventArgs e)
         {
-            setList();
-            getList();
+            SetList();
+            GetList();
         }
 
         private void B_RandAll_Click(object sender, EventArgs e)
@@ -135,12 +134,12 @@ namespace pk3DS
                 Expand = CHK_Expand.Checked,
                 ExpandTo = (int)NUD_Moves.Value,
                 STAB = CHK_STAB.Checked,
-                rSTABPercent = NUD_STAB.Value,
+                STABPercent = NUD_STAB.Value,
                 BannedMoves = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(), // Struggle, Hyperspace Fury, Dark Void
             };
             rand.Execute();
             // sets.Select(z => z.Write()).ToArray().CopyTo(files, 0);
-            getList();
+            GetList();
             WinFormsUtil.Alert("All Pokémon's Egg Moves have been randomized!", "Press the Dump All button to see the new Egg Moves!");
         }
 
@@ -171,9 +170,9 @@ namespace pk3DS
             dumping = false;
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void Form_Closing(object sender, FormClosingEventArgs e)
         {
-            setList();
+            SetList();
             entries.Select(z => z.Write()).ToArray().CopyTo(files, 0);
             RandSettings.SetFormSettings(this, groupBox1.Controls);
         }
@@ -183,7 +182,7 @@ namespace pk3DS
             CB_Species.SelectedValue = (int)NUD_FormTable.Value;
         }
 
-        private void calcStats()
+        public void CalcStats()
         {
             Move[] MoveData = Main.Config.Moves;
             int movectr = 0;

@@ -48,7 +48,7 @@
             this.CB_Location.Name = "CB_Location";
             this.CB_Location.Size = new System.Drawing.Size(243, 21);
             this.CB_Location.TabIndex = 0;
-            this.CB_Location.SelectedIndexChanged += new System.EventHandler(this.changeIndex);
+            this.CB_Location.SelectedIndexChanged += new System.EventHandler(this.ChangeIndex);
             // 
             // dgv
             // 

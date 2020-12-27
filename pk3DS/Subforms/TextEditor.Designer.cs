@@ -46,7 +46,7 @@
             this.CB_Entry.Name = "CB_Entry";
             this.CB_Entry.Size = new System.Drawing.Size(80, 21);
             this.CB_Entry.TabIndex = 5;
-            this.CB_Entry.SelectedIndexChanged += new System.EventHandler(this.changeEntry);
+            this.CB_Entry.SelectedIndexChanged += new System.EventHandler(this.ChangeEntry);
             // 
             // dgv
             // 

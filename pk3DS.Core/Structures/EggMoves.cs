@@ -16,16 +16,15 @@ namespace pk3DS.Core.Structures
         public EggMoves6(byte[] data)
         {
             if (data.Length < 2 || data.Length % 2 != 0)
-            { Count = 0; Moves = new int[0]; return; }
-            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
-            {
-                Moves = new int[Count = br.ReadUInt16()];
-                for (int i = 0; i < Count; i++)
-                    Moves[i] = br.ReadUInt16();
-            }
+            { Count = 0; Moves = System.Array.Empty<int>(); return; }
+
+            using BinaryReader br = new BinaryReader(new MemoryStream(data));
+            Moves = new int[Count = br.ReadUInt16()];
+            for (int i = 0; i < Count; i++)
+                Moves[i] = br.ReadUInt16();
         }
 
-        public static EggMoves[] getArray(byte[][] entries)
+        public static EggMoves[] GetArray(byte[][] entries)
         {
             EggMoves[] data = new EggMoves[entries.Length];
             for (int i = 0; i < data.Length; i++)
@@ -36,16 +35,14 @@ namespace pk3DS.Core.Structures
         public override byte[] Write()
         {
             Count = Moves.Length;
-            if (Count == 0) return new byte[0];
-            using (MemoryStream ms = new MemoryStream())
-            using (BinaryWriter bw = new BinaryWriter(ms))
-            {
-                bw.Write((ushort)Count);
-                for (int i = 0; i < Count; i++)
-                    bw.Write((ushort)Moves[i]);
+            if (Count == 0) return System.Array.Empty<byte>();
+            using MemoryStream ms = new MemoryStream();
+            using BinaryWriter bw = new BinaryWriter(ms);
+            bw.Write((ushort)Count);
+            for (int i = 0; i < Count; i++)
+                bw.Write((ushort)Moves[i]);
 
-                return ms.ToArray();
-            }
+            return ms.ToArray();
         }
     }
 
@@ -54,18 +51,17 @@ namespace pk3DS.Core.Structures
         public EggMoves7(byte[] data)
         {
             if (data.Length < 2 || data.Length % 2 != 0)
-            { Count = 0; Moves = new int[0]; return; }
-            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
-            {
-                FormTableIndex = br.ReadUInt16();
-                Count = br.ReadUInt16();
-                Moves = new int[Count];
-                for (int i = 0; i < Count; i++)
-                    Moves[i] = br.ReadUInt16();
-            }
+            { Count = 0; Moves = System.Array.Empty<int>(); return; }
+
+            using BinaryReader br = new BinaryReader(new MemoryStream(data));
+            FormTableIndex = br.ReadUInt16();
+            Count = br.ReadUInt16();
+            Moves = new int[Count];
+            for (int i = 0; i < Count; i++)
+                Moves[i] = br.ReadUInt16();
         }
 
-        public static EggMoves[] getArray(byte[][] entries)
+        public static EggMoves[] GetArray(byte[][] entries)
         {
             EggMoves[] data = new EggMoves[entries.Length];
             for (int i = 0; i < data.Length; i++)
@@ -76,16 +72,14 @@ namespace pk3DS.Core.Structures
         public override byte[] Write()
         {
             Count = Moves.Length;
-            using (MemoryStream ms = new MemoryStream())
-            using (BinaryWriter bw = new BinaryWriter(ms))
-            {
-                bw.Write((ushort)FormTableIndex);
-                bw.Write((ushort)Count);
-                for (int i = 0; i < Count; i++)
-                    bw.Write((ushort)Moves[i]);
+            using MemoryStream ms = new MemoryStream();
+            using BinaryWriter bw = new BinaryWriter(ms);
+            bw.Write((ushort)FormTableIndex);
+            bw.Write((ushort)Count);
+            for (int i = 0; i < Count; i++)
+                bw.Write((ushort)Moves[i]);
 
-                return ms.ToArray();
-            }
+            return ms.ToArray();
         }
     }
 }

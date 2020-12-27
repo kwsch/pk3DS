@@ -63,7 +63,7 @@ namespace pk3DS.Core.Structures
         public bool IsEgg
         {
             get => Data[0xA] == 1;
-            set => Data[0xA] = (byte)(value ? 1 : 0);
+            set => Data[0xA] = value ? 1 : 0;
         }
 
         public int SpecialMove
@@ -92,8 +92,7 @@ namespace pk3DS.Core.Structures
             if (SpecialMove != 0)
                 str += $"Moves = new[] {{{SpecialMove}}}, ";
 
-            str = str.Trim() + " },";
-            return str;
+            return str.Trim() + " },";
         }
     }
 }

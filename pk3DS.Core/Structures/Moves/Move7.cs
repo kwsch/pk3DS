@@ -2,7 +2,6 @@
 
 namespace pk3DS.Core.Structures
 {
-
     public class Move7 : Move
     {
         protected override int SIZE => 0x28;

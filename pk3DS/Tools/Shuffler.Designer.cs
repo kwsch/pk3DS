@@ -49,7 +49,7 @@
             this.CB_a.Name = "CB_a";
             this.CB_a.Size = new System.Drawing.Size(34, 21);
             this.CB_a.TabIndex = 0;
-            this.CB_a.SelectedIndexChanged += new System.EventHandler(this.updateLabel);
+            this.CB_a.SelectedIndexChanged += new System.EventHandler(this.UpdateLabel);
             // 
             // CB_b
             // 
@@ -70,7 +70,7 @@
             this.CB_b.Name = "CB_b";
             this.CB_b.Size = new System.Drawing.Size(34, 21);
             this.CB_b.TabIndex = 1;
-            this.CB_b.SelectedIndexChanged += new System.EventHandler(this.updateLabel);
+            this.CB_b.SelectedIndexChanged += new System.EventHandler(this.UpdateLabel);
             // 
             // CB_c
             // 
@@ -91,7 +91,7 @@
             this.CB_c.Name = "CB_c";
             this.CB_c.Size = new System.Drawing.Size(34, 21);
             this.CB_c.TabIndex = 2;
-            this.CB_c.SelectedIndexChanged += new System.EventHandler(this.updateLabel);
+            this.CB_c.SelectedIndexChanged += new System.EventHandler(this.UpdateLabel);
             // 
             // L_a
             // 

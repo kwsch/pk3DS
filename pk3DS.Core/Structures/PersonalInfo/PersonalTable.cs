@@ -4,7 +4,7 @@ namespace pk3DS.Core.Structures.PersonalInfo
 {
     public class PersonalTable
     {
-        private static byte[][] splitBytes(byte[] data, int size)
+        private static byte[][] SplitBytes(byte[] data, int size)
         {
             byte[][] r = new byte[data.Length / size][];
             for (int i = 0; i < data.Length; i += size)
@@ -17,21 +17,21 @@ namespace pk3DS.Core.Structures.PersonalInfo
 
         public PersonalTable(byte[] data, GameVersion format)
         {
-            int size = 0;
-            switch (format)
+            int size = format switch
             {
-                case GameVersion.XY: size = PersonalInfoXY.SIZE; break;
-                case GameVersion.ORASDEMO:
-                case GameVersion.ORAS: size = PersonalInfoORAS.SIZE; break;
-                case GameVersion.SMDEMO:
-                case GameVersion.SM:
-                case GameVersion.USUM: size = PersonalInfoSM.SIZE; break;
-            }
+                GameVersion.XY => PersonalInfoXY.SIZE,
+                GameVersion.ORASDEMO => PersonalInfoORAS.SIZE,
+                GameVersion.ORAS => PersonalInfoORAS.SIZE,
+                GameVersion.SMDEMO => PersonalInfoSM.SIZE,
+                GameVersion.SM => PersonalInfoSM.SIZE,
+                GameVersion.USUM => PersonalInfoSM.SIZE,
+                _ => 0
+            };
 
             if (size == 0)
             { Table = null; return; }
 
-            byte[][] entries = splitBytes(data, size);
+            byte[][] entries = SplitBytes(data, size);
             PersonalInfo[] d = new PersonalInfo[data.Length / size];
 
             switch (format)
@@ -69,30 +69,30 @@ namespace pk3DS.Core.Structures.PersonalInfo
             {
                 if (index < Table.Length)
                     return;
-                Table[index] = value; 
+                Table[index] = value;
             }
         }
 
-        public int[] getAbilities(int species, int forme)
+        public int[] GetAbilities(int species, int forme)
         {
             if (species >= Table.Length)
             { species = 0; Console.WriteLine("Requested out of bounds SpeciesID"); }
-            return this[getFormeIndex(species, forme)].Abilities;
+            return this[GetFormIndex(species, forme)].Abilities;
         }
 
-        public int getFormeIndex(int species, int forme)
+        public int GetFormIndex(int species, int forme)
         {
             if (species >= Table.Length)
             { species = 0; Console.WriteLine("Requested out of bounds SpeciesID"); }
             return this[species].FormeIndex(species, forme);
         }
 
-        public PersonalInfo getFormeEntry(int species, int forme)
+        public PersonalInfo GetFormEntry(int species, int forme)
         {
-            return this[getFormeIndex(species, forme)];
+            return this[GetFormIndex(species, forme)];
         }
 
-        public string[][] getFormList(string[] species, int MaxSpecies)
+        public string[][] GetFormList(string[] species, int MaxSpecies)
         {
             string[][] FormList = new string[MaxSpecies + 1][];
             for (int i = 0; i <= MaxSpecies; i++)
@@ -110,7 +110,7 @@ namespace pk3DS.Core.Structures.PersonalInfo
             return FormList;
         }
 
-        public string[] getPersonalEntryList(string[][] AltForms, string[] species, int MaxSpecies, out int[] baseForm, out int[] formVal)
+        public string[] GetPersonalEntryList(string[][] AltForms, string[] species, int MaxSpecies, out int[] baseForm, out int[] formVal)
         {
             string[] result = new string[Table.Length];
             baseForm = new int[result.Length];
@@ -132,7 +132,7 @@ namespace pk3DS.Core.Structures.PersonalInfo
             return result;
         }
 
-        public int[] getSpeciesForm(int PersonalEntry, GameConfig config)
+        public int[] GetSpeciesForm(int PersonalEntry, GameConfig config)
         {
             if (PersonalEntry < config.MaxSpeciesID) return new[] { PersonalEntry, 0 };
 
@@ -142,8 +142,10 @@ namespace pk3DS.Core.Structures.PersonalInfo
                 var altformpointer = this[i].FormStatsIndex;
                 if (altformpointer <= 0) continue;
                 for (int j = 0; j < FormCount; j++)
+                {
                     if (altformpointer + j == PersonalEntry)
                         return new[] { i, j };
+                }
             }
 
             return new[] { -1, -1 };

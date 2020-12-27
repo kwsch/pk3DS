@@ -139,6 +139,12 @@
   <data name="XY" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\romdata\byte\PlainRegion\XY.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="SuMo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\romdata\byte\PlainRegion\SuMo.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="USUM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\romdata\byte\PlainRegion\USUM.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="_3dsgames" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\romdata\txt\3dsgames.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

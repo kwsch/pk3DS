@@ -133,7 +133,7 @@
             this.LB_Gifts.Name = "LB_Gifts";
             this.LB_Gifts.Size = new System.Drawing.Size(110, 342);
             this.LB_Gifts.TabIndex = 468;
-            this.LB_Gifts.SelectedIndexChanged += new System.EventHandler(this.changeIndex);
+            this.LB_Gifts.SelectedIndexChanged += new System.EventHandler(this.ChangeIndex);
             // 
             // CB_Species
             // 
@@ -142,7 +142,7 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(136, 21);
             this.CB_Species.TabIndex = 469;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // CB_HeldItem
             // 

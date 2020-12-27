@@ -53,7 +53,7 @@
             this.CB_DARC.Name = "CB_DARC";
             this.CB_DARC.Size = new System.Drawing.Size(100, 21);
             this.CB_DARC.TabIndex = 1;
-            this.CB_DARC.SelectedIndexChanged += new System.EventHandler(this.changeDARC);
+            this.CB_DARC.SelectedIndexChanged += new System.EventHandler(this.ChangeDARC);
             // 
             // CB_File
             // 
@@ -64,7 +64,7 @@
             this.CB_File.Name = "CB_File";
             this.CB_File.Size = new System.Drawing.Size(400, 21);
             this.CB_File.TabIndex = 2;
-            this.CB_File.SelectedIndexChanged += new System.EventHandler(this.changeFile);
+            this.CB_File.SelectedIndexChanged += new System.EventHandler(this.ChangeFile);
             // 
             // L_DARCSelect
             // 
@@ -100,7 +100,7 @@
             this.Name = "TitleScreenEditor6";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Title Screen Editor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
             ((System.ComponentModel.ISupportInitialize)(this.PB_Image)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

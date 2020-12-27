@@ -20,14 +20,13 @@ namespace pk3DS
             }
             InitializeComponent();
 
-            
             data = File.ReadAllBytes(CROPath);
-            len_BPTutor = data.Skip(0x52D2).Take(4).ToArray();
+            //len_BPTutor = data.Skip(0x52D2).Take(4).ToArray();
             len_BPItem = data.Skip(0x52D2 + 4).Take(7).ToArray();
             len_Items = data.Skip(0x52D2 + 4 + 7).TakeWhile(z => (sbyte) z > 0).ToArray();
-            
+
             itemlist[0] = "";
-            setupDGV();
+            SetupDGV();
             foreach (string s in locations) CB_Location.Items.Add(s);
             foreach (string s in locationsBP) CB_LocationBPItem.Items.Add(s);
             CB_Location.SelectedIndex =
@@ -36,13 +35,13 @@ namespace pk3DS
 
         private const int ofs_Item = 0x50BC;
         private const int ofs_BPItem = 0x52FA;
-        private const int ofs_BPTutor = 0x54DE;
+        //private const int ofs_BPTutor = 0x54DE;
         private readonly byte[] len_Items;
         private readonly byte[] len_BPItem;
-        private readonly byte[] len_BPTutor;
+        //private readonly byte[] len_BPTutor;
 
-        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
-        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] itemlist = Main.Config.GetText(TextName.ItemNames);
+        //private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
         private readonly byte[] data;
 
         #region Tables
@@ -85,15 +84,15 @@ namespace pk3DS
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            if (entryItem > -1) setListItem();
-            if (entryBPItem > -1) setListBPItem();
+            if (entryItem > -1) SetListItem();
+            if (entryBPItem > -1) SetListBPItem();
             File.WriteAllBytes(CROPath, data);
             Close();
         }
 
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
-        private void setupDGV()
+        private void SetupDGV()
         {
             foreach (string t in itemlist)
                 dgvItem.Items.Add(t); // add only the Names
@@ -104,21 +103,21 @@ namespace pk3DS
         private int entryItem = -1;
         private int entryBPItem = -1;
 
-        private void changeIndexItem(object sender, EventArgs e)
+        private void ChangeIndexItem(object sender, EventArgs e)
         {
-            if (entryItem > -1) setListItem();
+            if (entryItem > -1) SetListItem();
             entryItem = CB_Location.SelectedIndex;
-            getListItem();
+            GetListItem();
         }
 
-        private void changeIndexBPItem(object sender, EventArgs e)
+        private void ChangeIndexBPItem(object sender, EventArgs e)
         {
-            if (entryBPItem > -1) setListBPItem();
+            if (entryBPItem > -1) SetListBPItem();
             entryBPItem = CB_LocationBPItem.SelectedIndex;
-            getListBPItem();
+            GetListBPItem();
         }
-        
-        private void getListItem()
+
+        private void GetListItem()
         {
             dgv.Rows.Clear();
             int count = len_Items[entryItem];
@@ -131,7 +130,7 @@ namespace pk3DS
             }
         }
 
-        private void getListBPItem()
+        private void GetListBPItem()
         {
             dgvbp.Rows.Clear();
             int count = len_BPItem[entryBPItem];
@@ -145,7 +144,7 @@ namespace pk3DS
             }
         }
 
-        private void setListItem()
+        private void SetListItem()
         {
             int count = dgv.Rows.Count;
             var ofs = ofs_Item + (len_Items.Take(entryItem).Sum(z => z) * 2);
@@ -153,7 +152,7 @@ namespace pk3DS
                 Array.Copy(BitConverter.GetBytes((ushort)Array.IndexOf(itemlist, dgv.Rows[i].Cells[1].Value)), 0, data, ofs + (2 * i), 2);
         }
 
-        private void setListBPItem()
+        private void SetListBPItem()
         {
             int count = dgvbp.Rows.Count;
             var ofs = ofs_BPItem + (len_BPItem.Take(entryBPItem).Sum(z => z) * 4);
@@ -161,8 +160,8 @@ namespace pk3DS
             {
                 int item = Array.IndexOf(itemlist, dgvbp.Rows[i].Cells[1].Value);
                 Array.Copy(BitConverter.GetBytes((ushort)item), 0, data, ofs + (4 * i), 2);
-                int price; string p = dgvbp.Rows[i].Cells[2].Value.ToString();
-                if (int.TryParse(p, out price))
+                string p = dgvbp.Rows[i].Cells[2].Value.ToString();
+                if (int.TryParse(p, out var price))
                     Array.Copy(BitConverter.GetBytes((ushort)price), 0, data, ofs + (4 * i) + 2, 2);
             }
         }
@@ -185,7 +184,7 @@ namespace pk3DS
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize mart inventories?"))
                 return;
 
-            int[] validItems = Randomizer.getRandomItemList();
+            int[] validItems = Randomizer.GetRandomItemList();
 
             int ctr = 0;
             Util.Shuffle(validItems);
@@ -215,7 +214,7 @@ namespace pk3DS
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize BP inventories?"))
                 return;
 
-            int[] validItems = Randomizer.getRandomItemList();
+            int[] validItems = Randomizer.GetRandomItemList();
 
             int ctr = 0;
             Util.Shuffle(validItems);
@@ -236,7 +235,7 @@ namespace pk3DS
         /// <summary>
         /// Just TMs & HMs; don't want these to be changed; if changed, they are not available elsewhere ingame.
         /// </summary>
-        internal static readonly HashSet<int> BannedItems = new HashSet<int>
+        internal static readonly HashSet<int> BannedItems = new()
         {
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348,
             349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369,
@@ -249,7 +248,7 @@ namespace pk3DS
         /// <summary>
         /// All X Items usable in Generations 6 and 7. Speedrunners utilize these Items a lot, so make sure they are still available.
         /// </summary>
-        internal static readonly HashSet<int> XItems = new HashSet<int>
+        internal static readonly HashSet<int> XItems = new()
         {
             055, 056, 057, 058, 059, 060, 061, 062
         };

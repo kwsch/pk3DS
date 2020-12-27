@@ -3,8 +3,8 @@
     public enum Heal : byte
     {
         None = 0,
-        Full = 255,
-        Half = 254,
         Quarter = 253,
+        Half = 254,
+        Full = 255,
     }
 }

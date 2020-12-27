@@ -11,7 +11,7 @@ namespace pk3DS.Core
         public const string baka = "a";
         public const string bakdll = "dll";
 
-        public static void backupFiles(this GameConfig config, bool overwrite = false)
+        public static void BackupFiles(this GameConfig config, bool overwrite = false)
         {
             // Users may use pk3DS for multiple games, and even the same game but from different paths.
             // A simple way is to create a backup for each unique game, but... some carts may be pre-patched.
@@ -39,16 +39,16 @@ namespace pk3DS.Core
 
             // Backup files
             if (config.ExeFS != null) // exefs
-                backupExeFS(config, overwrite, bak_exefs);
+                BackupExeFS(config, overwrite, bak_exefs);
             if (config.RomFS != null) // a
-                backupGARC(config, overwrite, bak_a);
+                BackupGARC(config, overwrite, bak_a);
             if (config.RomFS != null) // dll
-                backupDLL(config, overwrite, bak_dll);
+                BackupDLL(config, overwrite, bak_dll);
 
             File.WriteAllText(Path.Combine(gameBackup, "bakinfo.txt"), "Backup created from the following location:" + Environment.NewLine + gamePath.FullName);
         }
 
-        private static void backupExeFS(GameConfig config, bool overwrite, string bak_exefs)
+        private static void BackupExeFS(GameConfig config, bool overwrite, string bak_exefs)
         {
             var files = Directory.GetFiles(config.ExeFS);
             foreach (var f in files)
@@ -59,7 +59,7 @@ namespace pk3DS.Core
             }
         }
 
-        private static void backupGARC(GameConfig config, bool overwrite, string bak_a)
+        private static void BackupGARC(GameConfig config, bool overwrite, string bak_a)
         {
             var files = config.Files.Select(file => file.Name);
             foreach (var f in files)
@@ -73,7 +73,7 @@ namespace pk3DS.Core
             }
         }
 
-        private static void backupDLL(GameConfig config, bool overwrite, string bak_dll)
+        private static void BackupDLL(GameConfig config, bool overwrite, string bak_dll)
         {
             string path = config.RomFS;
             string[] files = Directory.GetFiles(path);
@@ -81,7 +81,7 @@ namespace pk3DS.Core
             string[] CRSs = files.Where(x => new FileInfo(x).Extension.Contains("crs")).ToArray();
             string[] CRRs = Directory.Exists(Path.Combine(path, ".crr"))
                 ? Directory.GetFiles(Path.Combine(path, ".crr"))
-                : new string[0];
+                : Array.Empty<string>();
 
             int count = CROs.Length + CRSs.Length + CRRs.Length;
             if (count <= 0)
@@ -97,7 +97,7 @@ namespace pk3DS.Core
                     File.Copy(src, dest);
             }
 
-            if (CRRs.Length <= 0)
+            if (CRRs.Length == 0)
                 return;
 
             // Separate folder for the .crr
@@ -113,7 +113,7 @@ namespace pk3DS.Core
             }
         }
 
-        public static string[] restoreFiles(this GameConfig config)
+        public static string[] RestoreFiles(this GameConfig config)
         {
             // Do the same process as backing up, but copy files in the opposite direction.
 
@@ -130,11 +130,11 @@ namespace pk3DS.Core
 
             // restore exefs
             if (Directory.Exists(bak_exefs))
-                count[0] = restoreExeFS(config, bak_exefs);
+                count[0] = RestoreExeFS(config, bak_exefs);
             if (Directory.Exists(bak_a))
-                count[1] = restoreGARC(config, bak_a);
+                count[1] = RestoreGARC(config, bak_a);
             if (Directory.Exists(bak_dll))
-                count[2] = restoreDLL(config, bak_dll);
+                count[2] = RestoreDLL(config, bak_dll);
 
             string[] sources = { "ExeFS", "'a'", "CRO" };
             var info = count.Select((c, i) => $"{sources[i]}: {c}");
@@ -142,7 +142,7 @@ namespace pk3DS.Core
             return new[] {result};
         }
 
-        private static int restoreExeFS(GameConfig config, string bak_exefs)
+        private static int RestoreExeFS(GameConfig config, string bak_exefs)
         {
             int count = 0;
             var files = Directory.GetFiles(config.ExeFS);
@@ -155,12 +155,14 @@ namespace pk3DS.Core
                     catch { Console.WriteLine("Unable to overwrite backup: " + dest); }
                 }
                 else
+                {
                     Console.WriteLine("Unable to find backup: " + dest);
+                }
             }
             return count;
         }
 
-        private static int restoreGARC(GameConfig config, string bak_a)
+        private static int RestoreGARC(GameConfig config, string bak_a)
         {
             int count = 0;
             var files = config.Files.Select(file => file.Name);
@@ -176,12 +178,14 @@ namespace pk3DS.Core
                     catch { Console.WriteLine("Unable to overwrite backup: " + dest); }
                 }
                 else
+                {
                     Console.WriteLine("Unable to find backup: " + dest);
+                }
             }
             return count;
         }
 
-        private static int restoreDLL(GameConfig config, string bak_dll)
+        private static int RestoreDLL(GameConfig config, string bak_dll)
         {
             int count = 0;
 
@@ -191,7 +195,7 @@ namespace pk3DS.Core
             string[] CRSs = files.Where(x => new FileInfo(x).Extension.Contains("crs")).ToArray();
             string[] CRRs = Directory.Exists(Path.Combine(path, ".crr"))
                 ? Directory.GetFiles(Path.Combine(path, ".crr"))
-                : new string[0];
+                : Array.Empty<string>();
 
             if (CROs.Length + CRSs.Length + CRRs.Length <= 0)
                 return 0;
@@ -205,10 +209,12 @@ namespace pk3DS.Core
                     catch { Console.WriteLine("Unable to overwrite backup: " + dest); }
                 }
                 else
+                {
                     Console.WriteLine("Unable to find backup: " + dest);
+                }
             }
 
-            if (CRRs.Length <= 0)
+            if (CRRs.Length == 0)
                 return count;
 
             // Separate folder for the .crr
@@ -222,7 +228,9 @@ namespace pk3DS.Core
                     count++;
                 }
                 else
+                {
                     Console.WriteLine("Unable to find backup: " + dest);
+                }
             }
             return count;
         }

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace pk3DS.Core
 {
-    public class GARCReference
+    public sealed class GARCReference
     {
         public readonly int FileNumber;
         public readonly string Name;
@@ -20,148 +20,148 @@ namespace pk3DS.Core
             LanguageVariant = lv;
         }
 
-        public GARCReference getRelativeGARC(int offset, string name = "")
+        public GARCReference GetRelativeGARC(int offset, string name = "")
         {
-            return new GARCReference(FileNumber + offset, name);
+            return new(FileNumber + offset, name);
         }
 
         public static readonly GARCReference[] GARCReference_XY =
         {
-            new GARCReference(005, "movesprite"),
-            new GARCReference(012, "encdata"),
-            new GARCReference(038, "trdata"),
-            new GARCReference(039, "trclass"),
-            new GARCReference(040, "trpoke"),
-            new GARCReference(041, "mapGR"),
-            new GARCReference(042, "mapMatrix"),
-            new GARCReference(104, "wallpaper"),
-            new GARCReference(165, "titlescreen"),
-            new GARCReference(203, "maisonpkN"),
-            new GARCReference(204, "maisontrN"),
-            new GARCReference(205, "maisonpkS"),
-            new GARCReference(206, "maisontrS"),
-            new GARCReference(212, "move"),
-            new GARCReference(213, "eggmove"),
-            new GARCReference(214, "levelup"),
-            new GARCReference(215, "evolution"),
-            new GARCReference(216, "megaevo"),
-            new GARCReference(218, "personal"),
-            new GARCReference(220, "item"),
+            new(005, "movesprite"),
+            new(012, "encdata"),
+            new(038, "trdata"),
+            new(039, "trclass"),
+            new(040, "trpoke"),
+            new(041, "mapGR"),
+            new(042, "mapMatrix"),
+            new(104, "wallpaper"),
+            new(165, "titlescreen"),
+            new(203, "maisonpkN"),
+            new(204, "maisontrN"),
+            new(205, "maisonpkS"),
+            new(206, "maisontrS"),
+            new(212, "move"),
+            new(213, "eggmove"),
+            new(214, "levelup"),
+            new(215, "evolution"),
+            new(216, "megaevo"),
+            new(218, "personal"),
+            new(220, "item"),
 
             // Varied
-            new GARCReference(072, "gametext", true),
-            new GARCReference(080, "storytext", true),
+            new(072, "gametext", true),
+            new(080, "storytext", true),
         };
 
         public static readonly GARCReference[] GARCReference_AO =
         {
-            new GARCReference(013, "encdata"),
-            new GARCReference(036, "trdata"),
-            new GARCReference(037, "trclass"),
-            new GARCReference(038, "trpoke"),
-            new GARCReference(039, "mapGR"),
-            new GARCReference(040, "mapMatrix"),
-            new GARCReference(103, "wallpaper"),
-            new GARCReference(152, "titlescreen"),
-            new GARCReference(182, "maisonpkN"),
-            new GARCReference(183, "maisontrN"),
-            new GARCReference(184, "maisonpkS"),
-            new GARCReference(185, "maisontrS"),
-            new GARCReference(189, "move"),
-            new GARCReference(190, "eggmove"),
-            new GARCReference(191, "levelup"),
-            new GARCReference(192, "evolution"),
-            new GARCReference(193, "megaevo"),
-            new GARCReference(195, "personal"),
-            new GARCReference(197, "item"),
-                
+            new(013, "encdata"),
+            new(036, "trdata"),
+            new(037, "trclass"),
+            new(038, "trpoke"),
+            new(039, "mapGR"),
+            new(040, "mapMatrix"),
+            new(103, "wallpaper"),
+            new(152, "titlescreen"),
+            new(182, "maisonpkN"),
+            new(183, "maisontrN"),
+            new(184, "maisonpkS"),
+            new(185, "maisontrS"),
+            new(189, "move"),
+            new(190, "eggmove"),
+            new(191, "levelup"),
+            new(192, "evolution"),
+            new(193, "megaevo"),
+            new(195, "personal"),
+            new(197, "item"),
+
             // Varied
-            new GARCReference(071, "gametext", true),
-            new GARCReference(079, "storytext", true),
+            new(071, "gametext", true),
+            new(079, "storytext", true),
         };
 
         public static readonly GARCReference[] GARCReference_SMDEMO =
         {
-            new GARCReference(011, "move"),
-            new GARCReference(012, "eggmove"),
-            new GARCReference(013, "levelup"),
-            new GARCReference(014, "evolution"),
-            new GARCReference(015, "megaevo"),
-            new GARCReference(017, "personal"),
-            new GARCReference(019, "item"),
+            new(011, "move"),
+            new(012, "eggmove"),
+            new(013, "levelup"),
+            new(014, "evolution"),
+            new(015, "megaevo"),
+            new(017, "personal"),
+            new(019, "item"),
 
-            new GARCReference(076, "zonedata"),
-            new GARCReference(081, "encdata"),
+            new(076, "zonedata"),
+            new(081, "encdata"),
 
-            new GARCReference(101, "trclass"),
-            new GARCReference(102, "trdata"),
-            new GARCReference(103, "trpoke"),
-                
+            new(101, "trclass"),
+            new(102, "trdata"),
+            new(103, "trpoke"),
+
             // Varied
-            new GARCReference(030, "gametext", true),
-            new GARCReference(040, "storytext", true),
+            new(030, "gametext", true),
+            new(040, "storytext", true),
         };
 
         private static readonly GARCReference[] GARCReference_SM =
         {
-            new GARCReference(011, "move"),
-            new GARCReference(012, "eggmove"),
-            new GARCReference(013, "levelup"),
-            new GARCReference(014, "evolution"),
-            new GARCReference(015, "megaevo"),
-            new GARCReference(017, "personal"),
-            new GARCReference(019, "item"),
+            new(011, "move"),
+            new(012, "eggmove"),
+            new(013, "levelup"),
+            new(014, "evolution"),
+            new(015, "megaevo"),
+            new(017, "personal"),
+            new(019, "item"),
 
-            new GARCReference(077, "zonedata"),
-            new GARCReference(091, "worlddata"),
+            new(077, "zonedata"),
+            new(091, "worlddata"),
 
-            new GARCReference(104, "trclass"),
-            new GARCReference(105, "trdata"),
-            new GARCReference(106, "trpoke"),
+            new(104, "trclass"),
+            new(105, "trdata"),
+            new(106, "trpoke"),
 
-            new GARCReference(155, "encounterstatic"),
+            new(155, "encounterstatic"),
 
-            new GARCReference(267, "pickup"),
+            new(267, "pickup"),
 
-            new GARCReference(277, "maisonpkN"),
-            new GARCReference(278, "maisontrN"),
-            new GARCReference(279, "maisonpkS"),
-            new GARCReference(280, "maisontrS"),
-                
+            new(277, "maisonpkN"),
+            new(278, "maisontrN"),
+            new(279, "maisonpkS"),
+            new(280, "maisontrS"),
+
             // Varied
-            new GARCReference(030, "gametext", true),
-            new GARCReference(040, "storytext", true),
+            new(030, "gametext", true),
+            new(040, "storytext", true),
         };
 
         private static readonly GARCReference[] GARCReference_USUM =
         {
-            new GARCReference(011, "move"),
-            new GARCReference(012, "eggmove"),
-            new GARCReference(013, "levelup"),
-            new GARCReference(014, "evolution"),
-            new GARCReference(015, "megaevo"),
-            new GARCReference(017, "personal"),
-            new GARCReference(019, "item"),
+            new(011, "move"),
+            new(012, "eggmove"),
+            new(013, "levelup"),
+            new(014, "evolution"),
+            new(015, "megaevo"),
+            new(017, "personal"),
+            new(019, "item"),
 
-            new GARCReference(077, "zonedata"),
-            new GARCReference(091, "worlddata"),
+            new(077, "zonedata"),
+            new(091, "worlddata"),
 
-            new GARCReference(105, "trclass"),
-            new GARCReference(106, "trdata"),
-            new GARCReference(107, "trpoke"),
+            new(105, "trclass"),
+            new(106, "trdata"),
+            new(107, "trpoke"),
 
-            new GARCReference(159, "encounterstatic"),
+            new(159, "encounterstatic"),
 
-            new GARCReference(271, "pickup"),
+            new(271, "pickup"),
 
-            new GARCReference(281, "maisonpkN"),
-            new GARCReference(282, "maisontrN"),
-            new GARCReference(283, "maisonpkS"),
-            new GARCReference(284, "maisontrS"),
-                
+            new(281, "maisonpkN"),
+            new(282, "maisontrN"),
+            new(283, "maisonpkS"),
+            new(284, "maisontrS"),
+
             // Varied
-            new GARCReference(030, "gametext", true),
-            new GARCReference(040, "storytext", true),
+            new(030, "gametext", true),
+            new(040, "storytext", true),
         };
 
         public static readonly GARCReference[] GARCReference_SN = GARCReference_SM.Concat(

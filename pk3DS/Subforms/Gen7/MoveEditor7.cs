@@ -19,9 +19,9 @@ namespace pk3DS
         }
 
         private readonly byte[][] files;
-        private readonly string[] types = Main.Config.getText(TextName.Types);
-        private readonly string[] moveflavor = Main.Config.getText(TextName.MoveFlavor);
-        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] types = Main.Config.GetText(TextName.Types);
+        private readonly string[] moveflavor = Main.Config.GetText(TextName.MoveFlavor);
+        private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
         private readonly string[] MoveCategories = { "Status", "Physical", "Special", };
         private readonly string[] StatCategories = { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
 
@@ -247,7 +247,7 @@ namespace pk3DS
             }
 
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize Moves? Cannot undo.", "Double check options on the right before continuing.") != DialogResult.Yes) return;
-            Random rnd = Util.rand;
+            Random rnd = Util.Rand;
             for (int i = 0; i < CB_Move.Items.Count; i++)
             {
                 CB_Move.SelectedIndex = i; // Get new Move

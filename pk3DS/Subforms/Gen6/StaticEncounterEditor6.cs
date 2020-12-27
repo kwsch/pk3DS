@@ -41,12 +41,12 @@ namespace pk3DS
         private const int fieldSize = 0xC;
         private readonly int count = Main.Config.ORAS ? 0x3B : 0xC;
         private EncounterStatic6[] EncounterData;
-        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
-        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
+        private readonly string[] itemlist = Main.Config.GetText(TextName.ItemNames);
+        private readonly string[] specieslist = Main.Config.GetText(TextName.SpeciesNames);
         private static int[] FinalEvo = Legal.FinalEvolutions_6;
-        private static int[] Legendary = Legal.Legendary_6;
-        private static int[] Mythical = Legal.Mythical_6;
-        private static int[] ReplaceLegend = Legendary.Concat(Mythical).ToArray();
+        private static readonly int[] Legendary = Legal.Legendary_6;
+        private static readonly int[] Mythical = Legal.Mythical_6;
+        private static readonly int[] ReplaceLegend = Legendary.Concat(Mythical).ToArray();
 
         private readonly string[] ability =
         {
@@ -174,7 +174,7 @@ namespace pk3DS
             if (CHK_L.Checked) FinalEvo = FinalEvo.Concat(Legendary).ToArray();
             if (CHK_E.Checked) FinalEvo = FinalEvo.Concat(Mythical).ToArray();
 
-            var items = Randomizer.getRandomItemList();
+            var items = Randomizer.GetRandomItemList();
             for (int i = 0; i < LB_Encounters.Items.Count; i++)
             {
                 LB_Encounters.SelectedIndex = i;
@@ -183,7 +183,7 @@ namespace pk3DS
                 // replace Legendaries with another Legendary
                 if (CHK_ReplaceLegend.Checked && ReplaceLegend.Contains(species))
                 {
-                    int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
+                    int randLegend() => (int)(Util.Random32() % ReplaceLegend.Length);
                     species = ReplaceLegend[randLegend()];
                 }
 
@@ -197,20 +197,20 @@ namespace pk3DS
                     formrand.AllowMega = true;
 
                 if (CHK_Item.Checked)
-                    CB_HeldItem.SelectedIndex = items[Util.rnd32() % items.Length];
+                    CB_HeldItem.SelectedIndex = items[Util.Random32() % items.Length];
 
                 if (CHK_Level.Checked)
-                    NUD_Level.Value = Randomizer.getModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
+                    NUD_Level.Value = Randomizer.GetModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
 
                 if (CHK_RemoveShinyLock.Checked)
                     CHK_ShinyLock.Checked = false;
 
                 if (CHK_RandomAbility.Checked)
-                    CB_Ability.SelectedIndex = (Util.rand.Next(1, 4)); // 1, 2 , or H
+                    CB_Ability.SelectedIndex = (Util.Rand.Next(1, 4)); // 1, 2 , or H
 
                 if (CHK_ForceFullyEvolved.Checked && NUD_Level.Value >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(species))
                 {
-                    int randFinalEvo() => (int)(Util.rnd32() % FinalEvo.Length);
+                    int randFinalEvo() => (int)(Util.Random32() % FinalEvo.Length);
                     species = FinalEvo[randFinalEvo()];
                 }
 
@@ -234,7 +234,7 @@ namespace pk3DS
             for (int i = 0; i < LB_Encounters.Items.Count; i++)
             {
                 LB_Encounters.SelectedIndex = i;
-                NUD_Level.Value = Randomizer.getModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
+                NUD_Level.Value = Randomizer.GetModifiedLevel((int)NUD_Level.Value, NUD_LevelBoost.Value);
             }
             WinFormsUtil.Alert("Modified all Levels according to specification!");
         }

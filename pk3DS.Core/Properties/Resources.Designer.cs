@@ -169,5 +169,25 @@ namespace pk3DS.Core.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] SuMo {
+            get {
+                object obj = ResourceManager.GetObject("SuMo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] USUM {
+            get {
+                object obj = ResourceManager.GetObject("USUM", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

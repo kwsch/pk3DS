@@ -74,7 +74,7 @@
             0,
             0,
             0});
-            this.NUD_Rerolls.ValueChanged += new System.EventHandler(this.changeRerolls);
+            this.NUD_Rerolls.ValueChanged += new System.EventHandler(this.ChangeRerolls);
             // 
             // L_Overall
             // 
@@ -141,7 +141,7 @@
             this.NUD_Rate.Name = "NUD_Rate";
             this.NUD_Rate.Size = new System.Drawing.Size(65, 20);
             this.NUD_Rate.TabIndex = 7;
-            this.NUD_Rate.ValueChanged += new System.EventHandler(this.changePercent);
+            this.NUD_Rate.ValueChanged += new System.EventHandler(this.ChangePercent);
             // 
             // L_RerollCount
             // 

@@ -11,15 +11,15 @@ namespace pk3DS.Core.CTR
 
         public BCLIM(byte[] data)
         {
-            using (var ms = new MemoryStream(data))
-                ReadBCLIM(ms);
+            using var ms = new MemoryStream(data);
+            ReadBCLIM(ms);
         }
 
         public BCLIM(string path)
         {
             var data = File.ReadAllBytes(path);
-            using (var ms = new MemoryStream(data))
-                ReadBCLIM(ms);
+            using var ms = new MemoryStream(data);
+            ReadBCLIM(ms);
         }
 
         private void ReadBCLIM(Stream ms)
@@ -40,35 +40,33 @@ namespace pk3DS.Core.CTR
 
         private uint[] GetPixelsViaPalette()
         {
-            using (var ms = new MemoryStream(PixelData))
-            using (var br = new BinaryReader(ms))
+            using var ms = new MemoryStream(PixelData);
+            using var br = new BinaryReader(ms);
+            if (br.ReadUInt16() != 2) return null;
+
+            // read palette
+            int count = br.ReadUInt16();
+            uint[] colors = new uint[count];
+            for (int i = 0; i < colors.Length; i++)
+                colors[i] = PixelConverter.GetDecodedPixelValue(br.ReadUInt16(), XLIMEncoding.RGB565);
+
+            // read pixels
+            bool half = colors.Length < 0x10;
+            uint[] pixels = new uint[BaseSize * BaseSize];
+            for (int i = 0; i < pixels.Length; i++)
             {
-                if (br.ReadUInt16() != 2) return null;
-
-                // read palette
-                int count = br.ReadUInt16();
-                uint[] colors = new uint[count];
-                for (int i = 0; i < colors.Length; i++)
-                    colors[i] = PixelConverter.GetDecodedPixelValue(br.ReadUInt16(), XLIMEncoding.RGB565);
-
-                // read pixels
-                bool half = colors.Length < 0x10;
-                uint[] pixels = new uint[BaseSize * BaseSize];
-                for (int i = 0; i < pixels.Length; i++)
+                var b = br.ReadByte();
+                if (!half)
                 {
-                    var b = br.ReadByte();
-                    if (!half)
-                    {
-                        pixels[i] = colors[b];
-                    }
-                    else
-                    {
-                        pixels[i++] = colors[b & 0xF];
-                        pixels[i] = colors[b >> 4];
-                    }
+                    pixels[i] = colors[b];
                 }
-                return pixels;
+                else
+                {
+                    pixels[i++] = colors[b & 0xF];
+                    pixels[i] = colors[b >> 4];
+                }
             }
+            return pixels;
         }
 
         // todo: move System.Drawing utilization out, make encoding generic for bflim
@@ -79,13 +77,15 @@ namespace pk3DS.Core.CTR
             int bclimformat = 7; // Init to default (for X)
 
             if (fc == 'X')
-                write16BitColorPalette(mBitmap, ref ms);
+            {
+                Write16BitColorPalette(mBitmap, ref ms);
+            }
             else
             {
                 bclimformat = Convert.ToInt16(fc.ToString(), 16);
                 try
                 {
-                    writeGeneric(bclimformat, mBitmap, ref ms);
+                    WriteGeneric(bclimformat, mBitmap, ref ms);
                 }
                 catch (Exception e)
                 {
@@ -114,31 +114,29 @@ namespace pk3DS.Core.CTR
             return ms.ToArray();
         }
 
-        public static byte[] getBCLIM(string path, char fc)
+        public static byte[] GetBCLIM(string path, char fc)
         {
             byte[] byteArray = File.ReadAllBytes(path);
-            using (Stream BitmapStream = new MemoryStream(byteArray)) // Open the file, even if it is in use.
-            {
-                Image img = Image.FromStream(BitmapStream);
-                return IMGToBCLIM(img, fc);
-            }
+            using Stream BitmapStream = new MemoryStream(byteArray);
+            Image img = Image.FromStream(BitmapStream);
+            return IMGToBCLIM(img, fc);
         }
 
-        public static Image makeBCLIM(string path, char fc)
+        public static Image MakeBCLIM(string path, char fc)
         {
-            byte[] bclim = getBCLIM(path, fc);
+            byte[] bclim = GetBCLIM(path, fc);
             string fp = Path.GetFileNameWithoutExtension(path);
             fp = "new_" + fp.Substring(fp.IndexOf('_') + 1);
             string pp = Path.GetDirectoryName(path);
             string newPath = Path.Combine(pp, fp + ".bclim");
             File.WriteAllBytes(newPath, bclim);
 
-            return makeBMP(newPath);
+            return MakeBMP(newPath);
         }
 
-        public static Image makeBMP(string path, bool autosave = false, bool crop = true)
+        public static Image MakeBMP(string path, bool autosave = false, bool crop = true)
         {
-            BCLIM bclim = analyze(path);
+            BCLIM bclim = Analyze(path);
             if (bclim.Magic != 0x4D494C43)
             {
                 System.Media.SystemSounds.Beep.Play();
@@ -156,107 +154,103 @@ namespace pk3DS.Core.CTR
         }
 
         // BCLIM Data Writing
-        public static int write16BitColorPalette(Bitmap img, ref MemoryStream ms)
+        public static int Write16BitColorPalette(Bitmap img, ref MemoryStream ms)
         {
-            using (Stream pixelcolors = new MemoryStream())
-            using (BinaryWriter bz = new BinaryWriter(pixelcolors))
+            using Stream pixelcolors = new MemoryStream();
+            using BinaryWriter bz = new BinaryWriter(pixelcolors);
+            // Set up our basis.
+            bool under16colors = false;
+            int colors = GetColorCount(img);
+            Color[] pcs = new Color[colors];
+            if (colors < 16) under16colors = true;
+            uint div = 1;
+            if (under16colors)
+                div = 2;
+
+            if (colors > 70) throw new Exception("Too many colors");
+
+            // Set up a new reverse image to build into.
+            int w = XLIMUtil.GreatestCommonMultiple(img.Width, 8);
+            int h = XLIMUtil.GreatestCommonMultiple(img.Height, 8);
+            w = Math.Max(XLIMUtil.NextLargestPow2(w), XLIMUtil.NextLargestPow2(h));
+            h = w;
+            byte[] pixelarray = new byte[w * h];
+
+            const int colorformat = 2;
+            int ctr = 1;
+
+            pcs[0] = Color.FromArgb(0, 0xFF, 0xFF, 0xFF);
+
+            int p = XLIMUtil.GreatestCommonMultiple(w, 8) / 8;
+            if (p == 0) p = 1;
+            int d = 0;
+            for (uint i = 0; i < pixelarray.Length; i++)
             {
-                // Set up our basis.
-                bool under16colors = false;
-                int colors = getColorCount(img);
-                Color[] pcs = new Color[colors];
-                if (colors < 16) under16colors = true;
-                uint div = 1;
-                if (under16colors)
-                    div = 2;
+                d = (int)(i / div);
+                // Get Tile Coordinate
+                XLIMOrienter.DecimalToCartesian(i % 64, out var x, out var y);
 
-                if (colors > 70) throw new Exception("Too many colors");
+                // Get Shift Tile
+                uint tile = i / 64;
 
-                // Set up a new reverse image to build into.
-                int w = XLIMUtil.gcm(img.Width, 8);
-                int h = XLIMUtil.gcm(img.Height, 8);
-                w = Math.Max(XLIMUtil.nlpo2(w), XLIMUtil.nlpo2(h));
-                h = w;
-                byte[] pixelarray = new byte[w * h];
+                // Shift Tile Coordinate into Tilemap
+                x += (uint)(tile % p) * 8;
+                y += (uint)(tile / p) * 8;
+                if (x >= img.Width || y >= img.Height) // Don't try to access any pixel data outside of our bounds.
+                { i++; continue; } // Goto next tile.
 
-                const int colorformat = 2;
-                int ctr = 1;
+                // Get Color of Pixel
+                Color c = img.GetPixel((int)x, (int)y);
 
-                pcs[0] = Color.FromArgb(0, 0xFF, 0xFF, 0xFF);
+                // Color Table Building Logic
+                int index = Array.IndexOf(pcs, c);
+                if (c.A == 0) index = 0;
+                if (index < 0)                          // If new color
+                { pcs[ctr] = c; index = ctr; ctr++; }   // Add it to color list
 
-                int p = XLIMUtil.gcm(w, 8) / 8;
-                if (p == 0) p = 1;
-                int d = 0;
-                for (uint i = 0; i < pixelarray.Length; i++)
-                {
-                    d = (int)(i / div);
-                    // Get Tile Coordinate
-                    uint x;
-                    uint y;
-                    XLIMOrienter.d2xy(i % 64, out x, out y);
+                // Add pixel to pixeldata
+                if (under16colors) index <<= 4;
+                pixelarray[i / div] = (byte)index;
+                if (!under16colors) continue;
 
-                    // Get Shift Tile
-                    uint tile = i / 64;
-
-                    // Shift Tile Coordinate into Tilemap
-                    x += (uint)(tile % p) * 8;
-                    y += (uint)(tile / p) * 8;
-                    if (x >= img.Width || y >= img.Height) // Don't try to access any pixel data outside of our bounds.
-                    { i++; continue; } // Goto next tile.
-
-                    // Get Color of Pixel
-                    Color c = img.GetPixel((int)x, (int)y);
-
-                    // Color Table Building Logic
-                    int index = Array.IndexOf(pcs, c);
-                    if (c.A == 0) index = 0;
-                    if (index < 0)                          // If new color
-                    { pcs[ctr] = c; index = ctr; ctr++; }   // Add it to color list
-
-                    // Add pixel to pixeldata
-                    if (under16colors) index = index << 4;
-                    pixelarray[i / div] = (byte)index;
-                    if (!under16colors) continue;
-
-                    c = img.GetPixel((int)x + 1, (int)y);
-                    index = Array.IndexOf(pcs, c);
-                    if (c.A == 0) index = 0;
-                    if (index < 0)  // If new color
-                    { pcs[ctr] = c; index = ctr; ctr++; }
-                    pixelarray[i / div] |= (byte)index;
-                    i++;
-                }
-
-                // Write Intro
-                bz.Write((ushort)colorformat); bz.Write((ushort)ctr);
-                // Write Colors
-                for (int i = 0; i < ctr; i++)
-                    bz.Write((ushort)GetRGBA5551(pcs[i]));      // Write byte array.
-                // Write Pixel Data
-                for (uint i = 0; i < d; i++)
-                    bz.Write(pixelarray[i]);
-                // Write Padding
-                while (pixelcolors.Length < XLIMUtil.nlpo2((int)pixelcolors.Length))
-                    bz.Write((byte)0);
-                // Copy to main CLIM.
-                pixelcolors.Position = 0; pixelcolors.CopyTo(ms);
+                c = img.GetPixel((int)x + 1, (int)y);
+                index = Array.IndexOf(pcs, c);
+                if (c.A == 0) index = 0;
+                if (index < 0)  // If new color
+                { pcs[ctr] = c; index = ctr; ctr++; }
+                pixelarray[i / div] |= (byte)index;
+                i++;
             }
+
+            // Write Intro
+            bz.Write((ushort)colorformat); bz.Write((ushort)ctr);
+            // Write Colors
+            for (int i = 0; i < ctr; i++)
+                bz.Write(GetRGBA5551(pcs[i]));      // Write byte array.
+            // Write Pixel Data
+            for (uint i = 0; i < d; i++)
+                bz.Write(pixelarray[i]);
+            // Write Padding
+            while (pixelcolors.Length < XLIMUtil.NextLargestPow2((int)pixelcolors.Length))
+                bz.Write((byte)0);
+            // Copy to main CLIM.
+            pixelcolors.Position = 0; pixelcolors.CopyTo(ms);
             return 7;
         }
 
-        public static void writeGeneric(int format, Bitmap img, ref MemoryStream ms, bool rectangle = true)
+        public static void WriteGeneric(int format, Bitmap img, ref MemoryStream ms, bool rectangle = true)
         {
-            BinaryWriter bz = new BinaryWriter(ms);
-            bz.Write(getPixelData(img, format, rectangle));
+            using var bz = new BinaryWriter(ms);
+            bz.Write(GetPixelData(img, format, rectangle));
             bz.Flush();
         }
 
         public static byte[] MakePixelData(byte[] input, ref int w, ref int h, XLIMOrientation x = XLIMOrientation.None)
         {
             int width = w;
-            w = XLIMUtil.nlpo2(w);
-            h = XLIMUtil.nlpo2(h);
-            if (!(Math.Min(w, h) < 32))
+            w = XLIMUtil.NextLargestPow2(w);
+            h = XLIMUtil.NextLargestPow2(h);
+            if (Math.Min(w, h) >= 32)
                 w = h = Math.Max(w, h); // resize
 
             byte[] pixels = new byte[w * h * 4];
@@ -270,7 +264,7 @@ namespace pk3DS.Core.CTR
             return pixels;
         }
 
-        public static byte[] getPixelData(Bitmap img, int format, bool rectangle = true)
+        public static byte[] GetPixelData(Bitmap img, int format, bool rectangle = true)
         {
             int w = img.Width;
             int h = img.Height;
@@ -281,81 +275,82 @@ namespace pk3DS.Core.CTR
                 // Square Format Checks
                 if (rectangle && Math.Min(img.Width, img.Height) < 32)
                 {
-                    w = XLIMUtil.nlpo2(img.Width);
-                    h = XLIMUtil.nlpo2(img.Height);
+                    w = XLIMUtil.NextLargestPow2(img.Width);
+                    h = XLIMUtil.NextLargestPow2(img.Height);
                 }
                 else
                 {
-                    w = h = Math.Max(XLIMUtil.nlpo2(w), XLIMUtil.nlpo2(h)); // else resize
+                    w = h = Math.Max(XLIMUtil.NextLargestPow2(w), XLIMUtil.NextLargestPow2(h)); // else resize
                 }
             }
 
-            using (MemoryStream mz = new MemoryStream())
-            using (BinaryWriter bz = new BinaryWriter(mz))
+            using MemoryStream mz = new MemoryStream();
+            using BinaryWriter bz = new BinaryWriter(mz);
+            int p = XLIMUtil.GreatestCommonMultiple(w, 8) / 8;
+            if (p == 0) p = 1;
+            for (uint i = 0; i < w * h; i++)
             {
-                int p = XLIMUtil.gcm(w, 8) / 8;
-                if (p == 0) p = 1;
-                for (uint i = 0; i < w * h; i++)
+                XLIMOrienter.DecimalToCartesian(i % 64, out uint x, out uint y);
+
+                // Get Shift Tile
+                uint tile = i / 64;
+
+                // Shift Tile Coordinate into Tilemap
+                x += (uint)(tile % p) * 8;
+                y += (uint)(tile / p) * 8;
+
+                // Don't write data
+                Color c;
+                if (x >= img.Width || y >= img.Height)
+                { c = Color.FromArgb(0, 0, 0, 0); }
+                else
+                { c = img.GetPixel((int)x, (int)y); if (c.A == 0) c = Color.FromArgb(0, 86, 86, 86); }
+
+                switch (format)
                 {
-                    XLIMOrienter.d2xy(i % 64, out uint x, out uint y);
-
-                    // Get Shift Tile
-                    uint tile = i / 64;
-
-                    // Shift Tile Coordinate into Tilemap
-                    x += (uint)(tile % p) * 8;
-                    y += (uint)(tile / p) * 8;
-
-                    // Don't write data
-                    Color c;
-                    if (x >= img.Width || y >= img.Height)
-                    { c = Color.FromArgb(0, 0, 0, 0); }
-                    else
-                    { c = img.GetPixel((int)x, (int)y); if (c.A == 0) c = Color.FromArgb(0, 86, 86, 86); }
-
-                    switch (format)
+                    case 0: bz.Write(GetL8(c)); break;                // L8
+                    case 1: bz.Write(GetA8(c)); break;                // A8
+                    case 2: bz.Write(GetLA4(c)); break;               // LA4(4)
+                    case 3: bz.Write(GetLA8(c)); break;             // LA8(8)
+                    case 4: bz.Write(GetHILO8(c)); break;           // HILO8
+                    case 5: bz.Write(GetRGB565(c)); break;          // RGB565
+                    case 6:
                     {
-                        case 0: bz.Write((byte)GetL8(c)); break;                // L8
-                        case 1: bz.Write((byte)GetA8(c)); break;                // A8
-                        case 2: bz.Write((byte)GetLA4(c)); break;               // LA4(4)
-                        case 3: bz.Write((ushort)GetLA8(c)); break;             // LA8(8)
-                        case 4: bz.Write((ushort)GetHILO8(c)); break;           // HILO8
-                        case 5: bz.Write((ushort)GetRGB565(c)); break;          // RGB565
-                        case 6:
-                        {
-                            bz.Write(c.B);
-                            bz.Write(c.G);
-                            bz.Write(c.R); break;
-                        }
-                        case 7: bz.Write((ushort)GetRGBA5551(c)); break;        // RGBA5551
-                        case 8: bz.Write((ushort)GetRGBA4444(c)); break;        // RGBA4444
-                        case 9: bz.Write((uint)GetRGBA8888(c)); break;          // RGBA8
-                        case 10: throw new Exception("ETC1 not supported.");
-                        case 11: throw new Exception("ETC1A4 not supported.");
-                        case 12:
-                        {
-                            byte val = (byte)(GetL8(c) / 0x11); // First Pix    // L4
-                            { c = img.GetPixel((int)x, (int)y); if (c.A == 0) c = Color.FromArgb(0, 0, 0, 0); }
-                            val |= (byte)((GetL8(c) / 0x11) << 4); i++;
-                            bz.Write(val); break;
-                        }
-                        case 13:
-                        {
-                            byte val = (byte)(GetA8(c) / 0x11); // First Pix    // L4
-                            { c = img.GetPixel((int)x, (int)y); }
-                            val |= (byte)((GetA8(c) / 0x11) << 4); i++;
-                            bz.Write(val); break;
-                        }
+                        bz.Write(c.B);
+                        bz.Write(c.G);
+                        bz.Write(c.R); break;
+                    }
+                    case 7: bz.Write(GetRGBA5551(c)); break;        // RGBA5551
+                    case 8: bz.Write(GetRGBA4444(c)); break;        // RGBA4444
+                    case 9: bz.Write(GetRGBA8888(c)); break;          // RGBA8
+                    case 10: throw new Exception("ETC1 not supported.");
+                    case 11: throw new Exception("ETC1A4 not supported.");
+                    case 12:
+                    {
+                        byte val = (byte)(GetL8(c) / 0x11); // First Pix    // L4
+                        { c = img.GetPixel((int)x, (int)y); if (c.A == 0) c = Color.FromArgb(0, 0, 0, 0); }
+                        val |= (byte)((GetL8(c) / 0x11) << 4); i++;
+                        bz.Write(val); break;
+                    }
+                    case 13:
+                    {
+                        byte val = (byte)(GetA8(c) / 0x11); // First Pix    // L4
+                        { c = img.GetPixel((int)x, (int)y); }
+                        val |= (byte)((GetA8(c) / 0x11) << 4); i++;
+                        bz.Write(val); break;
                     }
                 }
-                if (!perfect)
-                    while (mz.Length < XLIMUtil.nlpo2((int)mz.Length)) // pad
-                        bz.Write((byte)0);
-                return mz.ToArray();
             }
+            if (!perfect)
+            {
+                while (mz.Length < XLIMUtil.NextLargestPow2((int)mz.Length)) // pad
+                    bz.Write((byte)0);
+            }
+
+            return mz.ToArray();
         }
 
-        public static int getColorCount(Bitmap img)
+        public static int GetColorCount(Bitmap img)
         {
             Color[] colors = new Color[img.Width * img.Height];
             int colorct = 1;
@@ -407,19 +402,19 @@ namespace pk3DS.Core.CTR
         {
             int val = 0;
             // val += c.A >> 8; // unused
-            val += convert8to5(c.B) >> 3;
+            val += Convert8to5(c.B) >> 3;
             val += (c.G >> 2) << 5;
-            val += convert8to5(c.R) << 10;
+            val += Convert8to5(c.R) << 10;
             return (ushort)val;
         }  // RGB565
         // RGB8
         internal static ushort GetRGBA5551(Color c)
         {
             int val = 0;
-            val += (byte)(c.A > 0x80 ? 1 : 0);
-            val += convert8to5(c.R) << 11;
-            val += convert8to5(c.G) << 6;
-            val += convert8to5(c.B) << 1;
+            val += c.A > 0x80 ? 1 : 0;
+            val += Convert8to5(c.R) << 11;
+            val += Convert8to5(c.G) << 6;
+            val += Convert8to5(c.B) << 1;
             ushort v = (ushort)val;
 
             return v;
@@ -446,7 +441,7 @@ namespace pk3DS.Core.CTR
         }
 
         // Unit Conversion
-        internal static byte convert8to5(int colorval)
+        internal static byte Convert8to5(int colorval)
         {
             byte[] Convert8to5 = { 0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
                 0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
@@ -457,9 +452,9 @@ namespace pk3DS.Core.CTR
             return i;
         }
 
-        public static BCLIM analyze(byte[] data, string shortPath)
+        public static BCLIM Analyze(byte[] data, string shortPath)
         {
-            BCLIM bclim = new BCLIM(data)
+            var bclim = new BCLIM(data)
             {
                 FileName = Path.GetFileNameWithoutExtension(shortPath),
                 FilePath = Path.GetDirectoryName(shortPath),
@@ -468,10 +463,10 @@ namespace pk3DS.Core.CTR
             return bclim;
         }
 
-        public static BCLIM analyze(string path)
+        public static BCLIM Analyze(string path)
         {
             byte[] data = File.ReadAllBytes(path);
-            return analyze(data, path);
+            return Analyze(data, path);
         }
     }
 }

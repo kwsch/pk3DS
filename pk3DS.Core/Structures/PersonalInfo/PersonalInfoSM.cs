@@ -13,27 +13,27 @@ namespace pk3DS.Core.Structures.PersonalInfo
                 return;
             Data = data;
 
-            TMHM = getBits(Data.Skip(0x28).Take(0x10).ToArray()); // 36-39
-            TypeTutors = getBits(Data.Skip(0x38).Take(0x4).ToArray()); // 40
+            TMHM = GetBits(Data.Skip(0x28).Take(0x10).ToArray()); // 36-39
+            TypeTutors = GetBits(Data.Skip(0x38).Take(0x4).ToArray()); // 40
             SpecialTutors = new[]
             {
-                getBits(Data.Skip(0x3C).Take(0x0A).ToArray()),
+                GetBits(Data.Skip(0x3C).Take(0x0A).ToArray()),
             };
         }
 
         public override byte[] Write()
         {
-            setBits(TMHM).CopyTo(Data, 0x28);
-            setBits(TypeTutors).CopyTo(Data, 0x38);
-            setBits(SpecialTutors[0]).CopyTo(Data, 0x3C);
+            SetBits(TMHM).CopyTo(Data, 0x28);
+            SetBits(TypeTutors).CopyTo(Data, 0x38);
+            SetBits(SpecialTutors[0]).CopyTo(Data, 0x3C);
             return Data;
         }
-        
+
         // No accessing for 3C-4B
 
-        public int SpecialZ_Item { get { return BitConverter.ToUInt16(Data, 0x4C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4C); } }
-        public int SpecialZ_BaseMove { get { return BitConverter.ToUInt16(Data, 0x4E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4E); } }
-        public int SpecialZ_ZMove { get { return BitConverter.ToUInt16(Data, 0x50); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x50); } }
-        public bool LocalVariant { get { return Data[0x52] == 1; } set { Data[0x52] = (byte)(value ? 1 : 0); } }
+        public int SpecialZ_Item { get => BitConverter.ToUInt16(Data, 0x4C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4C); }
+        public int SpecialZ_BaseMove { get => BitConverter.ToUInt16(Data, 0x4E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4E); }
+        public int SpecialZ_ZMove { get => BitConverter.ToUInt16(Data, 0x50); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x50); }
+        public bool LocalVariant { get => Data[0x52] == 1; set => Data[0x52] = value ? 1 : 0; }
     }
 }

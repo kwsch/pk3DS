@@ -63,7 +63,7 @@ namespace pk3DS
             string[] CRSs = files.Where(x => new FileInfo(x).Extension.Contains("crs")).ToArray();
             var CRRs = Directory.Exists(Path.Combine(path, ".crr"))
                 ? Directory.EnumerateFiles(Path.Combine(path, ".crr"))
-                : new string[0];
+                : Array.Empty<string>();
             string CRRBAKPATH = Path.Combine(bak_dll, ".crr");
 
             foreach (string src in CROs.Concat(CRSs))
@@ -128,8 +128,8 @@ namespace pk3DS
             }
         }
 
-        private readonly List<List<RestoreInfo>> Items = new List<List<RestoreInfo>>();
-        private readonly List<CheckedListBox> List = new List<CheckedListBox>();
+        private readonly List<List<RestoreInfo>> Items = new();
+        private readonly List<CheckedListBox> List = new();
 
         private void B_Go_Click(object sender, EventArgs e)
         {

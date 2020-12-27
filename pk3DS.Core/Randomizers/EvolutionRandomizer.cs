@@ -38,11 +38,8 @@ namespace pk3DS.Core.Randomizers
 
         public void ExecuteEvolveEveryLevel()
         {
-            for (var i = 0; i < Evolutions.Length; i++)
-            {
-                var evo = Evolutions[i];
-                MakeEvolveEveryLevel(evo, i);
-            }
+            foreach (var evo in Evolutions)
+                MakeEvolveEveryLevel(evo);
         }
 
         private void Randomize(EvolutionSet evo, int i)
@@ -73,7 +70,7 @@ namespace pk3DS.Core.Randomizers
                     v.Level = 30;
                     v.Method = 4; // trade -> level up
                 }
-                
+
                 if (v.Method == 6) // trade with held item -> level up with held item
                     v.Method = 19;
 
@@ -88,7 +85,7 @@ namespace pk3DS.Core.Randomizers
             }
         }
 
-        private void MakeEvolveEveryLevel(EvolutionSet evo, int species)
+        private void MakeEvolveEveryLevel(EvolutionSet evo)
         {
             var evos = evo.PossibleEvolutions;
             foreach (EvolutionMethod v in evos)

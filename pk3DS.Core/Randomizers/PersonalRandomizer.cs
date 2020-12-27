@@ -9,7 +9,7 @@ namespace pk3DS.Core.Randomizers
 {
     public class PersonalRandomizer : IRandomizer
     {
-        private readonly Random rnd = Util.rand;
+        private readonly Random rnd = Util.Rand;
 
         private const decimal LearnTMPercent = 35; // Average Learnable TMs is 35.260.
         private const decimal LearnTypeTutorPercent = 2; //136 special tutor moves learnable by species in Untouched ORAS.
@@ -42,9 +42,9 @@ namespace pk3DS.Core.Randomizers
         public bool ModifyEggGroup = true;
         public decimal SameEggGroupChance = 50;
 
-        private const bool Advanced = false;
-        private const bool TMInheritance = false;
-        private const bool ModifyLearnsetSmartly = false;
+        //public bool Advanced { get; set; } = false;
+        public bool TMInheritance { get; set; }
+        public bool ModifyLearnsetSmartly { get; set; }
 
         public ushort[] MoveIDsTMs { private get; set; }
         public Move[] Moves => Game.Moves;
@@ -154,12 +154,12 @@ namespace pk3DS.Core.Randomizers
         private void RandomizeTMHMAdvanced(PersonalInfo z)
         {
             var tms = z.TMHM;
-            var types = z.Types;
+            //var types = z.Types;
 
-            bool CanLearn(Move m)
+            bool CanLearn(Move _)
             {
-                var type = m.Type;
-                bool typeMatch = types.Any(t => t == type);
+                //var type = m.Type;
+                //bool typeMatch = types.Any(t => t == type);
                 // todo: how do I learn move?
                 return rnd.Next(0, 100) < LearnTMPercent;
             }
@@ -191,12 +191,16 @@ namespace pk3DS.Core.Randomizers
             var tms = z.TMHM;
 
             if (ModifyLearnsetTM)
-            for (int j = 0; j < tmcount; j++)
-                tms[j] = rnd.Next(0, 100) < LearnTMPercent;
+            {
+                for (int j = 0; j < tmcount; j++)
+                    tms[j] = rnd.Next(0, 100) < LearnTMPercent;
+            }
 
             if (ModifyLearnsetHM)
-            for (int j = tmcount; j < tms.Length; j++)
-                tms[j] = rnd.Next(0, 100) < LearnTMPercent;
+            {
+                for (int j = tmcount; j < tms.Length; j++)
+                    tms[j] = rnd.Next(0, 100) < LearnTMPercent;
+            }
 
             z.TMHM = tms;
         }
@@ -218,8 +222,11 @@ namespace pk3DS.Core.Randomizers
         {
             var tutors = z.SpecialTutors;
             foreach (bool[] tutor in tutors)
+            {
                 for (int i = 0; i < tutor.Length; i++)
                     tutor[i] = rnd.Next(0, 100) < LearnMoveTutorPercent;
+            }
+
             z.SpecialTutors = tutors;
         }
 
@@ -278,15 +285,15 @@ namespace pk3DS.Core.Randomizers
             var stats = z.Stats;
             if (stats[0] == 1)
                 return;
-            for (int i = 0; i < stats.Length; i++)
-                Util.Shuffle(stats);
+
+            Util.Shuffle(stats);
             z.Stats = stats;
         }
 
         private int GetRandomType() => rnd.Next(0, TypeCount);
         private int GetRandomEggGroup() => rnd.Next(1, eggGroupCount);
         private int GetRandomHeldItem() => Game.Info.HeldItems[rnd.Next(1, Game.Info.HeldItems.Length)];
-        private readonly IList<int> BannedAbilities = new int[0];
+        private readonly IList<int> BannedAbilities = Array.Empty<int>();
 
         private int GetRandomAbility()
         {

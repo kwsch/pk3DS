@@ -11,53 +11,61 @@ namespace pk3DS
     /// </summary>
     public static class GarcUtil
     {
-        private static ProgressBar pBar1;
-        private static Label label;
+        private static ProgressBar Progress;
+        private static Label Label;
 
         private static void GARC_FileCountDetermined(object sender, GARC.FileCountDeterminedEventArgs e)
         {
-            if (pBar1 == null) pBar1 = new ProgressBar();
-            if (pBar1.InvokeRequired)
-                pBar1.Invoke((MethodInvoker)delegate { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = e.Total; });
-            else { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = e.Total; }
-            if (label == null) label = new Label();
-            if (label.InvokeRequired)
-                label.Invoke((MethodInvoker)delegate { label.Visible = true; });
+            Progress ??= new ProgressBar();
+            if (Progress.InvokeRequired)
+            {
+                Progress.Invoke((MethodInvoker)delegate { Progress.Minimum = 0; Progress.Step = 1; Progress.Value = 0; Progress.Maximum = e.Total; });
+            }
+            else { Progress.Minimum = 0; Progress.Step = 1; Progress.Value = 0; Progress.Maximum = e.Total; }
+            Label ??= new Label();
+            if (Label.InvokeRequired)
+                Label.Invoke((MethodInvoker)delegate { Label.Visible = true; });
         }
 
         private static void GARC_PackProgressed(object sender, GARC.PackProgressedEventArgs e)
         {
-            if (pBar1.InvokeRequired)
-                pBar1.Invoke((MethodInvoker)(() => pBar1.PerformStep()));
-            else { pBar1.PerformStep(); }
+            if (Progress.InvokeRequired)
+            {
+                Progress.Invoke((MethodInvoker)(() => Progress.PerformStep()));
+            }
+            else { Progress.PerformStep(); }
             string update = $"{(float)e.Current / (float)e.Total:P2} - {e.Current}/{e.Total} - {e.CurrentFile}";
-            if (label.InvokeRequired)
-                label.Invoke((MethodInvoker)delegate { label.Text = update; });
-            else { label.Text = update; }
+            if (Label.InvokeRequired)
+            {
+                Label.Invoke((MethodInvoker)delegate { Label.Text = update; });
+            }
+            else { Label.Text = update; }
         }
 
         private static void GARC_UnpackProgressed(object sender, GARC.UnpackProgressedEventArgs e)
         {
             #region Step
-            if (pBar1.InvokeRequired) pBar1.Invoke((MethodInvoker)(() => pBar1.PerformStep()));
-            else pBar1.PerformStep();
+            if (Progress.InvokeRequired) Progress.Invoke((MethodInvoker)(() => Progress.PerformStep()));
+            else Progress.PerformStep();
 
             string update = $"{e.Current / e.Total:P2} - {e.Current}/{e.Total}";
-            if (label.InvokeRequired)
-                label.Invoke((MethodInvoker)delegate { label.Text = update; });
-            else { label.Text = update; }
+            if (Label.InvokeRequired)
+            {
+                Label.Invoke((MethodInvoker)delegate { Label.Text = update; });
+            }
+            else { Label.Text = update; }
             #endregion
         }
 
-        public static bool garcPackMS(string folderPath, string garcPath, int version, int bytesPadding, ProgressBar pBar1 = null, Label label = null, bool supress = false)
+        public static bool PackGARC(string folderPath, string garcPath, int version, int bytesPadding, ProgressBar pBar1 = null, Label label = null, bool supress = false)
         {
-            GarcUtil.pBar1 = pBar1;
-            GarcUtil.label = label;
+            Progress = pBar1;
+            Label = label;
             GARC.FileCountDetermined += GARC_FileCountDetermined;
             GARC.PackProgressed += GARC_PackProgressed;
             try
             {
-                var filectr = GARC.garcPackMS(folderPath, garcPath, version, bytesPadding);
+                var filectr = GARC.PackGARC(folderPath, garcPath, version, bytesPadding);
                 if (filectr > 0)
                 {
                     // We're done.
@@ -90,15 +98,15 @@ namespace pk3DS
             return false;
         }
 
-        public static bool garcUnpack(string garcPath, string outPath, bool skipDecompression, ProgressBar pBar1 = null, Label label = null, bool supress = false, bool bypassExt = false)
+        public static bool UnpackGARC(string garcPath, string outPath, bool skipDecompression, ProgressBar pBar1 = null, Label label = null, bool supress = false)
         {
-            GarcUtil.pBar1 = pBar1;
-            GarcUtil.label = label;
+            Progress = pBar1;
+            Label = label;
             GARC.FileCountDetermined += GARC_FileCountDetermined;
             GARC.UnpackProgressed += GARC_UnpackProgressed;
             try
             {
-                var fileCount = GARC.garcUnpack(garcPath, outPath, skipDecompression);
+                var fileCount = GARC.GarcUnpack(garcPath, outPath, skipDecompression);
                 if (fileCount > 0)
                 {
                     SystemSounds.Exclamation.Play();

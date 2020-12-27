@@ -101,7 +101,7 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(121, 21);
             this.CB_Species.TabIndex = 1;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.changeEntry);
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeEntry);
             // 
             // L_Species
             // 
@@ -132,7 +132,7 @@
             this.CB_M1.Name = "CB_M1";
             this.CB_M1.Size = new System.Drawing.Size(150, 21);
             this.CB_M1.TabIndex = 6;
-            this.CB_M1.SelectedIndexChanged += new System.EventHandler(this.changeMethod);
+            this.CB_M1.SelectedIndexChanged += new System.EventHandler(this.ChangeMethod);
             // 
             // L_M1
             // 
@@ -152,7 +152,7 @@
             this.CB_I1.Name = "CB_I1";
             this.CB_I1.Size = new System.Drawing.Size(101, 21);
             this.CB_I1.TabIndex = 9;
-            this.CB_I1.SelectedIndexChanged += new System.EventHandler(this.changeInto);
+            this.CB_I1.SelectedIndexChanged += new System.EventHandler(this.ChangeInto);
             // 
             // CB_I2
             // 
@@ -163,7 +163,7 @@
             this.CB_I2.Name = "CB_I2";
             this.CB_I2.Size = new System.Drawing.Size(101, 21);
             this.CB_I2.TabIndex = 15;
-            this.CB_I2.SelectedIndexChanged += new System.EventHandler(this.changeInto);
+            this.CB_I2.SelectedIndexChanged += new System.EventHandler(this.ChangeInto);
             // 
             // L_M2
             // 
@@ -184,7 +184,7 @@
             this.CB_M2.Name = "CB_M2";
             this.CB_M2.Size = new System.Drawing.Size(150, 21);
             this.CB_M2.TabIndex = 12;
-            this.CB_M2.SelectedIndexChanged += new System.EventHandler(this.changeMethod);
+            this.CB_M2.SelectedIndexChanged += new System.EventHandler(this.ChangeMethod);
             // 
             // CB_I3
             // 
@@ -195,7 +195,7 @@
             this.CB_I3.Name = "CB_I3";
             this.CB_I3.Size = new System.Drawing.Size(101, 21);
             this.CB_I3.TabIndex = 21;
-            this.CB_I3.SelectedIndexChanged += new System.EventHandler(this.changeInto);
+            this.CB_I3.SelectedIndexChanged += new System.EventHandler(this.ChangeInto);
             // 
             // L_M3
             // 
@@ -216,7 +216,7 @@
             this.CB_M3.Name = "CB_M3";
             this.CB_M3.Size = new System.Drawing.Size(150, 21);
             this.CB_M3.TabIndex = 18;
-            this.CB_M3.SelectedIndexChanged += new System.EventHandler(this.changeMethod);
+            this.CB_M3.SelectedIndexChanged += new System.EventHandler(this.ChangeMethod);
             // 
             // CB_I4
             // 
@@ -227,7 +227,7 @@
             this.CB_I4.Name = "CB_I4";
             this.CB_I4.Size = new System.Drawing.Size(101, 21);
             this.CB_I4.TabIndex = 27;
-            this.CB_I4.SelectedIndexChanged += new System.EventHandler(this.changeInto);
+            this.CB_I4.SelectedIndexChanged += new System.EventHandler(this.ChangeInto);
             // 
             // L_M4
             // 
@@ -248,7 +248,7 @@
             this.CB_M4.Name = "CB_M4";
             this.CB_M4.Size = new System.Drawing.Size(150, 21);
             this.CB_M4.TabIndex = 24;
-            this.CB_M4.SelectedIndexChanged += new System.EventHandler(this.changeMethod);
+            this.CB_M4.SelectedIndexChanged += new System.EventHandler(this.ChangeMethod);
             // 
             // CB_I5
             // 
@@ -259,7 +259,7 @@
             this.CB_I5.Name = "CB_I5";
             this.CB_I5.Size = new System.Drawing.Size(101, 21);
             this.CB_I5.TabIndex = 33;
-            this.CB_I5.SelectedIndexChanged += new System.EventHandler(this.changeInto);
+            this.CB_I5.SelectedIndexChanged += new System.EventHandler(this.ChangeInto);
             // 
             // L_M5
             // 
@@ -280,7 +280,7 @@
             this.CB_M5.Name = "CB_M5";
             this.CB_M5.Size = new System.Drawing.Size(150, 21);
             this.CB_M5.TabIndex = 30;
-            this.CB_M5.SelectedIndexChanged += new System.EventHandler(this.changeMethod);
+            this.CB_M5.SelectedIndexChanged += new System.EventHandler(this.ChangeMethod);
             // 
             // CB_I8
             // 
@@ -291,7 +291,7 @@
             this.CB_I8.Name = "CB_I8";
             this.CB_I8.Size = new System.Drawing.Size(101, 21);
             this.CB_I8.TabIndex = 51;
-            this.CB_I8.SelectedIndexChanged += new System.EventHandler(this.changeInto);
+            this.CB_I8.SelectedIndexChanged += new System.EventHandler(this.ChangeInto);
             // 
             // L_M8
             // 
@@ -312,7 +312,7 @@
             this.CB_M8.Name = "CB_M8";
             this.CB_M8.Size = new System.Drawing.Size(150, 21);
             this.CB_M8.TabIndex = 48;
-            this.CB_M8.SelectedIndexChanged += new System.EventHandler(this.changeMethod);
+            this.CB_M8.SelectedIndexChanged += new System.EventHandler(this.ChangeMethod);
             // 
             // CB_I7
             // 
@@ -323,7 +323,7 @@
             this.CB_I7.Name = "CB_I7";
             this.CB_I7.Size = new System.Drawing.Size(101, 21);
             this.CB_I7.TabIndex = 45;
-            this.CB_I7.SelectedIndexChanged += new System.EventHandler(this.changeInto);
+            this.CB_I7.SelectedIndexChanged += new System.EventHandler(this.ChangeInto);
             // 
             // L_M7
             // 
@@ -344,7 +344,7 @@
             this.CB_M7.Name = "CB_M7";
             this.CB_M7.Size = new System.Drawing.Size(150, 21);
             this.CB_M7.TabIndex = 42;
-            this.CB_M7.SelectedIndexChanged += new System.EventHandler(this.changeMethod);
+            this.CB_M7.SelectedIndexChanged += new System.EventHandler(this.ChangeMethod);
             // 
             // CB_I6
             // 
@@ -355,7 +355,7 @@
             this.CB_I6.Name = "CB_I6";
             this.CB_I6.Size = new System.Drawing.Size(101, 21);
             this.CB_I6.TabIndex = 39;
-            this.CB_I6.SelectedIndexChanged += new System.EventHandler(this.changeInto);
+            this.CB_I6.SelectedIndexChanged += new System.EventHandler(this.ChangeInto);
             // 
             // L_M6
             // 
@@ -376,7 +376,7 @@
             this.CB_M6.Name = "CB_M6";
             this.CB_M6.Size = new System.Drawing.Size(150, 21);
             this.CB_M6.TabIndex = 36;
-            this.CB_M6.SelectedIndexChanged += new System.EventHandler(this.changeMethod);
+            this.CB_M6.SelectedIndexChanged += new System.EventHandler(this.ChangeMethod);
             // 
             // PB_1
             // 
@@ -691,7 +691,7 @@
             this.Name = "EvolutionEditor6";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Evolution Editor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
             ((System.ComponentModel.ISupportInitialize)(this.PB_1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_4)).EndInit();

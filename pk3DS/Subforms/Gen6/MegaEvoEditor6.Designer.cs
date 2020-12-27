@@ -273,7 +273,7 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(181, 21);
             this.CB_Species.TabIndex = 15;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.changeIndex);
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeIndex);
             // 
             // GB_MEvo3
             // 
@@ -411,7 +411,7 @@
             this.MinimumSize = new System.Drawing.Size(430, 250);
             this.Name = "MegaEvoEditor6";
             this.Text = "Mega Evo Editor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
             this.GB_MEvo1.ResumeLayout(false);
             this.GB_MEvo1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_M1)).EndInit();

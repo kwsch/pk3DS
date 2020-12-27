@@ -42,7 +42,7 @@ namespace pk3DS.Core.CTR
 
         internal static uint GetDecodedPixelValue(uint val, XLIMEncoding e)
         {
-            byte a = byte.MaxValue, r = 0, g = 0, b = 0;
+            byte a = byte.MaxValue, r, g, b;
             switch (e)
             {
                 case XLIMEncoding.L4:
@@ -123,17 +123,13 @@ namespace pk3DS.Core.CTR
 
         public static uint GetEncodedPixelValue(byte[] raw, int offset, int size)
         {
-            switch (size)
+            return size switch
             {
-                case BPP_32:
-                    return BitConverter.ToUInt32(raw, offset);
-                case BPP_24:
-                    return BitConverter.ToUInt32(raw, offset) & 0x00FFFFFF;
-                case BPP_16:
-                    return BitConverter.ToUInt16(raw, offset);
-                default:
-                    return raw[offset];
-            }
+                BPP_32 => BitConverter.ToUInt32(raw, offset),
+                BPP_24 => BitConverter.ToUInt32(raw, offset) & 0x00FFFFFF,
+                BPP_16 => BitConverter.ToUInt16(raw, offset),
+                _ => raw[offset],
+            };
         }
 
         public static int GetBitsPerPixel(this XLIMEncoding e)
@@ -149,17 +145,17 @@ namespace pk3DS.Core.CTR
             return BPP_4;
         }
 
-        private static readonly HashSet<XLIMEncoding> _32 = new HashSet<XLIMEncoding> 
+        private static readonly HashSet<XLIMEncoding> _32 = new()
         {
             XLIMEncoding.RGBA8,
         };
 
-        private static readonly HashSet<XLIMEncoding> _24 = new HashSet<XLIMEncoding>
+        private static readonly HashSet<XLIMEncoding> _24 = new()
         {
             XLIMEncoding.RGBX8,
         };
 
-        private static readonly HashSet<XLIMEncoding> _16 = new HashSet<XLIMEncoding>
+        private static readonly HashSet<XLIMEncoding> _16 = new()
         {
             XLIMEncoding.LA8,
             XLIMEncoding.HILO8,
@@ -168,7 +164,7 @@ namespace pk3DS.Core.CTR
             XLIMEncoding.RGBA4,
         };
 
-        private static readonly HashSet<XLIMEncoding> _8 = new HashSet<XLIMEncoding>
+        private static readonly HashSet<XLIMEncoding> _8 = new()
         {
             XLIMEncoding.L8,
             XLIMEncoding.A8,

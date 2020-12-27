@@ -1714,7 +1714,7 @@
             this.Name = "PersonalEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Personal Stats Editor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
             this.TC_Pokemon.ResumeLayout(false);
             this.TP_General.ResumeLayout(false);
             this.TP_General.PerformLayout();

@@ -19,8 +19,8 @@ namespace pk3DS
         }
 
         private readonly byte[][] files;
-        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
-        private readonly string[] itemflavor = Main.Config.getText(TextName.ItemFlavor);
+        private readonly string[] itemlist = Main.Config.GetText(TextName.ItemNames);
+        private readonly string[] itemflavor = Main.Config.GetText(TextName.ItemFlavor);
 
         private void Setup()
         {
@@ -57,7 +57,7 @@ namespace pk3DS
             SetEntry();
         }
 
-        private int GetItemMapOffset()
+        public static int GetItemMapOffset()
         {
             if (Main.ExeFSPath == null) { WinFormsUtil.Alert("No exeFS code to load."); return -1; }
             string[] exefsFiles = Directory.GetFiles(Main.ExeFSPath);
@@ -68,8 +68,7 @@ namespace pk3DS
                 ? new byte[] { 0x92, 0x0A, 0x06, 0x3F, 0x75, 0x02 } // ORAS (vanilla @ 47C640)
                 : new byte[] { 0x92, 0x0A, 0x06, 0x3F, 0x41, 0x02 }; // XY (vanilla @ 43DB74)
 
-            int ptr = Util.IndexOfBytes(data, reference, 0x400000, 0) - 2 + reference.Length;
-            return ptr;
+            return Util.IndexOfBytes(data, reference, 0x400000, 0) - 2 + reference.Length;
         }
 
         private void B_Table_Click(object sender, EventArgs e)

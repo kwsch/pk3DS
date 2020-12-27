@@ -18,7 +18,7 @@ namespace pk3DS
             offset = GetDataOffset(data);
             codebin = files[0];
             movelist[0] = "";
-            setupDGV();
+            SetupDGV();
             foreach (string s in locations) CB_Location.Items.Add(s);
             CB_Location.SelectedIndex = 0;
             WinFormsUtil.Alert("Changes made do not reflect ingame.", "Still needs more research.");
@@ -53,21 +53,21 @@ namespace pk3DS
         }
 
         private readonly string codebin;
-        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
         private readonly byte[] data;
         private readonly byte[] entries = { 0xF, 0x11, 0x10, 0xF }; // Entries per Tutor
         private readonly int offset;
         private int dataoffset;
-        readonly string[] locations = { "1", "2", "3", "4" };
+        private readonly string[] locations = { "1", "2", "3", "4" };
 
-        private void getDataOffset(int index)
+        private void GetDataOffset(int index)
         {
             dataoffset = offset; // reset
             for (int i = 0; i < index; i++)
                 dataoffset += (2 * entries[i]) + 2; // There's a EndCap
         }
 
-        private void setupDGV()
+        private void SetupDGV()
         {
             DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
             {
@@ -92,19 +92,19 @@ namespace pk3DS
 
         private int entry = -1;
 
-        private void changeIndex(object sender, EventArgs e)
+        private void ChangeIndex(object sender, EventArgs e)
         {
-            if (entry > -1) setList();
+            if (entry > -1) SetList();
             entry = CB_Location.SelectedIndex;
-            getList();
+            GetList();
         }
 
-        private void getList()
+        private void GetList()
         {
             dgv.Rows.Clear();
             int count = entries[entry];
             dgv.Rows.Add(count);
-            getDataOffset(entry);
+            GetDataOffset(entry);
             for (int i = 0; i < count; i++)
             {
                 dgv.Rows[i].Cells[0].Value = i.ToString();
@@ -112,16 +112,16 @@ namespace pk3DS
             }
         }
 
-        private void setList()
+        private void SetList()
         {
             int count = dgv.Rows.Count;
             for (int i = 0; i < count; i++)
                 Array.Copy(BitConverter.GetBytes((ushort)Array.IndexOf(movelist, dgv.Rows[i].Cells[1].Value)), 0, data, dataoffset + (2 * i), 2);
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void Form_Closing(object sender, FormClosingEventArgs e)
         {
-            if (entry > -1) setList();
+            if (entry > -1) SetList();
             File.WriteAllBytes(codebin, data);
         }
     }

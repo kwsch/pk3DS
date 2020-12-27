@@ -1,6 +1,5 @@
 ﻿using pk3DS.Core;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -20,21 +19,20 @@ namespace pk3DS
             }
             InitializeComponent();
 
-            
             data = File.ReadAllBytes(CROPath);
             len_BPTutor = data.Skip(0x52D2).Take(4).ToArray();
-            
-            setupDGV();
+
+            SetupDGV();
             foreach (string s in locationsTutor) CB_LocationBPMove.Items.Add(s);
             CB_LocationBPMove.SelectedIndex = 0;
         }
-        
+
         private const int ofs_BPTutor = 0x54DE;
         private readonly byte[] len_BPTutor;
-        
-        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+
+        private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
         private readonly byte[] data;
-        
+
         private readonly string[] locationsTutor =
         {
             "Big Wave Beach",
@@ -45,29 +43,29 @@ namespace pk3DS
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            if (entryBPMove > -1) setListBPMove();
+            if (entryBPMove > -1) SetListBPMove();
             File.WriteAllBytes(CROPath, data);
             Close();
         }
 
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
-        private void setupDGV()
+        private void SetupDGV()
         {
             foreach (string t in movelist)
                 dgvmvMove.Items.Add(t); // add only the Names
         }
-        
+
         private int entryBPMove = -1;
 
-        private void changeIndexBPMove(object sender, EventArgs e)
+        private void ChangeIndexBPMove(object sender, EventArgs e)
         {
-            if (entryBPMove > -1) setListBPMove();
+            if (entryBPMove > -1) SetListBPMove();
             entryBPMove = CB_LocationBPMove.SelectedIndex;
-            getListBPMove();
+            GetListBPMove();
         }
 
-        private void getListBPMove()
+        private void GetListBPMove()
         {
             dgvmv.Rows.Clear();
             int count = len_BPTutor[entryBPMove];
@@ -81,7 +79,7 @@ namespace pk3DS
             }
         }
 
-        private void setListBPMove()
+        private void SetListBPMove()
         {
             int count = dgvmv.Rows.Count;
             var ofs = ofs_BPTutor + (len_BPTutor.Take(entryBPMove).Sum(z => z) * 4);
@@ -89,8 +87,8 @@ namespace pk3DS
             {
                 int item = Array.IndexOf(movelist, dgvmv.Rows[i].Cells[1].Value);
                 Array.Copy(BitConverter.GetBytes((ushort)item), 0, data, ofs + (4 * i), 2);
-                int price; string p = dgvmv.Rows[i].Cells[2].Value.ToString();
-                if (int.TryParse(p, out price))
+                string p = dgvmv.Rows[i].Cells[2].Value.ToString();
+                if (int.TryParse(p, out var price))
                     Array.Copy(BitConverter.GetBytes((ushort)price), 0, data, ofs + (4 * i) + 2, 2);
             }
         }

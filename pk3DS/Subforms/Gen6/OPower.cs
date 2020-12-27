@@ -37,18 +37,18 @@ namespace pk3DS
         private readonly int offset;
         private readonly byte[] exefsData;
         private readonly byte[][] powerData = new byte[65][];
-        private readonly string[] powerFlavor = Main.Config.getText(TextName.OPowerFlavor);
+        private readonly string[] powerFlavor = Main.Config.GetText(TextName.OPowerFlavor);
 
         private int entry = -1;
 
-        private void changeEntry(object sender, EventArgs e)
+        private void ChangeEntry(object sender, EventArgs e)
         {
-            setEntry();
+            SetEntry();
             entry = CB_Item.SelectedIndex + 1;
-            getEntry();
+            GetEntry();
         }
 
-        private void getEntry()
+        private void GetEntry()
         {
             if (entry < 1) return;
 
@@ -89,7 +89,7 @@ namespace pk3DS
             NUD_2.Value = _02;
         }
 
-        private void setEntry()
+        private void SetEntry()
         {
             if (entry < 1) return;
 
@@ -114,9 +114,9 @@ namespace pk3DS
                 powerData[entry][1] = usability;
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void Form_Closing(object sender, FormClosingEventArgs e)
         {
-            setEntry();
+            SetEntry();
             // Copy data back to storage
             for (int i = 0; i < powerData.Length; i++)
                 Array.Copy(powerData[i], 0, exefsData, offset + (i * powerData[i].Length), powerData[i].Length);

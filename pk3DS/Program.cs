@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Threading;
 using System.Windows.Forms;
+
+#if !DEBUG
+using System.Threading;
+#endif
 
 namespace pk3DS
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -29,6 +32,7 @@ namespace pk3DS
             Application.Run(new Main());
         }
 
+#if !DEBUG
         // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
         private static void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
@@ -43,7 +47,7 @@ namespace pk3DS
                 try
                 {
                     // Todo: make this translatable
-                    MessageBox.Show("A fatal error has occurred in PKHeX, and the details could not be displayed.  Please report this to the author.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageBox.Show("A fatal error has occurred in pk3DS, and the details could not be displayed.  Please report this to the author.", "pk3DS Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
                 finally
                 {
@@ -81,5 +85,6 @@ namespace pk3DS
                 }
             }
         }
+#endif
     }
 }

@@ -7,13 +7,13 @@ namespace pk3DS.Core.Randomizers
 {
     public class SpeciesRandomizer
     {
-        private readonly GameConfig Game;
+        //private readonly GameConfig Game;
         private readonly PersonalInfo[] SpeciesStat;
         private readonly int MaxSpeciesID;
 
         public SpeciesRandomizer(GameConfig config)
         {
-            Game = config;
+            var Game = config;
             MaxSpeciesID = Game.Info.MaxSpeciesID;
             SpeciesStat = Game.Personal.Table;
         }

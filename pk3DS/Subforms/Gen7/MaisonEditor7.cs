@@ -20,7 +20,7 @@ namespace pk3DS
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
             movelist[0] = specieslist[0] = itemlist[0] = "";
 
-            trNames = Main.Config.getText(royal ? TextName.BattleRoyalNames : TextName.BattleTreeNames); Array.Resize(ref trNames, trFiles.Length);
+            trNames = Main.Config.GetText(royal ? TextName.BattleRoyalNames : TextName.BattleTreeNames); Array.Resize(ref trNames, trFiles.Length);
 
             InitializeComponent();
             Setup();
@@ -29,11 +29,11 @@ namespace pk3DS
         private readonly byte[][] trFiles;
         private readonly string[] trNames;
         private readonly byte[][] pkFiles;
-        private readonly string[] natures = Main.Config.getText(TextName.Natures);
-        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
-        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
-        private readonly string[] trClass = Main.Config.getText(TextName.TrainerClasses);
-        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
+        private readonly string[] natures = Main.Config.GetText(TextName.Natures);
+        private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
+        private readonly string[] specieslist = Main.Config.GetText(TextName.SpeciesNames);
+        private readonly string[] trClass = Main.Config.GetText(TextName.TrainerClasses);
+        private readonly string[] itemlist = Main.Config.GetText(TextName.ItemNames);
         private int trEntry = -1;
         private int pkEntry = -1;
         private bool dumping;
@@ -56,23 +56,23 @@ namespace pk3DS
             CB_Trainer.SelectedIndex = 1;
         }
 
-        private void changeTrainer(object sender, EventArgs e)
+        private void ChangeTrainer(object sender, EventArgs e)
         {
-            setTrainer();
+            SetTrainer();
             trEntry = CB_Trainer.SelectedIndex;
-            getTrainer();
+            GetTrainer();
             if (GB_Trainer.Enabled)
                 LB_Choices.SelectedIndex = 0;
         }
 
-        private void changePokemon(object sender, EventArgs e)
+        private void ChangePokemon(object sender, EventArgs e)
         {
-            setPokemon();
+            SetPokemon();
             pkEntry = CB_Pokemon.SelectedIndex;
-            getPokemon();
+            GetPokemon();
         }
 
-        private void getTrainer()
+        private void GetTrainer()
         {
             if (trEntry < 0) return;
 
@@ -87,7 +87,7 @@ namespace pk3DS
                 LB_Choices.Items.Add(Entry.ToString());
         }
 
-        private void setTrainer()
+        private void SetTrainer()
         {
             if (trEntry < 0 || !GB_Trainer.Enabled || dumping) return;
             // Gather
@@ -103,7 +103,7 @@ namespace pk3DS
             trFiles[trEntry] = tr.Write();
         }
 
-        private void getPokemon()
+        private void GetPokemon()
         {
             if (pkEntry < 0 || dumping) return;
             Maison7.Pokemon pkm = new Maison7.Pokemon(pkFiles[pkEntry]);
@@ -127,7 +127,7 @@ namespace pk3DS
             // Last 2 Bytes are unused.
         }
 
-        private void setPokemon()
+        private void SetPokemon()
         {
             if (pkEntry < 0 || dumping) return;
 
@@ -154,9 +154,9 @@ namespace pk3DS
             pkFiles[pkEntry] = data;
         }
 
-        private void changeSpecies(object sender, EventArgs e)
+        private void ChangeSpecies(object sender, EventArgs e)
         {
-            PB_PKM.Image = WinFormsUtil.getSprite(CB_Species.SelectedIndex, (int)NUD_Form.Value, 0, CB_Item.SelectedIndex, Main.Config);
+            PB_PKM.Image = WinFormsUtil.GetSprite(CB_Species.SelectedIndex, (int)NUD_Form.Value, 0, CB_Item.SelectedIndex, Main.Config);
         }
 
         private void B_Remove_Click(object sender, EventArgs e)
@@ -196,10 +196,10 @@ namespace pk3DS
                 CB_Pokemon.SelectedIndex = Convert.ToUInt16(LB_Choices.Items[LB_Choices.SelectedIndex].ToString());
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void Form_Closing(object sender, FormClosingEventArgs e)
         {
-            setTrainer();
-            setPokemon();
+            SetTrainer();
+            SetPokemon();
         }
 
         private void DumpTRs_Click(object sender, EventArgs e)

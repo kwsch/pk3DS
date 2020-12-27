@@ -43,20 +43,24 @@ namespace pk3DS.Core.CTR
 
         private readonly bool arm9;
         private int new_len;
-        
+
         private readonly ProgressBar pBar1;
 
-        private void initpBar(int max)
+        private void InitProgress(int max)
         {
             if (pBar1.InvokeRequired)
+            {
                 pBar1.Invoke((MethodInvoker)delegate { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = max; });
+            }
             else { pBar1.Minimum = 0; pBar1.Step = 1; pBar1.Value = 0; pBar1.Maximum = max; }
         }
 
-        private void setpBarPos(int pos)
+        private void SetProgressPosition(int pos)
         {
             if (pBar1.InvokeRequired)
+            {
                 pBar1.Invoke((MethodInvoker)delegate { pBar1.Value = pos; });
+            }
             else { pBar1.Value = pos; }
         }
 
@@ -72,7 +76,9 @@ namespace pk3DS.Core.CTR
                 throw new Exception("No arguments supplied to BLZ");
 
             if (args[0].Equals("-d"))
+            {
                 cmd = CMD_DECODE;
+            }
             else if (args[0].Equals("-en") || args[0].Equals("-en9"))
             {
                 cmd = CMD_ENCODE;
@@ -86,7 +92,9 @@ namespace pk3DS.Core.CTR
             else { Console.Write("Command not supported" + Environment.NewLine); return; }
 
             if (args.Length < 2)
+            {
                 Console.Write("Filename not specified" + Environment.NewLine);
+            }
             else
             {
                 int arg;
@@ -140,18 +148,18 @@ namespace pk3DS.Core.CTR
 
         private static BLZResult BLZ_Decode(byte[] data)
         {
-            int raw_len, len;
-            int enc_len, dec_len;
+            int raw_len;
+            int len;
+            int dec_len;
             int flags = 0;
 
-            byte[] pak_buffer = prepareData(data);
+            byte[] pak_buffer = PrepareData(data);
             int pak_len = pak_buffer.Length - 3;
 
             int inc_len = BitConverter.ToInt32(pak_buffer, pak_len - 4);
             if (inc_len < 1)
             {
                 Console.Write(", WARNING: not coded file!");
-                enc_len = 0;
                 dec_len = pak_len;
                 pak_len = 0;
                 raw_len = dec_len;
@@ -174,7 +182,7 @@ namespace pk3DS.Core.CTR
                     Console.Write(Environment.NewLine + "Bad length" + Environment.NewLine);
                     return null;
                 }
-                enc_len = (int)(BitConverter.ToUInt32(pak_buffer, pak_len - 8) & 0x00FFFFFF);
+                var enc_len = (int)(BitConverter.ToUInt32(pak_buffer, pak_len - 8) & 0x00FFFFFF);
                 dec_len = pak_len - enc_len;
                 pak_len = enc_len - hdr_len;
                 raw_len = dec_len + enc_len + inc_len;
@@ -253,7 +261,7 @@ namespace pk3DS.Core.CTR
         {
             new_len = 0;
 
-            byte[] raw_buffer = prepareData(data);
+            byte[] raw_buffer = PrepareData(data);
             int raw_len = raw_buffer.Length - 3;
 
             byte[] pak_buffer = null;
@@ -269,7 +277,7 @@ namespace pk3DS.Core.CTR
             return new BLZResult(pak_buffer, pak_len);
         }
 
-        private static byte[] prepareData(byte[] data)
+        private static byte[] PrepareData(byte[] data)
         {
             int fs = data.Length;
             byte[] fb = new byte[fs + 3];
@@ -279,7 +287,7 @@ namespace pk3DS.Core.CTR
             return fb;
         }
 
-        private static void writeUnsigned(byte[] buffer, int offset, int value)
+        private static void WriteUnsigned(byte[] buffer, int offset, int value)
         {
             buffer[offset] = (byte)(value & 0xFF);
             buffer[offset + 1] = (byte)((value >> 8) & 0xFF);
@@ -334,10 +342,10 @@ namespace pk3DS.Core.CTR
             int raw_end = raw_new;
 
             int mask = 0;
-            initpBar(raw_end);
+            InitProgress(raw_end);
             while (raw < raw_end)
             {
-                setpBarPos(raw);
+                SetProgressPosition(raw);
                 if ((mask = (int)((uint)mask >> BLZ_SHIFT)) == 0)
                 {
                     pak_buffer[flg = pak++] = 0;
@@ -386,7 +394,9 @@ namespace pk3DS.Core.CTR
                     pak_buffer[pak++] = (byte)(pos_best - 3);
                 }
                 else
+                {
                     pak_buffer[pak++] = raw_buffer[raw++];
+                }
 
                 if (pak + raw_len - raw >= pak_tmp + raw_tmp)
                     continue;
@@ -433,7 +443,7 @@ namespace pk3DS.Core.CTR
 
                 for (len = 0; len < pak_tmp; len++)
                     tmp[raw_tmp + len] = pak_buffer[len + pak_len - pak_tmp];
-                
+
                 pak_buffer = tmp;
                 pak = raw_tmp + pak_tmp;
 
@@ -447,10 +457,10 @@ namespace pk3DS.Core.CTR
                     hdr_len++;
                 }
 
-                writeUnsigned(pak_buffer, pak, enc_len + hdr_len);
+                WriteUnsigned(pak_buffer, pak, enc_len + hdr_len);
                 pak += 3;
                 pak_buffer[pak++] = (byte)hdr_len;
-                writeUnsigned(pak_buffer, pak, inc_len - hdr_len);
+                WriteUnsigned(pak_buffer, pak, inc_len - hdr_len);
                 pak += 4;
             }
             new_len = pak;

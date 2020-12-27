@@ -28,65 +28,63 @@ namespace pk3DS
         // IO
         private void B_Export_Click(object sender, EventArgs e)
         {
-            if (files.Length <= 0) return;
+            if (files.Length == 0) return;
             SaveFileDialog Dump = new SaveFileDialog {Filter = "Text File|*.txt"};
             DialogResult sdr = Dump.ShowDialog();
             if (sdr != DialogResult.OK) return;
             bool newline = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Remove newline formatting codes? (\\n,\\r,\\c)", "Removing newline formatting will make it more readable but will prevent any importing of that dump.") == DialogResult.Yes;
             string path = Dump.FileName;
-            exportTextFile(path, newline, files);
+            ExportTextFile(path, newline, files);
         }
 
         private void B_Import_Click(object sender, EventArgs e)
         {
-            if (files.Length <= 0) return;
+            if (files.Length == 0) return;
             OpenFileDialog Dump = new OpenFileDialog { Filter = "Text File|*.txt" };
             DialogResult odr = Dump.ShowDialog();
             if (odr != DialogResult.OK) return;
             string path = Dump.FileName;
-            
-            if (!importTextFile(path)) return;
+
+            if (!ImportTextFile(path)) return;
 
             // Reload the form with the new data.
-            changeEntry(null, null);
+            ChangeEntry(null, null);
             WinFormsUtil.Alert("Imported Text from Input Path:", path);
         }
 
-        public static void exportTextFile(string fileName, bool newline, string[][] fileData)
+        public static void ExportTextFile(string fileName, bool newline, string[][] fileData)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using MemoryStream ms = new MemoryStream();
+            ms.Write(new byte[] {0xFF, 0xFE}, 0, 2); // Write Unicode BOM
+            using (TextWriter tw = new StreamWriter(ms, new UnicodeEncoding()))
             {
-                ms.Write(new byte[] {0xFF, 0xFE}, 0, 2); // Write Unicode BOM
-                using (TextWriter tw = new StreamWriter(ms, new UnicodeEncoding()))
+                for (int i = 0; i < fileData.Length; i++)
                 {
-                    for (int i = 0; i < fileData.Length; i++)
+                    // Get Strings for the File
+                    string[] data = fileData[i];
+                    // Append the File Header
+                    tw.WriteLine("~~~~~~~~~~~~~~~");
+                    tw.WriteLine("Text File : " + i);
+                    tw.WriteLine("~~~~~~~~~~~~~~~");
+                    // Write the String to the File
+                    if (data == null) continue;
+                    foreach (string line in data)
                     {
-                        // Get Strings for the File
-                        string[] data = fileData[i];
-                        // Append the File Header
-                        tw.WriteLine("~~~~~~~~~~~~~~~");
-                        tw.WriteLine("Text File : " + i);
-                        tw.WriteLine("~~~~~~~~~~~~~~~");
-                        // Write the String to the File
-                        if (data == null) continue;
-                        foreach (string line in data)
-                        {
-                            tw.WriteLine(newline
-                                ? line.Replace("\\n\\n", " ")
-                                    .Replace("\\n", " ")
-                                    .Replace("\\c", "")
-                                    .Replace("\\r", "")
-                                    .Replace("\\\\", "\\")
-                                    .Replace("\\[", "[")
-                                : line);
-                        }
+                        tw.WriteLine(newline
+                            ? line.Replace("\\n\\n", " ")
+                                .Replace("\\n", " ")
+                                .Replace("\\c", "")
+                                .Replace("\\r", "")
+                                .Replace("\\\\", "\\")
+                                .Replace("\\[", "[")
+                            : line);
                     }
                 }
-                File.WriteAllBytes(fileName, ms.ToArray());
             }
+            File.WriteAllBytes(fileName, ms.ToArray());
         }
 
-        private bool importTextFile(string fileName)
+        private bool ImportTextFile(string fileName)
         {
             string[] fileText = File.ReadAllLines(fileName, Encoding.Unicode);
             string[][] textLines = new string[files.Length][];
@@ -128,30 +126,33 @@ namespace pk3DS
 
             // All Text Lines received. Store all back.
             for (int i = 0; i < files.Length; i++)
+            {
                 try { files[i] = textLines[i]; }
                 catch (Exception e) { WinFormsUtil.Error($"The input Text File (# {i}) failed to convert:", e.ToString()); return false; }
+            }
+
             return true;
         }
 
-        private void changeEntry(object sender, EventArgs e)
+        private void ChangeEntry(object sender, EventArgs e)
         {
             // Save All the old text
             if (entry > -1 && sender != null)
             {
                 try
-                { 
-                    files[entry] = getCurrentDGLines();
+                {
+                    files[entry] = GetCurrentDGLines();
                 }
                 catch (Exception ex) { WinFormsUtil.Error(ex.ToString()); }
             }
 
             // Reset
             entry = CB_Entry.SelectedIndex;
-            setStringsDataGridView(files[entry]);
+            SetStringsDataGridView(files[entry]);
         }
 
         // Main Handling
-        private void setStringsDataGridView(string[] textArray)
+        private void SetStringsDataGridView(string[] textArray)
         {
             // Clear the datagrid row content to remove all text lines.
             dgv.Rows.Clear();
@@ -178,7 +179,7 @@ namespace pk3DS
                 SortMode = DataGridViewColumnSortMode.NotSortable,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             };
-            
+
             dgv.Columns.Add(dgvLine);
             dgv.Columns.Add(dgvText);
             dgv.Rows.Add(textArray.Length);
@@ -191,7 +192,7 @@ namespace pk3DS
             }
         }
 
-        private string[] getCurrentDGLines()
+        private string[] GetCurrentDGLines()
         {
             // Get Line Count
             string[] lines = new string[dgv.RowCount];
@@ -205,14 +206,13 @@ namespace pk3DS
             int currentRow = 0;
             try { currentRow = dgv.CurrentRow.Index; }
             catch { dgv.Rows.Add(); }
-            if (dgv.Rows.Count == 1) { }
-            else if (currentRow < dgv.Rows.Count - 1 || currentRow == 0)
+
+            if (dgv.Rows.Count != 1 && (currentRow < dgv.Rows.Count - 1 || currentRow == 0))
             {
                 if (ModifierKeys != Keys.Control && currentRow != 0)
-                { 
-                    if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
-                    "Inserting in between rows will shift all subsequent lines.", "Continue?") != DialogResult.Yes) 
-                        return; 
+                {
+                    if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Inserting in between rows will shift all subsequent lines.", "Continue?") != DialogResult.Yes)
+                        return;
                 }
                 // Insert new Row after current row.
                 dgv.Rows.Insert(currentRow + 1);
@@ -227,8 +227,7 @@ namespace pk3DS
             int currentRow = dgv.CurrentRow.Index;
             if (currentRow < dgv.Rows.Count - 1)
             {
-                if (ModifierKeys != Keys.Control && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, 
-                    "Deleting a row above other lines will shift all subsequent lines.", "Continue?"))
+                if (ModifierKeys != Keys.Control && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Deleting a row above other lines will shift all subsequent lines.", "Continue?"))
                     return;
             }
             dgv.Rows.RemoveAt(currentRow);
@@ -243,26 +242,23 @@ namespace pk3DS
             // Save any pending edits
             dgv.EndEdit();
             // Save All the old text
-            if (entry > -1) files[entry] = getCurrentDGLines();
+            if (entry > -1) files[entry] = GetCurrentDGLines();
         }
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             // gametext can be horribly broken if randomized
-            if (Mode == "gametext" && DialogResult.Yes !=
-                WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomizing Game Text is dangerous!", "Continue?"))
+            if (Mode == "gametext" && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomizing Game Text is dangerous!", "Continue?"))
                 return;
 
             // get if the user wants to randomize current text file or all files
-            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
-                $"Yes: Randomize ALL{Environment.NewLine}No: Randomize current textfile{Environment.NewLine}Cancel: Abort");
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, $"Yes: Randomize ALL{Environment.NewLine}No: Randomize current textfile{Environment.NewLine}Cancel: Abort");
 
             if (dr == DialogResult.Cancel)
                 return;
 
             // get if pure shuffle or smart shuffle (no shuffle if variable present)
-            var drs = WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
-                $"Smart shuffle:{Environment.NewLine}Yes: Shuffle if no Variable present{Environment.NewLine}No: Pure random!");
+            var drs = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Smart shuffle:{Environment.NewLine}Yes: Shuffle if no Variable present{Environment.NewLine}No: Pure random!");
 
             if (drs == DialogResult.Cancel)
                 return;
@@ -272,7 +268,7 @@ namespace pk3DS
 
             // save current
             if (entry > -1)
-                files[entry] = getCurrentDGLines();
+                files[entry] = GetCurrentDGLines();
 
             // single-entire looping
             int start = all ? 0 : entry;
@@ -283,8 +279,8 @@ namespace pk3DS
             for (int i = start; i <= end; i++)
             {
                 string[] data = files[i];
-                strings.AddRange(smart 
-                    ? data.Where(line => !line.Contains("[")) 
+                strings.AddRange(smart
+                    ? data.Where(line => !line.Contains("["))
                     : data);
             }
 
@@ -299,14 +295,16 @@ namespace pk3DS
                 string[] data = files[i];
 
                 for (int j = 0; j < data.Length; j++) // apply lines
+                {
                     if (!smart || !data[j].Contains("["))
                         data[j] = pool[ctr++];
-                
+                }
+
                 files[i] = data;
             }
 
             // Load current text file
-            setStringsDataGridView(files[entry]);
+            SetStringsDataGridView(files[entry]);
 
             WinFormsUtil.Alert("Strings randomized!");
         }

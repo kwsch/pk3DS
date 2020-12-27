@@ -13,26 +13,20 @@ namespace pk3DS.Core.CTR
 
         public static string Guess(string path)
         {
-            string ext;
-            using (BinaryReader br = new BinaryReader(File.OpenRead(path)))
-                ext = Guess(br);
-            return ext;
+            using BinaryReader br = new BinaryReader(File.OpenRead(path));
+            return Guess(br);
         }
 
         public static string Guess(byte[] data)
         {
-            string ext;
-            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
-                ext = Guess(br);
-            return ext;
+            using BinaryReader br = new BinaryReader(new MemoryStream(data));
+            return Guess(br);
         }
 
         public static string Guess(MemoryStream ms, bool start = true)
         {
-            string ext;
-            using (BinaryReader br = new BinaryReader(ms))
-                ext = Guess(br, start);
-            return ext;
+            using BinaryReader br = new BinaryReader(ms);
+            return Guess(br, start);
         }
 
         public static string Guess(BinaryReader br, bool start = true)
@@ -43,8 +37,7 @@ namespace pk3DS.Core.CTR
                 br.BaseStream.Position = 0;
 
             // Guess Extension
-            string ext;
-            if (GuessMini(br, out ext))
+            if (GuessMini(br, out var ext))
                 Console.WriteLine("Mini Packed File detected, extension type " + ext);
             else if (GuessHeaderedDARC(br, out ext))
                 Console.WriteLine("Headered DARC File detected, extension type " + ext);

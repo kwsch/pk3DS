@@ -22,16 +22,16 @@ namespace pk3DS
             data = File.ReadAllBytes(CROPath);
             offset = Util.IndexOfBytes(data, Signature, 0x5000, 0) + Signature.Length;
             offsetBP = Util.IndexOfBytes(data, BPSignature, 0x5000, 0) + BPSignature.Length;
-            
+
             itemlist[0] = "";
-            setupDGV();
+            SetupDGV();
             foreach (string s in locations) CB_Location.Items.Add(s);
             foreach (string s in locationsBP) CB_LocationBP.Items.Add(s);
             CB_Location.SelectedIndex = 0;
             CB_LocationBP.SelectedIndex = 0;
         }
-        
-        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
+
+        private readonly string[] itemlist = Main.Config.GetText(TextName.ItemNames);
         private readonly byte[] data;
 
         #region Tables
@@ -113,8 +113,8 @@ namespace pk3DS
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            if (entry > -1) setList();
-            if (entryBP > -1) setListBP();
+            if (entry > -1) SetList();
+            if (entryBP > -1) SetListBP();
             File.WriteAllBytes(CROPath, data);
             Close();
         }
@@ -127,14 +127,14 @@ namespace pk3DS
         private readonly int offset;
         private int dataoffset;
 
-        private void getDataOffset(int index)
+        private void GetDataOffset(int index)
         {
             dataoffset = offset; // reset
             for (int i = 0; i < index; i++)
                 dataoffset += 2 * entries[i];
         }
 
-        private void setupDGV()
+        private void SetupDGV()
         {
             foreach (string t in itemlist)
                 dgvItem.Items.Add(t); // add only the Names
@@ -144,19 +144,19 @@ namespace pk3DS
 
         private int entry = -1;
 
-        private void changeIndex(object sender, EventArgs e)
+        private void ChangeIndex(object sender, EventArgs e)
         {
-            if (entry > -1) setList();
+            if (entry > -1) SetList();
             entry = CB_Location.SelectedIndex;
-            getList();
+            GetList();
         }
 
-        private void getList()
+        private void GetList()
         {
             dgv.Rows.Clear();
             int count = entries[entry];
             dgv.Rows.Add(count);
-            getDataOffset(entry);
+            GetDataOffset(entry);
             for (int i = 0; i < count; i++)
             {
                 dgv.Rows[i].Cells[0].Value = i.ToString();
@@ -164,7 +164,7 @@ namespace pk3DS
             }
         }
 
-        private void setList()
+        private void SetList()
         {
             int count = dgv.Rows.Count;
             for (int i = 0; i < count; i++)
@@ -174,7 +174,7 @@ namespace pk3DS
         /// <summary>
         /// Just TMs & HMs; don't want these to be changed; if changed, they are not available elsewhere ingame.
         /// </summary>
-        internal static readonly HashSet<int> BannedItems = new HashSet<int>
+        internal static readonly HashSet<int> BannedItems = new()
         {
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348,
             349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369,
@@ -187,7 +187,7 @@ namespace pk3DS
         /// <summary>
         /// All X Items usable in Generations 6 and 7. Speedrunners utilize these Items a lot, so make sure they are still available.
         /// </summary>
-        internal static readonly HashSet<int> XItems = new HashSet<int>
+        internal static readonly HashSet<int> XItems = new()
         {
             055, 056, 057, 058, 059, 060, 061, 062
         };
@@ -197,7 +197,7 @@ namespace pk3DS
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize mart inventories?"))
                 return;
 
-            int[] validItems = Randomizer.getRandomItemList();
+            int[] validItems = Randomizer.GetRandomItemList();
 
             int ctr = 0;
             Util.Shuffle(validItems);
@@ -222,7 +222,7 @@ namespace pk3DS
             WinFormsUtil.Alert("Randomized!");
         }
 
-        private void getDataOffsetBP(int index)
+        private void GetDataOffsetBP(int index)
         {
             dataoffsetBP = offsetBP; // reset
             for (int i = 0; i < index; i++)
@@ -233,19 +233,19 @@ namespace pk3DS
         private int dataoffsetBP;
         private int entryBP = -1;
 
-        private void changeIndexBP(object sender, EventArgs e)
+        private void ChangeIndexBP(object sender, EventArgs e)
         {
-            if (entryBP > -1) setListBP();
+            if (entryBP > -1) SetListBP();
             entryBP = CB_LocationBP.SelectedIndex;
-            getListBP();
+            GetListBP();
         }
 
-        private void getListBP()
+        private void GetListBP()
         {
             dgvbp.Rows.Clear();
             int count = entriesBP[entryBP];
             dgvbp.Rows.Add(count);
-            getDataOffsetBP(entryBP);
+            GetDataOffsetBP(entryBP);
             for (int i = 0; i < count; i++)
             {
                 dgvbp.Rows[i].Cells[0].Value = i.ToString();
@@ -254,15 +254,15 @@ namespace pk3DS
             }
         }
 
-        private void setListBP()
+        private void SetListBP()
         {
             int count = dgvbp.Rows.Count;
             for (int i = 0; i < count; i++)
             {
                 int item = Array.IndexOf(itemlist, dgvbp.Rows[i].Cells[1].Value);
                 Array.Copy(BitConverter.GetBytes((ushort)item), 0, data, dataoffsetBP + (4 * i), 2);
-                int price; string p = dgvbp.Rows[i].Cells[2].Value.ToString();
-                if (int.TryParse(p, out price))
+                string p = dgvbp.Rows[i].Cells[2].Value.ToString();
+                if (int.TryParse(p, out var price))
                     Array.Copy(BitConverter.GetBytes((ushort)price), 0, data, dataoffsetBP + (4 * i) + 2, 2);
             }
         }
@@ -272,7 +272,7 @@ namespace pk3DS
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize BP inventories?"))
                 return;
 
-            int[] validItems = Randomizer.getRandomItemList();
+            int[] validItems = Randomizer.GetRandomItemList();
 
             int ctr = 0;
             Util.Shuffle(validItems);

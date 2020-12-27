@@ -371,29 +371,15 @@ namespace pk3DS.Core
             496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 541, 542, 543, 555, 556, 557, 558, 559, 560, 561, 562, 572, 573, 578, 580, 582, 583, 623, 630, 644, 645, 647, 648, 649,
             650, 651, 652
         };
-        
+
         public static readonly int[][] BasicStarters = {
-            new int[] {
-                001, 004, 007, 010, 013, 016, 029, 032, 041, 043, 060, 063, 066, 069, 074, 081, 092, 111, 116, 137, 147
-            },
-            new int[] {
-                152, 155, 158, 172, 173, 174, 175, 179, 187, 220, 239, 240, 246
-            },
-            new int[] {
-                252, 255, 258, 265, 270, 273, 280, 287, 293, 298, 304, 328, 355, 363, 371, 374
-            },
-            new int[] {
-                387, 390, 393, 396, 403, 406, 440, 443
-            },
-            new int[] {
-                495, 498, 501, 506, 519, 524, 532, 535, 540, 543, 551, 574, 577, 582, 599, 602, 607, 610, 633
-            },
-            new int[] {
-                650, 653, 656, 661, 664, 669, 679, 704
-            },
-            new int[] {
-                722, 725, 728, 731, 736, 761, 782, 789
-            }
+            new[] {001, 004, 007, 010, 013, 016, 029, 032, 041, 043, 060, 063, 066, 069, 074, 081, 092, 111, 116, 137, 147},
+            new[] {152, 155, 158, 172, 173, 174, 175, 179, 187, 220, 239, 240, 246},
+            new[] {252, 255, 258, 265, 270, 273, 280, 287, 293, 298, 304, 328, 355, 363, 371, 374},
+            new[] {387, 390, 393, 396, 403, 406, 440, 443},
+            new[] {495, 498, 501, 506, 519, 524, 532, 535, 540, 543, 551, 574, 577, 582, 599, 602, 607, 610, 633},
+            new[] {650, 653, 656, 661, 664, 669, 679, 704},
+            new[] {722, 725, 728, 731, 736, 761, 782, 789},
         };
 
         public static readonly int[] BasicStarters_6 = BasicStarters[0]
@@ -405,7 +391,7 @@ namespace pk3DS.Core
             .ToArray();
 
         public static readonly int[] BasicStarters_7 = BasicStarters_6.Concat(BasicStarters[6]).ToArray();
-        
+
         public static readonly int[] FinalEvolutions_6 =
         {
             003, 006, 009, 012, 015, 018, 020, 022, 024, 026, 028, 031, 034, 036, 038, 040, 045, 047, 049, 051, 053, 055, 057, 059, 062, 065, 068, 071, 073, 076, 078, 080, 083, 085, 087, 089, 091,
@@ -418,12 +404,12 @@ namespace pk3DS.Core
             561, 563, 565, 567, 569, 571, 573, 576, 579, 581, 584, 586, 587, 589, 591, 593, 594, 596, 598, 601, 604, 606, 609, 612, 614, 615, 617, 618, 620, 621, 623, 625, 626, 628, 630, 631, 632,
             635, 637, 652, 655, 658, 660, 663, 666, 668, 671, 673, 675, 676, 678, 681, 683, 685, 687, 689, 691, 693, 695, 697, 699, 700, 701, 702, 703, 706, 707, 709, 711, 713, 715,
         };
-        
-        public static readonly int[] FinalEvolutions_7 = FinalEvolutions_6.Concat(new int[]
+
+        public static readonly int[] FinalEvolutions_7 = FinalEvolutions_6.Concat(new[]
         {
             724, 727, 730, 733, 735, 738, 740, 741, 743, 745, 746, 748, 750, 752, 754, 756, 758, 760, 763, 764, 765, 766, 768, 770, 771, 774, 775, 776, 777, 779, 780, 781, 784,
         }).ToArray();
-        
+
         public static readonly int[] Legendary_6 =
         {
             #region Legendary
@@ -468,7 +454,7 @@ namespace pk3DS.Core
             #endregion
         };
 
-        public static readonly int[] Legendary_SM = Legendary_6.Concat(new int[]
+        public static readonly int[] Legendary_SM = Legendary_6.Concat(new[]
         {
             #region Legendary
             773, // Silvally
@@ -489,7 +475,7 @@ namespace pk3DS.Core
             #endregion
         }).ToArray();
 
-        public static readonly int[] Legendary_USUM = Legendary_SM.Concat(new int[]
+        public static readonly int[] Legendary_USUM = Legendary_SM.Concat(new[]
         {
             #region Legendary
             804, // Naganadel
@@ -520,7 +506,7 @@ namespace pk3DS.Core
             #endregion
         };
 
-        public static readonly int[] Mythical_SM = Mythical_6.Concat(new int[]
+        public static readonly int[] Mythical_SM = Mythical_6.Concat(new[]
         {
             #region Mythical
             801, // Magearna
@@ -528,14 +514,14 @@ namespace pk3DS.Core
             #endregion
         }).ToArray();
 
-        public static readonly int[] Mythical_USUM = Mythical_SM.Concat(new int[]
+        public static readonly int[] Mythical_USUM = Mythical_SM.Concat(new[]
         {
             #region Mythical
             807, // Zeraora
             #endregion
         }).ToArray();
 
-        public static readonly HashSet<int> BattleForms = new HashSet<int>
+        public static readonly HashSet<int> BattleForms = new()
         {
             351, // Castform
             421, // Cherrim
@@ -547,7 +533,7 @@ namespace pk3DS.Core
             778, // Mimikyu
         };
 
-        public static readonly HashSet<int> BattleMegas = new HashSet<int>
+        public static readonly HashSet<int> BattleMegas = new()
         {
             // XY
             003, 006, 009, 065, 080, 115, 127, 130, 142, 150,
@@ -567,7 +553,7 @@ namespace pk3DS.Core
             800, // Ultra Necrozma
         };
 
-        public static readonly HashSet<int> BattlePrimals = new HashSet<int> { 382, 383 };
-        public static HashSet<int> BattleExclusiveForms = new HashSet<int>(BattleForms.Concat(BattleMegas.Concat(BattlePrimals)));
+        public static readonly HashSet<int> BattlePrimals = new() { 382, 383 };
+        public static HashSet<int> BattleExclusiveForms = new(BattleForms.Concat(BattleMegas.Concat(BattlePrimals)));
     }
 }

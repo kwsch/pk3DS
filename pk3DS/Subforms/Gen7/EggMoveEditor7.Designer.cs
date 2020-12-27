@@ -74,7 +74,7 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(121, 21);
             this.CB_Species.TabIndex = 1;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.changeEntry);
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeEntry);
             // 
             // L_Species
             // 
@@ -253,7 +253,7 @@
             this.Name = "EggMoveEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Egg Move Editor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

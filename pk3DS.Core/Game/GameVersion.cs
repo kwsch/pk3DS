@@ -8,9 +8,12 @@
         Unknown = 0,
 
         // Version IDs, also stored in PKM structure
-        /*Gen3*/ S = 1, R = 2, E = 3, FR = 4, LG = 5, CXD = 15,
+        /*Gen3*/ S = 1, R = 2, E = 3, FR = 4, LG = 5,
 
-        /*Gen4*/ D = 10, P = 11, Pt = 12, HG = 7, SS = 8,
+        /*Gen4*/ HG = 7, SS = 8, D = 10, P = 11, Pt = 12,
+
+        // Gen3
+        CXD = 15,
 
         /*Gen5*/ W = 20, B = 21, W2 = 22, B2 = 23,
 
@@ -53,7 +56,7 @@
         SMDEMO
     }
 
-    public static partial class Extensions
+    public static class Extensions
     {
         public static bool Contains(this GameVersion g1, GameVersion g2)
         {

@@ -17,11 +17,11 @@ namespace pk3DS
         {
             InitializeComponent();
             AllowDrop = true;
-            DragEnter += tabMain_DragEnter;
-            DragDrop += tabMain_DragDrop;
+            DragEnter += TC_Main_DragEnter;
+            DragDrop += TC_Main_DragDrop;
             PB_Image.AllowDrop = true;
-            PB_Image.DragEnter += tabMain_DragEnter;
-            PB_Image.DragDrop += tabMain_DragDrop;
+            PB_Image.DragEnter += TC_Main_DragEnter;
+            PB_Image.DragDrop += TC_Main_DragDrop;
 
             // Add tooltip to image
             new ToolTip().SetToolTip(PB_Image, "Click to toggle Green Screen\nRightClick for I/O\nCTRL+Click for Copy->Clipboard.");
@@ -31,8 +31,8 @@ namespace pk3DS
             ToolStripMenuItem mnuR = new ToolStripMenuItem("Replace with...");
             ToolStripMenuItem mnuS = new ToolStripMenuItem("Save as...");
             // Assign event handlers
-            mnuR.Click += clickOpen;
-            mnuS.Click += clickSave;
+            mnuR.Click += ClickOpen;
+            mnuS.Click += ClickSave;
             // Add to main context menu
             mnu.Items.AddRange(new ToolStripItem[] { mnuR, mnuS, });
 
@@ -40,7 +40,7 @@ namespace pk3DS
             PB_Image.ContextMenuStrip = mnu;
 
             // Set up languages
-            string[] languages = (Main.Config.ORAS ? new[] {"JP1"} : new string[] {}).Concat(new[] {"DE", "ES", "FR", "IT", "JP", "KO", "EN"}).ToArray();
+            string[] languages = (Main.Config.ORAS ? new[] {"JP1"} : Array.Empty<string>()).Concat(new[] {"DE", "ES", "FR", "IT", "JP", "KO", "EN"}).ToArray();
             string[] games = Main.Config.ORAS ? new[] {"OR", "AS"} : new[] {"X", "Y"};
             for (int i = 0; i < darcs.Length/2; i++)
                 CB_DARC.Items.Add($"{games[0]} - {languages[i]}");
@@ -62,7 +62,7 @@ namespace pk3DS
                 while (BitConverter.ToUInt32(data, pos) != 0x63726164)
                 {
                     pos += 4;
-                    if (pos >= data.Length) 
+                    if (pos >= data.Length)
                         throw new Exception("Invalid DARC?\n\n" + usedFiles[i]);
                 }
                 var darcData = data.Skip(pos).ToArray();
@@ -76,10 +76,10 @@ namespace pk3DS
         private readonly DARC[] darcs = new DARC[2 * (Main.Config.ORAS ? 8 : 7)];
         private readonly string[] usedFiles = new string[2 * (Main.Config.ORAS ? 8 : 7)];
 
-        private readonly int[] darcFiles = Main.Config.ORAS 
+        private readonly int[] darcFiles = Main.Config.ORAS
             ? new[]
             {
-                1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127, 
+                1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127,
                 1128, 1129, 1130, 1131, 1132, 1133, 1134, 1135,
             }: new[]
             {
@@ -87,19 +87,21 @@ namespace pk3DS
                 474, 475, 476, 477, 478, 479, 480,
             };
 
-        private void changeDARC(object sender, EventArgs e)
+        private void ChangeDARC(object sender, EventArgs e)
         {
             // When the darc is changed, we need to re-load the files
             CB_File.Items.Clear();
             var darc = darcs[CB_DARC.SelectedIndex];
             for (int i = 0; i < darc.Entries.Length; i++)
+            {
                 if (darc.FileNameTable[i].FileName.Contains(".bclim"))
                     CB_File.Items.Add(darc.FileNameTable[i].FileName);
+            }
 
             CB_File.SelectedIndex = CB_File.Items.Count - 1; // Load last (version)
         }
 
-        private void changeFile(object sender, EventArgs e)
+        private void ChangeFile(object sender, EventArgs e)
         {
             // When the file is changed, we need to display the new file.
             string filename = CB_File.Text;
@@ -107,16 +109,18 @@ namespace pk3DS
             // Find entry in darc
             var darc = darcs[CB_DARC.SelectedIndex];
             for (int i = 0; i < darc.Entries.Length; i++)
-                if (darc.FileNameTable[i].FileName == filename)
-                {
-                    entry = i;
-                    break;
-                }
+            {
+                if (darc.FileNameTable[i].FileName != filename)
+                    continue;
+                entry = i;
+                break;
+            }
+
             if (entry < 0) throw new Exception("File not found!?");
 
             // Load file
             byte[] data = darc.Data.Skip((int)(darc.Entries[entry].DataOffset - darc.Header.FileDataOffset)).Take((int)darc.Entries[entry].DataLength).ToArray();
-            BCLIM bclim = BCLIM.analyze(data, filename);
+            BCLIM bclim = BCLIM.Analyze(data, filename);
             Image CropBMP = bclim.GetBitmap();
 
             PB_Image.Image = CropBMP;
@@ -128,7 +132,7 @@ namespace pk3DS
 
         private byte[] currentBytes;
 
-        private void insertFile(string path)
+        private void InsertFile(string path)
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Overwrite image?"))
                 return;
@@ -137,7 +141,7 @@ namespace pk3DS
 
             if (Path.GetExtension(path) == ".bclim") // bclim opened
             {
-                var img = BCLIM.analyze(data, path);
+                var img = BCLIM.Analyze(data, path);
                 if (img.Width != PB_Image.Width || img.Height != PB_Image.Height)
                 {
                     WinFormsUtil.Alert("Image sizes do not match.",
@@ -148,17 +152,15 @@ namespace pk3DS
             }
             else // image
             {
-                using (Stream BitmapStream = new MemoryStream(data))
+                using Stream BitmapStream = new MemoryStream(data);
+                Image img = Image.FromStream(BitmapStream);
+                if (img.Width != PB_Image.Width || img.Height != PB_Image.Height)
                 {
-                    Image img = Image.FromStream(BitmapStream);
-                    if (img.Width != PB_Image.Width || img.Height != PB_Image.Height)
-                    {
-                        WinFormsUtil.Alert("Image sizes do not match.",
-                            $"Width: {img.Width} - {PB_Image.Width}\nHeight: {img.Height} - {PB_Image.Height}");
-                        return;
-                    }
-                    bclim = BCLIM.IMGToBCLIM(img, '9');
+                    WinFormsUtil.Alert("Image sizes do not match.",
+                        $"Width: {img.Width} - {PB_Image.Width}\nHeight: {img.Height} - {PB_Image.Height}");
+                    return;
                 }
+                bclim = BCLIM.IMGToBCLIM(img, '9');
             }
 
             string filename = CB_File.Text;
@@ -166,33 +168,36 @@ namespace pk3DS
             // Find entry in darc
             var darc = darcs[CB_DARC.SelectedIndex];
             for (int i = 0; i < darc.Entries.Length; i++)
+            {
                 if (darc.FileNameTable[i].FileName == filename)
                 {
                     entry = i;
                     break;
                 }
+            }
+
             if (entry < 0) throw new Exception("File not found!?");
 
-            DARC.insertFile(ref darc, entry, bclim);
+            DARC.InsertFile(ref darc, entry, bclim);
             darcs[CB_DARC.SelectedIndex] = darc;
 
             // Trigger reloading of the image
-            changeFile(null, null);
+            ChangeFile(null, null);
         }
 
         // Dropping file in
-        private void tabMain_DragEnter(object sender, DragEventArgs e)
+        private void TC_Main_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
 
-        private void tabMain_DragDrop(object sender, DragEventArgs e)
+        private void TC_Main_DragDrop(object sender, DragEventArgs e)
         {
             string path = ((string[])e.Data.GetData(DataFormats.FileDrop))[0]; // open first D&D
-            insertFile(path);
+            InsertFile(path);
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void Form_Closing(object sender, FormClosingEventArgs e)
         {
             if (compressed)
                 WinFormsUtil.Alert("Recompressing may take some time...", "Don't panic if the Progress Bar doesn't move!");
@@ -207,25 +212,25 @@ namespace pk3DS
                     if (pos >= data.Length) return;
                 }
                 byte[] preData = data.Take(pos).ToArray();
-                byte[] darcData = DARC.setDARC(darcs[i]);
+                byte[] darcData = DARC.SetDARC(darcs[i]);
                 byte[] newData = preData.Concat(darcData).ToArray();
 
                 byte[] oldDarc = File.ReadAllBytes(usedFiles[i]);
                 if (newData.SequenceEqual(oldDarc)) // if same, just continue.
                 {
-                    if (compressed) 
+                    if (compressed)
                         File.Delete(usedFiles[i]); // Use old compressed file (speedup)
                 }
                 else // File is different, replace and allow repacking to compress.
                 {
-                    if (compressed) 
+                    if (compressed)
                         File.Delete(files[darcFiles[i]]); // delete the old compressed file
                     File.WriteAllBytes(usedFiles[i], newData); // write the new edited (uncompressed) file
                 }
             }
         }
 
-        private void clickSave(object sender, EventArgs e)
+        private void ClickSave(object sender, EventArgs e)
         {
             var sfd = new SaveFileDialog
             {
@@ -241,17 +246,15 @@ namespace pk3DS
             else // PNG
             {
                 Image img = PB_Image.Image;
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    //error will throw from here
-                    img.Save(ms, ImageFormat.Png);
-                    byte[] data = ms.ToArray();
-                    File.WriteAllBytes(sfd.FileName, data);
-                }
+                using MemoryStream ms = new MemoryStream();
+                //error will throw from here
+                img.Save(ms, ImageFormat.Png);
+                byte[] data = ms.ToArray();
+                File.WriteAllBytes(sfd.FileName, data);
             }
         }
 
-        private void clickOpen(object sender, EventArgs e)
+        private void ClickOpen(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog
             {
@@ -260,7 +263,7 @@ namespace pk3DS
             };
             if (ofd.ShowDialog() != DialogResult.OK) return;
 
-            insertFile(ofd.FileName);
+            InsertFile(ofd.FileName);
         }
 
         private void PB_Image_Click(object sender, EventArgs e)

@@ -46,7 +46,7 @@
             this.CB_Item.Name = "CB_Item";
             this.CB_Item.Size = new System.Drawing.Size(144, 21);
             this.CB_Item.TabIndex = 1;
-            this.CB_Item.SelectedIndexChanged += new System.EventHandler(this.changeEntry);
+            this.CB_Item.SelectedIndexChanged += new System.EventHandler(this.ChangeEntry);
             // 
             // L_Item
             // 
@@ -115,7 +115,7 @@
             this.Name = "ItemEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Item Editor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

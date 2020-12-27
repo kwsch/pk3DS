@@ -1000,7 +1000,7 @@
             this.B_LevelPlus.TabIndex = 277;
             this.B_LevelPlus.Text = "× Current";
             this.B_LevelPlus.UseVisualStyleBackColor = true;
-            this.B_LevelPlus.Click += new System.EventHandler(this.modifyLevels);
+            this.B_LevelPlus.Click += new System.EventHandler(this.ModifyLevels);
             // 
             // NUD_LevelAmp
             // 

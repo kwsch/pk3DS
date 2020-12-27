@@ -22,26 +22,26 @@ namespace pk3DS
                 offset += 0x22;
             codebin = files[0];
             movelist[0] = "";
-            setupDGV();
-            getList();
+            SetupDGV();
+            GetList();
         }
 
         private static readonly byte[] Signature = {0x03, 0x40, 0x03, 0x41, 0x03, 0x42, 0x03, 0x43, 0x03}; // tail end of item::ITEM_CheckBeads
         private readonly string codebin;
-        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
         private readonly int offset = 0x0059795A; // Default
         private readonly byte[] data;
         private int dataoffset;
 
-        private void getDataOffset()
+        private void GetDataOffset()
         {
             dataoffset = offset; // reset
         }
 
-        private void setupDGV()
+        private void SetupDGV()
         {
             dgvTM.Columns.Clear();
-            DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
+            var dgvIndex = new DataGridViewTextBoxColumn();
             {
                 dgvIndex.HeaderText = "Index";
                 dgvIndex.DisplayIndex = 0;
@@ -65,14 +65,14 @@ namespace pk3DS
             dgvTM.Columns.Add(dgvMove);
         }
 
-        private List<ushort> tms = new List<ushort>();
+        private List<ushort> tms = new();
 
-        private void getList()
+        private void GetList()
         {
             tms = new List<ushort>();
             dgvTM.Rows.Clear();
 
-            getDataOffset();
+            GetDataOffset();
             for (int i = 0; i < 100; i++) // TMs stored sequentially
                 tms.Add(BitConverter.ToUInt16(data, dataoffset + (2 * i)));
 
@@ -81,7 +81,7 @@ namespace pk3DS
             { dgvTM.Rows.Add(); dgvTM.Rows[i].Cells[0].Value = (i + 1).ToString(); dgvTM.Rows[i].Cells[1].Value = movelist[tmlist[i]]; }
         }
 
-        private void setList()
+        private void SetList()
         {
             // Gather TM/HM list.
             tms = new List<ushort>();
@@ -95,8 +95,8 @@ namespace pk3DS
                 Array.Copy(BitConverter.GetBytes(tmlist[i]), 0, data, offset + (2 * i), 2);
 
             // Set Move Text Descriptions back into Item Text File
-            string[] itemDescriptions = Main.Config.getText(TextName.ItemFlavor);
-            string[] moveDescriptions = Main.Config.getText(TextName.MoveFlavor);
+            string[] itemDescriptions = Main.Config.GetText(TextName.ItemFlavor);
+            string[] moveDescriptions = Main.Config.GetText(TextName.MoveFlavor);
             for (int i = 1 - 1; i <= 92 - 1; i++) // TM01 - TM92
                 itemDescriptions[328 + i] = moveDescriptions[tmlist[i]];
             for (int i = 93 - 1; i <= 95 - 1; i++) // TM92 - TM95
@@ -106,9 +106,9 @@ namespace pk3DS
             Main.Config.SetText(TextName.ItemFlavor, itemDescriptions);
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void Form_Closing(object sender, FormClosingEventArgs e)
         {
-            setList();
+            SetList();
             File.WriteAllBytes(codebin, data);
         }
 
@@ -119,7 +119,7 @@ namespace pk3DS
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
 
-            int[] banned = Legal.Z_Moves.Concat(new int[] { 165, 464, 621 }).ToArray();
+            int[] banned = Legal.Z_Moves.Concat(new[] { 165, 464, 621 }).ToArray();
             int ctr = 0;
 
             for (int i = 0; i < dgvTM.Rows.Count; i++)
@@ -133,17 +133,17 @@ namespace pk3DS
             WinFormsUtil.Alert("Randomized!");
         }
 
-        internal static ushort[] getTMHMList()
+        internal static ushort[] GetTMHMList()
         {
             if (Main.ExeFSPath == null)
-                return new ushort[0];
+                return Array.Empty<ushort>();
             string[] files = Directory.GetFiles(Main.ExeFSPath);
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code"))
-                return new ushort[0];
+                return Array.Empty<ushort>();
             byte[] data = File.ReadAllBytes(files[0]);
             int dataoffset = Util.IndexOfBytes(data, Signature, 0x400000, 0) + Signature.Length;
             if (data.Length % 0x200 != 0)
-                return new ushort[0];
+                return Array.Empty<ushort>();
 
             if (Main.Config.USUM)
                 dataoffset += 0x22;

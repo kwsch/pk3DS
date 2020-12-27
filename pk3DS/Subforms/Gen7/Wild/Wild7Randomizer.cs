@@ -29,7 +29,7 @@ namespace pk3DS
             }
         }
 
-        public void Execute(IEnumerable<Area7> Areas, lzGARCFile encdata)
+        public void Execute(IEnumerable<Area7> Areas, LazyGARCFile encdata)
         {
             GetTableRandSettings((RandOption)TableRandomizationOption, out int slotStart, out int slotStop, out bool copy);
 
@@ -39,8 +39,8 @@ namespace pk3DS
                 {
                     if (ModifyLevel)
                     {
-                        Table.MinLevel = Randomizer.getModifiedLevel(Table.MinLevel, LevelAmplifier);
-                        Table.MaxLevel = Randomizer.getModifiedLevel(Table.MaxLevel, LevelAmplifier);
+                        Table.MinLevel = Randomizer.GetModifiedLevel(Table.MinLevel, LevelAmplifier);
+                        Table.MaxLevel = Randomizer.GetModifiedLevel(Table.MaxLevel, LevelAmplifier);
                     }
 
                     RandomizeTable7(Table, slotStart, slotStop);

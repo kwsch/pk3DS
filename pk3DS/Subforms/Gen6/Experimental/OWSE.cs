@@ -27,7 +27,7 @@ namespace pk3DS
             tb_Zone.SelectedIndex = 1;  // Show Overworlds tab
         }
 
-        private readonly string[] gameLocations = Main.Config.getText(TextName.metlist_000000);
+        private readonly string[] gameLocations = Main.Config.GetText(TextName.metlist_000000);
         private string[] filepaths;
         private string[] encdatapaths;
         private byte[] masterZoneData;
@@ -41,7 +41,7 @@ namespace pk3DS
         // Map Viewer References
         internal static Zone CurrentZone;
         internal static MapMatrix mm;
-        private readonly MapPermView mapView = new MapPermView();
+        private readonly MapPermView mapView = new();
 
         private void OpenQuick(string[] encdata)
         {
@@ -103,27 +103,27 @@ namespace pk3DS
 
             // Read master ZD table
             byte[] zd = masterZoneData.Skip(ZoneData.Size * entry).Take(ZoneData.Size).ToArray();
-            RTB_ZDMaster.Lines = Scripts.getHexLines(zd, 0x10);
+            RTB_ZDMaster.Lines = Scripts.GetHexLines(zd, 0x10);
 
             // Load from location Data.
             CurrentZone = new Zone(locationData);
             // File 0 - ZoneData
-            RTB_ZD.Lines = Scripts.getHexLines(locationData[0], 0x10);
+            RTB_ZD.Lines = Scripts.GetHexLines(locationData[0], 0x10);
             GetZoneData();
 
             // File 1 - Overworld Setup & Script
-            RTB_OWSC.Lines = Scripts.getHexLines(locationData[1], 0x10);
+            RTB_OWSC.Lines = Scripts.GetHexLines(locationData[1], 0x10);
             GetOWSData();
 
             // File 2 - Map Script
-            RTB_MapSC.Lines = Scripts.getHexLines(locationData[2], 0x10);
+            RTB_MapSC.Lines = Scripts.GetHexLines(locationData[2], 0x10);
             GetScriptData();
 
             // File 3 - Encounters
-            RTB_Encounter.Lines = Scripts.getHexLines(locationData[3], 0x10);
+            RTB_Encounter.Lines = Scripts.GetHexLines(locationData[3], 0x10);
 
             // File 4 - ?? (ORAS Only?)
-            RTB_File5.Lines = Scripts.getHexLines(locationData.Length <= 4 ? null : locationData[4], 0x10);
+            RTB_File5.Lines = Scripts.GetHexLines(locationData.Length <= 4 ? null : locationData[4], 0x10);
         }
 
         private void SetEntry()
@@ -199,11 +199,11 @@ namespace pk3DS
             var script = CurrentZone.Entities.Script;
             if (script.Raw.Length > 4)
             {
-                RTB_OS.Lines = Scripts.getHexLines(script.Raw);
+                RTB_OS.Lines = Scripts.GetHexLines(script.Raw);
                 L_OWSCDesc.Text = script.Info;
 
                 uint[] Instructions = script.DecompressedInstructions;
-                RTB_OWSCMD.Lines = Scripts.getHexLines(Instructions);
+                RTB_OWSCMD.Lines = Scripts.GetHexLines(Instructions);
 
                 if (script.DecompressedLength / 4 != Instructions.Length)
                     RTB_OWSCMD.Text = RTB_OSP.Text = "DCMP FAIL";
@@ -221,11 +221,11 @@ namespace pk3DS
             var script = CurrentZone.MapScript.Script;
             if (script.Raw.Length > 4)
             {
-                RTB_MS.Lines = Scripts.getHexLines(script.Raw);
+                RTB_MS.Lines = Scripts.GetHexLines(script.Raw);
                 L_MSSCDesc.Text = script.Info;
 
                 uint[] Instructions = script.DecompressedInstructions;
-                RTB_MSCMD.Lines = Scripts.getHexLines(Instructions);
+                RTB_MSCMD.Lines = Scripts.GetHexLines(Instructions);
 
                 if (script.DecompressedLength / 4 != Instructions.Length)
                     RTB_MSCMD.Text = RTB_OSP.Text = "DCMP FAIL";
@@ -271,7 +271,7 @@ namespace pk3DS
             CurrentZone.Entities.FurnitureCount = count;
             Array.Resize(ref CurrentZone.Entities.Furniture, count);
             for (int i = 0; i < count; i++)
-                CurrentZone.Entities.Furniture[i] = CurrentZone.Entities.Furniture[i] ?? new Zone.ZoneEntities.EntityFurniture();
+                CurrentZone.Entities.Furniture[i] ??= new Zone.ZoneEntities.EntityFurniture();
 
             ToggleEnable(NUD_FurnCount, NUD_FE, GB_F);
         }
@@ -283,7 +283,7 @@ namespace pk3DS
             CurrentZone.Entities.NPCCount = count;
             Array.Resize(ref CurrentZone.Entities.NPCs, count);
             for (int i = 0; i < count; i++)
-                CurrentZone.Entities.NPCs[i] = CurrentZone.Entities.NPCs[i] ?? new Zone.ZoneEntities.EntityNPC();
+                CurrentZone.Entities.NPCs[i] ??= new Zone.ZoneEntities.EntityNPC();
 
             ToggleEnable(NUD_NPCCount, NUD_NE, GB_N);
         }
@@ -295,7 +295,7 @@ namespace pk3DS
             CurrentZone.Entities.WarpCount = count;
             Array.Resize(ref CurrentZone.Entities.Warps, count);
             for (int i = 0; i < count; i++)
-                CurrentZone.Entities.Warps[i] = CurrentZone.Entities.Warps[i] ?? new Zone.ZoneEntities.EntityWarp();
+                CurrentZone.Entities.Warps[i] ??= new Zone.ZoneEntities.EntityWarp();
 
             ToggleEnable(NUD_WarpCount, NUD_WE, GB_W);
         }
@@ -307,7 +307,7 @@ namespace pk3DS
             CurrentZone.Entities.TriggerCount = count;
             Array.Resize(ref CurrentZone.Entities.Triggers1, count);
             for (int i = 0; i < count; i++)
-                CurrentZone.Entities.Triggers1[i] = CurrentZone.Entities.Triggers1[i] ?? new Zone.ZoneEntities.EntityTrigger1();
+                CurrentZone.Entities.Triggers1[i] ??= new Zone.ZoneEntities.EntityTrigger1();
 
             ToggleEnable(NUD_TrigCount, NUD_TE, GB_T1);
         }
@@ -319,7 +319,7 @@ namespace pk3DS
             CurrentZone.Entities.UnknownCount = count;
             Array.Resize(ref CurrentZone.Entities.Triggers2, count);
             for (int i = 0; i < count; i++)
-                CurrentZone.Entities.Triggers2[i] = CurrentZone.Entities.Triggers2[i] ?? new Zone.ZoneEntities.EntityTrigger2();
+                CurrentZone.Entities.Triggers2[i] ??= new Zone.ZoneEntities.EntityTrigger2();
 
             ToggleEnable(NUD_UnkCount, NUD_UE, GB_T2);
         }
@@ -342,7 +342,7 @@ namespace pk3DS
             NUD_FY.Value = Furniture.Y;
             NUD_FWX.Value = Furniture.WX;
             NUD_FWY.Value = Furniture.WY;
-            RTB_F.Text = Util.getHexString(Furniture.Raw);
+            RTB_F.Text = Util.GetHexString(Furniture.Raw);
         }
 
         private void SetFurniture()
@@ -388,7 +388,7 @@ namespace pk3DS
                 ? TB_Leash.Text = "No Leash!"
                 : $"{NPC.L1}, {NPC.L2}, {NPC.L3} -- {NPC.LDir}";
 
-            RTB_N.Text = Util.getHexString(NPC.Raw);
+            RTB_N.Text = Util.GetHexString(NPC.Raw);
         }
 
         private void SetNPC()
@@ -423,7 +423,7 @@ namespace pk3DS
             if (NUD_WE.Value < 0) return;
 
             var Warp = CurrentZone.Entities.Warps[wEntry];
-            RTB_W.Text = Util.getHexString(Warp.Raw);
+            RTB_W.Text = Util.GetHexString(Warp.Raw);
 
             // Load new Attributes
             NUD_WMap.Value = Warp.DestinationMap;
@@ -463,7 +463,7 @@ namespace pk3DS
             var Trigger1 = CurrentZone.Entities.Triggers1[tEntry];
             NUD_T1X.Value = Trigger1.X;
             NUD_T1Y.Value = Trigger1.Y;
-            RTB_T1.Text = Util.getHexString(Trigger1.Raw);
+            RTB_T1.Text = Util.GetHexString(Trigger1.Raw);
         }
 
         private void SetTrigger1()
@@ -492,7 +492,7 @@ namespace pk3DS
             var Trigger2 = CurrentZone.Entities.Triggers2[uEntry];
             NUD_T2X.Value = Trigger2.X;
             NUD_T2Y.Value = Trigger2.Y;
-            RTB_T2.Text = Util.getHexString(Trigger2.Raw);
+            RTB_T2.Text = Util.GetHexString(Trigger2.Raw);
         }
 
         private void SetTrigger2()
@@ -526,7 +526,7 @@ namespace pk3DS
         // Script Handling
         private void B_HLCMD_Click(object sender, EventArgs e)
         {
-            int ctr = WinFormsUtil.highlightText(RTB_OSP, "**", Color.Red) + (WinFormsUtil.highlightText(RTB_MSP, "**", Color.Red) / 2);
+            int ctr = WinFormsUtil.HighlightText(RTB_OSP, "**", Color.Red) + (WinFormsUtil.HighlightText(RTB_MSP, "**", Color.Red) / 2);
             WinFormsUtil.Alert($"{ctr} instance{(ctr > 1 ? "s" : "")} of \"*\" present.");
         }
 
@@ -546,7 +546,7 @@ namespace pk3DS
         private void ParseScriptInput(byte[] data)
         {
             Script scr = new Script(data);
-            RTB_CompressedScript.Lines = Scripts.getHexLines(scr.CompressedBytes);
+            RTB_CompressedScript.Lines = Scripts.GetHexLines(scr.CompressedBytes);
             System.Media.SystemSounds.Asterisk.Play();
         }
 
@@ -558,9 +558,9 @@ namespace pk3DS
                 string text = RTB_CompressedScript.Text.Replace(Environment.NewLine, "").Replace("\n", "").Replace(" ", "");
                 byte[] data = Util.StringToByteArray(text);
 
-                byte[] dec = Scripts.decompressScript(data);
+                byte[] dec = Scripts.DecompressScript(data);
 
-                RTB_DecompressedScript.Lines = Scripts.getHexLines(dec);
+                RTB_DecompressedScript.Lines = Scripts.GetHexLines(dec);
             }
             catch
             {
@@ -582,7 +582,7 @@ namespace pk3DS
                 CB_LocationID.SelectedIndex = i;
                 for (int j = 0; j < CurrentZone.Entities.FurnitureCount; j++)
                 {
-                    result.Add(Util.getHexString(CurrentZone.Entities.Furniture[j].Raw));
+                    result.Add(Util.GetHexString(CurrentZone.Entities.Furniture[j].Raw));
                     data.Add(CurrentZone.Entities.Furniture[j].Raw);
                 }
             }
@@ -609,7 +609,7 @@ namespace pk3DS
                 CB_LocationID.SelectedIndex = i;
                 for (int j = 0; j < CurrentZone.Entities.NPCCount; j++)
                 {
-                    result.Add(Util.getHexString(CurrentZone.Entities.NPCs[j].Raw));
+                    result.Add(Util.GetHexString(CurrentZone.Entities.NPCs[j].Raw));
                     data.Add(CurrentZone.Entities.NPCs[j].Raw);
                 }
             }
@@ -636,7 +636,7 @@ namespace pk3DS
                 CB_LocationID.SelectedIndex = i;
                 for (int j = 0; j < CurrentZone.Entities.WarpCount; j++)
                 {
-                    result.Add(Util.getHexString(CurrentZone.Entities.Warps[j].Raw));
+                    result.Add(Util.GetHexString(CurrentZone.Entities.Warps[j].Raw));
                     data.Add(CurrentZone.Entities.Warps[j].Raw);
                 }
             }
@@ -663,7 +663,7 @@ namespace pk3DS
                 CB_LocationID.SelectedIndex = i;
                 for (int j = 0; j < CurrentZone.Entities.TriggerCount; j++)
                 {
-                    result.Add(Util.getHexString(CurrentZone.Entities.Triggers1[j].Raw));
+                    result.Add(Util.GetHexString(CurrentZone.Entities.Triggers1[j].Raw));
                     data.Add(CurrentZone.Entities.Triggers1[j].Raw);
                 }
             }
@@ -690,7 +690,7 @@ namespace pk3DS
                 CB_LocationID.SelectedIndex = i;
                 for (int j = 0; j < CurrentZone.Entities.UnknownCount; j++)
                 {
-                    result.Add(Util.getHexString(CurrentZone.Entities.Triggers2[j].Raw));
+                    result.Add(Util.GetHexString(CurrentZone.Entities.Triggers2[j].Raw));
                     data.Add(CurrentZone.Entities.Triggers2[j].Raw);
                 }
             }
@@ -747,7 +747,7 @@ namespace pk3DS
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
             {
                 CB_LocationID.SelectedIndex = i;
-                result.Add(Util.getHexString(CurrentZone.ZD.Data));
+                result.Add(Util.GetHexString(CurrentZone.ZD.Data));
                 data.Add(CurrentZone.ZD.Data);
             }
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Write ZDs to file?") == DialogResult.Yes)
@@ -781,7 +781,7 @@ namespace pk3DS
 
         private void ChangeRAW_F(object sender, EventArgs e)
         {
-            if (!(sender is RichTextBox) || !((RichTextBox) sender).Visible)
+            if (sender is not RichTextBox { Visible: true })
                 return;
 
             try
@@ -794,13 +794,13 @@ namespace pk3DS
             }
             catch
             {
-                ((RichTextBox) sender).Text = Util.getHexString(CurrentZone.Entities.Furniture[fEntry].Raw);
+                ((RichTextBox) sender).Text = Util.GetHexString(CurrentZone.Entities.Furniture[fEntry].Raw);
             }
         }
 
         private void ChangeRAW_N(object sender, EventArgs e)
         {
-            if (!(sender is RichTextBox) || !((RichTextBox) sender).Visible)
+            if (sender is not RichTextBox { Visible: true })
                 return;
 
             try
@@ -813,13 +813,13 @@ namespace pk3DS
             }
             catch
             {
-                ((RichTextBox) sender).Text = Util.getHexString(CurrentZone.Entities.NPCs[nEntry].Raw);
+                ((RichTextBox) sender).Text = Util.GetHexString(CurrentZone.Entities.NPCs[nEntry].Raw);
             }
         }
 
         private void ChangeRAW_W(object sender, EventArgs e)
         {
-            if (!(sender is RichTextBox) || !((RichTextBox) sender).Visible)
+            if (sender is not RichTextBox { Visible: true })
                 return;
 
             try
@@ -832,13 +832,13 @@ namespace pk3DS
             }
             catch
             {
-                ((RichTextBox) sender).Text = Util.getHexString(CurrentZone.Entities.Warps[wEntry].Raw);
+                ((RichTextBox) sender).Text = Util.GetHexString(CurrentZone.Entities.Warps[wEntry].Raw);
             }
         }
 
         private void ChangeRAW_T1(object sender, EventArgs e)
         {
-            if (!(sender is RichTextBox) || !((RichTextBox) sender).Visible)
+            if (sender is not RichTextBox { Visible: true })
                 return;
 
             try
@@ -851,13 +851,13 @@ namespace pk3DS
             }
             catch
             {
-                ((RichTextBox) sender).Text = Util.getHexString(CurrentZone.Entities.Triggers1[tEntry].Raw);
+                ((RichTextBox) sender).Text = Util.GetHexString(CurrentZone.Entities.Triggers1[tEntry].Raw);
             }
         }
 
         private void ChangeRAW_T2(object sender, EventArgs e)
         {
-            if (!(sender is RichTextBox) || !((RichTextBox) sender).Visible)
+            if (sender is not RichTextBox {Visible: true})
                 return;
 
             try
@@ -870,7 +870,7 @@ namespace pk3DS
             }
             catch
             {
-                ((RichTextBox) sender).Text = Util.getHexString(CurrentZone.Entities.Triggers2[uEntry].Raw);
+                ((RichTextBox) sender).Text = Util.GetHexString(CurrentZone.Entities.Triggers2[uEntry].Raw);
             }
         }
 

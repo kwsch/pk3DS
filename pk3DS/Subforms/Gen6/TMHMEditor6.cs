@@ -20,24 +20,24 @@ namespace pk3DS
             offset = Util.IndexOfBytes(data, Signature, 0x400000, 0) + 8;
             codebin = files[0];
             movelist[0] = "";
-            setupDGV();
-            getList();
+            SetupDGV();
+            GetList();
             RandSettings.GetFormSettings(this, groupBox1.Controls);
         }
 
         private static readonly byte[] Signature = {0xD4, 0x00, 0xAE, 0x02, 0xAF, 0x02, 0xB0, 0x02};
         private readonly string codebin;
-        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
+        private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
         private readonly int offset = Main.Config.ORAS ? 0x004A67EE : 0x00464796; // Default
         private readonly byte[] data;
         private int dataoffset;
 
-        private void getDataOffset()
+        private void GetDataOffset()
         {
             dataoffset = offset; // reset
         }
 
-        private void setupDGV()
+        private void SetupDGV()
         {
             dgvTM.Columns.Clear(); dgvHM.Columns.Clear();
             DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
@@ -66,16 +66,16 @@ namespace pk3DS
             dgvHM.Columns.Add((DataGridViewColumn)dgvMove.Clone());
         }
 
-        private List<ushort> tms = new List<ushort>();
-        private List<ushort> hms = new List<ushort>();
+        private List<ushort> tms = new();
+        private List<ushort> hms = new();
 
-        private void getList()
+        private void GetList()
         {
             tms = new List<ushort>();
             hms = new List<ushort>();
             dgvTM.Rows.Clear();
 
-            getDataOffset();
+            GetDataOffset();
             for (int i = 0; i < 92; i++) // 1-92 TMs stored sequentially
                 tms.Add(BitConverter.ToUInt16(data, dataoffset + (2 * i)));
             for (int i = 92; i < 92 + 5; i++)
@@ -101,7 +101,7 @@ namespace pk3DS
             { dgvHM.Rows.Add(); dgvHM.Rows[i].Cells[0].Value = (i + 1).ToString(); dgvHM.Rows[i].Cells[1].Value = movelist[hmlist[i]]; }
         }
 
-        private void setList()
+        private void SetList()
         {
             // Gather TM/HM list.
             tms = new List<ushort>();
@@ -134,8 +134,8 @@ namespace pk3DS
             }
 
             // Set Move Text Descriptions back into Item Text File
-            string[] itemDescriptions = Main.Config.getText(TextName.ItemFlavor);
-            string[] moveDescriptions = Main.Config.getText(TextName.MoveFlavor);
+            string[] itemDescriptions = Main.Config.GetText(TextName.ItemFlavor);
+            string[] moveDescriptions = Main.Config.GetText(TextName.MoveFlavor);
             for (int i = 1 - 1; i <= 92 - 1; i++) // TM01 - TM92
                 itemDescriptions[328 + i] = moveDescriptions[tmlist[i]];
             for (int i = 93 - 1; i <= 95 - 1; i++) // TM92 - TM95
@@ -152,9 +152,9 @@ namespace pk3DS
             Main.Config.SetText(TextName.ItemFlavor, itemDescriptions);
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void Form_Closing(object sender, FormClosingEventArgs e)
         {
-            setList();
+            SetList();
             File.WriteAllBytes(codebin, data);
             RandSettings.SetFormSettings(this, groupBox1.Controls);
         }
@@ -168,7 +168,7 @@ namespace pk3DS
             Util.Shuffle(randomMoves);
 
             int[] hm_xy = { 015, 019, 057, 070, 127 };
-            int[] hm_ao = hm_xy.Concat(new int[] { 249, 291 }).ToArray();
+            int[] hm_ao = hm_xy.Concat(new[] { 249, 291 }).ToArray();
             int[] field = { 148, 249, 290 }; // TMs with field effects
             int[] banned = { 165, 621 }; // Struggle and Hyperspace Fury
             int ctr = 0;
@@ -203,10 +203,10 @@ namespace pk3DS
             WinFormsUtil.Alert("Randomized!");
         }
 
-        internal static void getTMHMList(bool oras, out ushort[] TMs, out ushort[] HMs)
+        internal static void GetTMHMList(out ushort[] TMs, out ushort[] HMs)
         {
-            TMs = new ushort[0];
-            HMs = new ushort[0];
+            TMs = Array.Empty<ushort>();
+            HMs = Array.Empty<ushort>();
             if (Main.ExeFSPath == null) return;
             string[] files = Directory.GetFiles(Main.ExeFSPath);
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) return;

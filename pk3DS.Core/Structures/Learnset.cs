@@ -23,13 +23,13 @@ namespace pk3DS.Core.Structures
             if (minLevel <= 1 && maxLevel >= 100)
                 return Moves;
             if (minLevel > maxLevel)
-                return new int[0];
+                return Array.Empty<int>();
             int start = Array.FindIndex(Levels, z => z >= minLevel);
             if (start < 0)
-                return new int[0];
+                return Array.Empty<int>();
             int end = Array.FindLastIndex(Levels, z => z <= maxLevel);
             if (end < 0)
-                return new int[0];
+                return Array.Empty<int>();
             int[] result = new int[end - start + 1];
             Array.Copy(Moves, start, result, 0, result.Length);
             return result;
@@ -86,12 +86,12 @@ namespace pk3DS.Core.Structures
         public Learnset6(byte[] data)
         {
             if (data.Length < 4 || data.Length % 4 != 0)
-            { Count = 0; Levels = new int[0]; Moves = new int[0]; return; }
+            { Count = 0; Levels = Array.Empty<int>(); Moves = Array.Empty<int>(); return; }
             Count = (data.Length / 4) - 1;
             Moves = new int[Count];
             Levels = new int[Count];
-            using (var ms = new MemoryStream(data))
-            using (var br = new BinaryReader(ms))
+            using var ms = new MemoryStream(data);
+            using var br = new BinaryReader(ms);
             for (int i = 0; i < Count; i++)
             {
                 Moves[i] = br.ReadInt16();
@@ -102,17 +102,15 @@ namespace pk3DS.Core.Structures
         public override byte[] Write()
         {
             Count = (ushort)Moves.Length;
-            using (MemoryStream ms = new MemoryStream())
-            using (BinaryWriter bw = new BinaryWriter(ms))
+            using MemoryStream ms = new MemoryStream();
+            using BinaryWriter bw = new BinaryWriter(ms);
+            for (int i = 0; i < Count; i++)
             {
-                for (int i = 0; i < Count; i++)
-                {
-                    bw.Write((short)Moves[i]);
-                    bw.Write((short)Levels[i]);
-                }
-                bw.Write(-1);
-                return ms.ToArray();
+                bw.Write((short)Moves[i]);
+                bw.Write((short)Levels[i]);
             }
+            bw.Write(-1);
+            return ms.ToArray();
         }
 
         public static Learnset[] GetArray(byte[][] entries)

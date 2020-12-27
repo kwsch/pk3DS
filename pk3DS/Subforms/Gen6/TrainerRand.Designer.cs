@@ -212,7 +212,7 @@
             0,
             0,
             0});
-            this.NUD_GiftPercent.ValueChanged += new System.EventHandler(this.changeGiftPercent);
+            this.NUD_GiftPercent.ValueChanged += new System.EventHandler(this.ChangeGiftPercent);
             // 
             // label1
             // 
@@ -252,7 +252,7 @@
             0,
             0,
             65536});
-            this.NUD_Level.ValueChanged += new System.EventHandler(this.changeLevelPercent);
+            this.NUD_Level.ValueChanged += new System.EventHandler(this.ChangeLevelPercent);
             // 
             // CHK_Level
             // 
@@ -596,7 +596,7 @@
             this.CB_Moves.Name = "CB_Moves";
             this.CB_Moves.Size = new System.Drawing.Size(135, 21);
             this.CB_Moves.TabIndex = 330;
-            this.CB_Moves.SelectedIndexChanged += new System.EventHandler(this.changeMoveRandomization);
+            this.CB_Moves.SelectedIndexChanged += new System.EventHandler(this.ChangeMoveRandomization);
             // 
             // L_Moves
             // 

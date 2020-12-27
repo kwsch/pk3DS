@@ -101,7 +101,7 @@
             this.CB_LocationBPMove.Name = "CB_LocationBPMove";
             this.CB_LocationBPMove.Size = new System.Drawing.Size(254, 21);
             this.CB_LocationBPMove.TabIndex = 11;
-            this.CB_LocationBPMove.SelectedIndexChanged += new System.EventHandler(this.changeIndexBPMove);
+            this.CB_LocationBPMove.SelectedIndexChanged += new System.EventHandler(this.ChangeIndexBPMove);
             // 
             // label2
             // 

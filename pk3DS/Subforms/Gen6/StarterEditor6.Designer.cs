@@ -96,7 +96,7 @@
             this.CB_G1_0.Name = "CB_G1_0";
             this.CB_G1_0.Size = new System.Drawing.Size(120, 21);
             this.CB_G1_0.TabIndex = 441;
-            this.CB_G1_0.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_G1_0.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // CB_G1_1
             // 
@@ -107,7 +107,7 @@
             this.CB_G1_1.Name = "CB_G1_1";
             this.CB_G1_1.Size = new System.Drawing.Size(120, 21);
             this.CB_G1_1.TabIndex = 443;
-            this.CB_G1_1.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_G1_1.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // PB_G1_1
             // 
@@ -126,7 +126,7 @@
             this.CB_G1_2.Name = "CB_G1_2";
             this.CB_G1_2.Size = new System.Drawing.Size(120, 21);
             this.CB_G1_2.TabIndex = 445;
-            this.CB_G1_2.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_G1_2.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // PB_G1_2
             // 
@@ -146,7 +146,7 @@
             this.CB_G2_2.Name = "CB_G2_2";
             this.CB_G2_2.Size = new System.Drawing.Size(120, 21);
             this.CB_G2_2.TabIndex = 451;
-            this.CB_G2_2.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_G2_2.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // PB_G2_2
             // 
@@ -167,7 +167,7 @@
             this.CB_G2_1.Name = "CB_G2_1";
             this.CB_G2_1.Size = new System.Drawing.Size(120, 21);
             this.CB_G2_1.TabIndex = 449;
-            this.CB_G2_1.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_G2_1.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // PB_G2_1
             // 
@@ -188,7 +188,7 @@
             this.CB_G2_0.Name = "CB_G2_0";
             this.CB_G2_0.Size = new System.Drawing.Size(120, 21);
             this.CB_G2_0.TabIndex = 447;
-            this.CB_G2_0.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_G2_0.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // PB_G2_0
             // 
@@ -210,7 +210,7 @@
             this.CB_G3_2.Size = new System.Drawing.Size(120, 21);
             this.CB_G3_2.TabIndex = 457;
             this.CB_G3_2.Visible = false;
-            this.CB_G3_2.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_G3_2.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // PB_G3_2
             // 
@@ -233,7 +233,7 @@
             this.CB_G3_1.Size = new System.Drawing.Size(120, 21);
             this.CB_G3_1.TabIndex = 455;
             this.CB_G3_1.Visible = false;
-            this.CB_G3_1.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_G3_1.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // PB_G3_1
             // 
@@ -256,7 +256,7 @@
             this.CB_G3_0.Size = new System.Drawing.Size(120, 21);
             this.CB_G3_0.TabIndex = 453;
             this.CB_G3_0.Visible = false;
-            this.CB_G3_0.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_G3_0.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // PB_G3_0
             // 
@@ -279,7 +279,7 @@
             this.CB_G4_2.Size = new System.Drawing.Size(120, 21);
             this.CB_G4_2.TabIndex = 463;
             this.CB_G4_2.Visible = false;
-            this.CB_G4_2.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_G4_2.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // PB_G4_2
             // 
@@ -302,7 +302,7 @@
             this.CB_G4_1.Size = new System.Drawing.Size(120, 21);
             this.CB_G4_1.TabIndex = 461;
             this.CB_G4_1.Visible = false;
-            this.CB_G4_1.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_G4_1.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // PB_G4_1
             // 
@@ -325,7 +325,7 @@
             this.CB_G4_0.Size = new System.Drawing.Size(120, 21);
             this.CB_G4_0.TabIndex = 459;
             this.CB_G4_0.Visible = false;
-            this.CB_G4_0.SelectedIndexChanged += new System.EventHandler(this.changeSpecies);
+            this.CB_G4_0.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // PB_G4_0
             // 

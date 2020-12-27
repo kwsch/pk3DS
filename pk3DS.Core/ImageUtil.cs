@@ -29,7 +29,7 @@ namespace pk3DS.Core
 
         public static Bitmap GetBitmap(byte[] data, int width, int height, int stride = 4, PixelFormat format = PixelFormat.Format32bppArgb)
         {
-            return new Bitmap(width, height, stride, format, Marshal.UnsafeAddrOfPinnedArrayElement(data, 0));
+            return new(width, height, stride, format, Marshal.UnsafeAddrOfPinnedArrayElement(data, 0));
         }
 
         public static byte[] GetPixelData(Bitmap bitmap)
@@ -49,8 +49,8 @@ namespace pk3DS.Core
 
             try
             {
-                var width = Math.Max(nlpo2(bxlim.Width), 16);
-                var height = Math.Max(nlpo2(bxlim.Height), 16);
+                var width = Math.Max(NextLargestPow2(bxlim.Width), 16);
+                var height = Math.Max(NextLargestPow2(bxlim.Height), 16);
                 Bitmap img = new Bitmap(width, height);
                 img = DecodeETC(bxlim, img, data, etc1a4);
                 return crop ? CropBMP(bxlim, img) : img;
@@ -128,10 +128,10 @@ namespace pk3DS.Core
             if (w > h)
             {
                 // Image is now in appropriate order, but the shifting is messed up. Let's fix that.
-                Bitmap img2 = new Bitmap(Math.Max(nlpo2(bclim.Width), 16), Math.Max(nlpo2(bclim.Height), 16));
-                for (int y = 0; y < Math.Max(nlpo2(bclim.Width), 16); y += 8)
+                Bitmap img2 = new Bitmap(Math.Max(NextLargestPow2(bclim.Width), 16), Math.Max(NextLargestPow2(bclim.Height), 16));
+                for (int y = 0; y < Math.Max(NextLargestPow2(bclim.Width), 16); y += 8)
                 {
-                    for (int x = 0; x < Math.Max(nlpo2(bclim.Height), 16); x++)
+                    for (int x = 0; x < Math.Max(NextLargestPow2(bclim.Height), 16); x++)
                     {
                         for (int j = 0; j < 8; j++)
                         // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.
@@ -142,17 +142,18 @@ namespace pk3DS.Core
                         }
                     }
                 }
-                img = img2;
+                return img2;
             }
-            else if (h > w)
+
+            if (h > w)
             {
-                Bitmap img2 = new Bitmap(Math.Max(nlpo2(bclim.Width), 16), Math.Max(nlpo2(bclim.Height), 16));
-                for (int y = 0; y < Math.Max(nlpo2(bclim.Width), 16); y += 8)
+                Bitmap img2 = new Bitmap(Math.Max(NextLargestPow2(bclim.Width), 16), Math.Max(NextLargestPow2(bclim.Height), 16));
+                for (int y = 0; y < Math.Max(NextLargestPow2(bclim.Width), 16); y += 8)
                 {
-                    for (int x = 0; x < Math.Max(nlpo2(bclim.Height), 16); x++)
+                    for (int x = 0; x < Math.Max(NextLargestPow2(bclim.Height), 16); x++)
                     {
                         for (int j = 0; j < 8; j++)
-                        // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.
+                            // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.
                         {
                             int x1 = x % img2.Width; // Reshift x
                             int y1 = (x + (y / 8 * h)) / img2.Width * 8; // Reshift y
@@ -160,7 +161,7 @@ namespace pk3DS.Core
                         }
                     }
                 }
-                img = img2;
+                return img2;
             }
 
             return img;

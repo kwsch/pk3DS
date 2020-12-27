@@ -15,11 +15,11 @@ namespace pk3DS
             if (species == 664 || species == 665 || species == 666) // vivillon
                 return 30; // save file specific
             if (species == 774) // minior
-                return (int)(Util.rnd32()%7);
+                return (int)(Util.Random32()%7);
             if (alola && Legal.EvolveToAlolanForms.Contains(species))
-                return (int)(Util.rnd32()%2);
+                return (int)(Util.Random32()%2);
             if (!Legal.Mega_ORAS.Contains((ushort)species) || mega)
-                return (int)(Util.rnd32() % stats[species].FormeCount); // Slot-Random
+                return (int)(Util.Random32() % stats[species].FormeCount); // Slot-Random
             return 0;
         }
 
@@ -29,7 +29,7 @@ namespace pk3DS
         /// <param name="level">Current Level.</param>
         /// <param name="factor">Modification factor.</param>
         /// <returns>Boosted (or reduced) level.</returns>
-        internal static int getModifiedLevel(int level, decimal factor)
+        internal static int GetModifiedLevel(int level, decimal factor)
         {
             int newlvl = (int) (level * factor);
             if (newlvl < 1)
@@ -39,7 +39,7 @@ namespace pk3DS
             return newlvl;
         }
 
-        internal static int[] getRandomItemList()
+        internal static int[] GetRandomItemList()
         {
             if (Main.Config.ORAS)
                 return Items_HeldAO.Concat(Items_Ball).Where(i => i != 0).ToArray();

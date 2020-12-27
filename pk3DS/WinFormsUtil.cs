@@ -20,12 +20,10 @@ namespace pk3DS
             if (baseLayer == null)
                 return overLayer as Bitmap;
             Bitmap img = new Bitmap(baseLayer.Width, baseLayer.Height);
-            using (Graphics gr = Graphics.FromImage(img))
-            {
-                gr.DrawImage(baseLayer, new Point(0, 0));
-                Bitmap o = ChangeOpacity(overLayer, trans);
-                gr.DrawImage(o, new Rectangle(x, y, overLayer.Width, overLayer.Height));
-            }
+            using Graphics gr = Graphics.FromImage(img);
+            gr.DrawImage(baseLayer, new Point(0, 0));
+            Bitmap o = ChangeOpacity(overLayer, trans);
+            gr.DrawImage(o, new Rectangle(x, y, overLayer.Width, overLayer.Height));
             return img;
         }
 
@@ -71,7 +69,7 @@ namespace pk3DS
             return file;
         }
 
-        public static Bitmap getSprite(int species, int form, int gender, int item, GameConfig config, bool shiny = false)
+        public static Bitmap GetSprite(int species, int form, int gender, int item, GameConfig config, bool shiny = false)
         {
             if (species == 0)
                 return Resources._0;
@@ -100,7 +98,9 @@ namespace pk3DS
                         0, 0, .5);
                 }
                 else
+                {
                     baseImage = Resources.unknown;
+                }
             }
             if (shiny)
             {
@@ -138,12 +138,15 @@ namespace pk3DS
             return form - 1;
         }
 
-        public static Bitmap scaleImage(Bitmap rawImg, int s)
+        public static Bitmap ScaleImage(Bitmap rawImg, int s)
         {
             Bitmap bigImg = new Bitmap(rawImg.Width * s, rawImg.Height * s);
             for (int x = 0; x < bigImg.Width; x++)
+            {
                 for (int y = 0; y < bigImg.Height; y++)
                     bigImg.SetPixel(x, y, rawImg.GetPixel(x / s, y / s));
+            }
+
             return bigImg;
         }
 
@@ -172,27 +175,6 @@ namespace pk3DS
             data = new byte[bmp.Width * bmp.Height * 4];
         }
 
-        private static void SetAllTransparencyTo(byte[] data, double trans)
-        {
-            for (int i = 0; i < data.Length; i += 4)
-                data[i + 3] = (byte)(data[i + 3] * trans);
-        }
-
-        private static void SetAllColorTo(byte[] data, Color c)
-        {
-            byte R = c.R;
-            byte G = c.G;
-            byte B = c.B;
-            for (int i = 0; i < data.Length; i += 4)
-            {
-                if (data[i + 3] == 0)
-                    continue;
-                data[i + 0] = B;
-                data[i + 1] = G;
-                data[i + 2] = R;
-            }
-        }
-
         private static void SetAllColorToGrayScale(byte[] data)
         {
             for (int i = 0; i < data.Length; i += 4)
@@ -208,19 +190,7 @@ namespace pk3DS
 
         // Strings and Paths
 
-        public static string[] getStringList(string f, string l)
-        {
-            object txt = Resources.ResourceManager.GetObject("text_" + f + "_" + l); // Fetch File, \n to list.
-            List<string> rawlist = ((string)txt).Split('\n').ToList();
-
-            string[] stringdata = new string[rawlist.Count];
-            for (int i = 0; i < rawlist.Count; i++)
-                stringdata[i] = rawlist[i].Trim();
-
-            return stringdata;
-        }
-
-        public static string[] getSimpleStringList(string f)
+        public static string[] GetSimpleStringList(string f)
         {
             object txt = Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.
             List<string> rawlist = ((string)txt).Split('\n').ToList();
@@ -257,15 +227,15 @@ namespace pk3DS
             return Util.ToUInt32(value);
         }
 
-        public static uint getHEXval(TextBox tb)
+        public static uint GetHEXval(TextBox tb)
         {
             if (tb.Text == null)
                 return 0;
-            string str = getOnlyHex(tb.Text);
+            string str = GetOnlyHex(tb.Text);
             return uint.Parse(str, NumberStyles.HexNumber);
         }
 
-        public static int getIndex(ComboBox cb)
+        public static int GetIndex(ComboBox cb)
         {
             int val;
             if (cb.SelectedValue == null)
@@ -278,9 +248,10 @@ namespace pk3DS
             return val;
         }
 
-        public static string getOnlyHex(string str)
+        public static string GetOnlyHex(string str)
         {
-            if (str == null) return "0";
+            if (str == null)
+                return "0";
 
             string s = "";
 
@@ -305,7 +276,9 @@ namespace pk3DS
             string externalLangPath = "lang_" + lang + ".txt";
             string[] rawlist;
             if (File.Exists(externalLangPath))
+            {
                 rawlist = File.ReadAllLines(externalLangPath);
+            }
             else
             {
                 object txt = Resources.ResourceManager.GetObject("lang_" + lang);
@@ -355,7 +328,7 @@ namespace pk3DS
                 {
                     // Menu Items aren't in the Form's Control array. Find within the menu's Control array.
                     ToolStripItem[] TSI = menu.Items.Find(ctrl, true);
-                    if (TSI.Length <= 0) continue;
+                    if (TSI.Length == 0) continue;
 
                     TSI[0].Text = text; goto next;
                 }
@@ -363,7 +336,7 @@ namespace pk3DS
                 foreach (ContextMenuStrip cs in FindContextMenuStrips(form.Controls.OfType<Control>()).Distinct())
                 {
                     ToolStripItem[] TSI = cs.Items.Find(ctrl, true);
-                    if (TSI.Length <= 0) continue;
+                    if (TSI.Length == 0) continue;
 
                     TSI[0].Text = text; goto next;
                 }
@@ -407,17 +380,10 @@ namespace pk3DS
             return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
 
-        // DataSource Providing
-        public class cbItem
-        {
-            public string Text { get; set; }
-            public object Value { get; set; }
-        }
-
-        public static List<cbItem> getCBList(string textfile, string lang)
+        public static List<ComboItem> GetCBList(string textfile, string lang)
         {
             // Set up
-            string[] inputCSV = getSimpleStringList(textfile);
+            string[] inputCSV = GetSimpleStringList(textfile);
 
             // Get Language we're fetching for
             int index = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
@@ -440,18 +406,17 @@ namespace pk3DS
             Array.Sort(sortedList);
 
             // Arrange the input data based on original number
-            return sortedList.Select(t => new cbItem
+            return sortedList.Select(t => new ComboItem
             {
                 Text = t,
                 Value = indexes[Array.IndexOf(unsortedList, t)]
             }).ToList();
         }
 
-        public static List<cbItem> getCBList(string[] inStrings, params int[][] allowed)
+        public static List<ComboItem> GetCBList(string[] inStrings, params int[][] allowed)
         {
-            List<cbItem> cbList = new List<cbItem>();
-            if (allowed == null)
-                allowed = new[] { Enumerable.Range(0, inStrings.Length).ToArray() };
+            List<ComboItem> cbList = new List<ComboItem>();
+            allowed ??= new[] {Enumerable.Range(0, inStrings.Length).ToArray()};
 
             foreach (int[] list in allowed)
             {
@@ -465,7 +430,7 @@ namespace pk3DS
                 Array.Sort(sortedChoices);
 
                 // Add the rest of the items
-                cbList.AddRange(sortedChoices.Select(t => new cbItem
+                cbList.AddRange(sortedChoices.Select(t => new ComboItem
                 {
                     Text = t,
                     Value = list[Array.IndexOf(unsortedChoices, t)]
@@ -474,10 +439,9 @@ namespace pk3DS
             return cbList;
         }
 
-        public static List<cbItem> getOffsetCBList(List<cbItem> cbList, string[] inStrings, int offset, int[] allowed)
+        public static List<ComboItem> GetOffsetCBList(List<ComboItem> cbList, string[] inStrings, int offset, int[] allowed)
         {
-            if (allowed == null)
-                allowed = Enumerable.Range(0, inStrings.Length).ToArray();
+            allowed ??= Enumerable.Range(0, inStrings.Length).ToArray();
 
             int[] list = (int[])allowed.Clone();
             for (int i = 0; i < list.Length; i++)
@@ -494,7 +458,7 @@ namespace pk3DS
                 Array.Sort(sortedChoices);
 
                 // Add the rest of the items
-                cbList.AddRange(sortedChoices.Select(t => new cbItem
+                cbList.AddRange(sortedChoices.Select(t => new ComboItem
                 {
                     Text = t,
                     Value = allowed[Array.IndexOf(unsortedChoices, t)]
@@ -503,62 +467,8 @@ namespace pk3DS
             return cbList;
         }
 
-        public static List<cbItem> getVariedCBList(List<cbItem> cbList, string[] inStrings, int[] stringNum, int[] stringVal)
-        {
-            // Set up
-            List<cbItem> newlist = new List<cbItem>();
-
-            for (int i = 4; i > 1; i--) // add 4,3,2
-            {
-                // First 3 Balls are always first
-                cbItem ncbi = new cbItem
-                {
-                    Text = inStrings[i],
-                    Value = i
-                };
-                newlist.Add(ncbi);
-            }
-
-            // Sort the Rest based on String Name
-            string[] ballnames = new string[stringNum.Length];
-            for (int i = 0; i < stringNum.Length; i++)
-                ballnames[i] = inStrings[stringNum[i]];
-
-            string[] sortedballs = new string[stringNum.Length];
-            Array.Copy(ballnames, sortedballs, ballnames.Length);
-            Array.Sort(sortedballs);
-
-            // Add the rest of the balls
-            newlist.AddRange(sortedballs.Select(t => new cbItem
-            {
-                Text = t,
-                Value = stringVal[Array.IndexOf(ballnames, t)]
-            }));
-            return newlist;
-        }
-
-        public static List<cbItem> getUnsortedCBList(string textfile)
-        {
-            // Set up
-            List<cbItem> cbList = new List<cbItem>();
-            string[] inputCSV = getSimpleStringList(textfile);
-
-            // Gather our data from the input file
-            for (int i = 1; i < inputCSV.Length; i++)
-            {
-                string[] inputData = inputCSV[i].Split(',');
-                cbItem ncbi = new cbItem
-                {
-                    Value = Convert.ToInt32(inputData[0]),
-                    Text = inputData[1]
-                };
-                cbList.Add(ncbi);
-            }
-            return cbList;
-        }
-
         // Misc
-        public static int highlightText(RichTextBox RTB, string word, Color hlColor)
+        public static int HighlightText(RichTextBox RTB, string word, Color hlColor)
         {
             int ctr = 0;
             int s_start = RTB.SelectionStart, startIndex = 0, index;
@@ -683,11 +593,16 @@ namespace pk3DS
 
             Bitmap dest = new Bitmap(srcRect.Width, srcRect.Height);
             Rectangle destRect = new Rectangle(0, 0, srcRect.Width, srcRect.Height);
-            using (Graphics graphics = Graphics.FromImage(dest))
-            {
-                graphics.DrawImage(source, destRect, srcRect, GraphicsUnit.Pixel);
-            }
+            using Graphics graphics = Graphics.FromImage(dest);
+            graphics.DrawImage(source, destRect, srcRect, GraphicsUnit.Pixel);
             return dest;
         }
+    }
+
+    // DataSource Providing
+    public class ComboItem
+    {
+        public string Text { get; set; }
+        public object Value { get; set; }
     }
 }

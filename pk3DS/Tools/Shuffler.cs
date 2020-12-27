@@ -21,20 +21,20 @@ namespace pk3DS
 
             // Ban Models, Encounters, TitleScreen etc
             banlist = Main.Config.ORAS
-                ? new[] { "a005", "a008", "a013", "a039", "a040", "a071", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086", 
-                    "a100", "a152", 
+                ? new[] { "a005", "a008", "a013", "a039", "a040", "a071", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086",
+                    "a100", "a152",
                     "a195" }
-                : new[] { "a005", "a007", "a012", "a041", "a042", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086", "a087", 
-                    "a101", "a165", 
+                : new[] { "a005", "a007", "a012", "a041", "a042", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086", "a087",
+                    "a101", "a165",
                     "a218" };
         }
 
         private string garc;
         private readonly string[] banlist;
 
-        private void updateLabel(object sender, EventArgs e)
+        private void UpdateLabel(object sender, EventArgs e)
         {
-            garc = Path.Combine(Main.RomFSPath, "a", 
+            garc = Path.Combine(Main.RomFSPath, "a",
                 CB_a.SelectedIndex.ToString(), CB_b.SelectedIndex.ToString(), CB_c.SelectedIndex.ToString());
 
             if (File.Exists(garc))
@@ -59,32 +59,34 @@ namespace pk3DS
             if (banlist.Contains(garcID))
             { WinFormsUtil.Alert("GARC is prevented from being shuffled."); return; }
 
-            var g = GARC.unpackGARC(garc);
-            
+            var g = GARC.UnpackGARC(garc);
+
             // Build a list of all the files we can relocate.
             int[] randFiles = new int[g.fatb.FileCount];
             int ctr = 0;
             for (int i = 0; i < randFiles.Length; i++)
+            {
                 if (!g.fatb.Entries[i].IsFolder)
                     randFiles[ctr++] = i;
+            }
 
             Array.Resize(ref randFiles, ctr);
 
-            if (ctr == 0) 
+            if (ctr == 0)
             { WinFormsUtil.Alert("No files to shuffle...?"); return; }
-            
+
             // Create backup
             string dest = "backup" + Path.DirectorySeparatorChar + $"PreShuffle {garcID}";
             if (!File.Exists(dest))
                 File.Copy(garc, dest);
-            
-            var g2 = GARC.unpackGARC(garc);
+
+            var g2 = GARC.UnpackGARC(garc);
             int[] newFileOffset = (int[])randFiles.Clone();
             Util.Shuffle(newFileOffset);
 
             for (int i = 0; i < randFiles.Length; i++)
                 g.fatb.Entries[randFiles[i]] = g2.fatb.Entries[newFileOffset[i]];
-            
+
             #region Re-write GARC Header information!
             using (var newGARC = File.OpenWrite(garc))
             using (BinaryWriter gw = new BinaryWriter(newGARC))
@@ -105,8 +107,8 @@ namespace pk3DS
                 gw.Write(g.fato.HeaderSize); // Header Size 
                 gw.Write(g.fato.EntryCount); // Entry Count
                 gw.Write(g.fato.Padding);    // Padding
-                for (int i = 0; i < g.fato.Entries.Length; i++)
-                    gw.Write((uint)g.fato.Entries[i].Offset);
+                foreach (var t in g.fato.Entries)
+                    gw.Write((uint)t.Offset);
 
                 // Write FATB
                 gw.Write((uint)0x46415442);  // FATB
@@ -116,10 +118,10 @@ namespace pk3DS
                 {
                     gw.Write(fe.Vector);
                     foreach (var s in fe.SubEntries.Where(s => s.Exists))
-                    { 
-                        gw.Write((uint)s.Start); 
-                        gw.Write((uint)s.End); 
-                        gw.Write((uint)s.Length); 
+                    {
+                        gw.Write((uint)s.Start);
+                        gw.Write((uint)s.End);
+                        gw.Write((uint)s.Length);
                     }
                 }
             }

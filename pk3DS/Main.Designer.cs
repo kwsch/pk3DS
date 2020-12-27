@@ -333,7 +333,7 @@
             this.Menu_RomFS.Name = "Menu_RomFS";
             this.Menu_RomFS.Size = new System.Drawing.Size(180, 22);
             this.Menu_RomFS.Text = "RomFS";
-            this.Menu_RomFS.Click += new System.EventHandler(this.rebuildRomFS);
+            this.Menu_RomFS.Click += new System.EventHandler(this.RebuildRomFS);
             // 
             // Menu_ExeFS
             // 
@@ -341,7 +341,7 @@
             this.Menu_ExeFS.Name = "Menu_ExeFS";
             this.Menu_ExeFS.Size = new System.Drawing.Size(180, 22);
             this.Menu_ExeFS.Text = "ExeFS";
-            this.Menu_ExeFS.Click += new System.EventHandler(this.rebuildExeFS);
+            this.Menu_ExeFS.Click += new System.EventHandler(this.RebuildExeFS);
             // 
             // Menu_CRO
             // 
@@ -349,7 +349,7 @@
             this.Menu_CRO.Name = "Menu_CRO";
             this.Menu_CRO.Size = new System.Drawing.Size(180, 22);
             this.Menu_CRO.Text = "CRO";
-            this.Menu_CRO.Click += new System.EventHandler(this.patchCRO_CRR);
+            this.Menu_CRO.Click += new System.EventHandler(this.PatchCRO_CRR);
             // 
             // Menu_Trimmed3DS
             // 
@@ -395,7 +395,7 @@
             this.setInt32SeedToolStripMenuItem.Name = "setInt32SeedToolStripMenuItem";
             this.setInt32SeedToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.setInt32SeedToolStripMenuItem.Text = "Set int32 seed";
-            this.setInt32SeedToolStripMenuItem.Click += new System.EventHandler(this.setInt32SeedToolStripMenuItem_Click);
+            this.setInt32SeedToolStripMenuItem.Click += new System.EventHandler(this.SetInt32SeedToolStripMenuItem_Click);
             // 
             // Menu_Options
             // 

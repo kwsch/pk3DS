@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using pk3DS.Core;
 using pk3DS.Core.Randomizers;
 using pk3DS.Core.Structures;
-using pk3DS.Core.Structures.PersonalInfo;
 
 namespace pk3DS
 {
@@ -16,18 +15,18 @@ namespace pk3DS
         private readonly EncounterGift7[] Gifts;
         private readonly EncounterStatic7[] Encounters;
         private readonly EncounterTrade7[] Trades;
-        private readonly LearnsetRandomizer learn = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
-        private readonly string[] movelist = Main.Config.getText(TextName.MoveNames);
-        private readonly string[] itemlist = Main.Config.getText(TextName.ItemNames);
-        private readonly string[] specieslist = Main.Config.getText(TextName.SpeciesNames);
-        private readonly string[] natures = Main.Config.getText(TextName.Natures);
-        private readonly string[] types = Main.Config.getText(TextName.Types);
+        private readonly LearnsetRandomizer learn = new(Main.Config, Main.Config.Learnsets);
+        private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
+        private readonly string[] itemlist = Main.Config.GetText(TextName.ItemNames);
+        private readonly string[] specieslist = Main.Config.GetText(TextName.SpeciesNames);
+        private readonly string[] natures = Main.Config.GetText(TextName.Natures);
+        private readonly string[] types = Main.Config.GetText(TextName.Types);
         private readonly int[] oldStarters;
         private static int[] FinalEvo = Legal.FinalEvolutions_7;
-        private static int[] Legendary = Main.Config.USUM ? Legal.Legendary_USUM : Legal.Legendary_SM;
-        private static int[] Mythical = Main.Config.USUM ? Legal.Mythical_USUM : Legal.Mythical_SM;
-        private static int[] ReplaceLegend = Legendary.Concat(Mythical).ToArray();
-        private static int[] BasicStarter = Legal.BasicStarters_7;
+        private static readonly int[] Legendary = Main.Config.USUM ? Legal.Legendary_USUM : Legal.Legendary_SM;
+        private static readonly int[] Mythical = Main.Config.USUM ? Legal.Mythical_USUM : Legal.Mythical_SM;
+        private static readonly int[] ReplaceLegend = Legendary.Concat(Mythical).ToArray();
+        private static readonly int[] BasicStarter = Legal.BasicStarters_7;
 
         private readonly string[] gender =
         {
@@ -259,15 +258,8 @@ namespace pk3DS
             // USUM has slots with SOS allies beyond slot 100, accommodate by trimming an extra character
             int endTrim = eEntry < 100 ? 5 : 6;
 
-            if (entry.Ally1 == 0)
-                L_Ally1.Text = "No SOS Ally";
-            else
-                L_Ally1.Text = ((string)LB_Encounter.Items[entry.Ally1 - 1]).Remove(0, endTrim);
-
-            if (entry.Ally2 == 0)
-                L_Ally2.Text = "No SOS Ally";
-            else
-                L_Ally2.Text = ((string)LB_Encounter.Items[entry.Ally2 - 1]).Remove(0, endTrim);
+            L_Ally1.Text = entry.Ally1 == 0 ? "No SOS Ally" : ((string)LB_Encounter.Items[entry.Ally1 - 1]).Remove(0, endTrim);
+            L_Ally2.Text = entry.Ally2 == 0 ? "No SOS Ally" : ((string)LB_Encounter.Items[entry.Ally2 - 1]).Remove(0, endTrim);
         }
 
         private void GetGift()
@@ -459,7 +451,7 @@ namespace pk3DS
         {
             if (loading)
                 return;
-            if (!(sender is ComboBox cb))
+            if (sender is not ComboBox cb)
                 return;
 
             if (sender == CB_GSpecies)
@@ -523,8 +515,8 @@ namespace pk3DS
 
             var specrand = GetRandomizer();
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
-            var items = Randomizer.getRandomItemList();
-            int[] banned = Legal.Z_Moves.Concat(new int[] { 165, 464, 621 }).ToArray();
+            var items = Randomizer.GetRandomItemList();
+            int[] banned = Legal.Z_Moves.Concat(new[] { 165, 464, 621 }).ToArray();
 
             // Assign Species
             for (int i = 0; i < 3; i++)
@@ -534,7 +526,7 @@ namespace pk3DS
                 // Pokemon with 2 evolutions
                 if (CHK_BasicStarter.Checked)
                 {
-                    int basic() => (int)(Util.rnd32() % BasicStarter.Length);
+                    static int basic() => (int)(Util.Random32() % BasicStarter.Length);
                     t.Species = BasicStarter[basic()];
                 }
                 else
@@ -546,10 +538,10 @@ namespace pk3DS
                     formrand.AllowMega = true;
 
                 if (CHK_Item.Checked)
-                    t.HeldItem = items[Util.rnd32() % items.Length];
+                    t.HeldItem = items[Util.Random32() % items.Length];
 
                 if (CHK_Level.Checked)
-                    t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
+                    t.Level = Randomizer.GetModifiedLevel(t.Level, NUD_LevelBoost.Value);
 
                 if (CHK_RemoveShinyLock.Checked)
                     t.ShinyLock = false;
@@ -557,13 +549,13 @@ namespace pk3DS
                 if (CHK_SpecialMove.Checked && !CHK_Metronome.Checked)
                 {
                     int rv;
-                    do { rv = Util.rand.Next(1, CB_SpecialMove.Items.Count); }
+                    do { rv = Util.Rand.Next(1, CB_SpecialMove.Items.Count); }
                     while (banned.Contains(rv));
                     t.SpecialMove = rv;
                 }
 
                 if (CHK_RandomAbility.Checked)
-                    t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H
+                    t.Ability = (sbyte)(Util.Rand.Next(0, 3)); // 1, 2, or H
 
                 t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
                 t.Nature = -1; // random
@@ -587,10 +579,10 @@ namespace pk3DS
             var specrand = GetRandomizer();
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
-            var items = Randomizer.getRandomItemList();
-            int[] banned = Legal.Z_Moves.Concat(new int[] { 165, 464, 621 }).ToArray();
-            int randFinalEvo() => (int)(Util.rnd32() % FinalEvo.Length);
-            int randLegend() => (int)(Util.rnd32() % ReplaceLegend.Length);
+            var items = Randomizer.GetRandomItemList();
+            int[] banned = Legal.Z_Moves.Concat(new[] { 165, 464, 621 }).ToArray();
+            int randFinalEvo() => (int)(Util.Random32() % FinalEvo.Length);
+            int randLegend() => (int)(Util.Random32() % ReplaceLegend.Length);
 
             for (int i = 3; i < Gifts.Length; i++) // Skip Starters
             {
@@ -608,10 +600,10 @@ namespace pk3DS
                     formrand.AllowMega = true;
 
                 if (CHK_Item.Checked)
-                    t.HeldItem = items[Util.rnd32() % items.Length];
+                    t.HeldItem = items[Util.Random32() % items.Length];
 
                 if (CHK_Level.Checked)
-                    t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
+                    t.Level = Randomizer.GetModifiedLevel(t.Level, NUD_LevelBoost.Value);
 
                 if (CHK_RemoveShinyLock.Checked)
                     t.ShinyLock = false;
@@ -625,14 +617,14 @@ namespace pk3DS
                     else
                     {
                         int rv;
-                        do { rv = Util.rand.Next(1, CB_SpecialMove.Items.Count); }
+                        do { rv = Util.Rand.Next(1, CB_SpecialMove.Items.Count); }
                         while (banned.Contains(rv));
                         t.SpecialMove = rv;
                     }
                 }
 
                 if (CHK_RandomAbility.Checked)
-                    t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H
+                    t.Ability = (sbyte)(Util.Rand.Next(0, 3)); // 1, 2, or H
 
                 if (CHK_ForceFullyEvolved.Checked && t.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(t.Species))
                     t.Species = FinalEvo[randFinalEvo()];
@@ -658,27 +650,26 @@ namespace pk3DS
                     formrand.AllowMega = true;
 
                 if (CHK_Item.Checked)
-                    t.HeldItem = items[Util.rnd32() % items.Length];
+                    t.HeldItem = items[Util.Random32() % items.Length];
 
                 if (CHK_Level.Checked)
-                    t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
+                    t.Level = Randomizer.GetModifiedLevel(t.Level, NUD_LevelBoost.Value);
 
                 if (CHK_RemoveShinyLock.Checked)
                     t.ShinyLock = false;
 
                 if (CHK_RandomAura.Checked && t.Aura != 0) // don't apply aura to a pkm without it
-                    t.Aura = Util.rand.Next(1, CB_Aura.Items.Count); // don't allow none
+                    t.Aura = Util.Rand.Next(1, CB_Aura.Items.Count); // don't allow none
 
                 if (CHK_RandomAbility.Checked)
-                    t.Ability = (sbyte)(Util.rand.Next(1, 4)); // 1, 2, or H
+                    t.Ability = (sbyte)(Util.Rand.Next(1, 4)); // 1, 2, or H
 
                 if (CHK_ForceFullyEvolved.Checked && t.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(t.Species))
                     t.Species = FinalEvo[randFinalEvo()];
 
-                if (t.IV3)
-                    t.IVs = new[] { -4, -1, -1, -1, -1, -1 }; // random with IV3 flag
-                else
-                    t.IVs = new[] { -1, -1, -1, -1, -1, -1 }; // random
+                t.IVs = t.IV3
+                    ? new[] { -4, -1, -1, -1, -1, -1 }  // random with IV3 flag
+                    : new[] { -1, -1, -1, -1, -1, -1 }; // random
 
                 t.EVs = new[] { 0, 0, 0, 0, 0, 0 }; // reset EVs
 
@@ -686,10 +677,9 @@ namespace pk3DS
                 t.Gender = 0; // random
                 t.Nature = 0; // random
 
-                if (CHK_Metronome.Checked)
-                    t.RelearnMoves = new[] { 118, 0, 0, 0 };
-                else
-                    t.RelearnMoves = move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
+                t.RelearnMoves = CHK_Metronome.Checked
+                    ? new[] {118, 0, 0, 0}
+                    : move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
             }
             foreach (EncounterTrade7 t in Trades)
             {
@@ -700,19 +690,19 @@ namespace pk3DS
                     formrand.AllowMega = true;
 
                 if (CHK_Item.Checked)
-                    t.HeldItem = items[Util.rnd32() % items.Length];
+                    t.HeldItem = items[Util.Random32() % items.Length];
 
                 if (CHK_Level.Checked)
-                    t.Level = Randomizer.getModifiedLevel(t.Level, NUD_LevelBoost.Value);
+                    t.Level = Randomizer.GetModifiedLevel(t.Level, NUD_LevelBoost.Value);
 
                 if (CHK_RandomAbility.Checked)
-                    t.Ability = (sbyte)(Util.rand.Next(0, 3)); // 1, 2, or H
+                    t.Ability = (sbyte)(Util.Rand.Next(0, 3)); // 1, 2, or H
 
                 if (CHK_ForceFullyEvolved.Checked && t.Level >= NUD_ForceFullyEvolved.Value && !FinalEvo.Contains(t.Species))
                     t.Species = FinalEvo[randFinalEvo()]; // only do offered species to be fair
 
                 t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
-                t.Nature = (int)(Util.rnd32() % CB_TNature.Items.Count); // randomly selected
+                t.Nature = (int)(Util.Random32() % CB_TNature.Items.Count); // randomly selected
                 t.IVs = new[] { -1, -1, -1, -1, -1, -1 }; // random
             }
 
@@ -727,16 +717,16 @@ namespace pk3DS
         // Mirror Changes
         private void UpdateStarterText()
         {
-            var gr = Main.Config.getGARCReference("storytext");
+            var gr = Main.Config.GetGARCReference("storytext");
             int file = Main.Config.USUM ? 39 : 41;
             for (int i = 0; i < 10; i++)
             {
                 // get Story Text
-                var sr = gr.getRelativeGARC(i, gr.Name);
+                var sr = gr.GetRelativeGARC(i, gr.Name);
                 var s = Main.Config.GetGARCByReference(sr);
                 byte[][] storytextdata = s.Files;
 
-                string[] storyText = TextFile.getStrings(Main.Config, storytextdata[file]);
+                string[] storyText = TextFile.GetStrings(Main.Config, storytextdata[file]);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -749,9 +739,9 @@ namespace pk3DS
 
                     if (Main.Config.SM) // replace type text
                     {
-                        int oldIndex = Main.Config.Personal.getFormeIndex(oldSpecies, Gifts[j].Form);
+                        int oldIndex = Main.Config.Personal.GetFormIndex(oldSpecies, Gifts[j].Form);
                         int oldtype0 = Main.Config.Personal[oldIndex].Types[0];
-                        int newIndex = Main.Config.Personal.getFormeIndex(species, Gifts[j].Form);
+                        int newIndex = Main.Config.Personal.GetFormIndex(species, Gifts[j].Form);
                         int newtype0 = Main.Config.Personal[newIndex].Types[0];
                         line = line.Replace(types[oldtype0], types[newtype0]);
                     }
@@ -762,13 +752,13 @@ namespace pk3DS
 
                     storyText[1 + j] = line;
                 }
-                storytextdata[file] = TextFile.getBytes(Main.Config, storyText);
+                storytextdata[file] = TextFile.GetBytes(Main.Config, storyText);
                 s.Files = storytextdata;
                 s.Save();
             }
         }
 
-        private void ExportEncounters()
+        public void ExportEncounters()
         {
             System.IO.File.WriteAllBytes("0", files[0]);
             System.IO.File.WriteAllBytes("1", files[1]);
@@ -784,17 +774,17 @@ namespace pk3DS
             for (int i = 0; i < LB_Encounter.Items.Count; i++)
             {
                 LB_Encounter.SelectedIndex = i;
-                NUD_ELevel.Value = Randomizer.getModifiedLevel((int)NUD_ELevel.Value, NUD_LevelBoost.Value);
+                NUD_ELevel.Value = Randomizer.GetModifiedLevel((int)NUD_ELevel.Value, NUD_LevelBoost.Value);
             }
             for (int i = 0; i < LB_Gift.Items.Count; i++)
             {
                 LB_Gift.SelectedIndex = i;
-                NUD_GLevel.Value = Randomizer.getModifiedLevel((int)NUD_GLevel.Value, NUD_LevelBoost.Value);
+                NUD_GLevel.Value = Randomizer.GetModifiedLevel((int)NUD_GLevel.Value, NUD_LevelBoost.Value);
             }
             for (int i = 0; i < LB_Trade.Items.Count; i++)
             {
                 LB_Trade.SelectedIndex = i;
-                NUD_TLevel.Value = Randomizer.getModifiedLevel((int)NUD_TLevel.Value, NUD_LevelBoost.Value);
+                NUD_TLevel.Value = Randomizer.GetModifiedLevel((int)NUD_TLevel.Value, NUD_LevelBoost.Value);
             }
             WinFormsUtil.Alert("Modified all Levels according to specification!");
         }
@@ -824,6 +814,5 @@ namespace pk3DS
             for (int i = 0; i < mcb.Length; i++)
                 mcb[i].SelectedIndex = moves[i];
         }
-
     }
 }
