@@ -25,21 +25,34 @@ namespace pk3DS.Core
             for (var areaIndex = 0; areaIndex < areas.Length; areaIndex++)
             {
                 var area = areas[areaIndex];
-                var ignore = ignored.TryGetValue(areaIndex, out var skip) ? skip : Array.Empty<int>();
                 for (var zoneIndex = 0; zoneIndex < area.Zones.Length; zoneIndex++)
                 {
-                    if (ignore.Contains((zoneIndex >> 1) + 1)) // not zero indexed; bias +1
-                        continue;
-
                     var z = area.Zones[zoneIndex];
                     int loc = z.ParentMap;
+
+                    var ignore = ignored.TryGetValue(loc, out var skip) ? skip : Array.Empty<int>();
                     if (!dict.ContainsKey(loc))
                         dict.Add(loc, new List<uint>());
 
-                    var table = dict[loc];
-                    foreach (var t in area.Tables)
+                    for (var index = 0; index < area.Tables.Count; index++)
                     {
+                        var t = area.Tables[index];
+                        if (ignore.Contains((index >> 1) + 1)) // not zero indexed; bias +1
+                        {
+                            Console.WriteLine($"Skipped MapID-{loc},Table-{zoneIndex}");
+                            continue;
+                        }
+
+                        if (!dict.ContainsKey(loc))
+                            dict.Add(loc, new List<uint>());
+                        var table = dict[loc];
                         var first = t.Encounter7s[0];
+                        if (first.All(sz => sz.Species == 731))
+                        {
+                            Console.WriteLine($"Skipped MapID-{loc},Table-{zoneIndex}: Pikipek Table");
+                            continue;
+                        }
+
                         for (int i = 0; i < first.Length; i++)
                         {
                             // Only add the column SOS slots if the wild slot can SOS for help.
@@ -66,22 +79,30 @@ namespace pk3DS.Core
             for (var areaIndex = 0; areaIndex < areas.Length; areaIndex++)
             {
                 var area = areas[areaIndex];
-                var ignore = ignored.TryGetValue(areaIndex, out var skip) ? skip : Array.Empty<int>();
                 for (var zoneIndex = 0; zoneIndex < area.Zones.Length; zoneIndex++)
                 {
-                    if (ignore.Contains((zoneIndex >> 1) + 1)) // not zero indexed; bias +1
-                        continue;
-
                     var z = area.Zones[zoneIndex];
                     int loc = z.ParentMap;
-                    if (!dict.ContainsKey(loc))
-                        dict.Add(loc, new List<uint>());
 
+                    var ignore = ignored.TryGetValue(areaIndex, out var skip) ? skip : Array.Empty<int>();
                     var table = dict[loc];
-                    foreach (var t in area.Tables)
+                    for (var index = 0; index < area.Tables.Count; index++)
                     {
-                        // Only add the column SOS slots if the wild slot can SOS for help.
+                        if (ignore.Contains((index >> 1) + 1)) // not zero indexed; bias +1
+                        {
+                            Console.WriteLine($"Skipped MapID-{loc},Table-{zoneIndex}");
+                            continue;
+                        }
+                        if (!dict.ContainsKey(loc))
+                            dict.Add(loc, new List<uint>());
+
+                        var t = area.Tables[index];
                         var first = t.Encounter7s[0];
+                        if (first.All(sz => sz.Species == 731))
+                        {
+                            Console.WriteLine($"Skipped MapID-{loc},Table-{zoneIndex}: Pikipek Table");
+                            continue;
+                        }
                         foreach (var wild in first)
                             table.Add(wild.Dump(t));
                     }
