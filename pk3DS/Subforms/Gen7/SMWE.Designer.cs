@@ -39,6 +39,11 @@
             this.L_Max = new System.Windows.Forms.Label();
             this.L_Table = new System.Windows.Forms.Label();
             this.GB_Encounters = new System.Windows.Forms.GroupBox();
+            this.L_Sand = new System.Windows.Forms.Label();
+            this.L_Hail = new System.Windows.Forms.Label();
+            this.L_Rain = new System.Windows.Forms.Label();
+            this.L_Weather1 = new System.Windows.Forms.Label();
+            this.L_Weather0 = new System.Windows.Forms.Label();
             this.B_PasteAll = new System.Windows.Forms.Button();
             this.B_Paste = new System.Windows.Forms.Button();
             this.B_Copy = new System.Windows.Forms.Button();
@@ -259,11 +264,6 @@
             this.CB_TableID = new System.Windows.Forms.ComboBox();
             this.B_Export = new System.Windows.Forms.Button();
             this.CopySOS = new System.Windows.Forms.Button();
-            this.L_Weather0 = new System.Windows.Forms.Label();
-            this.L_Weather1 = new System.Windows.Forms.Label();
-            this.L_Rain = new System.Windows.Forms.Label();
-            this.L_Hail = new System.Windows.Forms.Label();
-            this.L_Sand = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Min)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Max)).BeginInit();
             this.GB_Encounters.SuspendLayout();
@@ -412,8 +412,9 @@
             // 
             // CB_LocationID
             // 
-            this.CB_LocationID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_LocationID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_LocationID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_LocationID.DropDownWidth = 350;
             this.CB_LocationID.FormattingEnabled = true;
             this.CB_LocationID.Location = new System.Drawing.Point(67, 12);
             this.CB_LocationID.Name = "CB_LocationID";
@@ -697,6 +698,51 @@
             this.GB_Encounters.TabIndex = 430;
             this.GB_Encounters.TabStop = false;
             this.GB_Encounters.Text = "Encounters (100%)";
+            // 
+            // L_Sand
+            // 
+            this.L_Sand.AutoSize = true;
+            this.L_Sand.Location = new System.Drawing.Point(254, 335);
+            this.L_Sand.Name = "L_Sand";
+            this.L_Sand.Size = new System.Drawing.Size(32, 13);
+            this.L_Sand.TabIndex = 515;
+            this.L_Sand.Text = "Sand";
+            // 
+            // L_Hail
+            // 
+            this.L_Hail.AutoSize = true;
+            this.L_Hail.Location = new System.Drawing.Point(254, 309);
+            this.L_Hail.Name = "L_Hail";
+            this.L_Hail.Size = new System.Drawing.Size(25, 13);
+            this.L_Hail.TabIndex = 514;
+            this.L_Hail.Text = "Hail";
+            // 
+            // L_Rain
+            // 
+            this.L_Rain.AutoSize = true;
+            this.L_Rain.Location = new System.Drawing.Point(254, 282);
+            this.L_Rain.Name = "L_Rain";
+            this.L_Rain.Size = new System.Drawing.Size(29, 13);
+            this.L_Rain.TabIndex = 513;
+            this.L_Rain.Text = "Rain";
+            // 
+            // L_Weather1
+            // 
+            this.L_Weather1.AutoSize = true;
+            this.L_Weather1.Location = new System.Drawing.Point(222, 264);
+            this.L_Weather1.Name = "L_Weather1";
+            this.L_Weather1.Size = new System.Drawing.Size(27, 13);
+            this.L_Weather1.TabIndex = 512;
+            this.L_Weather1.Text = "10%";
+            // 
+            // L_Weather0
+            // 
+            this.L_Weather0.AutoSize = true;
+            this.L_Weather0.Location = new System.Drawing.Point(114, 264);
+            this.L_Weather0.Name = "L_Weather0";
+            this.L_Weather0.Size = new System.Drawing.Size(21, 13);
+            this.L_Weather0.TabIndex = 511;
+            this.L_Weather0.Text = "1%";
             // 
             // B_PasteAll
             // 
@@ -3093,51 +3139,6 @@
             this.CopySOS.Text = "Copy Initials to SOS";
             this.CopySOS.UseVisualStyleBackColor = true;
             this.CopySOS.Click += new System.EventHandler(this.CopySOS_Click);
-            // 
-            // L_Weather0
-            // 
-            this.L_Weather0.AutoSize = true;
-            this.L_Weather0.Location = new System.Drawing.Point(114, 264);
-            this.L_Weather0.Name = "L_Weather0";
-            this.L_Weather0.Size = new System.Drawing.Size(21, 13);
-            this.L_Weather0.TabIndex = 511;
-            this.L_Weather0.Text = "1%";
-            // 
-            // L_Weather1
-            // 
-            this.L_Weather1.AutoSize = true;
-            this.L_Weather1.Location = new System.Drawing.Point(222, 264);
-            this.L_Weather1.Name = "L_Weather1";
-            this.L_Weather1.Size = new System.Drawing.Size(27, 13);
-            this.L_Weather1.TabIndex = 512;
-            this.L_Weather1.Text = "10%";
-            // 
-            // L_Rain
-            // 
-            this.L_Rain.AutoSize = true;
-            this.L_Rain.Location = new System.Drawing.Point(254, 282);
-            this.L_Rain.Name = "L_Rain";
-            this.L_Rain.Size = new System.Drawing.Size(29, 13);
-            this.L_Rain.TabIndex = 513;
-            this.L_Rain.Text = "Rain";
-            // 
-            // L_Hail
-            // 
-            this.L_Hail.AutoSize = true;
-            this.L_Hail.Location = new System.Drawing.Point(254, 309);
-            this.L_Hail.Name = "L_Hail";
-            this.L_Hail.Size = new System.Drawing.Size(25, 13);
-            this.L_Hail.TabIndex = 514;
-            this.L_Hail.Text = "Hail";
-            // 
-            // L_Sand
-            // 
-            this.L_Sand.AutoSize = true;
-            this.L_Sand.Location = new System.Drawing.Point(254, 335);
-            this.L_Sand.Name = "L_Sand";
-            this.L_Sand.Size = new System.Drawing.Size(32, 13);
-            this.L_Sand.TabIndex = 515;
-            this.L_Sand.Text = "Sand";
             // 
             // SMWE
             // 

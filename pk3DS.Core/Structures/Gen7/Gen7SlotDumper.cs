@@ -39,7 +39,7 @@ namespace pk3DS.Core
                         var t = area.Tables[index];
                         if (ignore.Contains((index >> 1) + 1)) // not zero indexed; bias +1
                         {
-                            Console.WriteLine($"Skipped [{areaIndex}] MapID-{z.Index},Table-{index} ({(index >> 1) + 1})");
+                            Log(areaIndex, z.Index, index, z.Name);
                             continue;
                         }
 
@@ -49,7 +49,7 @@ namespace pk3DS.Core
                         var first = t.Encounter7s[0];
                         if (first.All(sz => sz.Species == 731))
                         {
-                            Console.WriteLine($"Skipped [{areaIndex}] MapID-{z.Index},Table-{index} ({(index >> 1) + 1}): Pikipek Table");
+                            Log(areaIndex, z.Index, index, z.Name, "Pikipek Table");
                             continue;
                         }
 
@@ -89,7 +89,7 @@ namespace pk3DS.Core
                     {
                         if (ignore.Contains((index >> 1) + 1)) // not zero indexed; bias +1
                         {
-                            Console.WriteLine($"Skipped [{areaIndex}] MapID-{z.Index},Table-{index} ({(index >> 1) + 1})");
+                            Log(areaIndex, z.Index, index, z.Name);
                             continue;
                         }
                         if (!dict.ContainsKey(loc))
@@ -99,7 +99,7 @@ namespace pk3DS.Core
                         var first = t.Encounter7s[0];
                         if (first.All(sz => sz.Species == 731))
                         {
-                            Console.WriteLine($"Skipped [{areaIndex}] MapID-{z.Index},Table-{index} ({(index >> 1) + 1}): Pikipek Table");
+                            Log(areaIndex, z.Index, index, z.Name, "Pikipek Table");
                             continue;
                         }
                         var table = dict[loc];
@@ -110,6 +110,11 @@ namespace pk3DS.Core
             }
 
             return dict;
+        }
+
+        private static void Log(int area, int zi, int ti, string zn, string msg = "Dictionary")
+        {
+            Console.WriteLine($"Skipped [{area}] {zi:00},{ti:00} ({(ti >> 1) + 1:00} {(ti % 2 == 0 ? "D" : "N")}) @ {zn}: {msg}");
         }
 
         public static bool IsZoneAccessible(int areaIndex, int zoneIndex, bool sm)
