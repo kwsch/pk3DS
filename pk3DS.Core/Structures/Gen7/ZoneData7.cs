@@ -11,6 +11,7 @@ namespace pk3DS.Core.Structures
         public int AreaIndex;
         public string Name { get; private set; }
         public string LocationName { get; private set; }
+        public int Index { get; private set; }
 
         public ZoneData7(byte[] data)
         {
@@ -34,6 +35,7 @@ namespace pk3DS.Core.Structures
         {
             LocationName = locationList[ParentMap];
             Name = $"{index:000} - {LocationName}";
+            Index = index;
         }
 
         public static ZoneData7[] GetArray(byte[] zoneData)
