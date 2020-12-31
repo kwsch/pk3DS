@@ -39,7 +39,7 @@ namespace pk3DS.Core
                         var t = area.Tables[index];
                         if (ignore.Contains((index >> 1) + 1)) // not zero indexed; bias +1
                         {
-                            Console.WriteLine($"Skipped MapID-{loc},Table-{zoneIndex}");
+                            Console.WriteLine($"Skipped MapID-{loc},Table-{index} ({(index >> 1) + 1})");
                             continue;
                         }
 
@@ -49,7 +49,7 @@ namespace pk3DS.Core
                         var first = t.Encounter7s[0];
                         if (first.All(sz => sz.Species == 731))
                         {
-                            Console.WriteLine($"Skipped MapID-{loc},Table-{zoneIndex}: Pikipek Table");
+                            Console.WriteLine($"Skipped MapID-{loc},Table-{index} ({(index >> 1) + 1}): Pikipek Table");
                             continue;
                         }
 
@@ -84,13 +84,12 @@ namespace pk3DS.Core
                     var z = area.Zones[zoneIndex];
                     int loc = z.ParentMap;
 
-                    var ignore = ignored.TryGetValue(areaIndex, out var skip) ? skip : Array.Empty<int>();
-                    var table = dict[loc];
+                    var ignore = ignored.TryGetValue(loc, out var skip) ? skip : Array.Empty<int>();
                     for (var index = 0; index < area.Tables.Count; index++)
                     {
                         if (ignore.Contains((index >> 1) + 1)) // not zero indexed; bias +1
                         {
-                            Console.WriteLine($"Skipped MapID-{loc},Table-{zoneIndex}");
+                            Console.WriteLine($"Skipped MapID-{loc},Table-{index} ({(index >> 1) + 1})");
                             continue;
                         }
                         if (!dict.ContainsKey(loc))
@@ -100,9 +99,10 @@ namespace pk3DS.Core
                         var first = t.Encounter7s[0];
                         if (first.All(sz => sz.Species == 731))
                         {
-                            Console.WriteLine($"Skipped MapID-{loc},Table-{zoneIndex}: Pikipek Table");
+                            Console.WriteLine($"Skipped MapID-{loc},Table-{index} ({(index >> 1) + 1}): Pikipek Table");
                             continue;
                         }
+                        var table = dict[loc];
                         foreach (var wild in first)
                             table.Add(wild.Dump(t));
                     }
