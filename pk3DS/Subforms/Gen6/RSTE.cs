@@ -547,7 +547,9 @@ namespace pk3DS
                 // Trainer Type/Mega Evo
                 int type = GetRandomType(i);
                 bool mevo = rEnsureMEvo.Contains(i);
-                bool typerand = (rTypeTheme && !rGymE4Only) || (rTypeTheme && rImportant[i] != null && ImportantClasses.Contains(rImportant[i]));
+                bool isImportantClass = rImportant[i] != null && (rImportant[i].Contains("GYM") || rImportant[i].Contains("ELITE") || rImportant[i].Contains("CHAMPION"));
+                bool typerand = (rTypeTheme && !rGymE4Only) || (rTypeTheme && isImportantClass);
+
                 rSpeciesRand.rType = typerand;
 
                 byte[] trd = trdata[i];
