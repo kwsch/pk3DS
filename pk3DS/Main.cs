@@ -186,9 +186,13 @@ namespace pk3DS
             }
             else // Directory
             {
+                if (!Directory.Exists(path))
+                    return;
+
                 // Check for ROMFS/EXEFS/EXHEADER
                 RomFSPath = ExeFSPath = null; // Reset
                 Config = null;
+
                 string[] folders = Directory.GetDirectories(path);
                 int count = folders.Length;
 
