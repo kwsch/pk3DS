@@ -119,7 +119,10 @@ namespace pk3DS
             if (entry < 0) throw new Exception("File not found!?");
 
             // Load file
-            byte[] data = darc.Data.Skip((int)(darc.Entries[entry].DataOffset - darc.Header.FileDataOffset)).Take((int)darc.Entries[entry].DataLength).ToArray();
+            var en = darc.Entries[entry];
+            var data = new byte[en.DataLength];
+            var ofs = en.DataOffset - darc.Header.FileDataOffset;
+            Array.Copy(darc.Data, ofs, data, 0, data.Length);
             BCLIM bclim = BCLIM.Analyze(data, filename);
             Image CropBMP = bclim.GetBitmap();
 
