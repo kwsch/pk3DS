@@ -117,7 +117,7 @@ namespace pk3DS
         {
             WriteCodePatch();
             if (CHK_EverythingShiny.Enabled)
-                exefsData[alwaysIndex] = CHK_EverythingShiny.Checked ? 0xEA : 0x0A;
+                exefsData[alwaysIndex] = CHK_EverythingShiny.Checked ? (byte)0xEA : (byte)0x0A;
             File.WriteAllBytes(codebin, exefsData);
             Close();
         }

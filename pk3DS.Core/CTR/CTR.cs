@@ -155,9 +155,9 @@ namespace pk3DS.Core.CTR
             }
             NCSD.Header.flags = new byte[0x8];
             NCSD.Header.flags[0] = 0; // 0-255 seconds of waiting for save writing.
-            NCSD.Header.flags[3] = NCSD.Card2 ? 2 : 1; // Media Card Device: 1 = NOR Flash, 2 = None, 3 = BT
+            NCSD.Header.flags[3] = NCSD.Card2 ? (byte)2 : (byte)1; // Media Card Device: 1 = NOR Flash, 2 = None, 3 = BT
             NCSD.Header.flags[4] = 1; // Media Platform Index: 1 = CTR
-            NCSD.Header.flags[5] = NCSD.Card2 ? 2 : 1; // Media Type Index: 0 = Inner Device, 1 = Card1, 2 = Card2, 3 = Extended Device
+            NCSD.Header.flags[5] = NCSD.Card2 ? (byte)2 : (byte)1; // Media Type Index: 0 = Inner Device, 1 = Card1, 2 = Card2, 3 = Extended Device
             NCSD.Header.flags[6] = 0; // Media Unit Size. Same as NCCH.
             NCSD.Header.flags[7] = 0; // Old Media Card Device.
             NCSD.Header.NCCHIdTable = new ulong[8];

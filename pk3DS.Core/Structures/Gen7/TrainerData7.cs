@@ -33,7 +33,7 @@ namespace pk3DS.Core.Structures
         public int Item4 { get => BitConverter.ToUInt16(trdata, 0x0A); set => BitConverter.GetBytes((ushort)value).CopyTo(trdata, 0x0A); }
 
         public int AI { get => trdata[0x0C]; set => trdata[0x0C] = (byte)value; }
-        public bool Flag { get => trdata[0x0D] == 1; set => trdata[0x0D] = value ? 1 : 0; }
+        public bool Flag { get => trdata[0x0D] == 1; set => trdata[0x0D] = value ? (byte)1 : (byte)0; }
         public int Money { get => trdata[0x11]; set => trdata[0x11] = (byte)value; }
 
         public void Write(out byte[] tr, out byte[] pk)
