@@ -78,14 +78,14 @@ namespace pk3DS.Core.CTR
 
             if (fc == 'X')
             {
-                Write16BitColorPalette(mBitmap, ref ms);
+                Write16BitColorPalette(mBitmap, ms);
             }
             else
             {
                 bclimformat = Convert.ToInt16(fc.ToString(), 16);
                 try
                 {
-                    WriteGeneric(bclimformat, mBitmap, ref ms);
+                    WriteGeneric(bclimformat, mBitmap, ms);
                 }
                 catch (Exception e)
                 {
@@ -154,7 +154,7 @@ namespace pk3DS.Core.CTR
         }
 
         // BCLIM Data Writing
-        public static int Write16BitColorPalette(Bitmap img, ref MemoryStream ms)
+        public static int Write16BitColorPalette(Bitmap img, MemoryStream ms)
         {
             using Stream pixelcolors = new MemoryStream();
             using BinaryWriter bz = new BinaryWriter(pixelcolors);
@@ -238,9 +238,9 @@ namespace pk3DS.Core.CTR
             return 7;
         }
 
-        public static void WriteGeneric(int format, Bitmap img, ref MemoryStream ms, bool rectangle = true)
+        public static void WriteGeneric(int format, Bitmap img, MemoryStream ms, bool rectangle = true)
         {
-            using var bz = new BinaryWriter(ms);
+            var bz = new BinaryWriter(ms); // no using, as we need to reuse ms later.
             bz.Write(GetPixelData(img, format, rectangle));
             bz.Flush();
         }
