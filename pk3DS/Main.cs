@@ -47,17 +47,29 @@ namespace pk3DS
             }
 
             // Reload Previous Editing Files if the file exists
-
-            CB_Lang.SelectedIndex = Properties.Settings.Default.Language;
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.GamePath))
-                OpenQuick(Properties.Settings.Default.GamePath);
+            var settings = Properties.Settings.Default;
+            CB_Lang.SelectedIndex = settings.Language;
+            var path = settings.GamePath;
+            if (!string.IsNullOrWhiteSpace(path))
+            {
+                try
+                {
+                    OpenQuick(path);
+                }
+                catch (Exception ex)
+                {
+                    WinFormsUtil.Error($"Unable to automatically load the previously opened ROM dump located at -- {path}.", ex.Message);
+                    ResetStatus();
+                }
+            }
 
             string[] args = Environment.GetCommandLineArgs();
             string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0])?.ToLower() : "";
             skipBoth = filename.IndexOf("3DSkip", StringComparison.Ordinal) >= 0;
 
-            if (File.Exists(RandSettings.FileName))
-                RandSettings.Load(File.ReadAllLines(RandSettings.FileName));
+            var randset = RandSettings.FileName;
+            if (File.Exists(randset))
+                RandSettings.Load(File.ReadAllLines(randset));
         }
 
         internal static GameConfig Config;
@@ -85,7 +97,8 @@ namespace pk3DS
             string s = "Game Type: " + Config.Version + Environment.NewLine;
             s = Config.Files.Select(file => file.Name).Aggregate(s, (current, t) => current + string.Format(Environment.NewLine + "{0} - {1}", t, Config.GetGARCFileName(t)));
 
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, s, "Copy to Clipboard?"))
+            var copyPrompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, s, "Copy to Clipboard?");
+            if (copyPrompt != DialogResult.Yes)
                 return;
 
             try { Clipboard.SetText(s); }
@@ -96,7 +109,7 @@ namespace pk3DS
 
         private void B_Open_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            using var fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() == DialogResult.OK)
                 OpenQuick(fbd.SelectedPath);
         }
@@ -121,7 +134,7 @@ namespace pk3DS
                 return; // set event re-triggers this method
             }
 
-            UpdateGameInfo();
+            UpdateProgramTitle();
             Config.InitializeGameText();
             Properties.Settings.Default.Language = Language;
             Properties.Settings.Default.Save();
@@ -143,9 +156,15 @@ namespace pk3DS
 
             try
             {
-                File.WriteAllLines(RandSettings.FileName, RandSettings.Save(), Encoding.Unicode);
+                var text = RandSettings.Save();
+                File.WriteAllLines(RandSettings.FileName, text, Encoding.Unicode);
             }
-            catch { }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                // ignored
+            }
         }
 
         private void OpenQuick(string path)
@@ -153,148 +172,228 @@ namespace pk3DS
             if (ThreadActive())
                 return;
 
-            if (!Directory.Exists(path)) // File
+            try
             {
-                if (!File.Exists(path))
-                    return;
-
-                FileInfo fi = new FileInfo(path);
-                if (fi.Name.Contains("code.bin")) // Compress/Decompress .code.bin
-                {
-                    if (fi.Length % 0x200 == 0 && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed code.bin.", "Compress? File will be replaced.") == DialogResult.Yes)
-                        new Thread(() => { Interlocked.Increment(ref threads); new BLZCoder(new[] { "-en", path }, pBar1); Interlocked.Decrement(ref threads); WinFormsUtil.Alert("Compressed!"); }).Start();
-                    else if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.") == DialogResult.Yes)
-                        new Thread(() => { Interlocked.Increment(ref threads); new BLZCoder(new[] { "-d", path }, pBar1); Interlocked.Decrement(ref threads); WinFormsUtil.Alert("Decompressed!"); }).Start();
-                }
-                else if (fi.Name.IndexOf("exe", StringComparison.OrdinalIgnoreCase) >= 0) // Unpack exefs
-                {
-                    if (fi.Length % 0x200 == 0 && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS.bin.", "Unpack?") == DialogResult.Yes)
-                        new Thread(() => { Interlocked.Increment(ref threads); ExeFS.UnpackExeFS(path, Path.GetDirectoryName(path)); Interlocked.Decrement(ref threads); WinFormsUtil.Alert("Unpacked!"); }).Start();
-                }
-                else if (fi.Name.IndexOf("rom", StringComparison.OrdinalIgnoreCase) >= 0)
-                {
-                    WinFormsUtil.Alert("RomFS unpacking not implemented.");
-                }
-                else
-                {
-                    DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Unpack sub-files?", "Cancel: Abort");
-                    if (dr == DialogResult.Cancel)
-                        return;
-                    bool recurse = dr == DialogResult.Yes;
-                    ToolsUI.OpenARC(path, pBar1, recurse);
-                }
+                if (!Directory.Exists(path)) // File
+                    OpenFile(path);
+                else // Directory
+                    OpenDirectory(path);
             }
-            else // Directory
+            catch (Exception ex)
             {
-                if (!Directory.Exists(path))
+                WinFormsUtil.Error($"Failed to open -- {path}", ex.Message);
+                ResetStatus();
+            }
+        }
+
+        private void OpenFile(string path)
+        {
+            if (!File.Exists(path))
+                return;
+
+            FileInfo fi = new FileInfo(path);
+            if (fi.Name.Contains("code.bin")) // Compress/Decompress .code.bin
+            {
+                OpenExeFSCodeBinary(path, fi);
+            }
+            else if (fi.Name.IndexOf("exe", StringComparison.OrdinalIgnoreCase) >= 0) // Unpack exefs
+            {
+                OpenExeFSCombined(path, fi);
+            }
+            else if (fi.Name.IndexOf("rom", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                WinFormsUtil.Alert("RomFS unpacking not implemented.");
+            }
+            else
+            {
+                var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Unpack sub-files?", "Cancel: Abort");
+                if (dr == DialogResult.Cancel)
                     return;
+                bool recurse = dr == DialogResult.Yes;
+                ToolsUI.OpenARC(path, pBar1, recurse);
+            }
+        }
 
-                // Check for ROMFS/EXEFS/EXHEADER
-                RomFSPath = ExeFSPath = null; // Reset
-                Config = null;
+        private void OpenExeFSCombined(string path, FileInfo fi)
+        {
+            if (fi.Length % 0x200 != 0)
+                return;
 
-                string[] folders = Directory.GetDirectories(path);
-                int count = folders.Length;
+            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS.bin.", "Unpack?");
+            if (prompt != DialogResult.Yes)
+                return;
 
-                // Find RomFS folder
-                foreach (string f in folders.Where(f => new DirectoryInfo(f).Name.IndexOf("rom", StringComparison.OrdinalIgnoreCase) >= 0 && Directory.Exists(f)))
-                    CheckIfRomFS(f);
-                // Find ExeFS folder
-                foreach (string f in folders.Where(f => new DirectoryInfo(f).Name.IndexOf("exe", StringComparison.OrdinalIgnoreCase) >= 0 && Directory.Exists(f)))
-                    CheckIfExeFS(f);
+            new Thread(() =>
+            {
+                Interlocked.Increment(ref threads);
+                ExeFS.UnpackExeFS(path, Path.GetDirectoryName(path));
+                Interlocked.Decrement(ref threads);
+                WinFormsUtil.Alert("Unpacked!");
+            }).Start();
+        }
 
-                if (count > 3)
-                    WinFormsUtil.Alert("pk3DS will function best if you keep your Game Files folder clean and free of unnecessary folders.");
-
-                // Enable buttons if applicable
-                Tab_RomFS.Enabled = Menu_Restore.Enabled = Tab_CRO.Enabled = Menu_CRO.Enabled = Menu_Shuffler.Enabled = RomFSPath != null;
-                Tab_ExeFS.Enabled = RomFSPath != null && ExeFSPath != null;
-                if (RomFSPath != null)
+        private void OpenExeFSCodeBinary(string path, FileInfo fi)
+        {
+            if (fi.Length % 0x200 == 0)
+            {
+                var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Decompressed code.bin.", "Compress? File will be replaced.");
+                if (prompt != DialogResult.Yes)
+                    return;
+                new Thread(() =>
                 {
-                    ToggleSubEditors();
-                    string newtext = $"Game Loaded: {Config.Version}";
-                    if (L_Game.Text != newtext && Directory.Exists("personal"))
-                    { Directory.Delete("personal", true); } // Force reloading of personal data if the game is switched.
-                    L_Game.Text = newtext; TB_Path.Text = path;
-                }
-                else if (ExeFSPath != null)
-                { L_Game.Text = "ExeFS loaded - no RomFS"; TB_Path.Text = path; }
-                else
-                { L_Game.Text = "No Game Loaded"; TB_Path.Text = ""; }
-
-                if (RomFSPath != null)
+                    Interlocked.Increment(ref threads);
+                    new BLZCoder(new[] {"-en", path}, pBar1);
+                    Interlocked.Decrement(ref threads);
+                    WinFormsUtil.Alert("Compressed!");
+                }).Start();
+            }
+            else
+            {
+                var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected Compressed code.bin.", "Decompress? File will be replaced.");
+                if (prompt != DialogResult.Yes)
+                    return;
+                new Thread(() =>
                 {
-                    // Trigger Data Loading
-                    if (RTB_Status.Text.Length > 0) RTB_Status.Clear();
-                    UpdateStatus("Data found! Loading persistent data for subforms...", false);
+                    Interlocked.Increment(ref threads);
+                    new BLZCoder(new[] { "-d", path }, pBar1);
+                    Interlocked.Decrement(ref threads);
+                    WinFormsUtil.Alert("Decompressed!");
+                }).Start();
+            }
+        }
+
+        private void OpenDirectory(string path)
+        {
+            if (!Directory.Exists(path))
+                return;
+
+            // Check for ROMFS/EXEFS/EXHEADER
+            RomFSPath = ExeFSPath = null; // Reset
+            Config = null;
+
+            string[] folders = Directory.GetDirectories(path);
+            int count = folders.Length;
+
+            // Find RomFS folder
+            foreach (string f in folders.Where(f => new DirectoryInfo(f).Name.IndexOf("rom", StringComparison.OrdinalIgnoreCase) >= 0 && Directory.Exists(f)))
+                CheckIfRomFS(f);
+            // Find ExeFS folder
+            foreach (string f in folders.Where(f => new DirectoryInfo(f).Name.IndexOf("exe", StringComparison.OrdinalIgnoreCase) >= 0 && Directory.Exists(f)))
+                CheckIfExeFS(f);
+
+            if (count > 3)
+                WinFormsUtil.Alert("pk3DS will function best if you keep your Game Files folder clean and free of unnecessary folders.");
+
+            // Enable buttons if applicable
+            Tab_RomFS.Enabled = Menu_Restore.Enabled = Tab_CRO.Enabled = Menu_CRO.Enabled = Menu_Shuffler.Enabled = RomFSPath != null;
+            Tab_ExeFS.Enabled = RomFSPath != null && ExeFSPath != null;
+            if (RomFSPath != null && Config != null)
+            {
+                ToggleSubEditors();
+                string newtext = $"Game Loaded: {Config.Version}";
+                if (L_Game.Text != newtext && Directory.Exists("personal"))
+                {
+                    Directory.Delete("personal", true);
+                } // Force reloading of personal data if the game is switched.
+
+                L_Game.Text = newtext;
+                TB_Path.Text = path;
+            }
+            else if (ExeFSPath != null)
+            {
+                L_Game.Text = "ExeFS loaded - no RomFS";
+                TB_Path.Text = path;
+            }
+            else
+            {
+                L_Game.Text = "No Game Loaded";
+                TB_Path.Text = "";
+            }
+
+            if (RomFSPath != null)
+            {
+                // Trigger Data Loading
+                if (RTB_Status.Text.Length > 0)
+                    RTB_Status.Clear();
+
+                UpdateStatus("Data found! Loading persistent data for subforms...", false);
+                try
+                {
                     Config.Initialize(RomFSPath, ExeFSPath, Language);
                     Config.BackupFiles();
                 }
-
-                // Enable Rebuilding options if all files have been found
-                CheckIfExHeader(path);
-                Menu_ExeFS.Enabled = ExeFSPath != null;
-                Menu_RomFS.Enabled = Menu_Restore.Enabled = Menu_GARCs.Enabled = RomFSPath != null;
-                Menu_Patch.Enabled = RomFSPath != null && ExeFSPath != null;
-                Menu_3DS.Enabled =
-                    ExHeaderPath != null && RomFSPath != null && ExeFSPath != null;
-                Menu_Trimmed3DS.Enabled =
-                    ExHeaderPath != null && RomFSPath != null && ExeFSPath != null;
-
-                // Change L_Game if RomFS and ExeFS exists to a better descriptor
-                SMDH = ExeFSPath != null ? File.Exists(Path.Combine(ExeFSPath, "icon.bin")) ? new SMDH(Path.Combine(ExeFSPath, "icon.bin")) : null : null;
-                HANSgameID = SMDH != null ? (SMDH.AppSettings?.StreetPassID ?? 0) : 0;
-                L_Game.Visible = SMDH == null && RomFSPath != null;
-                UpdateGameInfo();
-                TB_Path.Select(TB_Path.TextLength, 0);
-                // Method finished.
-                System.Media.SystemSounds.Asterisk.Play();
-                ResetStatus();
-                Properties.Settings.Default.GamePath = path;
-                Properties.Settings.Default.Save();
+                catch (Exception ex)
+                {
+                    WinFormsUtil.Error("Failed to load game data from romfs. Please double check your ROM dump is correct.", ex.Message);
+                    ResetStatus();
+                    return;
+                }
             }
+
+            UpdateProgramTitle();
+
+            // Enable Rebuilding options if all files have been found
+            CheckIfExHeader(path);
+            Menu_ExeFS.Enabled =                                                                  ExeFSPath != null;
+            Menu_RomFS.Enabled = Menu_Restore.Enabled = Menu_GARCs.Enabled = RomFSPath != null;
+            Menu_Patch.Enabled =                                             RomFSPath != null && ExeFSPath != null;
+            Menu_3DS.Enabled   =                                             RomFSPath != null && ExeFSPath != null && ExHeaderPath != null;
+            Menu_Trimmed3DS.Enabled =                                        RomFSPath != null && ExeFSPath != null && ExHeaderPath != null;
+
+            // Change L_Game if RomFS and ExeFS exists to a better descriptor
+            SMDH = ExeFSPath != null
+                ? File.Exists(Path.Combine(ExeFSPath, "icon.bin")) ? new SMDH(Path.Combine(ExeFSPath, "icon.bin")) : null
+                : null;
+            HANSgameID = SMDH != null ? (SMDH.AppSettings?.StreetPassID ?? 0) : 0;
+            L_Game.Visible = SMDH == null && RomFSPath != null;
+            TB_Path.Select(TB_Path.TextLength, 0);
+            // Method finished.
+            System.Media.SystemSounds.Asterisk.Play();
+            ResetStatus();
+            Properties.Settings.Default.GamePath = path;
+            Properties.Settings.Default.Save();
         }
 
         private void B_ExtractCXI_Click(object sender, EventArgs e)
         {
-            if (WinFormsUtil.Prompt(
-                MessageBoxButtons.OKCancel,
-                "Extracting a CXI requires multiple GB of disc space and takes some time to complete.",
-                "If you want to continue, press OK to select your CXI and then select your output directory. For best results, make sure the output directory is an empty directory.") == DialogResult.OK)
-            {
-                string inputCXI;
-                OpenFileDialog ofd = new OpenFileDialog {Title = "Select CXI", Filter = "CXI files (*.cxi)|*.cxi"};
-                if (ofd.ShowDialog() == DialogResult.OK)
-                    inputCXI = ofd.FileName;
-                else
-                    return;
+            const string l1 = "Extracting a CXI requires multiple GB of disc space and takes some time to complete.";
+            const string l2 = "If you want to continue, press OK to select your CXI and then select your output directory. For best results, make sure the output directory is an empty directory.";
+            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.OKCancel, l1, l2);
+            if (prompt != DialogResult.OK)
+                return;
 
-                FolderBrowserDialog fbd = new FolderBrowserDialog();
-                DialogResult result = fbd.ShowDialog();
-                if (result == DialogResult.OK)
-                    ExtractNCCH(inputCXI, fbd.SelectedPath);
-            }
+            using var ofd = new OpenFileDialog {Title = "Select CXI", Filter = "CXI files (*.cxi)|*.cxi"};
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+
+            using var fbd = new FolderBrowserDialog();
+            DialogResult result = fbd.ShowDialog();
+            if (result != DialogResult.OK)
+                return;
+
+            var inputCXI = ofd.FileName;
+            ExtractNCCH(inputCXI, fbd.SelectedPath);
         }
 
         private void B_Extract3DS_Click(object sender, EventArgs e)
         {
-            if (WinFormsUtil.Prompt(
-                MessageBoxButtons.OKCancel,
-                "Extracting a 3DS file requires multiple GB of disc space and takes some time to complete.",
-                "If you want to continue, press OK to select your CXI and then select your output directory. For best results, make sure the output directory is an empty directory.") == DialogResult.OK)
-            {
-                string input3DS;
-                OpenFileDialog ofd = new OpenFileDialog {Title = "Select 3DS", Filter = "3DS files (*.3ds)|*.3ds"};
-                if (ofd.ShowDialog() == DialogResult.OK)
-                    input3DS = ofd.FileName;
-                else
-                    return;
+            const string l1 = "Extracting a 3DS file requires multiple GB of disc space and takes some time to complete.";
+            const string l2 = "If you want to continue, press OK to select your CXI and then select your output directory. For best results, make sure the output directory is an empty directory.";
+            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.OKCancel, l1, l2);
+            if (prompt != DialogResult.OK)
+                return;
 
-                FolderBrowserDialog fbd = new FolderBrowserDialog();
-                DialogResult result = fbd.ShowDialog();
-                if (result == DialogResult.OK)
-                    ExtractNCSD(input3DS, fbd.SelectedPath);
-            }
+            using var ofd = new OpenFileDialog {Title = "Select 3DS", Filter = "3DS files (*.3ds)|*.3ds"};
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+
+            using var fbd = new FolderBrowserDialog();
+            DialogResult result = fbd.ShowDialog();
+            if (result != DialogResult.OK)
+                return;
+
+            var input3DS = ofd.FileName;
+            ExtractNCSD(input3DS, fbd.SelectedPath);
         }
 
         private void ExtractNCCH(string ncchPath, string outputDirectory)
@@ -309,7 +408,7 @@ namespace pk3DS
                 Interlocked.Increment(ref threads);
                 ncch.ExtractNCCHFromFile(ncchPath, outputDirectory, RTB_Status, pBar1);
                 Interlocked.Decrement(ref threads);
-                WinFormsUtil.Prompt(MessageBoxButtons.OK, "Extraction complete!");
+                WinFormsUtil.Alert("Extraction complete!");
             }).Start();
         }
 
@@ -324,7 +423,7 @@ namespace pk3DS
                 Interlocked.Increment(ref threads);
                 ncsd.ExtractFilesFromNCSD(ncsdPath, outputDirectory, RTB_Status, pBar1);
                 Interlocked.Decrement(ref threads);
-                WinFormsUtil.Prompt(MessageBoxButtons.OK, "Extraction complete!");
+                WinFormsUtil.Alert("Extraction complete!");
             }).Start();
         }
 
@@ -368,7 +467,9 @@ namespace pk3DS
             FLP_CRO.Controls.AddRange(cro);
         }
 
-        private void UpdateGameInfo()
+        private void UpdateProgramTitle() => Text = GetProgramTitle();
+
+        private static string GetProgramTitle()
         {
             // 0 - JP
             // 1 - EN
@@ -380,10 +481,10 @@ namespace pk3DS
             // 7 - KO
             // 8 -
             // 11 - CHT
+            if (SMDH?.AppSettings == null)
+                return "pk3DS";
             int[] AILang = { 0, 0, 1, 2, 4, 3, 5, 7, 8, 9, 6, 11 };
-            Text = SMDH?.AppSettings == null
-                ? "pk3DS" // nothing else
-                : "pk3DS - " + SMDH.AppInfo[AILang[Language]].ShortDescription;
+            return "pk3DS - " + SMDH.AppInfo[AILang[Language]].ShortDescription;
         }
 
         private static GameConfig CheckGameType(string[] files)
