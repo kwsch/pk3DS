@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using pk3DS.Core.CTR;
 using pk3DS.Core.Structures.PersonalInfo;
@@ -205,7 +206,15 @@ namespace pk3DS.Core
 
         public GARCFile GetGARCByReference(GARCReference gr)
         {
-            return new(GetMemGARC(gr.Name), gr, GetGARCPath(gr.Name));
+            try
+            {
+                return new(GetMemGARC(gr.Name), gr, GetGARCPath(gr.Name));
+            }
+            catch (FormatException f)
+            {
+                var message = $"{gr.Name} - ({gr.Reference}) is apparently corrupt. Please restore the backup for this file." + f.Message;
+                throw new FormatException(message, f);
+            }
         }
 
         private string GetGARCPath(string file)
