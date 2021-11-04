@@ -453,12 +453,19 @@ namespace pk3DS
             Enabled = false;
 
             // Cycle through each location to modify levels
-            foreach (var Table in Areas.SelectMany(Map => Map.Tables))
+            var amp = NUD_LevelAmp.Value;
+            foreach (var area in Areas)
             {
-                Table.MinLevel = Randomizer.GetModifiedLevel(Table.MinLevel, NUD_LevelAmp.Value);
-                Table.MaxLevel = Randomizer.GetModifiedLevel(Table.MaxLevel, NUD_LevelAmp.Value);
-                Table.Write();
+                var tables = area.Tables;
+                foreach (var table in tables)
+                {
+                    table.MinLevel = Randomizer.GetModifiedLevel(table.MinLevel, amp);
+                    table.MaxLevel = Randomizer.GetModifiedLevel(table.MaxLevel, amp);
+                    table.Write();
+                }
+                encdata[area.FileNumber] = Area7.GetDayNightTableBinary(tables);
             }
+
             // Enable Interface... modification complete.
             Enabled = true;
             WinFormsUtil.Alert("Modified all Level ranges according to specification!", "Press the Dump Tables button to view the new Level ranges!");
