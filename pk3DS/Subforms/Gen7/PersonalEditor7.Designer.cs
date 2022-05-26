@@ -119,6 +119,7 @@
             this.CLB_TM = new System.Windows.Forms.CheckedListBox();
             this.TP_Randomizer = new System.Windows.Forms.TabPage();
             this.GB_Modifier = new System.Windows.Forms.GroupBox();
+            this.CHK_FullBeachTutorCompatibility = new System.Windows.Forms.CheckBox();
             this.CHK_FullMoveTutorCompatibility = new System.Windows.Forms.CheckBox();
             this.CHK_FullTMCompatibility = new System.Windows.Forms.CheckBox();
             this.CHK_NoTutor = new System.Windows.Forms.CheckBox();
@@ -162,7 +163,8 @@
             this.B_Randomize = new System.Windows.Forms.Button();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_Dump = new System.Windows.Forms.Button();
-            this.CHK_FullBeachTutorCompatibility = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.NUD_Guaranteed = new System.Windows.Forms.NumericUpDown();
             this.TC_Pokemon.SuspendLayout();
             this.TP_General.SuspendLayout();
             this.TP_MoveTutors.SuspendLayout();
@@ -176,6 +178,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TypePercent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_StatDev)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Guaranteed)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_Species
@@ -208,7 +211,7 @@
             this.TC_Pokemon.Location = new System.Drawing.Point(12, 40);
             this.TC_Pokemon.Name = "TC_Pokemon";
             this.TC_Pokemon.SelectedIndex = 0;
-            this.TC_Pokemon.Size = new System.Drawing.Size(445, 375);
+            this.TC_Pokemon.Size = new System.Drawing.Size(445, 419);
             this.TC_Pokemon.TabIndex = 416;
             // 
             // TP_General
@@ -294,7 +297,7 @@
             this.TP_General.Location = new System.Drawing.Point(4, 22);
             this.TP_General.Name = "TP_General";
             this.TP_General.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_General.Size = new System.Drawing.Size(437, 349);
+            this.TP_General.Size = new System.Drawing.Size(437, 393);
             this.TP_General.TabIndex = 0;
             this.TP_General.Text = "General Info";
             this.TP_General.UseVisualStyleBackColor = true;
@@ -1073,7 +1076,7 @@
             this.TP_MoveTutors.Location = new System.Drawing.Point(4, 22);
             this.TP_MoveTutors.Name = "TP_MoveTutors";
             this.TP_MoveTutors.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_MoveTutors.Size = new System.Drawing.Size(437, 349);
+            this.TP_MoveTutors.Size = new System.Drawing.Size(437, 393);
             this.TP_MoveTutors.TabIndex = 1;
             this.TP_MoveTutors.Text = "Move Tutors";
             this.TP_MoveTutors.UseVisualStyleBackColor = true;
@@ -1096,7 +1099,7 @@
             this.CLB_BeachTutors.FormattingEnabled = true;
             this.CLB_BeachTutors.Location = new System.Drawing.Point(301, 19);
             this.CLB_BeachTutors.Name = "CLB_BeachTutors";
-            this.CLB_BeachTutors.Size = new System.Drawing.Size(133, 319);
+            this.CLB_BeachTutors.Size = new System.Drawing.Size(133, 364);
             this.CLB_BeachTutors.TabIndex = 8;
             this.CLB_BeachTutors.Visible = false;
             // 
@@ -1125,7 +1128,7 @@
             this.CLB_MoveTutors.FormattingEnabled = true;
             this.CLB_MoveTutors.Location = new System.Drawing.Point(162, 19);
             this.CLB_MoveTutors.Name = "CLB_MoveTutors";
-            this.CLB_MoveTutors.Size = new System.Drawing.Size(133, 319);
+            this.CLB_MoveTutors.Size = new System.Drawing.Size(133, 364);
             this.CLB_MoveTutors.TabIndex = 3;
             // 
             // CLB_TM
@@ -1135,7 +1138,7 @@
             this.CLB_TM.FormattingEnabled = true;
             this.CLB_TM.Location = new System.Drawing.Point(9, 19);
             this.CLB_TM.Name = "CLB_TM";
-            this.CLB_TM.Size = new System.Drawing.Size(147, 319);
+            this.CLB_TM.Size = new System.Drawing.Size(147, 364);
             this.CLB_TM.TabIndex = 2;
             // 
             // TP_Randomizer
@@ -1146,7 +1149,7 @@
             this.TP_Randomizer.Controls.Add(this.B_Randomize);
             this.TP_Randomizer.Location = new System.Drawing.Point(4, 22);
             this.TP_Randomizer.Name = "TP_Randomizer";
-            this.TP_Randomizer.Size = new System.Drawing.Size(437, 349);
+            this.TP_Randomizer.Size = new System.Drawing.Size(437, 393);
             this.TP_Randomizer.TabIndex = 2;
             this.TP_Randomizer.Text = "Enhancements";
             this.TP_Randomizer.UseVisualStyleBackColor = true;
@@ -1169,12 +1172,22 @@
             this.GB_Modifier.Controls.Add(this.L_FinalXP);
             this.GB_Modifier.Controls.Add(this.NUD_EXP);
             this.GB_Modifier.Controls.Add(this.CHK_NoEV);
-            this.GB_Modifier.Location = new System.Drawing.Point(4, 147);
+            this.GB_Modifier.Location = new System.Drawing.Point(4, 199);
             this.GB_Modifier.Name = "GB_Modifier";
             this.GB_Modifier.Size = new System.Drawing.Size(345, 188);
             this.GB_Modifier.TabIndex = 419;
             this.GB_Modifier.TabStop = false;
             this.GB_Modifier.Text = "Modifier Options";
+            // 
+            // CHK_FullBeachTutorCompatibility
+            // 
+            this.CHK_FullBeachTutorCompatibility.AutoSize = true;
+            this.CHK_FullBeachTutorCompatibility.Location = new System.Drawing.Point(204, 152);
+            this.CHK_FullBeachTutorCompatibility.Name = "CHK_FullBeachTutorCompatibility";
+            this.CHK_FullBeachTutorCompatibility.Size = new System.Drawing.Size(134, 30);
+            this.CHK_FullBeachTutorCompatibility.TabIndex = 24;
+            this.CHK_FullBeachTutorCompatibility.Text = "Full Beach Move Tutor\nCompatibility";
+            this.CHK_FullBeachTutorCompatibility.UseVisualStyleBackColor = true;
             // 
             // CHK_FullMoveTutorCompatibility
             // 
@@ -1363,6 +1376,8 @@
             // 
             // GB_Randomizer
             // 
+            this.GB_Randomizer.Controls.Add(this.label1);
+            this.GB_Randomizer.Controls.Add(this.NUD_Guaranteed);
             this.GB_Randomizer.Controls.Add(this.CHK_Shuffle);
             this.GB_Randomizer.Controls.Add(this.L_Same);
             this.GB_Randomizer.Controls.Add(this.NUD_Egg);
@@ -1388,7 +1403,7 @@
             this.GB_Randomizer.Controls.Add(this.CHK_Item);
             this.GB_Randomizer.Location = new System.Drawing.Point(4, 12);
             this.GB_Randomizer.Name = "GB_Randomizer";
-            this.GB_Randomizer.Size = new System.Drawing.Size(345, 133);
+            this.GB_Randomizer.Size = new System.Drawing.Size(345, 181);
             this.GB_Randomizer.TabIndex = 418;
             this.GB_Randomizer.TabStop = false;
             this.GB_Randomizer.Text = "Randomizer Options";
@@ -1688,28 +1703,39 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
-            // CHK_FullBeachTutorCompatibility
+            // label1
             // 
-            this.CHK_FullBeachTutorCompatibility.AutoSize = true;
-            this.CHK_FullBeachTutorCompatibility.Location = new System.Drawing.Point(204, 152);
-            this.CHK_FullBeachTutorCompatibility.Name = "CHK_FullBeachTutorCompatibility";
-            this.CHK_FullBeachTutorCompatibility.Size = new System.Drawing.Size(134, 30);
-            this.CHK_FullBeachTutorCompatibility.TabIndex = 24;
-            this.CHK_FullBeachTutorCompatibility.Text = "Full Beach Move Tutor\nCompatibility";
-            this.CHK_FullBeachTutorCompatibility.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 134);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(102, 13);
+            this.label1.TabIndex = 28;
+            this.label1.Text = "Guaranteed item (%)";
+            // 
+            // NUD_Guaranteed
+            // 
+            this.NUD_Guaranteed.Location = new System.Drawing.Point(27, 150);
+            this.NUD_Guaranteed.Name = "NUD_Guaranteed";
+            this.NUD_Guaranteed.Size = new System.Drawing.Size(46, 20);
+            this.NUD_Guaranteed.TabIndex = 27;
+            this.NUD_Guaranteed.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
             // 
             // PersonalEditor7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(469, 426);
+            this.ClientSize = new System.Drawing.Size(469, 461);
             this.Controls.Add(this.B_Dump);
             this.Controls.Add(this.PB_MonSprite);
             this.Controls.Add(this.TC_Pokemon);
             this.Controls.Add(this.L_Species_Precursor);
             this.Controls.Add(this.CB_Species);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(485, 465);
+            this.MaximumSize = new System.Drawing.Size(485, 500);
             this.MinimumSize = new System.Drawing.Size(485, 465);
             this.Name = "PersonalEditor7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -1732,6 +1758,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TypePercent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_StatDev)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Guaranteed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1874,5 +1901,7 @@
         private System.Windows.Forms.TextBox TB_RawColor;
         private System.Windows.Forms.CheckBox CHK_FullMoveTutorCompatibility;
         private System.Windows.Forms.CheckBox CHK_FullBeachTutorCompatibility;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown NUD_Guaranteed;
     }
 }

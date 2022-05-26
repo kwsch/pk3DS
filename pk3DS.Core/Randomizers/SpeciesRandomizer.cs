@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 using pk3DS.Core.Structures.PersonalInfo;
 
@@ -41,6 +42,7 @@ namespace pk3DS.Core.Randomizers
         public bool rEXP = false;
         public bool rBST = true;
         public bool rType = false;
+        public bool AlwaysShuffle = false;
         #endregion
 
         #region Random Species Filtering Parameters
@@ -58,6 +60,8 @@ namespace pk3DS.Core.Randomizers
             loopctr = 0; // altering calculations to prevent infinite loops
             int newSpecies;
             while (!GetNewSpecies(bannedSpecies, oldpkm, out newSpecies))
+                if (AlwaysShuffle)
+                    RandSpec.Reset(); 
                 loopctr++;
             return newSpecies;
         }
@@ -70,7 +74,9 @@ namespace pk3DS.Core.Randomizers
             loopctr = 0; // altering calculations to prevent infinite loops
             int newSpecies;
             while (!GetNewSpecies(oldSpecies, oldpkm, out newSpecies) || !GetIsTypeMatch(newSpecies, type))
-                loopctr++;
+                if (AlwaysShuffle)
+                    RandSpec.Reset();
+            loopctr++;
             return newSpecies;
         }
 
@@ -85,6 +91,8 @@ namespace pk3DS.Core.Randomizers
             int newSpecies;
             while (!GetNewSpecies(oldSpecies, oldpkm, out newSpecies))
             {
+                if (AlwaysShuffle)
+                    Shuffle();
                 if (loopctr > 0x0001_0000)
                 {
                     PersonalInfo pkm = SpeciesStat[newSpecies];
@@ -95,6 +103,11 @@ namespace pk3DS.Core.Randomizers
                 loopctr++;
             }
             return newSpecies;
+        }
+
+        public void Shuffle()
+        {
+            RandSpec.Reset();
         }
 
         private bool IsSpeciesReplacementBad(int newSpecies, int currentSpecies)
@@ -139,6 +152,11 @@ namespace pk3DS.Core.Randomizers
             if (G5) AddGen5Species(list);
             if (G6) AddGen6Species(list);
             if (G7) AddGen7Species(list);
+
+            for (int x = 0; x< list.Count; x++)
+            {
+                Debug.Print("list = " + list[x]);
+            }
 
             return list.Count == 0 ? RandomSpeciesList : list.ToArray();
         }

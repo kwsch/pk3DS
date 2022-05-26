@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -41,6 +42,7 @@ namespace pk3DS.Core.Randomizers
         public decimal SameTypeChance = 50;
         public bool ModifyEggGroup = true;
         public decimal SameEggGroupChance = 50;
+        public decimal GuaranteedItemChance = 50;
 
         //public bool Advanced { get; set; } = false;
         public bool TMInheritance { get; set; }
@@ -249,8 +251,12 @@ namespace pk3DS.Core.Randomizers
         private void RandomizeHeldItems(PersonalInfo z)
         {
             var item = z.Items;
-            for (int j = 0; j < item.Length; j++)
-                item[j] = GetRandomHeldItem();
+            //for (int j = 0; j < item.Length; j++)
+            //    item[j] = GetRandomHeldItem();
+
+            item[0] = GetRandomHeldItem(); //Item 1 (50%)(common)
+            item[1] = rnd.Next(0, 100) < GuaranteedItemChance ? item[0] : GetRandomHeldItem(); //if Item 2 = Item 1 then Item 1 = 100% Else Item 2 (5%)(rare) according to https://github.com/Ajarmar/universal-pokemon-randomizer-zx
+            item[2] = GetRandomHeldItem(); //Item 3 (1%)(Dark Grass Only)
             z.Items = item;
         }
 

@@ -20,7 +20,7 @@ namespace pk3DS.Core
             sb.Append(speciesList[Species]);
             if (Forme != 0)
                 sb.Append(" (Forme ").Append(Forme).Append(')');
-            return sb.ToString();
+            return (sb.ToString() + "                    ").Substring(0,20) ;
         }
 
         public uint Dump(EncounterTable t) => RawValue | (uint)(t.MinLevel << 16) | (uint)(t.MaxLevel << 24);

@@ -36,6 +36,30 @@ namespace pk3DS.Core
             return sb.ToString();
         }
 
+
+        public string GetSummaryX(string[] speciesList)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("==========");
+            sb.Append("Map: ").AppendLine(Name);
+            sb.Append("Tables: ").Append(Tables.Count).AppendLine();
+            for (int i = 0; i < Tables.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    sb.Append("Table ").Append(i + 1).AppendLine(" (Day):");
+                    sb.AppendLine(Tables[i].GetSummary(speciesList));
+                }
+                else
+                {
+                    sb.Append("Table ").Append(i + 1).AppendLine(" (Night):");
+                    sb.AppendLine(Tables[i].GetSummary(speciesList));
+                }
+            }
+            sb.AppendLine("==========");
+            return sb.ToString();
+        }
+
         private const string PackIdentifier = "EA";
 
         public static byte[] GetDayNightTableBinary(IList<EncounterTable> tables)

@@ -1,14 +1,15 @@
-﻿using System;
+﻿using pk3DS.Core;
+using pk3DS.Core.CTR;
+using pk3DS.Core.Randomizers;
+using pk3DS.Core.Structures.PersonalInfo;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
-using pk3DS.Core;
-using pk3DS.Core.CTR;
-using pk3DS.Core.Randomizers;
 
 namespace pk3DS
 {
@@ -42,8 +43,8 @@ namespace pk3DS
 
             var weather = string.Format("If weather is active, create a random number.{0}If 0, use slot 0.{0}If <= 10, use slot 1.{0}Else, pick an SOS table and a slot.", Environment.NewLine);
             new ToolTip().SetToolTip(L_AddSOS, weather);
-            var sos = new[] {L_SOS1, L_SOS2, L_SOS3, L_SOS4, L_SOS5, L_SOS6, L_SOS7};
-            var rates = new[] {1,1,1, 10,10,10, 67};
+            var sos = new[] { L_SOS1, L_SOS2, L_SOS3, L_SOS4, L_SOS5, L_SOS6, L_SOS7 };
+            var rates = new[] { 1, 1, 1, 10, 10, 10, 67 };
             for (int i = 0; i < sos.Length; i++)
                 new ToolTip().SetToolTip(sos[i], $"Table Selection Rate: {rates[i]}%");
 
@@ -52,7 +53,7 @@ namespace pk3DS
 
         private NumericUpDown[] LoadRateNUD()
         {
-            var list = new[] {NUP_Rate1, NUP_Rate2, NUP_Rate3, NUP_Rate4, NUP_Rate5, NUP_Rate6, NUP_Rate7, NUP_Rate8, NUP_Rate9, NUP_Rate10};
+            var list = new[] { NUP_Rate1, NUP_Rate2, NUP_Rate3, NUP_Rate4, NUP_Rate5, NUP_Rate6, NUP_Rate7, NUP_Rate8, NUP_Rate9, NUP_Rate10 };
             foreach (var nup in list)
                 nup.ValueChanged += UpdateEncounterRate;
             return list;
@@ -207,8 +208,8 @@ namespace pk3DS
             if (loadingdata)
                 return;
             loadingdata = true;
-            int min = (int) NUP_Min.Value;
-            int max = (int) NUP_Max.Value;
+            int min = (int)NUP_Min.Value;
+            int max = (int)NUP_Max.Value;
             if (max < min)
             {
                 max = min;
@@ -225,7 +226,7 @@ namespace pk3DS
             if (loadingdata)
                 return;
 
-            var cur_pb = CB_TableID.SelectedIndex%2 == 0 ? PB_DayTable : PB_NightTable;
+            var cur_pb = CB_TableID.SelectedIndex % 2 == 0 ? PB_DayTable : PB_NightTable;
             var cur_img = cur_pb.Image;
 
             object[][] source = sender is NumericUpDown ? (object[][])nup_spec : cb_spec;
@@ -234,8 +235,8 @@ namespace pk3DS
 
             var cb_l = cb_spec[table];
             var nup_l = nup_spec[table];
-            var species = (uint) cb_l[slot].SelectedIndex;
-            var form = (uint) nup_l[slot].Value;
+            var species = (uint)cb_l[slot].SelectedIndex;
+            var form = (uint)nup_l[slot].Value;
             if (table == 8)
             {
                 CurrentTable.AdditionalSOS[slot].Species = species;
@@ -246,8 +247,8 @@ namespace pk3DS
 
             using (var g = Graphics.FromImage(cur_img))
             {
-                int x = 40*slot;
-                int y = 30*(table + 1);
+                int x = 40 * slot;
+                int y = 30 * (table + 1);
                 if (table == 8)
                 {
                     x = (40 * slot) + 60;
@@ -269,17 +270,17 @@ namespace pk3DS
             if (loadingdata)
                 return;
 
-            var cur_pb = CB_TableID.SelectedIndex%2 == 0 ? PB_DayTable : PB_NightTable;
+            var cur_pb = CB_TableID.SelectedIndex % 2 == 0 ? PB_DayTable : PB_NightTable;
             var cur_img = cur_pb.Image;
 
             int slot = Array.IndexOf(rate_spec, sender);
-            int rate = (int) ((NumericUpDown) sender).Value;
+            int rate = (int)((NumericUpDown)sender).Value;
             CurrentTable.Rates[slot] = rate;
 
             using (var g = Graphics.FromImage(cur_img))
             {
                 var pnt = new PointF((40 * slot) + 10, 10);
-                g.SetClip(new Rectangle((int) pnt.X, (int) pnt.Y, 40, 14), CombineMode.Replace);
+                g.SetClip(new Rectangle((int)pnt.X, (int)pnt.Y, 40, 14), CombineMode.Replace);
                 g.Clear(Color.Transparent);
                 g.DrawString($"{rate}%", font, Brushes.Black, pnt);
             }
@@ -371,13 +372,137 @@ namespace pk3DS
 
         private void DumpTables(object sender, EventArgs e)
         {
-            using var sfd = new SaveFileDialog {FileName = "EncounterTables.txt"};
+
+            GetSummarySimple();
+            GetSummaryFull();
+        }
+
+        private void GetSummaryFull()
+        {
+            var sfd = new SaveFileDialog { FileName = "EncounterTablesFull.txt" };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
+
             var sb = new StringBuilder();
+
+            sb.Append("================\nCompound Table\n================\n");
             foreach (var Map in Areas)
-                sb.Append(Map.GetSummary(speciesList));
+                sb.Append(GetSummaryStatTable(Map, speciesList));
+
             File.WriteAllText(sfd.FileName, sb.ToString());
+        }
+
+        private void GetSummarySimple()
+        {
+            using var sfd = new SaveFileDialog { FileName = "EncounterTablesSimple.txt" };
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+
+            var sb = new StringBuilder();
+
+            sb.Append("================\nSimplified Table\n================\n");
+            foreach (var Map in Areas)
+                sb.Append(Map.GetSummaryX(speciesList));
+
+            File.WriteAllText(sfd.FileName, sb.ToString());
+        }
+
+        public string GetSummaryStatTable(Area7 map, string[] speciesList)
+        {
+            var sb = new StringBuilder();
+            string AppendStr = "";
+            sb.AppendLine("==========");
+            sb.Append("Map: ").AppendLine(map.Name);
+            sb.Append("Tables: ").Append(map.Tables.Count).AppendLine();
+            for (int i = 0; i < map.Tables.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    sb.Append("Table ").Append(i + 1).AppendLine(" (Day):");
+                    AppendStr = "Map: " + map.Name + " " + "Table " + (i + 1) + " (Day): ";
+                    sb.AppendLine(GetSummary(map.Tables[i], speciesList, AppendStr));
+                }
+                else
+                {
+                    sb.Append("Table ").Append(i + 1).AppendLine(" (Night):");
+                    AppendStr = "Map: " + map.Name + " " + "Table " + (i + 1) + " (Night): ";
+                    sb.AppendLine(GetSummary(map.Tables[i], speciesList, AppendStr));
+                }
+            }
+            sb.AppendLine("==========");
+            return sb.ToString();
+        }
+
+        public string GetSummary(EncounterTable mapTable, string[] speciesList, string AppendStr)
+        {
+            var sb = new StringBuilder();
+            string BaseAppendStr = AppendStr; 
+            for (int i = 0; i < mapTable.Encounter7s.Length - 1; i++)
+            {
+                var tn = "Encounters";
+                if (i != 0)
+                    tn = "SOS Slot " + i;
+                AppendStr = BaseAppendStr + tn + " (Levels " + mapTable.MinLevel + "-" + mapTable.MaxLevel + "): ";
+                //sb.Append(tn).Append(" (Levels ").Append(mapTable.MinLevel).Append('-').Append(mapTable.MaxLevel).Append("): \n");
+                //sb.Append("\n");
+                sb.AppendLine(GetSlotSetSummary(mapTable, speciesList, i, AppendStr));
+            }
+
+            //sb.Append("Additional SOS encounters: \n");
+            //sb.Append("\n");
+            sb.AppendLine(string.Join("\n", mapTable.AdditionalSOS
+                .Select(e => e.RawValue).Distinct().Select(e => new Encounter7(e))
+                .Select(e => GetEncSummary(e, speciesList, AppendStr + "Additional SOS encounters: "))));
+
+            return sb.ToString();
+        }
+
+        public string GetEncSummary(Encounter7 enc, string[] speciesList, string AppendStr)
+        {
+            var sb = new StringBuilder();
+            string result = "";
+            if (enc.Species != 0)
+            {
+                sb.Append(speciesList[enc.Species]);
+                if (enc.Forme != 0)
+                    sb.Append(" (Forme ").Append(enc.Forme).Append(')');
+                PersonalInfo per = Main.Config.Personal.GetFormEntry((int)enc.Species, (int)enc.Forme);
+                string[] items = Main.Config.GetText(TextName.ItemNames);
+                string[] types = Main.Config.GetText(TextName.Types);
+                result = AppendStr + " " + (sb.ToString() + "                         ").Substring(0, 25)
+                       + ("HP " + per.HP + "        ").Substring(0, 8)
+                       + ("ATK " + per.ATK + "        ").Substring(0, 8)
+                       + ("DEF " + per.DEF + "        ").Substring(0, 8)
+                       + ("SPA " + per.SPA + "        ").Substring(0, 8)
+                       + ("SPD " + per.SPD + "        ").Substring(0, 8)
+                       + ("SPEED " + per.SPE + "          ").Substring(0, 10)
+                       + ("Type1 " + types[per.Types[0]] + "                    ").Substring(0, 20)
+                       + ("Type2 " + types[per.Types[1]] + "                    ").Substring(0, 20)
+                       + ("Item1 " + items[per.Items[0]] + "                         ").Substring(0, 25)
+                       + ("Item2 " + items[per.Items[1]] + "                         ").Substring(0, 25)
+                       + ("Item3 " + items[per.Items[2]] + "                         ").Substring(0, 25)
+                       + "";
+            }
+            return result;
+        }
+
+        public string GetSlotSetSummary(EncounterTable mapTable, string[] speciesList, int setNumber, string AppendStr)
+        {
+            var specToRate = new Dictionary<uint, int>();
+            var distincts = new List<Encounter7>();
+            for (int j = 0; j < mapTable.Encounter7s[setNumber].Length; j++)
+            {
+                var encounter = mapTable.Encounter7s[setNumber][j];
+                if (!specToRate.ContainsKey(encounter.RawValue))
+                {
+                    specToRate[encounter.RawValue] = 0;
+                    distincts.Add(encounter);
+                }
+                specToRate[encounter.RawValue] += mapTable.Rates[j];
+            }
+            var list = distincts.OrderByDescending(e => specToRate[e.RawValue]);
+            var summaries = list.Select(e => $"{GetEncSummary(e, speciesList, AppendStr)} ({specToRate[e.RawValue]}%)\n");
+            return string.Join("", summaries);
         }
 
         // Randomization & Bulk Modification
@@ -405,10 +530,11 @@ namespace pk3DS
                 G5 = CHK_G5.Checked,
                 G6 = CHK_G6.Checked,
                 G7 = CHK_G7.Checked,
-
+                Shedinja = true,
                 E = CHK_E.Checked,
                 L = CHK_L.Checked,
                 rBST = CHK_BST.Checked,
+                AlwaysShuffle = chkAlwaysShuffle.Checked,
             };
             rnd.Initialize();
             var form = new FormRandomizer(Main.Config)
@@ -423,6 +549,9 @@ namespace pk3DS
                 TableRandomizationOption = CB_SlotRand.SelectedIndex,
                 LevelAmplifier = NUD_LevelAmp.Value,
                 ModifyLevel = CHK_Level.Checked,
+                BalanceRates = chkBalanceRates.Checked,
+                IgnoreDayNight = chkIngnorDayNight.Checked,
+                RndBySlot = chkRndBySlot.Checked,
             };
             wild7.Execute(Areas, encdata);
         }
