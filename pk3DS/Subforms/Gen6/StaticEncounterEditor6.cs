@@ -37,9 +37,9 @@ namespace pk3DS
 
         private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
         private byte[] FieldData;
-        private readonly int fieldOffset = Main.Config.ORAS ? 0xF1B20 : 0xEE478;
+        private readonly int fieldOffset = Main.Config.ORAS ? 0xF1B20 : 0xEE46C;
         private const int fieldSize = 0xC;
-        private readonly int count = Main.Config.ORAS ? 0x3B : 0xC;
+        private readonly int count = Main.Config.ORAS ? 0x3B : 0xD;
         private EncounterStatic6[] EncounterData;
         private readonly string[] itemlist = Main.Config.GetText(TextName.ItemNames);
         private readonly string[] specieslist = Main.Config.GetText(TextName.SpeciesNames);
