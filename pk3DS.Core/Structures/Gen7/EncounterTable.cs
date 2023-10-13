@@ -107,7 +107,7 @@ namespace pk3DS.Core
             return sb.ToString();
         }
 
-        private string GetSlotSetSummary(string[] speciesList, int setNumber)
+        public string GetSlotSetSummary(string[] speciesList, int setNumber)
         {
             var specToRate = new Dictionary<uint, int>();
             var distincts = new List<Encounter7>();

@@ -132,7 +132,7 @@ namespace pk3DS
             {
                 if (me.Method[i] > 1)
                     return; // Shouldn't hit this.
-                me.Method[i] = checkbox_spec[i].Checked ? (byte)1 : (byte)0;
+                me.Method[i] = checkbox_spec[i].Checked ? 1 : 0;
                 me.Argument[i] = (ushort)WinFormsUtil.GetIndex(item_spec[i]);
                 me.Form[i] = (ushort)forme_spec[i].SelectedIndex;
             }

@@ -361,7 +361,8 @@ namespace pk3DS
                 SameTypeChance = NUD_TypePercent.Value,
                 SameEggGroupChance = NUD_Egg.Value,
                 StatDeviation = NUD_StatDev.Value,
-                AllowWonderGuard = CHK_WGuard.Checked
+                AllowWonderGuard = CHK_WGuard.Checked,
+                GuaranteedItemChance = NUD_Guaranteed.Value,
             };
 
             rnd.Execute();
@@ -463,12 +464,16 @@ namespace pk3DS
                 lines.Add(string.Format(CB_EggGroup1.SelectedIndex != CB_EggGroup2.SelectedIndex
                     ? "Egg Group: {0} / {1}"
                     : "Egg Group: {0}", CB_EggGroup1.Text, CB_EggGroup2.Text));
+                lines.Add($"Friendship: {TB_Friendship.Text} | Gender: {TB_Gender.Text} | Color: {CB_Color.Text}");
                 lines.Add($"Hatch Cycles: {TB_HatchCycles.Text}");
+                lines.Add($"Catch Rate: {TB_CatchRate.Text}");
+                lines.Add($"Call Rate: {TB_CallRate.Text}");
                 lines.Add($"Height: {TB_Height.Text} m, Weight: {TB_Weight.Text} kg, Color: {CB_Color.Text}");
 
                 if (CB_ZBaseMove.SelectedIndex > 0)
                     lines.Add($"{CB_ZBaseMove.Text} + {CB_ZItem.Text} => {CB_ZMove.Text}");
                 lines.Add("");
+
             }
             string path = sfd.FileName;
             File.WriteAllLines(path, lines, Encoding.Unicode);

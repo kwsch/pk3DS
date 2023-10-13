@@ -48,6 +48,10 @@
             this.B_Paste = new System.Windows.Forms.Button();
             this.B_Copy = new System.Windows.Forms.Button();
             this.GB_Tweak = new System.Windows.Forms.GroupBox();
+            this.chkRndBySlot = new System.Windows.Forms.CheckBox();
+            this.chkAlwaysShuffle = new System.Windows.Forms.CheckBox();
+            this.chkIngnorDayNight = new System.Windows.Forms.CheckBox();
+            this.chkBalanceRates = new System.Windows.Forms.CheckBox();
             this.CB_SlotRand = new System.Windows.Forms.ComboBox();
             this.L_SOS = new System.Windows.Forms.Label();
             this.CHK_G7 = new System.Windows.Forms.CheckBox();
@@ -694,7 +698,7 @@
             this.GB_Encounters.Controls.Add(this.NUP_Rate1);
             this.GB_Encounters.Location = new System.Drawing.Point(14, 39);
             this.GB_Encounters.Name = "GB_Encounters";
-            this.GB_Encounters.Size = new System.Drawing.Size(1138, 561);
+            this.GB_Encounters.Size = new System.Drawing.Size(1138, 658);
             this.GB_Encounters.TabIndex = 430;
             this.GB_Encounters.TabStop = false;
             this.GB_Encounters.Text = "Encounters (100%)";
@@ -778,6 +782,10 @@
             // 
             // GB_Tweak
             // 
+            this.GB_Tweak.Controls.Add(this.chkRndBySlot);
+            this.GB_Tweak.Controls.Add(this.chkAlwaysShuffle);
+            this.GB_Tweak.Controls.Add(this.chkIngnorDayNight);
+            this.GB_Tweak.Controls.Add(this.chkBalanceRates);
             this.GB_Tweak.Controls.Add(this.CB_SlotRand);
             this.GB_Tweak.Controls.Add(this.L_SOS);
             this.GB_Tweak.Controls.Add(this.CHK_G7);
@@ -797,10 +805,51 @@
             this.GB_Tweak.Controls.Add(this.CHK_Level);
             this.GB_Tweak.Location = new System.Drawing.Point(14, 405);
             this.GB_Tweak.Name = "GB_Tweak";
-            this.GB_Tweak.Size = new System.Drawing.Size(282, 150);
+            this.GB_Tweak.Size = new System.Drawing.Size(282, 245);
             this.GB_Tweak.TabIndex = 507;
             this.GB_Tweak.TabStop = false;
             this.GB_Tweak.Text = "Extra Randomization Tweaks";
+            // 
+            // chkRndBySlot
+            // 
+            this.chkRndBySlot.AutoSize = true;
+            this.chkRndBySlot.Location = new System.Drawing.Point(19, 191);
+            this.chkRndBySlot.Name = "chkRndBySlot";
+            this.chkRndBySlot.Size = new System.Drawing.Size(241, 43);
+            this.chkRndBySlot.TabIndex = 303;
+            this.chkRndBySlot.Text = "Randomize Each SOS Slot Separately\r\n(Each slot is randomized separately to ensure" +
+    " \r\neven distribution)\r\n";
+            this.chkRndBySlot.UseVisualStyleBackColor = true;
+            // 
+            // chkAlwaysShuffle
+            // 
+            this.chkAlwaysShuffle.AutoSize = true;
+            this.chkAlwaysShuffle.Location = new System.Drawing.Point(19, 177);
+            this.chkAlwaysShuffle.Name = "chkAlwaysShuffle";
+            this.chkAlwaysShuffle.Size = new System.Drawing.Size(218, 17);
+            this.chkAlwaysShuffle.TabIndex = 302;
+            this.chkAlwaysShuffle.Text = "Always reshuffle (Distribution is not even)";
+            this.chkAlwaysShuffle.UseVisualStyleBackColor = true;
+            // 
+            // chkIngnorDayNight
+            // 
+            this.chkIngnorDayNight.AutoSize = true;
+            this.chkIngnorDayNight.Location = new System.Drawing.Point(19, 162);
+            this.chkIngnorDayNight.Name = "chkIngnorDayNight";
+            this.chkIngnorDayNight.Size = new System.Drawing.Size(127, 17);
+            this.chkIngnorDayNight.TabIndex = 301;
+            this.chkIngnorDayNight.Text = "Ignore Day and Night";
+            this.chkIngnorDayNight.UseVisualStyleBackColor = true;
+            // 
+            // chkBalanceRates
+            // 
+            this.chkBalanceRates.AutoSize = true;
+            this.chkBalanceRates.Location = new System.Drawing.Point(19, 147);
+            this.chkBalanceRates.Name = "chkBalanceRates";
+            this.chkBalanceRates.Size = new System.Drawing.Size(96, 17);
+            this.chkBalanceRates.TabIndex = 300;
+            this.chkBalanceRates.Text = "Balance Rates";
+            this.chkBalanceRates.UseVisualStyleBackColor = true;
             // 
             // CB_SlotRand
             // 
@@ -811,7 +860,8 @@
             "Randomize All",
             "Randomize Regular Only",
             "Randomize SOS Only",
-            "Randomize Regular, Copy to SOS"});
+            "Randomize Regular, Copy to SOS",
+            "Randomize Regular Then SOS"});
             this.CB_SlotRand.Location = new System.Drawing.Point(124, 120);
             this.CB_SlotRand.Name = "CB_SlotRand";
             this.CB_SlotRand.Size = new System.Drawing.Size(121, 21);
@@ -3144,7 +3194,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1161, 612);
+            this.ClientSize = new System.Drawing.Size(1161, 709);
             this.Controls.Add(this.CopySOS);
             this.Controls.Add(this.B_Export);
             this.Controls.Add(this.CB_TableID);
@@ -3512,5 +3562,9 @@
         private System.Windows.Forms.Label L_Rain;
         private System.Windows.Forms.Label L_Weather1;
         private System.Windows.Forms.Label L_Weather0;
+        private System.Windows.Forms.CheckBox chkBalanceRates;
+        private System.Windows.Forms.CheckBox chkIngnorDayNight;
+        private System.Windows.Forms.CheckBox chkAlwaysShuffle;
+        private System.Windows.Forms.CheckBox chkRndBySlot;
     }
 }

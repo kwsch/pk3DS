@@ -403,42 +403,53 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\ErrorWindow.resx">
       <DependentUpon>ErrorWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\EnhancedRestore.resx">
       <DependentUpon>EnhancedRestore.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\EggMoveEditor7.resx">
       <DependentUpon>EggMoveEditor7.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\EvolutionEditor7.resx">
       <DependentUpon>EvolutionEditor7.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\Experimental\OWSE7.resx">
       <DependentUpon>OWSE7.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\ItemEditor7.resx">
       <DependentUpon>ItemEditor7.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\LevelUpEditor7.resx">
       <DependentUpon>LevelUpEditor7.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\MaisonEditor7.resx">
       <DependentUpon>MaisonEditor7.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\MartEditor7UU.resx">
       <DependentUpon>MartEditor7UU.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\MartEditor7.resx">
       <DependentUpon>MartEditor7.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\MegaEvoEditor7.resx">
       <DependentUpon>MegaEvoEditor7.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\MoveEditor7.resx">
       <DependentUpon>MoveEditor7.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Gen7\PersonalEditor7.resx">
       <DependentUpon>PersonalEditor7.cs</DependentUpon>

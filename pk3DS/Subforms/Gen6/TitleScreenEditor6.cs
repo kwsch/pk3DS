@@ -139,11 +139,11 @@ namespace pk3DS
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Overwrite image?"))
                 return;
+            byte[] data = File.ReadAllBytes(path);
             byte[] bclim;
 
             if (Path.GetExtension(path) == ".bclim") // bclim opened
             {
-                byte[] data = File.ReadAllBytes(path);
                 var img = BCLIM.Analyze(data, path);
                 if (img.Width != PB_Image.Width || img.Height != PB_Image.Height)
                 {
@@ -155,7 +155,8 @@ namespace pk3DS
             }
             else // image
             {
-                Image img = Image.FromFile(path);
+                using Stream BitmapStream = new MemoryStream(data);
+                Image img = Image.FromStream(BitmapStream);
                 if (img.Width != PB_Image.Width || img.Height != PB_Image.Height)
                 {
                     WinFormsUtil.Alert("Image sizes do not match.",
