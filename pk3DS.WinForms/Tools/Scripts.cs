@@ -129,7 +129,7 @@ public static class Scripts
         bool sign4 = val < 0 && cmd < 0 && db[0] >= 0xC0; // 4 byte signed
         bool sign3 = val < 0 && cmd < 0 && db[0] < 0xC0; // 3 byte signed
         bool sign2 = val < 0 && cmd > 0; // 2 byte signed
-        bool liter = cmd >= 0 && cmd < 0x40; // Literal
+        bool liter = cmd is >= 0 and < 0x40; // Literal
         bool manyb = cmd >= 0x40; // manybit
 
         if (sign4)

@@ -522,30 +522,28 @@ public static class Extensions
     public static Bitmap GetTableImg(this EncounterTable table, Font font)
     {
         var img = new Bitmap(10 * 40, 10 * 30);
-        using (var g = Graphics.FromImage(img))
+        using var g = Graphics.FromImage(img);
+        g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+        for (int i = 0; i < table.Rates.Length; i++)
+            g.DrawString($"{table.Rates[i]}%", font, Brushes.Black, new PointF((40 * i) + 10, 10));
+        g.DrawString("Weather: ", font, Brushes.Black, new PointF(10, 280));
+
+        // Draw Sprites
+        for (int i = 0; i < table.Encounter7s.Length - 1; i++)
         {
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
-            for (int i = 0; i < table.Rates.Length; i++)
-                g.DrawString($"{table.Rates[i]}%", font, Brushes.Black, new PointF((40 * i) + 10, 10));
-            g.DrawString("Weather: ", font, Brushes.Black, new PointF(10, 280));
-
-            // Draw Sprites
-            for (int i = 0; i < table.Encounter7s.Length - 1; i++)
+            for (int j = 0; j < table.Encounter7s[i].Length; j++)
             {
-                for (int j = 0; j < table.Encounter7s[i].Length; j++)
-                {
-                    var slot = table.Encounter7s[i][j];
-                    var sprite = GetSprite((int)slot.Species, (int)slot.Forme);
-                    g.DrawImage(sprite, new Point(40 * j, 30 * (i + 1)));
-                }
-            }
-
-            for (int i = 0; i < table.AdditionalSOS.Length; i++)
-            {
-                var slot = table.AdditionalSOS[i];
+                var slot = table.Encounter7s[i][j];
                 var sprite = GetSprite((int)slot.Species, (int)slot.Forme);
-                g.DrawImage(sprite, new Point((40 * i) + 60, 270));
+                g.DrawImage(sprite, new Point(40 * j, 30 * (i + 1)));
             }
+        }
+
+        for (int i = 0; i < table.AdditionalSOS.Length; i++)
+        {
+            var slot = table.AdditionalSOS[i];
+            var sprite = GetSprite((int)slot.Species, (int)slot.Forme);
+            g.DrawImage(sprite, new Point((40 * i) + 60, 270));
         }
 
         static Bitmap GetSprite(int species, int form)

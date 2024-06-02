@@ -553,7 +553,6 @@ public partial class RSTE : Form
         ushort[] itemvals = Main.Config.ORAS ? Legal.Pouch_Items_AO : Legal.Pouch_Items_XY;
         itemvals = [.. itemvals, .. Legal.Pouch_Berry_XY];
 
-        string[] ImportantClasses = ["GYM", "ELITE", "CHAMPION"];
         for (int i = 1; i < CB_TrainerID.Items.Count; i++)
         {
             // Trainer Type/Mega Evo
@@ -750,7 +749,7 @@ public partial class RSTE : Form
         {
             int randClass() => (int)(Rand() % trClass.Length);
             int rv; do { rv = randClass(); }
-            while (rIgnoreClass.Contains(rv) || trClass[rv].StartsWith("[~") || (Main.Config.ORAS && (rv >= 0 && rv <= 63)) || (rv >= 68 && rv <= 126)); // don't allow disallowed classes
+            while (rIgnoreClass.Contains(rv) || trClass[rv].StartsWith("[~") || (Main.Config.ORAS && rv is >= 0 and <= 63) || rv is >= 68 and <= 126); // don't allow disallowed classes
             t.Class = rv;
         }
     }

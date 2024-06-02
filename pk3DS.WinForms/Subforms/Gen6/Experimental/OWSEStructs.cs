@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -227,7 +228,11 @@ public class MapMatrix
 
             public override string ToString()
             {
-                return string.Join(", ", F1.ToString(), F2.ToString(), F3.ToString(), F4.ToString());
+                return string.Join(", ",
+                    F1.ToString(CultureInfo.InvariantCulture),
+                    F2.ToString(CultureInfo.InvariantCulture),
+                    F3.ToString(CultureInfo.InvariantCulture),
+                    F4.ToString(CultureInfo.InvariantCulture));
             }
         }
     }

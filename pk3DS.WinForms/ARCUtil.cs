@@ -288,7 +288,7 @@ public static class ARC
     internal static string Interpret(string path)
     {
         string fn = Path.GetFileName(path);
-        if (fn == "save0.bin" || fn == "save1.bin" || fn == "save2.bin")
+        if (fn is "save0.bin" or "save1.bin" or "save2.bin")
         {
             return FixMajoraChecksum(path);
         }

@@ -67,7 +67,7 @@ public partial class PickupEditor7 : Form
                 dgvIndex.DisplayIndex = c++;
                 dgvIndex.Width = 45;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                ((DataGridViewTextBoxColumn)dgvIndex).MaxInputLength = 2;
+                dgvIndex.MaxInputLength = 2;
             }
             dgv.Columns.Add(dgvIndex);
         }
@@ -118,7 +118,7 @@ public partial class PickupEditor7 : Form
                     cell.Value = 0.ToString();
                     continue;
                 }
-                if (val > 100 || val < 0)
+                if (val is > 100 or < 0)
                 {
                     val = 0;
                     cell.Value = 0.ToString();

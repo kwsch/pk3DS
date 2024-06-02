@@ -110,7 +110,7 @@ public partial class OPower : Form
 
         byte usability = (byte)NUD_Usability.Value;
 
-        if (usability == 2 || usability == 254 || usability == 0)
+        if (usability is 2 or 254 or 0)
             powerData[entry][1] = usability;
     }
 

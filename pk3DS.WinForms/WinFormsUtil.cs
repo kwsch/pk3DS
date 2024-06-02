@@ -127,7 +127,7 @@ public static class WinFormsUtil
         if (!Legal.Totem_USUM.Contains(species))
             return false;
         if (species == 778) // Mimikyu
-            return form == 2 || form == 3;
+            return form is 2 or 3;
         if (Legal.Totem_Alolan.Contains(species))
             return form == 2;
         return form == 1;
@@ -586,7 +586,7 @@ public static class WinFormsUtil
         }
 
         var dest = new Bitmap(srcRect.Width, srcRect.Height);
-        var destRect = new Rectangle(0, 0, srcRect.Width, srcRect.Height);
+        var destRect = srcRect with { X = 0, Y = 0 };
         using var graphics = Graphics.FromImage(dest);
         graphics.DrawImage(source, destRect, srcRect, GraphicsUnit.Pixel);
         return dest;

@@ -212,7 +212,7 @@ public class PersonalRandomizer : IRandomizer
             t[i] = rnd.Next(0, 100) < LearnTypeTutorPercent;
 
         // Make sure Rayquaza can learn Dragon Ascent.
-        if (!Game.XY && (index == 384 || index == 814))
+        if (!Game.XY && index is 384 or 814)
             t[7] = true;
 
         z.TypeTutors = t;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -382,7 +383,7 @@ public sealed partial class OWSE : Form
         NUD_NMove2.Value = NPC.MovePermissions2;
 
         // Uneditables
-        TB_NDeg.Text = NPC.Deg18.ToString();
+        TB_NDeg.Text = NPC.Deg18.ToString(CultureInfo.InvariantCulture);
         TB_Leash.Text = NPC.L1 == NPC.L2 && NPC.L2 == NPC.L3 && NPC.L3 == -1
             ? TB_Leash.Text = "No Leash!"
             : $"{NPC.L1}, {NPC.L2}, {NPC.L3} -- {NPC.LDir}";
@@ -519,8 +520,8 @@ public sealed partial class OWSE : Form
         { try { NUD_WE.Value = 0; } catch { } }
     }
 
-    private void ChangeWarp_X(object sender, EventArgs e) => L_WpX.Text = (NUD_WX.Value / 18).ToString();
-    private void ChangeWarp_Y(object sender, EventArgs e) => L_WpY.Text = (NUD_WY.Value / 18).ToString();
+    private void ChangeWarp_X(object sender, EventArgs e) => L_WpX.Text = (NUD_WX.Value / 18).ToString(CultureInfo.InvariantCulture);
+    private void ChangeWarp_Y(object sender, EventArgs e) => L_WpY.Text = (NUD_WY.Value / 18).ToString(CultureInfo.InvariantCulture);
 
     // Script Handling
     private void B_HLCMD_Click(object sender, EventArgs e)

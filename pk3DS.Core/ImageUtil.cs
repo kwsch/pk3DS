@@ -21,7 +21,7 @@ public static class ImageUtil
     /// <returns>Human visible data</returns>
     public static Bitmap GetBitmap(this BXLIM bflim, bool crop = true)
     {
-        if (bflim.Format == XLIMEncoding.ETC1 || bflim.Format == XLIMEncoding.ETC1A4)
+        if (bflim.Format is XLIMEncoding.ETC1 or XLIMEncoding.ETC1A4)
             return GetBitmapETC(bflim, crop);
         var data = bflim.GetImageData(crop);
         return GetBitmap(data, bflim.Footer.Width, bflim.Footer.Height);

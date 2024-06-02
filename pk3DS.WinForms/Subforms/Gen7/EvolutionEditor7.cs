@@ -162,12 +162,17 @@ public partial class EvolutionEditor7 : Form
         SetList();
         // Set up advanced randomization options
         var evos = files.Select(z => new EvolutionSet7(z)).ToArray();
-        var evoRand = new EvolutionRandomizer(Main.Config, evos);
-        evoRand.Randomizer.rBST = CHK_BST.Checked;
-        evoRand.Randomizer.rEXP = CHK_Exp.Checked;
-        evoRand.Randomizer.rType = CHK_Type.Checked;
-        evoRand.Randomizer.L = CHK_L.Checked;
-        evoRand.Randomizer.E = CHK_E.Checked;
+        var evoRand = new EvolutionRandomizer(Main.Config, evos)
+        {
+            Randomizer =
+            {
+                rBST = CHK_BST.Checked,
+                rEXP = CHK_Exp.Checked,
+                rType = CHK_Type.Checked,
+                L = CHK_L.Checked,
+                E = CHK_E.Checked,
+            },
+        };
         evoRand.Randomizer.Initialize();
         evoRand.Execute();
         evos.Select(z => z.Write()).ToArray().CopyTo(files, 0);
@@ -199,12 +204,17 @@ public partial class EvolutionEditor7 : Form
 
         SetList();
         var evos = files.Select(z => new EvolutionSet7(z)).ToArray();
-        var evoRand = new EvolutionRandomizer(Main.Config, evos);
-        evoRand.Randomizer.rBST = CHK_BST.Checked;
-        evoRand.Randomizer.rEXP = CHK_Exp.Checked;
-        evoRand.Randomizer.rType = CHK_Type.Checked;
-        evoRand.Randomizer.L = CHK_L.Checked;
-        evoRand.Randomizer.E = CHK_E.Checked;
+        var evoRand = new EvolutionRandomizer(Main.Config, evos)
+        {
+            Randomizer =
+            {
+                rBST = CHK_BST.Checked,
+                rEXP = CHK_Exp.Checked,
+                rType = CHK_Type.Checked,
+                L = CHK_L.Checked,
+                E = CHK_E.Checked,
+            },
+        };
         evoRand.Randomizer.Initialize();
         evoRand.ExecuteEvolveEveryLevel();
         evoRand.Execute(); // randomize right after

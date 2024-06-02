@@ -781,18 +781,17 @@ public partial class SMTE : Form
                     pk.Form = Randomizer.GetRandomForme(pk.Species, CHK_RandomMegaForm.Checked, true, Main.SpeciesStat);
                 }
 
-                switch (CB_Moves.SelectedIndex)
+                pk.Moves = CB_Moves.SelectedIndex switch
                 {
-                    case 1: // Random
-                        pk.Moves = move.GetRandomMoveset(pk.Species, 4);
-                        break;
-                    case 2: // Current LevelUp
-                        pk.Moves = learn.GetCurrentMoves(pk.Species, pk.Form, pk.Level, 4);
-                        break;
-                    case 3: // Metronome
-                        pk.Moves = [118, 0, 0, 0];
-                        break;
-                }
+                    // Random
+                    1 => move.GetRandomMoveset(pk.Species, 4),
+                    // Current LevelUp
+                    2 => learn.GetCurrentMoves(pk.Species, pk.Form, pk.Level, 4),
+                    // Metronome
+                    3 => [118, 0, 0, 0],
+                    // Otherwise
+                    _ => pk.Moves,
+                };
 
                 // high-power attacks
                 if (CHK_ForceHighPower.Checked && pk.Level >= NUD_ForceHighPower.Value)
@@ -846,7 +845,7 @@ public partial class SMTE : Form
                 NUD_Damage.Enabled = NUD_STAB.Enabled = CB_Moves.SelectedIndex == 1;
 
         CHK_ForceHighPower.Enabled = CHK_ForceHighPower.Checked = NUD_ForceHighPower.Enabled =
-            CHK_NoFixedDamage.Enabled = CHK_NoFixedDamage.Checked = (CB_Moves.SelectedIndex == 1 || CB_Moves.SelectedIndex == 2);
+            CHK_NoFixedDamage.Enabled = CHK_NoFixedDamage.Checked = CB_Moves.SelectedIndex is 1 or 2;
     }
 
     private void CHK_Damage_CheckedChanged(object sender, EventArgs e)

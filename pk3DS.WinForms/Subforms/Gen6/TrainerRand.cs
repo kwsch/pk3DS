@@ -175,7 +175,7 @@ public partial class TrainerRand : Form
                 NUD_Damage.Enabled = NUD_STAB.Enabled = CB_Moves.SelectedIndex == 1;
 
         CHK_ForceHighPower.Enabled = CHK_ForceHighPower.Checked = NUD_ForceHighPower.Enabled =
-            CHK_NoFixedDamage.Enabled = CHK_NoFixedDamage.Checked = (CB_Moves.SelectedIndex == 1 || CB_Moves.SelectedIndex == 2);
+            CHK_NoFixedDamage.Enabled = CHK_NoFixedDamage.Checked = CB_Moves.SelectedIndex is 1 or 2;
     }
 
     private void CHK_6PKM_CheckedChanged(object sender, EventArgs e)

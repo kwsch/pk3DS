@@ -7,4 +7,4 @@ public enum MoveInflictDuration
     TurnCountSwitch,
     PermanentSwitch,
     TurnCountNoSwitch,
-};
+}

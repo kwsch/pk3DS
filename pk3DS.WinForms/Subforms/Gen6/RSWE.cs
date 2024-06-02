@@ -718,7 +718,7 @@ public partial class RSWE : Form
     {
         if (CHK_MegaForm.Checked && Main.SpeciesStat[species].FormeCount > 1 && Legal.Mega_ORAS.Contains((ushort)species))
             All_Forms[slot].Value = Random32() % Main.SpeciesStat[species].FormeCount; // Slot-Random
-        else if (species == 666 || species == 665 || species == 664) // Vivillon
+        else if (species is 666 or 665 or 664) // Vivillon
             All_Forms[slot].Value = Random32() % 20;
         else if (species == 386) // Deoxys
             All_Forms[slot].Value = Random32() % 4;
@@ -726,17 +726,17 @@ public partial class RSWE : Form
             All_Forms[slot].Value = 31;
         else if (species == 550) // Basculin
             All_Forms[slot].Value = Random32() % 2;
-        else if (species == 412 || species == 413) // Wormadam
+        else if (species is 412 or 413) // Wormadam
             All_Forms[slot].Value = Random32() % 3;
-        else if (species == 422 || species == 423) // Gastrodon
+        else if (species is 422 or 423) // Gastrodon
             All_Forms[slot].Value = Random32() % 2;
-        else if (species == 585 || species == 586) // Sawsbuck
+        else if (species is 585 or 586) // Sawsbuck
             All_Forms[slot].Value = Random32() % 4;
-        else if (species == 669 || species == 671) // Flabebe/Florges
+        else if (species is 669 or 671) // Flabebe/Florges
             All_Forms[slot].Value = Random32() % 5;
         else if (species == 670) // Floette
             All_Forms[slot].Value = Random32() % 6;
-        else if (species == 710 || species == 711) // Pumpkaboo
+        else if (species is 710 or 711) // Pumpkaboo
             All_Forms[slot].Value = Random32() % 4;
         else
             All_Forms[slot].Value = 0;

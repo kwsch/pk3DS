@@ -274,8 +274,8 @@ public class GameConfig
     public EvolutionSet[] Evolutions { get; private set; }
 
     public bool XY => Version == GameVersion.XY;
-    public bool ORAS => Version == GameVersion.ORAS || Version == GameVersion.ORASDEMO;
-    public bool SM => Version == GameVersion.SM || Version == GameVersion.SMDEMO;
+    public bool ORAS => Version is GameVersion.ORAS or GameVersion.ORASDEMO;
+    public bool SM => Version is GameVersion.SM or GameVersion.SMDEMO;
     public bool USUM => Version == GameVersion.USUM;
     public int MaxSpeciesID => XY || ORAS ? Legal.MaxSpeciesID_6 : SM ? Legal.MaxSpeciesID_7_SM : Legal.MaxSpeciesID_7_USUM;
     public int GARCVersion => XY || ORAS ? GARC.VER_4 : GARC.VER_6;

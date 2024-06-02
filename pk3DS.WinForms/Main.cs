@@ -890,7 +890,7 @@ public sealed partial class Main : Form
         Enabled = false;
         new Thread(() =>
         {
-            bool reload = ModifierKeys == Keys.Control || ModifierKeys == (Keys.Alt | Keys.Control);
+            bool reload = ModifierKeys is Keys.Control or (Keys.Alt | Keys.Control);
             string[] files = ["encdata", "storytext", "mapGR", "mapMatrix"];
             if (reload || files.Sum(t => Directory.Exists(t) ? 0 : 1) != 0) // Dev bypass if all exist already
                 FileGet(files, false);

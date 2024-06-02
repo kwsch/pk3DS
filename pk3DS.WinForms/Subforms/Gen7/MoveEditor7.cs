@@ -252,7 +252,7 @@ public partial class MoveEditor7 : Form
         for (int i = 0; i < CB_Move.Items.Count; i++)
         {
             CB_Move.SelectedIndex = i; // Get new Move
-            if (i == 165 || i == 174) continue; // Don't change Struggle or Curse
+            if (i is 165 or 174) continue; // Don't change Struggle or Curse
 
             // Change Damage Category if Not Status
             if (CB_Category.SelectedIndex > 0 && CHK_Category.Checked) // Not Status
@@ -272,7 +272,7 @@ public partial class MoveEditor7 : Form
         for (int i = 0; i < CB_Move.Items.Count; i++)
         {
             CB_Move.SelectedIndex = i;
-            if (CB_Move.SelectedIndex != 117 || CB_Move.SelectedIndex != 32)
+            if (CB_Move.SelectedIndex is not (117 and 32))
                 NUD_PP.Value = 0;
             if (CB_Move.SelectedIndex == 117)
                 NUD_PP.Value = 40;

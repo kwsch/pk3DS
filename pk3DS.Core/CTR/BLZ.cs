@@ -172,7 +172,7 @@ public class BLZCoder
                 return null;
             }
             int hdr_len = pak_buffer[pak_len - 5];
-            if (hdr_len < 8 || hdr_len > 0xB)
+            if (hdr_len is < 8 or > 0xB)
             {
                 Console.Write(Environment.NewLine + "Bad header length" + Environment.NewLine);
                 return null;

@@ -12,7 +12,7 @@ public static class Randomizer
             return 0;
         if (stats[species].FormeCount <= 1)
             return 0;
-        if (species == 664 || species == 665 || species == 666) // vivillon
+        if (species is 664 or 665 or 666) // vivillon
             return 30; // save file specific
         if (species == 774) // minior
             return (int)(Util.Random32() % 7);

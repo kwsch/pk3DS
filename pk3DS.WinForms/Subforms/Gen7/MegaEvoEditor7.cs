@@ -127,7 +127,7 @@ public partial class MegaEvoEditor7 : Form
 
     private void SetEntry()
     {
-        if (entry < 1 || entry == 384) return; // Don't edit invalid / Rayquaza.
+        if (entry is < 1 or 384) return; // Don't edit invalid / Rayquaza.
         for (int i = 0; i < 2; i++)
         {
             if (me.Method[i] > 1)
