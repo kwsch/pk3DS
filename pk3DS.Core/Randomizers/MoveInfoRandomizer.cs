@@ -1,4 +1,3 @@
-﻿namespace pk3DS.Core.Randomizers
-{
-    public class MoveInfoRandomizer;
-}
+﻿namespace pk3DS.Core.Randomizers;
+
+public class MoveInfoRandomizer;

@@ -4,210 +4,209 @@ using System.IO;
 using System.Windows.Forms;
 using pk3DS.Core.Randomizers;
 
-namespace pk3DS
+namespace pk3DS.WinForms;
+
+public partial class StarterEditor6 : Form
 {
-    public partial class StarterEditor6 : Form
+    public StarterEditor6()
     {
-        public StarterEditor6()
+        specieslist[0] = "---";
+        Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
+
+        if (!File.Exists(CROPath))
         {
-            specieslist[0] = "---";
-            Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
-
-            if (!File.Exists(CROPath))
-            {
-                WinFormsUtil.Error("CRO does not exist! Closing.", CROPath);
-                Close();
-            }
-            if (!File.Exists(FieldPath))
-            {
-                WinFormsUtil.Error("CRO does not exist! Closing.", FieldPath);
-                Close();
-            }
-            InitializeComponent();
-
-            // 2 sets of Starters for X/Y
-            // 4 sets of Starters for OR/AS
-            Choices =
-            [
-                [CB_G1_0, CB_G1_1, CB_G1_2],
-                [CB_G2_0, CB_G2_1, CB_G2_2],
-                [CB_G3_0, CB_G3_1, CB_G3_2],
-                [CB_G4_0, CB_G4_1, CB_G4_2],
-            ];
-            Previews =
-            [
-                [PB_G1_0, PB_G1_1, PB_G1_2],
-                [PB_G2_0, PB_G2_1, PB_G2_2],
-                [PB_G3_0, PB_G3_1, PB_G3_2],
-                [PB_G4_0, PB_G4_1, PB_G4_2],
-            ];
-            Labels = [L_Set1, L_Set2, L_Set3, L_Set4];
-
-            Width = Main.Config.ORAS ? Width : (Width / 2) + 2;
-            LoadData();
-            RandSettings.GetFormSettings(this, groupBox1.Controls);
-        }
-
-        private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllPoke3Select.cro");
-        private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
-        private readonly string[] specieslist = Main.Config.GetText(TextName.SpeciesNames);
-        private readonly ComboBox[][] Choices;
-        private readonly PictureBox[][] Previews;
-        private readonly Label[] Labels;
-
-        private readonly string[] StarterSummary = Main.Config.ORAS
-            ? ["Gen 3 Starters", "Gen 2 Starters", "Gen 4 Starters", "Gen 5 Starters"]
-            : ["Gen 6 Starters", "Gen 1 Starters"];
-
-        private byte[] Data;
-        private byte[] FieldData;
-        private readonly int Count = Main.Config.ORAS ? 4 : 2;
-        private int offset;
-        private static int[] BasicStarter;
-        private static int[][] BasicStarterPerGen;
-
-        private void B_Save_Click(object sender, EventArgs e)
-        {
-            SaveData();
-            RandSettings.SetFormSettings(this, groupBox1.Controls);
+            WinFormsUtil.Error("CRO does not exist! Closing.", CROPath);
             Close();
         }
-
-        private void B_Cancel_Click(object sender, EventArgs e)
+        if (!File.Exists(FieldPath))
         {
+            WinFormsUtil.Error("CRO does not exist! Closing.", FieldPath);
             Close();
         }
+        InitializeComponent();
 
-        private void LoadData()
+        // 2 sets of Starters for X/Y
+        // 4 sets of Starters for OR/AS
+        Choices =
+        [
+            [CB_G1_0, CB_G1_1, CB_G1_2],
+            [CB_G2_0, CB_G2_1, CB_G2_2],
+            [CB_G3_0, CB_G3_1, CB_G3_2],
+            [CB_G4_0, CB_G4_1, CB_G4_2],
+        ];
+        Previews =
+        [
+            [PB_G1_0, PB_G1_1, PB_G1_2],
+            [PB_G2_0, PB_G2_1, PB_G2_2],
+            [PB_G3_0, PB_G3_1, PB_G3_2],
+            [PB_G4_0, PB_G4_1, PB_G4_2],
+        ];
+        Labels = [L_Set1, L_Set2, L_Set3, L_Set4];
+
+        Width = Main.Config.ORAS ? Width : (Width / 2) + 2;
+        LoadData();
+        RandSettings.GetFormSettings(this, groupBox1.Controls);
+    }
+
+    private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllPoke3Select.cro");
+    private readonly string FieldPath = Path.Combine(Main.RomFSPath, "DllField.cro");
+    private readonly string[] specieslist = Main.Config.GetText(TextName.SpeciesNames);
+    private readonly ComboBox[][] Choices;
+    private readonly PictureBox[][] Previews;
+    private readonly Label[] Labels;
+
+    private readonly string[] StarterSummary = Main.Config.ORAS
+        ? ["Gen 3 Starters", "Gen 2 Starters", "Gen 4 Starters", "Gen 5 Starters"]
+        : ["Gen 6 Starters", "Gen 1 Starters"];
+
+    private byte[] Data;
+    private byte[] FieldData;
+    private readonly int Count = Main.Config.ORAS ? 4 : 2;
+    private int offset;
+    private static int[] BasicStarter;
+    private static int[][] BasicStarterPerGen;
+
+    private void B_Save_Click(object sender, EventArgs e)
+    {
+        SaveData();
+        RandSettings.SetFormSettings(this, groupBox1.Controls);
+        Close();
+    }
+
+    private void B_Cancel_Click(object sender, EventArgs e)
+    {
+        Close();
+    }
+
+    private void LoadData()
+    {
+        Data = File.ReadAllBytes(CROPath);
+        FieldData = File.ReadAllBytes(FieldPath);
+        offset = BitConverter.ToInt32(Data, 0xb8);
+        if (!Main.Config.ORAS) // XY have 0x10 bytes of zeroes
+            offset += 0x10;
+        BasicStarter = Legal.BasicStarters_6;
+        BasicStarterPerGen = Legal.BasicStarters;
+        for (int i = 0; i < Count; i++)
         {
-            Data = File.ReadAllBytes(CROPath);
-            FieldData = File.ReadAllBytes(FieldPath);
-            offset = BitConverter.ToInt32(Data, 0xb8);
-            if (!Main.Config.ORAS) // XY have 0x10 bytes of zeroes
-                offset += 0x10;
-            BasicStarter = Legal.BasicStarters_6;
-            BasicStarterPerGen = Legal.BasicStarters;
-            for (int i = 0; i < Count; i++)
+            Labels[i].Visible = true;
+            Labels[i].Text = StarterSummary[i];
+            for (int j = 0; j < 3; j++)
             {
-                Labels[i].Visible = true;
-                Labels[i].Text = StarterSummary[i];
-                for (int j = 0; j < 3; j++)
-                {
-                    Choices[i][j].Items.AddRange(specieslist);
-                    int species = BitConverter.ToUInt16(Data, offset + (((i * 3) + j) * 0x54));
-                    Choices[i][j].SelectedIndex = species; // changing index prompts loading of sprite
+                Choices[i][j].Items.AddRange(specieslist);
+                int species = BitConverter.ToUInt16(Data, offset + (((i * 3) + j) * 0x54));
+                Choices[i][j].SelectedIndex = species; // changing index prompts loading of sprite
 
-                    Choices[i][j].Visible = Previews[i][j].Visible = true;
-                }
+                Choices[i][j].Visible = Previews[i][j].Visible = true;
             }
         }
+    }
 
-        private void SaveData()
+    private void SaveData()
+    {
+        for (int i = 0; i < Count; i++)
         {
-            for (int i = 0; i < Count; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                    Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, Data, offset + (((i * 3) + j) * 0x54), 2);
-            }
-
-            // Set the choices back
-            int fieldOffset = Main.Config.ORAS ? 0xF906C : 0xF805C;
-            int fieldSize = Main.Config.ORAS ? 0x24 : 0x18;
-            int[] entries = Main.Config.ORAS
-                ?
-                [
-                    0, 1, 2, // Gen 3
-                    28, 29, 30, // Gen 2
-                    31, 32, 33, // Gen 4
-                    34, 35, 36, // Gen 5
-                ]
-                :
-                [
-                    0, 1, 2, // Gen 6
-                    3, 4, 5, // Gen 1
-                ];
-
-            for (int i = 0; i < Count; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                    Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, FieldData, fieldOffset + (entries[(i * 3) + j] * fieldSize), 2);
-            }
-
-            File.WriteAllBytes(CROPath, Data); // poke3
-            File.WriteAllBytes(FieldPath, FieldData); // field
+            for (int j = 0; j < 3; j++)
+                Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, Data, offset + (((i * 3) + j) * 0x54), 2);
         }
 
-        private void ChangeSpecies(object sender, EventArgs e)
+        // Set the choices back
+        int fieldOffset = Main.Config.ORAS ? 0xF906C : 0xF805C;
+        int fieldSize = Main.Config.ORAS ? 0x24 : 0x18;
+        int[] entries = Main.Config.ORAS
+            ?
+            [
+                0, 1, 2, // Gen 3
+                28, 29, 30, // Gen 2
+                31, 32, 33, // Gen 4
+                34, 35, 36, // Gen 5
+            ]
+            :
+            [
+                0, 1, 2, // Gen 6
+                3, 4, 5, // Gen 1
+            ];
+
+        for (int i = 0; i < Count; i++)
         {
-            if (sender is not ComboBox cb)
-                return;
-
-            // Fetch the corresponding PictureBox to update
-            string name = cb.Name;
-            int group = int.Parse(name[4] + "") - 1;
-            int index = int.Parse(name[6] + "");
-
-            int species = cb.SelectedIndex;
-            Previews[group][index].Image = WinFormsUtil.ScaleImage(WinFormsUtil.GetSprite(species, 0, 0, 0, Main.Config), 3);
+            for (int j = 0; j < 3; j++)
+                Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, FieldData, fieldOffset + (entries[(i * 3) + j] * fieldSize), 2);
         }
 
-        private void B_Randomize_Click(object sender, EventArgs e)
+        File.WriteAllBytes(CROPath, Data); // poke3
+        File.WriteAllBytes(FieldPath, FieldData); // field
+    }
+
+    private void ChangeSpecies(object sender, EventArgs e)
+    {
+        if (sender is not ComboBox cb)
+            return;
+
+        // Fetch the corresponding PictureBox to update
+        string name = cb.Name;
+        int group = int.Parse(name[4] + "") - 1;
+        int index = int.Parse(name[6] + "");
+
+        int species = cb.SelectedIndex;
+        Previews[group][index].Image = WinFormsUtil.ScaleImage(WinFormsUtil.GetSprite(species, 0, 0, 0, Main.Config), 3);
+    }
+
+    private void B_Randomize_Click(object sender, EventArgs e)
+    {
+        bool blind = DialogResult.Yes ==
+                     WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Hide randomization, save, and close?",
+                         "If you want the Starters to be a surprise :)");
+        if (blind)
+            Hide();
+
+        // Iterate for each group of Starters
+        for (int i = 0; i < Count; i++)
         {
-            bool blind = DialogResult.Yes ==
-                         WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Hide randomization, save, and close?",
-                             "If you want the Starters to be a surprise :)");
-            if (blind)
-                Hide();
+            // Get Species List
 
-            // Iterate for each group of Starters
-            for (int i = 0; i < Count; i++)
+            int gen = int.Parse(Labels[i].Text[4] + "");
+            var rand = new SpeciesRandomizer(Main.Config)
             {
-                // Get Species List
+                G1 = !CHK_Gen.Checked || gen == 1,
+                G2 = !CHK_Gen.Checked || gen == 2,
+                G3 = !CHK_Gen.Checked || gen == 3,
+                G4 = !CHK_Gen.Checked || gen == 4,
+                G5 = !CHK_Gen.Checked || gen == 5,
+                G6 = !CHK_Gen.Checked || gen == 6,
 
-                int gen = int.Parse(Labels[i].Text[4] + "");
-                var rand = new SpeciesRandomizer(Main.Config)
+                L = CHK_L.Checked,
+                E = CHK_E.Checked,
+                Shedinja = false,
+            };
+            rand.Initialize();
+            // Assign Species
+            for (int j = 0; j < 3; j++)
+            {
+                // int oldSpecies = BitConverter.ToUInt16(Data, offset + (((i * 3) + j) * 0x54));
+                if (CHK_BasicStarter.Checked)
                 {
-                    G1 = !CHK_Gen.Checked || gen == 1,
-                    G2 = !CHK_Gen.Checked || gen == 2,
-                    G3 = !CHK_Gen.Checked || gen == 3,
-                    G4 = !CHK_Gen.Checked || gen == 4,
-                    G5 = !CHK_Gen.Checked || gen == 5,
-                    G6 = !CHK_Gen.Checked || gen == 6,
-
-                    L = CHK_L.Checked,
-                    E = CHK_E.Checked,
-                    Shedinja = false,
-                };
-                rand.Initialize();
-                // Assign Species
-                for (int j = 0; j < 3; j++)
-                {
-                    // int oldSpecies = BitConverter.ToUInt16(Data, offset + (((i * 3) + j) * 0x54));
-                    if (CHK_BasicStarter.Checked)
+                    if (CHK_Gen.Checked)
                     {
-                        if (CHK_Gen.Checked)
-                        {
-                            int basic() => (int)(Util.Random32() % BasicStarterPerGen[gen - 1].Length);
-                            Choices[i][j].SelectedIndex = BasicStarterPerGen[gen - 1][basic()];
-                        }
-                        else
-                        {
-                            int basic() => (int)(Util.Random32() % BasicStarter.Length);
-                            Choices[i][j].SelectedIndex = BasicStarter[basic()];
-                        }
+                        int basic() => (int)(Util.Random32() % BasicStarterPerGen[gen - 1].Length);
+                        Choices[i][j].SelectedIndex = BasicStarterPerGen[gen - 1][basic()];
                     }
                     else
                     {
-                        Choices[i][j].SelectedIndex = rand.GetRandomSpecies(i);
+                        int basic() => (int)(Util.Random32() % BasicStarter.Length);
+                        Choices[i][j].SelectedIndex = BasicStarter[basic()];
                     }
                 }
+                else
+                {
+                    Choices[i][j].SelectedIndex = rand.GetRandomSpecies(i);
+                }
             }
+        }
 
-            if (blind)
-            {
-                SaveData();
-                Close();
-            }
+        if (blind)
+        {
+            SaveData();
+            Close();
         }
     }
 }

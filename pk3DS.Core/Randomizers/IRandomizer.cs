@@ -1,7 +1,6 @@
-﻿namespace pk3DS.Core.Randomizers
+﻿namespace pk3DS.Core.Randomizers;
+
+public interface IRandomizer
 {
-    public interface IRandomizer
-    {
-        void Execute();
-    }
+    void Execute();
 }

@@ -4,203 +4,202 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace pk3DS
+namespace pk3DS.WinForms;
+
+public partial class PickupEditor7 : Form
 {
-    public partial class PickupEditor7 : Form
+    public PickupEditor7(LazyGARCFile pickup)
     {
-        public PickupEditor7(LazyGARCFile pickup)
-        {
-            InitializeComponent();
-            g_pickup = pickup;
-            var itemlist = Main.Config.GetText(TextName.ItemNames);
-            itemlist[0] = "";
-            items = itemlist.Select((v, i) => $"{v} - {i:000}").ToArray();
-            SetupFLP();
+        InitializeComponent();
+        g_pickup = pickup;
+        var itemlist = Main.Config.GetText(TextName.ItemNames);
+        itemlist[0] = "";
+        items = itemlist.Select((v, i) => $"{v} - {i:000}").ToArray();
+        SetupFLP();
 
-            byte[] data = pickup.Files[0];
-            GetList(data);
+        byte[] data = pickup.Files[0];
+        GetList(data);
+    }
+
+    private readonly LazyGARCFile g_pickup;
+    private readonly string[] items;
+
+    private const int Columns = 10;
+
+    private void SetupFLP()
+    {
+        dgvCommon.Columns.Clear();
+        // Add DataGrid
+        var dgv = dgvCommon;
+        {
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.RowHeadersVisible = false;
+            //dgv.ColumnHeadersVisible = false,
+            dgv.MultiSelect = false;
+            dgv.ShowEditingIcon = false;
+            dgv.EditMode = DataGridViewEditMode.EditOnEnter;
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.None;
         }
 
-        private readonly LazyGARCFile g_pickup;
-        private readonly string[] items;
-
-        private const int Columns = 10;
-
-        private void SetupFLP()
+        int c = 0;
+        var dgvItemVal = new DataGridViewComboBoxColumn
         {
-            dgvCommon.Columns.Clear();
-            // Add DataGrid
-            var dgv = dgvCommon;
+            HeaderText = "Item",
+            DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
+            DisplayIndex = c++,
+            Width = 135,
+            FlatStyle = FlatStyle.Flat,
+        };
+        dgv.Columns.Add(dgvItemVal);
+
+        for (int i = 0; i < Columns; i++)
+        {
+            string rate = $"{(i * 10) + 1}-{(i + 1) * 10}";
+            var dgvIndex = new DataGridViewTextBoxColumn();
             {
-                dgv.AllowUserToAddRows = false;
-                dgv.AllowUserToDeleteRows = false;
-                dgv.AllowUserToResizeRows = false;
-                dgv.AllowUserToResizeColumns = false;
-                dgv.RowHeadersVisible = false;
-                //dgv.ColumnHeadersVisible = false,
-                dgv.MultiSelect = false;
-                dgv.ShowEditingIcon = false;
-                dgv.EditMode = DataGridViewEditMode.EditOnEnter;
-                dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-                dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-                dgv.SelectionMode = DataGridViewSelectionMode.CellSelect;
-                dgv.CellBorderStyle = DataGridViewCellBorderStyle.None;
+                dgvIndex.HeaderText = rate;
+                dgvIndex.DisplayIndex = c++;
+                dgvIndex.Width = 45;
+                dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                ((DataGridViewTextBoxColumn)dgvIndex).MaxInputLength = 2;
             }
-
-            int c = 0;
-            var dgvItemVal = new DataGridViewComboBoxColumn
-            {
-                HeaderText = "Item",
-                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
-                DisplayIndex = c++,
-                Width = 135,
-                FlatStyle = FlatStyle.Flat,
-            };
-            dgv.Columns.Add(dgvItemVal);
-
-            for (int i = 0; i < Columns; i++)
-            {
-                string rate = $"{(i * 10) + 1}-{(i + 1) * 10}";
-                var dgvIndex = new DataGridViewTextBoxColumn();
-                {
-                    dgvIndex.HeaderText = rate;
-                    dgvIndex.DisplayIndex = c++;
-                    dgvIndex.Width = 45;
-                    dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    ((DataGridViewTextBoxColumn)dgvIndex).MaxInputLength = 2;
-                }
-                dgv.Columns.Add(dgvIndex);
-            }
-
-            var combo = dgv.Columns[0] as DataGridViewComboBoxColumn;
-            combo.Items.AddRange(items); // add only the Item Names
-
-            // disable sorting
-            dgv.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
-            dgv.CancelEdit();
+            dgv.Columns.Add(dgvIndex);
         }
 
-        private void GetList(byte[] data)
-        {
-            // Fill Data
-            int rows = BitConverter.ToUInt16(data, 0) - 1; // nice editor gamefreak
-            dgvCommon.Rows.Add(rows);
-            for (int i = 0; i < rows; i++)
-            {
-                int offset = 4 + (i * (Columns + 2));
-                int item = BitConverter.ToUInt16(data, offset);
+        var combo = dgv.Columns[0] as DataGridViewComboBoxColumn;
+        combo.Items.AddRange(items); // add only the Item Names
 
-                var r = dgvCommon.Rows[i];
-                r.Cells[0].Value = items[item];
-                for (int j = 0; j < Columns; j++)
-                {
-                    int rate = data[offset + 2 + j];
-                    r.Cells[1 + j].Value = rate.ToString();
-                }
+        // disable sorting
+        dgv.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+        dgv.CancelEdit();
+    }
+
+    private void GetList(byte[] data)
+    {
+        // Fill Data
+        int rows = BitConverter.ToUInt16(data, 0) - 1; // nice editor gamefreak
+        dgvCommon.Rows.Add(rows);
+        for (int i = 0; i < rows; i++)
+        {
+            int offset = 4 + (i * (Columns + 2));
+            int item = BitConverter.ToUInt16(data, offset);
+
+            var r = dgvCommon.Rows[i];
+            r.Cells[0].Value = items[item];
+            for (int j = 0; j < Columns; j++)
+            {
+                int rate = data[offset + 2 + j];
+                r.Cells[1 + j].Value = rate.ToString();
             }
         }
+    }
 
-        private byte[] SetList()
+    private byte[] SetList()
+    {
+        int rows = dgvCommon.RowCount;
+        int[][] rates = new int[rows][];
+        for (int i = 0; i < rates.Length; i++)
+            rates[i] = new int[Columns];
+        for (int i = 0; i < Columns; i++)
         {
-            int rows = dgvCommon.RowCount;
-            int[][] rates = new int[rows][];
-            for (int i = 0; i < rates.Length; i++)
-                rates[i] = new int[Columns];
-            for (int i = 0; i < Columns; i++)
+            // get column sum
+            int sum = 0;
+            for (int r = 0; r < rows; r++)
             {
-                // get column sum
-                int sum = 0;
-                for (int r = 0; r < rows; r++)
+                var cell = dgvCommon.Rows[r].Cells[i + 1];
+                if (!int.TryParse(cell.Value.ToString(), out var val))
                 {
-                    var cell = dgvCommon.Rows[r].Cells[i + 1];
-                    if (!int.TryParse(cell.Value.ToString(), out var val))
-                    {
-                        cell.Value = 0.ToString();
-                        continue;
-                    }
-                    if (val > 100 || val < 0)
-                    {
-                        val = 0;
-                        cell.Value = 0.ToString();
-                    }
-                    rates[r][i] = val;
-                    sum += val;
-                }
-                if (sum == 100) // good
+                    cell.Value = 0.ToString();
                     continue;
-
-                WinFormsUtil.Alert($"Sum of Column {i + 1} needs to equal 100.", $"Got {sum}.");
-                return null;
+                }
+                if (val > 100 || val < 0)
+                {
+                    val = 0;
+                    cell.Value = 0.ToString();
+                }
+                rates[r][i] = val;
+                sum += val;
             }
+            if (sum == 100) // good
+                continue;
 
-            using var ms = new MemoryStream();
-            using var bw = new BinaryWriter(ms);
-            bw.Write(rates.Length + 1); // nice editor gamefreak
-            for (int i = 0; i < rows; i++)
-            {
-                var r = dgvCommon.Rows[i];
-                string item = r.Cells[0].Value.ToString();
-                int itemindex = Array.IndexOf(items, item);
-                bw.Write((ushort)itemindex);
-
-                foreach (var b in rates[i])
-                    bw.Write((byte)b);
-            }
-            return ms.ToArray();
+            WinFormsUtil.Alert($"Sum of Column {i + 1} needs to equal 100.", $"Got {sum}.");
+            return null;
         }
 
-        private void B_Save_Click(object sender, EventArgs e)
+        using var ms = new MemoryStream();
+        using var bw = new BinaryWriter(ms);
+        bw.Write(rates.Length + 1); // nice editor gamefreak
+        for (int i = 0; i < rows; i++)
         {
-            byte[] result = SetList();
-            if (result == null)
-                return;
+            var r = dgvCommon.Rows[i];
+            string item = r.Cells[0].Value.ToString();
+            int itemindex = Array.IndexOf(items, item);
+            bw.Write((ushort)itemindex);
 
-            g_pickup[0] = result;
-            g_pickup.Save();
-            Close();
+            foreach (var b in rates[i])
+                bw.Write((byte)b);
         }
+        return ms.ToArray();
+    }
 
-        private void B_Cancel_Click(object sender, EventArgs e)
+    private void B_Save_Click(object sender, EventArgs e)
+    {
+        byte[] result = SetList();
+        if (result == null)
+            return;
+
+        g_pickup[0] = result;
+        g_pickup.Save();
+        Close();
+    }
+
+    private void B_Cancel_Click(object sender, EventArgs e)
+    {
+        Close();
+    }
+
+    private void B_Randomize_Click(object sender, EventArgs e)
+    {
+        if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize pickup lists?"))
+            return;
+
+        int[] validItems = Randomizer.GetRandomItemList();
+
+        int ctr = 0;
+        Util.Shuffle(validItems);
+        for (int r = 0; r < dgvCommon.RowCount; r++)
         {
-            Close();
+            dgvCommon.Rows[r].Cells[0].Value = items[validItems[ctr++]];
+            if (ctr <= validItems.Length) continue;
+            Util.Shuffle(validItems); ctr = 0;
         }
+        WinFormsUtil.Alert("Randomized!");
+    }
 
-        private void B_Randomize_Click(object sender, EventArgs e)
-        {
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Randomize pickup lists?"))
-                return;
+    private void B_AddRow_Click(object sender, EventArgs e)
+    {
+        if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Add a row at the bottom?"))
+            return;
 
-            int[] validItems = Randomizer.GetRandomItemList();
+        int row = dgvCommon.RowCount;
+        dgvCommon.Rows.Add();
+        dgvCommon.Rows[row].Cells[0].Value = items[0];
+        for (int i = 1; i < dgvCommon.ColumnCount; i++)
+            dgvCommon.Rows[row].Cells[i].Value = 0.ToString();
+    }
 
-            int ctr = 0;
-            Util.Shuffle(validItems);
-            for (int r = 0; r < dgvCommon.RowCount; r++)
-            {
-                dgvCommon.Rows[r].Cells[0].Value = items[validItems[ctr++]];
-                if (ctr <= validItems.Length) continue;
-                Util.Shuffle(validItems); ctr = 0;
-            }
-            WinFormsUtil.Alert("Randomized!");
-        }
+    private void B_DeleteRow_Click(object sender, EventArgs e)
+    {
+        if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Delete the bottom row?"))
+            return;
 
-        private void B_AddRow_Click(object sender, EventArgs e)
-        {
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Add a row at the bottom?"))
-                return;
-
-            int row = dgvCommon.RowCount;
-            dgvCommon.Rows.Add();
-            dgvCommon.Rows[row].Cells[0].Value = items[0];
-            for (int i = 1; i < dgvCommon.ColumnCount; i++)
-                dgvCommon.Rows[row].Cells[i].Value = 0.ToString();
-        }
-
-        private void B_DeleteRow_Click(object sender, EventArgs e)
-        {
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Delete the bottom row?"))
-                return;
-
-            dgvCommon.Rows.RemoveAt(dgvCommon.RowCount - 1);
-        }
+        dgvCommon.Rows.RemoveAt(dgvCommon.RowCount - 1);
     }
 }

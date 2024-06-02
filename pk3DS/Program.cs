@@ -5,16 +5,16 @@ using System.Windows.Forms;
 using System.Threading;
 #endif
 
-namespace pk3DS
+namespace pk3DS.WinForms;
+
+internal static class Program
 {
-    internal static class Program
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    [STAThread]
+    private static void Main()
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        private static void Main()
-        {
 #if !DEBUG
             // Add the event handler for handling UI thread exceptions to the event.
             Application.ThreadException += UIThreadException;
@@ -26,11 +26,11 @@ namespace pk3DS
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 #endif
 
-            // Run the application
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
-        }
+        // Run the application
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        Application.Run(new Main());
+    }
 
 #if !DEBUG
         // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
@@ -86,5 +86,4 @@ namespace pk3DS
             }
         }
 #endif
-    }
 }

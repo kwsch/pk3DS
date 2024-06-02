@@ -2,55 +2,54 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace pk3DS.Core.Structures
+namespace pk3DS.Core.Structures;
+
+public static class TypeChart
 {
-    public static class TypeChart
+    private static readonly uint[] Colors =
+    [
+        0xFF000000,
+        0, // unused
+        0xFFFF0000,
+        0, // unused
+        0xFFFFFFFF,
+        0, 0, 0, // unused
+        0xFF008000,
+    ];
+
+    public static Bitmap GetGrid(int itemsize, int itemsPerRow, byte[] vals)
     {
-        private static readonly uint[] Colors =
-        [
-            0xFF000000,
-                            0, // unused
-                            0xFFFF0000,
-                            0, // unused
-                            0xFFFFFFFF,
-                            0, 0, 0, // unused
-                            0xFF008000,
-        ];
+        // set up image
+        var width = itemsize * itemsPerRow;
+        var height = itemsize * vals.Length / itemsPerRow;
+        byte[] bmpData = new byte[4 * width * height];
 
-        public static Bitmap GetGrid(int itemsize, int itemsPerRow, byte[] vals)
+        // loop over area
+        for (int i = 0; i < vals.Length; i++)
         {
-            // set up image
-            var width = itemsize * itemsPerRow;
-            var height = itemsize * vals.Length / itemsPerRow;
-            byte[] bmpData = new byte[4 * width * height];
+            int X = i % itemsPerRow;
+            int Y = i / itemsPerRow;
 
-            // loop over area
-            for (int i = 0; i < vals.Length; i++)
+            // Plop into image
+            byte[] itemColor = BitConverter.GetBytes(Colors[vals[i]]);
+            for (int x = 0; x < itemsize * itemsize; x++)
             {
-                int X = i % itemsPerRow;
-                int Y = i / itemsPerRow;
-
-                // Plop into image
-                byte[] itemColor = BitConverter.GetBytes(Colors[vals[i]]);
-                for (int x = 0; x < itemsize * itemsize; x++)
-                {
-                    Buffer.BlockCopy(itemColor, 0, bmpData, (((Y * itemsize) + (x % itemsize)) * width * 4) + (((X * itemsize) + (x / itemsize)) * 4), 4);
-                }
+                Buffer.BlockCopy(itemColor, 0, bmpData, (((Y * itemsize) + (x % itemsize)) * width * 4) + (((X * itemsize) + (x / itemsize)) * 4), 4);
             }
-            // slap on a grid
-            byte[] gridColor = BitConverter.GetBytes(0x17000000);
-            for (int i = 0; i < width * height; i++)
-            {
-                if (i % itemsize == 0 || i / (itemsize * itemsPerRow) % itemsize == 0)
-                    Buffer.BlockCopy(gridColor, 0, bmpData, (i / (itemsize * itemsPerRow) * width * 4) + (i % (itemsize * itemsPerRow) * 4), 4);
-            }
-
-            // assemble image
-            var b = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-            var bData = b.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-            System.Runtime.InteropServices.Marshal.Copy(bmpData, 0, bData.Scan0, bmpData.Length);
-            b.UnlockBits(bData);
-            return b;
         }
+        // slap on a grid
+        byte[] gridColor = BitConverter.GetBytes(0x17000000);
+        for (int i = 0; i < width * height; i++)
+        {
+            if (i % itemsize == 0 || i / (itemsize * itemsPerRow) % itemsize == 0)
+                Buffer.BlockCopy(gridColor, 0, bmpData, (i / (itemsize * itemsPerRow) * width * 4) + (i % (itemsize * itemsPerRow) * 4), 4);
+        }
+
+        // assemble image
+        var b = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+        var bData = b.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+        System.Runtime.InteropServices.Marshal.Copy(bmpData, 0, bData.Scan0, bmpData.Length);
+        b.UnlockBits(bData);
+        return b;
     }
 }

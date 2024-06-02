@@ -1,11 +1,10 @@
-﻿namespace pk3DS.Core.Structures
+﻿namespace pk3DS.Core.Structures;
+
+public enum RefreshType : byte
 {
-    public enum RefreshType : byte
-    {
-        None,
-        Disheveled,
-        Mud,
-        Dust,
-        Dry,
-    }
+    None,
+    Disheveled,
+    Mud,
+    Dust,
+    Dry,
 }

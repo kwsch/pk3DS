@@ -1,11 +1,10 @@
-﻿namespace pk3DS.Core.Structures
+﻿namespace pk3DS.Core.Structures;
+
+public enum MoveInflictDuration
 {
-    public enum MoveInflictDuration
-    {
-        None = 0,
-        Permanent,
-        TurnCountSwitch,
-        PermanentSwitch,
-        TurnCountNoSwitch,
-    };
-}
+    None = 0,
+    Permanent,
+    TurnCountSwitch,
+    PermanentSwitch,
+    TurnCountNoSwitch,
+};

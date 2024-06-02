@@ -4,108 +4,107 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace pk3DS
+namespace pk3DS.WinForms;
+
+public partial class TypeChart6 : Form
 {
-    public partial class TypeChart6 : Form
+    private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllBattle.cro");
+    private readonly string[] types = Main.Config.GetText(TextName.Types);
+    private readonly int offset = Main.Config.ORAS ? 0x000DB428 : 0x000D12A8;
+    private readonly byte[] chart = new byte[TypeCount * TypeCount];
+    private readonly byte[] CROData;
+    private const int TypeCount = 18;
+    private const int TypeWidth = 32;
+
+    public TypeChart6()
     {
-        private readonly string CROPath = Path.Combine(Main.RomFSPath, "DllBattle.cro");
-        private readonly string[] types = Main.Config.GetText(TextName.Types);
-        private readonly int offset = Main.Config.ORAS ? 0x000DB428 : 0x000D12A8;
-        private readonly byte[] chart = new byte[TypeCount * TypeCount];
-        private readonly byte[] CROData;
-        private const int TypeCount = 18;
-        private const int TypeWidth = 32;
+        if (!File.Exists(CROPath))
+        { WinFormsUtil.Error("CRO does not exist! Closing.", CROPath); Close(); }
 
-        public TypeChart6()
-        {
-            if (!File.Exists(CROPath))
-            { WinFormsUtil.Error("CRO does not exist! Closing.", CROPath); Close(); }
+        InitializeComponent();
 
-            InitializeComponent();
+        CROData = File.ReadAllBytes(CROPath);
+        Array.Copy(CROData, offset, chart, 0, chart.Length);
 
-            CROData = File.ReadAllBytes(CROPath);
-            Array.Copy(CROData, offset, chart, 0, chart.Length);
+        PopulateChart();
+    }
 
-            PopulateChart();
-        }
+    private void PopulateChart()
+    {
+        PB_Chart.Image = TypeChart.GetGrid(TypeWidth, TypeCount, chart);
+    }
 
-        private void PopulateChart()
-        {
-            PB_Chart.Image = TypeChart.GetGrid(TypeWidth, TypeCount, chart);
-        }
+    private void B_Save_Click(object sender, EventArgs e)
+    {
+        Array.Copy(chart, 0, CROData, offset, chart.Length);
+        File.WriteAllBytes(CROPath, CROData);
+        Close();
+    }
 
-        private void B_Save_Click(object sender, EventArgs e)
-        {
-            Array.Copy(chart, 0, CROData, offset, chart.Length);
-            File.WriteAllBytes(CROPath, CROData);
-            Close();
-        }
+    private void B_Cancel_Click(object sender, EventArgs e)
+    {
+        Close();
+    }
 
-        private void B_Cancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+    private void MoveMouse(object sender, MouseEventArgs e)
+    {
+        GetCoordinate((PictureBox)sender, e, out int X, out int Y);
+        int index = (Y * TypeCount) + X;
+        if (index >= chart.Length)
+            return;
+        UpdateLabel(X, Y, chart[index]);
+    }
 
-        private void MoveMouse(object sender, MouseEventArgs e)
-        {
-            GetCoordinate((PictureBox)sender, e, out int X, out int Y);
-            int index = (Y * TypeCount) + X;
-            if (index >= chart.Length)
-                return;
-            UpdateLabel(X, Y, chart[index]);
-        }
+    private void ClickMouse(object sender, MouseEventArgs e)
+    {
+        GetCoordinate((PictureBox)sender, e, out int X, out int Y);
+        int index = (Y * TypeCount) + X;
+        if (index >= chart.Length)
+            return;
 
-        private void ClickMouse(object sender, MouseEventArgs e)
-        {
-            GetCoordinate((PictureBox)sender, e, out int X, out int Y);
-            int index = (Y * TypeCount) + X;
-            if (index >= chart.Length)
-                return;
+        chart[index] = ToggleEffectiveness(chart[index], e.Button == MouseButtons.Left);
 
-            chart[index] = ToggleEffectiveness(chart[index], e.Button == MouseButtons.Left);
+        UpdateLabel(X, Y, chart[index]);
+        PopulateChart();
+    }
 
-            UpdateLabel(X, Y, chart[index]);
-            PopulateChart();
-        }
+    private void UpdateLabel(int X, int Y, int value)
+    {
+        if (value >= effects.Length || X >= types.Length || Y >= types.Length)
+            return; // clicking and moving outside the box has invalid values
+        L_Hover.Text = $"[{X:00}x{Y:00}: {value:00}] {types[Y]} attacking {types[X]} {effects[value]}";
+    }
 
-        private void UpdateLabel(int X, int Y, int value)
-        {
-            if (value >= effects.Length || X >= types.Length || Y >= types.Length)
-                return; // clicking and moving outside the box has invalid values
-            L_Hover.Text = $"[{X:00}x{Y:00}: {value:00}] {types[Y]} attacking {types[X]} {effects[value]}";
-        }
+    private readonly string[] effects =
+    [
+        "has no effect!",
+        "",
+        "is not very effective.",
+        "",
+        "does regular damage.",
+        "", "", "",
+        "is super effective!",
+    ];
 
-        private readonly string[] effects =
-        [
-            "has no effect!",
-            "",
-            "is not very effective.",
-            "",
-            "does regular damage.",
-            "", "", "",
-            "is super effective!",
-        ];
+    public static void GetCoordinate(Control sender, MouseEventArgs e, out int X, out int Y)
+    {
+        X = e.X / TypeWidth;
+        Y = e.Y / TypeWidth;
+        if (e.X == sender.Width - 1 - 2) // tweak because the furthest pixel is unused for transparent effect, and 2 px are used for border
+            X--;
+        if (e.Y == sender.Height - 1 - 2)
+            Y--;
+    }
 
-        public static void GetCoordinate(Control sender, MouseEventArgs e, out int X, out int Y)
-        {
-            X = e.X / TypeWidth;
-            Y = e.Y / TypeWidth;
-            if (e.X == sender.Width - 1 - 2) // tweak because the furthest pixel is unused for transparent effect, and 2 px are used for border
-                X--;
-            if (e.Y == sender.Height - 1 - 2)
-                Y--;
-        }
+    public static byte ToggleEffectiveness(byte currentValue, bool increase)
+    {
+        byte[] vals = [0, 2, 4, 8];
+        int curIndex = Array.IndexOf(vals, currentValue);
+        if (curIndex < 0)
+            return currentValue;
 
-        public static byte ToggleEffectiveness(byte currentValue, bool increase)
-        {
-            byte[] vals = [0, 2, 4, 8];
-            int curIndex = Array.IndexOf(vals, currentValue);
-            if (curIndex < 0)
-                return currentValue;
-
-            uint shift = (uint)(curIndex + (increase ? 1 : -1));
-            var newIndex = shift % vals.Length;
-            return vals[newIndex];
-        }
+        uint shift = (uint)(curIndex + (increase ? 1 : -1));
+        var newIndex = shift % vals.Length;
+        return vals[newIndex];
     }
 }
