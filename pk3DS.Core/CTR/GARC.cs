@@ -73,7 +73,7 @@ public static class GARC
         #endregion            
 
         // Set Up the GARC template.
-        GARCFile garc = new GARCFile
+        var garc = new GARCFile
         {
             ContentPadToNearest = 4,
             fato =
@@ -131,7 +131,7 @@ public static class GARC
                     v = 1;
 
                     // Assemble Entry
-                    FileInfo fi = new FileInfo(packOrder[i]);
+                    var fi = new FileInfo(packOrder[i]);
                     int actualLength = (int)(fi.Length % 4 == 0 ? fi.Length : fi.Length + 4 - (fi.Length % 4));
                     garc.fatb.Entries[i].SubEntries[0].Start = od;
                     garc.fatb.Entries[i].SubEntries[0].End = actualLength + garc.fatb.Entries[i].SubEntries[0].Start;
@@ -167,7 +167,7 @@ public static class GARC
                         v |= 1 << fileNumber;
 
                         // Assemble Entry
-                        FileInfo fi = new FileInfo(s);
+                        var fi = new FileInfo(s);
                         int actualLength = (int)(fi.Length % 4 == 0 ? fi.Length : fi.Length + 4 - (fi.Length % 4));
                         garc.fatb.Entries[i].SubEntries[fileNumber].Start = od;
                         garc.fatb.Entries[i].SubEntries[fileNumber].End = actualLength + garc.fatb.Entries[i].SubEntries[fileNumber].Start;
@@ -192,7 +192,7 @@ public static class GARC
 
         // Set up the Header Info
         using var newGARC = new FileStream(garcPath, FileMode.Create);
-        using BinaryWriter gw = new BinaryWriter(newGARC);
+        using var gw = new BinaryWriter(newGARC);
 
         #region Write GARC Headers
         // Write GARC
@@ -327,7 +327,7 @@ public static class GARC
 
         FileCountDetermined?.Invoke(null, new FileCountDeterminedEventArgs { Total = fileCount });
 
-        using BinaryReader br = new BinaryReader(File.OpenRead(garcPath));
+        using var br = new BinaryReader(File.OpenRead(garcPath));
         // Create Extraction folder if it does not exist.
         if (!Directory.Exists(outPath))
             Directory.CreateDirectory(outPath);
@@ -365,7 +365,7 @@ public static class GARC
 
                 // Write File
                 string fileOut = Path.Combine(parentFolder, (Entry.IsFolder ? i.ToString("00") : fileName) + "." + ext);
-                using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(fileOut)))
+                using (var bw = new BinaryWriter(File.OpenWrite(fileOut)))
                 {
                     // Write out the data for the file
                     br.BaseStream.Position = SubEntry.Start + garc.DataOffset;
@@ -412,8 +412,8 @@ public static class GARC
 
     private static GARCFile UnpackGARC(Stream stream)
     {
-        using BinaryReader br = new BinaryReader(stream);
-        GARCFile garc = new GARCFile
+        using var br = new BinaryReader(stream);
+        var garc = new GARCFile
         {
             Magic = br.ReadChars(4),
             HeaderSize = br.ReadUInt32(),
@@ -494,7 +494,7 @@ public static class GARC
         if (contentpadnearest < 0)
             contentpadnearest = 4;
         // Set Up the GARC template.
-        GARCFile garc = new GARCFile
+        var garc = new GARCFile
         {
             ContentPadToNearest = (uint)contentpadnearest,
             fato =
@@ -544,7 +544,7 @@ public static class GARC
         // Set up the Header Info
         string tempFile = Path.GetTempFileName();
         using (var newGARC = new FileStream(tempFile, FileMode.Create))
-        using (BinaryWriter gw = new BinaryWriter(newGARC))
+        using (var gw = new BinaryWriter(newGARC))
         {
             #region Write GARC Headers
 
@@ -746,7 +746,7 @@ public static class GARC
 
                 try
                 {
-                    using (MemoryStream newMS = new MemoryStream())
+                    using (var newMS = new MemoryStream())
                     {
                         LZSS.Decompress(new MemoryStream(data), data.Length, newMS);
                         Data = newMS.ToArray();
@@ -764,7 +764,7 @@ public static class GARC
                 byte[] data;
                 try
                 {
-                    using MemoryStream newMS = new MemoryStream();
+                    using var newMS = new MemoryStream();
                     LZSS.Compress(new MemoryStream(Data), Data.Length, newMS, original: true);
                     data = newMS.ToArray();
                 }

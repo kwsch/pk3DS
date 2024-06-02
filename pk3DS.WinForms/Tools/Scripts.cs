@@ -106,8 +106,8 @@ public static class Scripts
     // Compression
     internal static byte[] CompressScript(byte[] data)
     {
-        if (data == null || data.Length % 4 != 0) // Bad Input
-            return null;
+        if (data.Length % 4 != 0) // Bad Input
+            throw new ArgumentException(nameof(data));
         using var mn = new MemoryStream();
         using var bw = new BinaryWriter(mn);
         int pos = 0;
@@ -622,7 +622,7 @@ public static class Scripts
         }
 
         if (sanity >= 0 && sanity != sanityMode)
-            throw new ArgumentException();
+            throw new ArgumentException(null, nameof(sanity));
 
         return [.. parse];
     }

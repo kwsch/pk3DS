@@ -28,10 +28,12 @@ public partial class TextEditor : Form
     // IO
     private void B_Export_Click(object sender, EventArgs e)
     {
-        if (files.Length == 0) return;
-        SaveFileDialog Dump = new SaveFileDialog { Filter = "Text File|*.txt" };
-        DialogResult sdr = Dump.ShowDialog();
-        if (sdr != DialogResult.OK) return;
+        if (files.Length == 0)
+            return;
+        var Dump = new SaveFileDialog { Filter = "Text File|*.txt" };
+        var sdr = Dump.ShowDialog();
+        if (sdr != DialogResult.OK)
+            return;
         bool newline = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Remove newline formatting codes? (\\n,\\r,\\c)", "Removing newline formatting will make it more readable but will prevent any importing of that dump.") == DialogResult.Yes;
         string path = Dump.FileName;
         ExportTextFile(path, newline, files);
@@ -39,13 +41,16 @@ public partial class TextEditor : Form
 
     private void B_Import_Click(object sender, EventArgs e)
     {
-        if (files.Length == 0) return;
-        OpenFileDialog Dump = new OpenFileDialog { Filter = "Text File|*.txt" };
-        DialogResult odr = Dump.ShowDialog();
-        if (odr != DialogResult.OK) return;
+        if (files.Length == 0)
+            return;
+        var Dump = new OpenFileDialog { Filter = "Text File|*.txt" };
+        var odr = Dump.ShowDialog();
+        if (odr != DialogResult.OK)
+            return;
         string path = Dump.FileName;
 
-        if (!ImportTextFile(path)) return;
+        if (!ImportTextFile(path))
+            return;
 
         // Reload the form with the new data.
         ChangeEntry(null, null);
@@ -174,7 +179,7 @@ public partial class TextEditor : Form
         };
         dgvLine.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
-        DataGridViewTextBoxColumn dgvText = new DataGridViewTextBoxColumn
+        var dgvText = new DataGridViewTextBoxColumn
         {
             HeaderText = "Text",
             DisplayIndex = 1,

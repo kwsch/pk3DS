@@ -6,10 +6,10 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
-using pk3DS.Properties;
 using pk3DS.Core.Structures;
 using pk3DS.Core;
 using pk3DS.Core.Randomizers;
+using pk3DS.WinForms.Properties;
 
 namespace pk3DS.WinForms;
 
@@ -176,7 +176,7 @@ public partial class EggMoveEditor6 : Form
             byte[] movedata = files[i];
             if (movedata.Length <= 2) continue;
             int movecount = BitConverter.ToUInt16(movedata, 0);
-            if (movecount == 65535 || movecount < 0)
+            if (movecount == 65535)
                 continue;
             species++;
             movectr += movecount; // Average Moves

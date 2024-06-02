@@ -10,9 +10,7 @@ public static class Util
     public static FileInfo GetNewestFile(DirectoryInfo directory)
     {
         return directory.GetFiles()
-            .Union(directory.GetDirectories().Select(GetNewestFile))
-            .OrderByDescending(f => f?.LastWriteTime ?? DateTime.MinValue)
-            .FirstOrDefault();
+            .Union(directory.GetDirectories().Select(GetNewestFile)).MaxBy(f => f?.LastWriteTime ?? DateTime.MinValue);
     }
 
     public static string NormalizePath(string path)
@@ -60,9 +58,7 @@ public static class Util
         for (int i = 0; i < n; i++)
         {
             int r = i + (int)(Rand.NextDouble() * (n - i));
-            T t = array[r];
-            array[r] = array[i];
-            array[i] = t;
+            (array[r], array[i]) = (array[i], array[r]);
         }
     }
 
@@ -149,7 +145,7 @@ public static class Util
 
     public static string GuessExtension(string path, bool bypass)
     {
-        using BinaryReader br = new BinaryReader(File.OpenRead(path));
+        using var br = new BinaryReader(File.OpenRead(path));
         return GuessExtension(br, "bin", bypass);
     }
 

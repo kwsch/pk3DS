@@ -241,7 +241,7 @@ public class GameConfig
     public TextVariableCode GetVariableCode(string name) { return Variables?.FirstOrDefault(v => v.Name == name); }
     public TextVariableCode GetVariableName(int value) { return Variables?.FirstOrDefault(v => v.Code == value); }
 
-    private TextReference GetGameText(TextName name) { return GameText?.FirstOrDefault(f => f.Name == name); }
+    private TextReference GetGameText(TextName name) { return GameText.FirstOrDefault(f => f.Name == name); }
     public TextData GetTextData(TextName file) => new(GetText(file));
 
     public string[] GetText(TextName file)

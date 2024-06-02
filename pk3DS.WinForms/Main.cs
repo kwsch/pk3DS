@@ -216,6 +216,9 @@ public sealed partial class Main : Form
     {
         if (fi.Length % 0x200 != 0)
             return;
+        var dir = Path.GetDirectoryName(path);
+        if (dir is null)
+            return;
 
         var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Detected ExeFS.bin.", "Unpack?");
         if (prompt != DialogResult.Yes)
@@ -224,7 +227,7 @@ public sealed partial class Main : Form
         new Thread(() =>
         {
             Interlocked.Increment(ref threads);
-            ExeFS.UnpackExeFS(path, Path.GetDirectoryName(path));
+            ExeFS.UnpackExeFS(path, dir);
             Interlocked.Decrement(ref threads);
             WinFormsUtil.Alert("Unpacked!");
         }).Start();
@@ -317,8 +320,12 @@ public sealed partial class Main : Form
             UpdateStatus("Data found! Loading persistent data for subforms...", false);
             try
             {
-                Config.Initialize(RomFSPath, ExeFSPath, Language);
-                Config.BackupFiles();
+                if (Config is not null)
+                {
+                    if (ExeFSPath is not null)
+                        Config.Initialize(RomFSPath, ExeFSPath, Language);
+                    Config.BackupFiles();
+                }
             }
             catch (Exception ex)
             {
@@ -493,7 +500,11 @@ public sealed partial class Main : Form
         {
             if (files.Length > 1000)
                 return null;
-            string[] fileArr = Directory.GetFiles(Path.Combine(Directory.GetParent(files[0]).FullName, "a"), "*", SearchOption.AllDirectories);
+            var parent = Directory.GetParent(files[0]);
+            if (parent is null)
+                return null;
+
+            string[] fileArr = Directory.GetFiles(Path.Combine(parent.FullName, "a"), "*", SearchOption.AllDirectories);
             int fileCount = fileArr.Count(file => Path.GetFileName(file).Length == 1);
             return new GameConfig(fileCount);
         }
@@ -588,12 +599,14 @@ public sealed partial class Main : Form
 
     private void TabMain_DragEnter(object sender, DragEventArgs e)
     {
-        if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        if (e.Data?.GetDataPresent(DataFormats.FileDrop) is true)
+            e.Effect = DragDropEffects.Copy;
     }
 
     private void TabMain_DragDrop(object sender, DragEventArgs e)
     {
-        string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+        if (e.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
+            return;
         string path = files[0]; // open first D&D
         OpenQuick(path);
     }

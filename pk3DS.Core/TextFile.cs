@@ -142,7 +142,7 @@ public class TextFile
 
     public string[] Lines
     {
-        get => LineData.Select(z => GetLineString(Config, z)).ToArray();
+        get => Array.ConvertAll(LineData, z => GetLineString(Config, z));
         set => LineData = ConvertLinesToData(value);
     }
 
@@ -186,8 +186,8 @@ public class TextFile
         if (line == null)
             return new byte[2];
 
-        MemoryStream ms = new MemoryStream();
-        using BinaryWriter bw = new BinaryWriter(ms);
+        var ms = new MemoryStream();
+        using var bw = new BinaryWriter(ms);
         int i = 0;
         while (i < line.Length)
         {
@@ -200,7 +200,7 @@ public class TextFile
                 case '[':
                 {
                     // grab the string
-                    int bracket = line.IndexOf("]", i, StringComparison.Ordinal);
+                    int bracket = line.IndexOf(']', i);
                     if (bracket < 0)
                         throw new ArgumentException("Variable text is not capped properly: " + line);
                     string varText = line[i..bracket];
@@ -255,20 +255,17 @@ public class TextFile
 
     private string GetLineString(GameConfig config, byte[] data)
     {
-        if (data == null)
-            return null;
-
         var s = new StringBuilder();
         int i = 0;
         while (i < data.Length)
         {
             ushort val = BitConverter.ToUInt16(data, i);
-            if (val == KEY_TERMINATOR) break;
+            if (val == KEY_TERMINATOR)
+                break;
             i += 2;
 
             switch (val)
             {
-                case KEY_TERMINATOR: return s.ToString();
                 case KEY_VARIABLE: s.Append(GetVariableString(config, data, ref i)); break;
                 case '\n': s.Append(@"\n"); break;
                 case '\\': s.Append(@"\\"); break;
@@ -318,7 +315,7 @@ public class TextFile
         return s.ToString();
     }
 
-    private static IEnumerable<ushort> GetEscapeValues(char esc)
+    private static List<ushort> GetEscapeValues(char esc)
     {
         var vals = new List<ushort>();
         switch (esc)
@@ -332,7 +329,7 @@ public class TextFile
         }
     }
 
-    private IEnumerable<ushort> GetVariableValues(GameConfig config, string variable)
+    private static List<ushort> GetVariableValues(GameConfig config, string variable)
     {
         string[] split = variable.Split(' ');
         if (split.Length < 2)
@@ -359,7 +356,7 @@ public class TextFile
         return vals;
     }
 
-    private IEnumerable<ushort> GetVariableParameters(GameConfig config, string text)
+    private static List<ushort> GetVariableParameters(GameConfig config, string text)
     {
         var vals = new List<ushort>();
         int bracket = text.IndexOf('(');
@@ -405,7 +402,7 @@ public class TextFile
     public static string[] GetStrings(GameConfig config, byte[] data, bool remapChars = false)
     {
         TextFile t;
-        try { t = new TextFile(config, data, remapChars); } catch { return null; }
+        try { t = new TextFile(config, data, remapChars); } catch { return []; }
         return t.Lines;
     }
 

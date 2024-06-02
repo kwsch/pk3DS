@@ -25,15 +25,15 @@ public class BCLIM : BXLIM
     private void ReadBCLIM(Stream ms)
     {
         PixelData = new byte[ms.Length - FLIMHeader.SIZE];
-        ms.Read(PixelData, 0, PixelData.Length);
+        _ = ms.Read(PixelData, 0, PixelData.Length);
         var footer = new byte[FLIMHeader.SIZE];
-        ms.Read(footer, 0, footer.Length);
+        _ = ms.Read(footer, 0, footer.Length);
         Footer = footer.ToStructure<CLIMHeader>();
     }
 
     public override uint[] GetPixels()
     {
-        if (Format == (XLIMEncoding)7 && BitConverter.ToUInt16(PixelData, 0) == 2) // Gen6 Palette
+        if (Format == XLIMEncoding.RGB5A1 && BitConverter.ToUInt16(PixelData, 0) == 2) // Gen6 Palette
             return GetPixelsViaPalette();
         return base.GetPixels();
     }
@@ -72,8 +72,8 @@ public class BCLIM : BXLIM
     // todo: move System.Drawing utilization out, make encoding generic for bflim
     public static byte[] IMGToBCLIM(Image img, char fc)
     {
-        Bitmap mBitmap = new Bitmap(img);
-        MemoryStream ms = new MemoryStream();
+        var mBitmap = new Bitmap(img);
+        var ms = new MemoryStream();
         int bclimformat = 7; // Init to default (for X)
 
         if (fc == 'X')
@@ -96,7 +96,7 @@ public class BCLIM : BXLIM
 
         long datalength = ms.Length;
         // Write the CLIM + imag data.
-        using (BinaryWriter bw = new BinaryWriter(ms))
+        using (var bw = new BinaryWriter(ms))
         {
             bw.Write((uint)0x4D494C43); // CLIM
             bw.Write((ushort)0xFEFF);   // BOM
@@ -156,8 +156,8 @@ public class BCLIM : BXLIM
     // BCLIM Data Writing
     public static int Write16BitColorPalette(Bitmap img, MemoryStream ms)
     {
-        using Stream pixelcolors = new MemoryStream();
-        using BinaryWriter bz = new BinaryWriter(pixelcolors);
+        using var pixelcolors = new MemoryStream();
+        using var bz = new BinaryWriter(pixelcolors);
         // Set up our basis.
         bool under16colors = false;
         int colors = GetColorCount(img);
@@ -284,8 +284,8 @@ public class BCLIM : BXLIM
             }
         }
 
-        using MemoryStream mz = new MemoryStream();
-        using BinaryWriter bz = new BinaryWriter(mz);
+        using var mz = new MemoryStream();
+        using var bz = new BinaryWriter(mz);
         int p = XLIMUtil.GreatestCommonMultiple(w, 8) / 8;
         if (p == 0) p = 1;
         for (uint i = 0; i < w * h; i++)

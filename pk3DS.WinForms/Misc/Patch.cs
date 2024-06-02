@@ -116,7 +116,7 @@ public partial class Patch : Form
 
     private string[] GetGARCs()
     {
-        StringCollection sc = new StringCollection();
+        var sc = new StringCollection();
         foreach (int indexChecked in CHKLB_GARCs.CheckedIndices)
             sc.Add(CHKLB_GARCs.Items[indexChecked].ToString());
 

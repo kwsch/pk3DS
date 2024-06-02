@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Product>pk3DS</Product>
+    <Company>Project Pokémon</Company>
+    <Authors>Kaphotics</Authors>
+    <Copyright>Kaphotics</Copyright>
+    <SourceRevisionId>$([System.DateTime]::UtcNow.ToString("yyMMddHHmmss"))</SourceRevisionId>
+  </PropertyGroup>
+</Project>

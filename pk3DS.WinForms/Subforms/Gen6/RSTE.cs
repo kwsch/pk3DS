@@ -217,7 +217,7 @@ public partial class RSTE : Form
             string tdata = GetTRSummary();
             toret += tdata;
         }
-        SaveFileDialog sfd = new SaveFileDialog { FileName = "Battles.txt", Filter = "Text File|*.txt" };
+        var sfd = new SaveFileDialog { FileName = "Battles.txt", Filter = "Text File|*.txt" };
 
         SystemSounds.Asterisk.Play();
         if (sfd.ShowDialog() == DialogResult.OK)
@@ -465,7 +465,7 @@ public partial class RSTE : Form
     public static int[] rFinalEvo;
     private string[] rImportant;
     private readonly List<string> Tags = [];
-    private readonly Dictionary<string, int> TagTypes = new();
+    private readonly Dictionary<string, int> TagTypes = [];
     public static int[] sL; // Random Species List
     public static decimal rGiftPercent, rLevelMultiplier, rMinPKM, rMaxPKM, rForceFullyEvolvedLevel, rForceHighPowerLevel;
 
@@ -514,7 +514,7 @@ public partial class RSTE : Form
             GymE4Types.AddRange(Enumerable.Range(0, types.Length).ToArray());
         }
 
-        foreach (int t1 in rEnsureMEvo.Where(t1 => rTags[t1].Length != 0 && !TagTypes.Keys.Contains(rTags[t1])))
+        foreach (int t1 in rEnsureMEvo.Where(t1 => rTags[t1].Length != 0 && !TagTypes.ContainsKey(rTags[t1])))
         {
             int t;
             if (rTags[t1].Contains("GYM") || rTags[t1].Contains("ELITE") || rTags[t1].Contains("CHAMPION"))
@@ -531,7 +531,7 @@ public partial class RSTE : Form
         }
         foreach (string t1 in Tags)
         {
-            if (!TagTypes.Keys.Contains(t1) && t1.Length != 0)
+            if (!TagTypes.ContainsKey(t1) && t1.Length != 0)
             {
                 int t;
                 if (t1.Contains("GYM") || t1.Contains("ELITE") || t1.Contains("CHAMPION"))

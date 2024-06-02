@@ -6,12 +6,10 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
-
-using pk3DS.Properties;
-
 using pk3DS.Core.Structures;
 using pk3DS.Core;
 using pk3DS.Core.Randomizers;
+using pk3DS.WinForms.Properties;
 
 namespace pk3DS.WinForms;
 
@@ -162,7 +160,8 @@ public partial class LevelUpEditor7 : Form
 
     private void B_Metronome_Click(object sender, EventArgs e)
     {
-        if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Play using Metronome Mode?", "This will modify learnsets to only have Metronome.") != DialogResult.Yes) return;
+        if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Play using Metronome Mode?", "This will modify learnsets to only have Metronome.") != DialogResult.Yes)
+            return;
 
         // clear all data, then only assign Metronome at Lv1
         for (int i = 0; i < CB_Species.Items.Count; i++)

@@ -183,7 +183,7 @@ public partial class PersonalEditor6 : Form
     {
         if (sender is not MaskedTextBox mtb)
             return;
-        int.TryParse(mtb.Text, out int val);
+        _ = int.TryParse(mtb.Text, out int val);
         if (Array.IndexOf(byte_boxes, mtb) > -1 && val > 255)
             mtb.Text = "255";
         else if (Array.IndexOf(ev_boxes, mtb) > -1 && val > 3)
@@ -271,8 +271,8 @@ public partial class PersonalEditor6 : Form
         int f = formVal[entry];
         if (entry <= Main.Config.MaxSpeciesID)
             s = entry;
-        Bitmap rawImg = WinFormsUtil.GetSprite(s, f, 0, 0, Main.Config);
-        Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
+        var rawImg = WinFormsUtil.GetSprite(s, f, 0, 0, Main.Config);
+        var bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
         for (int x = 0; x < rawImg.Width; x++)
         {
             for (int y = 0; y < rawImg.Height; y++)
@@ -321,8 +321,8 @@ public partial class PersonalEditor6 : Form
         pkm.Color = (byte)(Convert.ToByte(CB_Color.SelectedIndex) | (Convert.ToByte(TB_RawColor.Text) & 0xF0));
         pkm.BaseEXP = Convert.ToUInt16(TB_BaseExp.Text);
 
-        decimal.TryParse(TB_Height.Text, out var h);
-        decimal.TryParse(TB_Weight.Text, out var w);
+        _ = decimal.TryParse(TB_Height.Text, out var h);
+        _ = decimal.TryParse(TB_Weight.Text, out var w);
         pkm.Height = (int)(h * 100);
         pkm.Weight = (int)(w * 10);
 
@@ -447,7 +447,7 @@ public partial class PersonalEditor6 : Form
     {
         if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Dump all Personal Entries to Text File?"))
             return;
-        SaveFileDialog sfd = new SaveFileDialog { FileName = "Personal Entries.txt", Filter = "Text File|*.txt" };
+        var sfd = new SaveFileDialog { FileName = "Personal Entries.txt", Filter = "Text File|*.txt" };
         SystemSounds.Asterisk.Play();
         if (sfd.ShowDialog() != DialogResult.OK)
             return;

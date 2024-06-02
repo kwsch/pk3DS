@@ -48,10 +48,10 @@ public static class Mini
         int dataOffset = 4 + 4 + (count * 4);
 
         // Start the data filling.
-        using (MemoryStream dataout = new MemoryStream())
-        using (MemoryStream offsetMap = new MemoryStream())
-        using (BinaryWriter bd = new BinaryWriter(dataout))
-        using (BinaryWriter bo = new BinaryWriter(offsetMap))
+        using (var dataout = new MemoryStream())
+        using (var offsetMap = new MemoryStream())
+        using (var bd = new BinaryWriter(dataout))
+        using (var bo = new BinaryWriter(offsetMap))
         {
             // For each file...
             for (int i = 0; i < count; i++)
@@ -96,10 +96,10 @@ public static class Mini
         int dataOffset = 4 + 4 + (count * 4);
 
         // Start the data filling.
-        using MemoryStream dataout = new MemoryStream();
-        using MemoryStream offsetMap = new MemoryStream();
-        using BinaryWriter bd = new BinaryWriter(dataout);
-        using BinaryWriter bo = new BinaryWriter(offsetMap);
+        using var dataout = new MemoryStream();
+        using var offsetMap = new MemoryStream();
+        using var bd = new BinaryWriter(dataout);
+        using var bo = new BinaryWriter(offsetMap);
         // For each file...
         for (int i = 0; i < count; i++)
         {
@@ -148,7 +148,7 @@ public static class Mini
         using (var s = new MemoryStream(File.ReadAllBytes(path)))
         using (var br = new BinaryReader(s))
         {
-            string fx = new string(br.ReadChars(2));
+            var fx = new string(br.ReadChars(2));
 
             if (fx != ident) return;
 
@@ -164,7 +164,7 @@ public static class Mini
             for (int i = 0; i < count; i++)
             {
                 br.BaseStream.Seek(offsets[i], SeekOrigin.Begin);
-                using MemoryStream dataout = new MemoryStream();
+                using var dataout = new MemoryStream();
                 byte[] data = [];
                 s.CopyTo(dataout, (int)offsets[i]);
                 int len = (int)offsets[i + 1] - (int)offsets[i];
@@ -217,7 +217,7 @@ public static class Mini
         var fi = new FileInfo(path);
         try
         {
-            string fx = new string(new[] { (char)data[0], (char)data[1] });
+            string fx = new(new[] { (char)data[0], (char)data[1] });
             ushort count = BitConverter.ToUInt16(data, 2);
 
             uint[] offsets = new uint[count + 1];
