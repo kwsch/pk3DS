@@ -1,11 +1,11 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pk3DS", "pk3DS\pk3DS.csproj", "{C4CB2488-2DB9-489F-8B02-A8E872C6C6AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pk3DS", "pk3DS\pk3DS.csproj", "{C4CB2488-2DB9-489F-8B02-A8E872C6C6AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pk3DS.Core", "pk3DS.Core\pk3DS.Core.csproj", "{053212FC-2D93-427B-8695-78EC87E4C43C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pk3DS.Core", "pk3DS.Core\pk3DS.Core.csproj", "{053212FC-2D93-427B-8695-78EC87E4C43C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

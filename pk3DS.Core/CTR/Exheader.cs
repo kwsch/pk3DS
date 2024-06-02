@@ -23,8 +23,7 @@ namespace pk3DS.Core.CTR
 
         public byte[] GetSuperBlockHash()
         {
-            SHA256Managed sha = new SHA256Managed();
-            return sha.ComputeHash(Data, 0, 0x400);
+            return SHA256.HashData(Data.AsSpan(0, 0x400));
         }
 
         public string GetSerial()

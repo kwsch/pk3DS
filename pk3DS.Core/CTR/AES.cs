@@ -6,7 +6,7 @@ namespace pk3DS.Core.CTR
 {
     public class AesCtr
     {
-        private readonly AesManaged Aes = new();
+        private readonly Aes Aes = Aes.Create();
         private readonly ICryptoTransform Encryptor;
         private readonly AesCounter Counter;
 

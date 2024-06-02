@@ -110,7 +110,7 @@ namespace pk3DS.Core
             uint[] finalized = new uint[output.Length];
 
             // Act if it's square because BCLIM swizzling is stupid
-            Buffer.BlockCopy(output, 0, finalized, 0, finalized.Length);
+            Array.Copy(output, 0, finalized, 0, finalized.Length);
 
             byte[] tmp = new byte[finalized.Length];
             Buffer.BlockCopy(finalized, 0, tmp, 0, tmp.Length);

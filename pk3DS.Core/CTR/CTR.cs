@@ -80,7 +80,7 @@ namespace pk3DS.Core.CTR
             NCCH.Header.TitleId = NCCH.Header.ProgramId = NCCH.Exheader.TitleID;
             NCCH.Header.MakerCode = 0x3130; //01
             NCCH.Header.FormatVersion = 0x2; //Default
-            NCCH.Header.LogoHash = new SHA256Managed().ComputeHash(NCCH.logo);
+            NCCH.Header.LogoHash = SHA256.HashData(NCCH.logo);
             NCCH.Header.ProductCode = Encoding.ASCII.GetBytes(TB_Serial);
             Array.Resize(ref NCCH.Header.ProductCode, 0x10);
             NCCH.Header.ExheaderHash = NCCH.Exheader.GetSuperBlockHash();
@@ -184,9 +184,8 @@ namespace pk3DS.Core.CTR
                 Reserved0 = 0,
                 InitialData = new byte[0x30]
             };
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             byte[] randbuffer = new byte[0x2C];
-            rng.GetBytes(randbuffer);
+            Random.Shared.NextBytes(randbuffer);
             Array.Copy(randbuffer, NCSD.cardinfoheader.InitialData, randbuffer.Length);
             NCSD.cardinfoheader.Reserved1 = new byte[0xC0];
             NCSD.cardinfoheader.NCCH0Header = new byte[0x100];
