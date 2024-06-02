@@ -48,9 +48,9 @@ namespace pk3DS.Core.Structures
 
         public override byte[] Write()
         {
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(ms);
-            foreach (EvolutionMethod evo in PossibleEvolutions)
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
+            foreach (var evo in PossibleEvolutions)
             {
                 bw.Write((ushort)evo.Method);
                 bw.Write((ushort)evo.Argument);
@@ -85,8 +85,8 @@ namespace pk3DS.Core.Structures
 
         public override byte[] Write()
         {
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(ms);
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
             foreach (EvolutionMethod evo in PossibleEvolutions)
             {
                 bw.Write((ushort)evo.Method);

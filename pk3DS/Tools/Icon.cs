@@ -61,7 +61,7 @@ namespace pk3DS
 
         private void OpenFile(string path, bool drop = false)
         {
-            FileInfo fi = new FileInfo(path);
+            var fi = new FileInfo(path);
             if (fi.Length > 1024 * 1024 * 5)
                 return;
 
@@ -106,7 +106,7 @@ namespace pk3DS
             var sfd = new SaveFileDialog
             {
                 FileName = "icon.bin",
-                Filter = "System Menu Data Header|*.*"
+                Filter = "System Menu Data Header|*.*",
             };
             if (sfd.ShowDialog() != DialogResult.Yes) return;
             CB_AppInfo_SelectedIndexChanged(null, null); // Force re-save
@@ -118,12 +118,12 @@ namespace pk3DS
             var sfd = new SaveFileDialog
             {
                 FileName = large ? "Large Icon.png" : "Small Icon.png",
-                Filter = "Icon Image " + (large ? "48x48" : "24x24") + "|*.png"
+                Filter = "Icon Image " + (large ? "48x48" : "24x24") + "|*.png",
             };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
 
-            using MemoryStream ms = new MemoryStream();
+            using var ms = new MemoryStream();
             //error will throw from here
             (large ? SMDH.LargeIcon.Icon : SMDH.SmallIcon.Icon).Save(ms, ImageFormat.Png);
             byte[] data = ms.ToArray();
@@ -135,7 +135,7 @@ namespace pk3DS
             var ofd = new OpenFileDialog
             {
                 FileName = "icon.bin",
-                Filter = "System Menu Data Header|*.*"
+                Filter = "System Menu Data Header|*.*",
             };
             if (ofd.ShowDialog() != DialogResult.OK) return;
 
@@ -147,7 +147,7 @@ namespace pk3DS
             var ofd = new OpenFileDialog
             {
                 FileName = "small.png",
-                Filter = "Small Icon Image|*.png"
+                Filter = "Small Icon Image|*.png",
             };
             if (ofd.ShowDialog() != DialogResult.OK) return;
 
@@ -159,7 +159,7 @@ namespace pk3DS
             var ofd = new OpenFileDialog
             {
                 FileName = "large.png",
-                Filter = "Large Icon Image|*.png"
+                Filter = "Large Icon Image|*.png",
             };
             if (ofd.ShowDialog() != DialogResult.OK) return;
 
@@ -171,7 +171,7 @@ namespace pk3DS
             if (prompt && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Replace SMDH?"))
                 return;
 
-            SMDH newSMDH = new SMDH(data);
+            var newSMDH = new SMDH(data);
             if (newSMDH.LargeIcon.Icon == null) return;
 
             SMDH = newSMDH;
@@ -184,8 +184,8 @@ namespace pk3DS
             try
             {
                 using Stream BitmapStream = new MemoryStream(data);
-                Image img = Image.FromStream(BitmapStream);
-                Bitmap mBitmap = new Bitmap(img);
+                var img = Image.FromStream(BitmapStream);
+                var mBitmap = new Bitmap(img);
 
                 bool small = img.Width == 24 && img.Height == 24;
                 bool large = img.Width == 48 && img.Height == 48;

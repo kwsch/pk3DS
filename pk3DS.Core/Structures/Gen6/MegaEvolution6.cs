@@ -4,7 +4,10 @@ namespace pk3DS.Core.Structures
 {
     public class MegaEvolutions
     {
-        public ushort[] Form, Method, Argument, u6;
+        public ushort[] Form;
+        public ushort[] Method;
+        public ushort[] Argument;
+        public ushort[] u6;
 
         public MegaEvolutions(byte[] data)
         {
@@ -13,7 +16,7 @@ namespace pk3DS.Core.Structures
             Method = new ushort[data.Length / 8];
             Argument = new ushort[data.Length / 8];
             u6 = new ushort[data.Length / 8];
-            using BinaryReader br = new BinaryReader(new MemoryStream(data));
+            using var br = new BinaryReader(new MemoryStream(data));
             for (int i = 0; i < Form.Length; i++)
             {
                 Form[i] = br.ReadUInt16();
@@ -25,8 +28,8 @@ namespace pk3DS.Core.Structures
 
         public byte[] Write()
         {
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(ms);
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
             for (int i = 0; i < Form.Length; i++)
             {
                 if (Method[i] == 0)

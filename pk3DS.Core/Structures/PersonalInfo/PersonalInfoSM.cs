@@ -15,10 +15,10 @@ namespace pk3DS.Core.Structures.PersonalInfo
 
             TMHM = GetBits(Data.Skip(0x28).Take(0x10).ToArray()); // 36-39
             TypeTutors = GetBits(Data.Skip(0x38).Take(0x4).ToArray()); // 40
-            SpecialTutors = new[]
-            {
+            SpecialTutors =
+            [
                 GetBits(Data.Skip(0x3C).Take(0x0A).ToArray()),
-            };
+            ];
         }
 
         public override byte[] Write()

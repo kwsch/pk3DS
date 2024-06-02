@@ -69,7 +69,7 @@ namespace pk3DS
         private void GetEntry()
         {
             Console.WriteLine($"Loading {CB_LocationID.Text}");
-            int index = entry*11;
+            int index = entry * 11;
             // 00 - ED (???)
             // 01 - BG (???)
             // 02 - TR (???)
@@ -116,12 +116,12 @@ namespace pk3DS
 
             public World(LazyGARCFile garc, int worldID)
             {
-                int index = worldID*11;
+                int index = worldID * 11;
                 _7 = Mini.UnpackMini(garc[index + 7], "ZS");
                 _8 = Mini.UnpackMini(garc[index + 8], "ZI");
 
-                ZoneScripts = HasZS ? _7.Select(arr => new Script(arr)).ToArray() : Array.Empty<Script>();
-                ZoneInfoScripts = HasZI ? _8.Select(arr => new Script(arr)).ToArray() : Array.Empty<Script>();
+                ZoneScripts = HasZS ? _7.Select(arr => new Script(arr)).ToArray() : [];
+                ZoneInfoScripts = HasZI ? _8.Select(arr => new Script(arr)).ToArray() : [];
             }
         }
 
@@ -142,10 +142,10 @@ namespace pk3DS
             RTB_7_Parse.Lines = script.ParseScript;
 
             string[] lines =
-            {
+            [
                 "Commands:" + Environment.NewLine + RTB_7_Script.Lines.Length,
                 "CBytes:" + Environment.NewLine + script.CompressedBytes.Length,
-            };
+            ];
             L_7_Info.Text = string.Join(Environment.NewLine, lines);
         }
 
@@ -166,10 +166,10 @@ namespace pk3DS
             RTB_8_Parse.Lines = script.ParseScript;
 
             string[] lines =
-            {
+            [
                 "Commands:" + Environment.NewLine + RTB_8_Script.Lines.Length,
                 "CBytes:" + Environment.NewLine + script.CompressedBytes.Length,
-            };
+            ];
             L_8_Info.Text = string.Join(Environment.NewLine, lines);
         }
     }

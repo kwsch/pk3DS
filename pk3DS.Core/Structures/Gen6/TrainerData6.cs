@@ -21,7 +21,7 @@ namespace pk3DS.Core.Structures
         public TrainerData6(byte[] trData, byte[] trPoke, bool ORAS)
         {
             using var ms = new MemoryStream(trData);
-            using BinaryReader br = new BinaryReader(ms);
+            using var br = new BinaryReader(ms);
             isORAS = ORAS;
             Format = ORAS ? br.ReadUInt16() : br.ReadByte();
             Class = ORAS ? br.ReadUInt16() : br.ReadByte();
@@ -52,8 +52,8 @@ namespace pk3DS.Core.Structures
 
         public byte[] Write()
         {
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(ms);
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
             Format = Convert.ToByte(Moves) + (Convert.ToByte(Item) << 1);
             if (isORAS)
             { bw.Write((ushort)Format); bw.Write((ushort)Class); bw.Write((ushort)0); }
@@ -80,7 +80,7 @@ namespace pk3DS.Core.Structures
 
         public byte[] WriteTeam()
         {
-            return Team.Aggregate(Array.Empty<byte>(), (i, pkm) => i.Concat(pkm.Write(Item, Moves)).ToArray());
+            return Team.Aggregate(Array.Empty<byte>(), (i, pkm) => [.. i, .. pkm.Write(Item, Moves)]);
         }
 
         public class Pokemon
@@ -98,7 +98,7 @@ namespace pk3DS.Core.Structures
 
             public Pokemon(byte[] data, bool HasItem, bool HasMoves)
             {
-                using BinaryReader br = new BinaryReader(new MemoryStream(data));
+                using var br = new BinaryReader(new MemoryStream(data));
                 IVs = br.ReadByte();
                 PID = br.ReadByte();
                 Level = br.ReadUInt16();
@@ -120,8 +120,8 @@ namespace pk3DS.Core.Structures
 
             public byte[] Write(bool HasItem, bool HasMoves)
             {
-                using MemoryStream ms = new MemoryStream();
-                using BinaryWriter bw = new BinaryWriter(ms);
+                using var ms = new MemoryStream();
+                using var bw = new BinaryWriter(ms);
                 bw.Write(IVs);
                 PID = (byte)(((Ability & 0xF) << 4) | ((uBit & 1) << 3) | (Gender & 0x7));
                 bw.Write(PID);

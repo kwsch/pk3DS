@@ -25,7 +25,7 @@ namespace pk3DS.Core.Structures.PersonalInfo
                 GameVersion.SMDEMO => PersonalInfoSM.SIZE,
                 GameVersion.SM => PersonalInfoSM.SIZE,
                 GameVersion.USUM => PersonalInfoSM.SIZE,
-                _ => 0
+                _ => 0,
             };
 
             if (size == 0)
@@ -134,7 +134,7 @@ namespace pk3DS.Core.Structures.PersonalInfo
 
         public int[] GetSpeciesForm(int PersonalEntry, GameConfig config)
         {
-            if (PersonalEntry < config.MaxSpeciesID) return new[] { PersonalEntry, 0 };
+            if (PersonalEntry < config.MaxSpeciesID) return [PersonalEntry, 0];
 
             for (int i = 0; i < config.MaxSpeciesID; i++)
             {
@@ -144,11 +144,11 @@ namespace pk3DS.Core.Structures.PersonalInfo
                 for (int j = 0; j < FormCount; j++)
                 {
                     if (altformpointer + j == PersonalEntry)
-                        return new[] { i, j };
+                        return [i, j];
                 }
             }
 
-            return new[] { -1, -1 };
+            return [-1, -1];
         }
     }
 }

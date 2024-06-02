@@ -28,8 +28,7 @@ namespace pk3DS.Core.CTR
             byte[] superblock = new byte[SuperBlockLen];
             fs.Seek(0, SeekOrigin.Begin);
             fs.Read(superblock, 0, superblock.Length);
-            using SHA256 sha = SHA256.Create();
-            SuperBlockHash = sha.ComputeHash(superblock);
+            SuperBlockHash = SHA256.HashData(superblock);
         }
 
         // Build
@@ -65,30 +64,30 @@ namespace pk3DS.Core.CTR
         public void ExtractRomFS(string outputDirectory, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
             byte[] ivfcHeaderBytes = new byte[0x5C];
-            using (FileStream file = new FileStream(FileName, FileMode.Open, FileAccess.Read))
+            using (var file = new FileStream(FileName, FileMode.Open, FileAccess.Read))
             {
-                file.Read(ivfcHeaderBytes, 0, ivfcHeaderBytes.Length);
+                _ = file.Read(ivfcHeaderBytes, 0, ivfcHeaderBytes.Length);
             }
-            IVFCInfo ivfc = GetIVFCInfoFromBytes(ivfcHeaderBytes);
+            var ivfc = GetIVFCInfoFromBytes(ivfcHeaderBytes);
 
             ulong romfsDataOffset = Align(ivfc.Levels[0].HashOffset + ivfc.MasterHashSize, ivfc.Levels[2].BlockSize);
             byte[] romfsInfoHeaderBytes = new byte[0x28];
-            using (FileStream file = new FileStream(FileName, FileMode.Open, FileAccess.Read))
+            using (var file = new FileStream(FileName, FileMode.Open, FileAccess.Read))
             {
                 file.Seek(Convert.ToInt64(romfsDataOffset), SeekOrigin.Begin);
-                file.Read(romfsInfoHeaderBytes, 0, romfsInfoHeaderBytes.Length);
+                _ = file.Read(romfsInfoHeaderBytes, 0, romfsInfoHeaderBytes.Length);
             }
             Romfs_InfoHeader infoHeader = GetRomfsInfoHeaderFromBytes(romfsInfoHeaderBytes, Convert.ToUInt32(romfsDataOffset));
 
             byte[] directoryMetadataBlock = new byte[infoHeader.Sections[1].Size];
             byte[] fileMetadataBlock = new byte[infoHeader.Sections[3].Size];
-            using (FileStream file = new FileStream(FileName, FileMode.Open, FileAccess.Read))
+            using (var file = new FileStream(FileName, FileMode.Open, FileAccess.Read))
             {
                 file.Seek(Convert.ToInt64(infoHeader.Sections[1].Offset), SeekOrigin.Begin);
-                file.Read(directoryMetadataBlock, 0, directoryMetadataBlock.Length);
+                _ = file.Read(directoryMetadataBlock, 0, directoryMetadataBlock.Length);
 
                 file.Seek(Convert.ToInt64(infoHeader.Sections[3].Offset), SeekOrigin.Begin);
-                file.Read(fileMetadataBlock, 0, fileMetadataBlock.Length);
+                _ = file.Read(fileMetadataBlock, 0, fileMetadataBlock.Length);
             }
 
             if (!Directory.Exists(outputDirectory))
@@ -101,7 +100,7 @@ namespace pk3DS.Core.CTR
 
         private static IVFCInfo GetIVFCInfoFromBytes(byte[] headerBytes)
         {
-            IVFCInfo ivfc = new IVFCInfo();
+            var ivfc = new IVFCInfo();
             uint magic1 = BitConverter.ToUInt32(headerBytes, 0x00);
             uint magic2 = BitConverter.ToUInt32(headerBytes, 0x04);
             if (magic1 != 0x43465649 || magic2 != 0x10000)
@@ -116,7 +115,7 @@ namespace pk3DS.Core.CTR
                 {
                     HashOffset = BitConverter.ToUInt64(headerBytes, 0x0C + (i * 0x18)),
                     DataLength = BitConverter.ToUInt64(headerBytes, 0x14 + (i * 0x18)),
-                    BlockSize = 1U << BitConverter.ToInt32(headerBytes, 0x1C + (i * 0x18))
+                    BlockSize = 1U << BitConverter.ToInt32(headerBytes, 0x1C + (i * 0x18)),
                 };
             }
             return ivfc;
@@ -124,16 +123,17 @@ namespace pk3DS.Core.CTR
 
         private static Romfs_InfoHeader GetRomfsInfoHeaderFromBytes(byte[] headerBytes, uint bodyOffset)
         {
-            Romfs_InfoHeader infoHeader = new Romfs_InfoHeader
+            var infoHeader = new Romfs_InfoHeader
             {
-                HeaderLength = BitConverter.ToUInt32(headerBytes, 0x00), Sections = new Romfs_SectionHeader[4]
+                HeaderLength = BitConverter.ToUInt32(headerBytes, 0x00),
+                Sections = new Romfs_SectionHeader[4],
             };
             for (int i = 0; i < 4; i++)
             {
                 infoHeader.Sections[i] = new Romfs_SectionHeader
                 {
                     Offset = BitConverter.ToUInt32(headerBytes, 0x04 + (i * 0x08)) + bodyOffset,
-                    Size = BitConverter.ToUInt32(headerBytes, 0x08 + (i * 0x08))
+                    Size = BitConverter.ToUInt32(headerBytes, 0x08 + (i * 0x08)),
                 };
             }
             infoHeader.DataOffset = BitConverter.ToUInt32(headerBytes, 0x24) + bodyOffset;
@@ -191,12 +191,12 @@ namespace pk3DS.Core.CTR
 
         private static Romfs_DirEntry GetDirEntryFromMetadataBytes(byte[] directoryMetadataBlock, int directoryOffset)
         {
-            Romfs_DirEntry entry = new Romfs_DirEntry
+            var entry = new Romfs_DirEntry
             {
                 ParentOffset = BitConverter.ToUInt32(directoryMetadataBlock, directoryOffset),
                 SiblingOffset = BitConverter.ToUInt32(directoryMetadataBlock, directoryOffset + 0x04),
                 ChildOffset = BitConverter.ToUInt32(directoryMetadataBlock, directoryOffset + 0x08),
-                FileOffset = BitConverter.ToUInt32(directoryMetadataBlock, directoryOffset + 0x0C)
+                FileOffset = BitConverter.ToUInt32(directoryMetadataBlock, directoryOffset + 0x0C),
             };
             uint nameLength = BitConverter.ToUInt32(directoryMetadataBlock, directoryOffset + 0x14);
             entry.Name = "";
@@ -211,14 +211,14 @@ namespace pk3DS.Core.CTR
 
         private static Romfs_FileEntry GetFileEntryFromMetadataBytes(byte[] fileMetadataBlock, int fileOffset)
         {
-            Romfs_FileEntry entry = new Romfs_FileEntry
+            var entry = new Romfs_FileEntry
             {
                 ParentDirOffset = BitConverter.ToUInt32(fileMetadataBlock, fileOffset),
                 SiblingOffset = BitConverter.ToUInt32(fileMetadataBlock, fileOffset + 0x04),
                 DataOffset = BitConverter.ToUInt64(fileMetadataBlock, fileOffset + 0x08),
                 DataSize = BitConverter.ToUInt64(fileMetadataBlock, fileOffset + 0x10),
                 NameSize = BitConverter.ToUInt32(fileMetadataBlock, fileOffset + 0x1C),
-                Name = ""
+                Name = "",
             };
             if (entry.NameSize != 0xFFFFFFFF)
             {
@@ -265,15 +265,15 @@ namespace pk3DS.Core.CTR
             ROOT_DIR = infile;
             if (File.Exists(TempFile)) File.Delete(TempFile);
 
-            FileNameTable FNT = new FileNameTable(ROOT_DIR);
-            RomfsFile[] RomFiles = new RomfsFile[FNT.NumFiles];
-            LayoutManager.Input[] In = new LayoutManager.Input[FNT.NumFiles];
+            var FNT = new FileNameTable(ROOT_DIR);
+            var RomFiles = new RomfsFile[FNT.NumFiles];
+            var In = new LayoutManager.Input[FNT.NumFiles];
             UpdateTB(TB_Progress, "Creating Layout...");
             for (int i = 0; i < FNT.NumFiles; i++)
             {
                 In[i] = new LayoutManager.Input { FilePath = FNT.NameEntryTable[i].FullName, AlignmentSize = 0x10 };
             }
-            LayoutManager.Output[] Out = LayoutManager.Create(In);
+            var Out = LayoutManager.Create(In);
             for (int i = 0; i < Out.Length; i++)
             {
                 RomFiles[i] = new RomfsFile
@@ -281,11 +281,11 @@ namespace pk3DS.Core.CTR
                     Offset = Out[i].Offset,
                     PathName = Out[i].FilePath.Replace(Path.GetFullPath(ROOT_DIR), "").Replace("\\", "/"),
                     FullName = Out[i].FilePath,
-                    Size = Out[i].Size
+                    Size = Out[i].Size,
                 };
             }
 
-            using MemoryStream memoryStream = new MemoryStream();
+            using var memoryStream = new MemoryStream();
             UpdateTB(TB_Progress, "Creating RomFS MetaData...");
             BuildRomFSHeader(memoryStream, RomFiles, ROOT_DIR);
             MakeRomFSData(RomFiles, memoryStream, TB_Progress, PB_Show);
@@ -304,7 +304,7 @@ namespace pk3DS.Core.CTR
         internal static void MakeRomFSData(RomfsFile[] RomFiles, MemoryStream metadata, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
             UpdateTB(TB_Progress, "Computing IVFC Header Data...");
-            IVFCInfo ivfc = new IVFCInfo { Levels = new IVFCLevel[3] };
+            var ivfc = new IVFCInfo { Levels = new IVFCLevel[3] };
             for (int i = 0; i < ivfc.Levels.Length; i++)
             {
                 ivfc.Levels[i] = new IVFCLevel { BlockSize = 0x1000 };
@@ -323,7 +323,7 @@ namespace pk3DS.Core.CTR
             const uint RESERVED = 0x0;
             const uint HeaderLen = 0x5C;
             const uint MEDIA_UNIT_SIZE = 0x200;
-            FileStream OutFileStream = new FileStream(TempFile, FileMode.Create, FileAccess.ReadWrite);
+            var OutFileStream = new FileStream(TempFile, FileMode.Create, FileAccess.ReadWrite);
             try
             {
                 OutFileStream.Seek(0, SeekOrigin.Begin);
@@ -353,12 +353,12 @@ namespace pk3DS.Core.CTR
                 foreach (RomfsFile t in RomFiles)
                 {
                     OutFileStream.Seek(baseOfs + (long)t.Offset, SeekOrigin.Begin);
-                    using (FileStream inStream = new FileStream(t.FullName, FileMode.Open, FileAccess.Read))
+                    using (var inStream = new FileStream(t.FullName, FileMode.Open, FileAccess.Read))
                     {
                         while (inStream.Position < inStream.Length)
                         {
                             byte[] buffer = new byte[inStream.Length - inStream.Position > 0x100000 ? 0x100000 : inStream.Length - inStream.Position];
-                            inStream.Read(buffer, 0, buffer.Length);
+                            _ = inStream.Read(buffer, 0, buffer.Length);
                             OutFileStream.Write(buffer, 0, buffer.Length);
                         }
                     }
@@ -376,7 +376,7 @@ namespace pk3DS.Core.CTR
                     UpdateTB(TB_Progress, "Computing Level " + i + " Hashes...");
                     byte[] buffer = new byte[(int)ivfc.Levels[i].BlockSize];
 
-                    var count = (int) (ivfc.Levels[i].DataLength/ivfc.Levels[i].BlockSize);
+                    var count = (int)(ivfc.Levels[i].DataLength / ivfc.Levels[i].BlockSize);
                     if (PB_Show.InvokeRequired)
                     {
                         PB_Show.Invoke((MethodInvoker)delegate { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = count; });
@@ -440,9 +440,9 @@ namespace pk3DS.Core.CTR
 
         internal static void WriteBinary(string tempFile, string outFile, RichTextBox TB_Progress = null, ProgressBar PB_Show = null)
         {
-            using FileStream fs = new FileStream(outFile, FileMode.Create);
-            using BinaryWriter writer = new BinaryWriter(fs);
-            using FileStream fileStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read);
+            using var fs = new FileStream(outFile, FileMode.Create);
+            using var writer = new BinaryWriter(fs);
+            using var fileStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read);
 
             const uint BUFFER_SIZE = 0x400000; // 4MB Buffer
             var steps = (int)(fileStream.Length / BUFFER_SIZE);
@@ -478,7 +478,7 @@ namespace pk3DS.Core.CTR
 
         internal static string ByteArrayToString(IEnumerable<byte> input)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (byte b in input)
                 sb.Append(b.ToString("X2")).Append(' ');
 
@@ -503,7 +503,7 @@ namespace pk3DS.Core.CTR
         internal static void BuildRomFSHeader(MemoryStream romfs_stream, RomfsFile[] Entries, string DIR)
         {
             ROOT_DIR = DIR;
-            Romfs_MetaData MetaData = new Romfs_MetaData();
+            var MetaData = new Romfs_MetaData();
 
             InitializeMetaData(MetaData);
             CalcRomfsSize(MetaData);
@@ -513,24 +513,24 @@ namespace pk3DS.Core.CTR
 
         internal static void InitializeMetaData(Romfs_MetaData MetaData)
         {
-            MetaData.InfoHeader = new Romfs_InfoHeader();
-            MetaData.DirTable = new Romfs_DirTable();
+            MetaData.InfoHeader = new();
+            MetaData.DirTable = new();
             MetaData.DirTableLen = 0;
             MetaData.M_DirTableLen = 0;
-            MetaData.FileTable = new Romfs_FileTable();
+            MetaData.FileTable = new();
             MetaData.FileTableLen = 0;
-            MetaData.DirTable.DirectoryTable = new List<Romfs_DirEntry>();
-            MetaData.FileTable.FileTable = new List<Romfs_FileEntry>();
+            MetaData.DirTable.DirectoryTable = [];
+            MetaData.FileTable.FileTable = [];
             MetaData.InfoHeader.HeaderLength = 0x28;
             MetaData.InfoHeader.Sections = new Romfs_SectionHeader[4];
-            MetaData.DirHashTable = new List<uint>();
-            MetaData.FileHashTable = new List<uint>();
+            MetaData.DirHashTable = [];
+            MetaData.FileHashTable = [];
         }
 
         internal static void CalcRomfsSize(Romfs_MetaData MetaData)
         {
             MetaData.DirNum = 1;
-            DirectoryInfo Root_DI = new DirectoryInfo(ROOT_DIR);
+            var Root_DI = new DirectoryInfo(ROOT_DIR);
             CalcDirSize(MetaData, Root_DI);
 
             MetaData.M_DirHashTableEntry = GetHashTableEntryCount(MetaData.DirNum);
@@ -712,7 +712,7 @@ namespace pk3DS.Core.CTR
             if (!DoSubs)
             {
                 uint CurrentDir = MetaData.DirTableLen;
-                Romfs_DirEntry Entry = new Romfs_DirEntry { ParentOffset = parent };
+                var Entry = new Romfs_DirEntry { ParentOffset = parent };
                 Entry.ChildOffset = Entry.HashKeyPointer = Entry.FileOffset = ROMFS_UNUSED_ENTRY;
                 Entry.SiblingOffset = sibling;
                 Entry.FullName = Dir.FullName;
@@ -758,8 +758,8 @@ namespace pk3DS.Core.CTR
             string PrevDirPath = "";
             for (int i = 0; i < Entries.Length; i++)
             {
-                FileInfo file = new FileInfo(Entries[i].FullName);
-                Romfs_FileEntry Entry = new Romfs_FileEntry();
+                var file = new FileInfo(Entries[i].FullName);
+                var Entry = new Romfs_FileEntry();
                 string DirPath = Path.GetDirectoryName(Entries[i].FullName);
                 int ParentIndex = GetRomfsDirEntry(MetaData, DirPath);
                 Entry.FullName = Entries[i].FullName;
@@ -953,7 +953,7 @@ namespace pk3DS.Core.CTR
 
             public static ulong GetDataBlockLength(RomfsFile[] files, ulong PreData)
             {
-                return files.Length == 0 ? PreData : PreData + files[files.Length - 1].Offset + files[files.Length - 1].Size;
+                return files.Length == 0 ? PreData : PreData + files[^1].Offset + files[^1].Size;
             }
         }
 
@@ -977,16 +977,13 @@ namespace pk3DS.Core.CTR
 
             internal FileNameTable(string rootPath)
             {
-                NameEntryTable = new List<FileInfo>();
+                NameEntryTable = [];
                 AddDirectory(new DirectoryInfo(rootPath));
             }
 
             internal void AddDirectory(DirectoryInfo dir)
             {
-                foreach (FileInfo fileInfo in dir.GetFiles())
-                {
-                    NameEntryTable.Add(fileInfo);
-                }
+                NameEntryTable.AddRange(dir.GetFiles());
                 foreach (DirectoryInfo subdir in dir.GetDirectories())
                 {
                     AddDirectory(subdir);
@@ -998,12 +995,12 @@ namespace pk3DS.Core.CTR
         {
             public static Output[] Create(IEnumerable<Input> Input)
             {
-                List<Output> list = new List<Output>();
+                List<Output> list = [];
                 ulong Len = 0;
                 foreach (Input input in Input)
                 {
-                    Output output = new Output();
-                    FileInfo fileInfo = new FileInfo(input.FilePath);
+                    var output = new Output();
+                    var fileInfo = new FileInfo(input.FilePath);
                     ulong ofs = AlignInput(Len, input.AlignmentSize);
                     output.FilePath = input.FilePath;
                     output.Offset = ofs;
@@ -1011,7 +1008,7 @@ namespace pk3DS.Core.CTR
                     list.Add(output);
                     Len = ofs + (ulong)fileInfo.Length;
                 }
-                return list.ToArray();
+                return [.. list];
             }
 
             private static ulong AlignInput(ulong input, ulong alignsize)

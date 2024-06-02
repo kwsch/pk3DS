@@ -9,7 +9,7 @@ namespace pk3DS.Core
         public uint Magic => BitConverter.ToUInt32(Raw, 0x04);
         // case 0x0A0AF1E0: code = read_code_block(f); break;
         // case 0x0A0AF1EF: debug = read_debug_block(f); break;
-        public bool Debug => Magic  == 0x0A0AF1EF;
+        public bool Debug => Magic == 0x0A0AF1EF;
 
         public ushort PtrOffset => BitConverter.ToUInt16(Raw, 0x08);
         public ushort PtrCount => BitConverter.ToUInt16(Raw, 0x0A);
@@ -23,7 +23,7 @@ namespace pk3DS.Core
         public int CompressedLength => Length - ScriptInstructionStart;
         public byte[] CompressedBytes => Raw.Skip(ScriptInstructionStart).ToArray();
         public int DecompressedLength => FinalOffset - ScriptInstructionStart;
-        public uint[] DecompressedInstructions => Scripts.QuickDecompress(CompressedBytes, DecompressedLength/4);
+        public uint[] DecompressedInstructions => Scripts.QuickDecompress(CompressedBytes, DecompressedLength / 4);
 
         public uint[] ScriptCommands => DecompressedInstructions.Take((ScriptMovementStart - ScriptInstructionStart) / 4).ToArray();
         public uint[] MoveCommands => DecompressedInstructions.Skip((ScriptMovementStart - ScriptInstructionStart) / 4).ToArray();
@@ -37,13 +37,13 @@ namespace pk3DS.Core
                               + Environment.NewLine + "Compressed Len: 0x" + CompressedLength.ToString("X4")
                               + Environment.NewLine + "Decompressed Len: 0x" + DecompressedLength.ToString("X4")
                               + Environment.NewLine + "Compression Ratio: " +
-                              ((DecompressedLength - CompressedLength)/(decimal)DecompressedLength).ToString("p1");
+                              ((DecompressedLength - CompressedLength) / (decimal)DecompressedLength).ToString("p1");
 
         public byte[] Raw;
 
         public Script(byte[] data = null)
         {
-            Raw = data ?? Array.Empty<byte>();
+            Raw = data ?? [];
 
             // sub_51AAFC
             if ((Raw[8] & 1) != 0)

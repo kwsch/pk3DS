@@ -50,14 +50,14 @@ namespace pk3DS
         {
             string[] sortedmoves = (string[])movelist.Clone();
             Array.Sort(sortedmoves);
-            DataGridViewColumn dgvLevel = new DataGridViewTextBoxColumn();
+            var dgvLevel = new DataGridViewTextBoxColumn();
             {
                 dgvLevel.HeaderText = "Level";
                 dgvLevel.DisplayIndex = 0;
                 dgvLevel.Width = 45;
                 dgvLevel.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
+            var dgvMove = new DataGridViewComboBoxColumn();
             {
                 dgvMove.HeaderText = "Move";
                 dgvMove.DisplayIndex = 1;
@@ -101,8 +101,8 @@ namespace pk3DS
         private void SetList()
         {
             if (entry < 1 || dumping) return;
-            List<int> moves = new List<int>();
-            List<int> levels = new List<int>();
+            List<int> moves = [];
+            List<int> levels = [];
             for (int i = 0; i < dgv.Rows.Count - 1; i++)
             {
                 int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[1].Value);
@@ -115,8 +115,8 @@ namespace pk3DS
                 else if (lv == 0) lv = 1;
                 levels.Add(lv);
             }
-            pkm.Moves = moves.ToArray();
-            pkm.Levels = levels.ToArray();
+            pkm.Moves = [.. moves];
+            pkm.Levels = [.. levels];
             files[entry] = pkm.Write();
         }
 
@@ -128,11 +128,11 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            ushort[] HMs = { 15, 19, 57, 70, 127, 249, 291 };
+            ushort[] HMs = [15, 19, 57, 70, 127, 249, 291];
             if (CHK_HMs.Checked && Main.ExeFSPath != null)
                 TMHMEditor6.GetTMHMList(out _, out HMs);
 
-            List<int> banned = new List<int> {165, 621}; // Struggle, Hyperspace Fury
+            List<int> banned = [165, 621]; // Struggle, Hyperspace Fury
             if (!CHK_HMs.Checked)
                 banned.AddRange(HMs.Select(z => (int)z));
             if (CHK_NoFixedDamage.Checked)
@@ -149,7 +149,7 @@ namespace pk3DS
                 STAB = CHK_STAB.Checked,
                 STABPercent = NUD_STAB.Value,
                 STABFirst = CHK_STAB.Checked,
-                BannedMoves = banned.ToArray(),
+                BannedMoves = [.. banned],
                 Learn4Level1 = CHK_4MovesLvl1.Checked,
             };
             rand.Execute();
@@ -191,7 +191,7 @@ namespace pk3DS
 
                 result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog {FileName = "Level Up Moves.txt", Filter = "Text File|*.txt"};
+            var sfd = new SaveFileDialog { FileName = "Level Up Moves.txt", Filter = "Text File|*.txt" };
 
             SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -232,7 +232,7 @@ namespace pk3DS
                 if (max < movecount) { max = movecount; spec = i; } // Max Moves (and species)
                 for (int m = 0; m < movedata.Length / 4; m++)
                 {
-                    int move = BitConverter.ToUInt16(movedata, m*4);
+                    int move = BitConverter.ToUInt16(movedata, m * 4);
                     if (move == 65535)
                     {
                         movectr--;

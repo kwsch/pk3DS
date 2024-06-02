@@ -30,17 +30,28 @@ namespace pk3DS
             InitializeComponent();
             // String Fetching
             #region Combo Box Arrays
-            trpk_pkm =    new[] { CB_Pokemon_1_Pokemon, CB_Pokemon_2_Pokemon, CB_Pokemon_3_Pokemon, CB_Pokemon_4_Pokemon, CB_Pokemon_5_Pokemon, CB_Pokemon_6_Pokemon, };
-            trpk_lvl =    new[] { CB_Pokemon_1_Level,   CB_Pokemon_2_Level,   CB_Pokemon_3_Level,   CB_Pokemon_4_Level,   CB_Pokemon_5_Level,   CB_Pokemon_6_Level,   };
-            trpk_item =   new[] { CB_Pokemon_1_Item,    CB_Pokemon_2_Item,    CB_Pokemon_3_Item,    CB_Pokemon_4_Item,    CB_Pokemon_5_Item,    CB_Pokemon_6_Item,    };
-            trpk_abil =   new[] { CB_Pokemon_1_Ability, CB_Pokemon_2_Ability, CB_Pokemon_3_Ability, CB_Pokemon_4_Ability, CB_Pokemon_5_Ability, CB_Pokemon_6_Ability, };
-            trpk_m1 =     new[] { CB_Pokemon_1_Move_1,  CB_Pokemon_2_Move_1,  CB_Pokemon_3_Move_1,  CB_Pokemon_4_Move_1,  CB_Pokemon_5_Move_1,  CB_Pokemon_6_Move_1,  };
-            trpk_m2 =     new[] { CB_Pokemon_1_Move_2,  CB_Pokemon_2_Move_2,  CB_Pokemon_3_Move_2,  CB_Pokemon_4_Move_2,  CB_Pokemon_5_Move_2,  CB_Pokemon_6_Move_2,  };
-            trpk_m3 =     new[] { CB_Pokemon_1_Move_3,  CB_Pokemon_2_Move_3,  CB_Pokemon_3_Move_3,  CB_Pokemon_4_Move_3,  CB_Pokemon_5_Move_3,  CB_Pokemon_6_Move_3,  };
-            trpk_m4 =     new[] { CB_Pokemon_1_Move_4,  CB_Pokemon_2_Move_4,  CB_Pokemon_3_Move_4,  CB_Pokemon_4_Move_4,  CB_Pokemon_5_Move_4,  CB_Pokemon_6_Move_4,  };
-            trpk_IV =     new[] { CB_Pokemon_1_IVs,     CB_Pokemon_2_IVs,     CB_Pokemon_3_IVs,     CB_Pokemon_4_IVs,     CB_Pokemon_5_IVs,     CB_Pokemon_6_IVs,     };
-            trpk_form =   new[] { CB_Pokemon_1_Form,    CB_Pokemon_2_Form,    CB_Pokemon_3_Form,    CB_Pokemon_4_Form,    CB_Pokemon_5_Form,    CB_Pokemon_6_Form,    };
-            trpk_gender = new[] { CB_Pokemon_1_Gender,  CB_Pokemon_2_Gender,  CB_Pokemon_3_Gender,  CB_Pokemon_4_Gender,  CB_Pokemon_5_Gender,  CB_Pokemon_6_Gender,  };
+            trpk_pkm = [CB_Pokemon_1_Pokemon, CB_Pokemon_2_Pokemon, CB_Pokemon_3_Pokemon, CB_Pokemon_4_Pokemon, CB_Pokemon_5_Pokemon, CB_Pokemon_6_Pokemon,
+            ];
+            trpk_lvl = [CB_Pokemon_1_Level,   CB_Pokemon_2_Level,   CB_Pokemon_3_Level,   CB_Pokemon_4_Level,   CB_Pokemon_5_Level,   CB_Pokemon_6_Level,
+            ];
+            trpk_item = [CB_Pokemon_1_Item,    CB_Pokemon_2_Item,    CB_Pokemon_3_Item,    CB_Pokemon_4_Item,    CB_Pokemon_5_Item,    CB_Pokemon_6_Item,
+            ];
+            trpk_abil = [CB_Pokemon_1_Ability, CB_Pokemon_2_Ability, CB_Pokemon_3_Ability, CB_Pokemon_4_Ability, CB_Pokemon_5_Ability, CB_Pokemon_6_Ability,
+            ];
+            trpk_m1 = [CB_Pokemon_1_Move_1,  CB_Pokemon_2_Move_1,  CB_Pokemon_3_Move_1,  CB_Pokemon_4_Move_1,  CB_Pokemon_5_Move_1,  CB_Pokemon_6_Move_1,
+            ];
+            trpk_m2 = [CB_Pokemon_1_Move_2,  CB_Pokemon_2_Move_2,  CB_Pokemon_3_Move_2,  CB_Pokemon_4_Move_2,  CB_Pokemon_5_Move_2,  CB_Pokemon_6_Move_2,
+            ];
+            trpk_m3 = [CB_Pokemon_1_Move_3,  CB_Pokemon_2_Move_3,  CB_Pokemon_3_Move_3,  CB_Pokemon_4_Move_3,  CB_Pokemon_5_Move_3,  CB_Pokemon_6_Move_3,
+            ];
+            trpk_m4 = [CB_Pokemon_1_Move_4,  CB_Pokemon_2_Move_4,  CB_Pokemon_3_Move_4,  CB_Pokemon_4_Move_4,  CB_Pokemon_5_Move_4,  CB_Pokemon_6_Move_4,
+            ];
+            trpk_IV = [CB_Pokemon_1_IVs,     CB_Pokemon_2_IVs,     CB_Pokemon_3_IVs,     CB_Pokemon_4_IVs,     CB_Pokemon_5_IVs,     CB_Pokemon_6_IVs,
+            ];
+            trpk_form = [CB_Pokemon_1_Form,    CB_Pokemon_2_Form,    CB_Pokemon_3_Form,    CB_Pokemon_4_Form,    CB_Pokemon_5_Form,    CB_Pokemon_6_Form,
+            ];
+            trpk_gender = [CB_Pokemon_1_Gender,  CB_Pokemon_2_Gender,  CB_Pokemon_3_Gender,  CB_Pokemon_4_Gender,  CB_Pokemon_5_Gender,  CB_Pokemon_6_Gender,
+            ];
             #endregion
             string[] species = Main.Config.GetText(TextName.SpeciesNames);
             AltForms = Main.Config.Personal.GetFormList(species, Main.Config.MaxSpeciesID);
@@ -164,7 +175,7 @@ namespace pk3DS
         {
             string toret = "======" + Environment.NewLine;
 
-            toret += CB_TrainerID.SelectedIndex + " - " + CB_Trainer_Class.Text.Substring(0, CB_Trainer_Class.Text.Length - 6) + " " + CB_TrainerID.Text.Substring(0, CB_TrainerID.Text.Length - 6) + Environment.NewLine;
+            toret += CB_TrainerID.SelectedIndex + " - " + CB_Trainer_Class.Text[..^6] + " " + CB_TrainerID.Text[..^6] + Environment.NewLine;
             toret += "======" + Environment.NewLine;
             int pkm = CB_numPokemon.SelectedIndex;
             toret += "Pokemon: " + pkm + Environment.NewLine;
@@ -176,7 +187,7 @@ namespace pk3DS
                 if (trpk_abil[i].SelectedIndex != 0)
                 {
                     string abil = trpk_abil[i].Text;
-                    abil = abil.Substring(0, abil.Length - 4);
+                    abil = abil[..^4];
                     toret += " (Ability: " + abil + ")";
                 }
                 if (checkBox_Moves.Checked)
@@ -206,7 +217,7 @@ namespace pk3DS
                 string tdata = GetTRSummary();
                 toret += tdata;
             }
-            SaveFileDialog sfd = new SaveFileDialog {FileName = "Battles.txt", Filter = "Text File|*.txt"};
+            SaveFileDialog sfd = new SaveFileDialog { FileName = "Battles.txt", Filter = "Text File|*.txt" };
 
             SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -365,13 +376,12 @@ namespace pk3DS
 
             specieslist[0] = "---";
             abilitylist[0] = itemlist[0] = movelist[0] = "";
-            pba = new[] { PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6 };
+            pba = [PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6];
 
             for (int i = 0; i < 6; i++)
             {
                 trpk_pkm[i].Items.Clear();
-                foreach (string s in specieslist)
-                    trpk_pkm[i].Items.Add(s);
+                trpk_pkm[i].Items.AddRange(specieslist);
 
                 trpk_m1[i].Items.Clear();
                 trpk_m2[i].Items.Clear();
@@ -386,8 +396,7 @@ namespace pk3DS
                 }
 
                 trpk_item[i].Items.Clear();
-                foreach (string s in itemlist)
-                    trpk_item[i].Items.Add(s);
+                trpk_item[i].Items.AddRange(itemlist);
 
                 trpk_lvl[i].Items.Clear();
                 for (int z = 0; z <= 100; z++)
@@ -431,8 +440,10 @@ namespace pk3DS
             CB_Battle_Type.Items.Add("Rotation");
             if (Main.Config.ORAS) CB_Battle_Type.Items.Add("Horde");
             megaEvos = Main.Config.ORAS
-                ? new[] { 15, 18, 80, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 380, 381, 428, 475, 531, 719, 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 }
-                : new[] { 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460 };
+                ? [15, 18, 80, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 380, 381, 428, 475, 531, 719, 3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460,
+                ]
+                : [3, 6, 9, 65, 94, 115, 127, 130, 142, 150, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 445, 448, 460,
+                ];
 
             CB_TrainerID.SelectedIndex = 1;
             start = false;
@@ -444,7 +455,7 @@ namespace pk3DS
             rTypeTheme, rTypeGymTrainers, rOnlySingles, rDMG, rSTAB, r6PKM, rForceFullyEvolved;
 
         public static bool rNoFixedDamage;
-        internal static bool[] rThemedClasses = Array.Empty<bool>();
+        internal static bool[] rThemedClasses = [];
         private static string[] rTags;
         private static int[] megaEvos;
         public static int[] rIgnoreClass, rEnsureMEvo;
@@ -453,7 +464,7 @@ namespace pk3DS
         private static int[] rModelRestricted;
         public static int[] rFinalEvo;
         private string[] rImportant;
-        private readonly List<string> Tags = new();
+        private readonly List<string> Tags = [];
         private readonly Dictionary<string, int> TagTypes = new();
         public static int[] sL; // Random Species List
         public static decimal rGiftPercent, rLevelMultiplier, rMinPKM, rMaxPKM, rForceFullyEvolvedLevel, rForceHighPowerLevel;
@@ -470,7 +481,7 @@ namespace pk3DS
 
         private void Randomize()
         {
-            List<int> banned = new List<int> { 165, 621 }; // Struggle, Hyperspace Fury
+            List<int> banned = [165, 621]; // Struggle, Hyperspace Fury
             if (rNoFixedDamage)
                 banned.AddRange(MoveRandomizer.FixedDamageMoves);
             var move = new MoveRandomizer(Main.Config)
@@ -485,7 +496,7 @@ namespace pk3DS
             rImportant = new string[CB_TrainerID.Items.Count];
             rTags = Main.Config.ORAS ? GetTagsORAS() : GetTagsXY();
             mEvoTypes = GetMegaEvolvableTypes();
-            List<int> GymE4Types = new List<int>();
+            List<int> GymE4Types = [];
 
             // Fetch Move Stats for more difficult randomization
 
@@ -494,7 +505,8 @@ namespace pk3DS
                 if (mEvoTypes.Length < 13 && rTypeTheme)
                 {
                     WinFormsUtil.Alert("There are insufficient Types with at least one mega evolution to Guarantee story Mega Evos while keeping Type theming.",
-                    "Re-Randomize Personal or don't choose both options."); return; }
+                    "Re-Randomize Personal or don't choose both options."); return;
+                }
                 GymE4Types.AddRange(mEvoTypes);
             }
             else
@@ -539,9 +551,9 @@ namespace pk3DS
 
             CB_TrainerID.SelectedIndex = 0; // fake a writeback
             ushort[] itemvals = Main.Config.ORAS ? Legal.Pouch_Items_AO : Legal.Pouch_Items_XY;
-            itemvals = itemvals.Concat(Legal.Pouch_Berry_XY).ToArray();
+            itemvals = [.. itemvals, .. Legal.Pouch_Berry_XY];
 
-            string[] ImportantClasses = {"GYM", "ELITE", "CHAMPION"};
+            string[] ImportantClasses = ["GYM", "ELITE", "CHAMPION"];
             for (int i = 1; i < CB_TrainerID.Items.Count; i++)
             {
                 // Trainer Type/Mega Evo
@@ -557,7 +569,7 @@ namespace pk3DS
                 var t = new TrainerData6(trd, trp, Main.Config.ORAS)
                 {
                     Moves = rMove || (!rNoMove && checkBox_Moves.Checked),
-                    Item = rItem || checkBox_Item.Checked
+                    Item = rItem || checkBox_Item.Checked,
                 };
 
                 SetMinMaxPKM(t);
@@ -726,7 +738,7 @@ namespace pk3DS
 
             if (rClass && rModelRestricted.Contains(t.Class) && !rIgnoreClass.Contains(t.Class)) // shuffle classes with 3D models
             {
-                int randClass() => (int) (Rand() % rModelRestricted.Length);
+                int randClass() => (int)(Rand() % rModelRestricted.Length);
                 t.Class = rModelRestricted[randClass()];
             }
             else
@@ -934,13 +946,13 @@ namespace pk3DS
             if (rTags[trainer].Length != 0)
                 return TagTypes[rTags[trainer]];
             if (!rEnsureMEvo.Contains(trainer))
-                return (int)(Rand()%types.Length);
+                return (int)(Rand() % types.Length);
             return mEvoTypes[Rand() % mEvoTypes.Length];
         }
 
         private static int[] GetMegaEvolvableTypes()
         {
-            List<int> MEvoTypes = new List<int>();
+            List<int> MEvoTypes = [];
             foreach (int spec in megaEvos)
             {
                 if (!MEvoTypes.Contains(Main.SpeciesStat[spec].Types[0]))
@@ -950,7 +962,7 @@ namespace pk3DS
             }
             MEvoTypes.Sort();
             Console.WriteLine("There are " + MEvoTypes.Count + " Types capable of Mega Evolution.");
-            return MEvoTypes.ToArray();
+            return [.. MEvoTypes];
         }
 
         private void IsFormClosing(object sender, FormClosingEventArgs e)
@@ -961,7 +973,7 @@ namespace pk3DS
         private void GotoParty(object sender, EventArgs e)
         {
             // When sprite is clicked, jump to that Pokémon.
-            tabControl1.SelectedIndex = 1 + Array.IndexOf(new[]{PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6,}, sender as PictureBox);
+            tabControl1.SelectedIndex = 1 + Array.IndexOf([PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6], sender as PictureBox);
         }
     }
 }

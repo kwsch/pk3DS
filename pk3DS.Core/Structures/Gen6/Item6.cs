@@ -8,7 +8,7 @@ namespace pk3DS.Core.Structures
     public struct Item
     {
         public Item(byte[] data) => this = data.ToStructure<Item>();
-        public byte[] Write() => this.ToBytes();
+        public readonly byte[] Write() => this.ToBytes();
         private const string Battle = "Battle";
         private const string Field = "Field";
         private const string Mart = "Mart";
@@ -76,105 +76,104 @@ namespace pk3DS.Core.Structures
         #endregion
 
         [Category(Mart), RefreshProperties(RefreshProperties.All)]
-        public int BuyPrice { get => Price * 10; set => Price = (ushort)(value / 10); }
+        public int BuyPrice { readonly get => Price * 10; set => Price = (ushort)(value / 10); }
 
         [Category(Mart), ReadOnly(true)]
-        public int SellPrice { get => Price * 5; set => Price = (ushort)(value / 5); }
+        public int SellPrice { readonly get => Price * 5; set => Price = (ushort)(value / 5); }
 
         [Category(Battle)]
-        public int NaturalGiftType { get => Packed & 0x1F; set => Packed = (ushort)((NaturalGiftEffect & ~0x1F) | value); }
+        public int NaturalGiftType { readonly get => Packed & 0x1F; set => Packed = (ushort)((NaturalGiftEffect & ~0x1F) | value); }
 
         [Category(Battle)]
-        public bool Flag1 { get => ((Packed >> 5) & 1) == 1; set => Packed = (ushort)((Packed & ~(1 << 5)) | ((value ? 1 : 0) << 5)); }
+        public bool Flag1 { readonly get => ((Packed >> 5) & 1) == 1; set => Packed = (ushort)((Packed & ~(1 << 5)) | ((value ? 1 : 0) << 5)); }
 
         [Category(Battle)]
-        public bool Flag2 { get => ((Packed >> 6) & 1) == 1; set => Packed = (ushort)((Packed & ~(1 << 6)) | ((value ? 1 : 0) << 6)); }
+        public bool Flag2 { readonly get => ((Packed >> 6) & 1) == 1; set => Packed = (ushort)((Packed & ~(1 << 6)) | ((value ? 1 : 0) << 6)); }
 
         [Category(Field)]
-        public int PocketField { get => (Packed >> 7) & 0xF; set => Packed = (ushort)((Packed & 0xF87F) | ((value & 0xF) << 7)); }
+        public int PocketField { readonly get => (Packed >> 7) & 0xF; set => Packed = (ushort)((Packed & 0xF87F) | ((value & 0xF) << 7)); }
 
         [Category(Battle)]
-        public BattlePocket PocketBattle { get => (BattlePocket)(Packed >> 11); set => Packed = (ushort)((Packed & 0x077F) | (((byte)value & 0x1F) << 11)); }
+        public BattlePocket PocketBattle { readonly get => (BattlePocket)(Packed >> 11); set => Packed = (ushort)((Packed & 0x077F) | (((byte)value & 0x1F) << 11)); }
 
         [Category(Field)]
-        public bool Revive { get => ((Boost0 >> 0) & 1) == 0; set => Boost0 = (byte)((Boost0 & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
+        public bool Revive { readonly get => ((Boost0 >> 0) & 1) == 0; set => Boost0 = (byte)((Boost0 & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
 
         [Category(Field)]
-        public bool ReviveAll { get => ((Boost0 >> 1) & 1) == 1; set => Boost0 = (byte)((Boost0 & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
+        public bool ReviveAll { readonly get => ((Boost0 >> 1) & 1) == 1; set => Boost0 = (byte)((Boost0 & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
 
         [Category(Field)]
-        public bool LevelUp { get => ((Boost0 >> 2) & 1) == 1; set => Boost0 = (byte)((Boost0 & ~(1 << 2)) | ((value ? 1 : 0) << 2)); }
+        public bool LevelUp { readonly get => ((Boost0 >> 2) & 1) == 1; set => Boost0 = (byte)((Boost0 & ~(1 << 2)) | ((value ? 1 : 0) << 2)); }
 
         [Category(Field)]
-        public bool EvoStone { get => ((Boost0 >> 3) & 1) == 1; set => Boost0 = (byte)((Boost0 & ~(1 << 3)) | ((value ? 1 : 0) << 3)); }
+        public bool EvoStone { readonly get => ((Boost0 >> 3) & 1) == 1; set => Boost0 = (byte)((Boost0 & ~(1 << 3)) | ((value ? 1 : 0) << 3)); }
 
         [Category(Battle)]
-        public int BoostATK { get => Boost0 >> 4; set => Boost0 = (byte)((Boost0 & 0xF) | (value << 4)); }
+        public int BoostATK { readonly get => Boost0 >> 4; set => Boost0 = (byte)((Boost0 & 0xF) | (value << 4)); }
 
         [Category(Battle)]
-        public int BoostDEF { get => Boost1 & 0xF; set => Boost1 = (byte)((Boost1 & ~0xF) | (value & 0xF)); }
+        public int BoostDEF { readonly get => Boost1 & 0xF; set => Boost1 = (byte)((Boost1 & ~0xF) | (value & 0xF)); }
 
         [Category(Battle)]
-        public int BoostSPA { get => Boost1 >> 4; set => Boost1 = (byte)((Boost1 & 0xF) | (value << 4)); }
+        public int BoostSPA { readonly get => Boost1 >> 4; set => Boost1 = (byte)((Boost1 & 0xF) | (value << 4)); }
 
         [Category(Battle)]
-        public int BoostSPD { get => Boost2 & 0xF; set => Boost2 = (byte)((Boost2 & ~0xF) | (value & 0xF)); }
+        public int BoostSPD { readonly get => Boost2 & 0xF; set => Boost2 = (byte)((Boost2 & ~0xF) | (value & 0xF)); }
 
         [Category(Battle)]
-        public int BoostSPE { get => Boost2 >> 4; set => Boost2 = (byte)((Boost2 & 0xF) | (value << 4)); }
+        public int BoostSPE { readonly get => Boost2 >> 4; set => Boost2 = (byte)((Boost2 & 0xF) | (value << 4)); }
 
         [Category(Battle)]
-        public int BoostACC { get => Boost3 & 0xF; set => Boost3 = (byte)((Boost3 & ~0xF) | (value & 0xF)); }
+        public int BoostACC { readonly get => Boost3 & 0xF; set => Boost3 = (byte)((Boost3 & ~0xF) | (value & 0xF)); }
 
         [Category(Battle)]
-        public int BoostCRIT { get => (Boost3 >> 4) & 3; set => Boost3 = (byte)((Boost3 & ~0x30) | ((value & 3) << 4)); }
+        public int BoostCRIT { readonly get => (Boost3 >> 4) & 3; set => Boost3 = (byte)((Boost3 & ~0x30) | ((value & 3) << 4)); }
 
         [Category(Battle)]
-        public int BoostPP1 { get => (Boost3 >> 6) & 1; set => Boost3 = (byte)((Boost3 & 0xBF) | ((value & 1) << 6)); }
+        public int BoostPP1 { readonly get => (Boost3 >> 6) & 1; set => Boost3 = (byte)((Boost3 & 0xBF) | ((value & 1) << 6)); }
 
         [Category(Battle)]
-        public int BoostPPMax { get => (Boost3 >> 7) & 1; set => Boost3 = (byte)((Boost3 & 0x7F) | ((value & 1) << 7)); }
+        public int BoostPPMax { readonly get => (Boost3 >> 7) & 1; set => Boost3 = (byte)((Boost3 & 0x7F) | ((value & 1) << 7)); }
 
         [Category(Heal), Description("Raw value of the Heal enum."), RefreshProperties(RefreshProperties.All)]
         public int HealValue
-        {
-            get => (int) HealAmount;
+        { readonly get => (int)HealAmount;
             set => HealAmount = (Heal)value;
         }
 
         [Category(Heal), Description("Item is consumed when used."), RefreshProperties(RefreshProperties.All)]
-        public bool UseConsume { get => (Consumable & 0xF) != 0; set => Consumable = (byte)((Consumable & 0xF0) | (value ? 1 : 0)); }
+        public bool UseConsume { readonly get => (Consumable & 0xF) != 0; set => Consumable = (byte)((Consumable & 0xF0) | (value ? 1 : 0)); }
 
         [Category(Heal), Description("Item is not consumed when used."), RefreshProperties(RefreshProperties.All)]
-        public bool UseKeep { get => (Consumable & 0xF0) != 0; set => Consumable = (byte)((Consumable & 0x0F) | (value ? 0x10 : 0)); }
+        public bool UseKeep { readonly get => (Consumable & 0xF0) != 0; set => Consumable = (byte)((Consumable & 0x0F) | (value ? 0x10 : 0)); }
     }
 
     [Flags]
     public enum ItemFlags1 : byte
     {
         None,
-        RestorePP    = 1 << 0,
+        RestorePP = 1 << 0,
         RestorePPAll = 1 << 1,
-        RestoreHP    = 1 << 2,
-        AddEVHP      = 1 << 3,
-        AddEVAtk     = 1 << 4,
-        AddEVDef     = 1 << 5,
-        AddEVSpe     = 1 << 6,
-        AddEVSpA     = 1 << 7,
+        RestoreHP = 1 << 2,
+        AddEVHP = 1 << 3,
+        AddEVAtk = 1 << 4,
+        AddEVDef = 1 << 5,
+        AddEVSpe = 1 << 6,
+        AddEVSpA = 1 << 7,
     }
 
     [Flags]
     public enum ItemFlags2 : byte
     {
         None,
-        AddEVSpD       = 1 << 0,
-        AddEVAbove100  = 1 << 1,
+        AddEVSpD = 1 << 0,
+        AddEVAbove100 = 1 << 1,
         AddFriendship1 = 1 << 2,
         AddFriendship2 = 1 << 3,
         AddFriendship3 = 1 << 4,
-        Unused1        = 1 << 5,
-        Unused2        = 1 << 6,
-        Unused3        = 1 << 7,
+        Unused1 = 1 << 5,
+        Unused2 = 1 << 6,
+        Unused3 = 1 << 7,
     }
 
     [Flags]

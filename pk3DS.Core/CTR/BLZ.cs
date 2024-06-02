@@ -467,16 +467,10 @@ namespace pk3DS.Core.CTR
             return pak_buffer;
         }
 
-        private class SearchPair
+        private class SearchPair(int l, int p)
         {
-            public readonly int l;
-            public readonly int p;
-
-            public SearchPair(int l, int p)
-            {
-                this.l = l;
-                this.p = p;
-            }
+            public readonly int l = l;
+            public readonly int p = p;
         }
 
         private static SearchPair SEARCH(int p, IList<byte> raw_buffer, int raw, int raw_end)
@@ -506,16 +500,10 @@ namespace pk3DS.Core.CTR
             return new SearchPair(l, p);
         }
 
-        private class BLZResult
+        private class BLZResult(byte[] raw_buffer, int raw_len)
         {
-            public BLZResult(byte[] raw_buffer, int raw_len)
-            {
-                buffer = raw_buffer;
-                length = raw_len;
-            }
-
-            public readonly byte[] buffer;
-            public readonly int length;
+            public readonly byte[] buffer = raw_buffer;
+            public readonly int length = raw_len;
         }
 
         private static void BLZ_Invert(byte[] buffer, int offset, int length)

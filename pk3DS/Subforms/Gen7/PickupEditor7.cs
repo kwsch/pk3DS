@@ -48,20 +48,20 @@ namespace pk3DS
             }
 
             int c = 0;
-            DataGridViewComboBoxColumn dgvItemVal = new DataGridViewComboBoxColumn
+            var dgvItemVal = new DataGridViewComboBoxColumn
             {
                 HeaderText = "Item",
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
                 DisplayIndex = c++,
                 Width = 135,
-                FlatStyle = FlatStyle.Flat
+                FlatStyle = FlatStyle.Flat,
             };
             dgv.Columns.Add(dgvItemVal);
 
             for (int i = 0; i < Columns; i++)
             {
-                string rate = $"{(i * 10) + 1}-{(i + 1)*10}";
-                DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
+                string rate = $"{(i * 10) + 1}-{(i + 1) * 10}";
+                var dgvIndex = new DataGridViewTextBoxColumn();
                 {
                     dgvIndex.HeaderText = rate;
                     dgvIndex.DisplayIndex = c++;
@@ -73,8 +73,7 @@ namespace pk3DS
             }
 
             var combo = dgv.Columns[0] as DataGridViewComboBoxColumn;
-            foreach (var i in items)
-                combo.Items.Add(i); // add only the Item Names
+            combo.Items.AddRange(items); // add only the Item Names
 
             // disable sorting
             dgv.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
@@ -113,7 +112,7 @@ namespace pk3DS
                 int sum = 0;
                 for (int r = 0; r < rows; r++)
                 {
-                    var cell = dgvCommon.Rows[r].Cells[i+1];
+                    var cell = dgvCommon.Rows[r].Cells[i + 1];
                     if (!int.TryParse(cell.Value.ToString(), out var val))
                     {
                         cell.Value = 0.ToString();
@@ -130,7 +129,7 @@ namespace pk3DS
                 if (sum == 100) // good
                     continue;
 
-                WinFormsUtil.Alert($"Sum of Column {i+1} needs to equal 100.", $"Got {sum}.");
+                WinFormsUtil.Alert($"Sum of Column {i + 1} needs to equal 100.", $"Got {sum}.");
                 return null;
             }
 

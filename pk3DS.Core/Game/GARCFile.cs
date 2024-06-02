@@ -4,72 +4,50 @@ using pk3DS.Core.CTR;
 
 namespace pk3DS.Core
 {
-    public class GARCFile
+    public class GARCFile(GARC.MemGARC g, GARCReference r, string p)
     {
-        private readonly GARC.MemGARC GARC;
-        private readonly GARCReference Reference;
-        private readonly string Path;
-
-        public GARCFile(GARC.MemGARC g, GARCReference r, string p)
-        {
-            GARC = g;
-            Reference = r;
-            Path = p;
-        }
-
         // Shorthand Alias
-        public byte[] GetFile(int file, int subfile = 0) { return GARC.GetFile(file, subfile); }
-        public byte[][] Files { get => GARC.Files; set => GARC.Files = value; }
-        public int FileCount => GARC.FileCount;
+        public byte[] GetFile(int file, int subfile = 0) { return g.GetFile(file, subfile); }
+        public byte[][] Files { get => g.Files; set => g.Files = value; }
+        public int FileCount => g.FileCount;
 
         public void Save()
         {
-            File.WriteAllBytes(Path, GARC.Data);
-            Console.WriteLine($"Wrote {Reference.Name} to {Reference.Reference}");
+            File.WriteAllBytes(p, g.Data);
+            Console.WriteLine($"Wrote {r.Name} to {r.Reference}");
         }
     }
 
-    public class LazyGARCFile
+    public class LazyGARCFile(GARC.LazyGARC g, GARCReference r, string p)
     {
-        private readonly GARC.LazyGARC GARC;
-        private readonly GARCReference Reference;
-        private readonly string Path;
-
-        public LazyGARCFile(GARC.LazyGARC g, GARCReference r, string p)
-        {
-            GARC = g;
-            Reference = r;
-            Path = p;
-        }
-
-        public int FileCount => GARC.FileCount;
+        public int FileCount => g.FileCount;
 
         public byte[][] Files
         {
             get
             {
                 byte[][] data = new byte[FileCount][];
-                for (int i = 0; i < data.Length; i ++)
-                    data[i] = GARC[i];
+                for (int i = 0; i < data.Length; i++)
+                    data[i] = g[i];
                 return data;
             }
             set
             {
                 for (int i = 0; i < value.Length; i++)
-                    GARC[i] = value[i];
+                    g[i] = value[i];
             }
         }
 
         public byte[] this[int file]
         {
-            get => GARC[file];
-            set => GARC[file] = value;
+            get => g[file];
+            set => g[file] = value;
         }
 
         public void Save()
         {
-            File.WriteAllBytes(Path, GARC.Save());
-            Console.WriteLine($"Wrote {Reference.Name} to {Reference.Reference}");
+            File.WriteAllBytes(p, g.Save());
+            Console.WriteLine($"Wrote {r.Name} to {r.Reference}");
         }
     }
 }

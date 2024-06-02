@@ -23,7 +23,7 @@ namespace pk3DS
             len_BPTutor = data.Skip(0x52D2).Take(4).ToArray();
 
             SetupDGV();
-            foreach (string s in locationsTutor) CB_LocationBPMove.Items.Add(s);
+            CB_LocationBPMove.Items.AddRange(locationsTutor);
             CB_LocationBPMove.SelectedIndex = 0;
         }
 
@@ -34,12 +34,12 @@ namespace pk3DS
         private readonly byte[] data;
 
         private readonly string[] locationsTutor =
-        {
+        [
             "Big Wave Beach",
             "Heahea Beach",
             "Ula'ula Beach",
             "Battle Tree",
-        };
+        ];
 
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -52,8 +52,7 @@ namespace pk3DS
 
         private void SetupDGV()
         {
-            foreach (string t in movelist)
-                dgvmvMove.Items.Add(t); // add only the Names
+            dgvmvMove.Items.AddRange(movelist); // add only the Names
         }
 
         private int entryBPMove = -1;

@@ -3,21 +3,14 @@ using pk3DS.Core.Structures.PersonalInfo;
 
 namespace pk3DS.Core.Randomizers
 {
-    public class FormRandomizer
+    public class FormRandomizer(GameConfig game)
     {
-        private readonly GameConfig Game;
-
-        public FormRandomizer(GameConfig game)
-        {
-            Game = game;
-        }
-
         public bool AllowMega = false;
         public bool AllowAlolanForm = true;
 
         public int GetRandomForme(int species, PersonalInfo[] stats = null)
         {
-            stats ??= Game.Personal.Table;
+            stats ??= game.Personal.Table;
             if (stats[species].FormeCount <= 1)
                 return 0;
 
@@ -25,7 +18,9 @@ namespace pk3DS.Core.Randomizers
             {
                 case 658 when !AllowMega:
                     return 0;
-                case 664: case 665: case 666: // Vivillon evo chain
+                case 664:
+                case 665:
+                case 666: // Vivillon evo chain
                     return 30; // save file specific
                 case 774: // Minior
                     return (int)(Util.Random32() % 7);

@@ -34,7 +34,7 @@ namespace pk3DS
                 Progress.Invoke((MethodInvoker)(() => Progress.PerformStep()));
             }
             else { Progress.PerformStep(); }
-            string update = $"{(float)e.Current / (float)e.Total:P2} - {e.Current}/{e.Total} - {e.CurrentFile}";
+            string update = $"{e.Current / (float)e.Total:P2} - {e.Current}/{e.Total} - {e.CurrentFile}";
             if (Label.InvokeRequired)
             {
                 Label.Invoke((MethodInvoker)delegate { Label.Text = update; });
@@ -48,7 +48,7 @@ namespace pk3DS
             if (Progress.InvokeRequired) Progress.Invoke((MethodInvoker)(() => Progress.PerformStep()));
             else Progress.PerformStep();
 
-            string update = $"{((double)e.Current / e.Total):P2} - {e.Current}/{e.Total}";
+            string update = $"{(double)e.Current / e.Total:P2} - {e.Current}/{e.Total}";
             if (Label.InvokeRequired)
             {
                 Label.Invoke((MethodInvoker)delegate { Label.Text = update; });

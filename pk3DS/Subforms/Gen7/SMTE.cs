@@ -69,7 +69,7 @@ namespace pk3DS
                     ? Main.Config.USUM
                         ? Legal.SpecialClasses_USUM
                         : Legal.SpecialClasses_SM
-                    : Array.Empty<int>();
+                    : [];
             }
 
             RandSettings.GetFormSettings(this, Tab_Rand.Controls);
@@ -226,18 +226,17 @@ namespace pk3DS
                 Trainers[i] = new TrainerData7(trdata[i], trpoke[i])
                 {
                     Name = trName[i],
-                    ID = i
+                    ID = i,
                 };
             }
 
             specieslist[0] = "---";
             abilitylist[0] = itemlist[0] = movelist[0] = "(None)";
-            pba = new[] {PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6};
-            AIBits = new[] {CHK_AI0, CHK_AI1, CHK_AI2, CHK_AI3, CHK_AI4, CHK_AI5, CHK_AI6, CHK_AI7};
+            pba = [PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6];
+            AIBits = [CHK_AI0, CHK_AI1, CHK_AI2, CHK_AI3, CHK_AI4, CHK_AI5, CHK_AI6, CHK_AI7];
 
             CB_Species.Items.Clear();
-            foreach (string s in specieslist)
-                CB_Species.Items.Add(s);
+            CB_Species.Items.AddRange(specieslist);
 
             CB_Move1.Items.Clear();
             CB_Move2.Items.Clear();
@@ -258,8 +257,7 @@ namespace pk3DS
             CB_Nature.Items.AddRange(natures.Take(25).ToArray());
 
             CB_Item.Items.Clear();
-            foreach (string s in itemlist)
-                CB_Item.Items.Add(s);
+            CB_Item.Items.AddRange(itemlist);
 
             CB_Gender.Items.Clear();
             CB_Gender.Items.Add("- / Genderless/Random");
@@ -460,7 +458,7 @@ namespace pk3DS
         // Dumping
         private void DumpTxt(object sender, EventArgs e)
         {
-            using var sfd = new SaveFileDialog {FileName = "Trainers.txt"};
+            var sfd = new SaveFileDialog { FileName = "Trainers.txt" };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
             var sb = new StringBuilder();
@@ -473,7 +471,7 @@ namespace pk3DS
         {
             var sb = new StringBuilder();
             sb.AppendLine("======");
-            sb.Append(tr.ID).Append(" - ").Append(trClass[tr.TrainerClass]).Append(" ").AppendLine(tr.Name);
+            sb.Append(tr.ID).Append(" - ").Append(trClass[tr.TrainerClass]).Append(' ').AppendLine(tr.Name);
             sb.AppendLine("======");
             sb.Append("Pokemon: ").Append(tr.NumPokemon).AppendLine();
             for (int i = 0; i < tr.NumPokemon; i++)
@@ -483,14 +481,14 @@ namespace pk3DS
                 sb.Append(specieslist[tr.Pokemon[i].Species]);
                 sb.Append(" (Lv. ").Append(tr.Pokemon[i].Level).Append(") ");
                 if (tr.Pokemon[i].Item > 0)
-                    sb.Append("@").Append(itemlist[tr.Pokemon[i].Item]);
+                    sb.Append('@').Append(itemlist[tr.Pokemon[i].Item]);
 
                 if (tr.Pokemon[i].Nature != 0)
-                    sb.Append(" (Nature: ").Append(natures[tr.Pokemon[i].Nature]).Append(")");
+                    sb.Append(" (Nature: ").Append(natures[tr.Pokemon[i].Nature]).Append(')');
 
-                sb.Append(" (Moves: ").Append(string.Join("/", tr.Pokemon[i].Moves.Select(m => m == 0 ? "(None)" : movelist[m]))).Append(")");
-                sb.Append(" IVs: ").Append(string.Join("/", tr.Pokemon[i].IVs));
-                sb.Append(" EVs: ").Append(string.Join("/", tr.Pokemon[i].EVs));
+                sb.Append(" (Moves: ").AppendJoin("/", tr.Pokemon[i].Moves.Select(m => m == 0 ? "(None)" : movelist[m])).Append(')');
+                sb.Append(" IVs: ").AppendJoin("/", tr.Pokemon[i].IVs);
+                sb.Append(" EVs: ").AppendJoin("/", tr.Pokemon[i].EVs);
                 sb.AppendLine();
             }
             return sb.ToString();
@@ -500,7 +498,7 @@ namespace pk3DS
         {
             if (index < 0)
                 return;
-            Trainers[index].NumPokemon = (int) NUD_NumPoke.Value;
+            Trainers[index].NumPokemon = (int)NUD_NumPoke.Value;
         }
 
         private void UpdateTrainerName(object sender, EventArgs e)
@@ -561,14 +559,14 @@ namespace pk3DS
             Stat_SPD.Text = Stats[5].ToString();
             Stat_SPE.Text = Stats[3].ToString();
 
-            TB_IVTotal.Text = tb_iv.Select(WinFormsUtil.ToInt32).Sum().ToString();
-            TB_EVTotal.Text = tb_ev.Select(WinFormsUtil.ToInt32).Sum().ToString();
+            TB_IVTotal.Text = tb_iv.Sum(WinFormsUtil.ToInt32).ToString();
+            TB_EVTotal.Text = tb_ev.Sum(WinFormsUtil.ToInt32).ToString();
 
             // Recolor the Stat Labels based on boosted stats.
             {
                 incr--;
                 decr--;
-                Label[] labarray = { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
+                Label[] labarray = [Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD];
                 // Reset Label Colors
                 foreach (Label label in labarray)
                     label.ResetForeColor();
@@ -628,6 +626,8 @@ namespace pk3DS
             { 1, 1, 1, 1, 1, 1 }, // Dark
         };
 
+        private static readonly int[] usualBan = [165, 621, 464];
+
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomize all? Cannot undo.", "Double check Randomization settings in the Randomizer Options tab.") != DialogResult.Yes) return;
@@ -650,19 +650,19 @@ namespace pk3DS
             rnd.Initialize();
 
             // add Legendary/Mythical to final evolutions if checked
-            if (CHK_L.Checked) FinalEvo = FinalEvo.Concat(Legendary).ToArray();
-            if (CHK_E.Checked) FinalEvo = FinalEvo.Concat(Mythical).ToArray();
+            if (CHK_L.Checked) FinalEvo = [.. FinalEvo, .. Legendary];
+            if (CHK_E.Checked) FinalEvo = [.. FinalEvo, .. Mythical];
 
-            var banned = new List<int>(new[] { 165, 621, 464 }.Concat(Legal.Z_Moves)); // Struggle, Hyperspace Fury, Dark Void
+            var banned = new List<int>(usualBan.Concat(Legal.Z_Moves)); // Struggle, Hyperspace Fury, Dark Void
             if (CHK_NoFixedDamage.Checked)
                 banned.AddRange(MoveRandomizer.FixedDamageMoves);
             var move = new MoveRandomizer(Main.Config)
             {
                 BannedMoves = banned,
-                rSTABCount = (int) NUD_STAB.Value,
+                rSTABCount = (int)NUD_STAB.Value,
                 rDMG = CHK_Damage.Checked,
-                rDMGCount = (int) NUD_Damage.Value,
-                rSTAB = CHK_STAB.Checked
+                rDMGCount = (int)NUD_Damage.Value,
+                rSTAB = CHK_STAB.Checked,
             };
 
             var items = Randomizer.GetRandomItemList();
@@ -698,7 +698,7 @@ namespace pk3DS
                 int avgLevel = (int)tr.Pokemon.Average(pk => pk.Level);
                 var pinfo = Main.SpeciesStat.OrderBy(pk => Math.Abs(avgBST - pk.BST)).First();
                 int avgSpec = Array.IndexOf(Main.SpeciesStat, pinfo);
-                int[] royal = { 081, 082, 083, 084, 185 };
+                int[] royal = [081, 082, 083, 084, 185];
 
                 if (tr.NumPokemon < NUD_RMin.Value)
                 {
@@ -770,7 +770,7 @@ namespace pk3DS
                     if (CHK_RandomAbilities.Checked)
                         pk.Ability = (int)Util.Random32() % 4;
                     if (CHK_MaxDiffPKM.Checked)
-                        pk.IVs = new[] {31, 31, 31, 31, 31, 31};
+                        pk.IVs = [31, 31, 31, 31, 31, 31];
                     if (CHK_MaxAI.Checked)
                         tr.AI |= (int)(TrainerAI.Basic | TrainerAI.Strong | TrainerAI.Expert | TrainerAI.PokeChange);
 
@@ -790,7 +790,7 @@ namespace pk3DS
                             pk.Moves = learn.GetCurrentMoves(pk.Species, pk.Form, pk.Level, 4);
                             break;
                         case 3: // Metronome
-                            pk.Moves = new[] { 118, 0, 0, 0 };
+                            pk.Moves = [118, 0, 0, 0];
                             break;
                     }
 
@@ -885,7 +885,7 @@ namespace pk3DS
             NUD_LevelBoost.Enabled = CHK_Level.Checked;
         }
 
-        private int[] GetRandomMega(out int species)
+        private static int[] GetRandomMega(out int species)
         {
             int rnd = Util.Rand.Next(0, MegaDictionary.Count - 1);
             species = MegaDictionary.Keys.ElementAt(rnd);

@@ -41,11 +41,11 @@ namespace pk3DS
             specieslist[32] += "♂"; specieslist[29] += "♀";
             AltForms = Main.Config.Personal.GetFormList(specieslist, Main.Config.MaxSpeciesID);
 
-            groupbox_spec = new[] { GB_MEvo1, GB_MEvo2, GB_MEvo3 };
-            item_spec = new[] { CB_Item1, CB_Item2, CB_Item3 };
-            forme_spec = new[] { CB_Forme1, CB_Forme2, CB_Forme3 };
-            checkbox_spec = new[] { CHK_MEvo1, CHK_MEvo2, CHK_MEvo3 };
-            picturebox_spec = new[] { new[] { PB_S1, PB_S2, PB_S3 }, new[] { PB_M1, PB_M2, PB_M3 } };
+            groupbox_spec = [GB_MEvo1, GB_MEvo2, GB_MEvo3];
+            item_spec = [CB_Item1, CB_Item2, CB_Item3];
+            forme_spec = [CB_Forme1, CB_Forme2, CB_Forme3];
+            checkbox_spec = [CHK_MEvo1, CHK_MEvo2, CHK_MEvo3];
+            picturebox_spec = [[PB_S1, PB_S2, PB_S3], [PB_M1, PB_M2, PB_M3]];
             #endregion
             Setup();
             CB_Species.SelectedIndex = 0;
@@ -53,16 +53,16 @@ namespace pk3DS
 
         private void Setup()
         {
-            List<string> temp_list = new List<string>(specieslist);
+            List<string> temp_list = [.. specieslist];
             temp_list.Sort();
 
             CB_Species.DataSource = temp_list.ConvertAll(mon => new ComboItem { Text = mon, Value = Array.IndexOf(specieslist, mon) });
 
-            List<string> items = new List<string>(itemlist);
-            List<string> sorted_items = new List<string>(itemlist);
+            List<string> items = [.. itemlist];
+            List<string> sorted_items = [.. itemlist];
             List<ComboItem>[] item_lists = new List<ComboItem>[item_spec.Length];
             for (int i = 0; i < item_lists.Length; i++)
-                item_lists[i] = new List<ComboItem>();
+                item_lists[i] = [];
 
             sorted_items.Sort();
             for (int i = 0; i < items.Count; i++)
@@ -211,7 +211,7 @@ namespace pk3DS
                 if (headered)
                     result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog {FileName = "Mega Evolutions.txt", Filter = "Text File|*.txt"};
+            var sfd = new SaveFileDialog { FileName = "Mega Evolutions.txt", Filter = "Text File|*.txt" };
 
             SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)

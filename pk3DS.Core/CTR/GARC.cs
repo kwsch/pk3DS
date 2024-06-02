@@ -56,7 +56,7 @@ namespace pk3DS.Core.CTR
                     int compressed = fn.IndexOf("dec_", StringComparison.Ordinal);
                     int fileNumber = compressed < 0
                         ? int.Parse(fn)
-                        : int.Parse(fn.Substring(compressed + 4));
+                        : int.Parse(fn[(compressed + 4)..]);
 
                     packOrder[fileNumber] = f;
                     filectr++;
@@ -82,14 +82,14 @@ namespace pk3DS.Core.CTR
                     Entries = new FATO_Entry[packOrder.Length],
                     EntryCount = (ushort) packOrder.Length,
                     HeaderSize = 0xC + (packOrder.Length*4),
-                    Padding = 0xFFFF
+                    Padding = 0xFFFF,
                 },
                 fatb =
                 {
                     // Magic = new[] { 'B', 'T', 'A', 'F' },
                     Entries = new FATB_Entry[packOrder.Length],
-                    FileCount = filectr
-                }
+                    FileCount = filectr,
+                },
             };
             if (version == VER_6)
             {
@@ -118,7 +118,7 @@ namespace pk3DS.Core.CTR
                         int compressed = fn.IndexOf("dec_", StringComparison.Ordinal);
                         int fileNumber = compressed < 0
                             ? int.Parse(fn)
-                            : int.Parse(fn.Substring(compressed + 4));
+                            : int.Parse(fn[(compressed + 4)..]);
 
                         if (compressed >= 0)
                         {
@@ -154,7 +154,7 @@ namespace pk3DS.Core.CTR
                             int compressed = fn.IndexOf("dec_", StringComparison.Ordinal);
                             int fileNumber = compressed < 0
                                 ? int.Parse(fn)
-                                : int.Parse(fn.Substring(compressed + 4));
+                                : int.Parse(fn[(compressed + 4)..]);
                             garc.fatb.Entries[i].SubEntries[fileNumber].Exists = true;
 
                             if (compressed >= 0)
@@ -264,7 +264,7 @@ namespace pk3DS.Core.CTR
             long largestPadded = 0; // Required memory to allocate to handle the largest PADDED file (Ver6 only)
             foreach (string e in packOrder)
             {
-                string[] fa = Directory.Exists(e) ? Directory.GetFiles(e) : new[] { e };
+                string[] fa = Directory.Exists(e) ? Directory.GetFiles(e) : [e];
                 foreach (string f in fa)
                 {
                     // Update largest file length if necessary
@@ -373,7 +373,7 @@ namespace pk3DS.Core.CTR
                         filectr++;
                     }
                     if (compressed)
-                        #region Decompression
+                    #region Decompression
                     {
                         string decout = Path.Combine(Path.GetDirectoryName(fileOut), "dec_" + Path.GetFileName(fileOut));
                         try
@@ -421,7 +421,7 @@ namespace pk3DS.Core.CTR
                 Version = br.ReadUInt16(),
                 ChunkCount = br.ReadUInt32(),
                 DataOffset = br.ReadUInt32(),
-                FileSize = br.ReadUInt32()
+                FileSize = br.ReadUInt32(),
             };
             // GARC Header
 
@@ -503,14 +503,14 @@ namespace pk3DS.Core.CTR
                     Entries = new FATO_Entry[data.Length],
                     EntryCount = (ushort) data.Length,
                     HeaderSize = 0xC + (data.Length*4),
-                    Padding = 0xFFFF
+                    Padding = 0xFFFF,
                 },
                 fatb =
                 {
                     // Magic = new[] { 'B', 'T', 'A', 'F' },
                     Entries = new FATB_Entry[data.Length],
-                    FileCount = data.Length
-                }
+                    FileCount = data.Length,
+                },
             };
 
             if (version == VER_6)
@@ -527,7 +527,7 @@ namespace pk3DS.Core.CTR
                 garc.fatb.Entries[i].SubEntries[0].Exists = true;
 
                 // Assemble Entry
-                var paddingRequired = data[i].Length%garc.ContentPadToNearest;
+                var paddingRequired = data[i].Length % garc.ContentPadToNearest;
                 if (paddingRequired != 0) paddingRequired = garc.ContentPadToNearest - paddingRequired;
                 int actualLength = data[i].Length + (int)paddingRequired;
                 garc.fatb.Entries[i].SubEntries[0].Start = od;
@@ -549,31 +549,31 @@ namespace pk3DS.Core.CTR
                 #region Write GARC Headers
 
                 // Write GARC
-                gw.Write((uint) 0x47415243); // GARC
-                gw.Write((uint) (version == VER_6 ? 0x24 : 0x1C)); // Header Length
-                gw.Write((ushort) 0xFEFF); // Endianness BOM
-                gw.Write((ushort) version); // Version
-                gw.Write((uint) 0x00000004); // Section Count (4)
-                gw.Write((uint) 0x00000000); // Data Offset (temp)
-                gw.Write((uint) 0x00000000); // File Length (temp)
-                gw.Write((uint) 0x00000000); // Largest File Size (temp)
+                gw.Write((uint)0x47415243); // GARC
+                gw.Write((uint)(version == VER_6 ? 0x24 : 0x1C)); // Header Length
+                gw.Write((ushort)0xFEFF); // Endianness BOM
+                gw.Write((ushort)version); // Version
+                gw.Write((uint)0x00000004); // Section Count (4)
+                gw.Write((uint)0x00000000); // Data Offset (temp)
+                gw.Write((uint)0x00000000); // File Length (temp)
+                gw.Write((uint)0x00000000); // Largest File Size (temp)
 
                 if (version == VER_6)
                 {
-                    gw.Write((uint) 0x0);
-                    gw.Write((uint) 0x0);
+                    gw.Write((uint)0x0);
+                    gw.Write((uint)0x0);
                 }
 
                 // Write FATO
-                gw.Write((uint) 0x4641544F); // FATO
+                gw.Write((uint)0x4641544F); // FATO
                 gw.Write(garc.fato.HeaderSize); // Header Size 
                 gw.Write(garc.fato.EntryCount); // Entry Count
                 gw.Write(garc.fato.Padding); // Padding
                 foreach (var t in garc.fato.Entries)
-                    gw.Write((uint) t.Offset);
+                    gw.Write((uint)t.Offset);
 
                 // Write FATB
-                gw.Write((uint) 0x46415442); // FATB
+                gw.Write((uint)0x46415442); // FATB
                 gw.Write(garc.fatb.HeaderSize); // Header Size
                 gw.Write(garc.fatb.FileCount); // File Count
                 foreach (var e in garc.fatb.Entries)
@@ -581,21 +581,21 @@ namespace pk3DS.Core.CTR
                     gw.Write(e.Vector);
                     foreach (var s in e.SubEntries.Where(s => s.Exists))
                     {
-                        gw.Write((uint) s.Start);
-                        gw.Write((uint) s.End);
-                        gw.Write((uint) s.Length);
+                        gw.Write((uint)s.Start);
+                        gw.Write((uint)s.End);
+                        gw.Write((uint)s.Length);
                     }
                 }
 
-                gw.Write((uint) 0x46494D42); // FIMB
-                gw.Write((uint) 0x0000000C); // Header Length
+                gw.Write((uint)0x46494D42); // FIMB
+                gw.Write((uint)0x0000000C); // Header Length
                 var dataLen = gw.BaseStream.Position;
-                gw.Write((uint) 0); // Data Length - TEMP
+                gw.Write((uint)0); // Data Length - TEMP
 
                 gw.Seek(0x10, SeekOrigin.Begin); // Goto the start of the un-set 0 data we set earlier and set it.
                 var hdrLen = gw.BaseStream.Position;
-                gw.Write((uint) 0); // Write Data Offset - TEMP
-                gw.Write((uint) 0); // Write total GARC Length - TEMP
+                gw.Write((uint)0); // Write Data Offset - TEMP
+                gw.Write((uint)0); // Write total GARC Length - TEMP
 
                 // Write Handling information
                 if (version == VER_4)
@@ -669,17 +669,11 @@ namespace pk3DS.Core.CTR
             return new MemGARC(GARCdata);
         }
 
-        public class MemGARC
+        public class MemGARC(byte[] data)
         {
-            internal GARCFile garc;
-            internal byte[] Data;
+            internal GARCFile garc = UnpackGARC(data);
+            internal byte[] Data = data;
             public int FileCount => garc.fato.EntryCount;
-
-            public MemGARC(byte[] data)
-            {
-                Data = data;
-                garc = UnpackGARC(data);
-            }
 
             // Returns an individual file
             public byte[] GetFile(int file, int subfile = 0)
@@ -774,7 +768,7 @@ namespace pk3DS.Core.CTR
                         LZSS.Compress(new MemoryStream(Data), Data.Length, newMS, original: true);
                         data = newMS.ToArray();
                     }
-                    catch { data = Array.Empty<byte>(); }
+                    catch { data = []; }
                     return data;
                 }
             }

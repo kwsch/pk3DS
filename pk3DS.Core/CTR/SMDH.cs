@@ -62,38 +62,31 @@ namespace pk3DS.Core.CTR
     }
 
     // Thanks to Gericom for EveryFileExplorer's SMDH.cs as a basis for the object code (and AppSettings enumeration)
-    public class ApplicationInfo
+    public class ApplicationInfo(BinaryReader br)
     {
-        public string ShortDescription; //0x80
-        public string LongDescription; //0x100
-        public string Publisher; //0x80
-
-        public ApplicationInfo(BinaryReader br)
-        {
-            ShortDescription = Encoding.Unicode.GetString(br.ReadBytes(0x80)).TrimEnd('\0');
-            LongDescription = Encoding.Unicode.GetString(br.ReadBytes(0x100)).TrimEnd('\0');
-            Publisher = Encoding.Unicode.GetString(br.ReadBytes(0x80)).TrimEnd('\0');
-        }
+        public string ShortDescription = Encoding.Unicode.GetString(br.ReadBytes(0x80)).TrimEnd('\0'); //0x80
+        public string LongDescription = Encoding.Unicode.GetString(br.ReadBytes(0x100)).TrimEnd('\0'); //0x100
+        public string Publisher = Encoding.Unicode.GetString(br.ReadBytes(0x80)).TrimEnd('\0'); //0x80
 
         public void Write(BinaryWriter bw)
         {
-            bw.Write(Encoding.Unicode.GetBytes(ShortDescription.PadRight(0x80/2, '\0')));
-            bw.Write(Encoding.Unicode.GetBytes(LongDescription.PadRight(0x100/2, '\0')));
-            bw.Write(Encoding.Unicode.GetBytes(Publisher.PadRight(0x80/2, '\0')));
+            bw.Write(Encoding.Unicode.GetBytes(ShortDescription.PadRight(0x80 / 2, '\0')));
+            bw.Write(Encoding.Unicode.GetBytes(LongDescription.PadRight(0x100 / 2, '\0')));
+            bw.Write(Encoding.Unicode.GetBytes(Publisher.PadRight(0x80 / 2, '\0')));
         }
     }
 
-    public class ApplicationSettings
+    public class ApplicationSettings(BinaryReader br)
     {
-        public readonly byte[] GameRatings; //0x10
-        public readonly RegionLockoutFlags RegionLockout;
-        public readonly uint MatchMakerID;
-        public readonly ulong MatchMakerBITID;
-        public readonly AppSettingsFlags Flags;
-        public readonly ushort EULAVersion;
-        public readonly ushort Reserved;
-        public readonly float AnimationDefaultFrame;
-        public readonly uint StreetPassID;
+        public readonly byte[] GameRatings = br.ReadBytes(0x10); //0x10
+        public readonly RegionLockoutFlags RegionLockout = (RegionLockoutFlags)br.ReadUInt32();
+        public readonly uint MatchMakerID = br.ReadUInt32();
+        public readonly ulong MatchMakerBITID = br.ReadUInt64();
+        public readonly AppSettingsFlags Flags = (AppSettingsFlags)br.ReadUInt32();
+        public readonly ushort EULAVersion = br.ReadUInt16();
+        public readonly ushort Reserved = br.ReadUInt16();
+        public readonly float AnimationDefaultFrame = br.ReadSingle();
+        public readonly uint StreetPassID = br.ReadUInt32();
 
         [Flags]
         public enum RegionLockoutFlags : uint
@@ -105,7 +98,7 @@ namespace pk3DS.Core.CTR
             Australia = 0x08,
             China = 0x10,
             Korea = 0x20,
-            Taiwan = 0x40
+            Taiwan = 0x40,
         }
 
         [Flags]
@@ -121,20 +114,7 @@ namespace pk3DS.Core.CTR
             ReqRegionGameRating = 64,
             UsesSaveData = 128,
             RecordUsage = 256,
-            DisableSDSaveBackup = 512
-        }
-
-        public ApplicationSettings(BinaryReader br)
-        {
-            GameRatings = br.ReadBytes(0x10);
-            RegionLockout = (RegionLockoutFlags)br.ReadUInt32();
-            MatchMakerID = br.ReadUInt32();
-            MatchMakerBITID = br.ReadUInt64();
-            Flags = (AppSettingsFlags)br.ReadUInt32();
-            EULAVersion = br.ReadUInt16();
-            Reserved = br.ReadUInt16();
-            AnimationDefaultFrame = br.ReadSingle();
-            StreetPassID = br.ReadUInt32();
+            DisableSDSaveBackup = 512,
         }
 
         public void Write(BinaryWriter bw)

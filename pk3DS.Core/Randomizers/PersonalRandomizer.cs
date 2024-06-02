@@ -35,7 +35,7 @@ namespace pk3DS.Core.Randomizers
         public bool ModifyStats = true;
         public bool ShuffleStats = true;
         public decimal StatDeviation = 25;
-        public bool[] StatsToRandomize = { true, true, true, true, true, true };
+        public bool[] StatsToRandomize = [true, true, true, true, true, true];
 
         public bool ModifyTypes = true;
         public decimal SameTypeChance = 50;
@@ -272,14 +272,14 @@ namespace pk3DS.Core.Randomizers
             {
                 if (!StatsToRandomize[i])
                     continue;
-                var l = Math.Min(255, (int) (stats[i] * (1 - (StatDeviation / 100))));
-                var h = Math.Min(255, (int) (stats[i] * (1 + (StatDeviation / 100))));
+                var l = Math.Min(255, (int)(stats[i] * (1 - (StatDeviation / 100))));
+                var h = Math.Min(255, (int)(stats[i] * (1 + (StatDeviation / 100))));
                 stats[i] = Math.Max(5, rnd.Next(l, h));
             }
             z.Stats = stats;
         }
 
-        private void RandomShuffledStats(PersonalInfo z)
+        private static void RandomShuffledStats(PersonalInfo z)
         {
             // Fiddle with Base Stats, don't muck with Shedinja.
             var stats = z.Stats;
@@ -293,7 +293,7 @@ namespace pk3DS.Core.Randomizers
         private int GetRandomType() => rnd.Next(0, TypeCount);
         private int GetRandomEggGroup() => rnd.Next(1, eggGroupCount);
         private int GetRandomHeldItem() => Game.Info.HeldItems[rnd.Next(1, Game.Info.HeldItems.Length)];
-        private readonly IList<int> BannedAbilities = Array.Empty<int>();
+        private readonly IReadOnlyList<int> BannedAbilities = [];
 
         private int GetRandomAbility()
         {

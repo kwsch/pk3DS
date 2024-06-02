@@ -124,19 +124,19 @@ namespace pk3DS.Core.CTR
                 Directory.CreateDirectory(outputDirectory);
 
             byte[] headerBytes = new byte[0x200];
-            using (FileStream fs = new FileStream(NCCH_PATH, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(NCCH_PATH, FileMode.Open, FileAccess.Read))
             {
-                fs.Read(headerBytes, 0, headerBytes.Length);
+                _ = fs.Read(headerBytes, 0, headerBytes.Length);
                 Header = new NCCHHeader();
                 Header.BuildHeaderFromBytes(headerBytes);
 
                 logo = new byte[Header.LogoSize * MEDIA_UNIT_SIZE];
                 fs.Seek(Convert.ToInt32(Header.LogoOffset * MEDIA_UNIT_SIZE), SeekOrigin.Begin);
-                fs.Read(logo, 0, logo.Length);
+                _ = fs.Read(logo, 0, logo.Length);
 
                 plainregion = new byte[Header.PlainRegionSize * MEDIA_UNIT_SIZE];
                 fs.Seek(Convert.ToInt32(Header.PlainRegionOffset * MEDIA_UNIT_SIZE), SeekOrigin.Begin);
-                fs.Read(plainregion, 0, plainregion.Length);
+                _ = fs.Read(plainregion, 0, plainregion.Length);
             }
 
             ExtractExheader(NCCH_PATH, outputDirectory, TB_Progress);
@@ -150,10 +150,10 @@ namespace pk3DS.Core.CTR
             UpdateTB(TB_Progress, "Extracting exheader.bin from CXI...");
             byte[] exheaderbytes = new byte[Header.ExheaderSize * 2];
 
-            using (FileStream fs = new FileStream(NCCH_PATH, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(NCCH_PATH, FileMode.Open, FileAccess.Read))
             {
                 fs.Seek(Convert.ToInt32(0x200), SeekOrigin.Begin);
-                fs.Read(exheaderbytes, 0, exheaderbytes.Length);
+                _ = fs.Read(exheaderbytes, 0, exheaderbytes.Length);
             }
 
             File.WriteAllBytes(exheaderpath, exheaderbytes);
@@ -167,10 +167,10 @@ namespace pk3DS.Core.CTR
             UpdateTB(TB_Progress, "Extracting exefs.bin from CXI...");
             byte[] exefsbytes = new byte[Header.ExefsSize * MEDIA_UNIT_SIZE];
 
-            using (FileStream fs = new FileStream(NCCH_PATH, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(NCCH_PATH, FileMode.Open, FileAccess.Read))
             {
                 fs.Seek(Convert.ToInt32(Header.ExefsOffset * MEDIA_UNIT_SIZE), SeekOrigin.Begin);
-                fs.Read(exefsbytes, 0, exefsbytes.Length);
+                _ = fs.Read(exefsbytes, 0, exefsbytes.Length);
             }
 
             File.WriteAllBytes(exefsbinpath, exefsbytes);
@@ -196,7 +196,7 @@ namespace pk3DS.Core.CTR
                 else { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = Convert.ToInt32(Header.RomfsSize); }
                 for (int i = 0; i < Header.RomfsSize; i++)
                 {
-                    ncchstream.Read(romfsBytes, 0, romfsBytes.Length);
+                    _ = ncchstream.Read(romfsBytes, 0, romfsBytes.Length);
                     romfsstream.Write(romfsBytes, 0, romfsBytes.Length);
                     if (PB_Show.InvokeRequired)
                     {
@@ -206,7 +206,7 @@ namespace pk3DS.Core.CTR
                 }
             }
 
-            RomFS romfs = new RomFS(romfsbinpath);
+            var romfs = new RomFS(romfsbinpath);
             romfs.ExtractRomFS(romfspath, TB_Progress, PB_Show);
             File.Delete(romfsbinpath);
         }
@@ -215,8 +215,8 @@ namespace pk3DS.Core.CTR
         {
             UpdateTB(TB_Progress, "Extracting ncchheader.bin from CXI...");
             string headerParth = Path.Combine(outputDirectory, "ncchheader.bin");
-            using FileStream headerStream = new FileStream(headerParth, FileMode.OpenOrCreate, FileAccess.Write);
-            headerStream.Write(this.Header.Data, 0, this.Header.Data.Length);
+            using FileStream headerStream = new(headerParth, FileMode.OpenOrCreate, FileAccess.Write);
+            headerStream.Write(Header.Data, 0, Header.Data.Length);
         }
 
         public void WritePlainRegionAndLogo(string outputDirectory, RichTextBox TB_Progress)
@@ -226,8 +226,8 @@ namespace pk3DS.Core.CTR
             UpdateTB(TB_Progress, "Extracting plain.bin and logo.bcma.lz from CXI...");
             using FileStream plainStream = new(plainRegionPath, FileMode.OpenOrCreate, FileAccess.Write);
             using FileStream logoStream = new(logoPath, FileMode.OpenOrCreate, FileAccess.Write);
-            plainStream.Write(this.plainregion, 0, this.plainregion.Length);
-            logoStream.Write(this.logo, 0, this.logo.Length);
+            plainStream.Write(plainregion, 0, plainregion.Length);
+            logoStream.Write(logo, 0, logo.Length);
         }
 
         internal static void UpdateTB(RichTextBox RTB, string progress)

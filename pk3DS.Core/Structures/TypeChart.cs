@@ -6,13 +6,16 @@ namespace pk3DS.Core.Structures
 {
     public static class TypeChart
     {
-        private static readonly uint[] Colors = { 0xFF000000,
+        private static readonly uint[] Colors =
+        [
+            0xFF000000,
                             0, // unused
                             0xFFFF0000,
                             0, // unused
                             0xFFFFFFFF,
                             0, 0, 0, // unused
-                            0xFF008000 };
+                            0xFF008000,
+        ];
 
         public static Bitmap GetGrid(int itemsize, int itemsPerRow, byte[] vals)
         {
@@ -43,8 +46,8 @@ namespace pk3DS.Core.Structures
             }
 
             // assemble image
-            Bitmap b = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-            BitmapData bData = b.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+            var b = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            var bData = b.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
             System.Runtime.InteropServices.Marshal.Copy(bmpData, 0, bData.Scan0, bmpData.Length);
             b.UnlockBits(bData);
             return b;

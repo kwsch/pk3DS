@@ -31,14 +31,14 @@ namespace pk3DS.Core.CTR
             const string output = "CTR-P-";
 
             var RecognizedGames = new Dictionary<ulong, string[]>();
-            string[] lines = Resources.ResourceManager.GetString("_3dsgames").Split('\n').ToArray();
+            var lines = Resources.ResourceManager.GetString("_3dsgames").Split('\n').ToArray();
             foreach (string l in lines)
             {
-                string[] vars = l.Split('\t').ToArray();
+                string[] vars = l.Split('\t');
                 ulong titleid = Convert.ToUInt64(vars[0], 16);
-                if (RecognizedGames.ContainsKey(titleid))
+                if (RecognizedGames.TryGetValue(titleid, out var value))
                 {
-                    char lc = RecognizedGames[titleid].ToArray()[0][3];
+                    char lc = value.ToArray()[0][3];
                     char lc2 = vars[1][3];
                     if (lc2 == 'A' || lc2 == 'E' || (lc2 == 'P' && lc == 'J')) //Prefer games in order US, PAL, JP
                     {
@@ -92,7 +92,7 @@ namespace pk3DS.Core.CTR
                 0x11C4 => "ECRA", // Omega Ruby
                 0x055D => "EKJA", // X
                 0x055E => "EK2A", // Y
-                _ => "XXXX"
+                _ => "XXXX",
             };
             return "CTR-P-" + name;
         }

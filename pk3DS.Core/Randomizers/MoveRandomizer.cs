@@ -21,7 +21,7 @@ namespace pk3DS.Core.Randomizers
             var MaxMoveID = config.Info.MaxMoveID;
             MoveData = config.Moves;
             SpeciesStat = config.Personal.Table;
-            RandMove = new GenericRandomizer(Enumerable.Range(1, MaxMoveID-1).ToArray());
+            RandMove = new GenericRandomizer(Enumerable.Range(1, MaxMoveID - 1).ToArray());
         }
 
         public void Execute()
@@ -33,9 +33,9 @@ namespace pk3DS.Core.Randomizers
         public bool rSTAB = true;
         public int rSTABCount = 2;
         public decimal rSTABPercent = 100;
-        public IList<int> BannedMoves = Array.Empty<int>();
+        public IList<int> BannedMoves = [];
 
-        public static readonly int[] FixedDamageMoves = { 49, 82 };
+        public static readonly int[] FixedDamageMoves = [49, 82];
 
         private int loopctr;
 
@@ -100,17 +100,17 @@ namespace pk3DS.Core.Randomizers
 
         public void ReorderMovesPower(IList<int> moves)
         {
-            var data = moves.Select((Move, Index) => new {Index, Move, Data = MoveData[Move]});
+            var data = moves.Select((Move, Index) => new { Index, Move, Data = MoveData[Move] });
             var powered = data.Where(z => z.Data.Power > 1).ToList();
             var indexes = powered.ConvertAll(z => z.Index);
-            var order = powered.OrderBy(z => z.Data.Power * Math.Max(1, (z.Data.HitMin + z.Data.HitMax)/2m)).ToList();
+            var order = powered.OrderBy(z => z.Data.Power * Math.Max(1, (z.Data.HitMin + z.Data.HitMax) / 2m)).ToList();
 
             for (var i = 0; i < order.Count; i++)
                 moves[indexes[i]] = order[i].Move;
         }
 
         private static readonly int[] firstMoves =
-        {
+        [
             1,   // Pound
             40,  // Poison Sting
             52,  // Ember
@@ -122,7 +122,7 @@ namespace pk3DS.Core.Randomizers
             122, // Lick
             141, // Leech Life
 
-        };
+        ];
 
         private static readonly GenericRandomizer first = new(firstMoves);
 

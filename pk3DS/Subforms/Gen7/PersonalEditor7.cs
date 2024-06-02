@@ -17,13 +17,14 @@ namespace pk3DS
         public PersonalEditor7(byte[][] infiles)
         {
             InitializeComponent();
-            helditem_boxes = new[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
-            ability_boxes = new[] { CB_Ability1, CB_Ability2, CB_Ability3 };
-            typing_boxes = new[] { CB_Type1, CB_Type2 };
-            eggGroup_boxes = new[] { CB_EggGroup1, CB_EggGroup2 };
-            byte_boxes = new[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate, TB_CallRate };
-            ev_boxes = new[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
-            rstat_boxes = new[] { CHK_rHP, CHK_rATK, CHK_rDEF, CHK_rSPA, CHK_rSPD, CHK_rSPE };
+            helditem_boxes = [CB_HeldItem1, CB_HeldItem2, CB_HeldItem3];
+            ability_boxes = [CB_Ability1, CB_Ability2, CB_Ability3];
+            typing_boxes = [CB_Type1, CB_Type2];
+            eggGroup_boxes = [CB_EggGroup1, CB_EggGroup2];
+            byte_boxes = [TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate, TB_CallRate,
+            ];
+            ev_boxes = [TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs];
+            rstat_boxes = [CHK_rHP, CHK_rATK, CHK_rDEF, CHK_rSPA, CHK_rSPD, CHK_rSPE];
             files = infiles;
 
             species[0] = "---";
@@ -57,20 +58,22 @@ namespace pk3DS
         private readonly MaskedTextBox[] ev_boxes;
         private readonly CheckBox[] rstat_boxes;
 
-        private readonly string[] eggGroups = { "---", "Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon", "Undiscovered" };
-        private readonly string[] EXPGroups = { "Medium-Fast", "Erratic", "Fluctuating", "Medium-Slow", "Fast", "Slow" };
-        private readonly string[] colors = { "Red", "Blue", "Yellow", "Green", "Black", "Brown", "Purple", "Gray", "White", "Pink" };
-        private readonly ushort[] tutormoves = { 520, 519, 518, 338, 307, 308, 434, 620 };
+        private readonly string[] eggGroups = ["---", "Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon", "Undiscovered",
+        ];
+        private readonly string[] EXPGroups = ["Medium-Fast", "Erratic", "Fluctuating", "Medium-Slow", "Fast", "Slow"];
+        private readonly string[] colors = ["Red", "Blue", "Yellow", "Green", "Black", "Brown", "Purple", "Gray", "White", "Pink",
+        ];
+        private readonly ushort[] tutormoves = [520, 519, 518, 338, 307, 308, 434, 620];
 
         internal static readonly int[] Tutors_USUM =
-        {
+        [
             450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008,
             277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401,      428, 406, 304, 231,
             020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409,      264, 351, 352,
             380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446,      285,
 
-            477, 502, 432, 710, 707, 675, 673
-        };
+            477, 502, 432, 710, 707, 675, 673,
+        ];
 
         private readonly int[] baseForms, formVal;
         private readonly ushort[] TMs;
@@ -98,42 +101,31 @@ namespace pk3DS
 
             foreach (ComboBox cb in helditem_boxes)
             {
-                foreach (string it in items)
-                    cb.Items.Add(it);
+                cb.Items.AddRange(items);
             }
 
-            foreach (string it in items)
-                CB_ZItem.Items.Add(it);
-            foreach (string m in moves)
-                CB_ZBaseMove.Items.Add(m);
-            foreach (string m in moves)
-                CB_ZMove.Items.Add(m);
+            CB_ZItem.Items.AddRange(items);
+            CB_ZBaseMove.Items.AddRange(moves);
+            CB_ZMove.Items.AddRange(moves);
 
             foreach (ComboBox cb in ability_boxes)
             {
-                foreach (string ab in abilities)
-                    cb.Items.Add(ab);
+                cb.Items.AddRange(abilities);
             }
 
             foreach (ComboBox cb in typing_boxes)
             {
-                foreach (string ty in types)
-                    cb.Items.Add(ty);
+                cb.Items.AddRange(types);
             }
 
             foreach (ComboBox cb in eggGroup_boxes)
             {
-                foreach (string eg in eggGroups)
-                    cb.Items.Add(eg);
+                cb.Items.AddRange(eggGroups);
             }
 
-            foreach (string co in colors)
-            {
-                CB_Color.Items.Add(co);
-            }
+            CB_Color.Items.AddRange(colors);
 
-            foreach (string eg in EXPGroups)
-                CB_EXPGroup.Items.Add(eg);
+            CB_EXPGroup.Items.AddRange(EXPGroups);
 
             if (Main.Config.USUM)
             {
@@ -226,7 +218,7 @@ namespace pk3DS
 
             if (Main.Config.SM || Main.Config.USUM)
             {
-                PersonalInfoSM sm = (PersonalInfoSM) pkm;
+                PersonalInfoSM sm = (PersonalInfoSM)pkm;
                 TB_CallRate.Text = sm.EscapeRate.ToString("000");
                 CB_ZItem.SelectedIndex = sm.SpecialZ_Item;
                 CB_ZBaseMove.SelectedIndex = sm.SpecialZ_BaseMove;
@@ -250,8 +242,8 @@ namespace pk3DS
             int f = formVal[entry];
             if (entry <= Main.Config.MaxSpeciesID)
                 s = entry;
-            Bitmap rawImg = WinFormsUtil.GetSprite(s, f, 0, 0, Main.Config);
-            Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
+            var rawImg = WinFormsUtil.GetSprite(s, f, 0, 0, Main.Config);
+            var bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
             for (int x = 0; x < rawImg.Width; x++)
             {
                 for (int y = 0; y < rawImg.Height; y++)
@@ -285,15 +277,15 @@ namespace pk3DS
             pkm.CatchRate = Convert.ToByte(TB_CatchRate.Text);
             pkm.EvoStage = Convert.ToByte(TB_Stage.Text);
 
-            pkm.Types = new[] {CB_Type1.SelectedIndex, CB_Type2.SelectedIndex};
-            pkm.Items = new[] {CB_HeldItem1.SelectedIndex, CB_HeldItem2.SelectedIndex, CB_HeldItem3.SelectedIndex};
+            pkm.Types = [CB_Type1.SelectedIndex, CB_Type2.SelectedIndex];
+            pkm.Items = [CB_HeldItem1.SelectedIndex, CB_HeldItem2.SelectedIndex, CB_HeldItem3.SelectedIndex];
 
             pkm.Gender = Convert.ToByte(TB_Gender.Text);
             pkm.HatchCycles = Convert.ToByte(TB_HatchCycles.Text);
             pkm.BaseFriendship = Convert.ToByte(TB_Friendship.Text);
-            pkm.EXPGrowth = (byte) CB_EXPGroup.SelectedIndex;
-            pkm.EggGroups = new[] {CB_EggGroup1.SelectedIndex, CB_EggGroup2.SelectedIndex};
-            pkm.Abilities = new[] {CB_Ability1.SelectedIndex, CB_Ability2.SelectedIndex, CB_Ability3.SelectedIndex};
+            pkm.EXPGrowth = (byte)CB_EXPGroup.SelectedIndex;
+            pkm.EggGroups = [CB_EggGroup1.SelectedIndex, CB_EggGroup2.SelectedIndex];
+            pkm.Abilities = [CB_Ability1.SelectedIndex, CB_Ability2.SelectedIndex, CB_Ability3.SelectedIndex];
 
             pkm.FormeSprite = Convert.ToUInt16(TB_FormeSprite.Text);
             pkm.FormeCount = Convert.ToByte(TB_FormeCount.Text);
@@ -361,7 +353,7 @@ namespace pk3DS
                 SameTypeChance = NUD_TypePercent.Value,
                 SameEggGroupChance = NUD_Egg.Value,
                 StatDeviation = NUD_StatDev.Value,
-                AllowWonderGuard = CHK_WGuard.Checked
+                AllowWonderGuard = CHK_WGuard.Checked,
             };
 
             rnd.Execute();
@@ -435,13 +427,13 @@ namespace pk3DS
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Dump all Personal Entries to Text File?"))
                 return;
-            SaveFileDialog sfd = new SaveFileDialog { FileName = "Personal Entries.txt", Filter = "Text File|*.txt" };
+            var sfd = new SaveFileDialog { FileName = "Personal Entries.txt", Filter = "Text File|*.txt" };
             SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
 
             dumping = true;
-            List<string> lines = new List<string>();
+            List<string> lines = [];
             for (int i = 0; i < CB_Species.Items.Count; i++)
             {
                 CB_Species.SelectedIndex = i; // Get new Species

@@ -25,8 +25,8 @@ namespace pk3DS
 
             itemlist[0] = "";
             SetupDGV();
-            foreach (string s in locations) CB_Location.Items.Add(s);
-            foreach (string s in locationsBP) CB_LocationBP.Items.Add(s);
+            CB_Location.Items.AddRange(locations);
+            CB_LocationBP.Items.AddRange(locationsBP);
             CB_Location.SelectedIndex = 0;
             CB_LocationBP.SelectedIndex = 0;
         }
@@ -36,20 +36,20 @@ namespace pk3DS
 
         #region Tables
         private readonly byte[] Signature = // Leadup to the Shop Data, the shop arrays are the 3rd data array in the rodata section.
-        {
+        [
             0x2D, 0x00, 0x00, 0x00, 0x3B, 0x00, 0x00, 0x00, 0x2F, 0x00, 0x00, 0x00, 0x3D, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00,
             0x10, 0x00, 0x00, 0x00, 0x0E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
-        };
+        ];
 
         private readonly byte[] BPSignature = // 2 arrays after the regular shops, the BP shops start. Skip over the second one to get BP offset.
-        {
+        [
             0x09, 0x0B, 0x0D, 0x0F, 0x11, 0x13, 0x14, 0x15, 0x09, 0x04, 0x08, 0x0C, 0x05, 0x04, 0x0B, 0x03,
-            0x0A, 0x06, 0x0A, 0x06, 0x04, 0x05, 0x07, 0x01
-        };
+            0x0A, 0x06, 0x0A, 0x06, 0x04, 0x05, 0x07, 0x01,
+        ];
 
         private readonly byte[] entries =
-        {
+        [
             9, 11, 13, 15, 17, 19, 20, 21, // Regular Mart
             9, // KoniKoni Incense
             4, // KoniKoni Herb
@@ -67,10 +67,10 @@ namespace pk3DS
             5, // Thrifty 1
             7, // Thrifty 2
             1, // Thrifty 3 (Souvenir)
-        };
+        ];
 
         private readonly string[] locations =
-        {
+        [
             "No Trials", "1 Trial", "2 Trials", "3 Trials", "4 Trials", "5 Trials", "6 Trials", "7 Trials",
             "Konikoni City [Incenses]",
             "Konikoni City [Herbs]",
@@ -87,28 +87,28 @@ namespace pk3DS
             "Konikoni City [Stones]",
             "Thrifty Megamart, Left [Poké Balls]",
             "Thrifty Megamart, Middle [Misc]",
-            "Thrifty Megamart, Right [Strange Souvenir]"
-        };
+            "Thrifty Megamart, Right [Strange Souvenir]",
+        ];
 
         private readonly int[] entriesBP =
-        {
+        [
             8, // Royal 1 (Abil Capsule)
             7, // Royal 2
             18, // Royal 3
             12, // Tree 1
             21, // Tree 2
             16, // Tree 3
-        };
+        ];
 
         private readonly string[] locationsBP =
-        {
+        [
             "Battle Royal Dome [Medicine]",
             "Battle Royal Dome [EV Training]",
             "Battle Royal Dome [Held Items]",
             "Battle Tree [Trade Evolution Items]",
             "Battle Tree [Held Items]",
             "Battle Tree [Mega Stones]",
-        };
+        ];
         #endregion
 
         private void B_Save_Click(object sender, EventArgs e)
@@ -136,10 +136,8 @@ namespace pk3DS
 
         private void SetupDGV()
         {
-            foreach (string t in itemlist)
-                dgvItem.Items.Add(t); // add only the Names
-            foreach (string t in itemlist)
-                dgvItemBP.Items.Add(t); // add only the Names
+            dgvItem.Items.AddRange(itemlist); // add only the Names
+            dgvItemBP.Items.AddRange(itemlist); // add only the Names
         }
 
         private int entry = -1;
@@ -174,23 +172,20 @@ namespace pk3DS
         /// <summary>
         /// Just TMs & HMs; don't want these to be changed; if changed, they are not available elsewhere ingame.
         /// </summary>
-        internal static readonly HashSet<int> BannedItems = new()
-        {
+        internal static readonly HashSet<int> BannedItems =
+        [
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348,
             349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369,
             370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390,
             391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411,
             412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 618, 619, 620, 690, 691,
-            692, 693, 694, 701, 737
-        };
+            692, 693, 694, 701, 737,
+        ];
 
         /// <summary>
         /// All X Items usable in Generations 6 and 7. Speedrunners utilize these Items a lot, so make sure they are still available.
         /// </summary>
-        internal static readonly HashSet<int> XItems = new()
-        {
-            055, 056, 057, 058, 059, 060, 061, 062
-        };
+        internal static readonly HashSet<int> XItems = [055, 056, 057, 058, 059, 060, 061, 062];
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {

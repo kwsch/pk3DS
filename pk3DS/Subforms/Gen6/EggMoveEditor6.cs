@@ -46,7 +46,7 @@ namespace pk3DS
         {
             string[] sortedmoves = (string[])movelist.Clone();
             Array.Sort(sortedmoves);
-            DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
+            var dgvMove = new DataGridViewComboBoxColumn();
             {
                 dgvMove.HeaderText = "Move";
                 dgvMove.DisplayIndex = 0;
@@ -59,7 +59,7 @@ namespace pk3DS
             dgv.Columns.Add(dgvMove);
         }
 
-        private EggMoves pkm = new EggMoves6(Array.Empty<byte>());
+        private EggMoves6 pkm = new([]);
 
         private void GetList()
         {
@@ -73,7 +73,7 @@ namespace pk3DS
             byte[] input = files[entry];
             if (input.Length == 0) return;
             pkm = new EggMoves6(input);
-            if (pkm.Count < 1) { files[entry] = Array.Empty<byte>(); return; }
+            if (pkm.Count < 1) { files[entry] = []; return; }
             dgv.Rows.Add(pkm.Count);
 
             // Fill Entries
@@ -86,13 +86,13 @@ namespace pk3DS
         private void SetList()
         {
             if (entry < 1 || dumping) return;
-            List<int> moves = new List<int>();
+            List<int> moves = [];
             for (int i = 0; i < dgv.Rows.Count - 1; i++)
             {
                 int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[0].Value);
                 if (move > 0 && !moves.Contains((ushort)move)) moves.Add(move);
             }
-            pkm.Moves = moves.ToArray();
+            pkm.Moves = [.. moves];
 
             files[entry] = pkm.Write();
         }
@@ -105,11 +105,11 @@ namespace pk3DS
 
         private void B_RandAll_Click(object sender, EventArgs e)
         {
-            ushort[] HMs = { 15, 19, 57, 70, 127, 249, 291 };
+            ushort[] HMs = [15, 19, 57, 70, 127, 249, 291];
             if (CHK_HMs.Checked && Main.ExeFSPath != null)
                 TMHMEditor6.GetTMHMList(out _, out HMs);
 
-            List<int> banned = new List<int> { 165, 621 }; // Struggle, Hyperspace Fury
+            List<int> banned = [165, 621]; // Struggle, Hyperspace Fury
             if (!CHK_HMs.Checked)
                 banned.AddRange(HMs.Select(z => (int)z));
 
@@ -121,7 +121,7 @@ namespace pk3DS
                 ExpandTo = (int)NUD_Moves.Value,
                 STAB = CHK_STAB.Checked,
                 STABPercent = NUD_STAB.Value,
-                BannedMoves = banned.ToArray()
+                BannedMoves = [.. banned],
             };
             rand.Execute();
             sets.Select(z => z.Write()).ToArray().CopyTo(files, 0);
@@ -145,7 +145,7 @@ namespace pk3DS
 
                 result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog {FileName = "Egg Moves.txt", Filter = "Text File|*.txt"};
+            var sfd = new SaveFileDialog { FileName = "Egg Moves.txt", Filter = "Text File|*.txt" };
 
             SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)

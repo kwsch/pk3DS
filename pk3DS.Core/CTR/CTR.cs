@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -50,10 +49,10 @@ namespace pk3DS.Core.CTR
 
             UpdateTB(TB_Progress, "Creating NCCH...");
             UpdateTB(TB_Progress, "Adding Exheader...");
-            NCCH NCCH = new NCCH
+            var NCCH = new NCCH
             {
                 Exheader = new Exheader(EXHEADER_PATH),
-                plainregion = Array.Empty<byte>()
+                plainregion = [],
             };
             if (NCCH.Exheader.IsSupported())
             {
@@ -122,11 +121,11 @@ namespace pk3DS.Core.CTR
         {
             TB_Progress ??= new RichTextBox();
             UpdateTB(TB_Progress, "Building NCSD Header...");
-            NCSD NCSD = new NCSD
+            var NCSD = new NCSD
             {
-                NCCH_Array = new List<NCCH> {NCCH},
+                NCCH_Array = [NCCH],
                 Card2 = Card2,
-                Header = new NCSD.NCSDHeader {Signature = new byte[0x100], Magic = 0x4453434E}
+                Header = new NCSD.NCSDHeader { Signature = new byte[0x100], Magic = 0x4453434E },
             };
             ulong Length = 0x80 * 0x100000; // 128 MB
             while (Length <= (NCCH.Header.Size * MEDIA_UNIT_SIZE) + 0x400000) //Extra 4 MB for potential save data
@@ -139,7 +138,7 @@ namespace pk3DS.Core.CTR
             ulong OSOfs = 0x4000;
             for (int i = 0; i < NCSD.Header.OffsetSizeTable.Length; i++)
             {
-                NCSD.NCCH_Meta ncchm = new NCSD.NCCH_Meta();
+                var ncchm = new NCSD.NCCH_Meta();
                 if (i < NCSD.NCCH_Array.Count)
                 {
                     ncchm.Offset = (uint)(OSOfs / MEDIA_UNIT_SIZE);
@@ -178,11 +177,11 @@ namespace pk3DS.Core.CTR
                     Reserved2 = new byte[0xC],
                     CVerTitleId = 0,
                     CVerTitleVersion = 0,
-                    Reserved3 = new byte[0xCD6]
+                    Reserved3 = new byte[0xCD6],
                 },
                 NCCH0TitleId = NCSD.NCCH_Array[0].Header.TitleId,
                 Reserved0 = 0,
-                InitialData = new byte[0x30]
+                InitialData = new byte[0x30],
             };
             byte[] randbuffer = new byte[0x2C];
             Random.Shared.NextBytes(randbuffer);
@@ -202,7 +201,7 @@ namespace pk3DS.Core.CTR
         {
             PB_Show ??= new ProgressBar();
             TB_Progress ??= new RichTextBox();
-            using (FileStream OutFileStream = new FileStream(SAVE_PATH, FileMode.Create))
+            using (var OutFileStream = new FileStream(SAVE_PATH, FileMode.Create))
             {
                 UpdateTB(TB_Progress, "Writing NCSD Header...");
                 OutFileStream.Write(NCSD.Data, 0, NCSD.Data.Length);
@@ -212,7 +211,7 @@ namespace pk3DS.Core.CTR
                 byte[] key = new byte[0x10]; //Fixed-Crypto key is all zero.
                 for (int i = 0; i < 3; i++)
                 {
-                    AesCtr aesctr = new AesCtr(key, NCSD.NCCH_Array[0].Header.ProgramId, (ulong)(i + 1) << 56); //CTR is ProgramID, section id<<88
+                    var aesctr = new AesCtr(key, NCSD.NCCH_Array[0].Header.ProgramId, (ulong)(i + 1) << 56); //CTR is ProgramID, section id<<88
                     switch (i)
                     {
                         case 0: //Exheader + AccessDesc
@@ -234,17 +233,17 @@ namespace pk3DS.Core.CTR
                         case 2: //Romfs
                             UpdateTB(TB_Progress, "Writing Romfs...");
                             OutFileStream.Seek(0x4000 + (NCSD.NCCH_Array[0].Header.RomfsOffset * MEDIA_UNIT_SIZE), SeekOrigin.Begin);
-                            using (FileStream InFileStream = new FileStream(NCSD.NCCH_Array[0].RomFS.FileName, FileMode.Open, FileAccess.Read))
+                            using (var InFileStream = new FileStream(NCSD.NCCH_Array[0].RomFS.FileName, FileMode.Open, FileAccess.Read))
                             {
                                 uint BUFFER_SIZE;
                                 ulong RomfsLen = NCSD.NCCH_Array[0].Header.RomfsSize * MEDIA_UNIT_SIZE;
-                                PB_Show.Invoke((Action)(() =>
+                                PB_Show.Invoke(() =>
                                 {
                                     PB_Show.Minimum = 0;
                                     PB_Show.Maximum = (int)(RomfsLen / 0x400000);
                                     PB_Show.Value = 0;
                                     PB_Show.Step = 1;
-                                }));
+                                });
                                 for (ulong j = 0; j < RomfsLen; j += BUFFER_SIZE)
                                 {
                                     BUFFER_SIZE = RomfsLen - j > 0x400000 ? 0x400000 : (uint)(RomfsLen - j);
@@ -253,7 +252,7 @@ namespace pk3DS.Core.CTR
                                     InFileStream.Read(buf, 0, (int)BUFFER_SIZE);
                                     aesctr.TransformBlock(buf, 0, (int)BUFFER_SIZE, outbuf, 0);
                                     OutFileStream.Write(outbuf, 0, (int)BUFFER_SIZE);
-                                    PB_Show.Invoke((Action)PB_Show.PerformStep);
+                                    PB_Show.Invoke(PB_Show.PerformStep);
                                 }
                             }
                             break;
@@ -337,7 +336,7 @@ namespace pk3DS.Core.CTR
                 return false;
             }
 
-            Exheader exh = new Exheader(exeheader);
+            var exh = new Exheader(exeheader);
             return !exh.IsSupported() || Card2;
         }
 

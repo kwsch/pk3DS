@@ -66,7 +66,6 @@ namespace pk3DS.Core.CTR
                 // Set up the Header
                 byte[] headerData = new byte[0x200];
                 uint offset = 0;
-                SHA256 sha = SHA256.Create();
 
                 // Get the Header
                 for (int i = 0; i < files.Length; i++)
@@ -76,25 +75,26 @@ namespace pk3DS.Core.CTR
                     byte[] nameData = Encoding.ASCII.GetBytes(fileName); Array.Resize(ref nameData, 0x8);
                     Array.Copy(nameData, 0, headerData, i * 0x10, 0x8);
 
-                    FileInfo fi = new FileInfo(files[i]);
+                    var fi = new FileInfo(files[i]);
                     uint size = (uint)fi.Length;
                     Array.Copy(BitConverter.GetBytes(offset), 0, headerData, 0x8 + (i * 0x10), 0x4);
                     Array.Copy(BitConverter.GetBytes(size), 0, headerData, 0xC + (i * 0x10), 0x4);
                     offset += 0x200 - (size % 0x200) + size;
 
                     // Do the Bottom (Hashes)
-                    byte[] hash = sha.ComputeHash(File.ReadAllBytes(files[i]));
+                    byte[] hash = SHA256.HashData(File.ReadAllBytes(files[i]));
                     Array.Copy(hash, 0, headerData, 0x200 - (0x20 * (i + 1)), 0x20);
                 }
 
                 // Set in the Data
-                using MemoryStream newFile = new MemoryStream();
-                new MemoryStream(headerData).CopyTo(newFile);
+                using var newFile = new MemoryStream();
+                newFile.Write(headerData);
                 foreach (string s in files)
                 {
-                    using (MemoryStream loadFile = new MemoryStream(File.ReadAllBytes(s)))
+                    using (var loadFile = new MemoryStream(File.ReadAllBytes(s)))
                         loadFile.CopyTo(newFile);
-                    new MemoryStream(new byte[0x200 - (newFile.Length % 0x200)]).CopyTo(newFile);
+                    var tail = new byte[0x200 - (newFile.Length % 0x200)];
+                    newFile.Write(tail);
                 }
 
                 File.WriteAllBytes(outFile, newFile.ToArray());
@@ -108,7 +108,6 @@ namespace pk3DS.Core.CTR
             // Set up the Header
             byte[] headerData = new byte[0x200];
             uint offset = 0;
-            SHA256 sha = SHA256.Create();
 
             // Get the Header
             for (int i = 0; i < files.Length; i++)
@@ -118,25 +117,26 @@ namespace pk3DS.Core.CTR
                 byte[] nameData = Encoding.ASCII.GetBytes(fileName); Array.Resize(ref nameData, 0x8);
                 Array.Copy(nameData, 0, headerData, i * 0x10, 0x8);
 
-                FileInfo fi = new FileInfo(files[i]);
+                var fi = new FileInfo(files[i]);
                 uint size = (uint)fi.Length;
                 Array.Copy(BitConverter.GetBytes(offset), 0, headerData, 0x8 + (i * 0x10), 0x4);
                 Array.Copy(BitConverter.GetBytes(size), 0, headerData, 0xC + (i * 0x10), 0x4);
                 offset += 0x200 - (size % 0x200) + size;
 
                 // Do the Bottom (Hashes)
-                byte[] hash = sha.ComputeHash(File.ReadAllBytes(files[i]));
+                byte[] hash = SHA256.HashData(File.ReadAllBytes(files[i]));
                 Array.Copy(hash, 0, headerData, 0x200 - (0x20 * (i + 1)), 0x20);
             }
 
             // Set in the Data
-            using MemoryStream newFile = new MemoryStream();
-            new MemoryStream(headerData).CopyTo(newFile);
+            using var newFile = new MemoryStream();
+            newFile.Write(headerData);
             foreach (string s in files)
             {
-                using (MemoryStream loadFile = new MemoryStream(File.ReadAllBytes(s)))
-                    loadFile.CopyTo(newFile);
-                new MemoryStream(new byte[0x200 - (newFile.Length % 0x200)]).CopyTo(newFile);
+                using var loadFile = File.OpenRead(s);
+                loadFile.CopyTo(newFile);
+                var tail = new byte[0x200 - (newFile.Length % 0x200)];
+                newFile.Write(tail);
             }
 
             Data = newFile.ToArray();

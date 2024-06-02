@@ -14,8 +14,7 @@ namespace pk3DS
             InitializeComponent();
             CB_Moves.SelectedIndex = 1;
             var trClassnorep = new List<string>();
-            foreach (string tclass in trClass.Where(tclass => !trClassnorep.Contains(tclass) && !tclass.StartsWith("[~")))
-                trClassnorep.Add(tclass);
+            trClassnorep.AddRange(trClass.Where(tclass => !trClassnorep.Contains(tclass) && !tclass.StartsWith("[~")));
             trClassnorep.Sort();
             RandSettings.GetFormSettings(this, Controls);
         }
@@ -65,7 +64,7 @@ namespace pk3DS
                     ? Main.Config.ORAS
                         ? Legal.SpecialClasses_ORAS
                         : Legal.SpecialClasses_XY
-                    : Array.Empty<int>();
+                    : [];
                 RSTE.rOnlySingles = CHK_OnlySingles.Checked;
             }
             RSTE.rGift = CHK_RandomGift.Checked;
@@ -86,12 +85,13 @@ namespace pk3DS
             if (CHK_StoryMEvos.Checked)
             {
                 RSTE.rEnsureMEvo = Main.Config.ORAS
-                    ? new [] { 178, 235, 557, 583, 687, 698, 699, 700, 701, 713, 906, 907, 908, 909, 910, 911, 912, 913, 942, 944, 946 }
-                    : new [] { 188, 263, 276, 277, 519, 520, 521, 526, 599, 600, 601 };
+                    ? [178, 235, 557, 583, 687, 698, 699, 700, 701, 713, 906, 907, 908, 909, 910, 911, 912, 913, 942, 944, 946,
+                    ]
+                    : [188, 263, 276, 277, 519, 520, 521, 526, 599, 600, 601];
             }
             else
             {
-                RSTE.rEnsureMEvo = Array.Empty<int>();
+                RSTE.rEnsureMEvo = [];
             }
 
             RSTE.rThemedClasses = new bool[trClass.Length];
@@ -114,8 +114,8 @@ namespace pk3DS
             RSTE.rSpeciesRand.Initialize();
 
             // add Legendary/Mythical to final evolutions if checked
-            if (CHK_L.Checked) RSTE.rFinalEvo = RSTE.rFinalEvo.Concat(Legendary).ToArray();
-            if (CHK_E.Checked) RSTE.rFinalEvo = RSTE.rFinalEvo.Concat(Mythical).ToArray();
+            if (CHK_L.Checked) RSTE.rFinalEvo = [.. RSTE.rFinalEvo, .. Legendary];
+            if (CHK_E.Checked) RSTE.rFinalEvo = [.. RSTE.rFinalEvo, .. Mythical];
 
             RSTE.rDoRand = true;
             RandSettings.SetFormSettings(this, Controls);

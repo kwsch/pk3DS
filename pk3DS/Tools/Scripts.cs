@@ -11,10 +11,10 @@ namespace pk3DS
         // Decompression - Deprecated: Use FireFly's method.
         internal static byte[] DecompressScript(byte[] data)
         {
-            data ??= Array.Empty<byte>(); // Bad Input
+            data ??= []; // Bad Input
 
-            using MemoryStream mn = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(mn);
+            using var mn = new MemoryStream();
+            using var bw = new BinaryWriter(mn);
             // Read away!
             int pos = 0;
             while (pos < data.Length)
@@ -33,12 +33,12 @@ namespace pk3DS
         internal static byte[] ReadCompressed(byte[] data, int pos)
         {
             byte[] c1 = data.Skip(pos).TakeWhile(b => b >> 7 > 0).ToArray(); // Take while >= 0x80
-            return c1.Concat(data.Skip(pos + c1.Length).Take(1)).ToArray(); // Take another
+            return [.. c1, .. data.Skip(pos + c1.Length).Take(1)]; // Take another
         }
 
         internal static byte[] DecompressBytes(byte[] cb)
         {
-            byte[] db = Array.Empty<byte>();
+            byte[] db = [];
 
             if ((cb[0] & 0x40) > 0) // Signed Parameter
             {
@@ -47,25 +47,25 @@ namespace pk3DS
                 {
                     // 2 Byte Signed Parameter
                     int cmd = (cb[0] & 0x3 << 14) | (cb[1] & 0x7F << 7) | cb[2]; // 16 Bits total
-                    db = db.Concat(BitConverter.GetBytes(cmd).Take(2)).ToArray(); // 16 Bits
+                    db = [.. db, .. BitConverter.GetBytes(cmd).Take(2)]; // 16 Bits
 
                     int dev = ((cb[0] & 0x3F) - 0x40) >> 2; // Lowest 2 bits have already been used for the command
-                    db = db.Concat(BitConverter.GetBytes(dev).Take(2)).ToArray(); // 16 Bits
+                    db = [.. db, .. BitConverter.GetBytes(dev).Take(2)]; // 16 Bits
                 }
                 else if (cb[0] >> 7 > 0) // Signed Command
                 {
                     // 3 Byte Signed Parameter
                     int cmd = (cb[0] << 7) | cb[1];
-                    db = db.Concat(BitConverter.GetBytes(cmd).Take(1)).ToArray(); // 8 Bits Total
+                    db = [.. db, .. BitConverter.GetBytes(cmd).Take(1)]; // 8 Bits Total
 
                     int dev = ((cb[0] & 0x3F) - 0x40) >> 1; // Lowest bit has already been used for the command
-                    db = db.Concat(BitConverter.GetBytes(dev).Take(3)).ToArray(); // 24 Bits
+                    db = [.. db, .. BitConverter.GetBytes(dev).Take(3)]; // 24 Bits
                 }
                 else // Signed Value
                 {
                     // 4 Byte Signed Parameter
                     int dev = ((cb[0] & 0x3F) - 0x40) >> 0; // No bits have already been used; no command
-                    db = db.Concat(BitConverter.GetBytes(dev).Take(4)).ToArray(); // 32 Bits
+                    db = [.. db, .. BitConverter.GetBytes(dev).Take(4)]; // 32 Bits
                 }
             }
             else if (cb[0] >> 7 > 0) // Manybit
@@ -75,11 +75,11 @@ namespace pk3DS
                 for (int i = 0; i < cb.Length; i++)
                     cmd |= (cb[i] & 0x7F) << (7 * i);
 
-                db = db.Concat(BitConverter.GetBytes((uint)cmd).Take(4)).ToArray();
+                db = [.. db, .. BitConverter.GetBytes((uint)cmd).Take(4)];
             }
             else // Literal
             {
-                db = db.Concat(BitConverter.GetBytes((uint)cb[0]).Take(4)).ToArray();
+                db = [.. db, .. BitConverter.GetBytes((uint)cb[0]).Take(4)];
             }
             return db;
         }
@@ -89,7 +89,8 @@ namespace pk3DS
         {
             uint[] code = new uint[count];
             uint i = 0, j = 0, x = 0, f = 0;
-            while (i < code.Length) {
+            while (i < code.Length)
+            {
                 int b = data[f++],
                     v = b & 0x7F;
                 if (++j == 1) // sign extension possible
@@ -107,12 +108,12 @@ namespace pk3DS
         {
             if (data == null || data.Length % 4 != 0) // Bad Input
                 return null;
-            using MemoryStream mn = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(mn);
+            using var mn = new MemoryStream();
+            using var bw = new BinaryWriter(mn);
             int pos = 0;
             while (pos < data.Length)
             {
-                byte[] db = data.Skip(pos+=4).Take(4).ToArray();
+                byte[] db = data.Skip(pos += 4).Take(4).ToArray();
                 byte[] cb = CompressBytes(db);
                 bw.Write(cb);
             }
@@ -124,7 +125,7 @@ namespace pk3DS
             short cmd = BitConverter.ToInt16(db, 0);
             short val = BitConverter.ToInt16(db, 2);
 
-            byte[] cb = Array.Empty<byte>();
+            byte[] cb = [];
             bool sign4 = val < 0 && cmd < 0 && db[0] >= 0xC0; // 4 byte signed
             bool sign3 = val < 0 && cmd < 0 && db[0] < 0xC0; // 3 byte signed
             bool sign2 = val < 0 && cmd > 0; // 2 byte signed
@@ -136,13 +137,13 @@ namespace pk3DS
                 int dev = 0x40 + BitConverter.ToInt32(db, 0);
                 if (dev < 0) // BADLOGIC
                     return cb;
-                cb = new[] {(byte)((dev & 0x3F) | 0x40)};
+                cb = [(byte)((dev & 0x3F) | 0x40)];
             }
             else if (sign3)
             {
                 byte dev = (byte)(((db[1] << 1) + 0x40) | 0xC0 | db[0] >> 7);
                 byte low = db[0];
-                cb = new[] {dev, low};
+                cb = [dev, low];
             }
             else if (sign2)
             {
@@ -151,13 +152,13 @@ namespace pk3DS
                     byte dev = (byte)(((db[2] << 2) + 0x40) | 0xC0 | db[1] >> 7);
                     byte low1 = (byte)(0x80 | (db[0] >> 7) | (db[1] & 0x80));
                     byte low0 = (byte)(db[0] & 0x80);
-                    cb = new[] {low0, low1, dev};
+                    cb = [low0, low1, dev];
                 }
                 else // Dunno if this ever naturally happens; the command reader may ignore db[1] if db[0] < 0x80... needs verification.
                 {
                     byte dev = (byte)(((db[1] << 2) + 0x40) | 0xC0 | db[0] >> 6);
                     byte low0 = (byte)(db[0] & 0x3F);
-                    cb = new[] {low0, dev};
+                    cb = [low0, dev];
                 }
             }
             else if (manyb)
@@ -169,8 +170,8 @@ namespace pk3DS
                 while (dv != 0) // bits remaining
                 {
                     byte bits = (byte)((byte)dv & 0x7F); dv >>= 7; // Take off 7 bits at a time
-                    bitStorage |= (byte)(bits << (ctr*8)); // Write the 7 bits into storage
-                    bitStorage |= (byte)(1 << (7 + (ctr++*8))); // continue reading flag
+                    bitStorage |= (byte)(bits << (ctr * 8)); // Write the 7 bits into storage
+                    bitStorage |= (byte)(1 << (7 + (ctr++ * 8))); // continue reading flag
                 }
                 byte[] compressedBits = BitConverter.GetBytes(bitStorage);
 
@@ -180,7 +181,7 @@ namespace pk3DS
             }
             else if (liter)
             {
-                cb = new[] { (byte)cmd };
+                cb = [(byte)cmd];
             }
             return cb;
         }
@@ -188,17 +189,17 @@ namespace pk3DS
         // General Utility
         internal static string[] GetHexLines(byte[] data, int count = 4)
         {
-            data ??= Array.Empty<byte>();
+            data ??= [];
             // Generates an x-byte wide space separated string array; leftovers included at the end.
-            string[] s = new string[(data.Length/count) + (data.Length % count > 0 ? 1 : 0)];
-            for (int i = 0; i < s.Length;i++)
-                s[i] = BitConverter.ToString(data.Skip(i*count).Take(count).ToArray()).Replace('-', ' ');
+            string[] s = new string[(data.Length / count) + (data.Length % count > 0 ? 1 : 0)];
+            for (int i = 0; i < s.Length; i++)
+                s[i] = BitConverter.ToString(data.Skip(i * count).Take(count).ToArray()).Replace('-', ' ');
             return s;
         }
 
         internal static string[] GetHexLines(uint[] data)
         {
-            data ??= Array.Empty<uint>();
+            data ??= [];
             // Generates an 4-byte wide space separated string array.
             string[] s = new string[data.Length];
             for (int i = 0; i < s.Length; i++)
@@ -208,14 +209,14 @@ namespace pk3DS
 
         internal static byte[] GetBytes(uint[] data)
         {
-            return data.Aggregate(Array.Empty<byte>(), (current, t) => current.Concat(BitConverter.GetBytes(t)).ToArray());
+            return data.Aggregate(Array.Empty<byte>(), (current, t) => [.. current, .. BitConverter.GetBytes(t)]);
         }
 
         // Interpreting
         internal static string[] ParseScript(uint[] cmd, int sanity = -1)
         {
             // sub_148CBC Moon v1.0
-            List<string> parse = new List<string>();
+            List<string> parse = [];
             int sanityMode = 0;
 
             int i = 0; // Current Offset of decompressed instructions
@@ -240,14 +241,14 @@ namespace pk3DS
                     case 0x14:
                     case 0x6D:
                     case 0x72:
-                    {
-                        // Peek at next value
-                        var next = (int)cmd[i++];
-                        // Check Value against negative and zero... ?
+                        {
+                            // Peek at next value
+                            var next = (int)cmd[i++];
+                            // Check Value against negative and zero... ?
 
-                        op = UnkeA(c, next);
-                        break;
-                    }
+                            op = UnkeA(c, next);
+                            break;
+                        }
                     case 0x03:
                     case 0x04:
                     case 0x07:
@@ -258,14 +259,14 @@ namespace pk3DS
                     case 0x16:
                     case 0x6E:
                     case 0x73:
-                    {
-                        // Peek at next value
-                        var next = (int)cmd[i++];
-                        // Check Value against negative... ?
+                        {
+                            // Peek at next value
+                            var next = (int)cmd[i++];
+                            // Check Value against negative... ?
 
-                        op = UnkeA(c, next);
-                        break;
-                    }
+                            op = UnkeA(c, next);
+                            break;
+                        }
                     case 0x09:
                     case 0x17:
                     case 0x19:
@@ -354,16 +355,16 @@ namespace pk3DS
                     case 0xD2:
                     case 0xD3:
                     case 0xD4:
-                    {
-                        // no sanity checks
-                        var arg = (short)(c >> 16);
+                        {
+                            // no sanity checks
+                            var arg = (short)(c >> 16);
 
-                        op = UnkeA(c & 0xFF, arg);
+                            op = UnkeA(c & 0xFF, arg);
 
-                        if ((c & 0xFF) == 0x30) // return
-                            op += Environment.NewLine;
-                        break;
-                    }
+                            if ((c & 0xFF) == 0x30) // return
+                                op += Environment.NewLine;
+                            break;
+                        }
                     case 0x0A:
                     case 0x0B:
                     case 0x0C:
@@ -399,13 +400,13 @@ namespace pk3DS
                     case 0x78:
                     case 0x79:
                     case 0x85:
-                    {
-                        var next = (int)cmd[i++];
-                        // No sanity check needed
+                        {
+                            var next = (int)cmd[i++];
+                            // No sanity check needed
 
-                        op = UnkeA(c, next);
-                        break;
-                    }
+                            op = UnkeA(c, next);
+                            break;
+                        }
 
                     case 0x31: // CallFunc
                     case 0x33:
@@ -422,59 +423,59 @@ namespace pk3DS
                     case 0x3F:
                     case 0x40:
                     case 0x81: // Jump
-                    {
-                        var delta = (int)cmd[i++];
-                        // sanity check range...
-                        // negative.. weird
+                        {
+                            var delta = (int)cmd[i++];
+                            // sanity check range...
+                            // negative.. weird
 
-                        int newOfs = (line * 4) + delta;
-                        op = $"{Commands[c]} => 0x{newOfs:X4} ({delta})";
-                        break;
-                    }
+                            int newOfs = (line * 4) + delta;
+                            op = $"{Commands[c]} => 0x{newOfs:X4} ({delta})";
+                            break;
+                        }
                     case 0x7B:
-                    {
-                        var next = (int)cmd[i++];
-                        sanityMode |= 1;                       // flag mode 1
+                        {
+                            var next = (int)cmd[i++];
+                            sanityMode |= 1;                       // flag mode 1
 
-                        op = UnkeA(c, next);
-                        break;
-                    }
+                            op = UnkeA(c, next);
+                            break;
+                        }
                     case 0x82: // JumpIfElse
-                    {
-                        //var jOffset = (i * 4) - 4; // todo: this may be the correct jump start point...
-                        var count = cmd[i++]; // switch case table
-                        // sanity check
-
-                        // Populate If-Case Tree
-                        var tree = new List<string>();
-
-                        // Cases
-                        for (int j = 0; j < count; j++)
                         {
-                            var jmp = (int)cmd[i++];
-                            var toOffset = ((i-2)*4) + jmp;
-                            var ifValue = (int)cmd[i++];
-                            tree.Add($"\t{ifValue} => 0x{toOffset:X4} ({jmp})");
-                        }
-                        // Default
-                        {
-                            int jmp = (int)cmd[i++];
-                            var toOffset = ((i-2)*4) + jmp;
-                            tree.Add($"\t* => 0x{toOffset:X4} ({jmp})");
-                        }
+                            //var jOffset = (i * 4) - 4; // todo: this may be the correct jump start point...
+                            var count = cmd[i++]; // switch case table
+                                                  // sanity check
 
-                        op = Commands[c] + Environment.NewLine + string.Join(Environment.NewLine, tree);
-                        break;
-                    }
+                            // Populate If-Case Tree
+                            var tree = new List<string>();
+
+                            // Cases
+                            for (int j = 0; j < count; j++)
+                            {
+                                var jmp = (int)cmd[i++];
+                                var toOffset = ((i - 2) * 4) + jmp;
+                                var ifValue = (int)cmd[i++];
+                                tree.Add($"\t{ifValue} => 0x{toOffset:X4} ({jmp})");
+                            }
+                            // Default
+                            {
+                                int jmp = (int)cmd[i++];
+                                var toOffset = ((i - 2) * 4) + jmp;
+                                tree.Add($"\t* => 0x{toOffset:X4} ({jmp})");
+                            }
+
+                            op = Commands[c] + Environment.NewLine + string.Join(Environment.NewLine, tree);
+                            break;
+                        }
                     case 0x87:
-                    {
-                        var next1 = (int)cmd[i++];
-                        var next2 = (int)cmd[i++];
-                        sanityMode |= 2;                       // flag mode 2
+                        {
+                            var next1 = (int)cmd[i++];
+                            var next2 = (int)cmd[i++];
+                            sanityMode |= 2;                       // flag mode 2
 
-                        op = UnkeA(c, next1, next2);
-                        break;
-                    }
+                            op = UnkeA(c, next1, next2);
+                            break;
+                        }
 
                     case 0x8A:
                     case 0x8B:
@@ -482,105 +483,105 @@ namespace pk3DS
                     case 0x8D:
                     case 0x9C:
                     case 0x9D:
-                    {
-                        var next1 = (int)cmd[i++];
-                        var next2 = (int)cmd[i++];
+                        {
+                            var next1 = (int)cmd[i++];
+                            var next2 = (int)cmd[i++];
 
-                        op = UnkeA(c, next1, next2);
-                        break;
-                    }
+                            op = UnkeA(c, next1, next2);
+                            break;
+                        }
 
                     case 0x8E:
                     case 0x8F:
                     case 0x90:
                     case 0x91:
-                    {
-                        var next1 = cmd[i++];
-                        var next2 = cmd[i++];
-                        var next3 = cmd[i++];
+                        {
+                            var next1 = cmd[i++];
+                            var next2 = cmd[i++];
+                            var next3 = cmd[i++];
 
-                        op = UnkeF(c, next1, next2, next3);
-                        break;
-                    }
+                            op = UnkeF(c, next1, next2, next3);
+                            break;
+                        }
 
                     case 0x92:
                     case 0x93:
                     case 0x94:
                     case 0x95:
-                    {
-                        var next1 = (int)cmd[i++];
-                        var next2 = (int)cmd[i++];
-                        var next3 = (int)cmd[i++];
-                        var next4 = (int)cmd[i++];
+                        {
+                            var next1 = (int)cmd[i++];
+                            var next2 = (int)cmd[i++];
+                            var next3 = (int)cmd[i++];
+                            var next4 = (int)cmd[i++];
 
-                        op = UnkeA(c, next1, next2, next3, next4);
-                        break;
-                    }
+                            op = UnkeA(c, next1, next2, next3, next4);
+                            break;
+                        }
 
                     case 0x96: // float
                     case 0x97:
                     case 0x98:
                     case 0x99:
-                    {
-                        var next1 = cmd[i++];
-                        var next2 = cmd[i++];
-                        var next3 = cmd[i++];
-                        var next4 = cmd[i++];
-                        var next5 = cmd[i++];
+                        {
+                            var next1 = cmd[i++];
+                            var next2 = cmd[i++];
+                            var next3 = cmd[i++];
+                            var next4 = cmd[i++];
+                            var next5 = cmd[i++];
 
-                        op = UnkeF(c, next1, next2, next3, next4, next5);
-                        break;
-                    }
+                            op = UnkeF(c, next1, next2, next3, next4, next5);
+                            break;
+                        }
 
                     case 0x9A:
-                    {
-                        var next1 = (int)cmd[i++];
-                        var next2 = (int)cmd[i++];
-                        // a bunch of sanity checking
+                        {
+                            var next1 = (int)cmd[i++];
+                            var next2 = (int)cmd[i++];
+                            // a bunch of sanity checking
 
-                        op = UnkeA(c, next1, next2);
-                        break;
-                    }
+                            op = UnkeA(c, next1, next2);
+                            break;
+                        }
 
                     case 0x9B: // Copy
-                    {
-                        var next1 = (int)cmd[i++];
-                        var next2 = (int)cmd[i++];
-                        // a bunch of sanity checking
+                        {
+                            var next1 = (int)cmd[i++];
+                            var next2 = (int)cmd[i++];
+                            // a bunch of sanity checking
 
-                        op = UnkeA(c, next1, next2);
-                        break;
-                    }
+                            op = UnkeA(c, next1, next2);
+                            break;
+                        }
 
                     case 0x9E:
-                    {
-                        var next1 = (int)cmd[i++];
-                        // perm check a1 + 0x14
-                        // can return error code 0x1C
+                        {
+                            var next1 = (int)cmd[i++];
+                            // perm check a1 + 0x14
+                            // can return error code 0x1C
 
-                        op = UnkeA(c, next1);
-                        break;
-                    }
+                            op = UnkeA(c, next1);
+                            break;
+                        }
 
                     case 0x9F:
-                    {
-                        // perm check a1 + 0x14
-                        // same permission checking as 0x9E
-                        // can return error code 0x1C
+                        {
+                            // perm check a1 + 0x14
+                            // same permission checking as 0x9E
+                            // can return error code 0x1C
 
-                        op = UnkeA(c);
-                        break;
-                    }
+                            op = UnkeA(c);
+                            break;
+                        }
 
                     case 0xA1: // Goto
-                    {
-                        // minimal sanity checks
-                        // can return error code 0x1C
-                        int newPos = i + (int)(1 + (2 *(cmd[i]/4)) + 1);
+                        {
+                            // minimal sanity checks
+                            // can return error code 0x1C
+                            int newPos = i + (int)(1 + (2 * (cmd[i] / 4)) + 1);
 
-                        op = UnkeA(c, newPos);
-                        break;
-                    }
+                            op = UnkeA(c, newPos);
+                            break;
+                        }
 
                     case 0xA2: // GetGlobal2
                     case 0xA3: // GetGlobal
@@ -592,13 +593,13 @@ namespace pk3DS
                     case 0xB4:
                     case 0xCB:
                     case 0xCD:
-                    {
-                        // sanity check arg
-                        var arg = (short)(c >> 16);
+                        {
+                            // sanity check arg
+                            var arg = (short)(c >> 16);
 
-                        op = UnkeA(c & 0xFF, arg);
-                        break;
-                    }
+                            op = UnkeA(c & 0xFF, arg);
+                            break;
+                        }
                     case 0xA4: // GetGlobal4
                     case 0xA5:
                     case 0xA8:
@@ -609,21 +610,21 @@ namespace pk3DS
                     case 0xB6:
                     case 0xCC:
                     case 0xCE:
-                    {
-                        // sanity check arg, slightly different
-                        var arg = (short)(c >> 16);
+                        {
+                            // sanity check arg, slightly different
+                            var arg = (short)(c >> 16);
 
-                        op = UnkeA(c & 0xFF, arg);
-                        break;
-                    }
+                            op = UnkeA(c & 0xFF, arg);
+                            break;
+                        }
                 }
-                parse.Add($"0x{line*4:X4}: [{c & 0x7FF:X2}] {op}");
+                parse.Add($"0x{line * 4:X4}: [{c & 0x7FF:X2}] {op}");
             }
 
             if (sanity >= 0 && sanity != sanityMode)
                 throw new ArgumentException();
 
-            return parse.ToArray();
+            return [.. parse];
         }
 
         internal static string[] ParseMovement(uint[] cmd)
@@ -634,7 +635,7 @@ namespace pk3DS
         internal static string UnkeA(uint c, params int[] arr)
         {
             string cmd = Commands[c];
-            string parameters = arr.Length == 0 ? "" : string.Join(", ", arr.Select(z => $"{(Math.Abs(z) < 100 ? z.ToString() : "0x"+z.ToString("X4"))}"));
+            string parameters = arr.Length == 0 ? "" : string.Join(", ", arr.Select(z => $"{(Math.Abs(z) < 100 ? z.ToString() : "0x" + z.ToString("X4"))}"));
             return $"{cmd}({parameters})";
         }
 

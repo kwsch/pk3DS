@@ -29,7 +29,7 @@ namespace pk3DS
             }
 
             // Fetch Offset
-            byte[] pattern = {0x01, 0x50, 0x85, 0xE2, 0x05, 0x00, 0x50, 0xE1, 0xDE, 0xFF, 0xFF, 0xCA};
+            byte[] pattern = [0x01, 0x50, 0x85, 0xE2, 0x05, 0x00, 0x50, 0xE1, 0xDE, 0xFF, 0xFF, 0xCA];
             offset = Util.IndexOfBytes(exefsData, pattern, 0, 0) - 4;
             if (offset < 0)
             {
@@ -56,7 +56,7 @@ namespace pk3DS
             CheckAlwaysShiny();
         }
 
-        private readonly List<Instruction> InstructionList = new();
+        private readonly List<Instruction> InstructionList = [];
         private readonly bool modified;
         private readonly string codebin;
         private readonly int offset;
@@ -79,7 +79,7 @@ namespace pk3DS
             {
                 get
                 {
-                    var bytes = new byte[] {0, 0, 0xA0, 0xE3};
+                    var bytes = new byte[] { 0, 0, 0xA0, 0xE3 };
                     Argument.CopyTo(bytes, 0);
                     return bytes;
                 }
@@ -90,7 +90,7 @@ namespace pk3DS
 
         private void CheckAlwaysShiny()
         {
-            byte[] pattern = {0x00, 0x20, 0x22, 0xE0, 0x02, 0x30, 0x21, 0xE2, 0x03, 0x20, 0x92, 0xE1, 0x1C, 0x00, 0x00};
+            byte[] pattern = [0x00, 0x20, 0x22, 0xE0, 0x02, 0x30, 0x21, 0xE2, 0x03, 0x20, 0x92, 0xE1, 0x1C, 0x00, 0x00];
             int index = alwaysIndex = Util.IndexOfBytes(exefsData, pattern, 0, 0) + pattern.Length;
 
             if (index < 0)
@@ -126,7 +126,7 @@ namespace pk3DS
         {
             int count = (int)NUD_Rerolls.Value;
             const int bc = 4096;
-            var pct = 1 - Math.Pow((float)(bc - 1)/bc, count);
+            var pct = 1 - Math.Pow((float)(bc - 1) / bc, count);
             L_Overall.Text = $"~{pct:P}";
         }
 
@@ -140,7 +140,7 @@ namespace pk3DS
             if (rerolls > ushort.MaxValue)
                 rerolls = ushort.MaxValue;
             // lazy precomputed table for MOV0 up to 9000, lol
-            var instruction = InstructionList.Find(z => z.Value >= rerolls) ?? InstructionList.Last();
+            var instruction = InstructionList.Find(z => z.Value >= rerolls) ?? InstructionList[^1];
             byte[] data = instruction.Bytes;
             data.CopyTo(exefsData, offset);
 
@@ -152,7 +152,7 @@ namespace pk3DS
         {
             if (modified)
             {
-                new byte[] {0x23, 0x00, 0xD4, 0xE5}.CopyTo(exefsData, offset);
+                new byte[] { 0x23, 0x00, 0xD4, 0xE5 }.CopyTo(exefsData, offset);
                 File.WriteAllBytes(codebin, exefsData);
             }
             Close();
@@ -163,10 +163,10 @@ namespace pk3DS
             var pct = NUD_Rate.Value;
             const int bc = 4096;
 
-            var inv = (int)Math.Log(1 - ((float)pct/100), (float) (bc - 1)/bc);
+            var inv = (int)Math.Log(1 - ((float)pct / 100), (float)(bc - 1) / bc);
             if (pct == 0)
                 pct = 0.00001m; // arbitrary nonzero
-            L_RerollCount.Text = $"Count: {inv:0} = 1:{(int)(1/(pct/100))}";
+            L_RerollCount.Text = $"Count: {inv:0} = 1:{(int)(1 / (pct / 100))}";
         }
     }
 }

@@ -29,11 +29,9 @@ namespace pk3DS
             itemlist[0] = "(None)"; // blank == -1
 
             CB_Species.Items.Clear();
-            foreach (string s in specieslist)
-                CB_Species.Items.Add(s);
+            CB_Species.Items.AddRange(specieslist);
             CB_HeldItem.Items.Clear();
-            foreach (string s in itemlist)
-                CB_HeldItem.Items.Add(s);
+            CB_HeldItem.Items.AddRange(itemlist);
             CB_Nature.Items.Add("Random");
             CB_Nature.Items.AddRange(natureslist.Take(25).ToArray());
             RandSettings.GetFormSettings(this, tabPage2.Controls);
@@ -64,12 +62,12 @@ namespace pk3DS
         private static readonly int[] Mythical = Legal.Mythical_6;
 
         private readonly string[] ability =
-        {
+        [
             "Any (1 or 2)",
             "Ability 1",
             "Ability 2",
             "Hidden Ability",
-        };
+        ];
 
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -94,7 +92,7 @@ namespace pk3DS
                 GiftData[i] = new EncounterGift6(FieldData.Skip(fieldOffset + (i * fieldSize)).Take(fieldSize).ToArray(), Main.Config.ORAS);
                 LB_Gifts.Items.Add($"{i:00} - {specieslist[GiftData[i].Species]}");
             }
-            foreach (var s in ability) CB_Ability.Items.Add(s);
+            CB_Ability.Items.AddRange(ability);
 
             CB_Gender.Items.Clear();
             CB_Gender.Items.Add("- / Genderless/Random");
@@ -110,25 +108,25 @@ namespace pk3DS
             // Check to see if a starter has been modified right before we write data.
             bool starters = false;
             int[] entries = Main.Config.ORAS
-                ? new[]
-                {
+                ?
+                [
                     0, 1, 2, // Gen 3
                     28, 29, 30, // Gen 2
                     31, 32, 33, // Gen 4
-                    34, 35, 36 // Gen 5
-                }
-                : new[]
-                {
+                    34, 35, 36, // Gen 5
+                ]
+                :
+                [
                     0, 1, 2, // Gen 6
                     3, 4, 5, // Gen 1
-                };
+                ];
 
             for (int i = 0; i < GiftData.Length; i++)
             {
                 int offset = fieldOffset + (i * fieldSize);
 
                 // Check too see if starters got modified
-                if (Array.IndexOf(entries, i) > - 1 && BitConverter.ToUInt16(FieldData, offset) != GiftData[i].Species)
+                if (Array.IndexOf(entries, i) > -1 && BitConverter.ToUInt16(FieldData, offset) != GiftData[i].Species)
                     starters = true;
 
                 // Write new data
@@ -225,8 +223,8 @@ namespace pk3DS
             specrand.Initialize();
 
             // add Legendary/Mythical to final evolutions if checked
-            if (CHK_L.Checked) FinalEvo = FinalEvo.Concat(Legendary).ToArray();
-            if (CHK_E.Checked) FinalEvo = FinalEvo.Concat(Mythical).ToArray();
+            if (CHK_L.Checked) FinalEvo = [.. FinalEvo, .. Legendary];
+            if (CHK_E.Checked) FinalEvo = [.. FinalEvo, .. Mythical];
 
             var helditems = Randomizer.GetRandomItemList();
             for (int i = 0; i < LB_Gifts.Items.Count; i++)
@@ -288,55 +286,55 @@ namespace pk3DS
 
         private static readonly Dictionary<int, int[]> MegaDictionaryXY = new()
         {
-            {003, new[] {659}}, // Venusaur @ Venusaurite
-            {006, new[] {660, 678}}, // Charizard @ Charizardite X/Y
-            {009, new[] {661}}, // Blastoise @ Blastoisinite
-            {065, new[] {679}}, // Alakazam @ Alakazite
-            {094, new[] {656}}, // Gengar @ Gengarite
-            {115, new[] {675}}, // Kangaskhan @ Kangaskhanite
-            {127, new[] {671}}, // Pinsir @ Pinsirite
-            {130, new[] {676}}, // Gyarados @ Gyaradosite
-            {142, new[] {672}}, // Aerodactyl @ Aerodactylite
-            {150, new[] {662, 663}}, // Mewtwo @ Mewtwonite X/Y
-            {181, new[] {658}}, // Ampharos @ Ampharosite
-            {212, new[] {670}}, // Scizor @ Scizorite
-            {214, new[] {680}}, // Heracross @ Heracronite
-            {229, new[] {666}}, // Houndoom @ Houndoominite
-            {248, new[] {669}}, // Tyranitar @ Tyranitarite
-            {257, new[] {664}}, // Blaziken @ Blazikenite
-            {282, new[] {657}}, // Gardevoir @ Gardevoirite
-            {303, new[] {681}}, // Mawile @ Mawilite
-            {306, new[] {667}}, // Aggron @ Aggronite
-            {308, new[] {665}}, // Medicham @ Medichamite
-            {310, new[] {682}}, // Manectric @ Manectite
-            {354, new[] {668}}, // Banette @ Banettite
-            {359, new[] {677}}, // Absol @ Absolite
-            {380, new[] {684}}, // Latias @ Latiasite
-            {381, new[] {685}}, // Latios @ Latiosite
-            {445, new[] {683}}, // Garchomp @ Garchompite
-            {448, new[] {673}}, // Lucario @ Lucarionite
-            {460, new[] {674}}, // Abomasnow @ Abomasite
+            {003, [659] }, // Venusaur @ Venusaurite
+            {006, [660, 678] }, // Charizard @ Charizardite X/Y
+            {009, [661] }, // Blastoise @ Blastoisinite
+            {065, [679] }, // Alakazam @ Alakazite
+            {094, [656] }, // Gengar @ Gengarite
+            {115, [675] }, // Kangaskhan @ Kangaskhanite
+            {127, [671] }, // Pinsir @ Pinsirite
+            {130, [676] }, // Gyarados @ Gyaradosite
+            {142, [672] }, // Aerodactyl @ Aerodactylite
+            {150, [662, 663] }, // Mewtwo @ Mewtwonite X/Y
+            {181, [658] }, // Ampharos @ Ampharosite
+            {212, [670] }, // Scizor @ Scizorite
+            {214, [680] }, // Heracross @ Heracronite
+            {229, [666] }, // Houndoom @ Houndoominite
+            {248, [669] }, // Tyranitar @ Tyranitarite
+            {257, [664] }, // Blaziken @ Blazikenite
+            {282, [657] }, // Gardevoir @ Gardevoirite
+            {303, [681] }, // Mawile @ Mawilite
+            {306, [667] }, // Aggron @ Aggronite
+            {308, [665] }, // Medicham @ Medichamite
+            {310, [682] }, // Manectric @ Manectite
+            {354, [668] }, // Banette @ Banettite
+            {359, [677] }, // Absol @ Absolite
+            {380, [684] }, // Latias @ Latiasite
+            {381, [685] }, // Latios @ Latiosite
+            {445, [683] }, // Garchomp @ Garchompite
+            {448, [673] }, // Lucario @ Lucarionite
+            {460, [674] }, // Abomasnow @ Abomasite
         };
 
         private static readonly Dictionary<int, int[]> MegaDictionaryAO = new()
         {
-            {015, new[] {770}}, // Beedrill @ Beedrillite
-            {018, new[] {762}}, // Pidgeot @ Pidgeotite
-            {080, new[] {760}}, // Slowbro @ Slowbronite
-            {208, new[] {761}}, // Steelix @ Steelixite
-            {254, new[] {753}}, // Sceptile @ Sceptilite
-            {260, new[] {752}}, // Swampert @ Swampertite
-            {302, new[] {754}}, // Sableye @ Sablenite
-            {319, new[] {759}}, // Sharpedo @ Sharpedonite
-            {323, new[] {767}}, // Camerupt @ Cameruptite
-            {334, new[] {755}}, // Altaria @ Altarianite
-            {362, new[] {763}}, // Glalie @ Glalitite
-            {373, new[] {769}}, // Salamence @ Salamencite
-            {376, new[] {758}}, // Metagross @ Metagrossite
-            {428, new[] {768}}, // Lopunny @ Lopunnite
-            {475, new[] {756}}, // Gallade @ Galladite
-            {531, new[] {757}}, // Audino @ Audinite
-            {719, new[] {764}}, // Diancie @ Diancite
+            {015, [770] }, // Beedrill @ Beedrillite
+            {018, [762] }, // Pidgeot @ Pidgeotite
+            {080, [760] }, // Slowbro @ Slowbronite
+            {208, [761] }, // Steelix @ Steelixite
+            {254, [753] }, // Sceptile @ Sceptilite
+            {260, [752] }, // Swampert @ Swampertite
+            {302, [754] }, // Sableye @ Sablenite
+            {319, [759] }, // Sharpedo @ Sharpedonite
+            {323, [767] }, // Camerupt @ Cameruptite
+            {334, [755] }, // Altaria @ Altarianite
+            {362, [763] }, // Glalie @ Glalitite
+            {373, [769] }, // Salamence @ Salamencite
+            {376, [758] }, // Metagross @ Metagrossite
+            {428, [768] }, // Lopunny @ Lopunnite
+            {475, [756] }, // Gallade @ Galladite
+            {531, [757] }, // Audino @ Audinite
+            {719, [764] }, // Diancie @ Diancite
         };
 
         private void ChangeSpecies(object sender, EventArgs e)

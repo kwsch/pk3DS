@@ -302,7 +302,7 @@ namespace pk3DS.Core
                 FILECOUNT_SMDEMO => Version == GameVersion.SMDEMO,
                 FILECOUNT_SM => Version == GameVersion.SM,
                 FILECOUNT_USUM => Version == GameVersion.USUM,
-                _ => false
+                _ => false,
             };
         }
     }

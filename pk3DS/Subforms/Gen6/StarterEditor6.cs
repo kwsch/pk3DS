@@ -27,21 +27,21 @@ namespace pk3DS
 
             // 2 sets of Starters for X/Y
             // 4 sets of Starters for OR/AS
-            Choices = new[]
-            {
-                new[] {CB_G1_0, CB_G1_1, CB_G1_2},
-                new[] {CB_G2_0, CB_G2_1, CB_G2_2},
-                new[] {CB_G3_0, CB_G3_1, CB_G3_2},
-                new[] {CB_G4_0, CB_G4_1, CB_G4_2},
-            };
-            Previews = new[]
-            {
-                new[] {PB_G1_0, PB_G1_1, PB_G1_2},
-                new[] {PB_G2_0, PB_G2_1, PB_G2_2},
-                new[] {PB_G3_0, PB_G3_1, PB_G3_2},
-                new[] {PB_G4_0, PB_G4_1, PB_G4_2},
-            };
-            Labels = new[] { L_Set1, L_Set2, L_Set3, L_Set4 };
+            Choices =
+            [
+                [CB_G1_0, CB_G1_1, CB_G1_2],
+                [CB_G2_0, CB_G2_1, CB_G2_2],
+                [CB_G3_0, CB_G3_1, CB_G3_2],
+                [CB_G4_0, CB_G4_1, CB_G4_2],
+            ];
+            Previews =
+            [
+                [PB_G1_0, PB_G1_1, PB_G1_2],
+                [PB_G2_0, PB_G2_1, PB_G2_2],
+                [PB_G3_0, PB_G3_1, PB_G3_2],
+                [PB_G4_0, PB_G4_1, PB_G4_2],
+            ];
+            Labels = [L_Set1, L_Set2, L_Set3, L_Set4];
 
             Width = Main.Config.ORAS ? Width : (Width / 2) + 2;
             LoadData();
@@ -56,8 +56,8 @@ namespace pk3DS
         private readonly Label[] Labels;
 
         private readonly string[] StarterSummary = Main.Config.ORAS
-            ? new[] { "Gen 3 Starters", "Gen 2 Starters", "Gen 4 Starters", "Gen 5 Starters" }
-            : new[] { "Gen 6 Starters", "Gen 1 Starters" };
+            ? ["Gen 3 Starters", "Gen 2 Starters", "Gen 4 Starters", "Gen 5 Starters"]
+            : ["Gen 6 Starters", "Gen 1 Starters"];
 
         private byte[] Data;
         private byte[] FieldData;
@@ -93,9 +93,8 @@ namespace pk3DS
                 Labels[i].Text = StarterSummary[i];
                 for (int j = 0; j < 3; j++)
                 {
-                    foreach (string s in specieslist)
-                        Choices[i][j].Items.Add(s);
-                    int species = BitConverter.ToUInt16(Data, offset + (((i * 3) + j)*0x54));
+                    Choices[i][j].Items.AddRange(specieslist);
+                    int species = BitConverter.ToUInt16(Data, offset + (((i * 3) + j) * 0x54));
                     Choices[i][j].SelectedIndex = species; // changing index prompts loading of sprite
 
                     Choices[i][j].Visible = Previews[i][j].Visible = true;
@@ -108,30 +107,30 @@ namespace pk3DS
             for (int i = 0; i < Count; i++)
             {
                 for (int j = 0; j < 3; j++)
-                    Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, Data, offset + (((i * 3) + j)*0x54), 2);
+                    Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, Data, offset + (((i * 3) + j) * 0x54), 2);
             }
 
             // Set the choices back
             int fieldOffset = Main.Config.ORAS ? 0xF906C : 0xF805C;
             int fieldSize = Main.Config.ORAS ? 0x24 : 0x18;
             int[] entries = Main.Config.ORAS
-                ? new[]
-                {
+                ?
+                [
                     0, 1, 2, // Gen 3
                     28, 29, 30, // Gen 2
                     31, 32, 33, // Gen 4
-                    34, 35, 36 // Gen 5
-                }
-                : new[]
-                {
+                    34, 35, 36, // Gen 5
+                ]
+                :
+                [
                     0, 1, 2, // Gen 6
                     3, 4, 5, // Gen 1
-                };
+                ];
 
             for (int i = 0; i < Count; i++)
             {
                 for (int j = 0; j < 3; j++)
-                    Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, FieldData, fieldOffset + (entries[(i * 3) + j]*fieldSize), 2);
+                    Array.Copy(BitConverter.GetBytes((ushort)Choices[i][j].SelectedIndex), 0, FieldData, fieldOffset + (entries[(i * 3) + j] * fieldSize), 2);
             }
 
             File.WriteAllBytes(CROPath, Data); // poke3
@@ -145,8 +144,8 @@ namespace pk3DS
 
             // Fetch the corresponding PictureBox to update
             string name = cb.Name;
-            int group = int.Parse(name[4]+"") - 1;
-            int index = int.Parse(name[6]+"");
+            int group = int.Parse(name[4] + "") - 1;
+            int index = int.Parse(name[6] + "");
 
             int species = cb.SelectedIndex;
             Previews[group][index].Image = WinFormsUtil.ScaleImage(WinFormsUtil.GetSprite(species, 0, 0, 0, Main.Config), 3);

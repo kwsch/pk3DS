@@ -131,7 +131,7 @@ namespace pk3DS.Core.Randomizers
 
         private int[] InitializeSpeciesList()
         {
-            List<int> list = new List<int>();
+            var list = new List<int>();
             if (G1) AddGen1Species(list);
             if (G2) AddGen2Species(list);
             if (G3) AddGen3Species(list);
@@ -140,7 +140,7 @@ namespace pk3DS.Core.Randomizers
             if (G6) AddGen6Species(list);
             if (G7) AddGen7Species(list);
 
-            return list.Count == 0 ? RandomSpeciesList : list.ToArray();
+            return list.Count == 0 ? RandomSpeciesList : [.. list];
         }
 
         private void AddGen1Species(List<int> list)

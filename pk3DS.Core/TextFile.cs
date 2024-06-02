@@ -17,7 +17,8 @@ namespace pk3DS.Core
         private const ushort KEY_TEXTCLEAR = 0xBE01;
         private const ushort KEY_TEXTWAIT = 0xBE02;
         private const ushort KEY_TEXTNULL = 0xBDFF;
-        private static readonly byte[] emptyTextFile = { 0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00 };
+        private static readonly byte[] emptyTextFile = [0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00,
+        ];
 
         private GameConfig Config { get; }
         public bool SETEMPTYTEXT { get; set; }
@@ -56,7 +57,7 @@ namespace pk3DS.Core
                     result[i] = new LineInfo
                     {
                         Offset = BitConverter.ToInt32(Data, (i * 8) + sdo + 4) + sdo,
-                        Length = BitConverter.ToInt16(Data, (i * 8) + sdo + 8)
+                        Length = BitConverter.ToInt16(Data, (i * 8) + sdo + 8),
                     };
                 }
 
@@ -125,7 +126,7 @@ namespace pk3DS.Core
                 int bytesUsed = 0;
                 for (int i = 0; i < lines.Length; i++)
                 {
-                    lines[i] = new LineInfo {Offset = 4 + (8 * value.Length) + bytesUsed, Length = value[i].Length / 2};
+                    lines[i] = new LineInfo { Offset = 4 + (8 * value.Length) + bytesUsed, Length = value[i].Length / 2 };
                     bytesUsed += value[i].Length;
                 }
 
@@ -147,7 +148,7 @@ namespace pk3DS.Core
 
         private byte[][] ConvertLinesToData(string[] value)
         {
-            value ??= Array.Empty<string>();
+            value ??= [];
             ushort key = KEY_BASE;
 
             // Get Line Data
@@ -197,24 +198,24 @@ namespace pk3DS.Core
                 {
                     // Variable
                     case '[':
-                    {
-                        // grab the string
-                        int bracket = line.IndexOf("]", i, StringComparison.Ordinal);
-                        if (bracket < 0)
-                            throw new ArgumentException("Variable text is not capped properly: " + line);
-                        string varText = line.Substring(i, bracket - i);
-                        var varValues = GetVariableValues(config, varText);
-                        foreach (ushort v in varValues) bw.Write(v);
-                        i += 1 + varText.Length;
-                        break;
-                    }
+                        {
+                            // grab the string
+                            int bracket = line.IndexOf("]", i, StringComparison.Ordinal);
+                            if (bracket < 0)
+                                throw new ArgumentException("Variable text is not capped properly: " + line);
+                            string varText = line[i..bracket];
+                            var varValues = GetVariableValues(config, varText);
+                            foreach (ushort v in varValues) bw.Write(v);
+                            i += 1 + varText.Length;
+                            break;
+                        }
                     // Escaped Formatting
                     case '\\':
-                    {
-                        var escapeValues = GetEscapeValues(line[i++]);
-                        foreach (ushort v in escapeValues) bw.Write(v);
-                        break;
-                    }
+                        {
+                            var escapeValues = GetEscapeValues(line[i++]);
+                            foreach (ushort v in escapeValues) bw.Write(v);
+                            break;
+                        }
                     default:
                         bw.Write(val);
                         break;
@@ -234,7 +235,7 @@ namespace pk3DS.Core
                 0x2026 => 0xE08D, // …
                 0x2642 => 0xE08E, // ♂
                 0x2640 => 0xE08F, // ♀
-                _ => val
+                _ => val,
             };
         }
 
@@ -248,7 +249,7 @@ namespace pk3DS.Core
                 0xE08D => 0x2026, // …
                 0xE08E => 0x2642, // ♂
                 0xE08F => 0x2640, // ♀
-                _ => val
+                _ => val,
             };
         }
 
@@ -278,7 +279,7 @@ namespace pk3DS.Core
             return s.ToString(); // Shouldn't get hit if the string is properly terminated.
         }
 
-        private string GetVariableString(GameConfig config, byte[] data, ref int i)
+        private static string GetVariableString(GameConfig config, byte[] data, ref int i)
         {
             var s = new StringBuilder();
             ushort count = BitConverter.ToUInt16(data, i); i += 2;
@@ -309,15 +310,15 @@ namespace pk3DS.Core
                     ushort arg = BitConverter.ToUInt16(data, i); i += 2;
                     s.Append(arg.ToString("X4"));
                     if (--count == 1) break;
-                    s.Append(",");
+                    s.Append(',');
                 }
                 s.Append(')');
             }
-            s.Append("]");
+            s.Append(']');
             return s.ToString();
         }
 
-        private IEnumerable<ushort> GetEscapeValues(char esc)
+        private static IEnumerable<ushort> GetEscapeValues(char esc)
         {
             var vals = new List<ushort>();
             switch (esc)
@@ -325,8 +326,8 @@ namespace pk3DS.Core
                 case 'n': vals.Add('\n'); return vals;
                 case '\\': vals.Add('\\'); return vals;
                 case '[': vals.Add('['); return vals;
-                case 'r': vals.AddRange(new ushort[] { KEY_VARIABLE, 1, KEY_TEXTRETURN }); return vals;
-                case 'c': vals.AddRange(new ushort[] { KEY_VARIABLE, 1, KEY_TEXTCLEAR }); return vals;
+                case 'r': vals.AddRange([KEY_VARIABLE, 1, KEY_TEXTRETURN]); return vals;
+                case 'c': vals.AddRange([KEY_VARIABLE, 1, KEY_TEXTCLEAR]); return vals;
                 default: throw new Exception("Invalid terminated line: \\" + esc);
             }
         }
@@ -363,7 +364,7 @@ namespace pk3DS.Core
             var vals = new List<ushort>();
             int bracket = text.IndexOf('(');
             bool noArgs = bracket < 0;
-            string variable = noArgs ? text : text.Substring(0, bracket);
+            string variable = noArgs ? text : text[..bracket];
             ushort varVal = GetVariableNumber(config, variable);
 
             if (!noArgs)
@@ -381,11 +382,11 @@ namespace pk3DS.Core
             return vals;
         }
 
-        private ushort GetVariableNumber(GameConfig config, string variable)
+        private static ushort GetVariableNumber(GameConfig config, string variable)
         {
             var v = config.GetVariableCode(variable);
             if (v != null)
-                return (ushort) v.Code;
+                return (ushort)v.Code;
 
             try
             {
@@ -410,7 +411,7 @@ namespace pk3DS.Core
 
         public static byte[] GetBytes(GameConfig config, string[] lines, bool remapChars = false)
         {
-            return new TextFile (config, remapChars: remapChars) { Lines = lines }.Data;
+            return new TextFile(config, remapChars: remapChars) { Lines = lines }.Data;
         }
     }
 }

@@ -34,7 +34,8 @@ namespace pk3DS
 
         private void TabMain_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
         }
 
         private void TabMain_DragDrop(object sender, DragEventArgs e)
@@ -69,14 +70,14 @@ namespace pk3DS
                 try
                 {
                     if (threads < 1)
-                        new Thread(() => { Interlocked.Increment(ref threads); new BLZCoder(new[] { "-d", path }, pBar1); Interlocked.Decrement(ref threads); WinFormsUtil.Alert("Decompressed!"); }).Start();
+                        new Thread(() => { Interlocked.Increment(ref threads); new BLZCoder(["-d", path], pBar1); Interlocked.Decrement(ref threads); WinFormsUtil.Alert("Decompressed!"); }).Start();
                 }
                 catch { WinFormsUtil.Error("Unable to process file."); threads = 0; }
             }
         }
 
-        private void DropHover(object sender, EventArgs e) => ((Panel) sender).BackColor = Color.Gray;
-        private void DropLeave(object sender, EventArgs e) => ((Panel) sender).BackColor = Color.Transparent;
+        private void DropHover(object sender, EventArgs e) => ((Panel)sender).BackColor = Color.Gray;
+        private void DropLeave(object sender, EventArgs e) => ((Panel)sender).BackColor = Color.Transparent;
 
         private void OpenIMG(string path)
         {
@@ -123,8 +124,9 @@ namespace pk3DS
             try
             {
                 // Pre-check file length to see if it is at least valid.
-                FileInfo fi = new FileInfo(path);
-                if (fi.Length > (long)2 * (1<<30)) { WinFormsUtil.Error("File is too big!"); return; } // 2 GB
+                var fi = new FileInfo(path);
+                if (fi.Length > (long)2 * (1 << 30))
+                { WinFormsUtil.Error("File is too big!"); return; } // 2 GB
                 string folderPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
 
                 byte[] first4 = new byte[4];
@@ -141,7 +143,7 @@ namespace pk3DS
 
                 // Determine if it is a DARC or a Mini
                 // Check if Mini first
-                string fx = fi.Length > 10 * (1<<20) ? null : Mini.GetIsMini(path); // no mini is above 10MB
+                string fx = fi.Length > 10 * (1 << 20) ? null : Mini.GetIsMini(path); // no mini is above 10MB
                 if (fx != null) // Is Mini Packed File
                 {
                     newFolder = folderPath + "_" + fx;
@@ -165,7 +167,7 @@ namespace pk3DS
                         var sarc = new SARC(alyt.Data) // rip out sarc
                         {
                             FileName = Path.GetFileNameWithoutExtension(path) + "_sarc",
-                            FilePath = Path.GetDirectoryName(path)
+                            FilePath = Path.GetDirectoryName(path),
                         };
                         if (!sarc.Valid)
                             return;
@@ -208,7 +210,7 @@ namespace pk3DS
                     newFolder = folderPath + "_d";
                     bool r = Core.CTR.DARC.Darc2files(darcData, newFolder);
                     if (!r)
-                    { WinFormsUtil.Alert("Unpacking failed.");  }
+                    { WinFormsUtil.Alert("Unpacking failed."); }
                 }
                 else if (ARC.AnalyzeSARC(path).Valid)
                 {
@@ -238,107 +240,107 @@ namespace pk3DS
             switch (type)
             {
                 case 0: // AutoDetect
-                {
-                    if (!folderName.Contains("_"))
-                    { WinFormsUtil.Alert("Unable to autodetect pack type."); return; }
+                    {
+                        if (!folderName.Contains('_'))
+                        { WinFormsUtil.Alert("Unable to autodetect pack type."); return; }
 
-                    if (folderName.Contains("_g"))
-                        goto case 1;
-                    if (folderName.Contains("_d"))
-                        goto case 2;
-                    // else
+                        if (folderName.Contains("_g"))
+                            goto case 1;
+                        if (folderName.Contains("_d"))
+                            goto case 2;
+                        // else
                         goto case 3;
-                }
+                    }
                 case 1: // GARC Pack
-                {
-                    if (threads > 0) { WinFormsUtil.Alert("Please wait for all operations to finish first."); return; }
-                    DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Format Selection:",
-                        "Yes: Sun/Moon (Version 6)\nNo: XY/ORAS (Version 4)");
-                    if (dr == DialogResult.Cancel)
-                        return;
-
-                    var version = dr == DialogResult.Yes ? GARC.VER_6 : GARC.VER_4;
-                    int padding = (int)NUD_Padding.Value;
-                    if (version == GARC.VER_4)
-                        padding = 4;
-
-                    string outfolder = Directory.GetParent(path).FullName;
-                    new Thread(() =>
                     {
-                        bool r = GarcUtil.PackGARC(path, Path.Combine(outfolder, folderName + ".garc"), version, padding, pBar1);
-                        if (!r) { WinFormsUtil.Alert("Packing failed."); return; }
-                        // Delete path after repacking
-                        if (CHK_Delete.Checked && Directory.Exists(path))
-                            Directory.Delete(path, true);
+                        if (threads > 0) { WinFormsUtil.Alert("Please wait for all operations to finish first."); return; }
+                        DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Format Selection:",
+                            "Yes: Sun/Moon (Version 6)\nNo: XY/ORAS (Version 4)");
+                        if (dr == DialogResult.Cancel)
+                            return;
 
-                        System.Media.SystemSounds.Asterisk.Play();
-                    }).Start();
-                    return;
-                }
-                case 2: // DARC Pack (from existing if exists)
-                {
-                    string oldFile = path.Replace("_d", "");
-                    if (File.Exists(Path.Combine(parentName, oldFile)))
-                        oldFile = Path.Combine(parentName, oldFile);
-                    else if (File.Exists(Path.Combine(parentName, oldFile + ".bin")))
-                        oldFile = Path.Combine(parentName, oldFile + ".bin");
-                    else if (File.Exists(Path.Combine(parentName, oldFile + ".darc")))
-                        oldFile = Path.Combine(parentName, oldFile + ".darc");
-                    else oldFile = null;
+                        var version = dr == DialogResult.Yes ? GARC.VER_6 : GARC.VER_4;
+                        int padding = (int)NUD_Padding.Value;
+                        if (version == GARC.VER_4)
+                            padding = 4;
 
-                    bool r = Core.CTR.DARC.Files2darc(path, false, oldFile);
-                    if (!r) WinFormsUtil.Alert("Packing failed.");
-                    break;
-                }
-                case 3: // Mini Pack
-                {
-                    // Get Folder Name
-                    string fileName = Path.GetFileName(path);
-                    if (fileName.Length < 3) { WinFormsUtil.Error("Mini Folder name not valid:", path); return; }
-
-                    int index = fileName.LastIndexOf('_');
-                    string fileNum = fileName.Substring(0, index);
-                    string fileExt = fileName.Substring(index + 1);
-
-                    // Find old file for reference...
-                    string file;
-                    if (File.Exists(Path.Combine(parentName, fileNum + ".bin")))
-                        file = Path.Combine(parentName, fileNum + ".bin");
-                    else if (File.Exists(Path.Combine(parentName, fileNum + "." + fileExt)))
-                        file = Path.Combine(parentName, fileNum + "." + fileExt);
-                    else
-                        file = null;
-
-                    byte[] oldData = file != null ? File.ReadAllBytes(file) : null;
-                    bool r = Mini.PackMini2(path, fileExt, Path.Combine(parentName, fileNum + "." + fileExt));
-                    if (!r)
-                    {
-                            WinFormsUtil.Alert("Packing failed.");
-                        break;
-                    }
-
-                    // Check to see if the header size is different...
-                    if (oldData == null) // No data to compare to.
-                        break;
-
-                    byte[] newData = File.ReadAllBytes(Path.Combine(parentName, fileNum + "." + fileExt));
-                    if (newData[2] == oldData[2])
-                    {
-                        int newPtr = BitConverter.ToInt32(newData, 4);
-                        int oldPtr = BitConverter.ToInt32(oldData, 4);
-                        if (newPtr != oldPtr) // Header size is different. Prompt repointing.
+                        string outfolder = Directory.GetParent(path).FullName;
+                        new Thread(() =>
                         {
-                            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Header size of existing file is nonstandard.", "Adjust newly packed file to have the same header size as old file? Data pointers will be updated accordingly."))
-                                break;
+                            bool r = GarcUtil.PackGARC(path, Path.Combine(outfolder, folderName + ".garc"), version, padding, pBar1);
+                            if (!r) { WinFormsUtil.Alert("Packing failed."); return; }
+                            // Delete path after repacking
+                            if (CHK_Delete.Checked && Directory.Exists(path))
+                                Directory.Delete(path, true);
 
-                            // Fix pointers
-                            byte[] update = Mini.AdjustMiniHeader(newData, oldPtr);
-                            File.WriteAllBytes(Path.Combine(parentName, fileNum + "." + fileExt), update);
-                        }
+                            System.Media.SystemSounds.Asterisk.Play();
+                        }).Start();
+                        return;
                     }
+                case 2: // DARC Pack (from existing if exists)
+                    {
+                        string oldFile = path.Replace("_d", "");
+                        if (File.Exists(Path.Combine(parentName, oldFile)))
+                            oldFile = Path.Combine(parentName, oldFile);
+                        else if (File.Exists(Path.Combine(parentName, oldFile + ".bin")))
+                            oldFile = Path.Combine(parentName, oldFile + ".bin");
+                        else if (File.Exists(Path.Combine(parentName, oldFile + ".darc")))
+                            oldFile = Path.Combine(parentName, oldFile + ".darc");
+                        else oldFile = null;
 
-                    break;
-                }
+                        bool r = Core.CTR.DARC.Files2darc(path, false, oldFile);
+                        if (!r) WinFormsUtil.Alert("Packing failed.");
+                        break;
+                    }
+                case 3: // Mini Pack
+                    {
+                        // Get Folder Name
+                        string fileName = Path.GetFileName(path);
+                        if (fileName.Length < 3) { WinFormsUtil.Error("Mini Folder name not valid:", path); return; }
+
+                        int index = fileName.LastIndexOf('_');
+                        string fileNum = fileName[..index];
+                        string fileExt = fileName[(index + 1)..];
+
+                        // Find old file for reference...
+                        string file;
+                        if (File.Exists(Path.Combine(parentName, fileNum + ".bin")))
+                            file = Path.Combine(parentName, fileNum + ".bin");
+                        else if (File.Exists(Path.Combine(parentName, fileNum + "." + fileExt)))
+                            file = Path.Combine(parentName, fileNum + "." + fileExt);
+                        else
+                            file = null;
+
+                        byte[] oldData = file != null ? File.ReadAllBytes(file) : null;
+                        bool r = Mini.PackMini2(path, fileExt, Path.Combine(parentName, fileNum + "." + fileExt));
+                        if (!r)
+                        {
+                            WinFormsUtil.Alert("Packing failed.");
+                            break;
+                        }
+
+                        // Check to see if the header size is different...
+                        if (oldData == null) // No data to compare to.
+                            break;
+
+                        byte[] newData = File.ReadAllBytes(Path.Combine(parentName, fileNum + "." + fileExt));
+                        if (newData[2] == oldData[2])
+                        {
+                            int newPtr = BitConverter.ToInt32(newData, 4);
+                            int oldPtr = BitConverter.ToInt32(oldData, 4);
+                            if (newPtr != oldPtr) // Header size is different. Prompt repointing.
+                            {
+                                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Header size of existing file is nonstandard.", "Adjust newly packed file to have the same header size as old file? Data pointers will be updated accordingly."))
+                                    break;
+
+                                // Fix pointers
+                                byte[] update = Mini.AdjustMiniHeader(newData, oldPtr);
+                                File.WriteAllBytes(Path.Combine(parentName, fileNum + "." + fileExt), update);
+                            }
+                        }
+
+                        break;
+                    }
                 default:
                     WinFormsUtil.Alert("Repacking not implemented." + Environment.NewLine + path);
                     return;

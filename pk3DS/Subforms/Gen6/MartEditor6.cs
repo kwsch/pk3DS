@@ -19,26 +19,26 @@ namespace pk3DS
             codebin = files[0];
             itemlist[0] = "";
             SetupDGV();
-            foreach (string s in locations) CB_Location.Items.Add(s);
+            CB_Location.Items.AddRange(locations);
             CB_Location.SelectedIndex = 0;
         }
 
         private static int GetDataOffset(byte[] data)
         {
             byte[] vanilla =
-            {
+            [
                 0x00, 0x72, 0x6F, 0x6D, 0x3A, 0x2F, 0x44, 0x6C, 0x6C, 0x53, 0x74, 0x61, 0x72, 0x74, 0x4D, 0x65,
-                0x6E, 0x75, 0x2E, 0x63, 0x72, 0x6F, 0x00
-            };
+                0x6E, 0x75, 0x2E, 0x63, 0x72, 0x6F, 0x00,
+            ];
             int offset = Util.IndexOfBytes(data, vanilla, 0x400000, 0);
             if (offset >= 0)
                 return offset + vanilla.Length;
 
             byte[] patched =
-            {
+            [
                 0x00, 0x72, 0x6F, 0x6D, 0x32, 0x3A, 0x2F, 0x44, 0x6C, 0x6C, 0x53, 0x74, 0x61, 0x72, 0x74, 0x4D,
-                0x65, 0x6E, 0x75, 0x2E, 0x63, 0x72, 0x6F, 0x00, 0xFF
-            };
+                0x65, 0x6E, 0x75, 0x2E, 0x63, 0x72, 0x6F, 0x00, 0xFF,
+            ];
             offset = Util.IndexOfBytes(data, patched, 0x400000, 0);
 
             if (offset >= 0)
@@ -52,17 +52,17 @@ namespace pk3DS
         private readonly byte[] data;
 
         private readonly byte[] entries = Main.Config.ORAS
-            ? new byte[] // ORAS
-            {
+            ?
+            [
                 3, 10, 14, 17, 18, 19, 19, 19, 19, // General
                 1,
                 9, 6, 4, 3, 8,
                 8, 3, 3, 4,
                 3, 6, 8,
-                7, 4
-            }
-            : new byte[] // XY
-            {
+                7, 4,
+            ]
+            :
+            [
                 2, 11, 14, 17, 18, 19, 19, 19, 19, // General
                 1, // Unused
                 4, 10, 3, 9, 1, 1, // Misc
@@ -74,23 +74,23 @@ namespace pk3DS
                 5, // TMs
                 8, // Battle
                 3, // Balls
-            };
+            ];
 
         private readonly int offset;
         private int dataoffset;
 
         private readonly string[] locations = Main.Config.ORAS
-            ? new[] // ORAS
-            {
+            ?
+            [
                 "No Gym Badges [After Pokédex]", "1 Gym Badge", "2 Gym Badges", "3 Gym Badges", "4 Gym Badges", "5 Gym Badges", "6 Gym Badges", "7 Gym Badges", "8 Gym Badges",
                 "No Gym Badges [Before Pokédex]",
                 "Slateport Market [Incenses]", "Slateport Market [Vitamins]", "Slateport Market [TMs]", "Rustboro City [Poké Balls]", "Slateport City [X Items]",
                 "Mauville City [TMs]", "Verdanturf Town [Poké Balls]", "Fallarbor Town [Poké Balls]", "Lavaridge Town [Herbs]",
                 "Lilycove Dept Store, 2F Left [Run Away Items]", "Lilycove Dept Store, 3F Left [Vitamins]", "Lilycove Dept Store, 3F Right [X Items]",
-                "Lilycove Dept Store, 4F Left [Offensive TMs]", "Lilycove Dept Store, 4F Right [Defensive TMs]"
-            }
-            : new[] // XY
-            {
+                "Lilycove Dept Store, 4F Left [Offensive TMs]", "Lilycove Dept Store, 4F Right [Defensive TMs]",
+            ]
+            :
+            [
                 "No Gym Badges", "1 Gym Badge", "2 Gym Badges", "3 Gym Badges", "4 Gym Badges", "5 Gym Badges", "6 Gym Badges", "7 Gym Badges", "8 Gym Badges",
                 "Unused",
                 "Lumiose City [Herboriste]", "Lumiose City [Poké Ball Boutique]", "Lumiose City [Stone Emporium]", "Coumarine City [Incenses]", "Aquacorde Town [Poké Ball]", "Aquacorde Town [Potion]",
@@ -101,8 +101,8 @@ namespace pk3DS
                 "Kiloude City [TMs]",
                 "Anistar City [TMs]",
                 "Santalune City [X Items]",
-                "Coumarine City [Poké Balls]"
-            };
+                "Coumarine City [Poké Balls]",
+            ];
 
         private void GetDataOffset(int index)
         {
@@ -113,19 +113,18 @@ namespace pk3DS
 
         private void SetupDGV()
         {
-            DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
+            var dgvIndex = new DataGridViewTextBoxColumn();
             {
                 dgvIndex.HeaderText = "Index";
                 dgvIndex.DisplayIndex = 0;
                 dgvIndex.Width = 45;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvItem = new DataGridViewComboBoxColumn();
+            var dgvItem = new DataGridViewComboBoxColumn();
             {
                 dgvItem.HeaderText = "Item";
                 dgvItem.DisplayIndex = 1;
-                foreach (string t in itemlist)
-                    dgvItem.Items.Add(t); // add only the Names
+                dgvItem.Items.AddRange(itemlist); // add only the Names
 
                 dgvItem.Width = 135;
                 dgvItem.FlatStyle = FlatStyle.Flat;

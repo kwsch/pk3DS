@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -19,10 +18,10 @@ namespace pk3DS
         {
             if (baseLayer == null)
                 return overLayer as Bitmap;
-            Bitmap img = new Bitmap(baseLayer.Width, baseLayer.Height);
-            using Graphics gr = Graphics.FromImage(img);
+            var img = new Bitmap(baseLayer.Width, baseLayer.Height);
+            using var gr = Graphics.FromImage(img);
             gr.DrawImage(baseLayer, new Point(0, 0));
-            Bitmap o = ChangeOpacity(overLayer, trans);
+            var o = ChangeOpacity(overLayer, trans);
             gr.DrawImage(o, new Rectangle(x, y, overLayer.Width, overLayer.Height));
             return img;
         }
@@ -34,9 +33,9 @@ namespace pk3DS
             if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
                 return (Bitmap)img;
 
-            Bitmap bmp = (Bitmap)img.Clone();
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            IntPtr ptr = bmpData.Scan0;
+            var bmp = (Bitmap)img.Clone();
+            var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            var ptr = bmpData.Scan0;
 
             int len = bmp.Width * bmp.Height * 4;
             byte[] data = new byte[len];
@@ -52,15 +51,18 @@ namespace pk3DS
             return bmp;
         }
 
+        private static ReadOnlySpan<int> GenderedSpecies => [592, 593, 521, 668];
+        private static ReadOnlySpan<int> DefaultSprites => [778, 664, 665, 414, 493, 773];
+
         public static string GetResourceStringSprite(int species, int form, int gender, int generation)
         {
-            if (new[] { 778, 664, 665, 414, 493, 773 }.Contains(species)) // Species who show their default sprite regardless of Form
+            if (DefaultSprites.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
 
             string file = "_" + species;
             if (form > 0) // Alt Form Handling
                 file += "_" + form;
-            else if (gender == 1 && new[] { 592, 593, 521, 668 }.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
+            else if (gender == 1 && GenderedSpecies.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
                 file += "_" + gender;
 
             if (species == 25 && form > 0 && generation >= 7) // Pikachu
@@ -140,7 +142,7 @@ namespace pk3DS
 
         public static Bitmap ScaleImage(Bitmap rawImg, int s)
         {
-            Bitmap bigImg = new Bitmap(rawImg.Width * s, rawImg.Height * s);
+            var bigImg = new Bitmap(rawImg.Width * s, rawImg.Height * s);
             for (int x = 0; x < bigImg.Width; x++)
             {
                 for (int y = 0; y < bigImg.Height; y++)
@@ -193,7 +195,7 @@ namespace pk3DS
         public static string[] GetSimpleStringList(string f)
         {
             object txt = Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.
-            List<string> rawlist = ((string)txt).Split('\n').ToList();
+            List<string> rawlist = [.. ((string)txt).Split('\n')];
 
             string[] stringdata = new string[rawlist.Count];
             for (int i = 0; i < rawlist.Count; i++)
@@ -225,14 +227,6 @@ namespace pk3DS
         {
             string value = tb.Text;
             return Util.ToUInt32(value);
-        }
-
-        public static uint GetHEXval(TextBox tb)
-        {
-            if (tb.Text == null)
-                return 0;
-            string str = GetOnlyHex(tb.Text);
-            return uint.Parse(str, NumberStyles.HexNumber);
         }
 
         public static int GetIndex(ComboBox cb)
@@ -283,7 +277,7 @@ namespace pk3DS
             {
                 object txt = Resources.ResourceManager.GetObject("lang_" + lang);
                 if (txt == null) return; // Translation file does not exist as a resource; abort this function and don't translate UI.
-                rawlist = ((string)txt).Split(new[] { "\n" }, StringSplitOptions.None);
+                rawlist = ((string)txt).Split(["\n"], StringSplitOptions.None);
                 rawlist = rawlist.Select(i => i.Trim()).ToArray(); // Remove trailing spaces
             }
 
@@ -295,7 +289,7 @@ namespace pk3DS
                 if (!rawlist[i].Contains("! " + form.Name)) continue;
 
                 // Allow renaming of the Window Title
-                string[] WindowName = rawlist[i].Split(new[] { " = " }, StringSplitOptions.None);
+                string[] WindowName = rawlist[i].Split([" = "], StringSplitOptions.None);
                 if (WindowName.Length > 1) form.Text = WindowName[1];
                 // Copy our Control Names and Text to a new array for later processing.
                 for (int j = i + 1; j < rawlist.Length; j++)
@@ -310,11 +304,11 @@ namespace pk3DS
             }
             return; // Not Found
 
-            // Now that we have our items to rename in: Control = Text format, let's execute the changes!
-            rename:
+        // Now that we have our items to rename in: Control = Text format, let's execute the changes!
+        rename:
             for (int i = 0; i < itemsToRename; i++)
             {
-                string[] SplitString = stringdata[i].Split(new[] { " = " }, StringSplitOptions.None);
+                string[] SplitString = stringdata[i].Split([" = "], StringSplitOptions.None);
                 if (SplitString.Length < 2)
                     continue; // Error in Input, errhandled
                 string ctrl = SplitString[0]; // Control to change the text of...
@@ -341,13 +335,13 @@ namespace pk3DS
                     TSI[0].Text = text; goto next;
                 }
 
-                next:;
+            next:;
             }
         }
 
         public static List<ContextMenuStrip> FindContextMenuStrips(IEnumerable<Control> c)
         {
-            List<ContextMenuStrip> cs = new List<ContextMenuStrip>();
+            List<ContextMenuStrip> cs = [];
             foreach (Control control in c)
             {
                 if (control.ContextMenuStrip != null)
@@ -386,7 +380,7 @@ namespace pk3DS
             string[] inputCSV = GetSimpleStringList(textfile);
 
             // Get Language we're fetching for
-            int index = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
+            int index = Array.IndexOf(["ja", "en", "fr", "de", "it", "es", "ko", "zh"], lang);
 
             // Set up our Temporary Storage
             string[] unsortedList = new string[inputCSV.Length - 1];
@@ -409,14 +403,14 @@ namespace pk3DS
             return sortedList.Select(t => new ComboItem
             {
                 Text = t,
-                Value = indexes[Array.IndexOf(unsortedList, t)]
+                Value = indexes[Array.IndexOf(unsortedList, t)],
             }).ToList();
         }
 
         public static List<ComboItem> GetCBList(string[] inStrings, params int[][] allowed)
         {
-            List<ComboItem> cbList = new List<ComboItem>();
-            allowed ??= new[] {Enumerable.Range(0, inStrings.Length).ToArray()};
+            List<ComboItem> cbList = [];
+            allowed ??= [Enumerable.Range(0, inStrings.Length).ToArray()];
 
             foreach (int[] list in allowed)
             {
@@ -433,7 +427,7 @@ namespace pk3DS
                 cbList.AddRange(sortedChoices.Select(t => new ComboItem
                 {
                     Text = t,
-                    Value = list[Array.IndexOf(unsortedChoices, t)]
+                    Value = list[Array.IndexOf(unsortedChoices, t)],
                 }));
             }
             return cbList;
@@ -461,7 +455,7 @@ namespace pk3DS
                 cbList.AddRange(sortedChoices.Select(t => new ComboItem
                 {
                     Text = t,
-                    Value = allowed[Array.IndexOf(unsortedChoices, t)]
+                    Value = allowed[Array.IndexOf(unsortedChoices, t)],
                 }));
             }
             return cbList;
@@ -591,9 +585,9 @@ namespace pk3DS
                     source.UnlockBits(data);
             }
 
-            Bitmap dest = new Bitmap(srcRect.Width, srcRect.Height);
-            Rectangle destRect = new Rectangle(0, 0, srcRect.Width, srcRect.Height);
-            using Graphics graphics = Graphics.FromImage(dest);
+            var dest = new Bitmap(srcRect.Width, srcRect.Height);
+            var destRect = new Rectangle(0, 0, srcRect.Width, srcRect.Height);
+            using var graphics = Graphics.FromImage(dest);
             graphics.DrawImage(source, destRect, srcRect, GraphicsUnit.Pixel);
             return dest;
         }

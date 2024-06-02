@@ -26,7 +26,7 @@ namespace pk3DS
             GetList();
         }
 
-        private static readonly byte[] Signature = {0x03, 0x40, 0x03, 0x41, 0x03, 0x42, 0x03, 0x43, 0x03}; // tail end of item::ITEM_CheckBeads
+        private static readonly byte[] Signature = [0x03, 0x40, 0x03, 0x41, 0x03, 0x42, 0x03, 0x43, 0x03]; // tail end of item::ITEM_CheckBeads
         private readonly string codebin;
         private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
         private readonly int offset = 0x0059795A; // Default
@@ -50,12 +50,11 @@ namespace pk3DS
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 dgvIndex.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
-            DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
+            var dgvMove = new DataGridViewComboBoxColumn();
             {
                 dgvMove.HeaderText = "Move";
                 dgvMove.DisplayIndex = 1;
-                foreach (string t in movelist)
-                    dgvMove.Items.Add(t); // add only the Names
+                dgvMove.Items.AddRange(movelist); // add only the Names
 
                 dgvMove.Width = 133;
                 dgvMove.FlatStyle = FlatStyle.Flat;
@@ -65,18 +64,18 @@ namespace pk3DS
             dgvTM.Columns.Add(dgvMove);
         }
 
-        private List<ushort> tms = new();
+        private List<ushort> tms = [];
 
         private void GetList()
         {
-            tms = new List<ushort>();
+            tms = [];
             dgvTM.Rows.Clear();
 
             GetDataOffset();
             for (int i = 0; i < 100; i++) // TMs stored sequentially
                 tms.Add(BitConverter.ToUInt16(data, dataoffset + (2 * i)));
 
-            ushort[] tmlist = tms.ToArray();
+            ushort[] tmlist = [.. tms];
             for (int i = 0; i < tmlist.Length; i++)
             { dgvTM.Rows.Add(); dgvTM.Rows[i].Cells[0].Value = (i + 1).ToString(); dgvTM.Rows[i].Cells[1].Value = movelist[tmlist[i]]; }
         }
@@ -84,11 +83,11 @@ namespace pk3DS
         private void SetList()
         {
             // Gather TM/HM list.
-            tms = new List<ushort>();
+            tms = [];
             for (int i = 0; i < dgvTM.Rows.Count; i++)
                 tms.Add((ushort)Array.IndexOf(movelist, dgvTM.Rows[i].Cells[1].Value));
 
-            ushort[] tmlist = tms.ToArray();
+            ushort[] tmlist = [.. tms];
 
             // Set TM/HM list in
             for (int i = 0; i < 100; i++)
@@ -119,7 +118,7 @@ namespace pk3DS
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
 
-            int[] banned = Legal.Z_Moves.Concat(new[] { 165, 464, 621 }).ToArray();
+            int[] banned = [.. Legal.Z_Moves, .. new[] { 165, 464, 621 }];
             int ctr = 0;
 
             for (int i = 0; i < dgvTM.Rows.Count; i++)
@@ -136,22 +135,22 @@ namespace pk3DS
         internal static ushort[] GetTMHMList()
         {
             if (Main.ExeFSPath == null)
-                return Array.Empty<ushort>();
+                return [];
             string[] files = Directory.GetFiles(Main.ExeFSPath);
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code"))
-                return Array.Empty<ushort>();
+                return [];
             byte[] data = File.ReadAllBytes(files[0]);
             int dataoffset = Util.IndexOfBytes(data, Signature, 0x400000, 0) + Signature.Length;
             if (data.Length % 0x200 != 0)
-                return Array.Empty<ushort>();
+                return [];
 
             if (Main.Config.USUM)
                 dataoffset += 0x22;
-            List<ushort> tms = new List<ushort>();
+            List<ushort> tms = [];
 
             for (int i = 0; i < 100; i++) // TMs stored sequentially
                 tms.Add(BitConverter.ToUInt16(data, dataoffset + (2 * i)));
-            return tms.ToArray();
+            return [.. tms];
         }
     }
 }

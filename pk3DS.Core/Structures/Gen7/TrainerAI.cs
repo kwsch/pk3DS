@@ -5,6 +5,8 @@ namespace pk3DS.Core.Structures
     [Flags]
     public enum TrainerAI : byte
     {
+        None = 0,
+
         Basic = 1 << 0,
         Strong = 1 << 1,
         Expert = 1 << 2,

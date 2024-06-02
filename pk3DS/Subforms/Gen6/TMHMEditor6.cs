@@ -25,7 +25,7 @@ namespace pk3DS
             RandSettings.GetFormSettings(this, groupBox1.Controls);
         }
 
-        private static readonly byte[] Signature = {0xD4, 0x00, 0xAE, 0x02, 0xAF, 0x02, 0xB0, 0x02};
+        private static readonly byte[] Signature = [0xD4, 0x00, 0xAE, 0x02, 0xAF, 0x02, 0xB0, 0x02];
         private readonly string codebin;
         private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
         private readonly int offset = Main.Config.ORAS ? 0x004A67EE : 0x00464796; // Default
@@ -40,7 +40,7 @@ namespace pk3DS
         private void SetupDGV()
         {
             dgvTM.Columns.Clear(); dgvHM.Columns.Clear();
-            DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
+            var dgvIndex = new DataGridViewTextBoxColumn();
             {
                 dgvIndex.HeaderText = "Index";
                 dgvIndex.DisplayIndex = 0;
@@ -49,12 +49,11 @@ namespace pk3DS
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 dgvIndex.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
-            DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
+            var dgvMove = new DataGridViewComboBoxColumn();
             {
                 dgvMove.HeaderText = "Move";
                 dgvMove.DisplayIndex = 1;
-                foreach (string t in movelist)
-                    dgvMove.Items.Add(t); // add only the Names
+                dgvMove.Items.AddRange(movelist); // add only the Names
 
                 dgvMove.Width = 133;
                 dgvMove.FlatStyle = FlatStyle.Flat;
@@ -66,13 +65,13 @@ namespace pk3DS
             dgvHM.Columns.Add((DataGridViewColumn)dgvMove.Clone());
         }
 
-        private List<ushort> tms = new();
-        private List<ushort> hms = new();
+        private List<ushort> tms = [];
+        private List<ushort> hms = [];
 
         private void GetList()
         {
-            tms = new List<ushort>();
-            hms = new List<ushort>();
+            tms = [];
+            hms = [];
             dgvTM.Rows.Clear();
 
             GetDataOffset();
@@ -93,8 +92,8 @@ namespace pk3DS
                     tms.Add(BitConverter.ToUInt16(data, dataoffset + (2 * i)));
             }
 
-            ushort[] tmlist = tms.ToArray();
-            ushort[] hmlist = hms.ToArray();
+            ushort[] tmlist = [.. tms];
+            ushort[] hmlist = [.. hms];
             for (int i = 0; i < tmlist.Length; i++)
             { dgvTM.Rows.Add(); dgvTM.Rows[i].Cells[0].Value = (i + 1).ToString(); dgvTM.Rows[i].Cells[1].Value = movelist[tmlist[i]]; }
             for (int i = 0; i < hmlist.Length; i++)
@@ -104,16 +103,16 @@ namespace pk3DS
         private void SetList()
         {
             // Gather TM/HM list.
-            tms = new List<ushort>();
-            hms = new List<ushort>();
+            tms = [];
+            hms = [];
             for (int i = 0; i < dgvTM.Rows.Count; i++)
                 tms.Add((ushort)Array.IndexOf(movelist, dgvTM.Rows[i].Cells[1].Value));
 
             for (int i = 0; i < dgvHM.Rows.Count; i++)
                 hms.Add((ushort)Array.IndexOf(movelist, dgvHM.Rows[i].Cells[1].Value));
 
-            ushort[] tmlist = tms.ToArray();
-            ushort[] hmlist = hms.ToArray();
+            ushort[] tmlist = [.. tms];
+            ushort[] hmlist = [.. hms];
 
             // Set TM/HM list in
             for (int i = 0; i < 92; i++)
@@ -167,10 +166,10 @@ namespace pk3DS
             int[] randomMoves = Enumerable.Range(1, movelist.Length - 1).Select(i => i).ToArray();
             Util.Shuffle(randomMoves);
 
-            int[] hm_xy = { 015, 019, 057, 070, 127 };
-            int[] hm_ao = hm_xy.Concat(new[] { 249, 291 }).ToArray();
-            int[] field = { 148, 249, 290 }; // TMs with field effects
-            int[] banned = { 165, 621 }; // Struggle and Hyperspace Fury
+            int[] hm_xy = [015, 019, 057, 070, 127];
+            int[] hm_ao = [.. hm_xy, .. new[] { 249, 291 }];
+            int[] field = [148, 249, 290]; // TMs with field effects
+            int[] banned = [165, 621]; // Struggle and Hyperspace Fury
             int ctr = 0;
 
             for (int i = 0; i < dgvTM.Rows.Count; i++)
@@ -205,8 +204,8 @@ namespace pk3DS
 
         internal static void GetTMHMList(out ushort[] TMs, out ushort[] HMs)
         {
-            TMs = Array.Empty<ushort>();
-            HMs = Array.Empty<ushort>();
+            TMs = [];
+            HMs = [];
             if (Main.ExeFSPath == null) return;
             string[] files = Directory.GetFiles(Main.ExeFSPath);
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) return;
@@ -214,8 +213,8 @@ namespace pk3DS
             int dataoffset = Util.IndexOfBytes(data, Signature, 0x400000, 0) + 8;
             if (data.Length % 0x200 != 0) return;
 
-            List<ushort> tms = new List<ushort>();
-            List<ushort> hms = new List<ushort>();
+            List<ushort> tms = [];
+            List<ushort> hms = [];
 
             for (int i = 0; i < 92; i++) // 1-92 TMs stored sequentially
                 tms.Add(BitConverter.ToUInt16(data, dataoffset + (2 * i)));
@@ -234,8 +233,8 @@ namespace pk3DS
                     tms.Add(BitConverter.ToUInt16(data, dataoffset + (2 * i)));
             }
 
-            TMs = tms.ToArray();
-            HMs = hms.ToArray();
+            TMs = [.. tms];
+            HMs = [.. hms];
         }
     }
 }

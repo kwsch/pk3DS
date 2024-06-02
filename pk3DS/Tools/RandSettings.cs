@@ -9,7 +9,7 @@ namespace pk3DS
     public static class RandSettings
     {
         public const string FileName = "randsettings.txt";
-        private static readonly Dictionary<string, List<NameValue>> Settings = new();
+        private static readonly Dictionary<string, List<NameValue>> Settings = [];
 
         public static void Load(string[] lines)
         {
@@ -34,7 +34,7 @@ namespace pk3DS
                 result.AddRange(list.Value.Select(val => val.Write()));
                 result.Add(string.Empty);
             }
-            return result.ToArray();
+            return [.. result];
         }
 
         public static void GetFormSettings(Form form, Control.ControlCollection controls)
@@ -59,7 +59,7 @@ namespace pk3DS
         {
             if (!Settings.TryGetValue(form.Name, out var list))
             {
-                list = new List<NameValue>();
+                list = [];
                 Settings.Add(form.Name, list);
             }
 

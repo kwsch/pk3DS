@@ -149,9 +149,7 @@ namespace pk3DS.Core.CTR
             byte[] data = GetData(t);
             string name = GetFileName(t);
 
-            string dir = Path.GetDirectoryName(name);
-            if (dir == null)
-                throw new ArgumentException(name);
+            string dir = Path.GetDirectoryName(name) ?? throw new ArgumentException(name);
             string location = Path.Combine(outpath, dir);
             Directory.CreateDirectory(location);
 
@@ -168,12 +166,10 @@ namespace pk3DS.Core.CTR
         public IEnumerable<string> Dump(string path = null, string folder = null)
         {
             path ??= FilePath;
-            if (path == null)
-                throw new ArgumentNullException(nameof(path));
+            ArgumentNullException.ThrowIfNull(path);
             if (File.Exists(path))
                 path = Path.GetDirectoryName(path);
-            if (path == null)
-                throw new ArgumentNullException(nameof(path));
+            ArgumentNullException.ThrowIfNull(path);
 
             folder ??= FileName ?? "sarc";
             string dir = Path.Combine(path, folder);
@@ -188,7 +184,7 @@ namespace pk3DS.Core.CTR
         {
             stream.Seek(SFNT.StringOffset, SeekOrigin.Begin);
             stream.Seek((offset & 0x00FFFFFF) * 4, SeekOrigin.Current);
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             for (char c = (char)stream.ReadByte(); c != 0; c = (char)stream.ReadByte())
                 sb.Append(c);
 
@@ -258,7 +254,7 @@ namespace pk3DS.Core.CTR
             HeaderSize = br.ReadUInt16();
             EntryCount = br.ReadUInt16();
             HashMult = br.ReadUInt32();
-            Entries = new List<SFATEntry>();
+            Entries = [];
 
             for (int i = 0; i < EntryCount; i++)
                 Entries.Add(new SFATEntry(br));
@@ -299,21 +295,13 @@ namespace pk3DS.Core.CTR
     /// <summary>
     /// <see cref="SARC"/> File Access Table (<see cref="SFAT"/>) Entry
     /// </summary>
-    public class SFATEntry
+    public class SFATEntry(BinaryReader br)
     {
-        public uint FileNameHash;
-        public int FileNameOffset;
-        public int FileDataStart;
-        public int FileDataEnd;
+        public uint FileNameHash = br.ReadUInt32();
+        public int FileNameOffset = br.ReadInt32();
+        public int FileDataStart = br.ReadInt32();
+        public int FileDataEnd = br.ReadInt32();
 
         public int FileDataLength => FileDataEnd - FileDataStart;
-
-        public SFATEntry(BinaryReader br)
-        {
-            FileNameHash = br.ReadUInt32();
-            FileNameOffset = br.ReadInt32();
-            FileDataStart = br.ReadInt32();
-            FileDataEnd = br.ReadInt32();
-        }
     }
 }

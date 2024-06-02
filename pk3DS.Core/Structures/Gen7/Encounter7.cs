@@ -2,17 +2,11 @@
 
 namespace pk3DS.Core
 {
-    public class Encounter7
+    public class Encounter7(uint val)
     {
-        public uint Species;
-        public uint Forme;
+        public uint Species = val & 0x7FF;
+        public uint Forme = (val >> 11) & 0x1F;
         public uint RawValue => Species | (Forme << 11);
-
-        public Encounter7(uint val)
-        {
-            Species = val & 0x7FF;
-            Forme = (val >> 11) & 0x1F;
-        }
 
         public string GetSummary(string[] speciesList)
         {

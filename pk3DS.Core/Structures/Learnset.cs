@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace pk3DS.Core.Structures
@@ -23,13 +22,13 @@ namespace pk3DS.Core.Structures
             if (minLevel <= 1 && maxLevel >= 100)
                 return Moves;
             if (minLevel > maxLevel)
-                return Array.Empty<int>();
+                return [];
             int start = Array.FindIndex(Levels, z => z >= minLevel);
             if (start < 0)
-                return Array.Empty<int>();
+                return [];
             int end = Array.FindLastIndex(Levels, z => z <= maxLevel);
             if (end < 0)
-                return Array.Empty<int>();
+                return [];
             int[] result = new int[end - start + 1];
             Array.Copy(Moves, start, result, 0, result.Length);
             return result;
@@ -42,20 +41,20 @@ namespace pk3DS.Core.Structures
         public int[] GetEncounterMoves(int level)
         {
             const int count = 4;
-            IList<int> moves = new int[count];
+            int[] moves = new int[count];
             int ctr = 0;
             for (int i = 0; i < Moves.Length; i++)
             {
                 if (Levels[i] > level)
                     break;
                 int move = Moves[i];
-                if (moves.Contains(move))
+                if (moves.AsSpan().Contains(move))
                     continue;
 
                 moves[ctr++] = move;
                 ctr &= 3;
             }
-            return (int[])moves;
+            return moves;
         }
 
         /// <summary>Returns the index of the lowest level move if the Pokémon were encountered at the specified level.</summary>
@@ -86,7 +85,7 @@ namespace pk3DS.Core.Structures
         public Learnset6(byte[] data)
         {
             if (data.Length < 4 || data.Length % 4 != 0)
-            { Count = 0; Levels = Array.Empty<int>(); Moves = Array.Empty<int>(); return; }
+            { Count = 0; Levels = []; Moves = []; return; }
             Count = (data.Length / 4) - 1;
             Moves = new int[Count];
             Levels = new int[Count];
@@ -102,8 +101,8 @@ namespace pk3DS.Core.Structures
         public override byte[] Write()
         {
             Count = (ushort)Moves.Length;
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(ms);
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
             for (int i = 0; i < Count; i++)
             {
                 bw.Write((short)Moves[i]);
@@ -115,7 +114,7 @@ namespace pk3DS.Core.Structures
 
         public static Learnset[] GetArray(byte[][] entries)
         {
-            Learnset[] data = new Learnset[entries.Length];
+            var data = new Learnset[entries.Length];
             for (int i = 0; i < data.Length; i++)
                 data[i] = new Learnset6(entries[i]);
             return data;

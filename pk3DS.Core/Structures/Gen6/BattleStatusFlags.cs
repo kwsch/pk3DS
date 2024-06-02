@@ -5,6 +5,8 @@ namespace pk3DS.Core.Structures
     [Flags]
     public enum BattleStatusFlags : byte
     {
+        None = 0,
+
         /// <summary>
         /// Sleep
         /// </summary>

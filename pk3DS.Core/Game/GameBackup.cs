@@ -81,7 +81,7 @@ namespace pk3DS.Core
             string[] CRSs = files.Where(x => new FileInfo(x).Extension.Contains("crs")).ToArray();
             string[] CRRs = Directory.Exists(Path.Combine(path, ".crr"))
                 ? Directory.GetFiles(Path.Combine(path, ".crr"))
-                : Array.Empty<string>();
+                : [];
 
             int count = CROs.Length + CRSs.Length + CRRs.Length;
             if (count <= 0)
@@ -120,7 +120,7 @@ namespace pk3DS.Core
             string gameFolder = new DirectoryInfo(config.RomFS).Parent.Name;
             string gameBackup = Path.Combine(bakpath, gameFolder);
             if (!Directory.Exists(gameBackup))
-                return new[] {"Unable to find the backup folder for this game.", $"Expected:\n{gameBackup}"};
+                return ["Unable to find the backup folder for this game.", $"Expected:\n{gameBackup}"];
 
             string bak_exefs = Path.Combine(gameBackup, bakexefs);
             string bak_a = Path.Combine(gameBackup, baka);
@@ -136,10 +136,10 @@ namespace pk3DS.Core
             if (Directory.Exists(bak_dll))
                 count[2] = RestoreDLL(config, bak_dll);
 
-            string[] sources = { "ExeFS", "'a'", "CRO" };
+            string[] sources = ["ExeFS", "'a'", "CRO"];
             var info = count.Select((c, i) => $"{sources[i]}: {c}");
             var result = string.Join(Environment.NewLine, info);
-            return new[] {result};
+            return [result];
         }
 
         private static int RestoreExeFS(GameConfig config, string bak_exefs)
@@ -195,7 +195,7 @@ namespace pk3DS.Core
             string[] CRSs = files.Where(x => new FileInfo(x).Extension.Contains("crs")).ToArray();
             string[] CRRs = Directory.Exists(Path.Combine(path, ".crr"))
                 ? Directory.GetFiles(Path.Combine(path, ".crr"))
-                : Array.Empty<string>();
+                : [];
 
             if (CROs.Length + CRSs.Length + CRRs.Length <= 0)
                 return 0;

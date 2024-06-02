@@ -23,7 +23,7 @@ namespace pk3DS
             Array.Resize(ref specieslist, Main.Config.MaxSpeciesID + 1);
 
             string[] evolutionMethods =
-            {
+            [
                 "",
                 "Level Up with Friendship",
                 "Level Up at Morning with Friendship",
@@ -59,18 +59,18 @@ namespace pk3DS
                 "Level Up (@) at Morning",
                 "Level Up (@) at Night",
                 "Level Up Female (SetForm 1)",
-            };
+            ];
 
-            mb = new[] { CB_M1, CB_M2, CB_M3, CB_M4, CB_M5, CB_M6, CB_M7, CB_M8 };
-            pb = new[] { CB_P1, CB_P2, CB_P3, CB_P4, CB_P5, CB_P6, CB_P7, CB_P8 };
-            rb = new[] { CB_I1, CB_I2, CB_I3, CB_I4, CB_I5, CB_I6, CB_I7, CB_I8 };
-            pic = new[] { PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7, PB_8 };
+            mb = [CB_M1, CB_M2, CB_M3, CB_M4, CB_M5, CB_M6, CB_M7, CB_M8];
+            pb = [CB_P1, CB_P2, CB_P3, CB_P4, CB_P5, CB_P6, CB_P7, CB_P8];
+            rb = [CB_I1, CB_I2, CB_I3, CB_I4, CB_I5, CB_I6, CB_I7, CB_I8];
+            pic = [PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7, PB_8];
 
-            foreach (ComboBox cb in mb) { foreach (string s in evolutionMethods) cb.Items.Add(s); }
-            foreach (ComboBox cb in rb) { foreach (string s in specieslist) cb.Items.Add(s); }
+            foreach (ComboBox cb in mb) { cb.Items.AddRange(evolutionMethods); }
+            foreach (ComboBox cb in rb) { cb.Items.AddRange(specieslist); }
 
             CB_Species.Items.Clear();
-            foreach (string s in specieslist) CB_Species.Items.Add(s);
+            CB_Species.Items.AddRange(specieslist);
 
             CB_Species.SelectedIndex = 1;
             RandSettings.GetFormSettings(this, GB_Randomizer.Controls);
@@ -87,13 +87,14 @@ namespace pk3DS
         private readonly string[] itemlist = Main.Config.GetText(TextName.ItemNames);
         private readonly string[] typelist = Main.Config.GetText(TextName.Types);
         private bool dumping;
-        private EvolutionSet evo = new EvolutionSet6(new byte[EvolutionSet6.SIZE]);
+        private EvolutionSet6 evo = new(new byte[EvolutionSet6.SIZE]);
 
         private void GetList()
         {
             entry = Array.IndexOf(specieslist, CB_Species.Text);
             byte[] input = files[entry];
-            if (input.Length != EvolutionSet6.SIZE) return; // error
+            if (input.Length != EvolutionSet6.SIZE)
+                return; // error
             evo = new EvolutionSet6(input);
 
             for (int i = 0; i < evo.PossibleEvolutions.Length; i++)
@@ -133,12 +134,17 @@ namespace pk3DS
             SetList();
             // Set up advanced randomization options
             var evos = files.Select(z => new EvolutionSet6(z)).ToArray();
-            var evoRand = new EvolutionRandomizer(Main.Config, evos);
-            evoRand.Randomizer.rBST = CHK_BST.Checked;
-            evoRand.Randomizer.rEXP = CHK_Exp.Checked;
-            evoRand.Randomizer.rType = CHK_Type.Checked;
-            evoRand.Randomizer.L = CHK_L.Checked;
-            evoRand.Randomizer.E = CHK_E.Checked;
+            var evoRand = new EvolutionRandomizer(Main.Config, evos)
+            {
+                Randomizer =
+                {
+                    rBST = CHK_BST.Checked,
+                    rEXP = CHK_Exp.Checked,
+                    rType = CHK_Type.Checked,
+                    L = CHK_L.Checked,
+                    E = CHK_E.Checked,
+                },
+            };
             evoRand.Randomizer.Initialize();
             evoRand.Execute();
             evos.Select(z => z.Write()).ToArray().CopyTo(files, 0);
@@ -170,12 +176,17 @@ namespace pk3DS
 
             SetList();
             var evos = files.Select(z => new EvolutionSet6(z)).ToArray();
-            var evoRand = new EvolutionRandomizer(Main.Config, evos);
-            evoRand.Randomizer.rBST = CHK_BST.Checked;
-            evoRand.Randomizer.rEXP = CHK_Exp.Checked;
-            evoRand.Randomizer.rType = CHK_Type.Checked;
-            evoRand.Randomizer.L = CHK_L.Checked;
-            evoRand.Randomizer.E = CHK_E.Checked;
+            var evoRand = new EvolutionRandomizer(Main.Config, evos)
+            {
+                Randomizer =
+                {
+                    rBST = CHK_BST.Checked,
+                    rEXP = CHK_Exp.Checked,
+                    rType = CHK_Type.Checked,
+                    L = CHK_L.Checked,
+                    E = CHK_E.Checked,
+                },
+            };
             evoRand.Randomizer.Initialize();
             evoRand.ExecuteEvolveEveryLevel();
             evoRand.Execute(); // randomize right after
@@ -206,7 +217,7 @@ namespace pk3DS
 
                 result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog {FileName = "Evolutions.txt", Filter = "Text File|*.txt"};
+            var sfd = new SaveFileDialog { FileName = "Evolutions.txt", Filter = "Text File|*.txt" };
 
             SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -227,7 +238,7 @@ namespace pk3DS
         {
             int op = Array.IndexOf(mb, sender as ComboBox);
             ushort[] methodCase =
-            {
+            [
                 0,0,0,0,1,0,2,0,2,1,1,1,1,1,1,1,5,2,2,2,2,3,4,1,1,0,0,0, // 27, Past Methods
                 // New Methods
                 1, // 28 - Dark Type Party
@@ -237,7 +248,7 @@ namespace pk3DS
                 1, // 32 - Level @ Day
                 1, // 33 - Level @ Night
                 1, // 34 - Gender Branch
-            };
+            ];
 
             pb[op].Visible = pic[op].Visible = rb[op].Visible = mb[op].SelectedIndex > 0;
 
@@ -250,15 +261,15 @@ namespace pk3DS
                 case 1: // Level
                     { for (int i = 0; i <= 100; i++) pb[op].Items.Add(i.ToString()); break; }
                 case 2: // Items
-                    {  foreach (string t in itemlist) pb[op].Items.Add(t); break; }
+                    { pb[op].Items.AddRange(itemlist); break; }
                 case 3: // Moves
-                    { foreach (string t in movelist) pb[op].Items.Add(t); break; }
+                    { pb[op].Items.AddRange(movelist); break; }
                 case 4: // Species
-                    { foreach (string t in specieslist) pb[op].Items.Add(t); break; }
+                    { pb[op].Items.AddRange(specieslist); break; }
                 case 5: // 0-255 (Beauty)
                     { for (int i = 0; i <= 255; i++) pb[op].Items.Add(i.ToString()); break; }
                 case 6:
-                    { foreach (string t in typelist) pb[op].Items.Add(t); break; }
+                    { pb[op].Items.AddRange(typelist); break; }
             }
             pb[op].SelectedIndex = 0;
         }

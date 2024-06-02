@@ -26,11 +26,9 @@ namespace pk3DS
             itemlist[0] = "(None)"; // blank == -1
 
             CB_Species.Items.Clear();
-            foreach (string s in specieslist)
-                CB_Species.Items.Add(s);
+            CB_Species.Items.AddRange(specieslist);
             CB_HeldItem.Items.Clear();
-            foreach (string s in itemlist)
-                CB_HeldItem.Items.Add(s);
+            CB_HeldItem.Items.AddRange(itemlist);
             LoadData();
             RandSettings.GetFormSettings(this, tabPage2.Controls);
         }
@@ -46,15 +44,15 @@ namespace pk3DS
         private static int[] FinalEvo = Legal.FinalEvolutions_6;
         private static readonly int[] Legendary = Legal.Legendary_6;
         private static readonly int[] Mythical = Legal.Mythical_6;
-        private static readonly int[] ReplaceLegend = Legendary.Concat(Mythical).ToArray();
+        private static readonly int[] ReplaceLegend = [.. Legendary, .. Mythical];
 
         private readonly string[] ability =
-        {
+        [
             "Any (1 or 2)",
             "Ability 1",
             "Ability 2",
             "Hidden Ability",
-        };
+        ];
 
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -79,7 +77,7 @@ namespace pk3DS
                 EncounterData[i] = new EncounterStatic6(FieldData.Skip(fieldOffset + (i * fieldSize)).Take(fieldSize).ToArray());
                 LB_Encounters.Items.Add($"{i:00} - {specieslist[EncounterData[i].Species]}");
             }
-            foreach (var s in ability) CB_Ability.Items.Add(s);
+            CB_Ability.Items.AddRange(ability);
 
             CB_Gender.Items.Clear();
             CB_Gender.Items.Add("- / Genderless/Random");
@@ -171,8 +169,8 @@ namespace pk3DS
             specrand.Initialize();
 
             // add Legendary/Mythical to final evolutions if checked
-            if (CHK_L.Checked) FinalEvo = FinalEvo.Concat(Legendary).ToArray();
-            if (CHK_E.Checked) FinalEvo = FinalEvo.Concat(Mythical).ToArray();
+            if (CHK_L.Checked) FinalEvo = [.. FinalEvo, .. Legendary];
+            if (CHK_E.Checked) FinalEvo = [.. FinalEvo, .. Mythical];
 
             var items = Randomizer.GetRandomItemList();
             for (int i = 0; i < LB_Encounters.Items.Count; i++)

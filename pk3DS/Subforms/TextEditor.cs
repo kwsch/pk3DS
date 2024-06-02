@@ -29,7 +29,7 @@ namespace pk3DS
         private void B_Export_Click(object sender, EventArgs e)
         {
             if (files.Length == 0) return;
-            SaveFileDialog Dump = new SaveFileDialog {Filter = "Text File|*.txt"};
+            SaveFileDialog Dump = new SaveFileDialog { Filter = "Text File|*.txt" };
             DialogResult sdr = Dump.ShowDialog();
             if (sdr != DialogResult.OK) return;
             bool newline = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Remove newline formatting codes? (\\n,\\r,\\c)", "Removing newline formatting will make it more readable but will prevent any importing of that dump.") == DialogResult.Yes;
@@ -54,9 +54,9 @@ namespace pk3DS
 
         public static void ExportTextFile(string fileName, bool newline, string[][] fileData)
         {
-            using MemoryStream ms = new MemoryStream();
-            ms.Write(new byte[] {0xFF, 0xFE}, 0, 2); // Write Unicode BOM
-            using (TextWriter tw = new StreamWriter(ms, new UnicodeEncoding()))
+            using var ms = new MemoryStream();
+            ms.Write([0xFF, 0xFE], 0, 2); // Write Unicode BOM
+            using (var tw = new StreamWriter(ms, new UnicodeEncoding()))
             {
                 for (int i = 0; i < fileData.Length; i++)
                 {
@@ -96,14 +96,14 @@ namespace pk3DS
                 string line = fileText[i];
                 if (line != "~~~~~~~~~~~~~~~")
                     continue;
-                string[] brokenLine = fileText[i++ + 1].Split(new[] { " : " }, StringSplitOptions.None);
+                string[] brokenLine = fileText[i++ + 1].Split([" : "], StringSplitOptions.None);
                 if (brokenLine.Length != 2)
                 { WinFormsUtil.Error($"Invalid Line @ {i}, expected Text File : {ctr}"); return false; }
                 int file = Util.ToInt32(brokenLine[1]);
                 if (file != ctr)
                 { WinFormsUtil.Error($"Invalid Line @ {i}, expected Text File : {ctr}"); return false; }
                 i += 2; // Skip over the other header line
-                List<string> Lines = new List<string>();
+                List<string> Lines = [];
                 while (i < fileText.Length && fileText[i] != "~~~~~~~~~~~~~~~")
                 {
                     Lines.Add(fileText[i]);
@@ -111,18 +111,20 @@ namespace pk3DS
                     i++;
                 }
                 i--;
-                textLines[ctr++] = Lines.ToArray();
+                textLines[ctr++] = [.. Lines];
             }
 
             // Error Check
             if (ctr != files.Length)
             {
                 WinFormsUtil.Error("The amount of Text Files in the input file does not match the required for the text file.",
-                $"Received: {ctr}, Expected: {files.Length}"); return false; }
+                $"Received: {ctr}, Expected: {files.Length}"); return false;
+            }
             if (!newlineFormatting)
             {
                 WinFormsUtil.Error("The input Text Files do not have the ingame newline formatting codes (\\n,\\r,\\c).",
-                      "When exporting text, do not remove newline formatting."); return false; }
+                      "When exporting text, do not remove newline formatting."); return false;
+            }
 
             // All Text Lines received. Store all back.
             for (int i = 0; i < files.Length; i++)
@@ -168,7 +170,7 @@ namespace pk3DS
                 DisplayIndex = 0,
                 Width = 32,
                 ReadOnly = true,
-                SortMode = DataGridViewColumnSortMode.NotSortable
+                SortMode = DataGridViewColumnSortMode.NotSortable,
             };
             dgvLine.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
@@ -177,7 +179,7 @@ namespace pk3DS
                 HeaderText = "Text",
                 DisplayIndex = 1,
                 SortMode = DataGridViewColumnSortMode.NotSortable,
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
             };
 
             dgv.Columns.Add(dgvLine);
@@ -275,17 +277,17 @@ namespace pk3DS
             int end = all ? files.Length - 1 : entry;
 
             // Gather strings
-            List<string> strings = new List<string>();
+            List<string> strings = [];
             for (int i = start; i <= end; i++)
             {
                 string[] data = files[i];
                 strings.AddRange(smart
-                    ? data.Where(line => !line.Contains("["))
+                    ? data.Where(line => !line.Contains('['))
                     : data);
             }
 
             // Shuffle up
-            string[] pool = strings.ToArray();
+            string[] pool = [.. strings];
             Util.Shuffle(pool);
 
             // Apply Text
@@ -296,7 +298,7 @@ namespace pk3DS
 
                 for (int j = 0; j < data.Length; j++) // apply lines
                 {
-                    if (!smart || !data[j].Contains("["))
+                    if (!smart || !data[j].Contains('['))
                         data[j] = pool[ctr++];
                 }
 

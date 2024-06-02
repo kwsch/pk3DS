@@ -23,12 +23,12 @@ namespace pk3DS
             data = File.ReadAllBytes(CROPath);
             //len_BPTutor = data.Skip(0x52D2).Take(4).ToArray();
             len_BPItem = data.Skip(0x52D2 + 4).Take(7).ToArray();
-            len_Items = data.Skip(0x52D2 + 4 + 7).TakeWhile(z => (sbyte) z > 0).ToArray();
+            len_Items = data.Skip(0x52D2 + 4 + 7).TakeWhile(z => (sbyte)z > 0).ToArray();
 
             itemlist[0] = "";
             SetupDGV();
-            foreach (string s in locations) CB_Location.Items.Add(s);
-            foreach (string s in locationsBP) CB_LocationBPItem.Items.Add(s);
+            CB_Location.Items.AddRange(locations);
+            CB_LocationBPItem.Items.AddRange(locationsBP);
             CB_Location.SelectedIndex =
             CB_LocationBPItem.SelectedIndex = 0;
         }
@@ -46,7 +46,7 @@ namespace pk3DS
 
         #region Tables
         private readonly string[] locations =
-        {
+        [
             "No Trials", "1 Trial", "2 Trials", "3 Trials", "4 Trials", "5 Trials", "6 Trials", "7 Trials",
             "Konikoni City [Incenses]",
             "Konikoni City [Herbs]",
@@ -68,18 +68,18 @@ namespace pk3DS
             "Konikoni City [X Items]",
             "Tapu Village [X Items]",
             "Mount Lanakila [X Items]",
-        };
+        ];
 
         private readonly string[] locationsBP =
-        {
+        [
             "Battle Royal Dome [Medicine]",
             "Battle Royal Dome [EV Training]",
             "Battle Royal Dome [Held Items]",
             "Battle Tree [Trade Evolution Items]",
             "Battle Tree [Held Items]",
             "Battle Tree [Mega Stones]",
-            "Beaches [Medicine]"
-        };
+            "Beaches [Medicine]",
+        ];
         #endregion
 
         private void B_Save_Click(object sender, EventArgs e)
@@ -94,10 +94,8 @@ namespace pk3DS
 
         private void SetupDGV()
         {
-            foreach (string t in itemlist)
-                dgvItem.Items.Add(t); // add only the Names
-            foreach (string t in itemlist)
-                dgvItemBP.Items.Add(t); // add only the Names
+            dgvItem.Items.AddRange(itemlist); // add only the Names
+            dgvItemBP.Items.AddRange(itemlist); // add only the Names
         }
 
         private int entryItem = -1;
@@ -235,22 +233,19 @@ namespace pk3DS
         /// <summary>
         /// Just TMs & HMs; don't want these to be changed; if changed, they are not available elsewhere ingame.
         /// </summary>
-        internal static readonly HashSet<int> BannedItems = new()
-        {
+        internal static readonly HashSet<int> BannedItems =
+        [
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348,
             349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369,
             370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390,
             391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411,
             412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 618, 619, 620, 690, 691,
-            692, 693, 694, 701, 737
-        };
+            692, 693, 694, 701, 737,
+        ];
 
         /// <summary>
         /// All X Items usable in Generations 6 and 7. Speedrunners utilize these Items a lot, so make sure they are still available.
         /// </summary>
-        internal static readonly HashSet<int> XItems = new()
-        {
-            055, 056, 057, 058, 059, 060, 061, 062
-        };
+        internal static readonly HashSet<int> XItems = [055, 056, 057, 058, 059, 060, 061, 062];
     }
 }

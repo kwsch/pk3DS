@@ -5,7 +5,7 @@ namespace pk3DS.Core.Structures
     public class Move6 : Move
     {
         protected override int SIZE => 0x22;
-        public Move6(){}
+        public Move6() { }
         public Move6(byte[] data = null) : base(data) { }
 
         public override int Type { get => Data[0x00]; set => Data[0x00] = (byte)value; }

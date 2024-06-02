@@ -27,25 +27,25 @@ namespace pk3DS
             new ToolTip().SetToolTip(PB_Image, "Click to toggle Green Screen\nRightClick for I/O\nCTRL+Click for Copy->Clipboard.");
 
             // Add context menus
-            ContextMenuStrip mnu = new ContextMenuStrip();
-            ToolStripMenuItem mnuR = new ToolStripMenuItem("Replace with...");
-            ToolStripMenuItem mnuS = new ToolStripMenuItem("Save as...");
+            var mnu = new ContextMenuStrip();
+            var mnuR = new ToolStripMenuItem("Replace with...");
+            var mnuS = new ToolStripMenuItem("Save as...");
             // Assign event handlers
             mnuR.Click += ClickOpen;
             mnuS.Click += ClickSave;
             // Add to main context menu
-            mnu.Items.AddRange(new ToolStripItem[] { mnuR, mnuS, });
+            mnu.Items.AddRange(new[] { mnuR, mnuS });
 
             // Assign
             PB_Image.ContextMenuStrip = mnu;
 
             // Set up languages
-            string[] languages = (Main.Config.ORAS ? new[] {"JP1"} : Array.Empty<string>()).Concat(new[] {"DE", "ES", "FR", "IT", "JP", "KO", "EN"}).ToArray();
-            string[] games = Main.Config.ORAS ? new[] {"OR", "AS"} : new[] {"X", "Y"};
-            for (int i = 0; i < darcs.Length/2; i++)
+            string[] languages = [.. (Main.Config.ORAS ? ["JP1"] : Array.Empty<string>()), .. new[] { "DE", "ES", "FR", "IT", "JP", "KO", "EN" }];
+            string[] games = Main.Config.ORAS ? ["OR", "AS"] : ["X", "Y"];
+            for (int i = 0; i < darcs.Length / 2; i++)
                 CB_DARC.Items.Add($"{games[0]} - {languages[i]}");
-            for (int i = darcs.Length/2; i < darcs.Length; i++)
-                CB_DARC.Items.Add($"{games[1]} - {languages[i - (darcs.Length/2)]}");
+            for (int i = darcs.Length / 2; i < darcs.Length; i++)
+                CB_DARC.Items.Add($"{games[1]} - {languages[i - (darcs.Length / 2)]}");
 
             // Load darcs
             for (int i = 0; i < darcs.Length; i++)
@@ -77,15 +77,16 @@ namespace pk3DS
         private readonly string[] usedFiles = new string[2 * (Main.Config.ORAS ? 8 : 7)];
 
         private readonly int[] darcFiles = Main.Config.ORAS
-            ? new[]
-            {
+            ?
+            [
                 1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127,
                 1128, 1129, 1130, 1131, 1132, 1133, 1134, 1135,
-            }: new[]
-            {
+            ]
+            :
+            [
                 467, 468, 469, 470, 471, 472, 473,
                 474, 475, 476, 477, 478, 479, 480,
-            };
+            ];
 
         private void ChangeDARC(object sender, EventArgs e)
         {
@@ -215,7 +216,7 @@ namespace pk3DS
                 }
                 byte[] preData = data.Take(pos).ToArray();
                 byte[] darcData = DARC.SetDARC(darcs[i]);
-                byte[] newData = preData.Concat(darcData).ToArray();
+                byte[] newData = [.. preData, .. darcData];
 
                 byte[] oldDarc = File.ReadAllBytes(usedFiles[i]);
                 if (newData.SequenceEqual(oldDarc)) // if same, just continue.
@@ -237,7 +238,7 @@ namespace pk3DS
             var sfd = new SaveFileDialog
             {
                 FileName = Path.GetFileNameWithoutExtension(CB_File.Text),
-                Filter = "PNG Image|*.png|BCLIM Image|*.bclim"
+                Filter = "PNG Image|*.png|BCLIM Image|*.bclim",
             };
             if (sfd.ShowDialog() != DialogResult.OK) return;
             if (sfd.FilterIndex == 2) // BCLIM
@@ -248,7 +249,7 @@ namespace pk3DS
             else // PNG
             {
                 Image img = PB_Image.Image;
-                using MemoryStream ms = new MemoryStream();
+                using var ms = new MemoryStream();
                 //error will throw from here
                 img.Save(ms, ImageFormat.Png);
                 byte[] data = ms.ToArray();
@@ -261,7 +262,7 @@ namespace pk3DS
             var ofd = new OpenFileDialog
             {
                 FileName = Path.GetFileNameWithoutExtension(CB_File.Text),
-                Filter = "PNG Image|*.png|BCLIM Image|*.bclim"
+                Filter = "PNG Image|*.png|BCLIM Image|*.bclim",
             };
             if (ofd.ShowDialog() != DialogResult.OK) return;
 

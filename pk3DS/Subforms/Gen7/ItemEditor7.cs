@@ -25,7 +25,7 @@ namespace pk3DS
 
         private void Setup()
         {
-            foreach (string s in itemlist) CB_Item.Items.Add(s);
+            CB_Item.Items.AddRange(itemlist);
             CB_Item.SelectedIndex = 1;
         }
 
@@ -59,12 +59,12 @@ namespace pk3DS
         }
 
         private static readonly byte[] ItemIconTableSignature =
-        {
+        [
             0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
             0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
             0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x01, 0x01, 0x00
-        };
+            0x00, 0x01, 0x01, 0x00,
+        ];
 
         public static int GetItemMapOffset()
         {

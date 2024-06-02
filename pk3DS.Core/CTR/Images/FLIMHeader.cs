@@ -7,9 +7,9 @@ namespace pk3DS.Core.CTR
     {
         public const int SIZE = 40;
         public const string Identifier = "FLIM";
-        public bool Valid => LittleEndian && Magic == 0x4D_49_4C_46; // FLIM
-        public bool LittleEndian => BOM == 0xFEFF;
-        public bool BigEndian => BOM == 0xFFFE;
+        public readonly bool Valid => LittleEndian && Magic == 0x4D_49_4C_46; // FLIM
+        public readonly bool LittleEndian => BOM == 0xFEFF;
+        public readonly bool BigEndian => BOM == 0xFFFE;
 
         public uint Magic { get; set; }          // FLIM
         public ushort BOM;          // 0xFFFE

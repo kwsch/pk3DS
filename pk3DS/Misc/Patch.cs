@@ -91,7 +91,7 @@ namespace pk3DS
                 const string oldA = "\\a\\";
                 const string newA = "\\a";
 
-                string[] newPaths = (string[]) garcPaths.Clone();
+                string[] newPaths = (string[])garcPaths.Clone();
 
                 // Patch the reference
                 for (int i = 0; i < newPaths.Length; i++)
@@ -132,7 +132,7 @@ namespace pk3DS
         private string[] GetPaths(string[] sc)
         {
             bool languages = CHK_Lang.Checked;
-            StringCollection paths = new StringCollection();
+            var paths = new StringCollection();
             foreach (string s in sc)
             {
                 if (!languages || (s != "gametext" && s != "storytext"))
@@ -167,7 +167,7 @@ namespace pk3DS
         {
             if (RTB_GARCs.Text.Length > 0)
             {
-                try { File.WriteAllLines("patch.ini", RTB_GARCs.Lines, Encoding.Unicode); } catch {}
+                try { File.WriteAllLines("patch.ini", RTB_GARCs.Lines, Encoding.Unicode); } catch { }
             }
         }
     }

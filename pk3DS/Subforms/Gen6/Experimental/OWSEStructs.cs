@@ -24,14 +24,14 @@ namespace pk3DS
 
         public MapMatrix(byte[][] data)
         {
-            using (BinaryReader br = new BinaryReader(new MemoryStream(data[0])))
+            using (var br = new BinaryReader(new MemoryStream(data[0])))
             {
                 u0 = br.ReadUInt16();
                 u1 = br.ReadUInt16();
                 Width = br.ReadUInt16();
                 Height = br.ReadUInt16();
 
-                Area = Width*Height;
+                Area = Width * Height;
                 Entries = new Entry[Area];
                 EntryList = new ushort[Area];
                 for (int i = 0; i < Area; i++)
@@ -46,8 +46,8 @@ namespace pk3DS
 
         public byte[] Write()
         {
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(ms);
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
             bw.Write(u0);
             bw.Write(Width);
             bw.Write(Height);
@@ -78,11 +78,11 @@ namespace pk3DS
             }
 
             // Combine all images into one.
-            Bitmap img = new Bitmap(EntryImages[0].Width * Width, EntryImages[0].Height * Height);
+            var img = new Bitmap(EntryImages[0].Width * Width, EntryImages[0].Height * Height);
 
-            using Graphics g = Graphics.FromImage(img);
+            using var g = Graphics.FromImage(img);
             for (int i = 0; i < Area; i++)
-                g.DrawImage(EntryImages[i],                         new Point(i * EntryImages[0].Width % img.Width, EntryImages[0].Height * (i / Width)));
+                g.DrawImage(EntryImages[i], new Point(i * EntryImages[0].Width % img.Width, EntryImages[0].Height * (i / Width)));
 
             return img;
         }
@@ -97,10 +97,10 @@ namespace pk3DS
 
             public Entry(byte[] data)
             {
-                using BinaryReader br = new BinaryReader(new MemoryStream(data));
+                using var br = new BinaryReader(new MemoryStream(data));
                 Width = br.ReadUInt16();
                 Height = br.ReadUInt16();
-                Area = Width*Height;
+                Area = Width * Height;
                 Tiles = new uint[Area];
                 for (int i = 0; i < Area; i++)
                 {
@@ -110,8 +110,8 @@ namespace pk3DS
 
             public byte[] Write()
             {
-                using MemoryStream ms = new MemoryStream();
-                using BinaryWriter bw = new BinaryWriter(ms);
+                using var ms = new MemoryStream();
+                using var bw = new BinaryWriter(ms);
                 bw.Write(Width);
                 bw.Write(Height);
                 foreach (uint Tile in Tiles)
@@ -125,8 +125,8 @@ namespace pk3DS
             public Bitmap Preview(int s, int ColorShift)
             {
                 byte[] bmpData = BytePreview(s, ColorShift);
-                Bitmap b = new Bitmap(Width * s, Height * s, PixelFormat.Format32bppArgb);
-                BitmapData bData = b.LockBits(new Rectangle(0, 0, Width * s, Height * s), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+                var b = new Bitmap(Width * s, Height * s, PixelFormat.Format32bppArgb);
+                var bData = b.LockBits(new Rectangle(0, 0, Width * s, Height * s), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
                 System.Runtime.InteropServices.Marshal.Copy(bmpData, 0, bData.Scan0, bmpData.Length);
                 b.UnlockBits(bData);
 
@@ -168,7 +168,7 @@ namespace pk3DS
 
             public Collision(byte[] data)
             {
-                using BinaryReader br = new BinaryReader(new MemoryStream(data));
+                using var br = new BinaryReader(new MemoryStream(data));
                 Magic = new string(br.ReadChars(4)); // Magic
                 if (Magic != "coll")
                 {
@@ -195,7 +195,7 @@ namespace pk3DS
 
                 // Read misc collision rectangles
                 int ct = termOffset - (int)br.BaseStream.Position + 0x10;
-                MapMisc = new CollisionObject[ct/0x10];
+                MapMisc = new CollisionObject[ct / 0x10];
                 for (int i = 0; i < MapMisc.Length; i++)
                 {
                     MapMisc[i] = new CollisionObject(br.ReadBytes(0x10));
@@ -212,26 +212,18 @@ namespace pk3DS
                 termData = br.ReadBytes((int)(br.BaseStream.Length - br.BaseStream.Position));
             }
 
-            public class CollisionObject
+            public class CollisionObject(byte[] data)
             {
-                private readonly float _0;
-                private readonly float _1;
-                private readonly float _2;
-                private readonly float _3; // rarely used
+                private readonly float _0 = BitConverter.ToSingle(data, 0x0);
+                private readonly float _1 = BitConverter.ToSingle(data, 0x4);
+                private readonly float _2 = BitConverter.ToSingle(data, 0x8);
+                private readonly float _3 = BitConverter.ToSingle(data, 0xC); // rarely used
 
                 // I don't even know...
                 public float F1 => _0 / 2;
                 public float F2 => _1 * 80;
                 public float F3 => _2 / 2;
                 public float F4 => _3 / 1;
-
-                public CollisionObject(byte[] data)
-                {
-                    _0 = BitConverter.ToSingle(data, 0x0);
-                    _1 = BitConverter.ToSingle(data, 0x4);
-                    _2 = BitConverter.ToSingle(data, 0x8);
-                    _3 = BitConverter.ToSingle(data, 0xC);
-                }
 
                 public override string ToString()
                 {
@@ -247,7 +239,7 @@ namespace pk3DS
 
         private void ParseUnk(byte[] data)
         {
-            List<Unknown> unk = new List<Unknown>();
+            List<Unknown> unk = [];
             using var ms = new MemoryStream(data);
             using var br = new BinaryReader(ms);
             do
@@ -261,10 +253,10 @@ namespace pk3DS
                     _4 = br.ReadSingle(),
                 };
                 unk.Add(obj);
-            } while (unk.Last().Direction != 0);
+            } while (unk[^1].Direction != 0);
 
-            unk.RemoveAt(unk.Count-1);
-            Unknowns = unk.ToArray();
+            unk.RemoveAt(unk.Count - 1);
+            Unknowns = [.. unk];
         }
 
         public class Unknown
@@ -436,7 +428,7 @@ namespace pk3DS
             {
                 Data = data;
 
-                using BinaryReader br = new BinaryReader(new MemoryStream(data));
+                using var br = new BinaryReader(new MemoryStream(data));
                 // Load Header
                 Length = br.ReadInt32();
                 Furniture = new EntityFurniture[FurnitureCount = br.ReadByte()];
@@ -510,17 +502,18 @@ namespace pk3DS
                 }
 
                 // Assemble entity information
-                byte[] OWEntities = F.Concat(N).Concat(W).Concat(T).Concat(U).ToArray();
+                byte[] OWEntities = [.. F, .. N, .. W, .. T, .. U];
                 byte[] EntityLength = BitConverter.GetBytes(8 + OWEntities.Length);
-                byte[] EntityCounts = {(byte)Furniture.Length, (byte)NPCs.Length, (byte)Warps.Length, (byte)Triggers1.Length, (byte)Triggers2.Length, 0, 0, 0 };
+                byte[] EntityCounts = [(byte)Furniture.Length, (byte)NPCs.Length, (byte)Warps.Length, (byte)Triggers1.Length, (byte)Triggers2.Length, 0, 0, 0,
+                ];
 
                 // Reassemble NPC portion
-                byte[] OWEntityData = EntityLength.Concat(EntityCounts).Concat(OWEntities).ToArray();
+                byte[] OWEntityData = [.. EntityLength, .. EntityCounts, .. OWEntities];
 
                 // Reassemble Script portion
                 byte[] OWScriptData = Script.Write();
 
-                byte[] finalData = OWEntityData.Concat(OWScriptData).ToArray();
+                byte[] finalData = [.. OWEntityData, .. OWScriptData];
 
                 // Add padding zeroes if required (yield size % 4 == 0)
                 if (finalData.Length % 4 != 0)
@@ -607,7 +600,7 @@ namespace pk3DS
 
                 // -360, 360 ????
                 public float Degrees { get => BitConverter.ToSingle(Raw, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Raw, 0x2C); }
-                public float Deg18 => Degrees/18;
+                public float Deg18 => Degrees / 18;
 
                 public byte[] Raw;
                 public byte[] OriginalData;
@@ -749,16 +742,10 @@ namespace pk3DS
             }
         }
 
-        public class ZoneScript
+        public class ZoneScript(byte[] data)
         {
-            public byte[] Data; // File details unknown.
-            public Script Script;
-
-            public ZoneScript(byte[] data)
-            {
-                Data = data;
-                Script = new Script(data);
-            }
+            public byte[] Data = data; // File details unknown.
+            public Script Script = new(data);
 
             public byte[] Write()
             {
@@ -777,9 +764,9 @@ namespace pk3DS
             {
                 Data = data;
 
-                using BinaryReader br = new BinaryReader(new MemoryStream(data));
+                using var br = new BinaryReader(new MemoryStream(data));
                 Header = br.ReadBytes(0x10);
-                Encounters = new EncounterSet[(int)(br.BaseStream.Length - br.BaseStream.Position)/4];
+                Encounters = new EncounterSet[(int)(br.BaseStream.Length - br.BaseStream.Position) / 4];
                 for (int i = 0; i < Encounters.Length; i++)
                 {
                     Encounters[i] = new EncounterSet(br.ReadBytes(4));
@@ -789,7 +776,7 @@ namespace pk3DS
             public byte[] Write()
             {
                 byte[] data = Header; // Start with the header data, then concat every encounter in afterwards.
-                return Encounters.Aggregate(data, (current, t) => current.Concat(t.Write()).ToArray());
+                return Encounters.Aggregate(data, (current, t) => [.. current, .. t.Write()]);
             }
 
             public class EncounterSet
@@ -800,7 +787,7 @@ namespace pk3DS
 
                 public EncounterSet(byte[] data)
                 {
-                    using BinaryReader br = new BinaryReader(new MemoryStream(data));
+                    using var br = new BinaryReader(new MemoryStream(data));
                     ushort SpecForm = br.ReadUInt16();
                     Species = SpecForm & 0x7FF;
                     Form = SpecForm >> 11;
@@ -810,8 +797,8 @@ namespace pk3DS
 
                 public byte[] Write()
                 {
-                    using MemoryStream ms = new MemoryStream();
-                    using BinaryWriter bw = new BinaryWriter(ms);
+                    using var ms = new MemoryStream();
+                    using var bw = new BinaryWriter(ms);
                     bw.Write((ushort)(Species | (Form << 11)));
                     bw.Write(LevelMin);
                     bw.Write(LevelMax);
@@ -820,14 +807,9 @@ namespace pk3DS
             }
         }
 
-        public class ZoneUnknown
+        public class ZoneUnknown(byte[] data)
         {
-            public byte[] FileData; // File details unknown.
-
-            public ZoneUnknown(byte[] data)
-            {
-                FileData = data;
-            }
+            public byte[] FileData = data; // File details unknown.
 
             public byte[] Write()
             {

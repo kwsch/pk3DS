@@ -25,26 +25,26 @@ namespace pk3DS
         private static int[] FinalEvo = Legal.FinalEvolutions_7;
         private static readonly int[] Legendary = Main.Config.USUM ? Legal.Legendary_USUM : Legal.Legendary_SM;
         private static readonly int[] Mythical = Main.Config.USUM ? Legal.Mythical_USUM : Legal.Mythical_SM;
-        private static readonly int[] ReplaceLegend = Legendary.Concat(Mythical).ToArray();
+        private static readonly int[] ReplaceLegend = [.. Legendary, .. Mythical];
         private static readonly int[] BasicStarter = Legal.BasicStarters_7;
 
         private readonly string[] gender =
-        {
+        [
             "- / Genderless/Random",
             "♂ / Male",
             "♀ / Female",
-        };
+        ];
 
         private readonly string[] ability =
-        {
+        [
             "Any (1 or 2)",
             "Ability 1",
             "Ability 2",
             "Hidden Ability",
-        };
+        ];
 
         private readonly string[] aura =
-        {
+        [
             "(None)",
             "Attack (+1)",
             "Attack (+2)",
@@ -64,10 +64,10 @@ namespace pk3DS
             "All Stats (+1)",
             "All Stats (+2)",
             "All Stats (+3)",
-        };
+        ];
 
-        private static readonly int[] Totem = { 020, 105, 735, 738, 743, 746, 752, 754, 758, 777, 778, 784 }; // Totem battles
-        private static readonly int[] UnevolvedLegend = { 772, 789, 803 }; // Type: Null, Cosmog, Poipole gifts
+        private static readonly int[] Totem = [020, 105, 735, 738, 743, 746, 752, 754, 758, 777, 778, 784]; // Totem battles
+        private static readonly int[] UnevolvedLegend = [772, 789, 803]; // Type: Null, Cosmog, Poipole gifts
 
         public StaticEncounterEditor7(byte[][] infiles)
         {
@@ -144,7 +144,7 @@ namespace pk3DS
                 CB_EGender.Items.Add(s);
                 CB_TGender.Items.Add(s);
             }
-            foreach (string s in aura) CB_Aura.Items.Add(s);
+            CB_Aura.Items.AddRange(aura);
 
             CB_GNature.Items.Add("Random");
             CB_GNature.Items.AddRange(natures.Take(25).ToArray());
@@ -360,13 +360,13 @@ namespace pk3DS
             entry.Form = (int)NUD_EForm.Value;
             entry.Gender = CB_EGender.SelectedIndex;
             entry.Ability = CB_EAbility.SelectedIndex;
-            entry.RelearnMoves = new[]
-            {
+            entry.RelearnMoves =
+            [
                 CB_EMove0.SelectedIndex,
                 CB_EMove1.SelectedIndex,
                 CB_EMove2.SelectedIndex,
                 CB_EMove3.SelectedIndex,
-            };
+            ];
 
             iv[0] = (int)NUD_EIV0.Value;
             iv[1] = (int)NUD_EIV1.Value;
@@ -500,8 +500,8 @@ namespace pk3DS
             specrand.Initialize();
 
             // add Legendary/Mythical to final evolutions if checked
-            if (CHK_L.Checked) FinalEvo = FinalEvo.Concat(Legendary).ToArray();
-            if (CHK_E.Checked) FinalEvo = FinalEvo.Concat(Mythical).ToArray();
+            if (CHK_L.Checked) FinalEvo = [.. FinalEvo, .. Legendary];
+            if (CHK_E.Checked) FinalEvo = [.. FinalEvo, .. Mythical];
 
             return specrand;
         }
@@ -516,7 +516,7 @@ namespace pk3DS
             var specrand = GetRandomizer();
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var items = Randomizer.GetRandomItemList();
-            int[] banned = Legal.Z_Moves.Concat(new[] { 165, 464, 621 }).ToArray();
+            int[] banned = [.. Legal.Z_Moves, .. new[] { 165, 464, 621 }];
 
             // Assign Species
             for (int i = 0; i < 3; i++)
@@ -580,7 +580,7 @@ namespace pk3DS
             var formrand = new FormRandomizer(Main.Config) { AllowMega = false, AllowAlolanForm = true };
             var move = new LearnsetRandomizer(Main.Config, Main.Config.Learnsets);
             var items = Randomizer.GetRandomItemList();
-            int[] banned = Legal.Z_Moves.Concat(new[] { 165, 464, 621 }).ToArray();
+            int[] banned = [.. Legal.Z_Moves, .. new[] { 165, 464, 621 }];
             int randFinalEvo() => (int)(Util.Random32() % FinalEvo.Length);
             int randLegend() => (int)(Util.Random32() % ReplaceLegend.Length);
 
@@ -668,17 +668,17 @@ namespace pk3DS
                     t.Species = FinalEvo[randFinalEvo()];
 
                 t.IVs = t.IV3
-                    ? new[] { -4, -1, -1, -1, -1, -1 }  // random with IV3 flag
-                    : new[] { -1, -1, -1, -1, -1, -1 }; // random
+                    ? [-4, -1, -1, -1, -1, -1] // random with IV3 flag
+                    : [-1, -1, -1, -1, -1, -1]; // random
 
-                t.EVs = new[] { 0, 0, 0, 0, 0, 0 }; // reset EVs
+                t.EVs = [0, 0, 0, 0, 0, 0]; // reset EVs
 
                 t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
                 t.Gender = 0; // random
                 t.Nature = 0; // random
 
                 t.RelearnMoves = CHK_Metronome.Checked
-                    ? new[] {118, 0, 0, 0}
+                    ? [118, 0, 0, 0]
                     : move.GetCurrentMoves(t.Species, t.Form, t.Level, 4);
             }
             foreach (EncounterTrade7 t in Trades)
@@ -703,7 +703,7 @@ namespace pk3DS
 
                 t.Form = Randomizer.GetRandomForme(t.Species, CHK_AllowMega.Checked, true, Main.SpeciesStat);
                 t.Nature = (int)(Util.Random32() % CB_TNature.Items.Count); // randomly selected
-                t.IVs = new[] { -1, -1, -1, -1, -1, -1 }; // random
+                t.IVs = [-1, -1, -1, -1, -1, -1]; // random
             }
 
             GetListBoxEntries();

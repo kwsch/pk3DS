@@ -25,7 +25,7 @@ namespace pk3DS
             specieslist = Main.Config.Personal.GetPersonalEntryList(AltForms, specieslist, Main.Config.MaxSpeciesID, out baseForms, out formVal);
 
             string[] evolutionMethods =
-            {
+            [
                 "",
                 "Level Up with Friendship",
                 "Level Up at Morning with Friendship",
@@ -66,31 +66,31 @@ namespace pk3DS
                 "Level Up Daytime on Version",
                 "Level Up Nighttime on Version",
                 "Level Up Summit",
-            };
+            ];
 
             var evos = new List<string>(evolutionMethods);
             if (Main.Config.USUM)
             {
-                evos.AddRange(new[] {
+                evos.AddRange([
                     "Level Up (@) Dusk", // 40
                     "Level Up (Wormhole)", // 41
-                    "Used Item (Wormhole)" // 42
-                });
+                    "Used Item (Wormhole)", // 42
+                ]);
             }
 
-            mb = new[] { CB_M1, CB_M2, CB_M3, CB_M4, CB_M5, CB_M6, CB_M7, CB_M8 };
-            pb = new[] { CB_P1, CB_P2, CB_P3, CB_P4, CB_P5, CB_P6, CB_P7, CB_P8 };
-            rb = new[] { CB_I1, CB_I2, CB_I3, CB_I4, CB_I5, CB_I6, CB_I7, CB_I8 };
-            fb = new[] { NUD_F1, NUD_F2, NUD_F3, NUD_F4, NUD_F5, NUD_F6, NUD_F7, NUD_F8 };
-            lb = new[] { NUD_L1, NUD_L2, NUD_L3, NUD_L4, NUD_L5, NUD_L6, NUD_L7, NUD_L8 };
-            pic = new[] { PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7, PB_8 };
+            mb = [CB_M1, CB_M2, CB_M3, CB_M4, CB_M5, CB_M6, CB_M7, CB_M8];
+            pb = [CB_P1, CB_P2, CB_P3, CB_P4, CB_P5, CB_P6, CB_P7, CB_P8];
+            rb = [CB_I1, CB_I2, CB_I3, CB_I4, CB_I5, CB_I6, CB_I7, CB_I8];
+            fb = [NUD_F1, NUD_F2, NUD_F3, NUD_F4, NUD_F5, NUD_F6, NUD_F7, NUD_F8];
+            lb = [NUD_L1, NUD_L2, NUD_L3, NUD_L4, NUD_L5, NUD_L6, NUD_L7, NUD_L8];
+            pic = [PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7, PB_8];
 
             maxEvoMethod = evos.Count;
             foreach (ComboBox cb in mb) { cb.Items.AddRange(evos.ToArray()); }
-            foreach (ComboBox cb in rb) { cb.Items.AddRange(specieslist.Take(Main.Config.MaxSpeciesID+1).ToArray()); }
+            foreach (ComboBox cb in rb) { cb.Items.AddRange(specieslist.Take(Main.Config.MaxSpeciesID + 1).ToArray()); }
 
             CB_Species.Items.Clear();
-            foreach (string s in specieslist) CB_Species.Items.Add(s);
+            CB_Species.Items.AddRange(specieslist);
 
             CB_Species.SelectedIndex = 1;
             RandSettings.GetFormSettings(this, GB_Randomizer.Controls);
@@ -107,7 +107,7 @@ namespace pk3DS
         private readonly string[] typelist = Main.Config.GetText(TextName.Types);
         private bool dumping, loading;
         private readonly int[] baseForms, formVal;
-        private EvolutionSet evo = new EvolutionSet7(new byte[EvolutionSet7.SIZE]);
+        private EvolutionSet7 evo = new(new byte[EvolutionSet7.SIZE]);
         private readonly int maxEvoMethod;
 
         private void GetList()
@@ -246,7 +246,7 @@ namespace pk3DS
 
                 result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog {FileName = "Evolutions.txt", Filter = "Text File|*.txt"};
+            var sfd = new SaveFileDialog { FileName = "Evolutions.txt", Filter = "Text File|*.txt" };
 
             SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -267,7 +267,7 @@ namespace pk3DS
         {
             int op = Array.IndexOf(mb, sender as ComboBox);
             ushort[] methodCase =
-            {
+            [
                 0,0,0,0,1,0,2,0,2,1,1,1,1,1,1,1,5,2,2,2,2,3,4,1,1,0,0,0, // 27, Past Methods
                 // New Methods
                 1, // 28 - Dark Type Party
@@ -283,7 +283,7 @@ namespace pk3DS
                 1, // 40 - Level Up with Condition (???)
                 1, // 41 - Level Up with Condition (???)
                 2, // 42 - Use Item with Condition (???)
-            };
+            ];
 
             pb[op].Visible = pic[op].Visible = rb[op].Visible = fb[op].Visible = lb[op].Visible = mb[op].SelectedIndex > 0;
 
@@ -296,15 +296,15 @@ namespace pk3DS
                 case 1: // Level
                     { pb[op].Visible = false; pb[op].Items.Add(""); break; }
                 case 2: // Items
-                    {  foreach (string t in itemlist) pb[op].Items.Add(t); break; }
+                    { pb[op].Items.AddRange(itemlist); break; }
                 case 3: // Moves
-                    { foreach (string t in movelist) pb[op].Items.Add(t); break; }
+                    { pb[op].Items.AddRange(movelist); break; }
                 case 4: // Species
-                    { foreach (var t in specieslist) pb[op].Items.Add(t); break; }
+                    { pb[op].Items.AddRange(specieslist); break; }
                 case 5: // 0-255 (Beauty)
                     { for (int i = 0; i <= 255; i++) pb[op].Items.Add(i.ToString()); break; }
                 case 6:
-                    { foreach (string t in typelist) pb[op].Items.Add(t); break; }
+                    { pb[op].Items.AddRange(typelist); break; }
                 case 7: // Version
                     { for (int i = 0; i <= 255; i++) pb[op].Items.Add(i.ToString()); break; }
             }

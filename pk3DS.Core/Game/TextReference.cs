@@ -26,14 +26,13 @@
 
         SpeciesClassifications,
         PokedexEntry1,
-        PokedexEntry2
+        PokedexEntry2,
     }
 
-    public class TextData
+    public class TextData(string[] lines)
     {
-        public readonly string[] Lines;
+        public readonly string[] Lines = lines;
         public bool Modified { get; private set; }
-        public TextData(string[] lines) => Lines = lines;
 
         public string this[int line]
         {
@@ -60,7 +59,7 @@
         }
 
         public static readonly TextReference[] GameText_XY =
-        {
+        [
             new(005, TextName.Forms),
             new(013, TextName.MoveNames),
             new(015, TextName.MoveFlavor),
@@ -77,10 +76,10 @@
             new(130, TextName.MaisonTrainerNames),
             new(131, TextName.SuperTrainerNames),
             new(141, TextName.OPowerFlavor),
-        };
+        ];
 
         public static readonly TextReference[] GameText_AO =
-        {
+        [
             new(005, TextName.Forms),
             new(014, TextName.MoveNames),
             new(016, TextName.MoveFlavor),
@@ -97,10 +96,10 @@
             new(153, TextName.MaisonTrainerNames),
             new(154, TextName.SuperTrainerNames),
             new(165, TextName.OPowerFlavor),
-        };
+        ];
 
         public static readonly TextReference[] GameText_SMDEMO =
-        {
+        [
             new(020, TextName.ItemFlavor),
             new(021, TextName.ItemNames),
             new(026, TextName.SpeciesNames),
@@ -114,10 +113,10 @@
             new(052, TextName.Types),
             new(054, TextName.MoveFlavor),
             new(055, TextName.MoveNames),
-        };
+        ];
 
         public static readonly TextReference[] GameText_SM =
-        {
+        [
             new(035, TextName.ItemFlavor),
             new(036, TextName.ItemNames),
             new(055, TextName.SpeciesNames),
@@ -135,11 +134,11 @@
             new(114, TextName.Forms),
             new(116, TextName.SpeciesClassifications),
             new(119, TextName.PokedexEntry1),
-            new(120, TextName.PokedexEntry2)
-        };
+            new(120, TextName.PokedexEntry2),
+        ];
 
         public static readonly TextReference[] GameText_USUM =
-        {
+        [
             new(039, TextName.ItemFlavor),
             new(040, TextName.ItemNames),
             new(060, TextName.SpeciesNames),
@@ -157,7 +156,7 @@
             new(119, TextName.Forms),
             new(121, TextName.SpeciesClassifications),
             new(124, TextName.PokedexEntry1),
-            new(125, TextName.PokedexEntry2)
-        };
+            new(125, TextName.PokedexEntry2),
+        ];
     }
 }

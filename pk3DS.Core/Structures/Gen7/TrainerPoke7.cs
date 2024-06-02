@@ -62,7 +62,7 @@ namespace pk3DS.Core.Structures
 
         public int[] IVs
         {
-            get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPA, IV_SPD, IV_SPE };
+            get => [IV_HP, IV_ATK, IV_DEF, IV_SPA, IV_SPD, IV_SPE];
             set
             {
                 if (value?.Length != 6) return;
@@ -73,7 +73,7 @@ namespace pk3DS.Core.Structures
 
         public int[] EVs
         {
-            get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPA, EV_SPD, EV_SPE };
+            get => [EV_HP, EV_ATK, EV_DEF, EV_SPA, EV_SPD, EV_SPE];
             set
             {
                 if (value?.Length != 6) return;
@@ -84,7 +84,7 @@ namespace pk3DS.Core.Structures
 
         public int[] Moves
         {
-            get => new[] { Move1, Move2, Move3, Move4 };
+            get => [Move1, Move2, Move3, Move4];
             set { if (value?.Length != 4) return; Move1 = value[0]; Move2 = value[1]; Move3 = value[2]; Move4 = value[3]; }
         }
 

@@ -35,15 +35,15 @@ namespace pk3DS
 
             encdata = ed;
             var areas = Area7.GetArray(ed, zd, wd, locationList);
-            Areas = areas.OrderBy(a => a.Zones[0].Name).ToArray();
+            Areas = [.. areas.OrderBy(a => a.Zones[0].Name)];
 
             LoadData();
             RandSettings.GetFormSettings(this, GB_Tweak.Controls);
 
             var weather = string.Format("If weather is active, create a random number.{0}If 0, use slot 0.{0}If <= 10, use slot 1.{0}Else, pick an SOS table and a slot.", Environment.NewLine);
             new ToolTip().SetToolTip(L_AddSOS, weather);
-            var sos = new[] {L_SOS1, L_SOS2, L_SOS3, L_SOS4, L_SOS5, L_SOS6, L_SOS7};
-            var rates = new[] {1,1,1, 10,10,10, 67};
+            var sos = new[] { L_SOS1, L_SOS2, L_SOS3, L_SOS4, L_SOS5, L_SOS6, L_SOS7 };
+            var rates = new[] { 1, 1, 1, 10, 10, 10, 67 };
             for (int i = 0; i < sos.Length; i++)
                 new ToolTip().SetToolTip(sos[i], $"Table Selection Rate: {rates[i]}%");
 
@@ -52,7 +52,7 @@ namespace pk3DS
 
         private NumericUpDown[] LoadRateNUD()
         {
-            var list = new[] {NUP_Rate1, NUP_Rate2, NUP_Rate3, NUP_Rate4, NUP_Rate5, NUP_Rate6, NUP_Rate7, NUP_Rate8, NUP_Rate9, NUP_Rate10};
+            var list = new[] { NUP_Rate1, NUP_Rate2, NUP_Rate3, NUP_Rate4, NUP_Rate5, NUP_Rate6, NUP_Rate7, NUP_Rate8, NUP_Rate9, NUP_Rate10 };
             foreach (var nup in list)
                 nup.ValueChanged += UpdateEncounterRate;
             return list;
@@ -61,15 +61,15 @@ namespace pk3DS
         private ComboBox[][] LoadSpeciesComboBoxes()
         {
             var list = new[] {
-                new[] {CB_Enc01, CB_Enc02, CB_Enc03, CB_Enc04, CB_Enc05, CB_Enc06, CB_Enc07, CB_Enc08, CB_Enc09, CB_Enc10},
-                new[] {CB_Enc11, CB_Enc12, CB_Enc13, CB_Enc14, CB_Enc15, CB_Enc16, CB_Enc17, CB_Enc18, CB_Enc19, CB_Enc20},
-                new[] {CB_Enc21, CB_Enc22, CB_Enc23, CB_Enc24, CB_Enc25, CB_Enc26, CB_Enc27, CB_Enc28, CB_Enc29, CB_Enc30},
-                new[] {CB_Enc31, CB_Enc32, CB_Enc33, CB_Enc34, CB_Enc35, CB_Enc36, CB_Enc37, CB_Enc38, CB_Enc39, CB_Enc40},
-                new[] {CB_Enc41, CB_Enc42, CB_Enc43, CB_Enc44, CB_Enc45, CB_Enc46, CB_Enc47, CB_Enc48, CB_Enc49, CB_Enc50},
-                new[] {CB_Enc51, CB_Enc52, CB_Enc53, CB_Enc54, CB_Enc55, CB_Enc56, CB_Enc57, CB_Enc58, CB_Enc59, CB_Enc60},
-                new[] {CB_Enc61, CB_Enc62, CB_Enc63, CB_Enc64, CB_Enc65, CB_Enc66, CB_Enc67, CB_Enc68, CB_Enc69, CB_Enc70},
-                new[] {CB_Enc71, CB_Enc72, CB_Enc73, CB_Enc74, CB_Enc75, CB_Enc76, CB_Enc77, CB_Enc78, CB_Enc79, CB_Enc80},
-                new[] {CB_WeatherEnc1, CB_WeatherEnc2, CB_WeatherEnc3, CB_WeatherEnc4, CB_WeatherEnc5, CB_WeatherEnc6}
+                [CB_Enc01, CB_Enc02, CB_Enc03, CB_Enc04, CB_Enc05, CB_Enc06, CB_Enc07, CB_Enc08, CB_Enc09, CB_Enc10],
+                [CB_Enc11, CB_Enc12, CB_Enc13, CB_Enc14, CB_Enc15, CB_Enc16, CB_Enc17, CB_Enc18, CB_Enc19, CB_Enc20],
+                [CB_Enc21, CB_Enc22, CB_Enc23, CB_Enc24, CB_Enc25, CB_Enc26, CB_Enc27, CB_Enc28, CB_Enc29, CB_Enc30],
+                [CB_Enc31, CB_Enc32, CB_Enc33, CB_Enc34, CB_Enc35, CB_Enc36, CB_Enc37, CB_Enc38, CB_Enc39, CB_Enc40],
+                [CB_Enc41, CB_Enc42, CB_Enc43, CB_Enc44, CB_Enc45, CB_Enc46, CB_Enc47, CB_Enc48, CB_Enc49, CB_Enc50],
+                [CB_Enc51, CB_Enc52, CB_Enc53, CB_Enc54, CB_Enc55, CB_Enc56, CB_Enc57, CB_Enc58, CB_Enc59, CB_Enc60],
+                [CB_Enc61, CB_Enc62, CB_Enc63, CB_Enc64, CB_Enc65, CB_Enc66, CB_Enc67, CB_Enc68, CB_Enc69, CB_Enc70],
+                [CB_Enc71, CB_Enc72, CB_Enc73, CB_Enc74, CB_Enc75, CB_Enc76, CB_Enc77, CB_Enc78, CB_Enc79, CB_Enc80],
+                new[] {CB_WeatherEnc1, CB_WeatherEnc2, CB_WeatherEnc3, CB_WeatherEnc4, CB_WeatherEnc5, CB_WeatherEnc6},
             };
             foreach (var cb_l in list)
             {
@@ -87,15 +87,23 @@ namespace pk3DS
         private NumericUpDown[][] LoadFormeNUD()
         {
             var list = new[] {
-                new [] { NUP_Forme01, NUP_Forme02, NUP_Forme03, NUP_Forme04, NUP_Forme05, NUP_Forme06, NUP_Forme07, NUP_Forme08, NUP_Forme09, NUP_Forme10 },
-                new [] { NUP_Forme11, NUP_Forme12, NUP_Forme13, NUP_Forme14, NUP_Forme15, NUP_Forme16, NUP_Forme17, NUP_Forme18, NUP_Forme19, NUP_Forme20 },
-                new [] { NUP_Forme21, NUP_Forme22, NUP_Forme23, NUP_Forme24, NUP_Forme25, NUP_Forme26, NUP_Forme27, NUP_Forme28, NUP_Forme29, NUP_Forme30 },
-                new [] { NUP_Forme31, NUP_Forme32, NUP_Forme33, NUP_Forme34, NUP_Forme35, NUP_Forme36, NUP_Forme37, NUP_Forme38, NUP_Forme39, NUP_Forme40 },
-                new [] { NUP_Forme41, NUP_Forme42, NUP_Forme43, NUP_Forme44, NUP_Forme45, NUP_Forme46, NUP_Forme47, NUP_Forme48, NUP_Forme49, NUP_Forme50 },
-                new [] { NUP_Forme51, NUP_Forme52, NUP_Forme53, NUP_Forme54, NUP_Forme55, NUP_Forme56, NUP_Forme57, NUP_Forme58, NUP_Forme59, NUP_Forme60 },
-                new [] { NUP_Forme61, NUP_Forme62, NUP_Forme63, NUP_Forme64, NUP_Forme65, NUP_Forme66, NUP_Forme67, NUP_Forme68, NUP_Forme69, NUP_Forme70 },
-                new [] { NUP_Forme71, NUP_Forme72, NUP_Forme73, NUP_Forme74, NUP_Forme75, NUP_Forme76, NUP_Forme77, NUP_Forme78, NUP_Forme79, NUP_Forme80 },
-                new [] { NUP_WeatherForme1, NUP_WeatherForme2, NUP_WeatherForme3, NUP_WeatherForme4, NUP_WeatherForme5, NUP_WeatherForme6 }
+                [NUP_Forme01, NUP_Forme02, NUP_Forme03, NUP_Forme04, NUP_Forme05, NUP_Forme06, NUP_Forme07, NUP_Forme08, NUP_Forme09, NUP_Forme10,
+                ],
+                [NUP_Forme11, NUP_Forme12, NUP_Forme13, NUP_Forme14, NUP_Forme15, NUP_Forme16, NUP_Forme17, NUP_Forme18, NUP_Forme19, NUP_Forme20,
+                ],
+                [NUP_Forme21, NUP_Forme22, NUP_Forme23, NUP_Forme24, NUP_Forme25, NUP_Forme26, NUP_Forme27, NUP_Forme28, NUP_Forme29, NUP_Forme30,
+                ],
+                [NUP_Forme31, NUP_Forme32, NUP_Forme33, NUP_Forme34, NUP_Forme35, NUP_Forme36, NUP_Forme37, NUP_Forme38, NUP_Forme39, NUP_Forme40,
+                ],
+                [NUP_Forme41, NUP_Forme42, NUP_Forme43, NUP_Forme44, NUP_Forme45, NUP_Forme46, NUP_Forme47, NUP_Forme48, NUP_Forme49, NUP_Forme50,
+                ],
+                [NUP_Forme51, NUP_Forme52, NUP_Forme53, NUP_Forme54, NUP_Forme55, NUP_Forme56, NUP_Forme57, NUP_Forme58, NUP_Forme59, NUP_Forme60,
+                ],
+                [NUP_Forme61, NUP_Forme62, NUP_Forme63, NUP_Forme64, NUP_Forme65, NUP_Forme66, NUP_Forme67, NUP_Forme68, NUP_Forme69, NUP_Forme70,
+                ],
+                [NUP_Forme71, NUP_Forme72, NUP_Forme73, NUP_Forme74, NUP_Forme75, NUP_Forme76, NUP_Forme77, NUP_Forme78, NUP_Forme79, NUP_Forme80,
+                ],
+                new [] { NUP_WeatherForme1, NUP_WeatherForme2, NUP_WeatherForme3, NUP_WeatherForme4, NUP_WeatherForme5, NUP_WeatherForme6 },
             };
 
             foreach (var nup_l in list)
@@ -207,8 +215,8 @@ namespace pk3DS
             if (loadingdata)
                 return;
             loadingdata = true;
-            int min = (int) NUP_Min.Value;
-            int max = (int) NUP_Max.Value;
+            int min = (int)NUP_Min.Value;
+            int max = (int)NUP_Max.Value;
             if (max < min)
             {
                 max = min;
@@ -225,17 +233,17 @@ namespace pk3DS
             if (loadingdata)
                 return;
 
-            var cur_pb = CB_TableID.SelectedIndex%2 == 0 ? PB_DayTable : PB_NightTable;
+            var cur_pb = CB_TableID.SelectedIndex % 2 == 0 ? PB_DayTable : PB_NightTable;
             var cur_img = cur_pb.Image;
 
-            object[][] source = sender is NumericUpDown ? (object[][])nup_spec : cb_spec;
+            object[][] source = sender is NumericUpDown ? nup_spec : cb_spec;
             int table = Array.FindIndex(source, t => t.Contains(sender));
             int slot = Array.IndexOf(source[table], sender);
 
             var cb_l = cb_spec[table];
             var nup_l = nup_spec[table];
-            var species = (uint) cb_l[slot].SelectedIndex;
-            var form = (uint) nup_l[slot].Value;
+            var species = (uint)cb_l[slot].SelectedIndex;
+            var form = (uint)nup_l[slot].Value;
             if (table == 8)
             {
                 CurrentTable.AdditionalSOS[slot].Species = species;
@@ -246,8 +254,8 @@ namespace pk3DS
 
             using (var g = Graphics.FromImage(cur_img))
             {
-                int x = 40*slot;
-                int y = 30*(table + 1);
+                int x = 40 * slot;
+                int y = 30 * (table + 1);
                 if (table == 8)
                 {
                     x = (40 * slot) + 60;
@@ -269,17 +277,17 @@ namespace pk3DS
             if (loadingdata)
                 return;
 
-            var cur_pb = CB_TableID.SelectedIndex%2 == 0 ? PB_DayTable : PB_NightTable;
+            var cur_pb = CB_TableID.SelectedIndex % 2 == 0 ? PB_DayTable : PB_NightTable;
             var cur_img = cur_pb.Image;
 
             int slot = Array.IndexOf(rate_spec, sender);
-            int rate = (int) ((NumericUpDown) sender).Value;
+            int rate = (int)((NumericUpDown)sender).Value;
             CurrentTable.Rates[slot] = rate;
 
             using (var g = Graphics.FromImage(cur_img))
             {
                 var pnt = new PointF((40 * slot) + 10, 10);
-                g.SetClip(new Rectangle((int) pnt.X, (int) pnt.Y, 40, 14), CombineMode.Replace);
+                g.SetClip(new Rectangle((int)pnt.X, (int)pnt.Y, 40, 14), CombineMode.Replace);
                 g.Clear(Color.Transparent);
                 g.DrawString($"{rate}%", font, Brushes.Black, pnt);
             }
@@ -371,7 +379,7 @@ namespace pk3DS
 
         private void DumpTables(object sender, EventArgs e)
         {
-            using var sfd = new SaveFileDialog {FileName = "EncounterTables.txt"};
+            using var sfd = new SaveFileDialog { FileName = "EncounterTables.txt" };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
             var sb = new StringBuilder();

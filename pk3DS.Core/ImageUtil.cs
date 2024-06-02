@@ -56,7 +56,7 @@ namespace pk3DS.Core
             {
                 var width = Math.Max(NextLargestPow2(bxlim.Width), 16);
                 var height = Math.Max(NextLargestPow2(bxlim.Height), 16);
-                Bitmap img = new Bitmap(width, height);
+                var img = new Bitmap(width, height);
                 img = DecodeETC(bxlim, img, data, etc1a4);
                 return crop ? CropBMP(bxlim, img) : img;
             }
@@ -65,9 +65,9 @@ namespace pk3DS.Core
 
         public static Bitmap CropBMP(IXLIMHeader bclim, Bitmap img)
         {
-            Rectangle cropRect = new Rectangle(0, 0, bclim.Width, bclim.Height);
-            Bitmap src = img;
-            Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
+            var cropRect = new Rectangle(0, 0, bclim.Width, bclim.Height);
+            var src = img;
+            var target = new Bitmap(cropRect.Width, cropRect.Height);
 
             using (Graphics g = Graphics.FromImage(target))
             {
@@ -133,7 +133,7 @@ namespace pk3DS.Core
             if (w > h)
             {
                 // Image is now in appropriate order, but the shifting is messed up. Let's fix that.
-                Bitmap img2 = new Bitmap(Math.Max(NextLargestPow2(bclim.Width), 16), Math.Max(NextLargestPow2(bclim.Height), 16));
+                var img2 = new Bitmap(Math.Max(NextLargestPow2(bclim.Width), 16), Math.Max(NextLargestPow2(bclim.Height), 16));
                 for (int y = 0; y < Math.Max(NextLargestPow2(bclim.Width), 16); y += 8)
                 {
                     for (int x = 0; x < Math.Max(NextLargestPow2(bclim.Height), 16); x++)
@@ -152,13 +152,13 @@ namespace pk3DS.Core
 
             if (h > w)
             {
-                Bitmap img2 = new Bitmap(Math.Max(NextLargestPow2(bclim.Width), 16), Math.Max(NextLargestPow2(bclim.Height), 16));
+                var img2 = new Bitmap(Math.Max(NextLargestPow2(bclim.Width), 16), Math.Max(NextLargestPow2(bclim.Height), 16));
                 for (int y = 0; y < Math.Max(NextLargestPow2(bclim.Width), 16); y += 8)
                 {
                     for (int x = 0; x < Math.Max(NextLargestPow2(bclim.Height), 16); x++)
                     {
                         for (int j = 0; j < 8; j++)
-                            // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.
+                        // Treat every 8 vertical pixels as 1 pixel for purposes of calculation, add to offset later.
                         {
                             int x1 = x % img2.Width; // Reshift x
                             int y1 = (x + (y / 8 * h)) / img2.Width * 8; // Reshift y

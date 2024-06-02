@@ -6,26 +6,26 @@ using System.Text.RegularExpressions;
 
 namespace pk3DS.Core.CTR
 {
-    public static class FileFormat
+    public static partial class FileFormat
     {
         internal const string defaultExtension = "bin";
-        internal static readonly string[] validEXT = {"BCH",};
+        internal static readonly string[] validEXT = ["BCH"];
 
         public static string Guess(string path)
         {
-            using BinaryReader br = new BinaryReader(File.OpenRead(path));
+            using var br = new BinaryReader(File.OpenRead(path));
             return Guess(br);
         }
 
         public static string Guess(byte[] data)
         {
-            using BinaryReader br = new BinaryReader(new MemoryStream(data));
+            using var br = new BinaryReader(new MemoryStream(data));
             return Guess(br);
         }
 
         public static string Guess(MemoryStream ms, bool start = true)
         {
-            using BinaryReader br = new BinaryReader(ms);
+            using var br = new BinaryReader(ms);
             return Guess(br, start);
         }
 
@@ -152,7 +152,7 @@ namespace pk3DS.Core.CTR
             {
                 byte[] magic = Encoding.ASCII.GetBytes(br.ReadChars(4));
 
-                Regex r = new Regex("^[a-zA-Z0-9]*$");
+                Regex r = PatternAZ09();
                 ext = Encoding.ASCII.GetString(magic);
                 // Return BaseStream position to the start.
                 br.BaseStream.Position = position;
@@ -182,5 +182,8 @@ namespace pk3DS.Core.CTR
             br.BaseStream.Position = position;
             return false;
         }
+
+        [GeneratedRegex("^[a-zA-Z0-9]*$")]
+        private static partial Regex PatternAZ09();
     }
 }

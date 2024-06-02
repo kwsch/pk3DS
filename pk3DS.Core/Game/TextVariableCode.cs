@@ -12,7 +12,7 @@
         }
 
         public static readonly TextVariableCode[] VariableCodes_XY =
-        {
+        [
             new(0xFF00, "COLOR"),
             new(0x0100, "TRNAME"),
             new(0x0101, "PKNAME"),
@@ -61,10 +61,10 @@
             new(0x0206, "NUM7"),
             new(0x0207, "NUM8"),
             new(0x0208, "NUM9"),
-        };
+        ];
 
         public static readonly TextVariableCode[] VariableCodes_AO =
-        {
+        [
             new(0xFF00, "COLOR"),
             new(0x0100, "TRNAME"),
             new(0x0101, "PKNAME"),
@@ -113,10 +113,10 @@
             new(0x0206, "NUM7"),
             new(0x0207, "NUM8"),
             new(0x0208, "NUM9"),
-        };
+        ];
 
         public static readonly TextVariableCode[] VariableCodes_SM =
-        {
+        [
             new(0xFF00, "COLOR"),
             new(0x0100, "TRNAME"),
             new(0x0101, "PKNAME"),
@@ -165,6 +165,6 @@
             new(0x0206, "NUM7"),
             new(0x0207, "NUM8"),
             new(0x0208, "NUM9"),
-        };
+        ];
     }
 }

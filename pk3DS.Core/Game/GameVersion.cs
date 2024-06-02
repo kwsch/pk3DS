@@ -8,40 +8,55 @@
         Unknown = 0,
 
         // Version IDs, also stored in PKM structure
-        /*Gen3*/ S = 1, R = 2, E = 3, FR = 4, LG = 5,
+        /*Gen3*/
+        S = 1, R = 2, E = 3, FR = 4, LG = 5,
 
-        /*Gen4*/ HG = 7, SS = 8, D = 10, P = 11, Pt = 12,
+        /*Gen4*/
+        HG = 7, SS = 8, D = 10, P = 11, Pt = 12,
 
         // Gen3
         CXD = 15,
 
-        /*Gen5*/ W = 20, B = 21, W2 = 22, B2 = 23,
+        /*Gen5*/
+        W = 20, B = 21, W2 = 22, B2 = 23,
 
-        /*Gen6*/ X = 24, Y = 25, AS = 26, OR = 27,
+        /*Gen6*/
+        X = 24, Y = 25, AS = 26, OR = 27,
 
-        /*Gen7*/ SN = 30, MN = 31, US = 32, UM = 33,
+        /*Gen7*/
+        SN = 30, MN = 31, US = 32, UM = 33,
 
-        /* GO */ GO = 34,
-        /* VC1*/ RD = 35, GN = 36, BU = 37, YW = 38, // GN = Blue for international release
+        /* GO */
+        GO = 34,
+        /* VC1*/
+        RD = 35, GN = 36, BU = 37, YW = 38, // GN = Blue for international release
 
-        /* VC2*/ GD = 39, SV = 40, C = 41, // Crystal is unused
+        /* VC2*/
+        GD = 39, SV = 40, C = 41, // Crystal is unused
 
         // Not actually stored values, but assigned as properties.
 
         // Game Groupings (SaveFile type)
-        /*SAV1*/ RB, RBY,
+        /*SAV1*/
+        RB, RBY,
 
-        /*SAV2*/ GS, GSC,
+        /*SAV2*/
+        GS, GSC,
 
-        /*SAV3*/ RS, FRLG, RSBOX, COLO, XD,
+        /*SAV3*/
+        RS, FRLG, RSBOX, COLO, XD,
 
-        /*SAV4*/ DP, HGSS, BATREV,
+        /*SAV4*/
+        DP, HGSS, BATREV,
 
-        /*SAV5*/ BW, B2W2,
+        /*SAV5*/
+        BW, B2W2,
 
-        /*SAV6*/ XY, ORASDEMO, ORAS,
+        /*SAV6*/
+        XY, ORASDEMO, ORAS,
 
-        /*SAV7*/ SM, USUM,
+        /*SAV7*/
+        SM, USUM,
 
         // Extra Game Groupings (Generation)
         Gen1, Gen2, Gen3, Gen4, Gen5, Gen6, Gen7,
@@ -53,7 +68,7 @@
         EventsGBGen2,
         VCEvents,
 
-        SMDEMO
+        SMDEMO,
     }
 
     public static class Extensions

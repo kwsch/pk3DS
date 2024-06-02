@@ -32,7 +32,7 @@ namespace pk3DS.Core
             if (index < 0)
                 return input;
 
-            return input.Substring(0, index);
+            return input[..index];
         }
 
         // Randomization
@@ -137,7 +137,7 @@ namespace pk3DS.Core
                         }
                     }
                 }
-                end:
+            end:
                 {
                     // Return BaseStream position to the start.
                     br.BaseStream.Position = position;

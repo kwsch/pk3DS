@@ -100,9 +100,9 @@ namespace pk3DS.Core
             }
 
             sb.Append("Additional SOS encounters: ");
-            sb.AppendLine(string.Join(", ", AdditionalSOS
+            sb.AppendJoin(", ", AdditionalSOS
                 .Select(e => e.RawValue).Distinct().Select(e => new Encounter7(e))
-                .Select(e => e.GetSummary(speciesList))));
+                .Select(e => e.GetSummary(speciesList))).AppendLine();
 
             return sb.ToString();
         }

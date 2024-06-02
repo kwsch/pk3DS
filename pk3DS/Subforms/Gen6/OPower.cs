@@ -19,7 +19,7 @@ namespace pk3DS
             if (exefsData.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
 
             // Fetch Offset
-            offset = Util.IndexOfBytes(exefsData, new byte[] { 0x34, 0x39, 0x34, 0x36, 0x31, 0x38, 0x34, 0x35, 0x00 }, 0x400000, 0) + 9;
+            offset = Util.IndexOfBytes(exefsData, [0x34, 0x39, 0x34, 0x36, 0x31, 0x38, 0x34, 0x35, 0x00], 0x400000, 0) + 9;
             while (exefsData[offset] == 0xFF) offset++;
 
             // Gather Data

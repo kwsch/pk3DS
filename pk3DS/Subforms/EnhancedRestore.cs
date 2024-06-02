@@ -36,14 +36,13 @@ namespace pk3DS
             // load files to UI
             for (int i = 0; i < files.Length; i++)
             {
-                Items.Add(new List<RestoreInfo>());
                 var tab = tabControl1.TabPages[i];
                 var clb = new CheckedListBox
                 {
                     Dock = DockStyle.Fill,
                     CheckOnClick = true,
                     Margin = new Padding(0),
-                    Padding = new Padding(0)
+                    Padding = new Padding(0),
                 };
                 foreach (var z in files[i])
                 {
@@ -63,7 +62,7 @@ namespace pk3DS
             string[] CRSs = files.Where(x => new FileInfo(x).Extension.Contains("crs")).ToArray();
             var CRRs = Directory.Exists(Path.Combine(path, ".crr"))
                 ? Directory.EnumerateFiles(Path.Combine(path, ".crr"))
-                : Array.Empty<string>();
+                : [];
             string CRRBAKPATH = Path.Combine(bak_dll, ".crr");
 
             foreach (string src in CROs.Concat(CRSs))
@@ -88,7 +87,7 @@ namespace pk3DS
             foreach (var f in files)
             {
                 string GARC = config.GetGARCFileName(f);
-                string name =  $"{f} ({GARC.Replace(Path.DirectorySeparatorChar.ToString(), "")})";
+                string name = $"{f} ({GARC.Replace(Path.DirectorySeparatorChar.ToString(), "")})";
 
                 string src = Path.Combine(config.RomFS, GARC);
                 string dest = Path.Combine(bak_a, name);
@@ -114,22 +113,15 @@ namespace pk3DS
             }
         }
 
-        private class RestoreInfo
+        private class RestoreInfo(string src, string dest, string disp = null)
         {
-            public readonly string DisplayName;
-            public readonly string FileLocation;
-            public readonly string Destination;
-
-            public RestoreInfo(string src, string dest, string disp = null)
-            {
-                FileLocation = src;
-                Destination = dest;
-                DisplayName = disp ?? Path.GetFileName(src);
-            }
+            public readonly string DisplayName = disp ?? Path.GetFileName(src);
+            public readonly string FileLocation = src;
+            public readonly string Destination = dest;
         }
 
-        private readonly List<List<RestoreInfo>> Items = new();
-        private readonly List<CheckedListBox> List = new();
+        private readonly List<List<RestoreInfo>> Items = [];
+        private readonly List<CheckedListBox> List = [];
 
         private void B_Go_Click(object sender, EventArgs e)
         {

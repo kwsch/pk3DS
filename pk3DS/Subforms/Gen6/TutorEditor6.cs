@@ -19,7 +19,7 @@ namespace pk3DS
             codebin = files[0];
             movelist[0] = "";
             SetupDGV();
-            foreach (string s in locations) CB_Location.Items.Add(s);
+            CB_Location.Items.AddRange(locations);
             CB_Location.SelectedIndex = 0;
             WinFormsUtil.Alert("Changes made do not reflect ingame.", "Still needs more research.");
         }
@@ -27,23 +27,23 @@ namespace pk3DS
         private static int GetDataOffset(byte[] data)
         {
             byte[] vanilla =
-            {
+            [
                 0x00, 0x46, 0x6F, 0x72, 0x6D, 0x61, 0x74, 0x54, 0x79, 0x70, 0x65, 0x00, 0x00, 0x45, 0x64, 0x67,
-                0x65, 0x49, 0x44, 0x00, 0xFF
-            };
+                0x65, 0x49, 0x44, 0x00, 0xFF,
+            ];
             int offset = Util.IndexOfBytes(data, vanilla, 0x400000, 0);
             if (offset >= 0)
                 return offset + vanilla.Length;
 
             byte[] patched =
-            {
+            [
                 0x00, 0x46, 0x6F, 0x72, 0x6D, 0x61, 0x74, 0x54, 0x79, 0x70, 0x65, 0x00, 0x00, 0x45, 0x64, 0x67,
                 0x65, 0x49, 0x44, 0x00, 0x00, 0x63, 0x3A, 0x5C, 0x72, 0x65, 0x76, 0x69, 0x73, 0x69, 0x6F, 0x6E,
                 0x31, 0x5F, 0x73, 0x61, 0x6E, 0x67, 0x6F, 0x5C, 0x73, 0x61, 0x6E, 0x67, 0x6F, 0x5F, 0x70, 0x72,
                 0x6F, 0x6A, 0x65, 0x63, 0x74, 0x5C, 0x70, 0x72, 0x6F, 0x67, 0x5C, 0x73, 0x72, 0x63, 0x2F, 0x73,
                 0x79, 0x73, 0x74, 0x65, 0x6D, 0x2F, 0x6D, 0x6F, 0x74, 0x69, 0x6F, 0x6E, 0x2F, 0x4D, 0x6F, 0x74,
-                0x69, 0x6F, 0x6E, 0x2E, 0x63, 0x70, 0x70, 0x00, 0x00
-            };
+                0x69, 0x6F, 0x6E, 0x2E, 0x63, 0x70, 0x70, 0x00, 0x00,
+            ];
             offset = Util.IndexOfBytes(data, patched, 0x400000, 0);
 
             if (offset >= 0)
@@ -55,10 +55,10 @@ namespace pk3DS
         private readonly string codebin;
         private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
         private readonly byte[] data;
-        private readonly byte[] entries = { 0xF, 0x11, 0x10, 0xF }; // Entries per Tutor
+        private readonly byte[] entries = [0xF, 0x11, 0x10, 0xF]; // Entries per Tutor
         private readonly int offset;
         private int dataoffset;
-        private readonly string[] locations = { "1", "2", "3", "4" };
+        private readonly string[] locations = ["1", "2", "3", "4"];
 
         private void GetDataOffset(int index)
         {
@@ -69,19 +69,18 @@ namespace pk3DS
 
         private void SetupDGV()
         {
-            DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
+            var dgvIndex = new DataGridViewTextBoxColumn();
             {
                 dgvIndex.HeaderText = "Index";
                 dgvIndex.DisplayIndex = 0;
                 dgvIndex.Width = 45;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
+            var dgvMove = new DataGridViewComboBoxColumn();
             {
                 dgvMove.HeaderText = "Move";
                 dgvMove.DisplayIndex = 1;
-                foreach (string t in movelist)
-                    dgvMove.Items.Add(t); // add only the Names
+                dgvMove.Items.AddRange(movelist); // add only the Names
 
                 dgvMove.Width = 135;
                 dgvMove.FlatStyle = FlatStyle.Flat;

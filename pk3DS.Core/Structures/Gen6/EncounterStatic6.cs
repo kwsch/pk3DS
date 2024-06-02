@@ -2,10 +2,10 @@
 
 namespace pk3DS.Core.Structures
 {
-    public class EncounterStatic6
+    public class EncounterStatic6(byte[] data)
     {
         // All
-        public readonly byte[] Data;
+        public readonly byte[] Data = (byte[])data.Clone();
 
         public ushort Species
         {
@@ -76,7 +76,6 @@ namespace pk3DS.Core.Structures
             set => Data[0x7] = (byte)((Data[0x7] & ~2) | (value ? 2 : 0));
         }
 
-        public EncounterStatic6(byte[] data) => Data = (byte[])data.Clone();
         public byte[] Write() => (byte[])Data.Clone();
     }
 }

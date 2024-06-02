@@ -159,13 +159,13 @@ namespace pk3DS.Core.CTR
                     offsets[i] = br.ReadUInt32();
 
                 uint length = br.ReadUInt32();
-                offsets[offsets.Length - 1] = length;
+                offsets[^1] = length;
 
                 for (int i = 0; i < count; i++)
                 {
                     br.BaseStream.Seek(offsets[i], SeekOrigin.Begin);
                     using MemoryStream dataout = new MemoryStream();
-                    byte[] data = Array.Empty<byte>();
+                    byte[] data = [];
                     s.CopyTo(dataout, (int)offsets[i]);
                     int len = (int)offsets[i + 1] - (int)offsets[i];
 
@@ -228,7 +228,7 @@ namespace pk3DS.Core.CTR
                     length = BitConverter.ToUInt32(data, 8 + (i * 4));
                 }
 
-                offsets[offsets.Length - 1] = length;
+                offsets[^1] = length;
                 return fi.Length == length ? fx : null;
             }
             catch { return null; }

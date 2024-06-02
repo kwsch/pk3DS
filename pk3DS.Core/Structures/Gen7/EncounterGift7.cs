@@ -2,15 +2,10 @@
 
 namespace pk3DS.Core.Structures
 {
-    public class EncounterGift7 : EncounterStatic
+    public class EncounterGift7(byte[] data) : EncounterStatic
     {
         public const int SIZE = 0x14;
-        public readonly byte[] Data;
-
-        public EncounterGift7(byte[] data)
-        {
-            Data = data;
-        }
+        public readonly byte[] Data = data;
 
         public override int Species
         {
@@ -72,7 +67,7 @@ namespace pk3DS.Core.Structures
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xC);
         }
 
-        public bool IV3 => (sbyte) Data[0xE] < 0 && (sbyte) Data[0xE] + 1 == -3;
+        public bool IV3 => (sbyte)Data[0xE] < 0 && (sbyte)Data[0xE] + 1 == -3;
 
         public string GetSummary()
         {

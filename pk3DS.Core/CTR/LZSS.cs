@@ -252,7 +252,7 @@ namespace pk3DS.Core.CTR
                 outStream = File.Create(outfile);
             if (inStream.Length == 0) // empty file 'compression' to lzss container
             {
-                byte[] blank = {0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+                byte[] blank = [0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
                 outStream.Write(blank, 0, blank.Length);
                 return blank.Length;
             }
@@ -571,7 +571,8 @@ namespace pk3DS.Core.CTR
         /// </summary>
         public InputTooLargeException()
             : base("The compression ratio is not high enough to fit the input "
-            + "in a single compressed file.") { }
+            + "in a single compressed file.")
+        { }
 
         public InputTooLargeException(string message) : base(message)
         {
@@ -805,12 +806,13 @@ namespace pk3DS.Core.CTR
         /// </summary>
         public static byte[] FromNDSu32(uint value)
         {
-            return new[] {
+            return
+            [
                 (byte)(value & 0xFF),
                 (byte)((value >> 8) & 0xFF),
                 (byte)((value >> 16) & 0xFF),
-                (byte)((value >> 24) & 0xFF)
-            };
+                (byte)((value >> 24) & 0xFF),
+            ];
         }
 
         /// <summary>

@@ -39,7 +39,7 @@ namespace pk3DS
                 }
             }
 
-            var newlist = names.Select((_, i) => new ComboItem{Text = (names[i] ?? "Extra") + $" ({i})", Value = i});
+            var newlist = names.Select((_, i) => new ComboItem { Text = (names[i] ?? "Extra") + $" ({i})", Value = i });
             newlist = newlist.GroupBy(z => z.Text.StartsWith("Extra"))
                 .Select(z => z.OrderBy(item => item.Text))
                 .SelectMany(z => z).ToList();
@@ -65,7 +65,7 @@ namespace pk3DS
         {
             string[] sortedmoves = (string[])movelist.Clone();
             Array.Sort(sortedmoves);
-            DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
+            var dgvMove = new DataGridViewComboBoxColumn();
             {
                 dgvMove.HeaderText = "Move";
                 dgvMove.DisplayIndex = 0;
@@ -78,7 +78,7 @@ namespace pk3DS
             dgv.Columns.Add(dgvMove);
         }
 
-        private EggMoves pkm = new EggMoves7(Array.Empty<byte>());
+        private EggMoves pkm = new EggMoves7([]);
 
         private void GetList()
         {
@@ -88,14 +88,14 @@ namespace pk3DS
             {
                 s = entry;
             }
-            int[] specForm = { s, f };
+            int[] specForm = [s, f];
             string filename = "_" + specForm[0] + (entry > Main.Config.MaxSpeciesID ? "_" + (specForm[1] + 1) : "");
             PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
 
             dgv.Rows.Clear();
             pkm = entries[entry];
             NUD_FormTable.Value = pkm.FormTableIndex;
-            if (pkm.Count < 1) { files[entry] = Array.Empty<byte>(); return; }
+            if (pkm.Count < 1) { files[entry] = []; return; }
             dgv.Rows.Add(pkm.Count);
 
             // Fill Entries
@@ -108,13 +108,13 @@ namespace pk3DS
         private void SetList()
         {
             if (entry < 1 || dumping) return;
-            List<int> moves = new List<int>();
+            List<int> moves = [];
             for (int i = 0; i < dgv.Rows.Count - 1; i++)
             {
                 int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[0].Value);
                 if (move > 0 && !moves.Contains((ushort)move)) moves.Add(move);
             }
-            pkm.Moves = moves.ToArray();
+            pkm.Moves = [.. moves];
             pkm.FormTableIndex = (int)NUD_FormTable.Value;
 
             entries[entry] = (EggMoves7)pkm;
@@ -135,7 +135,7 @@ namespace pk3DS
                 ExpandTo = (int)NUD_Moves.Value,
                 STAB = CHK_STAB.Checked,
                 STABPercent = NUD_STAB.Value,
-                BannedMoves = new[] { 165, 621, 464 }.Concat(Legal.Z_Moves).ToArray(), // Struggle, Hyperspace Fury, Dark Void
+                BannedMoves = [165, 621, 464, .. Legal.Z_Moves], // Struggle, Hyperspace Fury, Dark Void
             };
             rand.Execute();
             // sets.Select(z => z.Write()).ToArray().CopyTo(files, 0);
@@ -159,7 +159,7 @@ namespace pk3DS
 
                 result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog {FileName = "Egg Moves.txt", Filter = "Text File|*.txt"};
+            var sfd = new SaveFileDialog { FileName = "Egg Moves.txt", Filter = "Text File|*.txt" };
 
             SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)

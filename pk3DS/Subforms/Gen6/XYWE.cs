@@ -12,8 +12,8 @@ namespace pk3DS
         public XYWE()
         {
             InitializeComponent();
-            All_Species = new[]
-            {
+            All_Species =
+            [
                 CB_Grass1, CB_Grass2, CB_Grass3, CB_Grass4, CB_Grass5, CB_Grass6, CB_Grass7, CB_Grass8, CB_Grass9, CB_Grass10, CB_Grass11, CB_Grass12,
                 CB_Yellow1, CB_Yellow2, CB_Yellow3, CB_Yellow4, CB_Yellow5, CB_Yellow6, CB_Yellow7, CB_Yellow8, CB_Yellow9, CB_Yellow10, CB_Yellow11, CB_Yellow12,
                 CB_Purple1, CB_Purple2, CB_Purple3, CB_Purple4, CB_Purple5, CB_Purple6, CB_Purple7, CB_Purple8, CB_Purple9, CB_Purple10, CB_Purple11, CB_Purple12,
@@ -27,9 +27,9 @@ namespace pk3DS
                 CB_HordeA1, CB_HordeA2, CB_HordeA3, CB_HordeA4, CB_HordeA5,
                 CB_HordeB1, CB_HordeB2, CB_HordeB3, CB_HordeB4, CB_HordeB5,
                 CB_HordeC1, CB_HordeC2, CB_HordeC3, CB_HordeC4, CB_HordeC5,
-            };
-            All_Min = new[]
-            {
+            ];
+            All_Min =
+            [
                 NUP_GrassMin1, NUP_GrassMin2, NUP_GrassMin3, NUP_GrassMin4, NUP_GrassMin5, NUP_GrassMin6, NUP_GrassMin7, NUP_GrassMin8, NUP_GrassMin9, NUP_GrassMin10, NUP_GrassMin11, NUP_GrassMin12,
                 NUP_YellowMin1, NUP_YellowMin2, NUP_YellowMin3, NUP_YellowMin4, NUP_YellowMin5, NUP_YellowMin6, NUP_YellowMin7, NUP_YellowMin8, NUP_YellowMin9, NUP_YellowMin10, NUP_YellowMin11, NUP_YellowMin12,
                 NUP_PurpleMin1, NUP_PurpleMin2, NUP_PurpleMin3, NUP_PurpleMin4, NUP_PurpleMin5, NUP_PurpleMin6, NUP_PurpleMin7, NUP_PurpleMin8, NUP_PurpleMin9, NUP_PurpleMin10, NUP_PurpleMin11, NUP_PurpleMin12,
@@ -43,9 +43,9 @@ namespace pk3DS
                 NUP_HordeAMin1, NUP_HordeAMin2, NUP_HordeAMin3, NUP_HordeAMin4, NUP_HordeAMin5,
                 NUP_HordeBMin1, NUP_HordeBMin2, NUP_HordeBMin3, NUP_HordeBMin4, NUP_HordeBMin5,
                 NUP_HordeCMin1, NUP_HordeCMin2, NUP_HordeCMin3, NUP_HordeCMin4, NUP_HordeCMin5,
-            };
-            All_Max = new[]
-            {
+            ];
+            All_Max =
+            [
                 NUP_GrassMax1, NUP_GrassMax2, NUP_GrassMax3, NUP_GrassMax4, NUP_GrassMax5, NUP_GrassMax6, NUP_GrassMax7, NUP_GrassMax8, NUP_GrassMax9, NUP_GrassMax10, NUP_GrassMax11, NUP_GrassMax12,
                 NUP_YellowMax1, NUP_YellowMax2, NUP_YellowMax3, NUP_YellowMax4, NUP_YellowMax5, NUP_YellowMax6, NUP_YellowMax7, NUP_YellowMax8, NUP_YellowMax9, NUP_YellowMax10, NUP_YellowMax11, NUP_YellowMax12,
                 NUP_PurpleMax1, NUP_PurpleMax2, NUP_PurpleMax3, NUP_PurpleMax4, NUP_PurpleMax5, NUP_PurpleMax6, NUP_PurpleMax7, NUP_PurpleMax8, NUP_PurpleMax9, NUP_PurpleMax10, NUP_PurpleMax11, NUP_PurpleMax12,
@@ -59,9 +59,9 @@ namespace pk3DS
                 NUP_HordeAMax1, NUP_HordeAMax2, NUP_HordeAMax3, NUP_HordeAMax4, NUP_HordeAMax5,
                 NUP_HordeBMax1, NUP_HordeBMax2, NUP_HordeBMax3, NUP_HordeBMax4, NUP_HordeBMax5,
                 NUP_HordeCMax1, NUP_HordeCMax2, NUP_HordeCMax3, NUP_HordeCMax4, NUP_HordeCMax5,
-            };
-            All_Form = new[]
-            {
+            ];
+            All_Form =
+            [
                 NUP_GrassForme1, NUP_GrassForme2, NUP_GrassForme3, NUP_GrassForme4, NUP_GrassForme5, NUP_GrassForme6, NUP_GrassForme7, NUP_GrassForme8, NUP_GrassForme9, NUP_GrassForme10, NUP_GrassForme11, NUP_GrassForme12,
                 NUP_YellowForme1, NUP_YellowForme2, NUP_YellowForme3, NUP_YellowForme4, NUP_YellowForme5, NUP_YellowForme6, NUP_YellowForme7, NUP_YellowForme8, NUP_YellowForme9, NUP_YellowForme10, NUP_YellowForme11, NUP_YellowForme12,
                 NUP_PurpleForme1, NUP_PurpleForme2, NUP_PurpleForme3, NUP_PurpleForme4, NUP_PurpleForme5, NUP_PurpleForme6, NUP_PurpleForme7, NUP_PurpleForme8, NUP_PurpleForme9, NUP_PurpleForme10, NUP_PurpleForme11, NUP_PurpleForme12,
@@ -75,8 +75,10 @@ namespace pk3DS
                 NUP_HordeAForme1, NUP_HordeAForme2, NUP_HordeAForme3, NUP_HordeAForme4, NUP_HordeAForme5,
                 NUP_HordeBForme1, NUP_HordeBForme2, NUP_HordeBForme3, NUP_HordeBForme4, NUP_HordeBForme5,
                 NUP_HordeCForme1, NUP_HordeCForme2, NUP_HordeCForme3, NUP_HordeCForme4, NUP_HordeCForme5,
-            };
-            formlist = new[] { "Unown-A - 0",
+            ];
+            formlist =
+            [
+                "Unown-A - 0",
             "Unown-B - 1",
             "Unown-C - 2",
             "Unown-D - 3",
@@ -272,7 +274,7 @@ namespace pk3DS
             "Megas-Normal - 0",
             "Megas-Mega (X) - 1",
             "Megas-Mega (Y) - 2",
-            };
+            ];
             Load_XYWE();
             OpenQuick(Directory.GetFiles("encdata"));
             RandSettings.GetFormSettings(this, GB_Tweak.Controls);
@@ -282,11 +284,11 @@ namespace pk3DS
         private readonly NumericUpDown[] All_Min;
         private readonly NumericUpDown[] All_Max;
         private readonly NumericUpDown[] All_Form;
-        private string[] specieslist = Array.Empty<string>();
-        private readonly string[] formlist = Array.Empty<string>();
-        private string[] metXY_00000 = Array.Empty<string>();
-        private byte[] zonedata = Array.Empty<byte>();
-        private string[] LocationNames = Array.Empty<string>();
+        private string[] specieslist = [];
+        private readonly string[] formlist = [];
+        private string[] metXY_00000 = [];
+        private byte[] zonedata = [];
+        private string[] LocationNames = [];
         private string[] encdatapaths;
         private string[] filepaths;
 
@@ -301,8 +303,7 @@ namespace pk3DS
             for (int i = 0; i < All_Max.Length; i++)
             {
                 All_Species[i].Items.Clear();
-                foreach (string s in specieslist)
-                    All_Species[i].Items.Add(s);
+                All_Species[i].Items.AddRange(specieslist);
                 All_Species[i].SelectedIndex = 0;
             }
         }
@@ -320,7 +321,7 @@ namespace pk3DS
             {
                 string name = Path.GetFileNameWithoutExtension(filepaths[f]);
 
-                int LocationNum = Convert.ToInt16(name.Substring(4, name.Length - 4));
+                int LocationNum = Convert.ToInt16(name[4..]);
                 int indNum = (LocationNum * 56) + 0x1C;
                 string LocationName = metXY_00000[zonedata[indNum] + (0x100 * (zonedata[indNum + 1] & 1))];
                 LocationNames[f] = LocationNum.ToString("000") + " - " + LocationName;
@@ -366,7 +367,7 @@ namespace pk3DS
                 All_Max[i].Value = data[3];
             }
 
-            #if DUMPER
+#if DUMPER
             int r = CB_LocationID.SelectedIndex * 56 + 0x1C;
             int loc = zonedata[r] + 0x100 * (zonedata[r + 1] & 1);
             byte[] edata = BitConverter.GetBytes((ushort)loc).Concat(ed).ToArray();
@@ -374,7 +375,7 @@ namespace pk3DS
             if (!Directory.Exists("encounter_xy"))
                 Directory.CreateDirectory("encounter_xy");
             File.WriteAllBytes(Path.Combine("encounter_xy", loc.ToString("000") + CB_LocationID.SelectedIndex.ToString("000") + ".bin"), edata);
-            #endif
+#endif
         }
 
         private static int[] ParseSlot(byte[] slot)
@@ -383,11 +384,7 @@ namespace pk3DS
             int form = BitConverter.ToUInt16(slot, 0) >> 11;
             int min = slot[2];
             int max = slot[3];
-            int[] data = new int[4];
-            data[0] = index;
-            data[1] = form;
-            data[2] = min;
-            data[3] = max;
+            int[] data = [index, form, min, max];
             return data;
         }
 
@@ -460,12 +457,9 @@ namespace pk3DS
             return ed;
         }
 
-        private byte[] ConcatArrays(byte[] b1, byte[] b2)
+        private static byte[] ConcatArrays(byte[] b1, byte[] b2)
         {
-            byte[] concat = new byte[b1.Length + b2.Length];
-            Array.Copy(b1, 0, concat, 0, b1.Length);
-            Array.Copy(b2, 0, concat, b1.Length, b2.Length);
-            return concat;
+            return [..b1, ..b2];
         }
 
         private void B_Save_Click(object sender, EventArgs e)
@@ -487,7 +481,7 @@ namespace pk3DS
                 //overwrite offset so the game actually looks at the data
                 Array.Copy(BitConverter.GetBytes(Convert.ToUInt32(filedata.Length)), 0, preoffset, 0x10, 4);
             }
-            byte[] encdata = Array.Empty<byte>();
+            byte[] encdata = [];
             if (HasData()) { encdata = MakeEncounterData(); }
             byte[] newdata = ConcatArrays(preoffset, encdata);
             File.WriteAllBytes(filepath, newdata);
@@ -607,7 +601,7 @@ namespace pk3DS
                 string tdata = GetEncDataString();
                 toret += tdata;
             }
-            SaveFileDialog savetxt = new SaveFileDialog {FileName = "Encounter Slots", Filter = "Text File|*.txt"};
+            var savetxt = new SaveFileDialog { FileName = "Encounter Slots", Filter = "Text File|*.txt" };
             if (savetxt.ShowDialog() != DialogResult.OK) return;
 
             string path = savetxt.FileName;

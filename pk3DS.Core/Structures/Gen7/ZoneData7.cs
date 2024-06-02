@@ -25,7 +25,8 @@ namespace pk3DS.Core.Structures
         }
 
         // ZoneData Attributes
-        public int ParentMap {
+        public int ParentMap
+        {
             get => BitConverter.ToInt32(Data, 0x1C);
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x1C);
         }

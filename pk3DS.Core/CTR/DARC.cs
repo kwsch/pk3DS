@@ -16,12 +16,12 @@ namespace pk3DS.Core.CTR
         public DARC(byte[] Data = null)
         {
             if (Data == null) return;
-            using BinaryReader br = new BinaryReader(new MemoryStream(Data));
+            using var br = new BinaryReader(new MemoryStream(Data));
             try
             {
                 Header = new DARCHeader(br);
                 br.BaseStream.Position = Header.FileTableOffset;
-                FileTableEntry root = new FileTableEntry(br);
+                var root = new FileTableEntry(br);
                 Entries = new FileTableEntry[root.DataLength];
                 Entries[0] = root;
                 for (int i = 1; i < root.DataLength; i++) Entries[i] = new FileTableEntry(br);
@@ -30,7 +30,7 @@ namespace pk3DS.Core.CTR
                 for (int i = 0; i < root.DataLength; i++)
                 {
                     char c; string s = string.Empty;
-                    while ((c = (char) br.ReadUInt16()) > 0) s += c;
+                    while ((c = (char)br.ReadUInt16()) > 0) s += c;
 
                     FileNameTable[i] = new NameTableEntry(offs, s);
                     offs += ((uint)s.Length * 2) + 2;
@@ -86,24 +86,18 @@ namespace pk3DS.Core.CTR
             public uint DataLength; // FOLDER: Next Folder Index
         }
 
-        public class NameTableEntry
+        public class NameTableEntry(uint offset, string fileName)
         {
-            public uint NameOffset;
-            public string FileName;
-
-            public NameTableEntry(uint offset, string fileName)
-            {
-                NameOffset = offset;
-                FileName = fileName;
-            }
+            public uint NameOffset = offset;
+            public string FileName = fileName;
         }
 
         // DARC r/w
         public static byte[] SetDARC(DARC darc)
         {
             // Package DARC into a writable array.
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(ms);
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
             // Write Header
             bw.Write(Encoding.ASCII.GetBytes(darc.Header.Signature));
             bw.Write(darc.Header.Endianness);
@@ -136,20 +130,20 @@ namespace pk3DS.Core.CTR
         public static DARC GetDARC(string folderName)
         {
             // Package Folder into a DARC.
-            List<FileTableEntry> EntryList = new List<FileTableEntry>();
-            List<NameTableEntry> NameList = new List<NameTableEntry>();
-            byte[] Data = Array.Empty<byte>();
+            List<FileTableEntry> EntryList = [];
+            List<NameTableEntry> NameList = [];
+            byte[] Data = [];
             uint nameOffset = 6; // 00 00 + 00 2E 00 00
             #region Build FileTable/NameTables
             {
                 // Null First File
                 {
-                    EntryList.Add(new FileTableEntry {DataOffset = 0, DataLength = 0, IsFolder = true, NameOffset = 0});
+                    EntryList.Add(new FileTableEntry { DataOffset = 0, DataLength = 0, IsFolder = true, NameOffset = 0 });
                     NameList.Add(new NameTableEntry(0, ""));
                 }
                 // "." Second File
                 {
-                    EntryList.Add(new FileTableEntry {DataOffset = 0, DataLength = 0, IsFolder = true, NameOffset = 2});
+                    EntryList.Add(new FileTableEntry { DataOffset = 0, DataLength = 0, IsFolder = true, NameOffset = 2 });
                     NameList.Add(new NameTableEntry(6, "."));
                 }
                 foreach (string folder in Directory.GetDirectories(folderName))
@@ -160,27 +154,27 @@ namespace pk3DS.Core.CTR
                     EntryList.Add(new FileTableEntry
                     {
                         DataOffset = 1,
-                        DataLength = (uint) (files.Length + EntryList.Count),
+                        DataLength = (uint)(files.Length + EntryList.Count),
                         IsFolder = true,
-                        NameOffset = nameOffset
+                        NameOffset = nameOffset,
                     });
-                    nameOffset += (uint) parentName.Length + 2; // Account for null terminator
+                    nameOffset += (uint)parentName.Length + 2; // Account for null terminator
 
                     foreach (string file in files)
                     {
-                        FileInfo fi = new FileInfo(file);
+                        var fi = new FileInfo(file);
                         string fileName = fi.Name;
                         NameList.Add(new NameTableEntry(nameOffset, parentName));
 
                         EntryList.Add(new FileTableEntry
                         {
-                            DataOffset = (uint) Data.Length,
-                            DataLength = (uint) fi.Length,
+                            DataOffset = (uint)Data.Length,
+                            DataLength = (uint)fi.Length,
                             IsFolder = false,
-                            NameOffset = nameOffset
+                            NameOffset = nameOffset,
                         });
-                        Data = Data.Concat(File.ReadAllBytes(file)).ToArray();
-                        nameOffset += (uint) fileName.Length + 2; // Account for null terminator
+                        Data = [.. Data, .. File.ReadAllBytes(file)];
+                        nameOffset += (uint)fileName.Length + 2; // Account for null terminator
                     }
                 }
             }
@@ -195,7 +189,7 @@ namespace pk3DS.Core.CTR
             int FinalSize = DataOffset + Data.Length;
 
             // Create New DARC
-            DARC darc = new DARC
+            var darc = new DARC
             {
                 Header =
                 {
@@ -208,8 +202,8 @@ namespace pk3DS.Core.CTR
                     FileTableLength = (uint)NameListLength,
                     FileDataOffset = (uint)DataOffset,
                 },
-                Entries = EntryList.ToArray(),
-                FileNameTable = NameList.ToArray(),
+                Entries = [.. EntryList],
+                FileNameTable = [.. NameList],
                 Data = Data,
             };
             // Fix the First two folders to specify the number of files
@@ -239,7 +233,7 @@ namespace pk3DS.Core.CTR
                     Directory.Delete(root, true);
 
                 // Create new DARC object from input data
-                DARC DARC = new DARC(darc);
+                var DARC = new DARC(darc);
 
                 // Output data
                 for (int i = 2; i < DARC.FileNameTable.Length;)
@@ -307,7 +301,8 @@ namespace pk3DS.Core.CTR
                 if (Directory.Exists(root) && delete)
                     Directory.Delete(root, true);
                 return true;
-            } catch (Exception) { return false; }
+            }
+            catch (Exception) { return false; }
         }
 
         // DARC Utility
@@ -333,18 +328,18 @@ namespace pk3DS.Core.CTR
             {
                 uint oldLength = orig.Entries[index].DataLength;
                 uint offset = orig.Entries[index].DataOffset - orig.Header.FileDataOffset;
-                int diff = (int) (data.Length - oldLength);
+                int diff = (int)(data.Length - oldLength);
 
                 // Insert into Data Block
-                byte[] pre = orig.Data.Take((int) offset).ToArray();
-                byte[] post = orig.Data.Skip((int) (offset + oldLength)).ToArray();
+                byte[] pre = orig.Data.Take((int)offset).ToArray();
+                byte[] post = orig.Data.Skip((int)(offset + oldLength)).ToArray();
 
                 // Reassemble data
-                orig.Data = pre.Concat(data).Concat(post).ToArray();
+                orig.Data = [.. pre, .. data, .. post];
 
                 // Fix Offset references of other files
                 foreach (var x in orig.Entries.Where(x => x.DataOffset >= offset + oldLength))
-                    x.DataOffset += (uint) diff;
+                    x.DataOffset += (uint)diff;
                 orig.Entries[index].DataLength = (uint)data.Length;
                 orig.Header.FileSize += (uint)diff;
                 return true;
@@ -361,7 +356,7 @@ namespace pk3DS.Core.CTR
             string[] files = Directory.GetFiles(folderName, "*", SearchOption.AllDirectories);
             foreach (string file in files)
             {
-                FileInfo fi = new FileInfo(file);
+                var fi = new FileInfo(file);
                 string FileName = fi.Name;
 
                 // Get Index of file

@@ -53,14 +53,14 @@ namespace pk3DS
         {
             string[] sortedmoves = (string[])movelist.Clone();
             Array.Sort(sortedmoves);
-            DataGridViewColumn dgvLevel = new DataGridViewTextBoxColumn();
+            var dgvLevel = new DataGridViewTextBoxColumn();
             {
                 dgvLevel.HeaderText = "Level";
                 dgvLevel.DisplayIndex = 0;
                 dgvLevel.Width = 45;
                 dgvLevel.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
+            var dgvMove = new DataGridViewComboBoxColumn();
             {
                 dgvMove.HeaderText = "Move";
                 dgvMove.DisplayIndex = 1;
@@ -74,7 +74,7 @@ namespace pk3DS
             dgv.Columns.Add(dgvMove);
         }
 
-        private Learnset pkm;
+        private Learnset6 pkm;
 
         private void GetList()
         {
@@ -83,7 +83,7 @@ namespace pk3DS
             int f = formVal[entry];
             if (entry <= Main.Config.MaxSpeciesID)
                 s = entry;
-            int[] specForm = { s, f };
+            int[] specForm = [s, f];
             string filename = "_" + specForm[0] + (entry > Main.Config.MaxSpeciesID ? "_" + (specForm[1] + 1) : "");
             PB_MonSprite.Image = (Bitmap)Resources.ResourceManager.GetObject(filename);
 
@@ -107,8 +107,8 @@ namespace pk3DS
         private void SetList()
         {
             if (entry < 1 || dumping) return;
-            List<int> moves = new List<int>();
-            List<int> levels = new List<int>();
+            List<int> moves = [];
+            List<int> levels = [];
             for (int i = 0; i < dgv.Rows.Count - 1; i++)
             {
                 int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[1].Value);
@@ -120,8 +120,8 @@ namespace pk3DS
                 if (lv > 100) lv = 100;
                 levels.Add(lv);
             }
-            pkm.Moves = moves.ToArray();
-            pkm.Levels = levels.ToArray();
+            pkm.Moves = [.. moves];
+            pkm.Levels = [.. levels];
             files[entry] = pkm.Write();
         }
 
@@ -131,20 +131,23 @@ namespace pk3DS
             GetList();
         }
 
+        // Struggle, Hyperspace Fury, Dark Void
+        private static readonly int[] usualBan = [165, 621, 464];
+
         private void B_RandAll_Click(object sender, EventArgs e)
         {
             SetList();
             var sets = files.Select(z => new Learnset6(z)).ToArray();
-            var banned = new List<int>(new[] {165, 621, 464}.Concat(Legal.Z_Moves)); // Struggle, Hyperspace Fury, Dark Void
+            var banned = new List<int>(usualBan.Concat(Legal.Z_Moves));
             if (CHK_NoFixedDamage.Checked)
                 banned.AddRange(MoveRandomizer.FixedDamageMoves);
 
             var rand = new LearnsetRandomizer(Main.Config, sets)
             {
                 Expand = CHK_Expand.Checked,
-                ExpandTo = (int) NUD_Moves.Value,
+                ExpandTo = (int)NUD_Moves.Value,
                 Spread = CHK_Spread.Checked,
-                SpreadTo = (int) NUD_Level.Value,
+                SpreadTo = (int)NUD_Level.Value,
                 STAB = CHK_STAB.Checked,
                 STABPercent = NUD_STAB.Value,
                 STABFirst = CHK_STAB.Checked,
@@ -190,7 +193,7 @@ namespace pk3DS
 
                 result += Environment.NewLine;
             }
-            SaveFileDialog sfd = new SaveFileDialog {FileName = "Level Up Moves.txt", Filter = "Text File|*.txt"};
+            var sfd = new SaveFileDialog { FileName = "Level Up Moves.txt", Filter = "Text File|*.txt" };
 
             SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -230,7 +233,7 @@ namespace pk3DS
                 if (max < movecount) { max = movecount; spec = i; } // Max Moves (and species)
                 for (int m = 0; m < movedata.Length / 4; m++)
                 {
-                    int move = BitConverter.ToUInt16(movedata, m*4);
+                    int move = BitConverter.ToUInt16(movedata, m * 4);
                     if (move == 65535)
                     {
                         movectr--;

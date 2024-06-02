@@ -17,13 +17,14 @@ namespace pk3DS
         public PersonalEditor6(byte[][] infiles)
         {
             InitializeComponent();
-            helditem_boxes = new[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
-            ability_boxes = new[] { CB_Ability1, CB_Ability2, CB_Ability3 };
-            typing_boxes = new[] { CB_Type1, CB_Type2 };
-            eggGroup_boxes = new[] { CB_EggGroup1, CB_EggGroup2 };
-            byte_boxes = new[] { TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate };
-            ev_boxes = new[] { TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs };
-            rstat_boxes = new[] { CHK_rHP, CHK_rATK, CHK_rDEF, CHK_rSPA, CHK_rSPD, CHK_rSPE };
+            helditem_boxes = [CB_HeldItem1, CB_HeldItem2, CB_HeldItem3];
+            ability_boxes = [CB_Ability1, CB_Ability2, CB_Ability3];
+            typing_boxes = [CB_Type1, CB_Type2];
+            eggGroup_boxes = [CB_EggGroup1, CB_EggGroup2];
+            byte_boxes = [TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPA, TB_BaseSPD, TB_BaseSPE, TB_Gender, TB_HatchCycles, TB_Friendship, TB_CatchRate,
+            ];
+            ev_boxes = [TB_HPEVs, TB_ATKEVs, TB_DEFEVs, TB_SPEEVs, TB_SPAEVs, TB_SPDEVs];
+            rstat_boxes = [CHK_rHP, CHK_rATK, CHK_rDEF, CHK_rSPA, CHK_rSPD, CHK_rSPE];
             files = infiles;
 
             abilities = Main.Config.GetText(TextName.AbilityNames);
@@ -45,10 +46,10 @@ namespace pk3DS
         private readonly string mode = Main.Config.ORAS ? "ORAS" : "XY";
         private readonly byte[][] files;
 
-        private string[] items = Array.Empty<string>();
-        private string[] moves = Array.Empty<string>();
-        private string[] species = Array.Empty<string>();
-        private readonly string[] abilities = Array.Empty<string>();
+        private string[] items = [];
+        private string[] moves = [];
+        private string[] species = [];
+        private readonly string[] abilities = [];
 
         private readonly ComboBox[] helditem_boxes;
         private readonly ComboBox[] ability_boxes;
@@ -59,11 +60,13 @@ namespace pk3DS
         private readonly MaskedTextBox[] ev_boxes;
         private readonly CheckBox[] rstat_boxes;
 
-        private readonly string[] types = Array.Empty<string>();
+        private readonly string[] types = [];
 
-        private readonly string[] eggGroups = { "---", "Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon", "Undiscovered" };
-        private readonly string[] EXPGroups = { "Medium-Fast", "Erratic", "Fluctuating", "Medium-Slow", "Fast", "Slow" };
-        private readonly string[] colors = { "Red", "Blue", "Yellow", "Green", "Black", "Brown", "Purple", "Gray", "White", "Pink" };
+        private readonly string[] eggGroups = ["---", "Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon", "Undiscovered",
+        ];
+        private readonly string[] EXPGroups = ["Medium-Fast", "Erratic", "Fluctuating", "Medium-Slow", "Fast", "Slow"];
+        private readonly string[] colors = ["Red", "Blue", "Yellow", "Green", "Black", "Brown", "Purple", "Gray", "White", "Pink",
+        ];
 
         /*
         public string[] tutormoves = { "Frenzy Plant", "Blast Burn", "Hydro Cannon", "Grass Pledge", "Fire Pledge", "Water Pledge", "Draco Meteor", "Dragon's Ascent" };
@@ -72,11 +75,13 @@ namespace pk3DS
         public string[] tutor3 = { "Bind", "Snore", "Knock Off", "Synthesis", "Heat Wave", "Role Play", "Heal Bell", "Tailwind", "Sky Attack", "Pain Split", "Giga Drain", "Drain Punch", "Air Cutter", "Focus Punch", "Shock Wave", "Water Pulse" };
         public string[] tutor4 = { "Gastro Acid", "Worry Seed", "Spite", "After You", "Helping Hand", "Trick", "Magic Room", "Wonder Room", "Endeavor", "Outrage", "Recycle", "Snatch", "Stealth Rock", "Sleep Talk", "Skill Swap" };
         */
-        private readonly ushort[] tutormoves = { 520, 519, 518, 338, 307, 308, 434, 620 };
-        private readonly ushort[] tutor1 = { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 };
-        private readonly ushort[] tutor2 = { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 };
-        private readonly ushort[] tutor3 = { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355, 264, 351, 352 };
-        private readonly ushort[] tutor4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 };
+        private readonly ushort[] tutormoves = [520, 519, 518, 338, 307, 308, 434, 620];
+        private readonly ushort[] tutor1 = [450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008];
+        private readonly ushort[] tutor2 = [277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231,
+        ];
+        private readonly ushort[] tutor3 = [020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355, 264, 351, 352,
+        ];
+        private readonly ushort[] tutor4 = [380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285];
 
         private readonly int[] baseForms, formVal;
         private readonly ushort[] TMs, HMs;
@@ -125,7 +130,7 @@ namespace pk3DS
             }
             else if (mode == "ORAS")
             {
-                CLB_MoveTutors.Items.Add(moves[tutormoves[tutormoves.Length - 1]]); //Dragon's Ascent
+                CLB_MoveTutors.Items.Add(moves[tutormoves[^1]]); //Dragon's Ascent
                 foreach (ushort tm in tutor1)
                     CLB_ORASTutors.Items.Add(moves[tm]);
                 foreach (ushort tm in tutor2)
@@ -144,33 +149,27 @@ namespace pk3DS
 
             foreach (ComboBox cb in helditem_boxes)
             {
-                foreach (string it in items)
-                    cb.Items.Add(it);
+                cb.Items.AddRange(items);
             }
 
             foreach (ComboBox cb in ability_boxes)
             {
-                foreach (string ab in abilities)
-                    cb.Items.Add(ab);
+                cb.Items.AddRange(abilities);
             }
 
             foreach (ComboBox cb in typing_boxes)
             {
-                foreach (string ty in types)
-                    cb.Items.Add(ty);
+                cb.Items.AddRange(types);
             }
 
             foreach (ComboBox cb in eggGroup_boxes)
             {
-                foreach (string eg in eggGroups)
-                    cb.Items.Add(eg);
+                cb.Items.AddRange(eggGroups);
             }
 
-            foreach (string co in colors)
-                CB_Color.Items.Add(co);
+            CB_Color.Items.AddRange(colors);
 
-            foreach (string eg in EXPGroups)
-                CB_EXPGroup.Items.Add(eg);
+            CB_EXPGroup.Items.AddRange(EXPGroups);
         }
 
         private void CB_Species_SelectedIndexChanged(object sender, EventArgs e)
@@ -253,7 +252,7 @@ namespace pk3DS
 
             if (pkm.SpecialTutors.Length > 0)
             {
-                int[] len = { tutor1.Length, tutor2.Length, tutor3.Length, tutor4.Length };
+                int[] len = [tutor1.Length, tutor2.Length, tutor3.Length, tutor4.Length];
                 int ctr = 0;
                 for (int i = 0; i < len.Length; i++)
                 {
@@ -307,15 +306,15 @@ namespace pk3DS
             pkm.CatchRate = Convert.ToByte(TB_CatchRate.Text);
             pkm.EvoStage = Convert.ToByte(TB_Stage.Text);
 
-            pkm.Types = new[] { CB_Type1.SelectedIndex, CB_Type2.SelectedIndex };
-            pkm.Items = new[] { CB_HeldItem1.SelectedIndex, CB_HeldItem2.SelectedIndex, CB_HeldItem3.SelectedIndex };
+            pkm.Types = [CB_Type1.SelectedIndex, CB_Type2.SelectedIndex];
+            pkm.Items = [CB_HeldItem1.SelectedIndex, CB_HeldItem2.SelectedIndex, CB_HeldItem3.SelectedIndex];
 
             pkm.Gender = Convert.ToByte(TB_Gender.Text);
             pkm.HatchCycles = Convert.ToByte(TB_HatchCycles.Text);
             pkm.BaseFriendship = Convert.ToByte(TB_Friendship.Text);
-            pkm.EXPGrowth = (byte) CB_EXPGroup.SelectedIndex;
-            pkm.EggGroups = new[] { CB_EggGroup1.SelectedIndex, CB_EggGroup2.SelectedIndex };
-            pkm.Abilities = new[] { CB_Ability1.SelectedIndex, CB_Ability2.SelectedIndex, CB_Ability3.SelectedIndex };
+            pkm.EXPGrowth = (byte)CB_EXPGroup.SelectedIndex;
+            pkm.EggGroups = [CB_EggGroup1.SelectedIndex, CB_EggGroup2.SelectedIndex];
+            pkm.Abilities = [CB_Ability1.SelectedIndex, CB_Ability2.SelectedIndex, CB_Ability3.SelectedIndex];
 
             pkm.FormeSprite = Convert.ToUInt16(TB_FormeSprite.Text);
             pkm.FormeCount = Convert.ToByte(TB_FormeCount.Text);
@@ -335,7 +334,7 @@ namespace pk3DS
 
             if (!Main.Config.ORAS) return;
 
-            int[] len = {tutor1.Length, tutor2.Length, tutor3.Length, tutor4.Length};
+            int[] len = [tutor1.Length, tutor2.Length, tutor3.Length, tutor4.Length];
             int ctr = 0;
             for (int i = 0; i < 4; i++)
             {
@@ -454,7 +453,7 @@ namespace pk3DS
                 return;
 
             dumping = true;
-            List<string> lines = new List<string>();
+            List<string> lines = [];
             for (int i = 0; i < CB_Species.Items.Count; i++)
             {
                 CB_Species.SelectedIndex = i; // Get new Species

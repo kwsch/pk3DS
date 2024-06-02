@@ -29,7 +29,8 @@ namespace pk3DS.Core.Structures
         // All
         public byte uLast;
 
-        public bool ShinyLock {
+        public bool ShinyLock
+        {
             get => (Shiny & 2) != 0;
             set => Shiny = (byte)((Shiny & ~2) | (value ? 2 : 0));
         }
@@ -38,7 +39,7 @@ namespace pk3DS.Core.Structures
         {
             Data = data;
             ORAS = oras;
-            using BinaryReader br = new BinaryReader(new MemoryStream(Data));
+            using var br = new BinaryReader(new MemoryStream(Data));
             Species = br.ReadUInt16();
             u2 = br.ReadUInt16();
             Form = br.ReadByte();
@@ -73,8 +74,8 @@ namespace pk3DS.Core.Structures
 
         public byte[] Write()
         {
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(ms);
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
             bw.Write(Species);
             bw.Write(u2);
             bw.Write(Form);

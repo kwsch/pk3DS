@@ -22,42 +22,47 @@ namespace pk3DS
         private readonly string[] types = Main.Config.GetText(TextName.Types);
         private readonly string[] moveflavor = Main.Config.GetText(TextName.MoveFlavor);
         private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
-        private readonly string[] MoveCategories = { "Status", "Physical", "Special", };
-        private readonly string[] StatCategories = { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
+        private readonly string[] MoveCategories = ["Status", "Physical", "Special"];
+        private readonly string[] StatCategories = ["None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All",
+        ];
 
         private readonly string[] TargetingTypes =
-        { "Single Adjacent Ally/Foe",
+        [
+            "Single Adjacent Ally/Foe",
             "Any Ally", "Any Adjacent Ally", "Single Adjacent Foe", "Everyone but User", "All Foes",
             "All Allies", "Self", "All Pokémon on Field", "Single Adjacent Foe (2)", "Entire Field",
             "Opponent's Field", "User's Field", "Self",
-        };
+        ];
 
         private readonly string[] InflictionTypes =
-        { "None",
+        [
+            "None",
             "Paralyze", "Sleep", "Freeze", "Burn", "Poison",
             "Confusion", "Attract", "Capture", "Nightmare", "Curse",
             "Taunt", "Torment", "Disable", "Yawn", "Heal Block",
             "?", "Detect", "Leech Seed", "Embargo", "Perish Song",
             "Ingrain",
-        };
+        ];
 
         private readonly string[] MoveQualities =
-        { "Only DMG",
+        [
+            "Only DMG",
             "No DMG -> Inflict Status", "No DMG -> -Target/+User Stat", "No DMG | Heal User", "DMG | Inflict Status", "No DMG | STATUS | +Target Stat",
             "DMG | -Target Stat", "DMG | +User Stat", "DMG | Absorbs DMG", "One-Hit KO", "Affects Whole Field",
-            "Affect One Side of the Field", "Forces Target to Switch", "Unique Effect",  };
+            "Affect One Side of the Field", "Forces Target to Switch", "Unique Effect",
+        ];
 
         private void Setup()
         {
-            foreach (string s in movelist) CB_Move.Items.Add(s);
-            foreach (string s in types) CB_Type.Items.Add(s);
-            foreach (string s in MoveCategories) CB_Category.Items.Add(s);
-            foreach (string s in StatCategories) CB_Stat1.Items.Add(s);
-            foreach (string s in StatCategories) CB_Stat2.Items.Add(s);
-            foreach (string s in StatCategories) CB_Stat3.Items.Add(s);
-            foreach (string s in TargetingTypes) CB_Targeting.Items.Add(s);
-            foreach (string s in MoveQualities) CB_Quality.Items.Add(s);
-            foreach (string s in InflictionTypes) CB_Inflict.Items.Add(s);
+            CB_Move.Items.AddRange(movelist);
+            CB_Type.Items.AddRange(types);
+            CB_Category.Items.AddRange(MoveCategories);
+            CB_Stat1.Items.AddRange(StatCategories);
+            CB_Stat2.Items.AddRange(StatCategories);
+            CB_Stat3.Items.AddRange(StatCategories);
+            CB_Targeting.Items.AddRange(TargetingTypes);
+            CB_Quality.Items.AddRange(MoveQualities);
+            CB_Inflict.Items.AddRange(InflictionTypes);
             foreach (var s in Enum.GetNames(typeof(MoveFlag6)).Skip(1)) CLB_Flags.Items.Add(s);
             CB_Inflict.Items.Add("Special");
 

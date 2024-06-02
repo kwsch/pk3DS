@@ -18,11 +18,11 @@ namespace pk3DS.ARCUtil
 
         internal static ShuffleARC AnalyzeShuffle(string path)
         {
-            ShuffleARC sharc = new ShuffleARC
+            var sharc = new ShuffleARC
             {
                 FileName = Path.GetFileNameWithoutExtension(path),
                 FilePath = Path.GetDirectoryName(path),
-                Extension = Path.GetExtension(path)
+                Extension = Path.GetExtension(path),
             };
             using var br = new BinaryReader(File.OpenRead(path));
             if (br.ReadUInt32() != 0xB)
@@ -47,14 +47,14 @@ namespace pk3DS.ARCUtil
             br.ReadUInt32();
             sharc.FileCount = br.ReadUInt32();
             br.ReadUInt32();
-            sharc.Files = new List<ShuffleFile>();
+            sharc.Files = [];
             for (int i = 0; i < sharc.FileCount; i++)
             {
                 br.BaseStream.Seek(0x8, SeekOrigin.Current);
-                ShuffleFile sf = new ShuffleFile
+                var sf = new ShuffleFile
                 {
                     Length = br.ReadUInt32(),
-                    Offset = br.ReadUInt32() + (uint)(sharc.add100 ? 0x100 : 0)
+                    Offset = br.ReadUInt32() + (uint)(sharc.add100 ? 0x100 : 0),
                 };
                 br.BaseStream.Seek(0x10, SeekOrigin.Current);
                 sharc.Files.Add(sf);
@@ -64,11 +64,11 @@ namespace pk3DS.ARCUtil
 
         internal static GAR AnalyzeGAR(string path)
         {
-            GAR gar = new GAR
+            var gar = new GAR
             {
                 FileName = Path.GetFileNameWithoutExtension(path),
                 FilePath = Path.GetDirectoryName(path),
-                Extension = Path.GetExtension(path)
+                Extension = Path.GetExtension(path),
             };
             using var br = new BinaryReader(File.OpenRead(path));
             long len = br.BaseStream.Length;
@@ -91,21 +91,21 @@ namespace pk3DS.ARCUtil
             gar.DataOffset = br.ReadUInt32();
             gar.FileCount = (gar.DataOffset - gar.FileOffsetsOffset) / 4;
             br.BaseStream.Seek(gar.FileMetaOffset, SeekOrigin.Begin);
-            gar.Files = new List<GARFile>();
+            gar.Files = [];
             for (int i = 0; i < gar.FileCount; i++)
             {
-                GARFile gf = new GARFile
+                var gf = new GARFile
                 {
                     Length = br.ReadUInt32(),
                     NOffset = br.ReadUInt32(),
-                    NWEOffset = br.ReadUInt32()
+                    NWEOffset = br.ReadUInt32(),
                 };
                 gar.Files.Add(gf);
             }
             for (int i = 0; i < gar.FileCount; i++)
             {
                 br.BaseStream.Seek(gar.Files[i].NOffset, SeekOrigin.Begin);
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
                 for (char c = br.ReadChar(); c != (char)0; c = br.ReadChar())
                 {
                     sb.Append(c);
@@ -134,13 +134,13 @@ namespace pk3DS.ARCUtil
 
         internal static DARC Analyze(string path)
         {
-            DARC darc = new DARC
+            var darc = new DARC
             {
                 FileName = Path.GetFileNameWithoutExtension(path),
                 FilePath = Path.GetDirectoryName(path),
-                Extension = Path.GetExtension(path)
+                Extension = Path.GetExtension(path),
             };
-            using BinaryReader br = new BinaryReader(File.OpenRead(path));
+            using var br = new BinaryReader(File.OpenRead(path));
             long len = br.BaseStream.Length;
             darc.Magic = br.ReadUInt32();
             uint m = darc.Magic;
@@ -165,24 +165,23 @@ namespace pk3DS.ARCUtil
             darc.TableOffset += darc.HeaderOffset;
             darc.TableLength = br.ReadUInt32();
             darc.DataOffset = br.ReadUInt32();
-            FileTable ft = new FileTable();
+            var ft = new FileTable();
             br.BaseStream.Seek(darc.TableOffset + 8, SeekOrigin.Begin);
             int count = br.ReadByte();
-            ft.Files = new List<DarcFile>();
-            ft.FileNames = new List<string>();
+            ft.Files = [];
+            ft.FileNames = [];
             br.BaseStream.Seek(darc.TableOffset, SeekOrigin.Begin);
             for (int i = 0; i < count; i++)
             {
-                DarcFile file = new DarcFile
+                var file = new DarcFile
                 {
                     NameOffset = br.ReadUInt16(),
                     Parent = br.ReadByte(),
                     Folder = br.ReadByte(),
                     Offset = br.ReadUInt32() + darc.HeaderOffset,
-                    Length = br.ReadUInt32()
+                    Length = br.ReadUInt32(),
                 };
-                DarcFile f2 = file;
-                ft.Files.Add(f2);
+                ft.Files.Add(file);
             }
 
             uint NameTableOffset = (uint)br.BaseStream.Position;
@@ -209,13 +208,13 @@ namespace pk3DS.ARCUtil
 
         internal static FARC AnalyzeFARC(string path)
         {
-            FARC farc = new FARC
+            var farc = new FARC
             {
                 FileName = Path.GetFileNameWithoutExtension(path),
                 FilePath = Path.GetDirectoryName(path),
-                Extension = Path.GetExtension(path)
+                Extension = Path.GetExtension(path),
             };
-            BinaryReader br = new BinaryReader(File.OpenRead(path));
+            var br = new BinaryReader(File.OpenRead(path));
             long len = br.BaseStream.Length;
             farc.Magic = br.ReadUInt32();
             uint m = farc.Magic;
@@ -248,34 +247,33 @@ namespace pk3DS.ARCUtil
             farc.TableOffset = farc.SirOffset + br.ReadUInt32();
             farc.FileCount = br.ReadUInt32();
             br.BaseStream.Seek(farc.TableOffset, SeekOrigin.Begin);
-            FARCFileTable ft = new FARCFileTable
+            var ft = new FARCFileTable
             {
-                Files = new List<FARCFile>(),
-                FileNames = new List<string>()
+                Files = [],
+                FileNames = [],
             };
             for (int i = 0; i < farc.FileCount; i++)
             {
-                FARCFile file = new FARCFile
+                var file = new FARCFile
                 {
                     NameOffset = br.ReadUInt32(),
                     Offset = br.ReadUInt32(),
-                    Length = br.ReadUInt32()
+                    Length = br.ReadUInt32(),
                 };
                 br.ReadUInt32(); //align to 0x10
-                FARCFile f2 = file;
-                ft.Files.Add(f2);
+                ft.Files.Add(file);
             }
             for (int i = 0; i < farc.FileCount; i++)
             {
                 br.BaseStream.Seek(ft.Files[i].NameOffset + farc.SirOffset, SeekOrigin.Begin);
-                MemoryStream stream = new MemoryStream();
+                var stream = new MemoryStream();
                 int firstByte = 1, secondByte = 1;
                 while (firstByte != 0 || secondByte != 0)
                 {
                     firstByte = br.ReadByte();
                     secondByte = br.ReadByte();
-                    stream.WriteByte((byte) firstByte);
-                    stream.WriteByte((byte) secondByte);
+                    stream.WriteByte((byte)firstByte);
+                    stream.WriteByte((byte)secondByte);
                 }
                 ft.FileNames.Add(Encoding.Unicode.GetString(stream.ToArray()));
                 stream.Close();
@@ -298,11 +296,11 @@ namespace pk3DS.ARCUtil
             {
                 return ParseShuffleText(path);
             }
-            DARC darc = Analyze(path);
-            FARC farc = new FARC();
-            GAR gar = new GAR();
-            SARC sarc = new SARC();
-            ShuffleARC sharc = new ShuffleARC();
+            var darc = Analyze(path);
+            var farc = new FARC();
+            var gar = new GAR();
+            var sarc = new SARC();
+            var sharc = new ShuffleARC();
             if (!darc.valid) farc = AnalyzeFARC(path);
             if (!farc.valid) gar = AnalyzeGAR(path);
             if (!gar.valid) sharc = AnalyzeShuffle(path);
@@ -491,27 +489,27 @@ namespace pk3DS.ARCUtil
 
             if (header && File.Exists(donor))
             {
-                data = data.Concat(BitConverter.GetBytes(count)).ToArray();
+                data = [.. data, .. BitConverter.GetBytes(count)];
                 foreach (string file in files)
                 {
                     // File Names are 0x40 characters
                     string fn = new FileInfo(file).Name;
                     byte[] bytes = Encoding.ASCII.GetBytes(fn);
                     Array.Resize(ref bytes, 0x40);
-                    data = data.Concat(bytes).ToArray();
+                    data = [.. data, .. bytes];
                 }
 
                 // Check the original file
                 byte[] donorBytes = File.ReadAllBytes(donor);
                 if (data.SequenceEqual(donorBytes.Take(data.Length)))
                 {
-                    int headerLen = data.Length + (BitConverter.ToInt32(donorBytes, data.Length)*0x20);
+                    int headerLen = data.Length + (BitConverter.ToInt32(donorBytes, data.Length) * 0x20);
                     headerLen += 0x80 - (headerLen % 0x80);
                     data = donorBytes.Take(headerLen).ToArray();
                 }
                 else
                 {
-                    data = Array.Empty<byte>();
+                    data = [];
                 }
             }
             if (data.Length == 0)
@@ -528,7 +526,7 @@ namespace pk3DS.ARCUtil
         {
             byte[] data = File.ReadAllBytes(path);
             Array.Copy(BitConverter.GetBytes((ushort)0), 0, data, 0x1A88, 2);
-            CRC16 crc = new CRC16();
+            var crc = new CRC16();
             ushort val = crc.ComputeChecksum(data);
             val ^= 0x903B;
             Array.Copy(BitConverter.GetBytes(val), 0, data, 0x1A88, 2);
@@ -538,14 +536,14 @@ namespace pk3DS.ARCUtil
 
         internal static string ParseShuffleText(string path)
         {
-            ShuffleText st = new ShuffleText
+            var st = new ShuffleText
             {
                 FileName = Path.GetFileNameWithoutExtension(path),
                 FilePath = Path.GetDirectoryName(path),
-                Extension = Path.GetExtension(path)
+                Extension = Path.GetExtension(path),
             };
             Console.WriteLine(st.FilePath);
-            BinaryReader br = new BinaryReader(File.OpenRead(path));
+            var br = new BinaryReader(File.OpenRead(path));
             br.BaseStream.Seek(0xC, SeekOrigin.Begin);
             uint StringDataLen = br.ReadUInt32();
             st.StringMetaOffset = br.ReadUInt32();
@@ -553,13 +551,13 @@ namespace pk3DS.ARCUtil
             st.StringCount = st.StringMetaLen / 4;
             Console.WriteLine(st.StringCount);
             br.BaseStream.Seek(st.StringMetaOffset, SeekOrigin.Begin);
-            st.offsets = new List<uint>();
+            st.offsets = [];
             for (int i = 0; i < st.StringCount; i++)
             {
                 st.offsets.Add(br.ReadUInt32());
             }
             string ret = "Dumped Offsets.";
-            st.strings = new List<string>();
+            st.strings = [];
             for (int i = 0; i < st.StringCount; i++)
             {
                 br.BaseStream.Seek(st.offsets[i], SeekOrigin.Begin);
@@ -570,7 +568,7 @@ namespace pk3DS.ARCUtil
                 st.strings.Add(Encoding.Unicode.GetString(data).Replace((char)0, ' ').Replace((char)0xa, ' '));
             }
             ret += Environment.NewLine + "Dumped Strings.";
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (string t in st.strings)
                 sb.AppendLine(t);
 
@@ -727,7 +725,7 @@ namespace pk3DS.ARCUtil
 
         public ushort ComputeChecksum(byte[] bytes)
         {
-            return bytes.Aggregate<byte, ushort>(0, (current, t) => (ushort) ((current >> 8) ^ table[current ^ t]));
+            return bytes.Aggregate<byte, ushort>(0, (current, t) => (ushort)((current >> 8) ^ table[current ^ t]));
         }
 
         public byte[] ComputeChecksumBytes(byte[] bytes)
@@ -745,7 +743,7 @@ namespace pk3DS.ARCUtil
                 for (byte j = 0; j < 8; ++j)
                 {
                     if (((value ^ temp) & 0x0001) != 0)
-                        value = (ushort) ((value >> 1) ^ polynomial);
+                        value = (ushort)((value >> 1) ^ polynomial);
                     else
                         value >>= 1;
 

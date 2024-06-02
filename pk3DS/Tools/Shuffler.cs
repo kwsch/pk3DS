@@ -21,12 +21,18 @@ namespace pk3DS
 
             // Ban Models, Encounters, TitleScreen etc
             banlist = Main.Config.ORAS
-                ? new[] { "a005", "a008", "a013", "a039", "a040", "a071", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086",
+                ?
+                [
+                    "a005", "a008", "a013", "a039", "a040", "a071", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086",
                     "a100", "a152",
-                    "a195" }
-                : new[] { "a005", "a007", "a012", "a041", "a042", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086", "a087",
+                    "a195",
+                ]
+                :
+                [
+                    "a005", "a007", "a012", "a041", "a042", "a072", "a073", "a074", "a075", "a076", "a078", "a079", "a080", "a081", "a082", "a083", "a084", "a085", "a086", "a087",
                     "a101", "a165",
-                    "a218" };
+                    "a218",
+                ];
         }
 
         private string garc;
@@ -55,7 +61,7 @@ namespace pk3DS
             if (garc == null)
                 return;
 
-            string garcID = L_File.Text.Split(':')[1].Replace("\\", "").Replace(" ","");
+            string garcID = L_File.Text.Split(':')[1].Replace("\\", "").Replace(" ", "");
             if (banlist.Contains(garcID))
             { WinFormsUtil.Alert("GARC is prevented from being shuffled."); return; }
 
@@ -89,9 +95,9 @@ namespace pk3DS
 
             #region Re-write GARC Header information!
             using (var newGARC = File.OpenWrite(garc))
-            using (BinaryWriter gw = new BinaryWriter(newGARC))
+            using (var gw = new BinaryWriter(newGARC))
             {
-                gw.Seek(7*4, SeekOrigin.Begin); // Skip GARC Header
+                gw.Seek(7 * 4, SeekOrigin.Begin); // Skip GARC Header
                 // Write GARC
                 // gw.Write((uint)0x47415243); // GARC
                 // gw.Write((uint)0x0000001C); // Header Length

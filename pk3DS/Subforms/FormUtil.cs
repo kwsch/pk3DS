@@ -16,8 +16,7 @@ namespace pk3DS
             }
             else
             {
-                foreach (string s in forms)
-                    cb.Items.Add(s);
+                cb.Items.AddRange(forms);
                 cb.Enabled = true;
             }
             cb.SelectedIndex = 0;

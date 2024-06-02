@@ -2,16 +2,11 @@
 
 namespace pk3DS.Core.Structures
 {
-    public class EncounterTrade7 : EncounterStatic
+    public class EncounterTrade7(byte[] data) : EncounterStatic
     {
         public const int SIZE = 0x34;
 
-        public readonly byte[] Data;
-
-        public EncounterTrade7(byte[] data)
-        {
-            Data = data;
-        }
+        public readonly byte[] Data = data;
 
         public override int Species
         {
@@ -32,10 +27,10 @@ namespace pk3DS.Core.Structures
         {
             get
             {
-                return new int[]
-                {
-                        (sbyte) Data[0x6], (sbyte) Data[0x7], (sbyte) Data[0x8], (sbyte) Data[0x9], (sbyte) Data[0xA], (sbyte) Data[0xB]
-                };
+                return
+                [
+                    (sbyte) Data[0x6], (sbyte) Data[0x7], (sbyte) Data[0x8], (sbyte) Data[0x9], (sbyte) Data[0xA], (sbyte) Data[0xB],
+                ];
             }
             set
             {

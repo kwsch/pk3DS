@@ -26,7 +26,7 @@ namespace pk3DS.Core
         }
 
         public static readonly GARCReference[] GARCReference_XY =
-        {
+        [
             new(005, "movesprite"),
             new(012, "encdata"),
             new(038, "trdata"),
@@ -51,10 +51,10 @@ namespace pk3DS.Core
             // Varied
             new(072, "gametext", true),
             new(080, "storytext", true),
-        };
+        ];
 
         public static readonly GARCReference[] GARCReference_AO =
-        {
+        [
             new(013, "encdata"),
             new(036, "trdata"),
             new(037, "trclass"),
@@ -78,10 +78,10 @@ namespace pk3DS.Core
             // Varied
             new(071, "gametext", true),
             new(079, "storytext", true),
-        };
+        ];
 
         public static readonly GARCReference[] GARCReference_SMDEMO =
-        {
+        [
             new(011, "move"),
             new(012, "eggmove"),
             new(013, "levelup"),
@@ -100,10 +100,10 @@ namespace pk3DS.Core
             // Varied
             new(030, "gametext", true),
             new(040, "storytext", true),
-        };
+        ];
 
         private static readonly GARCReference[] GARCReference_SM =
-        {
+        [
             new(011, "move"),
             new(012, "eggmove"),
             new(013, "levelup"),
@@ -131,10 +131,10 @@ namespace pk3DS.Core
             // Varied
             new(030, "gametext", true),
             new(040, "storytext", true),
-        };
+        ];
 
         private static readonly GARCReference[] GARCReference_USUM =
-        {
+        [
             new(011, "move"),
             new(012, "eggmove"),
             new(013, "levelup"),
@@ -162,26 +162,38 @@ namespace pk3DS.Core
             // Varied
             new(030, "gametext", true),
             new(040, "storytext", true),
-        };
+        ];
 
-        public static readonly GARCReference[] GARCReference_SN = GARCReference_SM.Concat(
-            new[] {
+        public static readonly GARCReference[] GARCReference_SN =
+        [
+            .. GARCReference_SM,
+            .. new[] {
               new GARCReference(082, "encdata"),
-            }).ToArray();
+            },
+        ];
 
-        public static readonly GARCReference[] GARCReference_MN = GARCReference_SM.Concat(
-            new[] {
+        public static readonly GARCReference[] GARCReference_MN =
+        [
+            .. GARCReference_SM,
+            .. new[] {
               new GARCReference(083, "encdata"),
-            }).ToArray();
+            },
+        ];
 
-        public static readonly GARCReference[] GARCReference_US = GARCReference_USUM.Concat(
-            new[] {
+        public static readonly GARCReference[] GARCReference_US =
+        [
+            .. GARCReference_USUM,
+            .. new[] {
                 new GARCReference(082, "encdata"),
-            }).ToArray();
+            },
+        ];
 
-        public static readonly GARCReference[] GARCReference_UM = GARCReference_USUM.Concat(
-            new[] {
+        public static readonly GARCReference[] GARCReference_UM =
+        [
+            .. GARCReference_USUM,
+            .. new[] {
                 new GARCReference(083, "encdata"),
-            }).ToArray();
+            },
+        ];
     }
 }

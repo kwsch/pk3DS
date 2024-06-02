@@ -24,7 +24,7 @@ namespace pk3DS
 
         private void Setup()
         {
-            foreach (string s in itemlist) CB_Item.Items.Add(s);
+            CB_Item.Items.AddRange(itemlist);
             CB_Item.SelectedIndex = 1;
         }
 
@@ -65,8 +65,8 @@ namespace pk3DS
             byte[] data = File.ReadAllBytes(exefsFiles[0]);
 
             byte[] reference = Main.Config.ORAS
-                ? new byte[] { 0x92, 0x0A, 0x06, 0x3F, 0x75, 0x02 } // ORAS (vanilla @ 47C640)
-                : new byte[] { 0x92, 0x0A, 0x06, 0x3F, 0x41, 0x02 }; // XY (vanilla @ 43DB74)
+                ? [0x92, 0x0A, 0x06, 0x3F, 0x75, 0x02] // ORAS (vanilla @ 47C640)
+                : [0x92, 0x0A, 0x06, 0x3F, 0x41, 0x02]; // XY (vanilla @ 43DB74)
 
             return Util.IndexOfBytes(data, reference, 0x400000, 0) - 2 + reference.Length;
         }

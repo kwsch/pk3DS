@@ -42,7 +42,7 @@ namespace pk3DS.Subforms
                 if (mm.EntryList[i] == 0xFFFF) // Mystery Zone
                     continue;
                 byte[][] GR = Mini.UnpackMini(File.ReadAllBytes(MapGRs[mm.EntryList[i]]), "GR");
-                mm.Entries[i] = new MapMatrix.Entry(GR[0]) {coll = new MapMatrix.Collision(GR[2])};
+                mm.Entries[i] = new MapMatrix.Entry(GR[0]) { coll = new MapMatrix.Collision(GR[2]) };
             }
             mapScale = Math.Max(1, (int)NUD_Scale.Value);
             Bitmap img = mm.Preview(mapScale, (int)NUD_Flavor.Value);
@@ -51,13 +51,13 @@ namespace pk3DS.Subforms
 
             if (sliceArea && mapScale > 3)
             {
-                int area = 40*mapScale;
+                int area = 40 * mapScale;
                 for (int x = 0; x < img.Width; x++)
                 {
                     for (int y = 0; y < img.Height; y++)
                     {
                         if (x % area == 0 || y % area == 0)
-                            img.SetPixel(x,y,Color.FromArgb(0x10,0xFF,0,0));
+                            img.SetPixel(x, y, Color.FromArgb(0x10, 0xFF, 0, 0));
                     }
                 }
             }
@@ -146,7 +146,7 @@ namespace pk3DS.Subforms
                 {
                     for (int sy = 0; sy < 1; sy++) // Stretch Y
                     {
-                        try { WinFormsUtil.LayerImage(img, Properties.Resources.FLY, (x + sx) * mapScale, (y + sy) * mapScale, opacity/2); }
+                        try { WinFormsUtil.LayerImage(img, Properties.Resources.FLY, (x + sx) * mapScale, (y + sy) * mapScale, opacity / 2); }
                         catch { }
                     }
                 }
@@ -174,12 +174,12 @@ namespace pk3DS.Subforms
             int X = e.X / mapScale;
             int Y = e.Y / mapScale;
 
-            int entryX = X/40;
-            int entryY = Y/40;
+            int entryX = X / 40;
+            int entryY = Y / 40;
 
-            int entry = (entryY *(PB_Map.Image.Width/40/mapScale)) + entryX;
-            int epX = X%40;
-            int epY = Y%40;
+            int entry = (entryY * (PB_Map.Image.Width / 40 / mapScale)) + entryX;
+            int epX = X % 40;
+            int epY = Y % 40;
             int tile = (epY * 40) + epX;
             try
             {

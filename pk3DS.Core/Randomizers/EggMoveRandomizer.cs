@@ -2,23 +2,14 @@
 
 namespace pk3DS.Core.Randomizers
 {
-    public class EggMoveRandomizer : IRandomizer
+    public class EggMoveRandomizer(GameConfig config, EggMoves[] sets) : IRandomizer
     {
         /*
          * 3111 Egg Moves Learned by 290 Species (10.73 avg)
          * 18 is the most
          * 1000 moves learned were STAB (32.1%)
          */
-        private readonly MoveRandomizer moverand;
-        private readonly GameConfig Config;
-        private readonly EggMoves[] Sets;
-
-        public EggMoveRandomizer(GameConfig config, EggMoves[] sets)
-        {
-            Config = config;
-            Sets = sets;
-            moverand = new MoveRandomizer(config);
-        }
+        private readonly MoveRandomizer moverand = new(config);
 
         public bool Expand = true;
         public int ExpandTo = 18;
@@ -28,20 +19,20 @@ namespace pk3DS.Core.Randomizers
 
         public void Execute()
         {
-            if (Sets[0] is EggMoves6)
+            if (sets[0] is EggMoves6)
             {
-                for (int i = 0; i < Sets.Length; i++)
-                    Randomize(Sets[i], i);
+                for (int i = 0; i < sets.Length; i++)
+                    Randomize(sets[i], i);
             }
-            else if (Sets[0] is EggMoves7)
+            else if (sets[0] is EggMoves7)
             {
-                for (int i = 0; i <= Config.MaxSpeciesID; i++)
+                for (int i = 0; i <= config.MaxSpeciesID; i++)
                 {
-                    Randomize(Sets[i], i);
-                    int formoff = ((EggMoves7) Sets[i]).FormTableIndex;
-                    int count = Config.Personal[i].FormeCount;
+                    Randomize(sets[i], i);
+                    int formoff = ((EggMoves7)sets[i]).FormTableIndex;
+                    int count = config.Personal[i].FormeCount;
                     for (int j = 1; j < count; j++)
-                        Randomize(Sets[formoff + j - 1], Config.Personal.GetFormIndex(i, j));
+                        Randomize(sets[formoff + j - 1], config.Personal.GetFormIndex(i, j));
                 }
             }
         }

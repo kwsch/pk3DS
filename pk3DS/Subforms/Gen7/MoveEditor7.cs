@@ -22,37 +22,38 @@ namespace pk3DS
         private readonly string[] types = Main.Config.GetText(TextName.Types);
         private readonly string[] moveflavor = Main.Config.GetText(TextName.MoveFlavor);
         private readonly string[] movelist = Main.Config.GetText(TextName.MoveNames);
-        private readonly string[] MoveCategories = { "Status", "Physical", "Special", };
-        private readonly string[] StatCategories = { "None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All", };
+        private readonly string[] MoveCategories = ["Status", "Physical", "Special"];
+        private readonly string[] StatCategories = ["None", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "Accuracy", "Evasion", "All",
+        ];
 
         private static readonly string[] TargetingTypes =
-        {
+        [
             "Single Adjacent Ally/Foe",
             "Any Ally", "Any Adjacent Ally", "Single Adjacent Foe", "Everyone but User", "All Foes",
             "All Allies", "Self", "All Pokémon on Field", "Single Adjacent Foe (2)", "Entire Field",
             "Opponent's Field", "User's Field", "Self",
-        };
+        ];
 
         private static readonly string[] InflictionTypes =
-        {
+        [
             "None",
             "Paralyze", "Sleep", "Freeze", "Burn", "Poison",
             "Confusion", "Attract", "Capture", "Nightmare", "Curse",
             "Taunt", "Torment", "Disable", "Yawn", "Heal Block",
             "?", "Detect", "Leech Seed", "Embargo", "Perish Song",
-            "Ingrain", "??? 0x16", "??? 0x17", "Mute"
-        };
+            "Ingrain", "??? 0x16", "??? 0x17", "Mute",
+        ];
 
         private static readonly string[] MoveQualities =
-        {
+        [
             "Only DMG",
             "No DMG -> Inflict Status", "No DMG -> -Target/+User Stat", "No DMG | Heal User", "DMG | Inflict Status", "No DMG | STATUS | +Target Stat",
             "DMG | -Target Stat", "DMG | +User Stat", "DMG | Absorbs DMG", "One-Hit KO", "Affects Whole Field",
             "Affect One Side of the Field", "Forces Target to Switch", "Unique Effect",
-        };
+        ];
 
         private static readonly string[] ZMoveEffects =
-        {
+        [
             "None",
             "+1 Attack",
             "+2 Attack",
@@ -83,12 +84,12 @@ namespace pk3DS
             "recovers all of user's HP",
             "recovers all Hp of the Pokémon switching-in (Memento and Parting Shot)",
             "makes the user the center of attention",
-            "only on Curse: recovers all HP if the user's a Ghost type, +1 Attack otherwise"
-        };
+            "only on Curse: recovers all HP if the user's a Ghost type, +1 Attack otherwise",
+        ];
 
         private void Setup()
         {
-            char[] ps = { 'P', 'S' }; // Distinguish Physical/Special Z-Moves
+            char[] ps = ['P', 'S']; // Distinguish Physical/Special Z-Moves
             for (int i = 622; i < 658; i++)
                 movelist[i] += $" ({ps[i % 2]})";
             CB_Move.Items.AddRange(movelist);
@@ -211,16 +212,16 @@ namespace pk3DS
                 var move = new Move7(data)
                 {
                     ZMove = CB_ZMove.SelectedIndex,
-                    ZPower = (int) NUD_ZPower.Value,
+                    ZPower = (int)NUD_ZPower.Value,
                     ZEffect = CB_ZEffect.SelectedIndex,
-                    RefreshAfflictPercent = (int) NUD_RefreshAfflictPercent.Value,
-                    RefreshAfflictType = (RefreshType)CB_AfflictRefresh.SelectedIndex
+                    RefreshAfflictPercent = (int)NUD_RefreshAfflictPercent.Value,
+                    RefreshAfflictType = (RefreshType)CB_AfflictRefresh.SelectedIndex,
                 };
 
                 uint flagval = 0;
                 for (int i = 0; i < CLB_Flags.Items.Count; i++)
                     flagval |= CLB_Flags.GetItemChecked(i) ? 1u << i : 0;
-                move.Flags = (MoveFlag7) flagval;
+                move.Flags = (MoveFlag7)flagval;
             }
             files[entry] = data;
         }

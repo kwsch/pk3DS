@@ -113,7 +113,7 @@ namespace pk3DS.Core.CTR
                 Magic = BitConverter.ToUInt32(data, 0x100),
                 MediaSize = BitConverter.ToUInt32(data, 0x104),
                 TitleId = BitConverter.ToUInt64(data, 0x108),
-                OffsetSizeTable = new NCCH_Meta[8]
+                OffsetSizeTable = new NCCH_Meta[8],
             };
             Array.Copy(data, header.Signature, 0x100);
             for (int i = 0; i < 8; i++)
@@ -121,7 +121,7 @@ namespace pk3DS.Core.CTR
                 header.OffsetSizeTable[i] = new NCCH_Meta
                 {
                     Offset = BitConverter.ToUInt32(data, 0x120 + (8 * i)),
-                    Size = BitConverter.ToUInt32(data, 0x124 + (8 * i))
+                    Size = BitConverter.ToUInt32(data, 0x124 + (8 * i)),
                 };
             }
             header.flags = new byte[8];
@@ -141,15 +141,15 @@ namespace pk3DS.Core.CTR
 
             UpdateTB(TB_Progress, "Extracting game data (CXI) from .3DS file...");
             byte[] headerBytes = new byte[0x200];
-            using (FileStream fs = new FileStream(NCSD_PATH, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(NCSD_PATH, FileMode.Open, FileAccess.Read))
             {
-                fs.Read(headerBytes, 0, headerBytes.Length);
+                _ = fs.Read(headerBytes, 0, headerBytes.Length);
             }
 
             Header = CreateHeaderFromBytes(headerBytes);
             string ncchPath = ExtractCXIfromNCSD(NCSD_PATH, outputDirectory, Header.OffsetSizeTable[0].Size, PB_Show);
             UpdateTB(TB_Progress, "CXI extracted, extracting files from CXI...");
-            NCCH ncch = new NCCH();
+            var ncch = new NCCH();
             ncch.ExtractNCCHFromFile(ncchPath, outputDirectory, TB_Progress, PB_Show);
             File.Delete(ncchPath);
         }

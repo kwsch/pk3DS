@@ -126,7 +126,7 @@ namespace pk3DS.Core.CTR
         {
             byte[] bclim = GetBCLIM(path, fc);
             string fp = Path.GetFileNameWithoutExtension(path);
-            fp = "new_" + fp.Substring(fp.IndexOf('_') + 1);
+            fp = "new_" + fp[(fp.IndexOf('_') + 1)..];
             string pp = Path.GetDirectoryName(path);
             string newPath = Path.Combine(pp, fp + ".bclim");
             File.WriteAllBytes(newPath, bclim);
@@ -315,30 +315,30 @@ namespace pk3DS.Core.CTR
                     case 4: bz.Write(GetHILO8(c)); break;           // HILO8
                     case 5: bz.Write(GetRGB565(c)); break;          // RGB565
                     case 6:
-                    {
-                        bz.Write(c.B);
-                        bz.Write(c.G);
-                        bz.Write(c.R); break;
-                    }
+                        {
+                            bz.Write(c.B);
+                            bz.Write(c.G);
+                            bz.Write(c.R); break;
+                        }
                     case 7: bz.Write(GetRGBA5551(c)); break;        // RGBA5551
                     case 8: bz.Write(GetRGBA4444(c)); break;        // RGBA4444
                     case 9: bz.Write(GetRGBA8888(c)); break;          // RGBA8
                     case 10: throw new Exception("ETC1 not supported.");
                     case 11: throw new Exception("ETC1A4 not supported.");
                     case 12:
-                    {
-                        byte val = (byte)(GetL8(c) / 0x11); // First Pix    // L4
-                        { c = img.GetPixel((int)x, (int)y); if (c.A == 0) c = Color.FromArgb(0, 0, 0, 0); }
-                        val |= (byte)((GetL8(c) / 0x11) << 4); i++;
-                        bz.Write(val); break;
-                    }
+                        {
+                            byte val = (byte)(GetL8(c) / 0x11); // First Pix    // L4
+                            { c = img.GetPixel((int)x, (int)y); if (c.A == 0) c = Color.FromArgb(0, 0, 0, 0); }
+                            val |= (byte)((GetL8(c) / 0x11) << 4); i++;
+                            bz.Write(val); break;
+                        }
                     case 13:
-                    {
-                        byte val = (byte)(GetA8(c) / 0x11); // First Pix    // L4
-                        { c = img.GetPixel((int)x, (int)y); }
-                        val |= (byte)((GetA8(c) / 0x11) << 4); i++;
-                        bz.Write(val); break;
-                    }
+                        {
+                            byte val = (byte)(GetA8(c) / 0x11); // First Pix    // L4
+                            { c = img.GetPixel((int)x, (int)y); }
+                            val |= (byte)((GetA8(c) / 0x11) << 4); i++;
+                            bz.Write(val); break;
+                        }
                 }
             }
             if (!perfect)
@@ -443,10 +443,13 @@ namespace pk3DS.Core.CTR
         // Unit Conversion
         internal static byte Convert8to5(int colorval)
         {
-            byte[] Convert8to5 = { 0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
+            byte[] Convert8to5 =
+            [
+                0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
                 0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
                 0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
-                0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF };
+                0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF,
+            ];
             byte i = 0;
             while (colorval > Convert8to5[i]) i++;
             return i;
@@ -458,7 +461,7 @@ namespace pk3DS.Core.CTR
             {
                 FileName = Path.GetFileNameWithoutExtension(shortPath),
                 FilePath = Path.GetDirectoryName(shortPath),
-                Extension = Path.GetExtension(shortPath)
+                Extension = Path.GetExtension(shortPath),
             };
             return bclim;
         }

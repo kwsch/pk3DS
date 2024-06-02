@@ -13,7 +13,7 @@
 
         public int[] Stats
         {
-            get => new[] {HP, ATK, DEF, SPE, SPA, SPD};
+            get => [HP, ATK, DEF, SPE, SPA, SPD];
             set
             {
                 HP = value[0];
@@ -41,7 +41,7 @@
         public abstract int BaseFriendship { get; set; }
         public abstract int EXPGrowth { get; set; }
         public abstract int[] EggGroups { get; set; }
-        public abstract int [] Abilities { get; set; }
+        public abstract int[] Abilities { get; set; }
         public abstract int EscapeRate { get; set; }
         public virtual int FormeCount { get; set; }
         public virtual int FormStatsIndex { get; protected internal set; }
@@ -54,21 +54,21 @@
 
         public bool[] TMHM { get; set; }
         public bool[] TypeTutors { get; set; }
-        public bool[][] SpecialTutors { get; set; } = System.Array.Empty<bool[]>();
+        public bool[][] SpecialTutors { get; set; } = [];
 
         protected static bool[] GetBits(byte[] data)
         {
             bool[] r = new bool[8 * data.Length];
             for (int i = 0; i < r.Length; i++)
-                r[i] = (data[i/8] >> (i&7) & 0x1) == 1;
+                r[i] = (data[i / 8] >> (i & 7) & 0x1) == 1;
             return r;
         }
 
         protected static byte[] SetBits(bool[] bits)
         {
-            byte[] data = new byte[bits.Length/8];
+            byte[] data = new byte[bits.Length / 8];
             for (int i = 0; i < bits.Length; i++)
-                data[i / 8] |= (byte)(bits[i] ? 1 << (i&0x7) : 0);
+                data[i / 8] |= (byte)(bits[i] ? 1 << (i & 0x7) : 0);
             return data;
         }
 

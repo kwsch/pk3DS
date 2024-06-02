@@ -16,7 +16,8 @@ namespace pk3DS
             if (!File.Exists(files[0]) || !Path.GetFileNameWithoutExtension(files[0]).Contains("code")) { WinFormsUtil.Alert("No .code.bin detected."); Close(); }
             data = File.ReadAllBytes(files[0]);
             if (data.Length % 0x200 != 0) { WinFormsUtil.Alert(".code.bin not decompressed. Aborting."); Close(); }
-            offset = Util.IndexOfBytes(data, new byte[] { 0x1E, 0x28, 0x32, 0x3C, 0x46, 0x50, 0x5A, 0x5E, 0x62, 0x05, 0x0A, 0x0F, 0x14, 0x19, 0x1E, 0x23, 0x28, 0x2D, 0x32 }, 0x400000, 0) - 0x3A;
+            offset = Util.IndexOfBytes(data, [0x1E, 0x28, 0x32, 0x3C, 0x46, 0x50, 0x5A, 0x5E, 0x62, 0x05, 0x0A, 0x0F, 0x14, 0x19, 0x1E, 0x23, 0x28, 0x2D, 0x32,
+            ], 0x400000, 0) - 0x3A;
             codebin = files[0];
             itemlist[0] = "";
             SetupDGV();
@@ -36,8 +37,9 @@ namespace pk3DS
 
         private void SetupDGV()
         {
-            dgvCommon.Columns.Clear(); dgvRare.Columns.Clear();
-            DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
+            dgvCommon.Columns.Clear();
+            dgvRare.Columns.Clear();
+            var dgvIndex = new DataGridViewTextBoxColumn();
             {
                 dgvIndex.HeaderText = "Index";
                 dgvIndex.DisplayIndex = 0;
@@ -45,12 +47,11 @@ namespace pk3DS
                 dgvIndex.ReadOnly = true;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
+            var dgvMove = new DataGridViewComboBoxColumn();
             {
                 dgvMove.HeaderText = "Item";
                 dgvMove.DisplayIndex = 1;
-                foreach (string t in itemlist)
-                    dgvMove.Items.Add(t); // add only the Names
+                dgvMove.Items.AddRange(itemlist); // add only the Names
 
                 dgvMove.Width = 133;
                 dgvMove.FlatStyle = FlatStyle.Flat;
@@ -61,13 +62,13 @@ namespace pk3DS
             dgvRare.Columns.Add((DataGridViewColumn)dgvMove.Clone());
         }
 
-        private List<ushort> common = new();
-        private List<ushort> rare = new();
+        private List<ushort> common = [];
+        private List<ushort> rare = [];
 
         private void GetList()
         {
-            common = new List<ushort>();
-            rare = new List<ushort>();
+            common = [];
+            rare = [];
             dgvCommon.Rows.Clear();
 
             GetDataOffset();
@@ -76,8 +77,8 @@ namespace pk3DS
             for (int i = 0x12; i < 0x12 + 0xB; i++) // 0xB Rare
                 rare.Add(BitConverter.ToUInt16(data, dataoffset + (2 * i)));
 
-            ushort[] clist = common.ToArray();
-            ushort[] rlist = rare.ToArray();
+            ushort[] clist = [.. common];
+            ushort[] rlist = [.. rare];
             for (int i = 0; i < clist.Length; i++)
             { dgvCommon.Rows.Add(); dgvCommon.Rows[i].Cells[0].Value = i.ToString(); dgvCommon.Rows[i].Cells[1].Value = itemlist[clist[i]]; }
             for (int i = 0; i < rlist.Length; i++)
@@ -86,16 +87,16 @@ namespace pk3DS
 
         private void SetList()
         {
-            common = new List<ushort>();
-            rare = new List<ushort>();
+            common = [];
+            rare = [];
             for (int i = 0; i < 0x12; i++) // 0x12 Common
                 common.Add((ushort)Array.IndexOf(itemlist, dgvCommon.Rows[i].Cells[1].Value));
 
             for (int i = 0x12; i < 0x12 + 0xB; i++) // 0xB Rare
                 rare.Add((ushort)Array.IndexOf(itemlist, dgvRare.Rows[i - 0x12].Cells[1].Value));
 
-            ushort[] clist = common.ToArray();
-            ushort[] rlist = rare.ToArray();
+            ushort[] clist = [.. common];
+            ushort[] rlist = [.. rare];
 
             for (int i = 0; i < 0x12; i++)
                 Array.Copy(BitConverter.GetBytes(clist[i]), 0, data, offset + (2 * i), 2);

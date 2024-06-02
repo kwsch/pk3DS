@@ -36,7 +36,7 @@ namespace pk3DS.Core.Structures.PersonalInfo
 
         public override int[] Types
         {
-            get => new int[] { Data[0x06], Data[0x07] };
+            get => [Data[0x06], Data[0x07]];
             set
             {
                 if (value?.Length != 2) return;
@@ -58,7 +58,7 @@ namespace pk3DS.Core.Structures.PersonalInfo
 
         public override int[] Items
         {
-            get => new int[] { BitConverter.ToInt16(Data, 0xC), BitConverter.ToInt16(Data, 0xE), BitConverter.ToInt16(Data, 0x10) };
+            get => [BitConverter.ToInt16(Data, 0xC), BitConverter.ToInt16(Data, 0xE), BitConverter.ToInt16(Data, 0x10)];
             set
             {
                 if (value?.Length != 3) return;
@@ -75,7 +75,7 @@ namespace pk3DS.Core.Structures.PersonalInfo
 
         public override int[] EggGroups
         {
-            get => new int[] { Data[0x16], Data[0x17] };
+            get => [Data[0x16], Data[0x17]];
             set
             {
                 if (value?.Length != 2) return;
@@ -86,7 +86,7 @@ namespace pk3DS.Core.Structures.PersonalInfo
 
         public override int[] Abilities
         {
-            get => new int[] { Data[0x18], Data[0x19], Data[0x1A] };
+            get => [Data[0x18], Data[0x19], Data[0x1A]];
             set
             {
                 if (value?.Length != 3) return;

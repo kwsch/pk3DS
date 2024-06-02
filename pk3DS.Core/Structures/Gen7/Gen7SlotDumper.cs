@@ -30,9 +30,9 @@ namespace pk3DS.Core
                     var z = area.Zones[zoneIndex];
                     int loc = z.ParentMap;
 
-                    var ignore = ignored.TryGetValue(z.Index, out var skip) ? skip : Array.Empty<int>();
+                    var ignore = ignored.TryGetValue(z.Index, out var skip) ? skip : [];
                     if (!dict.ContainsKey(loc))
-                        dict.Add(loc, new List<uint>());
+                        dict.Add(loc, []);
 
                     for (var index = 0; index < area.Tables.Count; index++)
                     {
@@ -44,7 +44,7 @@ namespace pk3DS.Core
                         }
 
                         if (!dict.ContainsKey(loc))
-                            dict.Add(loc, new List<uint>());
+                            dict.Add(loc, []);
                         var table = dict[loc];
                         var first = t.Encounter7s[0];
                         if (first.All(sz => sz.Species == 731))
@@ -84,7 +84,7 @@ namespace pk3DS.Core
                     var z = area.Zones[zoneIndex];
                     int loc = z.ParentMap;
 
-                    var ignore = ignored.TryGetValue(z.Index, out var skip) ? skip : Array.Empty<int>();
+                    var ignore = ignored.TryGetValue(z.Index, out var skip) ? skip : [];
                     for (var index = 0; index < area.Tables.Count; index++)
                     {
                         if (ignore.Contains((index >> 1) + 1)) // not zero indexed; bias +1
@@ -93,7 +93,7 @@ namespace pk3DS.Core
                             continue;
                         }
                         if (!dict.ContainsKey(loc))
-                            dict.Add(loc, new List<uint>());
+                            dict.Add(loc, []);
 
                         var t = area.Tables[index];
                         var first = t.Encounter7s[0];
@@ -142,124 +142,124 @@ namespace pk3DS.Core
         public static readonly Dictionary<int, int[]> InaccessibleUnused_USUM = new()
         {
             // Route 1 (Hau’oli Outskirts)
-            {000, new[] {1, 2, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 17, 18}},
+            {000, [1, 2, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 17, 18] },
 
             // Route 1
-            {003, new[] {3, 4, 5, 6, 7, 8, 10, 11, 18}},
+            {003, [3, 4, 5, 6, 7, 8, 10, 11, 18] },
 
             // Melemele Sea
-            {010, new[] {1, 2, 3, 9, 10, 12, 13, 14, 15, 16, 17, 18}},
+            {010, [1, 2, 3, 9, 10, 12, 13, 14, 15, 16, 17, 18] },
 
             // Route 1 (Hau’oli Outskirts)
-            {001, new[] {1, 2, 3}},
+            {001, [1, 2, 3] },
 
             // Route 3
-            {006, new[] {2, 5, 6, 7, 8, 9, 15}},
+            {006, [2, 5, 6, 7, 8, 9, 15] },
 
             // Kala’e Bay
-            {008, new[] {1, 3, 4, 10, 11, 12, 13, 14}},
+            {008, [1, 3, 4, 10, 11, 12, 13, 14] },
 
             // Hau’oli City (Beachfront)
-            {012, new[] {2, 3, 4, 5, 6}},
+            {012, [2, 3, 4, 5, 6] },
 
             // Hau’oli City (Shopping District)
-            {013, new[] {1, 2, 7, 8}},
+            {013, [1, 2, 7, 8] },
 
             // Hau’oli City (Marina)
-            {014, new[] {1, 2, 3, 4, 5, 6, 7, 8}},
+            {014, [1, 2, 3, 4, 5, 6, 7, 8] },
 
             // Hano Grand Resort
-            {086, new[] {1, 2, 3, 4}},
+            {086, [1, 2, 3, 4] },
 
             // Memorial Hill
-            {097, new[] {3, 4, 5, 6, 7, 8, 9}},
+            {097, [3, 4, 5, 6, 7, 8, 9] },
 
             // Akala Outskirts
-            {098, new[] {1, 2}},
+            {098, [1, 2] },
 
             // Tapu Village
-            {168, new[] {2, 3, 4, 5, 6, 7, 8}},
+            {168, [2, 3, 4, 5, 6, 7, 8] },
 
             // Route 14
-            {169, new[] {1}},
+            {169, [1] },
 
             // Route 15
-            {170, new[] {5, 7, 8, 10}},
+            {170, [5, 7, 8, 10] },
 
             // Route 16
-            {171, new[] {1, 2, 3, 4, 6, 9, 10}},
+            {171, [1, 2, 3, 4, 6, 9, 10] },
 
             // Malie City
-            {174, new[] {1, 2, 3}},
+            {174, [1, 2, 3] },
 
             // Ancient Poni Path
-            {265, new[] {1, 2, 3, 4, 5, 6, 7, 8}},
+            {265, [1, 2, 3, 4, 5, 6, 7, 8] },
 
             // Poni Breaker Coast
-            {266, new[] {9, 10, 11}},
+            {266, [9, 10, 11] },
         };
 
         public static readonly Dictionary<int, int[]> InaccessibleUnused_SM = new()
         {
             // Route 1 (Hau’oli Outskirts)
-            {000, new[] {1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16}},
+            {000, [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16] },
 
             // Route 1
-            {001, new[] {4, 5, 6, 7, 8, 9, 14, 17}},
+            {001, [4, 5, 6, 7, 8, 9, 14, 17] },
 
             // Melemele Sea
-            {006, new[] {1, 2, 3, 4, 10, 11, 12, 13, 14, 15, 16, 17}},
+            {006, [1, 2, 3, 4, 10, 11, 12, 13, 14, 15, 16, 17] },
 
             // Route 3
-            {002, new[] {2, 5, 6, 7, 8, 9, 15}},
+            {002, [2, 5, 6, 7, 8, 9, 15] },
 
             // Kala’e Bay
-            {004, new[] {1, 3, 4, 10, 11, 12, 13, 14}},
+            {004, [1, 3, 4, 10, 11, 12, 13, 14] },
 
             // Hau’oli City (Beachfront)
-            {007, new[] {2, 3, 4, 5, 6}},
+            {007, [2, 3, 4, 5, 6] },
 
             // Hau’oli City (Shopping District)
-            {008, new[] {1, 2}},
+            {008, [1, 2] },
 
             // Hau’oli City (Marina)
-            {009, new[] {1, 2, 3, 4, 5, 6, 7, 8}},
+            {009, [1, 2, 3, 4, 5, 6, 7, 8] },
 
             // Hano Grand Resort
-            {074, new[] {1, 2, 3, 4}},
+            {074, [1, 2, 3, 4] },
 
             // Memorial Hill
-            {083, new[] {3, 4, 5, 6, 7, 8, 9}},
+            {083, [3, 4, 5, 6, 7, 8, 9] },
 
             // Akala Outskirts
-            {084, new[] {1, 2}},
+            {084, [1, 2] },
 
             // Secluded Shore
-            {142, new[] {1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}},
+            {142, [1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] },
 
             // Route 12
-            {149, new[] {2, 3, 4, 5}},
+            {149, [2, 3, 4, 5] },
 
             // Tapu Village
-            {144, new[] {2, 3, 4, 5, 6, 7, 8}},
+            {144, [2, 3, 4, 5, 6, 7, 8] },
 
             // Route 14
-            {145, new[] {1}},
+            {145, [1] },
 
             // Route 15
-            {146, new[] {5, 6, 7, 8, 10}},
+            {146, [5, 6, 7, 8, 10] },
 
             // Route 16
-            {147, new[] {2, 3, 4, 9, 10}},
+            {147, [2, 3, 4, 9, 10] },
 
             // Malie City
-            {150, new[] {1, 2, 3}},
+            {150, [1, 2, 3] },
 
             // Ancient Poni Path
-            {232, new[] {1, 2, 3, 4, 5}},
+            {232, [1, 2, 3, 4, 5] },
 
             // Poni Breaker Coast
-            {233, new[] {6, 7, 8}},
+            {233, [6, 7, 8] },
         };
     }
 }

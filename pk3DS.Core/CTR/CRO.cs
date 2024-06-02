@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace pk3DS.Core.CTR
 {
-    public class CRO
+    public class CRO(byte[] data)
     {
         // Utility
         internal static void UpdateTB(RichTextBox RTB, string progress)
@@ -69,14 +69,14 @@ namespace pk3DS.Core.CTR
             string[] CROFiles = Directory.GetFiles(PATH_CRO);
 
             // Weed out anything that isn't a .cro
-            List<string> cros = new List<string>();
+            var cros = new List<string>();
             for (int i = 0; i < CROFiles.Length; i++)
             {
                 if (Path.GetExtension(cros[i]) == ".cro")
                     cros.Add(cros[i]);
             }
 
-            CROFiles = cros.ToArray();
+            CROFiles = [.. cros];
 
             // Store Hashes as Strings (hacky way to sort byte[]'s against eachother
             string[] hashes = new string[CROFiles.Length];
@@ -210,13 +210,12 @@ namespace pk3DS.Core.CTR
         internal static byte[] HashCRO(ref byte[] CRO)
         {
             // Allocate new byte array to store modified CRO
-            SHA256 mySHA = SHA256.Create();
 
             // Compute the hashes
-            byte[] hashH = mySHA.ComputeHash(CRO, 0x80, 0x100);
-            byte[] hash0 = mySHA.ComputeHash(CRO, BitConverter.ToInt32(CRO, 0xB0), BitConverter.ToInt32(CRO, 0xB4));
-            byte[] hash1 = mySHA.ComputeHash(CRO, BitConverter.ToInt32(CRO, 0xC0), BitConverter.ToInt32(CRO, 0xB8) - BitConverter.ToInt32(CRO, 0xC0));
-            byte[] hash2 = mySHA.ComputeHash(CRO, BitConverter.ToInt32(CRO, 0xB8), BitConverter.ToInt32(CRO, 0xBC));
+            byte[] hashH = SHA256.HashData(CRO.AsSpan(0x80, 0x100));
+            byte[] hash0 = SHA256.HashData(CRO.AsSpan(BitConverter.ToInt32(CRO, 0xB0), BitConverter.ToInt32(CRO, 0xB4)));
+            byte[] hash1 = SHA256.HashData(CRO.AsSpan(BitConverter.ToInt32(CRO, 0xC0), BitConverter.ToInt32(CRO, 0xB8) - BitConverter.ToInt32(CRO, 0xC0)));
+            byte[] hash2 = SHA256.HashData(CRO.AsSpan(BitConverter.ToInt32(CRO, 0xB8), BitConverter.ToInt32(CRO, 0xBC)));
 
             // Set the hashes
             Array.Copy(hashH, 0, CRO, 0x00, 0x20);
@@ -225,15 +224,10 @@ namespace pk3DS.Core.CTR
             Array.Copy(hash2, 0, CRO, 0x60, 0x20);
 
             // Return the fixed overall hash
-            return mySHA.ComputeHash(CRO, 0, 0x80);
+            return SHA256.HashData(CRO.AsSpan(0, 0x80));
         }
 
-        public CRO(byte[] data)
-        {
-            Data = (byte[])data.Clone();
-        }
-
-        private readonly byte[] Data;
+        private readonly byte[] Data = (byte[])data.Clone();
 
         public byte[] HashSHA2
         {

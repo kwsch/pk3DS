@@ -3,15 +3,10 @@ using System.Linq;
 
 namespace pk3DS.Core.Structures
 {
-    public class EncounterStatic7 : EncounterStatic
+    public class EncounterStatic7(byte[] data) : EncounterStatic
     {
         public const int SIZE = 0x38;
-        public readonly byte[] Data;
-
-        public EncounterStatic7(byte[] data)
-        {
-            Data = data;
-        }
+        public readonly byte[] Data = data;
 
         public override int Species
         {
@@ -90,13 +85,13 @@ namespace pk3DS.Core.Structures
 
         public int[] RelearnMoves
         {
-            get => new int[]
-            {
+            get =>
+            [
                 BitConverter.ToUInt16(Data, 0xC),
                 BitConverter.ToUInt16(Data, 0xE),
                 BitConverter.ToUInt16(Data, 0x10),
                 BitConverter.ToUInt16(Data, 0x12),
-            };
+            ];
             set
             {
                 if (value.Length != 4)
@@ -114,7 +109,8 @@ namespace pk3DS.Core.Structures
 
         public int[] IVs
         {
-            get => new int[] { (sbyte) Data[0x15], (sbyte) Data[0x16], (sbyte) Data[0x17], (sbyte) Data[0x18], (sbyte) Data[0x19], (sbyte) Data[0x1A] };
+            get => [(sbyte) Data[0x15], (sbyte) Data[0x16], (sbyte) Data[0x17], (sbyte) Data[0x18], (sbyte) Data[0x19], (sbyte) Data[0x1A],
+            ];
             set
             {
                 if (value.Length != 6)
@@ -126,7 +122,7 @@ namespace pk3DS.Core.Structures
 
         public int[] EVs
         {
-            get => new int[] { Data[0x1B], Data[0x1C], Data[0x1D], Data[0x1E], Data[0x1F], Data[0x20] };
+            get => [Data[0x1B], Data[0x1C], Data[0x1D], Data[0x1E], Data[0x1F], Data[0x20]];
             set
             {
                 if (value.Length != 6)
@@ -160,7 +156,7 @@ namespace pk3DS.Core.Structures
             set => Data[0x2C] = (byte)value;
         }
 
-        public bool IV3 => (sbyte) Data[0x15] < 0 && (sbyte) Data[0x15] + 1 == -3;
+        public bool IV3 => (sbyte)Data[0x15] < 0 && (sbyte)Data[0x15] + 1 == -3;
 
         public string GetSummary()
         {

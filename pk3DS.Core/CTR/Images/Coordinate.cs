@@ -1,21 +1,11 @@
 namespace pk3DS.Core.CTR
 {
-    public struct Coordinate
+    public struct Coordinate(uint x, uint y)
     {
-        public uint X { get; private set; }
-        public uint Y { get; private set; }
+        public uint X { get; private set; } = x;
+        public uint Y { get; private set; } = y;
 
-        public Coordinate(uint x, uint y)
-        {
-            X = x; Y = y;
-        }
-
-        public void Transpose()
-        {
-            var tmp = X;
-            X = Y;
-            Y = tmp;
-        }
+        public void Transpose() => (X, Y) = (Y, X);
 
         public void Rotate90(uint height)
         {

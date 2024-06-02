@@ -60,7 +60,7 @@ namespace pk3DS
             {
                 string name = Path.GetFileNameWithoutExtension(filepaths[f]);
 
-                int LocationNum = Convert.ToInt16(name.Substring(4, name.Length - 4));
+                int LocationNum = Convert.ToInt16(name[4..]);
                 ZoneData zo = new ZoneData(masterZoneData.Skip(f * ZoneData.Size).Take(ZoneData.Size).ToArray());
                 string LocationName = gameLocations[zo.ParentMap];
                 zdLocations[f] = LocationNum.ToString("000") + " - " + LocationName;
@@ -208,11 +208,11 @@ namespace pk3DS
                 if (script.DecompressedLength / 4 != Instructions.Length)
                     RTB_OWSCMD.Text = RTB_OSP.Text = "DCMP FAIL";
                 else
-                    RTB_OSP.Lines = script.ParseScript.Concat(script.ParseMoves).ToArray();
+                    RTB_OSP.Lines = [.. script.ParseScript, .. script.ParseMoves];
             }
             else
             {
-                RTB_OWSCMD.Lines = RTB_OS.Lines = new[] { "No Data" };
+                RTB_OWSCMD.Lines = RTB_OS.Lines = ["No Data"];
             }
         }
 
@@ -230,15 +230,15 @@ namespace pk3DS
                 if (script.DecompressedLength / 4 != Instructions.Length)
                     RTB_MSCMD.Text = RTB_OSP.Text = "DCMP FAIL";
                 else
-                    RTB_MSP.Lines = script.ParseScript.Concat(script.ParseMoves).ToArray();
+                    RTB_MSP.Lines = [.. script.ParseScript, .. script.ParseMoves];
             }
             else
             {
-                RTB_MSCMD.Lines = RTB_OS.Lines = new[] { "No Data" };
+                RTB_MSCMD.Lines = RTB_OS.Lines = ["No Data"];
             }
         }
 
-        private void SetZoneData()
+        private static void SetZoneData()
         {
             // Nothing, ZoneData is not currently researched enough.
         }
@@ -545,7 +545,7 @@ namespace pk3DS
 
         private void ParseScriptInput(byte[] data)
         {
-            Script scr = new Script(data);
+            var scr = new Script(data);
             RTB_CompressedScript.Lines = Scripts.GetHexLines(scr.CompressedBytes);
             System.Media.SystemSounds.Asterisk.Play();
         }
@@ -575,8 +575,8 @@ namespace pk3DS
                 return;
 
             debugToolDumping = true;
-            List<string> result = new List<string>();
-            List<byte[]> data = new List<byte[]>();
+            List<string> result = [];
+            List<byte[]> data = [];
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
             {
                 CB_LocationID.SelectedIndex = i;
@@ -602,8 +602,8 @@ namespace pk3DS
                 return;
 
             debugToolDumping = true;
-            List<string> result = new List<string>();
-            List<byte[]> data = new List<byte[]>();
+            List<string> result = [];
+            List<byte[]> data = [];
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
             {
                 CB_LocationID.SelectedIndex = i;
@@ -629,8 +629,8 @@ namespace pk3DS
                 return;
 
             debugToolDumping = true;
-            List<string> result = new List<string>();
-            List<byte[]> data = new List<byte[]>();
+            List<string> result = [];
+            List<byte[]> data = [];
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
             {
                 CB_LocationID.SelectedIndex = i;
@@ -656,8 +656,8 @@ namespace pk3DS
                 return;
 
             debugToolDumping = true;
-            List<string> result = new List<string>();
-            List<byte[]> data = new List<byte[]>();
+            List<string> result = [];
+            List<byte[]> data = [];
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
             {
                 CB_LocationID.SelectedIndex = i;
@@ -683,8 +683,8 @@ namespace pk3DS
                 return;
 
             debugToolDumping = true;
-            List<string> result = new List<string>();
-            List<byte[]> data = new List<byte[]>();
+            List<string> result = [];
+            List<byte[]> data = [];
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
             {
                 CB_LocationID.SelectedIndex = i;
@@ -742,8 +742,8 @@ namespace pk3DS
                 return;
 
             debugToolDumping = true;
-            List<string> result = new List<string>();
-            List<byte[]> data = new List<byte[]>();
+            List<string> result = [];
+            List<byte[]> data = [];
             for (int i = 0; i < CB_LocationID.Items.Count; i++)
             {
                 CB_LocationID.SelectedIndex = i;
@@ -775,7 +775,7 @@ namespace pk3DS
             foreach (NumericUpDown nud in GB_T2.Controls.OfType<NumericUpDown>())
                 nud.Enabled = !chk;
 
-            foreach (RichTextBox rtb in new[] {RTB_F, RTB_N, RTB_W, RTB_T1, RTB_T2})
+            foreach (RichTextBox rtb in new[] { RTB_F, RTB_N, RTB_W, RTB_T1, RTB_T2 })
                 rtb.Visible = chk;
         }
 
@@ -786,7 +786,7 @@ namespace pk3DS
 
             try
             {
-                byte[] data = Util.StringToByteArray(((RichTextBox) sender).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
+                byte[] data = Util.StringToByteArray(((RichTextBox)sender).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
                 if (data.Length != Zone.ZoneEntities.EntityFurniture.Size)
                     return;
                 CurrentZone.Entities.Furniture[fEntry].Raw = data;
@@ -794,7 +794,7 @@ namespace pk3DS
             }
             catch
             {
-                ((RichTextBox) sender).Text = Util.GetHexString(CurrentZone.Entities.Furniture[fEntry].Raw);
+                ((RichTextBox)sender).Text = Util.GetHexString(CurrentZone.Entities.Furniture[fEntry].Raw);
             }
         }
 
@@ -805,7 +805,7 @@ namespace pk3DS
 
             try
             {
-                byte[] data = Util.StringToByteArray(((RichTextBox) sender).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
+                byte[] data = Util.StringToByteArray(((RichTextBox)sender).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
                 if (data.Length != Zone.ZoneEntities.EntityNPC.Size)
                     return;
                 CurrentZone.Entities.NPCs[nEntry].Raw = data;
@@ -813,7 +813,7 @@ namespace pk3DS
             }
             catch
             {
-                ((RichTextBox) sender).Text = Util.GetHexString(CurrentZone.Entities.NPCs[nEntry].Raw);
+                ((RichTextBox)sender).Text = Util.GetHexString(CurrentZone.Entities.NPCs[nEntry].Raw);
             }
         }
 
@@ -824,7 +824,7 @@ namespace pk3DS
 
             try
             {
-                byte[] data = Util.StringToByteArray(((RichTextBox) sender).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
+                byte[] data = Util.StringToByteArray(((RichTextBox)sender).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
                 if (data.Length != Zone.ZoneEntities.EntityWarp.Size)
                     return;
                 CurrentZone.Entities.Warps[wEntry].Raw = data;
@@ -832,7 +832,7 @@ namespace pk3DS
             }
             catch
             {
-                ((RichTextBox) sender).Text = Util.GetHexString(CurrentZone.Entities.Warps[wEntry].Raw);
+                ((RichTextBox)sender).Text = Util.GetHexString(CurrentZone.Entities.Warps[wEntry].Raw);
             }
         }
 
@@ -843,7 +843,7 @@ namespace pk3DS
 
             try
             {
-                byte[] data = Util.StringToByteArray(((RichTextBox) sender).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
+                byte[] data = Util.StringToByteArray(((RichTextBox)sender).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
                 if (data.Length != Zone.ZoneEntities.EntityTrigger1.Size)
                     return;
                 CurrentZone.Entities.Triggers1[tEntry].Raw = data;
@@ -851,18 +851,18 @@ namespace pk3DS
             }
             catch
             {
-                ((RichTextBox) sender).Text = Util.GetHexString(CurrentZone.Entities.Triggers1[tEntry].Raw);
+                ((RichTextBox)sender).Text = Util.GetHexString(CurrentZone.Entities.Triggers1[tEntry].Raw);
             }
         }
 
         private void ChangeRAW_T2(object sender, EventArgs e)
         {
-            if (sender is not RichTextBox {Visible: true})
+            if (sender is not RichTextBox { Visible: true })
                 return;
 
             try
             {
-                byte[] data = Util.StringToByteArray(((RichTextBox) sender).Text.Replace(Environment.NewLine, " ").Replace(" ",""));
+                byte[] data = Util.StringToByteArray(((RichTextBox)sender).Text.Replace(Environment.NewLine, " ").Replace(" ", ""));
                 if (data.Length != Zone.ZoneEntities.EntityTrigger2.Size)
                     return;
                 CurrentZone.Entities.Triggers2[uEntry].Raw = data;
@@ -870,7 +870,7 @@ namespace pk3DS
             }
             catch
             {
-                ((RichTextBox) sender).Text = Util.GetHexString(CurrentZone.Entities.Triggers2[uEntry].Raw);
+                ((RichTextBox)sender).Text = Util.GetHexString(CurrentZone.Entities.Triggers2[uEntry].Raw);
             }
         }
 

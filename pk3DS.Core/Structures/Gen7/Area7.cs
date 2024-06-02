@@ -16,7 +16,7 @@ namespace pk3DS.Core
 
         public Area7()
         {
-            Tables = new List<EncounterTable>();
+            Tables = [];
         }
 
         public string GetSummary(string[] speciesList)
@@ -28,7 +28,7 @@ namespace pk3DS.Core
             for (int i = 0; i < Tables.Count / 2; i++)
             {
                 sb.Append("Table ").Append(i + 1).AppendLine(" (Day):");
-                sb.AppendLine(Tables[i*2].GetSummary(speciesList));
+                sb.AppendLine(Tables[i * 2].GetSummary(speciesList));
                 sb.Append("Table ").Append(i + 1).AppendLine(" (Night):");
                 sb.AppendLine(Tables[(i * 2) + 1].GetSummary(speciesList));
             }
@@ -63,7 +63,7 @@ namespace pk3DS.Core
                 areas[i] = new Area7
                 {
                     FileNumber = 9 + (11 * i),
-                    Zones = zd.Where(z => z.AreaIndex == i).ToArray()
+                    Zones = zd.Where(z => z.AreaIndex == i).ToArray(),
                 };
                 var md = ed[areas[i].FileNumber];
                 if (md.Length == 0)
