@@ -19,25 +19,25 @@ public static class GarcUtil
         Progress ??= new ProgressBar();
         if (Progress.InvokeRequired)
         {
-            Progress.Invoke((MethodInvoker)delegate { Progress.Minimum = 0; Progress.Step = 1; Progress.Value = 0; Progress.Maximum = e.Total; });
+            Progress.Invoke(() => { Progress.Minimum = 0; Progress.Step = 1; Progress.Value = 0; Progress.Maximum = e.Total; });
         }
         else { Progress.Minimum = 0; Progress.Step = 1; Progress.Value = 0; Progress.Maximum = e.Total; }
         Label ??= new Label();
         if (Label.InvokeRequired)
-            Label.Invoke((MethodInvoker)delegate { Label.Visible = true; });
+            Label.Invoke(() => Label.Visible = true);
     }
 
     private static void GARC_PackProgressed(object sender, GARC.PackProgressedEventArgs e)
     {
         if (Progress.InvokeRequired)
         {
-            Progress.Invoke((MethodInvoker)(() => Progress.PerformStep()));
+            Progress.Invoke(Progress.PerformStep);
         }
         else { Progress.PerformStep(); }
         string update = $"{e.Current / (float)e.Total:P2} - {e.Current}/{e.Total} - {e.CurrentFile}";
         if (Label.InvokeRequired)
         {
-            Label.Invoke((MethodInvoker)delegate { Label.Text = update; });
+            Label.Invoke(() => Label.Text = update);
         }
         else { Label.Text = update; }
     }
@@ -45,13 +45,13 @@ public static class GarcUtil
     private static void GARC_UnpackProgressed(object sender, GARC.UnpackProgressedEventArgs e)
     {
         #region Step
-        if (Progress.InvokeRequired) Progress.Invoke((MethodInvoker)(() => Progress.PerformStep()));
+        if (Progress.InvokeRequired) Progress.Invoke(Progress.PerformStep);
         else Progress.PerformStep();
 
         string update = $"{(double)e.Current / e.Total:P2} - {e.Current}/{e.Total}";
         if (Label.InvokeRequired)
         {
-            Label.Invoke((MethodInvoker)delegate { Label.Text = update; });
+            Label.Invoke(() => Label.Text = update);
         }
         else { Label.Text = update; }
         #endregion
@@ -75,7 +75,7 @@ public static class GarcUtil
             if (label != null)
             {
                 if (label.InvokeRequired)
-                    label.Invoke((MethodInvoker)(() => label.Visible = false));
+                    label.Invoke(() => label.Visible = false);
                 else
                     label.Visible = false;
             }
@@ -116,7 +116,7 @@ public static class GarcUtil
             if (label == null)
                 return true;
             if (label.InvokeRequired)
-                label.Invoke((MethodInvoker)delegate { label.Visible = false; });
+                label.Invoke(() => label.Visible = false);
             else
                 label.Visible = false;
             return true;
