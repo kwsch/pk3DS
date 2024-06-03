@@ -547,22 +547,14 @@ public class RomFS
         for (int i = 0; i < 4; i++)
         {
             MetaData.InfoHeader.Sections[i].Offset = Pos;
-            uint size = 0;
-            switch (i)
+            uint size = i switch
             {
-                case 0:
-                    size = MetaData.M_DirHashTableEntry * 4;
-                    break;
-                case 1:
-                    size = MetaData.M_DirTableLen;
-                    break;
-                case 2:
-                    size = MetaData.M_FileHashTableEntry * 4;
-                    break;
-                case 3:
-                    size = MetaData.M_FileTableLen;
-                    break;
-            }
+                0 => MetaData.M_DirHashTableEntry * 4,
+                1 => MetaData.M_DirTableLen,
+                2 => MetaData.M_FileHashTableEntry * 4,
+                3 => MetaData.M_FileTableLen,
+                _ => 0
+            };
             MetaData.InfoHeader.Sections[i].Size = size;
             Pos += size;
         }

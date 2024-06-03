@@ -32,28 +32,16 @@ public class GameConfig
 
     public GameConfig(int fileCount)
     {
-        GameVersion game = GameVersion.Invalid;
-        switch (fileCount)
+        GameVersion game = fileCount switch
         {
-            case FILECOUNT_XY:
-                game = GameVersion.XY;
-                break;
-            case FILECOUNT_ORASDEMO:
-                game = GameVersion.ORASDEMO;
-                break;
-            case FILECOUNT_ORAS:
-                game = GameVersion.ORAS;
-                break;
-            case FILECOUNT_SMDEMO:
-                game = GameVersion.SMDEMO;
-                break;
-            case FILECOUNT_SM:
-                game = GameVersion.SM;
-                break;
-            case FILECOUNT_USUM:
-                game = GameVersion.USUM;
-                break;
-        }
+            FILECOUNT_XY => GameVersion.XY,
+            FILECOUNT_ORASDEMO => GameVersion.ORASDEMO,
+            FILECOUNT_ORAS => GameVersion.ORAS,
+            FILECOUNT_SMDEMO => GameVersion.SMDEMO,
+            FILECOUNT_SM => GameVersion.SM,
+            FILECOUNT_USUM => GameVersion.USUM,
+            _ => GameVersion.Invalid,
+        };
         if (game == GameVersion.Invalid)
             return;
 

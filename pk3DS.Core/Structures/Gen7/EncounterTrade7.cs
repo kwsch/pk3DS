@@ -25,13 +25,10 @@ public class EncounterTrade7(byte[] data) : EncounterStatic
 
     public int[] IVs
     {
-        get
-        {
-            return
-            [
-                (sbyte) Data[0x6], (sbyte) Data[0x7], (sbyte) Data[0x8], (sbyte) Data[0x9], (sbyte) Data[0xA], (sbyte) Data[0xB],
-            ];
-        }
+        get =>
+        [
+            (sbyte) Data[0x6], (sbyte) Data[0x7], (sbyte) Data[0x8], (sbyte) Data[0x9], (sbyte) Data[0xA], (sbyte) Data[0xB],
+        ];
         set
         {
             if (value.Length != 6)

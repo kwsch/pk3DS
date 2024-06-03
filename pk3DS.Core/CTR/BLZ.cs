@@ -209,7 +209,7 @@ public class BLZCoder
 
         while (raw < raw_end)
         {
-            if ((mask = (int)((uint)mask >> BLZ_SHIFT)) == 0)
+            if ((mask >>>= BLZ_SHIFT) == 0)
             {
                 if (pak == pak_end)
                     break;
@@ -232,7 +232,7 @@ public class BLZCoder
 
                 int pos = pak_buffer[pak++] << 8;
                 pos |= pak_buffer[pak++];
-                len = (int)((uint)pos >> 12) + BLZ_THRESHOLD + 1;
+                len = (pos >>> 12) + BLZ_THRESHOLD + 1;
                 if (raw + len > raw_end)
                 {
                     Console.Write(", WARNING: wrong decoded length!");
@@ -346,7 +346,7 @@ public class BLZCoder
         while (raw < raw_end)
         {
             SetProgressPosition(raw);
-            if ((mask = (int)((uint)mask >> BLZ_SHIFT)) == 0)
+            if ((mask >>>= BLZ_SHIFT) == 0)
             {
                 pak_buffer[flg = pak++] = 0;
                 mask = BLZ_MASK;
@@ -407,7 +407,7 @@ public class BLZCoder
 
         while (mask > 0 && mask != 1)
         {
-            mask = (int)((uint)mask >> BLZ_SHIFT);
+            mask >>>= BLZ_SHIFT;
             pak_buffer[flg] = (byte)(pak_buffer[flg] << 1);
         }
 

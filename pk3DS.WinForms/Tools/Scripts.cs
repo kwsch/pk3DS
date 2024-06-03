@@ -107,7 +107,7 @@ public static class Scripts
     internal static byte[] CompressScript(byte[] data)
     {
         if (data.Length % 4 != 0) // Bad Input
-            throw new ArgumentException(nameof(data));
+            throw new ArgumentException(null, nameof(data));
         using var mn = new MemoryStream();
         using var bw = new BinaryWriter(mn);
         int pos = 0;
