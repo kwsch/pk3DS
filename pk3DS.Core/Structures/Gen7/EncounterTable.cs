@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -87,19 +86,33 @@ public class EncounterTable
             BitConverter.GetBytes(AdditionalSOS[i].RawValue).CopyTo(Data, 0x14C + (4 * i));
     }
 
+    public string GetAllies(int slotIndex, ReadOnlySpan<string> speciesList)
+    {
+        string result = "";
+        for (int i = 1; i < Encounter7s.Length; i++)
+        {
+            var ally = Encounter7s[i][slotIndex];
+            if (ally?.Species is null or 0)
+                continue;
+            var name = speciesList[(int)ally.Species];
+            if (result.Contains(name))
+                continue;
+            result += result.Length == 0 ? name : ", " + name;
+        }
+
+        if (result.Length == 0)
+            return "(None)";
+        return result;
+    }
+
     public string GetSummary(string[] speciesList)
     {
         var sb = new StringBuilder();
-        for (int i = 0; i < Encounter7s.Length - 1; i++)
-        {
-            var tn = "Encounters";
-            if (i != 0)
-                tn = "SOS Slot " + i;
-            sb.Append(tn).Append(" (Levels ").Append(MinLevel).Append('-').Append(MaxLevel).Append("): ");
-            sb.AppendLine(GetSlotSetSummary(speciesList, i));
-        }
+        sb.Append("Encounters").Append(" (Levels ").Append(MinLevel).Append('-').Append(MaxLevel).Append("): ");
+        sb.AppendLine();
+        AddSlotSetSummary(sb, speciesList);
 
-        sb.Append("Additional SOS encounters: ");
+        sb.Append("Additional SOS Weather encounters: ");
         sb.AppendJoin(", ", AdditionalSOS
             .Select(e => e.RawValue).Distinct().Select(e => new Encounter7(e))
             .Select(e => e.GetSummary(speciesList))).AppendLine();
@@ -107,23 +120,22 @@ public class EncounterTable
         return sb.ToString();
     }
 
-    private string GetSlotSetSummary(string[] speciesList, int setNumber)
+    private void AddSlotSetSummary(StringBuilder sb, string[] speciesList)
     {
-        var specToRate = new Dictionary<uint, int>();
-        var distincts = new List<Encounter7>();
-        for (int j = 0; j < Encounter7s[setNumber].Length; j++)
+        var baseSlots = Encounter7s[0];
+        for (int i = 0; i < baseSlots.Length; i++)
         {
-            var encounter = Encounter7s[setNumber][j];
-            if (!specToRate.ContainsKey(encounter.RawValue))
-            {
-                specToRate[encounter.RawValue] = 0;
-                distincts.Add(encounter);
-            }
-            specToRate[encounter.RawValue] += Rates[j];
+            var species = baseSlots[i].Species;
+            if (species == 0)
+                continue;
+
+            var rate = Rates[i];
+            sb.Append($"\t({rate}%)\t{speciesList[species]}");
+            var allies = GetAllies(i, speciesList);
+            if (allies.Length != 0)
+                sb.Append(" w/ ").Append(allies);
+            sb.AppendLine();
         }
-        var list = distincts.OrderByDescending(e => specToRate[e.RawValue]);
-        var summaries = list.Select(e => $"{e.GetSummary(speciesList)} ({specToRate[e.RawValue]}%)");
-        return string.Join(", ", summaries);
     }
 
     public void Reset(byte[] data)
