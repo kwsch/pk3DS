@@ -9,26 +9,25 @@ namespace pk3DS.Core.CTR;
 public class ExeFS
 {
     public byte[] Data;
-    public byte[] SuperBlockHash;
+    public readonly byte[] SuperBlockHash;
 
     // Return an object with data stored in a byte array
-    public ExeFS(string EXEFS_PATH)
+    public ExeFS(string path)
     {
-        if (Directory.Exists(EXEFS_PATH))
+        if (Directory.Exists(path))
         {
-            var files = new DirectoryInfo(EXEFS_PATH).GetFiles().Select(f => f.FullName).ToArray();
+            var files = new DirectoryInfo(path).GetFiles().Select(f => f.FullName).ToArray();
             SetData(files);
+        }
+        else if (File.Exists(path))
+        {
+            Data = File.ReadAllBytes(path);
         }
         else
         {
-            Data = File.ReadAllBytes(EXEFS_PATH);
+            throw new FileNotFoundException("File not found.", path);
         }
-        GetSuperBlockHash();
-    }
-
-    public void GetSuperBlockHash()
-    {
-        SHA256.HashData(Data.AsSpan(0, 200), SuperBlockHash);
+        SuperBlockHash = SHA256.HashData(Data.AsSpan(0, 200));
     }
 
     // Overall R/W files (wrapped)
