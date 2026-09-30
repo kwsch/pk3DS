@@ -196,6 +196,7 @@ partial class RSTE
         this.CB_Pokemon_6_Pokemon = new System.Windows.Forms.ComboBox();
         this.B_MejorarEntrenadores = new System.Windows.Forms.Button();//boton de x2 IV, bayas Zidra...
         this.B_ChetarRival = new System.Windows.Forms.Button();
+        this.B_SubirNiveles = new System.Windows.Forms.Button();
         this.B_Randomize = new System.Windows.Forms.Button();
         this.TB_Text1 = new System.Windows.Forms.TextBox();
         this.L_Text1 = new System.Windows.Forms.Label();
@@ -226,7 +227,7 @@ partial class RSTE
         //
         // B_Dump
         //
-        this.B_Dump.Location = new System.Drawing.Point(535, 4);
+        this.B_Dump.Location = new System.Drawing.Point(641, 4);
         this.B_Dump.Name = "B_Dump";
         this.B_Dump.Size = new System.Drawing.Size(93, 23);
         this.B_Dump.TabIndex = 67;
@@ -2097,9 +2098,19 @@ partial class RSTE
         this.B_ChetarRival.UseVisualStyleBackColor = true;
         this.B_ChetarRival.Click += new System.EventHandler(this.B_ChetarRival_Click);
         //
+        // B_SubirNiveles
+        //
+        this.B_SubirNiveles.Location = new System.Drawing.Point(436, 4);
+        this.B_SubirNiveles.Name = "B_SubirNiveles";
+        this.B_SubirNiveles.Size = new System.Drawing.Size(100, 23);
+        this.B_SubirNiveles.TabIndex = 72;
+        this.B_SubirNiveles.Text = "Niveles +17%";
+        this.B_SubirNiveles.UseVisualStyleBackColor = true;
+        this.B_SubirNiveles.Click += new System.EventHandler(this.B_SubirNiveles_Click);
+        //
         // B_Randomize
         //
-        this.B_Randomize.Location = new System.Drawing.Point(436, 4);
+        this.B_Randomize.Location = new System.Drawing.Point(542, 4);
         this.B_Randomize.Name = "B_Randomize";
         this.B_Randomize.Size = new System.Drawing.Size(93, 23);
         this.B_Randomize.TabIndex = 68;
@@ -2206,7 +2217,8 @@ partial class RSTE
         //
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(636, 256);
+        this.ClientSize = new System.Drawing.Size(742, 256);
+        this.Controls.Add(this.B_SubirNiveles);
         this.Controls.Add(this.B_ChetarRival);
         this.Controls.Add(this.B_MejorarEntrenadores);
         this.Controls.Add(this.L_Text2);
@@ -2426,6 +2438,7 @@ partial class RSTE
     private System.Windows.Forms.ComboBox CB_Pokemon_6_Pokemon;
     private System.Windows.Forms.Button B_MejorarEntrenadores;
     private System.Windows.Forms.Button B_ChetarRival;
+    private System.Windows.Forms.Button B_SubirNiveles;
     private System.Windows.Forms.Button B_Randomize;
     private System.Windows.Forms.TextBox TB_Text1;
     private System.Windows.Forms.Label L_Text1;
